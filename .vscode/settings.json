@@ -1,0 +1,35 @@
+{
+    "files.associations": {
+        "hello-world.h": "c",
+        "uart.h": "c",
+        "octa.h": "c",
+        "i2c.h": "c",
+        "iwdg.h": "c",
+        "gpio.h": "c",
+        "stm32l4xx_hal_tim.h": "c",
+        "cmsis_os.h": "c",
+        "stm32l4xx_hal.h": "c",
+        "stm32l4xx_hal_conf.h": "c",
+        "stm32l4xx_it.h": "c",
+        "stc3115_driver.h": "c",
+        "iow-coveragetester.h": "c",
+        "murata.h": "c",
+        "saran21x.h": "c",
+        "stm32l496xx.h": "c",
+        "td1207.h": "c",
+        "platform.h": "c",
+        "saran21x_params.h": "c",
+        "stc3115.h": "c",
+        "bootloader.h": "c",
+        "bootloader-minimal-example.h": "c",
+        "otacomm.h": "c",
+        "task.h": "c",
+        "lorawan-example.h": "c",
+        "fireflyx1.h": "c",
+        "gps-firefly-example.h": "c",
+        "nova_PM_sensor.h": "c",
+        "spi.h": "c",
+        "s25fl256.h": "c"
+    }
+    
+}
