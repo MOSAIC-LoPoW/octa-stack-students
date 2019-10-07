@@ -1,0 +1,620 @@
+ARM GAS  /tmp/ccxhMba3.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 28, 1
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.file	"no-scheduler-example.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.text.printWelcome,"ax",%progbits
+  18              		.align	1
+  19              		.global	printWelcome
+  20              		.syntax unified
+  21              		.thumb
+  22              		.thumb_func
+  23              		.fpu fpv4-sp-d16
+  25              	printWelcome:
+  26              	.LFB129:
+  27              		.file 1 "../../applications/no-scheduler-example/src/no-scheduler-example.c"
+   1:../../applications/no-scheduler-example/src/no-scheduler-example.c **** /* USER CODE BEGIN Header */
+   2:../../applications/no-scheduler-example/src/no-scheduler-example.c **** /**
+   3:../../applications/no-scheduler-example/src/no-scheduler-example.c ****   ******************************************************************************
+   4:../../applications/no-scheduler-example/src/no-scheduler-example.c ****   * @file           : main.c
+   5:../../applications/no-scheduler-example/src/no-scheduler-example.c ****   * @brief          : Main program body
+   6:../../applications/no-scheduler-example/src/no-scheduler-example.c ****   ******************************************************************************
+   7:../../applications/no-scheduler-example/src/no-scheduler-example.c ****   * This notice applies to any and all portions of this file
+   8:../../applications/no-scheduler-example/src/no-scheduler-example.c ****   * that are not between comment pairs USER CODE BEGIN and
+   9:../../applications/no-scheduler-example/src/no-scheduler-example.c ****   * USER CODE END. Other portions of this file, whether 
+  10:../../applications/no-scheduler-example/src/no-scheduler-example.c ****   * inserted by the user or by software development tools
+  11:../../applications/no-scheduler-example/src/no-scheduler-example.c ****   * are owned by their respective copyright owners.
+  12:../../applications/no-scheduler-example/src/no-scheduler-example.c ****   *
+  13:../../applications/no-scheduler-example/src/no-scheduler-example.c ****   * Copyright (c) 2019 STMicroelectronics International N.V. 
+  14:../../applications/no-scheduler-example/src/no-scheduler-example.c ****   * All rights reserved.
+  15:../../applications/no-scheduler-example/src/no-scheduler-example.c ****   *
+  16:../../applications/no-scheduler-example/src/no-scheduler-example.c ****   * Redistribution and use in source and binary forms, with or without 
+  17:../../applications/no-scheduler-example/src/no-scheduler-example.c ****   * modification, are permitted, provided that the following conditions are met:
+  18:../../applications/no-scheduler-example/src/no-scheduler-example.c ****   *
+  19:../../applications/no-scheduler-example/src/no-scheduler-example.c ****   * 1. Redistribution of source code must retain the above copyright notice, 
+  20:../../applications/no-scheduler-example/src/no-scheduler-example.c ****   *    this list of conditions and the following disclaimer.
+  21:../../applications/no-scheduler-example/src/no-scheduler-example.c ****   * 2. Redistributions in binary form must reproduce the above copyright notice,
+  22:../../applications/no-scheduler-example/src/no-scheduler-example.c ****   *    this list of conditions and the following disclaimer in the documentation
+  23:../../applications/no-scheduler-example/src/no-scheduler-example.c ****   *    and/or other materials provided with the distribution.
+  24:../../applications/no-scheduler-example/src/no-scheduler-example.c ****   * 3. Neither the name of STMicroelectronics nor the names of other 
+  25:../../applications/no-scheduler-example/src/no-scheduler-example.c ****   *    contributors to this software may be used to endorse or promote products 
+  26:../../applications/no-scheduler-example/src/no-scheduler-example.c ****   *    derived from this software without specific written permission.
+  27:../../applications/no-scheduler-example/src/no-scheduler-example.c ****   * 4. This software, including modifications and/or derivative works of this 
+  28:../../applications/no-scheduler-example/src/no-scheduler-example.c ****   *    software, must execute solely and exclusively on microcontroller or
+  29:../../applications/no-scheduler-example/src/no-scheduler-example.c ****   *    microprocessor devices manufactured by or for STMicroelectronics.
+  30:../../applications/no-scheduler-example/src/no-scheduler-example.c ****   * 5. Redistribution and use of this software other than as permitted under 
+  31:../../applications/no-scheduler-example/src/no-scheduler-example.c ****   *    this license is void and will automatically terminate your rights under 
+ARM GAS  /tmp/ccxhMba3.s 			page 2
+
+
+  32:../../applications/no-scheduler-example/src/no-scheduler-example.c ****   *    this license. 
+  33:../../applications/no-scheduler-example/src/no-scheduler-example.c ****   *
+  34:../../applications/no-scheduler-example/src/no-scheduler-example.c ****   * THIS SOFTWARE IS PROVIDED BY STMICROELECTRONICS AND CONTRIBUTORS "AS IS" 
+  35:../../applications/no-scheduler-example/src/no-scheduler-example.c ****   * AND ANY EXPRESS, IMPLIED OR STATUTORY WARRANTIES, INCLUDING, BUT NOT 
+  36:../../applications/no-scheduler-example/src/no-scheduler-example.c ****   * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A 
+  37:../../applications/no-scheduler-example/src/no-scheduler-example.c ****   * PARTICULAR PURPOSE AND NON-INFRINGEMENT OF THIRD PARTY INTELLECTUAL PROPERTY
+  38:../../applications/no-scheduler-example/src/no-scheduler-example.c ****   * RIGHTS ARE DISCLAIMED TO THE FULLEST EXTENT PERMITTED BY LAW. IN NO EVENT 
+  39:../../applications/no-scheduler-example/src/no-scheduler-example.c ****   * SHALL STMICROELECTRONICS OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+  40:../../applications/no-scheduler-example/src/no-scheduler-example.c ****   * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+  41:../../applications/no-scheduler-example/src/no-scheduler-example.c ****   * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, 
+  42:../../applications/no-scheduler-example/src/no-scheduler-example.c ****   * OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF 
+  43:../../applications/no-scheduler-example/src/no-scheduler-example.c ****   * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING 
+  44:../../applications/no-scheduler-example/src/no-scheduler-example.c ****   * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
+  45:../../applications/no-scheduler-example/src/no-scheduler-example.c ****   * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+  46:../../applications/no-scheduler-example/src/no-scheduler-example.c ****   *
+  47:../../applications/no-scheduler-example/src/no-scheduler-example.c ****   ******************************************************************************
+  48:../../applications/no-scheduler-example/src/no-scheduler-example.c ****   */
+  49:../../applications/no-scheduler-example/src/no-scheduler-example.c **** /* USER CODE END Header */
+  50:../../applications/no-scheduler-example/src/no-scheduler-example.c **** 
+  51:../../applications/no-scheduler-example/src/no-scheduler-example.c **** /* Includes ------------------------------------------------------------------*/
+  52:../../applications/no-scheduler-example/src/no-scheduler-example.c **** #include "no-scheduler-example.h"
+  53:../../applications/no-scheduler-example/src/no-scheduler-example.c **** /* Private includes ----------------------------------------------------------*/
+  54:../../applications/no-scheduler-example/src/no-scheduler-example.c **** /* USER CODE BEGIN Includes */
+  55:../../applications/no-scheduler-example/src/no-scheduler-example.c **** 
+  56:../../applications/no-scheduler-example/src/no-scheduler-example.c **** 
+  57:../../applications/no-scheduler-example/src/no-scheduler-example.c **** /* USER CODE END Includes */
+  58:../../applications/no-scheduler-example/src/no-scheduler-example.c **** 
+  59:../../applications/no-scheduler-example/src/no-scheduler-example.c **** /* Private typedef -----------------------------------------------------------*/
+  60:../../applications/no-scheduler-example/src/no-scheduler-example.c **** /* USER CODE BEGIN PTD */
+  61:../../applications/no-scheduler-example/src/no-scheduler-example.c **** 
+  62:../../applications/no-scheduler-example/src/no-scheduler-example.c **** /* USER CODE END PTD */
+  63:../../applications/no-scheduler-example/src/no-scheduler-example.c **** 
+  64:../../applications/no-scheduler-example/src/no-scheduler-example.c **** /* Private define ------------------------------------------------------------*/
+  65:../../applications/no-scheduler-example/src/no-scheduler-example.c **** /* USER CODE BEGIN PD */
+  66:../../applications/no-scheduler-example/src/no-scheduler-example.c **** 
+  67:../../applications/no-scheduler-example/src/no-scheduler-example.c **** /* USER CODE END PD */
+  68:../../applications/no-scheduler-example/src/no-scheduler-example.c **** 
+  69:../../applications/no-scheduler-example/src/no-scheduler-example.c **** /* Private macro -------------------------------------------------------------*/
+  70:../../applications/no-scheduler-example/src/no-scheduler-example.c **** /* USER CODE BEGIN PM */
+  71:../../applications/no-scheduler-example/src/no-scheduler-example.c **** 
+  72:../../applications/no-scheduler-example/src/no-scheduler-example.c **** /* USER CODE END PM */
+  73:../../applications/no-scheduler-example/src/no-scheduler-example.c **** 
+  74:../../applications/no-scheduler-example/src/no-scheduler-example.c **** /* Private user code ---------------------------------------------------------*/
+  75:../../applications/no-scheduler-example/src/no-scheduler-example.c **** /* USER CODE BEGIN 0 */
+  76:../../applications/no-scheduler-example/src/no-scheduler-example.c **** /* USER CODE END 0 */
+  77:../../applications/no-scheduler-example/src/no-scheduler-example.c **** 
+  78:../../applications/no-scheduler-example/src/no-scheduler-example.c **** /**
+  79:../../applications/no-scheduler-example/src/no-scheduler-example.c ****   * @brief  The application entry point.
+  80:../../applications/no-scheduler-example/src/no-scheduler-example.c ****   * @retval int
+  81:../../applications/no-scheduler-example/src/no-scheduler-example.c ****   */
+  82:../../applications/no-scheduler-example/src/no-scheduler-example.c **** int main(void)
+  83:../../applications/no-scheduler-example/src/no-scheduler-example.c **** {
+  84:../../applications/no-scheduler-example/src/no-scheduler-example.c ****   /* USER CODE BEGIN 1 */
+  85:../../applications/no-scheduler-example/src/no-scheduler-example.c **** #if USE_BOOTLOADER
+  86:../../applications/no-scheduler-example/src/no-scheduler-example.c ****   bootloader_SetVTOR();
+  87:../../applications/no-scheduler-example/src/no-scheduler-example.c **** #endif
+  88:../../applications/no-scheduler-example/src/no-scheduler-example.c **** 
+ARM GAS  /tmp/ccxhMba3.s 			page 3
+
+
+  89:../../applications/no-scheduler-example/src/no-scheduler-example.c ****   /* USER CODE END 1 */
+  90:../../applications/no-scheduler-example/src/no-scheduler-example.c **** 
+  91:../../applications/no-scheduler-example/src/no-scheduler-example.c ****   /* MCU Configuration--------------------------------------------------------*/
+  92:../../applications/no-scheduler-example/src/no-scheduler-example.c **** 
+  93:../../applications/no-scheduler-example/src/no-scheduler-example.c ****   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
+  94:../../applications/no-scheduler-example/src/no-scheduler-example.c ****   HAL_Init();
+  95:../../applications/no-scheduler-example/src/no-scheduler-example.c **** 
+  96:../../applications/no-scheduler-example/src/no-scheduler-example.c ****   /* USER CODE BEGIN Init */
+  97:../../applications/no-scheduler-example/src/no-scheduler-example.c **** 
+  98:../../applications/no-scheduler-example/src/no-scheduler-example.c ****   /* USER CODE END Init */
+  99:../../applications/no-scheduler-example/src/no-scheduler-example.c **** 
+ 100:../../applications/no-scheduler-example/src/no-scheduler-example.c ****   /* Configure the system clock */
+ 101:../../applications/no-scheduler-example/src/no-scheduler-example.c ****   SystemClock_Config();
+ 102:../../applications/no-scheduler-example/src/no-scheduler-example.c **** 
+ 103:../../applications/no-scheduler-example/src/no-scheduler-example.c ****   /* USER CODE BEGIN SysInit */
+ 104:../../applications/no-scheduler-example/src/no-scheduler-example.c **** 
+ 105:../../applications/no-scheduler-example/src/no-scheduler-example.c ****   /* USER CODE END SysInit */
+ 106:../../applications/no-scheduler-example/src/no-scheduler-example.c **** 
+ 107:../../applications/no-scheduler-example/src/no-scheduler-example.c ****   /* Initialize theplatform */
+ 108:../../applications/no-scheduler-example/src/no-scheduler-example.c ****   Initialize_Platform();
+ 109:../../applications/no-scheduler-example/src/no-scheduler-example.c ****   /* USER CODE BEGIN 2 */
+ 110:../../applications/no-scheduler-example/src/no-scheduler-example.c **** 
+ 111:../../applications/no-scheduler-example/src/no-scheduler-example.c ****   printWelcome();
+ 112:../../applications/no-scheduler-example/src/no-scheduler-example.c **** 
+ 113:../../applications/no-scheduler-example/src/no-scheduler-example.c ****   /* USER CODE END 2 */
+ 114:../../applications/no-scheduler-example/src/no-scheduler-example.c **** 
+ 115:../../applications/no-scheduler-example/src/no-scheduler-example.c ****   /* We should never get here as control is now taken by the scheduler */
+ 116:../../applications/no-scheduler-example/src/no-scheduler-example.c **** 
+ 117:../../applications/no-scheduler-example/src/no-scheduler-example.c ****   /* Infinite loop */
+ 118:../../applications/no-scheduler-example/src/no-scheduler-example.c ****   /* USER CODE BEGIN WHILE */
+ 119:../../applications/no-scheduler-example/src/no-scheduler-example.c ****   while (1)
+ 120:../../applications/no-scheduler-example/src/no-scheduler-example.c ****   {
+ 121:../../applications/no-scheduler-example/src/no-scheduler-example.c ****     /* USER CODE END WHILE */
+ 122:../../applications/no-scheduler-example/src/no-scheduler-example.c ****     HAL_GPIO_TogglePin(OCTA_RLED_GPIO_Port, OCTA_RLED_Pin);
+ 123:../../applications/no-scheduler-example/src/no-scheduler-example.c ****     HAL_Delay(1000);
+ 124:../../applications/no-scheduler-example/src/no-scheduler-example.c ****     HAL_GPIO_TogglePin(OCTA_RLED_GPIO_Port, OCTA_RLED_Pin);
+ 125:../../applications/no-scheduler-example/src/no-scheduler-example.c ****     HAL_GPIO_TogglePin(OCTA_GLED_GPIO_Port, OCTA_GLED_Pin);
+ 126:../../applications/no-scheduler-example/src/no-scheduler-example.c ****     HAL_Delay(1000);
+ 127:../../applications/no-scheduler-example/src/no-scheduler-example.c ****     HAL_GPIO_TogglePin(OCTA_GLED_GPIO_Port, OCTA_GLED_Pin);
+ 128:../../applications/no-scheduler-example/src/no-scheduler-example.c ****     HAL_GPIO_TogglePin(OCTA_BLED_GPIO_Port, OCTA_BLED_Pin);
+ 129:../../applications/no-scheduler-example/src/no-scheduler-example.c ****     HAL_Delay(1000);
+ 130:../../applications/no-scheduler-example/src/no-scheduler-example.c ****     HAL_GPIO_TogglePin(OCTA_BLED_GPIO_Port, OCTA_BLED_Pin);
+ 131:../../applications/no-scheduler-example/src/no-scheduler-example.c **** 
+ 132:../../applications/no-scheduler-example/src/no-scheduler-example.c ****     /* USER CODE BEGIN 3 */
+ 133:../../applications/no-scheduler-example/src/no-scheduler-example.c ****   }
+ 134:../../applications/no-scheduler-example/src/no-scheduler-example.c ****   /* USER CODE END 3 */
+ 135:../../applications/no-scheduler-example/src/no-scheduler-example.c **** }
+ 136:../../applications/no-scheduler-example/src/no-scheduler-example.c **** 
+ 137:../../applications/no-scheduler-example/src/no-scheduler-example.c **** void printWelcome(void)
+ 138:../../applications/no-scheduler-example/src/no-scheduler-example.c **** {
+  28              		.loc 1 138 0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32 0000 38B5     		push	{r3, r4, r5, lr}
+  33              	.LCFI0:
+  34              		.cfi_def_cfa_offset 16
+ARM GAS  /tmp/ccxhMba3.s 			page 4
+
+
+  35              		.cfi_offset 3, -16
+  36              		.cfi_offset 4, -12
+  37              		.cfi_offset 5, -8
+  38              		.cfi_offset 14, -4
+ 139:../../applications/no-scheduler-example/src/no-scheduler-example.c ****   printf("\r\n");
+  39              		.loc 1 139 0
+  40 0002 104C     		ldr	r4, .L3
+  41 0004 2046     		mov	r0, r4
+  42 0006 FFF7FEFF 		bl	puts
+  43              	.LVL0:
+ 140:../../applications/no-scheduler-example/src/no-scheduler-example.c ****   printf("*****************************************\r\n");
+  44              		.loc 1 140 0
+  45 000a 0F4D     		ldr	r5, .L3+4
+  46 000c 2846     		mov	r0, r5
+  47 000e FFF7FEFF 		bl	puts
+  48              	.LVL1:
+ 141:../../applications/no-scheduler-example/src/no-scheduler-example.c ****   printf("no scheduler example\r\n");
+  49              		.loc 1 141 0
+  50 0012 0E48     		ldr	r0, .L3+8
+  51 0014 FFF7FEFF 		bl	puts
+  52              	.LVL2:
+ 142:../../applications/no-scheduler-example/src/no-scheduler-example.c ****   printf("*****************************************\r\n");
+  53              		.loc 1 142 0
+  54 0018 2846     		mov	r0, r5
+  55 001a FFF7FEFF 		bl	puts
+  56              	.LVL3:
+ 143:../../applications/no-scheduler-example/src/no-scheduler-example.c ****   printf("\r\n");
+  57              		.loc 1 143 0
+  58 001e 2046     		mov	r0, r4
+  59 0020 FFF7FEFF 		bl	puts
+  60              	.LVL4:
+ 144:../../applications/no-scheduler-example/src/no-scheduler-example.c ****   HAL_GPIO_TogglePin(OCTA_BLED_GPIO_Port, OCTA_BLED_Pin);
+  61              		.loc 1 144 0
+  62 0024 0A4C     		ldr	r4, .L3+12
+  63 0026 4FF40041 		mov	r1, #32768
+  64 002a 2046     		mov	r0, r4
+  65 002c FFF7FEFF 		bl	HAL_GPIO_TogglePin
+  66              	.LVL5:
+ 145:../../applications/no-scheduler-example/src/no-scheduler-example.c ****   HAL_Delay(2000);
+  67              		.loc 1 145 0
+  68 0030 4FF4FA60 		mov	r0, #2000
+  69 0034 FFF7FEFF 		bl	HAL_Delay
+  70              	.LVL6:
+ 146:../../applications/no-scheduler-example/src/no-scheduler-example.c ****   HAL_GPIO_TogglePin(OCTA_BLED_GPIO_Port, OCTA_BLED_Pin);
+  71              		.loc 1 146 0
+  72 0038 4FF40041 		mov	r1, #32768
+  73 003c 2046     		mov	r0, r4
+  74 003e FFF7FEFF 		bl	HAL_GPIO_TogglePin
+  75              	.LVL7:
+ 147:../../applications/no-scheduler-example/src/no-scheduler-example.c **** }
+  76              		.loc 1 147 0
+  77 0042 38BD     		pop	{r3, r4, r5, pc}
+  78              	.L4:
+  79              		.align	2
+  80              	.L3:
+  81 0044 00000000 		.word	.LC0
+  82 0048 04000000 		.word	.LC1
+ARM GAS  /tmp/ccxhMba3.s 			page 5
+
+
+  83 004c 30000000 		.word	.LC2
+  84 0050 000C0048 		.word	1207962624
+  85              		.cfi_endproc
+  86              	.LFE129:
+  88              		.section	.text.main,"ax",%progbits
+  89              		.align	1
+  90              		.global	main
+  91              		.syntax unified
+  92              		.thumb
+  93              		.thumb_func
+  94              		.fpu fpv4-sp-d16
+  96              	main:
+  97              	.LFB128:
+  83:../../applications/no-scheduler-example/src/no-scheduler-example.c ****   /* USER CODE BEGIN 1 */
+  98              		.loc 1 83 0
+  99              		.cfi_startproc
+ 100              		@ Volatile: function does not return.
+ 101              		@ args = 0, pretend = 0, frame = 0
+ 102              		@ frame_needed = 0, uses_anonymous_args = 0
+ 103 0000 08B5     		push	{r3, lr}
+ 104              	.LCFI1:
+ 105              		.cfi_def_cfa_offset 8
+ 106              		.cfi_offset 3, -8
+ 107              		.cfi_offset 14, -4
+  94:../../applications/no-scheduler-example/src/no-scheduler-example.c **** 
+ 108              		.loc 1 94 0
+ 109 0002 FFF7FEFF 		bl	HAL_Init
+ 110              	.LVL8:
+ 101:../../applications/no-scheduler-example/src/no-scheduler-example.c **** 
+ 111              		.loc 1 101 0
+ 112 0006 FFF7FEFF 		bl	SystemClock_Config
+ 113              	.LVL9:
+ 108:../../applications/no-scheduler-example/src/no-scheduler-example.c ****   /* USER CODE BEGIN 2 */
+ 114              		.loc 1 108 0
+ 115 000a FFF7FEFF 		bl	Initialize_Platform
+ 116              	.LVL10:
+ 111:../../applications/no-scheduler-example/src/no-scheduler-example.c **** 
+ 117              		.loc 1 111 0
+ 118 000e FFF7FEFF 		bl	printWelcome
+ 119              	.LVL11:
+ 120              	.L6:
+ 122:../../applications/no-scheduler-example/src/no-scheduler-example.c ****     HAL_Delay(1000);
+ 121              		.loc 1 122 0 discriminator 1
+ 122 0012 154C     		ldr	r4, .L8
+ 123 0014 4FF48041 		mov	r1, #16384
+ 124 0018 2046     		mov	r0, r4
+ 125 001a FFF7FEFF 		bl	HAL_GPIO_TogglePin
+ 126              	.LVL12:
+ 123:../../applications/no-scheduler-example/src/no-scheduler-example.c ****     HAL_GPIO_TogglePin(OCTA_RLED_GPIO_Port, OCTA_RLED_Pin);
+ 127              		.loc 1 123 0 discriminator 1
+ 128 001e 4FF47A70 		mov	r0, #1000
+ 129 0022 FFF7FEFF 		bl	HAL_Delay
+ 130              	.LVL13:
+ 124:../../applications/no-scheduler-example/src/no-scheduler-example.c ****     HAL_GPIO_TogglePin(OCTA_GLED_GPIO_Port, OCTA_GLED_Pin);
+ 131              		.loc 1 124 0 discriminator 1
+ 132 0026 4FF48041 		mov	r1, #16384
+ 133 002a 2046     		mov	r0, r4
+ARM GAS  /tmp/ccxhMba3.s 			page 6
+
+
+ 134 002c FFF7FEFF 		bl	HAL_GPIO_TogglePin
+ 135              	.LVL14:
+ 125:../../applications/no-scheduler-example/src/no-scheduler-example.c ****     HAL_Delay(1000);
+ 136              		.loc 1 125 0 discriminator 1
+ 137 0030 0E4D     		ldr	r5, .L8+4
+ 138 0032 0121     		movs	r1, #1
+ 139 0034 2846     		mov	r0, r5
+ 140 0036 FFF7FEFF 		bl	HAL_GPIO_TogglePin
+ 141              	.LVL15:
+ 126:../../applications/no-scheduler-example/src/no-scheduler-example.c ****     HAL_GPIO_TogglePin(OCTA_GLED_GPIO_Port, OCTA_GLED_Pin);
+ 142              		.loc 1 126 0 discriminator 1
+ 143 003a 4FF47A70 		mov	r0, #1000
+ 144 003e FFF7FEFF 		bl	HAL_Delay
+ 145              	.LVL16:
+ 127:../../applications/no-scheduler-example/src/no-scheduler-example.c ****     HAL_GPIO_TogglePin(OCTA_BLED_GPIO_Port, OCTA_BLED_Pin);
+ 146              		.loc 1 127 0 discriminator 1
+ 147 0042 0121     		movs	r1, #1
+ 148 0044 2846     		mov	r0, r5
+ 149 0046 FFF7FEFF 		bl	HAL_GPIO_TogglePin
+ 150              	.LVL17:
+ 128:../../applications/no-scheduler-example/src/no-scheduler-example.c ****     HAL_Delay(1000);
+ 151              		.loc 1 128 0 discriminator 1
+ 152 004a 4FF40041 		mov	r1, #32768
+ 153 004e 2046     		mov	r0, r4
+ 154 0050 FFF7FEFF 		bl	HAL_GPIO_TogglePin
+ 155              	.LVL18:
+ 129:../../applications/no-scheduler-example/src/no-scheduler-example.c ****     HAL_GPIO_TogglePin(OCTA_BLED_GPIO_Port, OCTA_BLED_Pin);
+ 156              		.loc 1 129 0 discriminator 1
+ 157 0054 4FF47A70 		mov	r0, #1000
+ 158 0058 FFF7FEFF 		bl	HAL_Delay
+ 159              	.LVL19:
+ 130:../../applications/no-scheduler-example/src/no-scheduler-example.c **** 
+ 160              		.loc 1 130 0 discriminator 1
+ 161 005c 4FF40041 		mov	r1, #32768
+ 162 0060 2046     		mov	r0, r4
+ 163 0062 FFF7FEFF 		bl	HAL_GPIO_TogglePin
+ 164              	.LVL20:
+ 165 0066 D4E7     		b	.L6
+ 166              	.L9:
+ 167              		.align	2
+ 168              	.L8:
+ 169 0068 000C0048 		.word	1207962624
+ 170 006c 00040048 		.word	1207960576
+ 171              		.cfi_endproc
+ 172              	.LFE128:
+ 174              		.section	.text.HAL_TIM_PeriodElapsedCallback,"ax",%progbits
+ 175              		.align	1
+ 176              		.global	HAL_TIM_PeriodElapsedCallback
+ 177              		.syntax unified
+ 178              		.thumb
+ 179              		.thumb_func
+ 180              		.fpu fpv4-sp-d16
+ 182              	HAL_TIM_PeriodElapsedCallback:
+ 183              	.LFB130:
+ 148:../../applications/no-scheduler-example/src/no-scheduler-example.c **** 
+ 149:../../applications/no-scheduler-example/src/no-scheduler-example.c **** void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
+ 150:../../applications/no-scheduler-example/src/no-scheduler-example.c **** {
+ARM GAS  /tmp/ccxhMba3.s 			page 7
+
+
+ 184              		.loc 1 150 0
+ 185              		.cfi_startproc
+ 186              		@ args = 0, pretend = 0, frame = 0
+ 187              		@ frame_needed = 0, uses_anonymous_args = 0
+ 188              	.LVL21:
+ 189 0000 08B5     		push	{r3, lr}
+ 190              	.LCFI2:
+ 191              		.cfi_def_cfa_offset 8
+ 192              		.cfi_offset 3, -8
+ 193              		.cfi_offset 14, -4
+ 151:../../applications/no-scheduler-example/src/no-scheduler-example.c ****   /* USER CODE BEGIN Callback 0 */
+ 152:../../applications/no-scheduler-example/src/no-scheduler-example.c **** 
+ 153:../../applications/no-scheduler-example/src/no-scheduler-example.c ****   /* USER CODE END Callback 0 */
+ 154:../../applications/no-scheduler-example/src/no-scheduler-example.c ****   if (htim->Instance == TIM1)
+ 194              		.loc 1 154 0
+ 195 0002 0268     		ldr	r2, [r0]
+ 196 0004 034B     		ldr	r3, .L14
+ 197 0006 9A42     		cmp	r2, r3
+ 198 0008 00D0     		beq	.L13
+ 199              	.LVL22:
+ 200              	.L10:
+ 155:../../applications/no-scheduler-example/src/no-scheduler-example.c ****   {
+ 156:../../applications/no-scheduler-example/src/no-scheduler-example.c ****     HAL_IncTick();
+ 157:../../applications/no-scheduler-example/src/no-scheduler-example.c ****   }
+ 158:../../applications/no-scheduler-example/src/no-scheduler-example.c ****   /* USER CODE BEGIN Callback 1 */
+ 159:../../applications/no-scheduler-example/src/no-scheduler-example.c **** 
+ 160:../../applications/no-scheduler-example/src/no-scheduler-example.c ****   /* USER CODE END Callback 1 */
+ 161:../../applications/no-scheduler-example/src/no-scheduler-example.c **** }
+ 201              		.loc 1 161 0
+ 202 000a 08BD     		pop	{r3, pc}
+ 203              	.LVL23:
+ 204              	.L13:
+ 156:../../applications/no-scheduler-example/src/no-scheduler-example.c ****   }
+ 205              		.loc 1 156 0
+ 206 000c FFF7FEFF 		bl	HAL_IncTick
+ 207              	.LVL24:
+ 208              		.loc 1 161 0
+ 209 0010 FBE7     		b	.L10
+ 210              	.L15:
+ 211 0012 00BF     		.align	2
+ 212              	.L14:
+ 213 0014 002C0140 		.word	1073818624
+ 214              		.cfi_endproc
+ 215              	.LFE130:
+ 217              		.section	.text.HAL_UART_RxCpltCallback,"ax",%progbits
+ 218              		.align	1
+ 219              		.global	HAL_UART_RxCpltCallback
+ 220              		.syntax unified
+ 221              		.thumb
+ 222              		.thumb_func
+ 223              		.fpu fpv4-sp-d16
+ 225              	HAL_UART_RxCpltCallback:
+ 226              	.LFB131:
+ 162:../../applications/no-scheduler-example/src/no-scheduler-example.c **** 
+ 163:../../applications/no-scheduler-example/src/no-scheduler-example.c **** /* USER CODE END 4 */
+ 164:../../applications/no-scheduler-example/src/no-scheduler-example.c **** 
+ 165:../../applications/no-scheduler-example/src/no-scheduler-example.c **** void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+ARM GAS  /tmp/ccxhMba3.s 			page 8
+
+
+ 166:../../applications/no-scheduler-example/src/no-scheduler-example.c **** {
+ 227              		.loc 1 166 0
+ 228              		.cfi_startproc
+ 229              		@ args = 0, pretend = 0, frame = 0
+ 230              		@ frame_needed = 0, uses_anonymous_args = 0
+ 231              		@ link register save eliminated.
+ 232              	.LVL25:
+ 167:../../applications/no-scheduler-example/src/no-scheduler-example.c **** 	#if USE_BOOTLOADER
+ 168:../../applications/no-scheduler-example/src/no-scheduler-example.c ****     if(huart == &BLE_UART);
+ 169:../../applications/no-scheduler-example/src/no-scheduler-example.c ****     {
+ 170:../../applications/no-scheduler-example/src/no-scheduler-example.c ****           printf("BLE UART INTERRUPT\r\n");
+ 171:../../applications/no-scheduler-example/src/no-scheduler-example.c ****           bootloader_parse_data();        
+ 172:../../applications/no-scheduler-example/src/no-scheduler-example.c ****     }
+ 173:../../applications/no-scheduler-example/src/no-scheduler-example.c ****   #endif
+ 174:../../applications/no-scheduler-example/src/no-scheduler-example.c **** }
+ 233              		.loc 1 174 0
+ 234 0000 7047     		bx	lr
+ 235              		.cfi_endproc
+ 236              	.LFE131:
+ 238              		.section	.text.Error_Handler,"ax",%progbits
+ 239              		.align	1
+ 240              		.global	Error_Handler
+ 241              		.syntax unified
+ 242              		.thumb
+ 243              		.thumb_func
+ 244              		.fpu fpv4-sp-d16
+ 246              	Error_Handler:
+ 247              	.LFB132:
+ 175:../../applications/no-scheduler-example/src/no-scheduler-example.c **** 
+ 176:../../applications/no-scheduler-example/src/no-scheduler-example.c **** /**
+ 177:../../applications/no-scheduler-example/src/no-scheduler-example.c ****   * @brief  This function is executed in case of error occurrence.
+ 178:../../applications/no-scheduler-example/src/no-scheduler-example.c ****   * @retval None
+ 179:../../applications/no-scheduler-example/src/no-scheduler-example.c ****   */
+ 180:../../applications/no-scheduler-example/src/no-scheduler-example.c **** void Error_Handler(void)
+ 181:../../applications/no-scheduler-example/src/no-scheduler-example.c **** {
+ 248              		.loc 1 181 0
+ 249              		.cfi_startproc
+ 250              		@ args = 0, pretend = 0, frame = 0
+ 251              		@ frame_needed = 0, uses_anonymous_args = 0
+ 252              		@ link register save eliminated.
+ 182:../../applications/no-scheduler-example/src/no-scheduler-example.c ****   /* USER CODE BEGIN Error_Handler_Debug */
+ 183:../../applications/no-scheduler-example/src/no-scheduler-example.c ****   /* User can add his own implementation to report the HAL error return state */
+ 184:../../applications/no-scheduler-example/src/no-scheduler-example.c **** 
+ 185:../../applications/no-scheduler-example/src/no-scheduler-example.c ****   /* USER CODE END Error_Handler_Debug */
+ 186:../../applications/no-scheduler-example/src/no-scheduler-example.c **** }
+ 253              		.loc 1 186 0
+ 254 0000 7047     		bx	lr
+ 255              		.cfi_endproc
+ 256              	.LFE132:
+ 258              		.comm	P3_header,44,4
+ 259              		.comm	P2_header,44,4
+ 260              		.comm	P1_header,44,4
+ 261              		.comm	P3_SPI,100,4
+ 262              		.comm	P2_SPI,100,4
+ 263              		.comm	P1_SPI,100,4
+ 264              		.comm	P3_I2C,76,4
+ 265              		.comm	P2_I2C,76,4
+ARM GAS  /tmp/ccxhMba3.s 			page 9
+
+
+ 266              		.comm	P1_I2C,76,4
+ 267              		.comm	common_I2C,76,4
+ 268              		.comm	P3_UART,120,4
+ 269              		.comm	P2_UART,120,4
+ 270              		.comm	P1_UART,120,4
+ 271              		.comm	BLE_UART,120,4
+ 272              		.comm	USB_UART,120,4
+ 273              		.comm	hiwdg,16,4
+ 274              		.comm	P3_DIO6,8,4
+ 275              		.comm	P3_DIO5,8,4
+ 276              		.comm	P3_DIO4,8,4
+ 277              		.comm	P3_DIO3,8,4
+ 278              		.comm	P3_DIO2,8,4
+ 279              		.comm	P3_DIO1,8,4
+ 280              		.comm	P2_DIO6,8,4
+ 281              		.comm	P2_DIO5,8,4
+ 282              		.comm	P2_DIO4,8,4
+ 283              		.comm	P2_DIO3,8,4
+ 284              		.comm	P2_DIO2,8,4
+ 285              		.comm	P2_DIO1,8,4
+ 286              		.comm	P1_DIO6,8,4
+ 287              		.comm	P1_DIO5,8,4
+ 288              		.comm	P1_DIO4,8,4
+ 289              		.comm	P1_DIO3,8,4
+ 290              		.comm	P1_DIO2,8,4
+ 291              		.comm	P1_DIO1,8,4
+ 292              		.section	.rodata.printWelcome.str1.4,"aMS",%progbits,1
+ 293              		.align	2
+ 294              	.LC0:
+ 295 0000 0D00     		.ascii	"\015\000"
+ 296 0002 0000     		.space	2
+ 297              	.LC1:
+ 298 0004 2A2A2A2A 		.ascii	"*****************************************\015\000"
+ 298      2A2A2A2A 
+ 298      2A2A2A2A 
+ 298      2A2A2A2A 
+ 298      2A2A2A2A 
+ 299 002f 00       		.space	1
+ 300              	.LC2:
+ 301 0030 6E6F2073 		.ascii	"no scheduler example\015\000"
+ 301      63686564 
+ 301      756C6572 
+ 301      20657861 
+ 301      6D706C65 
+ 302              		.text
+ 303              	.Letext0:
+ 304              		.file 2 "/home/mats/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/machine/_default_type
+ 305              		.file 3 "/home/mats/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/sys/_stdint.h"
+ 306              		.file 4 "../../core/ST/CMSIS/Include/core_cm4.h"
+ 307              		.file 5 "../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/system_stm32l4xx.h"
+ 308              		.file 6 "../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/stm32l496xx.h"
+ 309              		.file 7 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h"
+ 310              		.file 8 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_dma.h"
+ 311              		.file 9 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_i2c.h"
+ 312              		.file 10 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_iwdg.h"
+ 313              		.file 11 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_spi.h"
+ 314              		.file 12 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_tim.h"
+ARM GAS  /tmp/ccxhMba3.s 			page 10
+
+
+ 315              		.file 13 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h"
+ 316              		.file 14 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h"
+ 317              		.file 15 "../../core/platform/octa/inc/gpio.h"
+ 318              		.file 16 "../../core/platform/octa/inc/iwdg.h"
+ 319              		.file 17 "../../core/platform/octa/inc/uart.h"
+ 320              		.file 18 "../../core/platform/octa/inc/i2c.h"
+ 321              		.file 19 "../../core/platform/octa/inc/spi.h"
+ 322              		.file 20 "../../core/platform/octa/inc/octa.h"
+ 323              		.file 21 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_gpio.h"
+ 324              		.file 22 "../../core/platform/octa/inc/sysclock.h"
+ 325              		.file 23 "../../core/platform/common/inc/platform.h"
+ 326              		.file 24 "<built-in>"
+ARM GAS  /tmp/ccxhMba3.s 			page 11
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 no-scheduler-example.c
+     /tmp/ccxhMba3.s:18     .text.printWelcome:0000000000000000 $t
+     /tmp/ccxhMba3.s:25     .text.printWelcome:0000000000000000 printWelcome
+     /tmp/ccxhMba3.s:81     .text.printWelcome:0000000000000044 $d
+     /tmp/ccxhMba3.s:89     .text.main:0000000000000000 $t
+     /tmp/ccxhMba3.s:96     .text.main:0000000000000000 main
+     /tmp/ccxhMba3.s:169    .text.main:0000000000000068 $d
+     /tmp/ccxhMba3.s:175    .text.HAL_TIM_PeriodElapsedCallback:0000000000000000 $t
+     /tmp/ccxhMba3.s:182    .text.HAL_TIM_PeriodElapsedCallback:0000000000000000 HAL_TIM_PeriodElapsedCallback
+     /tmp/ccxhMba3.s:213    .text.HAL_TIM_PeriodElapsedCallback:0000000000000014 $d
+     /tmp/ccxhMba3.s:218    .text.HAL_UART_RxCpltCallback:0000000000000000 $t
+     /tmp/ccxhMba3.s:225    .text.HAL_UART_RxCpltCallback:0000000000000000 HAL_UART_RxCpltCallback
+     /tmp/ccxhMba3.s:239    .text.Error_Handler:0000000000000000 $t
+     /tmp/ccxhMba3.s:246    .text.Error_Handler:0000000000000000 Error_Handler
+                            *COM*:000000000000002c P3_header
+                            *COM*:000000000000002c P2_header
+                            *COM*:000000000000002c P1_header
+                            *COM*:0000000000000064 P3_SPI
+                            *COM*:0000000000000064 P2_SPI
+                            *COM*:0000000000000064 P1_SPI
+                            *COM*:000000000000004c P3_I2C
+                            *COM*:000000000000004c P2_I2C
+                            *COM*:000000000000004c P1_I2C
+                            *COM*:000000000000004c common_I2C
+                            *COM*:0000000000000078 P3_UART
+                            *COM*:0000000000000078 P2_UART
+                            *COM*:0000000000000078 P1_UART
+                            *COM*:0000000000000078 BLE_UART
+                            *COM*:0000000000000078 USB_UART
+                            *COM*:0000000000000010 hiwdg
+                            *COM*:0000000000000008 P3_DIO6
+                            *COM*:0000000000000008 P3_DIO5
+                            *COM*:0000000000000008 P3_DIO4
+                            *COM*:0000000000000008 P3_DIO3
+                            *COM*:0000000000000008 P3_DIO2
+                            *COM*:0000000000000008 P3_DIO1
+                            *COM*:0000000000000008 P2_DIO6
+                            *COM*:0000000000000008 P2_DIO5
+                            *COM*:0000000000000008 P2_DIO4
+                            *COM*:0000000000000008 P2_DIO3
+                            *COM*:0000000000000008 P2_DIO2
+                            *COM*:0000000000000008 P2_DIO1
+                            *COM*:0000000000000008 P1_DIO6
+                            *COM*:0000000000000008 P1_DIO5
+                            *COM*:0000000000000008 P1_DIO4
+                            *COM*:0000000000000008 P1_DIO3
+                            *COM*:0000000000000008 P1_DIO2
+                            *COM*:0000000000000008 P1_DIO1
+     /tmp/ccxhMba3.s:293    .rodata.printWelcome.str1.4:0000000000000000 $d
+
+UNDEFINED SYMBOLS
+puts
+HAL_GPIO_TogglePin
+HAL_Delay
+HAL_Init
+SystemClock_Config
+ARM GAS  /tmp/ccxhMba3.s 			page 12
+
+
+Initialize_Platform
+HAL_IncTick

@@ -1,0 +1,1115 @@
+ARM GAS  /tmp/cckFybB2.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 28, 1
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.file	"murata.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.text.on_modem_command_completed_callback,"ax",%progbits
+  18              		.align	1
+  19              		.global	on_modem_command_completed_callback
+  20              		.syntax unified
+  21              		.thumb
+  22              		.thumb_func
+  23              		.fpu fpv4-sp-d16
+  25              	on_modem_command_completed_callback:
+  26              	.LFB129:
+  27              		.file 1 "../../shields/Murata/src/murata.c"
+   1:../../shields/Murata/src/murata.c **** #include "platform.h"
+   2:../../shields/Murata/src/murata.c **** #include "murata.h"
+   3:../../shields/Murata/src/murata.c **** 
+   4:../../shields/Murata/src/murata.c **** uint8_t murata_notification_sent = 0;
+   5:../../shields/Murata/src/murata.c **** struct OCTA_header murataHeader;
+   6:../../shields/Murata/src/murata.c **** 
+   7:../../shields/Murata/src/murata.c **** session_config_t session_config =
+   8:../../shields/Murata/src/murata.c ****     {
+   9:../../shields/Murata/src/murata.c ****         .interface_type = LORAWAN_OTAA,
+  10:../../shields/Murata/src/murata.c ****         .lorawan_session_config_otaa = {
+  11:../../shields/Murata/src/murata.c ****             .devEUI = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF},
+  12:../../shields/Murata/src/murata.c ****             .appEUI = LORAWAN_APP_EUI,
+  13:../../shields/Murata/src/murata.c ****             .appKey = LORAWAN_APP_KEY,
+  14:../../shields/Murata/src/murata.c ****             .request_ack = false,
+  15:../../shields/Murata/src/murata.c ****             .application_port = 1}};
+  16:../../shields/Murata/src/murata.c **** 
+  17:../../shields/Murata/src/murata.c **** /* Init murata lorawan modem */
+  18:../../shields/Murata/src/murata.c **** modem_callbacks_t modem_callbacks = {
+  19:../../shields/Murata/src/murata.c ****     .command_completed_callback = &on_modem_command_completed_callback,
+  20:../../shields/Murata/src/murata.c ****     .return_file_data_callback = &on_modem_return_file_data_callback,
+  21:../../shields/Murata/src/murata.c ****     .write_file_data_callback = &on_modem_write_file_data_callback,
+  22:../../shields/Murata/src/murata.c ****     .modem_rebooted_callback = &on_modem_reboot_callback,
+  23:../../shields/Murata/src/murata.c **** };
+  24:../../shields/Murata/src/murata.c **** 
+  25:../../shields/Murata/src/murata.c **** void on_modem_command_completed_callback(bool with_error, uint8_t tag_id)
+  26:../../shields/Murata/src/murata.c **** {
+  28              		.loc 1 26 0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32              	.LVL0:
+ARM GAS  /tmp/cckFybB2.s 			page 2
+
+
+  33 0000 08B5     		push	{r3, lr}
+  34              	.LCFI0:
+  35              		.cfi_def_cfa_offset 8
+  36              		.cfi_offset 3, -8
+  37              		.cfi_offset 14, -4
+  27:../../shields/Murata/src/murata.c ****     murata_notification_sent = 0;
+  38              		.loc 1 27 0
+  39 0002 044B     		ldr	r3, .L3
+  40 0004 0022     		movs	r2, #0
+  41 0006 1A70     		strb	r2, [r3]
+  28:../../shields/Murata/src/murata.c ****     printf("LoRaWAN modem command with tag %i completed (success = %i)\r\n", tag_id, !with_error);
+  42              		.loc 1 28 0
+  43 0008 80F00102 		eor	r2, r0, #1
+  44 000c 0248     		ldr	r0, .L3+4
+  45              	.LVL1:
+  46 000e FFF7FEFF 		bl	printf
+  47              	.LVL2:
+  29:../../shields/Murata/src/murata.c **** }
+  48              		.loc 1 29 0
+  49 0012 08BD     		pop	{r3, pc}
+  50              	.L4:
+  51              		.align	2
+  52              	.L3:
+  53 0014 00000000 		.word	.LANCHOR0
+  54 0018 00000000 		.word	.LC0
+  55              		.cfi_endproc
+  56              	.LFE129:
+  58              		.section	.text.on_modem_return_file_data_callback,"ax",%progbits
+  59              		.align	1
+  60              		.global	on_modem_return_file_data_callback
+  61              		.syntax unified
+  62              		.thumb
+  63              		.thumb_func
+  64              		.fpu fpv4-sp-d16
+  66              	on_modem_return_file_data_callback:
+  67              	.LFB130:
+  30:../../shields/Murata/src/murata.c **** 
+  31:../../shields/Murata/src/murata.c **** void on_modem_return_file_data_callback(uint8_t file_id, uint32_t offset, uint32_t size, uint8_t *o
+  32:../../shields/Murata/src/murata.c **** {
+  68              		.loc 1 32 0
+  69              		.cfi_startproc
+  70              		@ args = 0, pretend = 0, frame = 0
+  71              		@ frame_needed = 0, uses_anonymous_args = 0
+  72              	.LVL3:
+  73 0000 30B5     		push	{r4, r5, lr}
+  74              	.LCFI1:
+  75              		.cfi_def_cfa_offset 12
+  76              		.cfi_offset 4, -12
+  77              		.cfi_offset 5, -8
+  78              		.cfi_offset 14, -4
+  79 0002 83B0     		sub	sp, sp, #12
+  80              	.LCFI2:
+  81              		.cfi_def_cfa_offset 24
+  33:../../shields/Murata/src/murata.c ****     murata_notification_sent = 0;
+  82              		.loc 1 33 0
+  83 0004 054C     		ldr	r4, .L7
+  84 0006 0025     		movs	r5, #0
+ARM GAS  /tmp/cckFybB2.s 			page 3
+
+
+  85 0008 2570     		strb	r5, [r4]
+  34:../../shields/Murata/src/murata.c ****     printf("LoRaWAN modem return file data file %i offset %li size %li buffer %p\r\n", file_id, off
+  86              		.loc 1 34 0
+  87 000a 0093     		str	r3, [sp]
+  88 000c 1346     		mov	r3, r2
+  89              	.LVL4:
+  90 000e 0A46     		mov	r2, r1
+  91              	.LVL5:
+  92 0010 0146     		mov	r1, r0
+  93              	.LVL6:
+  94 0012 0348     		ldr	r0, .L7+4
+  95              	.LVL7:
+  96 0014 FFF7FEFF 		bl	printf
+  97              	.LVL8:
+  35:../../shields/Murata/src/murata.c **** }
+  98              		.loc 1 35 0
+  99 0018 03B0     		add	sp, sp, #12
+ 100              	.LCFI3:
+ 101              		.cfi_def_cfa_offset 12
+ 102              		@ sp needed
+ 103 001a 30BD     		pop	{r4, r5, pc}
+ 104              	.L8:
+ 105              		.align	2
+ 106              	.L7:
+ 107 001c 00000000 		.word	.LANCHOR0
+ 108 0020 00000000 		.word	.LC1
+ 109              		.cfi_endproc
+ 110              	.LFE130:
+ 112              		.section	.text.on_modem_write_file_data_callback,"ax",%progbits
+ 113              		.align	1
+ 114              		.global	on_modem_write_file_data_callback
+ 115              		.syntax unified
+ 116              		.thumb
+ 117              		.thumb_func
+ 118              		.fpu fpv4-sp-d16
+ 120              	on_modem_write_file_data_callback:
+ 121              	.LFB131:
+  36:../../shields/Murata/src/murata.c **** 
+  37:../../shields/Murata/src/murata.c **** void on_modem_write_file_data_callback(uint8_t file_id, uint32_t offset, uint32_t size, uint8_t *ou
+  38:../../shields/Murata/src/murata.c **** {
+ 122              		.loc 1 38 0
+ 123              		.cfi_startproc
+ 124              		@ args = 0, pretend = 0, frame = 0
+ 125              		@ frame_needed = 0, uses_anonymous_args = 0
+ 126              	.LVL9:
+ 127 0000 30B5     		push	{r4, r5, lr}
+ 128              	.LCFI4:
+ 129              		.cfi_def_cfa_offset 12
+ 130              		.cfi_offset 4, -12
+ 131              		.cfi_offset 5, -8
+ 132              		.cfi_offset 14, -4
+ 133 0002 83B0     		sub	sp, sp, #12
+ 134              	.LCFI5:
+ 135              		.cfi_def_cfa_offset 24
+  39:../../shields/Murata/src/murata.c ****     murata_notification_sent = 0;
+ 136              		.loc 1 39 0
+ 137 0004 054C     		ldr	r4, .L11
+ARM GAS  /tmp/cckFybB2.s 			page 4
+
+
+ 138 0006 0025     		movs	r5, #0
+ 139 0008 2570     		strb	r5, [r4]
+  40:../../shields/Murata/src/murata.c ****     printf("LoRaWAN modem write file data file %i offset %li size %li buffer %p\r\n", file_id, offs
+ 140              		.loc 1 40 0
+ 141 000a 0093     		str	r3, [sp]
+ 142 000c 1346     		mov	r3, r2
+ 143              	.LVL10:
+ 144 000e 0A46     		mov	r2, r1
+ 145              	.LVL11:
+ 146 0010 0146     		mov	r1, r0
+ 147              	.LVL12:
+ 148 0012 0348     		ldr	r0, .L11+4
+ 149              	.LVL13:
+ 150 0014 FFF7FEFF 		bl	printf
+ 151              	.LVL14:
+  41:../../shields/Murata/src/murata.c **** }
+ 152              		.loc 1 41 0
+ 153 0018 03B0     		add	sp, sp, #12
+ 154              	.LCFI6:
+ 155              		.cfi_def_cfa_offset 12
+ 156              		@ sp needed
+ 157 001a 30BD     		pop	{r4, r5, pc}
+ 158              	.L12:
+ 159              		.align	2
+ 160              	.L11:
+ 161 001c 00000000 		.word	.LANCHOR0
+ 162 0020 00000000 		.word	.LC2
+ 163              		.cfi_endproc
+ 164              	.LFE131:
+ 166              		.section	.text.on_modem_reboot_callback,"ax",%progbits
+ 167              		.align	1
+ 168              		.global	on_modem_reboot_callback
+ 169              		.syntax unified
+ 170              		.thumb
+ 171              		.thumb_func
+ 172              		.fpu fpv4-sp-d16
+ 174              	on_modem_reboot_callback:
+ 175              	.LFB132:
+  42:../../shields/Murata/src/murata.c **** 
+  43:../../shields/Murata/src/murata.c **** void on_modem_reboot_callback(void)
+  44:../../shields/Murata/src/murata.c **** {
+ 176              		.loc 1 44 0
+ 177              		.cfi_startproc
+ 178              		@ args = 0, pretend = 0, frame = 0
+ 179              		@ frame_needed = 0, uses_anonymous_args = 0
+ 180 0000 08B5     		push	{r3, lr}
+ 181              	.LCFI7:
+ 182              		.cfi_def_cfa_offset 8
+ 183              		.cfi_offset 3, -8
+ 184              		.cfi_offset 14, -4
+  45:../../shields/Murata/src/murata.c ****     murata_notification_sent = 0;
+ 185              		.loc 1 45 0
+ 186 0002 044B     		ldr	r3, .L15
+ 187 0004 0022     		movs	r2, #0
+ 188 0006 1A70     		strb	r2, [r3]
+  46:../../shields/Murata/src/murata.c ****     printf("LoRaWAN murata modem has rebooted \r\n");
+ 189              		.loc 1 46 0
+ARM GAS  /tmp/cckFybB2.s 			page 5
+
+
+ 190 0008 0348     		ldr	r0, .L15+4
+ 191 000a FFF7FEFF 		bl	puts
+ 192              	.LVL15:
+  47:../../shields/Murata/src/murata.c ****     modem_reinit();
+ 193              		.loc 1 47 0
+ 194 000e FFF7FEFF 		bl	modem_reinit
+ 195              	.LVL16:
+  48:../../shields/Murata/src/murata.c **** }
+ 196              		.loc 1 48 0
+ 197 0012 08BD     		pop	{r3, pc}
+ 198              	.L16:
+ 199              		.align	2
+ 200              	.L15:
+ 201 0014 00000000 		.word	.LANCHOR0
+ 202 0018 00000000 		.word	.LC3
+ 203              		.cfi_endproc
+ 204              	.LFE132:
+ 206              		.section	.text.Murata_Initialize,"ax",%progbits
+ 207              		.align	1
+ 208              		.global	Murata_Initialize
+ 209              		.syntax unified
+ 210              		.thumb
+ 211              		.thumb_func
+ 212              		.fpu fpv4-sp-d16
+ 214              	Murata_Initialize:
+ 215              	.LFB133:
+  49:../../shields/Murata/src/murata.c **** 
+  50:../../shields/Murata/src/murata.c **** uint8_t Murata_Initialize(uint64_t octa_UID)
+  51:../../shields/Murata/src/murata.c **** {    
+ 216              		.loc 1 51 0
+ 217              		.cfi_startproc
+ 218              		@ args = 0, pretend = 0, frame = 56
+ 219              		@ frame_needed = 0, uses_anonymous_args = 0
+ 220              	.LVL17:
+ 221 0000 70B5     		push	{r4, r5, r6, lr}
+ 222              	.LCFI8:
+ 223              		.cfi_def_cfa_offset 16
+ 224              		.cfi_offset 4, -16
+ 225              		.cfi_offset 5, -12
+ 226              		.cfi_offset 6, -8
+ 227              		.cfi_offset 14, -4
+ 228 0002 96B0     		sub	sp, sp, #88
+ 229              	.LCFI9:
+ 230              		.cfi_def_cfa_offset 104
+ 231 0004 CDE91401 		strd	r0, [sp, #80]
+  52:../../shields/Murata/src/murata.c ****     printf("***Initializing LoRaWAN modem driver***\r\n");
+ 232              		.loc 1 52 0
+ 233 0008 2548     		ldr	r0, .L22
+ 234              	.LVL18:
+ 235 000a FFF7FEFF 		bl	puts
+ 236              	.LVL19:
+  53:../../shields/Murata/src/murata.c **** 
+  54:../../shields/Murata/src/murata.c ****     #ifndef MURATA_CONNECTOR
+  55:../../shields/Murata/src/murata.c ****         printf("No MURATA_CONNECTOR provided in Makefile\r\n");
+  56:../../shields/Murata/src/murata.c ****         return 1;
+  57:../../shields/Murata/src/murata.c ****     #else
+  58:../../shields/Murata/src/murata.c ****         murataHeader = platform_getHeader((uint8_t)MURATA_CONNECTOR);
+ARM GAS  /tmp/cckFybB2.s 			page 6
+
+
+ 237              		.loc 1 58 0
+ 238 000e 254E     		ldr	r6, .L22+4
+ 239 0010 0321     		movs	r1, #3
+ 240 0012 08A8     		add	r0, sp, #32
+ 241 0014 FFF7FEFF 		bl	platform_getHeader
+ 242              	.LVL20:
+ 243 0018 3546     		mov	r5, r6
+ 244 001a 08AC     		add	r4, sp, #32
+ 245 001c 0FCC     		ldmia	r4!, {r0, r1, r2, r3}
+ 246 001e 0FC5     		stmia	r5!, {r0, r1, r2, r3}
+ 247 0020 0FCC     		ldmia	r4!, {r0, r1, r2, r3}
+ 248 0022 0FC5     		stmia	r5!, {r0, r1, r2, r3}
+ 249 0024 94E80700 		ldm	r4, {r0, r1, r2}
+ 250 0028 85E80700 		stm	r5, {r0, r1, r2}
+  59:../../shields/Murata/src/murata.c ****         if(!murataHeader.active)
+ 251              		.loc 1 59 0
+ 252 002c 96F82840 		ldrb	r4, [r6, #40]	@ zero_extendqisi2
+ 253 0030 002C     		cmp	r4, #0
+ 254 0032 31D0     		beq	.L21
+  60:../../shields/Murata/src/murata.c ****         {
+  61:../../shields/Murata/src/murata.c ****             printf("Invalid MURATA_CONNECTOR provided in Makefile\r\n");
+  62:../../shields/Murata/src/murata.c ****             return 0;  
+  63:../../shields/Murata/src/murata.c ****         }
+  64:../../shields/Murata/src/murata.c ****         else
+  65:../../shields/Murata/src/murata.c ****             printf("Murata on P%d, initializing UART\r\n", (uint8_t)MURATA_CONNECTOR);         
+ 255              		.loc 1 65 0
+ 256 0034 0321     		movs	r1, #3
+ 257 0036 1C48     		ldr	r0, .L22+8
+ 258 0038 FFF7FEFF 		bl	printf
+ 259              	.LVL21:
+  66:../../shields/Murata/src/murata.c ****     #endif
+  67:../../shields/Murata/src/murata.c ****     printf("Using LoRaWAN keys of %s application \r\n", LORAWAN_APP_NAME);
+ 260              		.loc 1 67 0
+ 261 003c 1B49     		ldr	r1, .L22+12
+ 262 003e 1C48     		ldr	r0, .L22+16
+ 263 0040 FFF7FEFF 		bl	printf
+ 264              	.LVL22:
+  68:../../shields/Murata/src/murata.c **** 
+  69:../../shields/Murata/src/murata.c ****     //convert_uint64_array((uint8_t *)&octa_UID);
+  70:../../shields/Murata/src/murata.c ****     memcpy(session_config.lorawan_session_config_otaa.devEUI, &octa_UID, sizeof(octa_UID));
+ 265              		.loc 1 70 0
+ 266 0044 1B4B     		ldr	r3, .L22+20
+ 267 0046 16AA     		add	r2, sp, #88
+ 268 0048 12E90300 		ldmdb	r2, {r0, r1}
+ 269 004c 83E80300 		stm	r3, {r0, r1}
+  71:../../shields/Murata/src/murata.c **** 
+  72:../../shields/Murata/src/murata.c ****     // Initialize UART peripheral with driver baudrate
+  73:../../shields/Murata/src/murata.c ****     platform_initialize_UART(murataHeader, MURATA_BAUDRATE);
+ 270              		.loc 1 73 0
+ 271 0050 144E     		ldr	r6, .L22+4
+ 272 0052 4FF4E133 		mov	r3, #115200
+ 273 0056 0793     		str	r3, [sp, #28]
+ 274 0058 6C46     		mov	r4, sp
+ 275 005a 06F11005 		add	r5, r6, #16
+ 276 005e 0FCD     		ldmia	r5!, {r0, r1, r2, r3}
+ 277 0060 0FC4     		stmia	r4!, {r0, r1, r2, r3}
+ 278 0062 95E80700 		ldm	r5, {r0, r1, r2}
+ARM GAS  /tmp/cckFybB2.s 			page 7
+
+
+ 279 0066 84E80700 		stm	r4, {r0, r1, r2}
+ 280 006a 96E80F00 		ldm	r6, {r0, r1, r2, r3}
+ 281 006e FFF7FEFF 		bl	platform_initialize_UART
+ 282              	.LVL23:
+  74:../../shields/Murata/src/murata.c **** 
+  75:../../shields/Murata/src/murata.c ****     murata_wakeup_pin = murataHeader.DIO1;
+ 283              		.loc 1 75 0
+ 284 0072 3269     		ldr	r2, [r6, #16]
+ 285 0074 104B     		ldr	r3, .L22+24
+ 286 0076 1A60     		str	r2, [r3]
+  76:../../shields/Murata/src/murata.c ****     murata_reset_pin = murataHeader.DIO6;
+ 287              		.loc 1 76 0
+ 288 0078 726A     		ldr	r2, [r6, #36]
+ 289 007a 104B     		ldr	r3, .L22+28
+ 290 007c 1A60     		str	r2, [r3]
+  77:../../shields/Murata/src/murata.c ****     modem_init(murataHeader.uartHandle);
+ 291              		.loc 1 77 0
+ 292 007e 7068     		ldr	r0, [r6, #4]
+ 293 0080 FFF7FEFF 		bl	modem_init
+ 294              	.LVL24:
+  78:../../shields/Murata/src/murata.c ****     modem_cb_init(&modem_callbacks);
+ 295              		.loc 1 78 0
+ 296 0084 0E48     		ldr	r0, .L22+32
+ 297 0086 FFF7FEFF 		bl	modem_cb_init
+ 298              	.LVL25:
+  79:../../shields/Murata/src/murata.c **** 
+  80:../../shields/Murata/src/murata.c ****     printf("Murata module init OK \r\n\r\n");
+ 299              		.loc 1 80 0
+ 300 008a 0E48     		ldr	r0, .L22+36
+ 301 008c FFF7FEFF 		bl	puts
+ 302              	.LVL26:
+  81:../../shields/Murata/src/murata.c ****     return 1;
+ 303              		.loc 1 81 0
+ 304 0090 0124     		movs	r4, #1
+ 305              	.L19:
+  82:../../shields/Murata/src/murata.c **** }
+ 306              		.loc 1 82 0
+ 307 0092 2046     		mov	r0, r4
+ 308 0094 16B0     		add	sp, sp, #88
+ 309              	.LCFI10:
+ 310              		.cfi_remember_state
+ 311              		.cfi_def_cfa_offset 16
+ 312              		@ sp needed
+ 313 0096 70BD     		pop	{r4, r5, r6, pc}
+ 314              	.L21:
+ 315              	.LCFI11:
+ 316              		.cfi_restore_state
+  61:../../shields/Murata/src/murata.c ****             return 0;  
+ 317              		.loc 1 61 0
+ 318 0098 0B48     		ldr	r0, .L22+40
+ 319 009a FFF7FEFF 		bl	puts
+ 320              	.LVL27:
+  62:../../shields/Murata/src/murata.c ****         }
+ 321              		.loc 1 62 0
+ 322 009e F8E7     		b	.L19
+ 323              	.L23:
+ 324              		.align	2
+ARM GAS  /tmp/cckFybB2.s 			page 8
+
+
+ 325              	.L22:
+ 326 00a0 00000000 		.word	.LC4
+ 327 00a4 00000000 		.word	murataHeader
+ 328 00a8 5C000000 		.word	.LC6
+ 329 00ac 80000000 		.word	.LC7
+ 330 00b0 98000000 		.word	.LC8
+ 331 00b4 04000000 		.word	.LANCHOR1+4
+ 332 00b8 00000000 		.word	murata_wakeup_pin
+ 333 00bc 00000000 		.word	murata_reset_pin
+ 334 00c0 00000000 		.word	.LANCHOR2
+ 335 00c4 C0000000 		.word	.LC9
+ 336 00c8 2C000000 		.word	.LC5
+ 337              		.cfi_endproc
+ 338              	.LFE133:
+ 340              		.section	.text.modem_wakeup,"ax",%progbits
+ 341              		.align	1
+ 342              		.global	modem_wakeup
+ 343              		.syntax unified
+ 344              		.thumb
+ 345              		.thumb_func
+ 346              		.fpu fpv4-sp-d16
+ 348              	modem_wakeup:
+ 349              	.LFB134:
+  83:../../shields/Murata/src/murata.c **** 
+  84:../../shields/Murata/src/murata.c **** void modem_wakeup(void)
+  85:../../shields/Murata/src/murata.c **** {
+ 350              		.loc 1 85 0
+ 351              		.cfi_startproc
+ 352              		@ args = 0, pretend = 0, frame = 0
+ 353              		@ frame_needed = 0, uses_anonymous_args = 0
+ 354 0000 08B5     		push	{r3, lr}
+ 355              	.LCFI12:
+ 356              		.cfi_def_cfa_offset 8
+ 357              		.cfi_offset 3, -8
+ 358              		.cfi_offset 14, -4
+  86:../../shields/Murata/src/murata.c ****     HAL_GPIO_WritePin(murata_wakeup_pin->PORT, murata_wakeup_pin->PIN, GPIO_PIN_SET);
+ 359              		.loc 1 86 0
+ 360 0002 044B     		ldr	r3, .L26
+ 361 0004 1B68     		ldr	r3, [r3]
+ 362 0006 0122     		movs	r2, #1
+ 363 0008 9988     		ldrh	r1, [r3, #4]
+ 364 000a 1868     		ldr	r0, [r3]
+ 365 000c FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 366              	.LVL28:
+  87:../../shields/Murata/src/murata.c **** }
+ 367              		.loc 1 87 0
+ 368 0010 08BD     		pop	{r3, pc}
+ 369              	.L27:
+ 370 0012 00BF     		.align	2
+ 371              	.L26:
+ 372 0014 00000000 		.word	murata_wakeup_pin
+ 373              		.cfi_endproc
+ 374              	.LFE134:
+ 376              		.section	.text.modem_release,"ax",%progbits
+ 377              		.align	1
+ 378              		.global	modem_release
+ 379              		.syntax unified
+ARM GAS  /tmp/cckFybB2.s 			page 9
+
+
+ 380              		.thumb
+ 381              		.thumb_func
+ 382              		.fpu fpv4-sp-d16
+ 384              	modem_release:
+ 385              	.LFB135:
+  88:../../shields/Murata/src/murata.c **** 
+  89:../../shields/Murata/src/murata.c **** void modem_release(void)
+  90:../../shields/Murata/src/murata.c **** {
+ 386              		.loc 1 90 0
+ 387              		.cfi_startproc
+ 388              		@ args = 0, pretend = 0, frame = 0
+ 389              		@ frame_needed = 0, uses_anonymous_args = 0
+ 390 0000 08B5     		push	{r3, lr}
+ 391              	.LCFI13:
+ 392              		.cfi_def_cfa_offset 8
+ 393              		.cfi_offset 3, -8
+ 394              		.cfi_offset 14, -4
+  91:../../shields/Murata/src/murata.c ****     HAL_GPIO_WritePin(murata_wakeup_pin->PORT, murata_wakeup_pin->PIN, GPIO_PIN_SET);
+ 395              		.loc 1 91 0
+ 396 0002 044B     		ldr	r3, .L30
+ 397 0004 1B68     		ldr	r3, [r3]
+ 398 0006 0122     		movs	r2, #1
+ 399 0008 9988     		ldrh	r1, [r3, #4]
+ 400 000a 1868     		ldr	r0, [r3]
+ 401 000c FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 402              	.LVL29:
+  92:../../shields/Murata/src/murata.c **** }
+ 403              		.loc 1 92 0
+ 404 0010 08BD     		pop	{r3, pc}
+ 405              	.L31:
+ 406 0012 00BF     		.align	2
+ 407              	.L30:
+ 408 0014 00000000 		.word	murata_wakeup_pin
+ 409              		.cfi_endproc
+ 410              	.LFE135:
+ 412              		.section	.text.Murata_toggleResetPin,"ax",%progbits
+ 413              		.align	1
+ 414              		.global	Murata_toggleResetPin
+ 415              		.syntax unified
+ 416              		.thumb
+ 417              		.thumb_func
+ 418              		.fpu fpv4-sp-d16
+ 420              	Murata_toggleResetPin:
+ 421              	.LFB136:
+  93:../../shields/Murata/src/murata.c **** 
+  94:../../shields/Murata/src/murata.c **** void Murata_toggleResetPin(void)
+  95:../../shields/Murata/src/murata.c **** {
+ 422              		.loc 1 95 0
+ 423              		.cfi_startproc
+ 424              		@ args = 0, pretend = 0, frame = 0
+ 425              		@ frame_needed = 0, uses_anonymous_args = 0
+ 426 0000 10B5     		push	{r4, lr}
+ 427              	.LCFI14:
+ 428              		.cfi_def_cfa_offset 8
+ 429              		.cfi_offset 4, -8
+ 430              		.cfi_offset 14, -4
+  96:../../shields/Murata/src/murata.c ****     HAL_GPIO_WritePin(murata_reset_pin->PORT, murata_reset_pin->PIN, GPIO_PIN_RESET);
+ARM GAS  /tmp/cckFybB2.s 			page 10
+
+
+ 431              		.loc 1 96 0
+ 432 0002 084C     		ldr	r4, .L34
+ 433 0004 2368     		ldr	r3, [r4]
+ 434 0006 0022     		movs	r2, #0
+ 435 0008 9988     		ldrh	r1, [r3, #4]
+ 436 000a 1868     		ldr	r0, [r3]
+ 437 000c FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 438              	.LVL30:
+  97:../../shields/Murata/src/murata.c ****     HAL_Delay(50);
+ 439              		.loc 1 97 0
+ 440 0010 3220     		movs	r0, #50
+ 441 0012 FFF7FEFF 		bl	HAL_Delay
+ 442              	.LVL31:
+  98:../../shields/Murata/src/murata.c ****     HAL_GPIO_WritePin(murata_reset_pin->PORT, murata_reset_pin->PIN, GPIO_PIN_SET);
+ 443              		.loc 1 98 0
+ 444 0016 2368     		ldr	r3, [r4]
+ 445 0018 0122     		movs	r2, #1
+ 446 001a 9988     		ldrh	r1, [r3, #4]
+ 447 001c 1868     		ldr	r0, [r3]
+ 448 001e FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 449              	.LVL32:
+  99:../../shields/Murata/src/murata.c **** }
+ 450              		.loc 1 99 0
+ 451 0022 10BD     		pop	{r4, pc}
+ 452              	.L35:
+ 453              		.align	2
+ 454              	.L34:
+ 455 0024 00000000 		.word	murata_reset_pin
+ 456              		.cfi_endproc
+ 457              	.LFE136:
+ 459              		.section	.text.Murata_SetProcessingThread,"ax",%progbits
+ 460              		.align	1
+ 461              		.global	Murata_SetProcessingThread
+ 462              		.syntax unified
+ 463              		.thumb
+ 464              		.thumb_func
+ 465              		.fpu fpv4-sp-d16
+ 467              	Murata_SetProcessingThread:
+ 468              	.LFB137:
+ 100:../../shields/Murata/src/murata.c **** 
+ 101:../../shields/Murata/src/murata.c **** uint8_t Murata_SetProcessingThread(osThreadId aThreadId)
+ 102:../../shields/Murata/src/murata.c **** {
+ 469              		.loc 1 102 0
+ 470              		.cfi_startproc
+ 471              		@ args = 0, pretend = 0, frame = 0
+ 472              		@ frame_needed = 0, uses_anonymous_args = 0
+ 473              		@ link register save eliminated.
+ 474              	.LVL33:
+ 103:../../shields/Murata/src/murata.c ****     threadToNotify = aThreadId;
+ 475              		.loc 1 103 0
+ 476 0000 014B     		ldr	r3, .L37
+ 477 0002 1860     		str	r0, [r3]
+ 104:../../shields/Murata/src/murata.c ****     return 1;
+ 105:../../shields/Murata/src/murata.c **** }
+ 478              		.loc 1 105 0
+ 479 0004 0120     		movs	r0, #1
+ 480              	.LVL34:
+ARM GAS  /tmp/cckFybB2.s 			page 11
+
+
+ 481 0006 7047     		bx	lr
+ 482              	.L38:
+ 483              		.align	2
+ 484              	.L37:
+ 485 0008 00000000 		.word	threadToNotify
+ 486              		.cfi_endproc
+ 487              	.LFE137:
+ 489              		.section	.text.Murata_LoRaWAN_Send,"ax",%progbits
+ 490              		.align	1
+ 491              		.global	Murata_LoRaWAN_Send
+ 492              		.syntax unified
+ 493              		.thumb
+ 494              		.thumb_func
+ 495              		.fpu fpv4-sp-d16
+ 497              	Murata_LoRaWAN_Send:
+ 498              	.LFB138:
+ 106:../../shields/Murata/src/murata.c **** 
+ 107:../../shields/Murata/src/murata.c **** uint8_t Murata_LoRaWAN_Send(uint8_t *buffer, uint8_t length)
+ 108:../../shields/Murata/src/murata.c **** {
+ 499              		.loc 1 108 0
+ 500              		.cfi_startproc
+ 501              		@ args = 0, pretend = 0, frame = 0
+ 502              		@ frame_needed = 0, uses_anonymous_args = 0
+ 503              	.LVL35:
+ 504 0000 30B5     		push	{r4, r5, lr}
+ 505              	.LCFI15:
+ 506              		.cfi_def_cfa_offset 12
+ 507              		.cfi_offset 4, -12
+ 508              		.cfi_offset 5, -8
+ 509              		.cfi_offset 14, -4
+ 510 0002 83B0     		sub	sp, sp, #12
+ 511              	.LCFI16:
+ 512              		.cfi_def_cfa_offset 24
+ 513 0004 0C46     		mov	r4, r1
+ 514              	.LVL36:
+ 109:../../shields/Murata/src/murata.c ****     uint8_t status = 0;
+ 110:../../shields/Murata/src/murata.c ****     status = modem_send_unsolicited_response(0x40, 0, length, (uint8_t *)buffer, &session_config);
+ 515              		.loc 1 110 0
+ 516 0006 084B     		ldr	r3, .L41
+ 517 0008 0093     		str	r3, [sp]
+ 518 000a 0346     		mov	r3, r0
+ 519 000c 0A46     		mov	r2, r1
+ 520 000e 0021     		movs	r1, #0
+ 521              	.LVL37:
+ 522 0010 4020     		movs	r0, #64
+ 523              	.LVL38:
+ 524 0012 FFF7FEFF 		bl	modem_send_unsolicited_response
+ 525              	.LVL39:
+ 526 0016 0546     		mov	r5, r0
+ 527              	.LVL40:
+ 111:../../shields/Murata/src/murata.c ****     printf("Sending LoRaWAN message with payload size %d\r\n", length);
+ 528              		.loc 1 111 0
+ 529 0018 2146     		mov	r1, r4
+ 530 001a 0448     		ldr	r0, .L41+4
+ 531 001c FFF7FEFF 		bl	printf
+ 532              	.LVL41:
+ 112:../../shields/Murata/src/murata.c ****     return status;
+ARM GAS  /tmp/cckFybB2.s 			page 12
+
+
+ 113:../../shields/Murata/src/murata.c **** }
+ 533              		.loc 1 113 0
+ 534 0020 2846     		mov	r0, r5
+ 535 0022 03B0     		add	sp, sp, #12
+ 536              	.LCFI17:
+ 537              		.cfi_def_cfa_offset 12
+ 538              		@ sp needed
+ 539 0024 30BD     		pop	{r4, r5, pc}
+ 540              	.LVL42:
+ 541              	.L42:
+ 542 0026 00BF     		.align	2
+ 543              	.L41:
+ 544 0028 00000000 		.word	.LANCHOR1
+ 545 002c 00000000 		.word	.LC10
+ 546              		.cfi_endproc
+ 547              	.LFE138:
+ 549              		.section	.text.Murata_process_fifo,"ax",%progbits
+ 550              		.align	1
+ 551              		.global	Murata_process_fifo
+ 552              		.syntax unified
+ 553              		.thumb
+ 554              		.thumb_func
+ 555              		.fpu fpv4-sp-d16
+ 557              	Murata_process_fifo:
+ 558              	.LFB139:
+ 114:../../shields/Murata/src/murata.c **** void Murata_process_fifo(void)
+ 115:../../shields/Murata/src/murata.c **** {
+ 559              		.loc 1 115 0
+ 560              		.cfi_startproc
+ 561              		@ args = 0, pretend = 0, frame = 0
+ 562              		@ frame_needed = 0, uses_anonymous_args = 0
+ 563 0000 08B5     		push	{r3, lr}
+ 564              	.LCFI18:
+ 565              		.cfi_def_cfa_offset 8
+ 566              		.cfi_offset 3, -8
+ 567              		.cfi_offset 14, -4
+ 116:../../shields/Murata/src/murata.c ****     modem_process_fifo();
+ 568              		.loc 1 116 0
+ 569 0002 FFF7FEFF 		bl	modem_process_fifo
+ 570              	.LVL43:
+ 117:../../shields/Murata/src/murata.c **** }
+ 571              		.loc 1 117 0
+ 572 0006 08BD     		pop	{r3, pc}
+ 573              		.cfi_endproc
+ 574              	.LFE139:
+ 576              		.section	.text.Murata_rxCallback,"ax",%progbits
+ 577              		.align	1
+ 578              		.global	Murata_rxCallback
+ 579              		.syntax unified
+ 580              		.thumb
+ 581              		.thumb_func
+ 582              		.fpu fpv4-sp-d16
+ 584              	Murata_rxCallback:
+ 585              	.LFB140:
+ 118:../../shields/Murata/src/murata.c **** 
+ 119:../../shields/Murata/src/murata.c **** void Murata_rxCallback(void)
+ 120:../../shields/Murata/src/murata.c **** {
+ARM GAS  /tmp/cckFybB2.s 			page 13
+
+
+ 586              		.loc 1 120 0
+ 587              		.cfi_startproc
+ 588              		@ args = 0, pretend = 0, frame = 0
+ 589              		@ frame_needed = 0, uses_anonymous_args = 0
+ 590 0000 08B5     		push	{r3, lr}
+ 591              	.LCFI19:
+ 592              		.cfi_def_cfa_offset 8
+ 593              		.cfi_offset 3, -8
+ 594              		.cfi_offset 14, -4
+ 121:../../shields/Murata/src/murata.c ****     modem_interface_uart_rx_cb();
+ 595              		.loc 1 121 0
+ 596 0002 FFF7FEFF 		bl	modem_interface_uart_rx_cb
+ 597              	.LVL44:
+ 122:../../shields/Murata/src/murata.c ****     if(!murata_notification_sent)
+ 598              		.loc 1 122 0
+ 599 0006 064B     		ldr	r3, .L49
+ 600 0008 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 601 000a 03B1     		cbz	r3, .L48
+ 602              	.L45:
+ 123:../../shields/Murata/src/murata.c ****     {
+ 124:../../shields/Murata/src/murata.c ****         //start rx processing thread
+ 125:../../shields/Murata/src/murata.c ****         RTOS_Send_Notification(threadToNotify);
+ 126:../../shields/Murata/src/murata.c ****         murata_notification_sent = 1;
+ 127:../../shields/Murata/src/murata.c ****     }
+ 128:../../shields/Murata/src/murata.c **** }
+ 603              		.loc 1 128 0
+ 604 000c 08BD     		pop	{r3, pc}
+ 605              	.L48:
+ 125:../../shields/Murata/src/murata.c ****         murata_notification_sent = 1;
+ 606              		.loc 1 125 0
+ 607 000e 054B     		ldr	r3, .L49+4
+ 608 0010 1868     		ldr	r0, [r3]
+ 609 0012 FFF7FEFF 		bl	RTOS_Send_Notification
+ 610              	.LVL45:
+ 126:../../shields/Murata/src/murata.c ****     }
+ 611              		.loc 1 126 0
+ 612 0016 024B     		ldr	r3, .L49
+ 613 0018 0122     		movs	r2, #1
+ 614 001a 1A70     		strb	r2, [r3]
+ 615              		.loc 1 128 0
+ 616 001c F6E7     		b	.L45
+ 617              	.L50:
+ 618 001e 00BF     		.align	2
+ 619              	.L49:
+ 620 0020 00000000 		.word	.LANCHOR0
+ 621 0024 00000000 		.word	threadToNotify
+ 622              		.cfi_endproc
+ 623              	.LFE140:
+ 625              		.global	modem_callbacks
+ 626              		.global	session_config
+ 627              		.comm	murataHeader,44,4
+ 628              		.global	murata_notification_sent
+ 629              		.comm	threadToNotify,4,4
+ 630              		.comm	murata_reset_pin,4,4
+ 631              		.comm	murata_wakeup_pin,4,4
+ 632              		.comm	P3_header,44,4
+ 633              		.comm	P2_header,44,4
+ARM GAS  /tmp/cckFybB2.s 			page 14
+
+
+ 634              		.comm	P1_header,44,4
+ 635              		.comm	P3_SPI,100,4
+ 636              		.comm	P2_SPI,100,4
+ 637              		.comm	P1_SPI,100,4
+ 638              		.comm	P3_I2C,76,4
+ 639              		.comm	P2_I2C,76,4
+ 640              		.comm	P1_I2C,76,4
+ 641              		.comm	common_I2C,76,4
+ 642              		.comm	P3_UART,120,4
+ 643              		.comm	P2_UART,120,4
+ 644              		.comm	P1_UART,120,4
+ 645              		.comm	BLE_UART,120,4
+ 646              		.comm	USB_UART,120,4
+ 647              		.comm	hiwdg,16,4
+ 648              		.comm	P3_DIO6,8,4
+ 649              		.comm	P3_DIO5,8,4
+ 650              		.comm	P3_DIO4,8,4
+ 651              		.comm	P3_DIO3,8,4
+ 652              		.comm	P3_DIO2,8,4
+ 653              		.comm	P3_DIO1,8,4
+ 654              		.comm	P2_DIO6,8,4
+ 655              		.comm	P2_DIO5,8,4
+ 656              		.comm	P2_DIO4,8,4
+ 657              		.comm	P2_DIO3,8,4
+ 658              		.comm	P2_DIO2,8,4
+ 659              		.comm	P2_DIO1,8,4
+ 660              		.comm	P1_DIO6,8,4
+ 661              		.comm	P1_DIO5,8,4
+ 662              		.comm	P1_DIO4,8,4
+ 663              		.comm	P1_DIO3,8,4
+ 664              		.comm	P1_DIO2,8,4
+ 665              		.comm	P1_DIO1,8,4
+ 666              		.section	.bss.murata_notification_sent,"aw",%nobits
+ 667              		.set	.LANCHOR0,. + 0
+ 670              	murata_notification_sent:
+ 671 0000 00       		.space	1
+ 672              		.section	.data.modem_callbacks,"aw",%progbits
+ 673              		.align	2
+ 674              		.set	.LANCHOR2,. + 0
+ 677              	modem_callbacks:
+ 678 0000 00000000 		.word	on_modem_command_completed_callback
+ 679 0004 00000000 		.space	4
+ 680 0008 00000000 		.word	on_modem_return_file_data_callback
+ 681 000c 00000000 		.word	on_modem_write_file_data_callback
+ 682 0010 00000000 		.word	on_modem_reboot_callback
+ 683              		.section	.data.session_config,"aw",%progbits
+ 684              		.align	2
+ 685              		.set	.LANCHOR1,. + 0
+ 688              	session_config:
+ 689 0000 01       		.byte	1
+ 690 0001 000000   		.space	3
+ 691 0004 FF       		.byte	-1
+ 692 0005 FF       		.byte	-1
+ 693 0006 FF       		.byte	-1
+ 694 0007 FF       		.byte	-1
+ 695 0008 FF       		.byte	-1
+ 696 0009 FF       		.byte	-1
+ARM GAS  /tmp/cckFybB2.s 			page 15
+
+
+ 697 000a FF       		.byte	-1
+ 698 000b FF       		.byte	-1
+ 699 000c 70       		.byte	112
+ 700 000d B3       		.byte	-77
+ 701 000e D5       		.byte	-43
+ 702 000f 7E       		.byte	126
+ 703 0010 D0       		.byte	-48
+ 704 0011 01       		.byte	1
+ 705 0012 DF       		.byte	-33
+ 706 0013 1B       		.byte	27
+ 707 0014 06       		.byte	6
+ 708 0015 24       		.byte	36
+ 709 0016 F2       		.byte	-14
+ 710 0017 7F       		.byte	127
+ 711 0018 C4       		.byte	-60
+ 712 0019 F5       		.byte	-11
+ 713 001a ED       		.byte	-19
+ 714 001b B0       		.byte	-80
+ 715 001c 80       		.byte	-128
+ 716 001d C9       		.byte	-55
+ 717 001e 98       		.byte	-104
+ 718 001f 6D       		.byte	109
+ 719 0020 2B       		.byte	43
+ 720 0021 89       		.byte	-119
+ 721 0022 1C       		.byte	28
+ 722 0023 83       		.byte	-125
+ 723 0024 00       		.byte	0
+ 724 0025 01       		.byte	1
+ 725 0026 00000000 		.space	10
+ 725      00000000 
+ 725      0000
+ 726              		.section	.rodata.Murata_Initialize.str1.4,"aMS",%progbits,1
+ 727              		.align	2
+ 728              	.LC4:
+ 729 0000 2A2A2A49 		.ascii	"***Initializing LoRaWAN modem driver***\015\000"
+ 729      6E697469 
+ 729      616C697A 
+ 729      696E6720 
+ 729      4C6F5261 
+ 730 0029 000000   		.space	3
+ 731              	.LC5:
+ 732 002c 496E7661 		.ascii	"Invalid MURATA_CONNECTOR provided in Makefile\015\000"
+ 732      6C696420 
+ 732      4D555241 
+ 732      54415F43 
+ 732      4F4E4E45 
+ 733 005b 00       		.space	1
+ 734              	.LC6:
+ 735 005c 4D757261 		.ascii	"Murata on P%d, initializing UART\015\012\000"
+ 735      7461206F 
+ 735      6E205025 
+ 735      642C2069 
+ 735      6E697469 
+ 736 007f 00       		.space	1
+ 737              	.LC7:
+ 738 0080 496F5720 		.ascii	"IoW The Things Network\000"
+ 738      54686520 
+ARM GAS  /tmp/cckFybB2.s 			page 16
+
+
+ 738      5468696E 
+ 738      6773204E 
+ 738      6574776F 
+ 739 0097 00       		.space	1
+ 740              	.LC8:
+ 741 0098 5573696E 		.ascii	"Using LoRaWAN keys of %s application \015\012\000"
+ 741      67204C6F 
+ 741      52615741 
+ 741      4E206B65 
+ 741      7973206F 
+ 742              	.LC9:
+ 743 00c0 4D757261 		.ascii	"Murata module init OK \015\012\015\000"
+ 743      7461206D 
+ 743      6F64756C 
+ 743      6520696E 
+ 743      6974204F 
+ 744              		.section	.rodata.Murata_LoRaWAN_Send.str1.4,"aMS",%progbits,1
+ 745              		.align	2
+ 746              	.LC10:
+ 747 0000 53656E64 		.ascii	"Sending LoRaWAN message with payload size %d\015\012"
+ 747      696E6720 
+ 747      4C6F5261 
+ 747      57414E20 
+ 747      6D657373 
+ 748 002e 00       		.ascii	"\000"
+ 749              		.section	.rodata.on_modem_command_completed_callback.str1.4,"aMS",%progbits,1
+ 750              		.align	2
+ 751              	.LC0:
+ 752 0000 4C6F5261 		.ascii	"LoRaWAN modem command with tag %i completed (succes"
+ 752      57414E20 
+ 752      6D6F6465 
+ 752      6D20636F 
+ 752      6D6D616E 
+ 753 0033 73203D20 		.ascii	"s = %i)\015\012\000"
+ 753      2569290D 
+ 753      0A00
+ 754              		.section	.rodata.on_modem_reboot_callback.str1.4,"aMS",%progbits,1
+ 755              		.align	2
+ 756              	.LC3:
+ 757 0000 4C6F5261 		.ascii	"LoRaWAN murata modem has rebooted \015\000"
+ 757      57414E20 
+ 757      6D757261 
+ 757      7461206D 
+ 757      6F64656D 
+ 758              		.section	.rodata.on_modem_return_file_data_callback.str1.4,"aMS",%progbits,1
+ 759              		.align	2
+ 760              	.LC1:
+ 761 0000 4C6F5261 		.ascii	"LoRaWAN modem return file data file %i offset %li s"
+ 761      57414E20 
+ 761      6D6F6465 
+ 761      6D207265 
+ 761      7475726E 
+ 762 0033 697A6520 		.ascii	"ize %li buffer %p\015\012\000"
+ 762      256C6920 
+ 762      62756666 
+ 762      65722025 
+ 762      700D0A00 
+ARM GAS  /tmp/cckFybB2.s 			page 17
+
+
+ 763              		.section	.rodata.on_modem_write_file_data_callback.str1.4,"aMS",%progbits,1
+ 764              		.align	2
+ 765              	.LC2:
+ 766 0000 4C6F5261 		.ascii	"LoRaWAN modem write file data file %i offset %li si"
+ 766      57414E20 
+ 766      6D6F6465 
+ 766      6D207772 
+ 766      69746520 
+ 767 0033 7A652025 		.ascii	"ze %li buffer %p\015\012\000"
+ 767      6C692062 
+ 767      75666665 
+ 767      72202570 
+ 767      0D0A00
+ 768              		.text
+ 769              	.Letext0:
+ 770              		.file 2 "/home/mats/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/machine/_default_type
+ 771              		.file 3 "/home/mats/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/sys/_stdint.h"
+ 772              		.file 4 "../../core/ST/CMSIS/Include/core_cm4.h"
+ 773              		.file 5 "../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/system_stm32l4xx.h"
+ 774              		.file 6 "../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/stm32l496xx.h"
+ 775              		.file 7 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h"
+ 776              		.file 8 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_gpio.h"
+ 777              		.file 9 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_dma.h"
+ 778              		.file 10 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_i2c.h"
+ 779              		.file 11 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_iwdg.h"
+ 780              		.file 12 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_spi.h"
+ 781              		.file 13 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h"
+ 782              		.file 14 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h"
+ 783              		.file 15 "../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/include/task.h"
+ 784              		.file 16 "../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h"
+ 785              		.file 17 "../../core/platform/octa/inc/gpio.h"
+ 786              		.file 18 "../../core/platform/octa/inc/iwdg.h"
+ 787              		.file 19 "../../core/platform/octa/inc/uart.h"
+ 788              		.file 20 "../../core/platform/octa/inc/i2c.h"
+ 789              		.file 21 "../../core/platform/octa/inc/spi.h"
+ 790              		.file 22 "../../core/platform/octa/inc/octa.h"
+ 791              		.file 23 "../../shields/Murata/inc/d7ap.h"
+ 792              		.file 24 "../../shields/Murata/inc/lorawan_stack.h"
+ 793              		.file 25 "../../shields/Murata/inc/alp.h"
+ 794              		.file 26 "../../shields/Murata/inc/modem_interface.h"
+ 795              		.file 27 "../../shields/Murata/inc/modem.h"
+ 796              		.file 28 "../../shields/Murata/inc/murata.h"
+ 797              		.file 29 "<built-in>"
+ 798              		.file 30 "../../core/platform/octa/inc/rtosmacros.h"
+ARM GAS  /tmp/cckFybB2.s 			page 18
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 murata.c
+     /tmp/cckFybB2.s:18     .text.on_modem_command_completed_callback:0000000000000000 $t
+     /tmp/cckFybB2.s:25     .text.on_modem_command_completed_callback:0000000000000000 on_modem_command_completed_callback
+     /tmp/cckFybB2.s:53     .text.on_modem_command_completed_callback:0000000000000014 $d
+     /tmp/cckFybB2.s:59     .text.on_modem_return_file_data_callback:0000000000000000 $t
+     /tmp/cckFybB2.s:66     .text.on_modem_return_file_data_callback:0000000000000000 on_modem_return_file_data_callback
+     /tmp/cckFybB2.s:107    .text.on_modem_return_file_data_callback:000000000000001c $d
+     /tmp/cckFybB2.s:113    .text.on_modem_write_file_data_callback:0000000000000000 $t
+     /tmp/cckFybB2.s:120    .text.on_modem_write_file_data_callback:0000000000000000 on_modem_write_file_data_callback
+     /tmp/cckFybB2.s:161    .text.on_modem_write_file_data_callback:000000000000001c $d
+     /tmp/cckFybB2.s:167    .text.on_modem_reboot_callback:0000000000000000 $t
+     /tmp/cckFybB2.s:174    .text.on_modem_reboot_callback:0000000000000000 on_modem_reboot_callback
+     /tmp/cckFybB2.s:201    .text.on_modem_reboot_callback:0000000000000014 $d
+     /tmp/cckFybB2.s:207    .text.Murata_Initialize:0000000000000000 $t
+     /tmp/cckFybB2.s:214    .text.Murata_Initialize:0000000000000000 Murata_Initialize
+     /tmp/cckFybB2.s:326    .text.Murata_Initialize:00000000000000a0 $d
+                            *COM*:000000000000002c murataHeader
+                            *COM*:0000000000000004 murata_wakeup_pin
+                            *COM*:0000000000000004 murata_reset_pin
+     /tmp/cckFybB2.s:341    .text.modem_wakeup:0000000000000000 $t
+     /tmp/cckFybB2.s:348    .text.modem_wakeup:0000000000000000 modem_wakeup
+     /tmp/cckFybB2.s:372    .text.modem_wakeup:0000000000000014 $d
+     /tmp/cckFybB2.s:377    .text.modem_release:0000000000000000 $t
+     /tmp/cckFybB2.s:384    .text.modem_release:0000000000000000 modem_release
+     /tmp/cckFybB2.s:408    .text.modem_release:0000000000000014 $d
+     /tmp/cckFybB2.s:413    .text.Murata_toggleResetPin:0000000000000000 $t
+     /tmp/cckFybB2.s:420    .text.Murata_toggleResetPin:0000000000000000 Murata_toggleResetPin
+     /tmp/cckFybB2.s:455    .text.Murata_toggleResetPin:0000000000000024 $d
+     /tmp/cckFybB2.s:460    .text.Murata_SetProcessingThread:0000000000000000 $t
+     /tmp/cckFybB2.s:467    .text.Murata_SetProcessingThread:0000000000000000 Murata_SetProcessingThread
+     /tmp/cckFybB2.s:485    .text.Murata_SetProcessingThread:0000000000000008 $d
+                            *COM*:0000000000000004 threadToNotify
+     /tmp/cckFybB2.s:490    .text.Murata_LoRaWAN_Send:0000000000000000 $t
+     /tmp/cckFybB2.s:497    .text.Murata_LoRaWAN_Send:0000000000000000 Murata_LoRaWAN_Send
+     /tmp/cckFybB2.s:544    .text.Murata_LoRaWAN_Send:0000000000000028 $d
+     /tmp/cckFybB2.s:550    .text.Murata_process_fifo:0000000000000000 $t
+     /tmp/cckFybB2.s:557    .text.Murata_process_fifo:0000000000000000 Murata_process_fifo
+     /tmp/cckFybB2.s:577    .text.Murata_rxCallback:0000000000000000 $t
+     /tmp/cckFybB2.s:584    .text.Murata_rxCallback:0000000000000000 Murata_rxCallback
+     /tmp/cckFybB2.s:620    .text.Murata_rxCallback:0000000000000020 $d
+     /tmp/cckFybB2.s:677    .data.modem_callbacks:0000000000000000 modem_callbacks
+     /tmp/cckFybB2.s:688    .data.session_config:0000000000000000 session_config
+     /tmp/cckFybB2.s:670    .bss.murata_notification_sent:0000000000000000 murata_notification_sent
+                            *COM*:000000000000002c P3_header
+                            *COM*:000000000000002c P2_header
+                            *COM*:000000000000002c P1_header
+                            *COM*:0000000000000064 P3_SPI
+                            *COM*:0000000000000064 P2_SPI
+                            *COM*:0000000000000064 P1_SPI
+                            *COM*:000000000000004c P3_I2C
+                            *COM*:000000000000004c P2_I2C
+                            *COM*:000000000000004c P1_I2C
+                            *COM*:000000000000004c common_I2C
+                            *COM*:0000000000000078 P3_UART
+                            *COM*:0000000000000078 P2_UART
+                            *COM*:0000000000000078 P1_UART
+ARM GAS  /tmp/cckFybB2.s 			page 19
+
+
+                            *COM*:0000000000000078 BLE_UART
+                            *COM*:0000000000000078 USB_UART
+                            *COM*:0000000000000010 hiwdg
+                            *COM*:0000000000000008 P3_DIO6
+                            *COM*:0000000000000008 P3_DIO5
+                            *COM*:0000000000000008 P3_DIO4
+                            *COM*:0000000000000008 P3_DIO3
+                            *COM*:0000000000000008 P3_DIO2
+                            *COM*:0000000000000008 P3_DIO1
+                            *COM*:0000000000000008 P2_DIO6
+                            *COM*:0000000000000008 P2_DIO5
+                            *COM*:0000000000000008 P2_DIO4
+                            *COM*:0000000000000008 P2_DIO3
+                            *COM*:0000000000000008 P2_DIO2
+                            *COM*:0000000000000008 P2_DIO1
+                            *COM*:0000000000000008 P1_DIO6
+                            *COM*:0000000000000008 P1_DIO5
+                            *COM*:0000000000000008 P1_DIO4
+                            *COM*:0000000000000008 P1_DIO3
+                            *COM*:0000000000000008 P1_DIO2
+                            *COM*:0000000000000008 P1_DIO1
+     /tmp/cckFybB2.s:671    .bss.murata_notification_sent:0000000000000000 $d
+     /tmp/cckFybB2.s:673    .data.modem_callbacks:0000000000000000 $d
+     /tmp/cckFybB2.s:684    .data.session_config:0000000000000000 $d
+     /tmp/cckFybB2.s:727    .rodata.Murata_Initialize.str1.4:0000000000000000 $d
+     /tmp/cckFybB2.s:745    .rodata.Murata_LoRaWAN_Send.str1.4:0000000000000000 $d
+     /tmp/cckFybB2.s:750    .rodata.on_modem_command_completed_callback.str1.4:0000000000000000 $d
+     /tmp/cckFybB2.s:755    .rodata.on_modem_reboot_callback.str1.4:0000000000000000 $d
+     /tmp/cckFybB2.s:759    .rodata.on_modem_return_file_data_callback.str1.4:0000000000000000 $d
+     /tmp/cckFybB2.s:764    .rodata.on_modem_write_file_data_callback.str1.4:0000000000000000 $d
+
+UNDEFINED SYMBOLS
+printf
+puts
+modem_reinit
+platform_getHeader
+platform_initialize_UART
+modem_init
+modem_cb_init
+HAL_GPIO_WritePin
+HAL_Delay
+modem_send_unsolicited_response
+modem_process_fifo
+modem_interface_uart_rx_cb
+RTOS_Send_Notification

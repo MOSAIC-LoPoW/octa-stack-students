@@ -1,0 +1,5 @@
+# SCT3115 sources
+C_SOURCES += $(wildcard $(DRIVERS_DIR)/STC3115/src/*.c)
+
+# SCT3115 includes
+C_INCLUDES += -I$(DRIVERS_DIR)/STC3115/inc

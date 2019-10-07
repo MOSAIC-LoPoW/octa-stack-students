@@ -1,0 +1,5 @@
+# SHT31 sources
+C_SOURCES += $(wildcard $(DRIVERS_DIR)/SHT31/src/*.c)
+
+# SHT31 includes
+C_INCLUDES += -I$(DRIVERS_DIR)/SHT31/inc

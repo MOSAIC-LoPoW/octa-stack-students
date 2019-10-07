@@ -1,0 +1,2067 @@
+ARM GAS  /tmp/ccde91WQ.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 28, 1
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.file	"S25FL256.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.text.S25FL256_Initialize,"ax",%progbits
+  18              		.align	1
+  19              		.global	S25FL256_Initialize
+  20              		.syntax unified
+  21              		.thumb
+  22              		.thumb_func
+  23              		.fpu fpv4-sp-d16
+  25              	S25FL256_Initialize:
+  26              	.LFB126:
+  27              		.file 1 "../../core/drivers/S25FL256/src/S25FL256.c"
+   1:../../core/drivers/S25FL256/src/S25FL256.c **** /**
+   2:../../core/drivers/S25FL256/src/S25FL256.c ****  * \file        S25FL256.c
+   3:../../core/drivers/S25FL256/src/S25FL256.c ****  *
+   4:../../core/drivers/S25FL256/src/S25FL256.c ****  * \details     128 Mbit (16 Mbyte)/256 Mbit (32 Mbyte) 3.0V
+   5:../../core/drivers/S25FL256/src/S25FL256.c ****  *                 SPI Flash Memory
+   6:../../core/drivers/S25FL256/src/S25FL256.c ****  *
+   7:../../core/drivers/S25FL256/src/S25FL256.c ****  * \author      Mats De Meyer 
+   8:../../core/drivers/S25FL256/src/S25FL256.c ****  * \date        09-2018
+   9:../../core/drivers/S25FL256/src/S25FL256.c ****  */
+  10:../../core/drivers/S25FL256/src/S25FL256.c **** #include "S25FL256.h"
+  11:../../core/drivers/S25FL256/src/S25FL256.c **** 
+  12:../../core/drivers/S25FL256/src/S25FL256.c **** #include <stdio.h>
+  13:../../core/drivers/S25FL256/src/S25FL256.c **** #include <stdint.h>
+  14:../../core/drivers/S25FL256/src/S25FL256.c **** #include <assert.h>
+  15:../../core/drivers/S25FL256/src/S25FL256.c **** #include "string.h" // for memcpy.
+  16:../../core/drivers/S25FL256/src/S25FL256.c **** 
+  17:../../core/drivers/S25FL256/src/S25FL256.c **** #define SPI_WRDI_CMD 0x04 // Write disable
+  18:../../core/drivers/S25FL256/src/S25FL256.c **** #define SPI_RDSR_CMD 0x05 // Read Status Register
+  19:../../core/drivers/S25FL256/src/S25FL256.c **** #define SPI_WREN_CMD 0x06 // Write enable
+  20:../../core/drivers/S25FL256/src/S25FL256.c **** 
+  21:../../core/drivers/S25FL256/src/S25FL256.c **** #define SPI_PP_4B_CMD 0x12   //Page Program (4-byte address). Enables writing
+  22:../../core/drivers/S25FL256/src/S25FL256.c **** #define SPI_READ_4B_CMD 0x13 //Read (4-byte Address)
+  23:../../core/drivers/S25FL256/src/S25FL256.c **** 
+  24:../../core/drivers/S25FL256/src/S25FL256.c **** #define SPI_BE_CMD 0x60 //Bulk erase
+  25:../../core/drivers/S25FL256/src/S25FL256.c **** #define SPI_SE_CMD 0xDC //Bulk erase
+  26:../../core/drivers/S25FL256/src/S25FL256.c **** 
+  27:../../core/drivers/S25FL256/src/S25FL256.c **** #define WRITE_IN_PROGRESS_MASK 0x01 //Bit 0 of RDSR is "Write in Progress"
+  28:../../core/drivers/S25FL256/src/S25FL256.c **** 
+  29:../../core/drivers/S25FL256/src/S25FL256.c **** #define SPI_WAIT 50
+  30:../../core/drivers/S25FL256/src/S25FL256.c **** 
+  31:../../core/drivers/S25FL256/src/S25FL256.c **** //One because it's only used to read a register
+ARM GAS  /tmp/ccde91WQ.s 			page 2
+
+
+  32:../../core/drivers/S25FL256/src/S25FL256.c **** uint8_t rxData[1];
+  33:../../core/drivers/S25FL256/src/S25FL256.c **** //Five, because the max amount of bytes is 5, in send4BCommand
+  34:../../core/drivers/S25FL256/src/S25FL256.c **** uint8_t txData[5];
+  35:../../core/drivers/S25FL256/src/S25FL256.c **** 
+  36:../../core/drivers/S25FL256/src/S25FL256.c **** SPI_HandleTypeDef *flashSPI;
+  37:../../core/drivers/S25FL256/src/S25FL256.c **** 
+  38:../../core/drivers/S25FL256/src/S25FL256.c **** /**
+  39:../../core/drivers/S25FL256/src/S25FL256.c ****     * \brief   Initializes the S25FL256 driver.
+  40:../../core/drivers/S25FL256/src/S25FL256.c ****     * \returns 0 if init is successful
+  41:../../core/drivers/S25FL256/src/S25FL256.c ****     * \returns E_INIT_FAILED if SPI could not be configured.
+  42:../../core/drivers/S25FL256/src/S25FL256.c ****     */
+  43:../../core/drivers/S25FL256/src/S25FL256.c **** uint8_t S25FL256_Initialize(SPI_HandleTypeDef *hspi)
+  44:../../core/drivers/S25FL256/src/S25FL256.c **** {
+  28              		.loc 1 44 0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32              	.LVL0:
+  33 0000 70B5     		push	{r4, r5, r6, lr}
+  34              	.LCFI0:
+  35              		.cfi_def_cfa_offset 16
+  36              		.cfi_offset 4, -16
+  37              		.cfi_offset 5, -12
+  38              		.cfi_offset 6, -8
+  39              		.cfi_offset 14, -4
+  40 0002 0646     		mov	r6, r0
+  45:../../core/drivers/S25FL256/src/S25FL256.c **** 
+  46:../../core/drivers/S25FL256/src/S25FL256.c ****     mMemBlockIndex = 0;
+  41              		.loc 1 46 0
+  42 0004 0024     		movs	r4, #0
+  43 0006 134B     		ldr	r3, .L3
+  44 0008 1C80     		strh	r4, [r3]	@ movhi
+  47:../../core/drivers/S25FL256/src/S25FL256.c ****     memset(mMemBlock, 0, FLASH_BLOCK_SIZE);
+  45              		.loc 1 47 0
+  46 000a 4FF48072 		mov	r2, #256
+  47 000e 2146     		mov	r1, r4
+  48 0010 1148     		ldr	r0, .L3+4
+  49              	.LVL1:
+  50 0012 FFF7FEFF 		bl	memset
+  51              	.LVL2:
+  48:../../core/drivers/S25FL256/src/S25FL256.c ****     mCurrentReadAddress = FIRST_FLASH_ADDRESS;
+  52              		.loc 1 48 0
+  53 0016 4FF44013 		mov	r3, #3145728
+  54 001a 104A     		ldr	r2, .L3+8
+  55 001c 1360     		str	r3, [r2]
+  49:../../core/drivers/S25FL256/src/S25FL256.c ****     mCurrentWriteAddress = FIRST_FLASH_ADDRESS;
+  56              		.loc 1 49 0
+  57 001e 104A     		ldr	r2, .L3+12
+  58 0020 1360     		str	r3, [r2]
+  50:../../core/drivers/S25FL256/src/S25FL256.c ****     _initialised = 0;
+  59              		.loc 1 50 0
+  60 0022 104D     		ldr	r5, .L3+16
+  61 0024 2C70     		strb	r4, [r5]
+  51:../../core/drivers/S25FL256/src/S25FL256.c **** 
+  52:../../core/drivers/S25FL256/src/S25FL256.c ****     flashSPI = hspi;
+  62              		.loc 1 52 0
+  63 0026 104B     		ldr	r3, .L3+20
+ARM GAS  /tmp/ccde91WQ.s 			page 3
+
+
+  64 0028 1E60     		str	r6, [r3]
+  53:../../core/drivers/S25FL256/src/S25FL256.c ****     //set CS pin to High
+  54:../../core/drivers/S25FL256/src/S25FL256.c ****     HAL_GPIO_WritePin(GPIOF, GPIO_PIN_13, GPIO_PIN_SET);
+  65              		.loc 1 54 0
+  66 002a 0122     		movs	r2, #1
+  67 002c 4FF40051 		mov	r1, #8192
+  68 0030 0E48     		ldr	r0, .L3+24
+  69 0032 FFF7FEFF 		bl	HAL_GPIO_WritePin
+  70              	.LVL3:
+  55:../../core/drivers/S25FL256/src/S25FL256.c **** 
+  56:../../core/drivers/S25FL256/src/S25FL256.c ****     //disable HOLD & WP
+  57:../../core/drivers/S25FL256/src/S25FL256.c ****     //set WP pin high
+  58:../../core/drivers/S25FL256/src/S25FL256.c ****     HAL_GPIO_WritePin(GPIOE, GPIO_PIN_11, GPIO_PIN_SET);
+  71              		.loc 1 58 0
+  72 0036 0E4C     		ldr	r4, .L3+28
+  73 0038 0122     		movs	r2, #1
+  74 003a 4FF40061 		mov	r1, #2048
+  75 003e 2046     		mov	r0, r4
+  76 0040 FFF7FEFF 		bl	HAL_GPIO_WritePin
+  77              	.LVL4:
+  59:../../core/drivers/S25FL256/src/S25FL256.c ****     //set HOLD pin high
+  60:../../core/drivers/S25FL256/src/S25FL256.c ****     HAL_GPIO_WritePin(GPIOE, GPIO_PIN_0, GPIO_PIN_SET);
+  78              		.loc 1 60 0
+  79 0044 0122     		movs	r2, #1
+  80 0046 1146     		mov	r1, r2
+  81 0048 2046     		mov	r0, r4
+  82 004a FFF7FEFF 		bl	HAL_GPIO_WritePin
+  83              	.LVL5:
+  61:../../core/drivers/S25FL256/src/S25FL256.c ****     
+  62:../../core/drivers/S25FL256/src/S25FL256.c ****     _initialised = 1;
+  84              		.loc 1 62 0
+  85 004e 0120     		movs	r0, #1
+  86 0050 2870     		strb	r0, [r5]
+  63:../../core/drivers/S25FL256/src/S25FL256.c **** 
+  64:../../core/drivers/S25FL256/src/S25FL256.c ****     return _initialised;
+  65:../../core/drivers/S25FL256/src/S25FL256.c **** }
+  87              		.loc 1 65 0
+  88 0052 70BD     		pop	{r4, r5, r6, pc}
+  89              	.LVL6:
+  90              	.L4:
+  91              		.align	2
+  92              	.L3:
+  93 0054 00000000 		.word	mMemBlockIndex
+  94 0058 00000000 		.word	mMemBlock
+  95 005c 00000000 		.word	mCurrentReadAddress
+  96 0060 00000000 		.word	mCurrentWriteAddress
+  97 0064 00000000 		.word	_initialised
+  98 0068 00000000 		.word	flashSPI
+  99 006c 00140048 		.word	1207964672
+ 100 0070 00100048 		.word	1207963648
+ 101              		.cfi_endproc
+ 102              	.LFE126:
+ 104              		.section	.text.S25FL256_Enable,"ax",%progbits
+ 105              		.align	1
+ 106              		.global	S25FL256_Enable
+ 107              		.syntax unified
+ 108              		.thumb
+ARM GAS  /tmp/ccde91WQ.s 			page 4
+
+
+ 109              		.thumb_func
+ 110              		.fpu fpv4-sp-d16
+ 112              	S25FL256_Enable:
+ 113              	.LFB137:
+  66:../../core/drivers/S25FL256/src/S25FL256.c **** 
+  67:../../core/drivers/S25FL256/src/S25FL256.c **** /**
+  68:../../core/drivers/S25FL256/src/S25FL256.c ****     * \brief    Sets the read and write address to the start of this block. The max value is define
+  69:../../core/drivers/S25FL256/src/S25FL256.c ****     * \param    aBlockNr      The 256 byte block you want to start reading or writing from.
+  70:../../core/drivers/S25FL256/src/S25FL256.c ****     * \returns  0 if successful
+  71:../../core/drivers/S25FL256/src/S25FL256.c ****     * \returns  E_WRITE_IN_PROGRESS if the flash is performing a write action.
+  72:../../core/drivers/S25FL256/src/S25FL256.c ****     * \returns  E_INVALID_BLOCK_NR if aBlockNr is invalid.
+  73:../../core/drivers/S25FL256/src/S25FL256.c ****     */
+  74:../../core/drivers/S25FL256/src/S25FL256.c **** int S25FL256_open(const uint32_t aBlockNr)
+  75:../../core/drivers/S25FL256/src/S25FL256.c **** {
+  76:../../core/drivers/S25FL256/src/S25FL256.c ****     HAL_Delay(SPI_WAIT);
+  77:../../core/drivers/S25FL256/src/S25FL256.c **** 
+  78:../../core/drivers/S25FL256/src/S25FL256.c ****     if (S25FL256_isWriteInProgress())
+  79:../../core/drivers/S25FL256/src/S25FL256.c ****     {
+  80:../../core/drivers/S25FL256/src/S25FL256.c ****         return E_WRITE_IN_PROGRESS;
+  81:../../core/drivers/S25FL256/src/S25FL256.c ****     }
+  82:../../core/drivers/S25FL256/src/S25FL256.c **** 
+  83:../../core/drivers/S25FL256/src/S25FL256.c ****     if (aBlockNr > MAX_BLOCK_NUMBER)
+  84:../../core/drivers/S25FL256/src/S25FL256.c ****     {
+  85:../../core/drivers/S25FL256/src/S25FL256.c ****         return E_INVALID_BLOCK_NR;
+  86:../../core/drivers/S25FL256/src/S25FL256.c ****     }
+  87:../../core/drivers/S25FL256/src/S25FL256.c **** 
+  88:../../core/drivers/S25FL256/src/S25FL256.c ****     uint32_t newAddress = FIRST_FLASH_ADDRESS + aBlockNr * (FLASH_BLOCK_SIZE);
+  89:../../core/drivers/S25FL256/src/S25FL256.c ****     mCurrentReadAddress = newAddress;
+  90:../../core/drivers/S25FL256/src/S25FL256.c ****     mCurrentWriteAddress = newAddress;
+  91:../../core/drivers/S25FL256/src/S25FL256.c **** 
+  92:../../core/drivers/S25FL256/src/S25FL256.c ****     return 0;
+  93:../../core/drivers/S25FL256/src/S25FL256.c **** }
+  94:../../core/drivers/S25FL256/src/S25FL256.c **** 
+  95:../../core/drivers/S25FL256/src/S25FL256.c **** /**
+  96:../../core/drivers/S25FL256/src/S25FL256.c ****     * \brief    Reads the given number of bytes from flash.
+  97:../../core/drivers/S25FL256/src/S25FL256.c ****     * \param    apData     Pointer to the uint8_t array to fill.
+  98:../../core/drivers/S25FL256/src/S25FL256.c ****     * \param    aSize      The number of bytes to be read.
+  99:../../core/drivers/S25FL256/src/S25FL256.c ****     * \returns  the number of bytes read if successful
+ 100:../../core/drivers/S25FL256/src/S25FL256.c ****     * \returns  E_WRITE_IN_PROGRESS if the flash is performing a write action.
+ 101:../../core/drivers/S25FL256/src/S25FL256.c ****     * \returns  E_SPI_ERROR if something went wrong during SPI communication.
+ 102:../../core/drivers/S25FL256/src/S25FL256.c ****     */
+ 103:../../core/drivers/S25FL256/src/S25FL256.c **** int S25FL256_read(uint8_t *apData, const uint32_t aSize)
+ 104:../../core/drivers/S25FL256/src/S25FL256.c **** {
+ 105:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 106:../../core/drivers/S25FL256/src/S25FL256.c ****     HAL_Delay(SPI_WAIT);
+ 107:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 108:../../core/drivers/S25FL256/src/S25FL256.c ****     if (S25FL256_isWriteInProgress())
+ 109:../../core/drivers/S25FL256/src/S25FL256.c ****     {
+ 110:../../core/drivers/S25FL256/src/S25FL256.c ****         return E_WRITE_IN_PROGRESS;
+ 111:../../core/drivers/S25FL256/src/S25FL256.c ****     }
+ 112:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 113:../../core/drivers/S25FL256/src/S25FL256.c ****     //Starting the read.
+ 114:../../core/drivers/S25FL256/src/S25FL256.c ****     if (S25FL256_send4BCommand(SPI_READ_4B_CMD, mCurrentReadAddress) == E_SPI_ERROR)
+ 115:../../core/drivers/S25FL256/src/S25FL256.c ****     {
+ 116:../../core/drivers/S25FL256/src/S25FL256.c ****         return E_SPI_ERROR;
+ 117:../../core/drivers/S25FL256/src/S25FL256.c ****     }
+ 118:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ARM GAS  /tmp/ccde91WQ.s 			page 5
+
+
+ 119:../../core/drivers/S25FL256/src/S25FL256.c ****     HAL_SPI_Receive(flashSPI, apData, (uint16_t)aSize, HAL_MAX_DELAY);
+ 120:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 121:../../core/drivers/S25FL256/src/S25FL256.c ****     //__HAL_SPI_DISABLE(flashSPI);
+ 122:../../core/drivers/S25FL256/src/S25FL256.c ****     S25FL256_Disable();
+ 123:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 124:../../core/drivers/S25FL256/src/S25FL256.c ****     return aSize;
+ 125:../../core/drivers/S25FL256/src/S25FL256.c **** }
+ 126:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 127:../../core/drivers/S25FL256/src/S25FL256.c **** /**
+ 128:../../core/drivers/S25FL256/src/S25FL256.c ****     * \brief    Buffers the given array. Once 256 bytes are cached, the data is flushed to flash.
+ 129:../../core/drivers/S25FL256/src/S25FL256.c ****     * \param    apData     Pointer to the uint8_t array with data to write.
+ 130:../../core/drivers/S25FL256/src/S25FL256.c ****     * \param    aSize      The number of bytes to be written.
+ 131:../../core/drivers/S25FL256/src/S25FL256.c ****     * \returns  The number of written bytes.
+ 132:../../core/drivers/S25FL256/src/S25FL256.c ****     * \returns  E_WRITE_IN_PROGRESS if the flash is performing a write action.
+ 133:../../core/drivers/S25FL256/src/S25FL256.c ****     * \returns  E_SPI_ERROR if something went wrong during SPI communication.
+ 134:../../core/drivers/S25FL256/src/S25FL256.c ****     * \returns  E_LAST_BLOCK_WRITTEN if the last block was written and no more data can be buffered
+ 135:../../core/drivers/S25FL256/src/S25FL256.c ****     */
+ 136:../../core/drivers/S25FL256/src/S25FL256.c **** int S25FL256_write(const uint8_t *apData, const uint32_t aSize)
+ 137:../../core/drivers/S25FL256/src/S25FL256.c **** {
+ 138:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 139:../../core/drivers/S25FL256/src/S25FL256.c ****     HAL_Delay(SPI_WAIT);
+ 140:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 141:../../core/drivers/S25FL256/src/S25FL256.c ****     if (S25FL256_isWriteInProgress())
+ 142:../../core/drivers/S25FL256/src/S25FL256.c ****     {
+ 143:../../core/drivers/S25FL256/src/S25FL256.c ****         return E_WRITE_IN_PROGRESS;
+ 144:../../core/drivers/S25FL256/src/S25FL256.c ****     }
+ 145:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 146:../../core/drivers/S25FL256/src/S25FL256.c ****     if (mCurrentWriteAddress > LAST_FLASH_ADDRESS)
+ 147:../../core/drivers/S25FL256/src/S25FL256.c ****     {
+ 148:../../core/drivers/S25FL256/src/S25FL256.c ****         return E_LAST_BLOCK_WRITTEN;
+ 149:../../core/drivers/S25FL256/src/S25FL256.c ****     }
+ 150:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 151:../../core/drivers/S25FL256/src/S25FL256.c ****     uint32_t bytesLeftToWrite = aSize;
+ 152:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 153:../../core/drivers/S25FL256/src/S25FL256.c ****     while (mMemBlockIndex + bytesLeftToWrite >= FLASH_BLOCK_SIZE)
+ 154:../../core/drivers/S25FL256/src/S25FL256.c ****     {
+ 155:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 156:../../core/drivers/S25FL256/src/S25FL256.c ****         //The number of bytes we will add to mMemBlock in this loop
+ 157:../../core/drivers/S25FL256/src/S25FL256.c ****         uint32_t bytesToWrite = FLASH_BLOCK_SIZE - mMemBlockIndex;
+ 158:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 159:../../core/drivers/S25FL256/src/S25FL256.c ****         //Filling the remainder of the buffer
+ 160:../../core/drivers/S25FL256/src/S25FL256.c ****         memcpy(&mMemBlock[mMemBlockIndex], apData, FLASH_BLOCK_SIZE);
+ 161:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 162:../../core/drivers/S25FL256/src/S25FL256.c ****         int flushedBytes = S25FL256_flush();
+ 163:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 164:../../core/drivers/S25FL256/src/S25FL256.c ****         //And writing the block of FLASH_BLOCK_SIZE bytes. This also clears mMemBlock and mMemBlock
+ 165:../../core/drivers/S25FL256/src/S25FL256.c ****         if (flushedBytes < 0)
+ 166:../../core/drivers/S25FL256/src/S25FL256.c ****         {
+ 167:../../core/drivers/S25FL256/src/S25FL256.c ****             //Flush failed
+ 168:../../core/drivers/S25FL256/src/S25FL256.c ****             return flushedBytes;
+ 169:../../core/drivers/S25FL256/src/S25FL256.c ****         }
+ 170:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 171:../../core/drivers/S25FL256/src/S25FL256.c ****         //Moving the pointer
+ 172:../../core/drivers/S25FL256/src/S25FL256.c ****         apData += bytesToWrite;
+ 173:../../core/drivers/S25FL256/src/S25FL256.c ****         bytesLeftToWrite -= bytesToWrite;
+ 174:../../core/drivers/S25FL256/src/S25FL256.c ****     }
+ 175:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ARM GAS  /tmp/ccde91WQ.s 			page 6
+
+
+ 176:../../core/drivers/S25FL256/src/S25FL256.c ****     if (mCurrentWriteAddress > LAST_FLASH_ADDRESS)
+ 177:../../core/drivers/S25FL256/src/S25FL256.c ****     {
+ 178:../../core/drivers/S25FL256/src/S25FL256.c ****         //Flash is full, no more buffering.
+ 179:../../core/drivers/S25FL256/src/S25FL256.c ****         return E_LAST_BLOCK_WRITTEN;
+ 180:../../core/drivers/S25FL256/src/S25FL256.c ****     }
+ 181:../../core/drivers/S25FL256/src/S25FL256.c ****     else if (bytesLeftToWrite > 0)
+ 182:../../core/drivers/S25FL256/src/S25FL256.c ****     {
+ 183:../../core/drivers/S25FL256/src/S25FL256.c ****         //We still have some bytes left to cache.
+ 184:../../core/drivers/S25FL256/src/S25FL256.c ****         memcpy(&mMemBlock[mMemBlockIndex], apData, bytesLeftToWrite);
+ 185:../../core/drivers/S25FL256/src/S25FL256.c ****         bytesLeftToWrite = 0;
+ 186:../../core/drivers/S25FL256/src/S25FL256.c ****     }
+ 187:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 188:../../core/drivers/S25FL256/src/S25FL256.c ****     return aSize - bytesLeftToWrite;
+ 189:../../core/drivers/S25FL256/src/S25FL256.c **** }
+ 190:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 191:../../core/drivers/S25FL256/src/S25FL256.c **** /**
+ 192:../../core/drivers/S25FL256/src/S25FL256.c ****     * \brief    Returns the state of the write in process status bit.
+ 193:../../core/drivers/S25FL256/src/S25FL256.c ****     * \returns  true is the flash is performing a write action.
+ 194:../../core/drivers/S25FL256/src/S25FL256.c ****     */
+ 195:../../core/drivers/S25FL256/src/S25FL256.c **** uint8_t S25FL256_isWriteInProgress(void)
+ 196:../../core/drivers/S25FL256/src/S25FL256.c **** {
+ 197:../../core/drivers/S25FL256/src/S25FL256.c ****     HAL_Delay(SPI_WAIT);
+ 198:../../core/drivers/S25FL256/src/S25FL256.c ****     uint8_t status;
+ 199:../../core/drivers/S25FL256/src/S25FL256.c ****     if (S25FL256_readReg(SPI_RDSR_CMD, status) == 0)
+ 200:../../core/drivers/S25FL256/src/S25FL256.c ****     {
+ 201:../../core/drivers/S25FL256/src/S25FL256.c ****         return (uint8_t)(status & WRITE_IN_PROGRESS_MASK);
+ 202:../../core/drivers/S25FL256/src/S25FL256.c ****     }
+ 203:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 204:../../core/drivers/S25FL256/src/S25FL256.c ****     return 0;
+ 205:../../core/drivers/S25FL256/src/S25FL256.c **** }
+ 206:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 207:../../core/drivers/S25FL256/src/S25FL256.c **** /**
+ 208:../../core/drivers/S25FL256/src/S25FL256.c ****     * \brief    Erases the entire flash.
+ 209:../../core/drivers/S25FL256/src/S25FL256.c ****                 This method is a write action. Poll with isWriteInProgress()
+ 210:../../core/drivers/S25FL256/src/S25FL256.c ****     * \returns  0 if successful
+ 211:../../core/drivers/S25FL256/src/S25FL256.c ****     * \returns  E_WRITE_IN_PROGRESS if the flash is performing a write action.
+ 212:../../core/drivers/S25FL256/src/S25FL256.c ****     * \returns  E_SPI_ERROR if something went wrong during SPI communication.
+ 213:../../core/drivers/S25FL256/src/S25FL256.c ****     */
+ 214:../../core/drivers/S25FL256/src/S25FL256.c **** int S25FL256_eraseFullFlash(void)
+ 215:../../core/drivers/S25FL256/src/S25FL256.c **** {
+ 216:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 217:../../core/drivers/S25FL256/src/S25FL256.c ****     HAL_Delay(SPI_WAIT);
+ 218:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 219:../../core/drivers/S25FL256/src/S25FL256.c ****     if (S25FL256_isWriteInProgress())
+ 220:../../core/drivers/S25FL256/src/S25FL256.c ****     {
+ 221:../../core/drivers/S25FL256/src/S25FL256.c ****         return E_WRITE_IN_PROGRESS;        
+ 222:../../core/drivers/S25FL256/src/S25FL256.c ****     }
+ 223:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 224:../../core/drivers/S25FL256/src/S25FL256.c ****     //Setting write enable
+ 225:../../core/drivers/S25FL256/src/S25FL256.c ****     if (S25FL256_sendCommand(SPI_WREN_CMD) == E_SPI_ERROR)
+ 226:../../core/drivers/S25FL256/src/S25FL256.c ****     {
+ 227:../../core/drivers/S25FL256/src/S25FL256.c ****         return E_SPI_ERROR;
+ 228:../../core/drivers/S25FL256/src/S25FL256.c ****     }
+ 229:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 230:../../core/drivers/S25FL256/src/S25FL256.c ****     //The actual bulk erase
+ 231:../../core/drivers/S25FL256/src/S25FL256.c ****     if (S25FL256_sendCommand(SPI_BE_CMD) == E_SPI_ERROR)
+ 232:../../core/drivers/S25FL256/src/S25FL256.c ****     {
+ARM GAS  /tmp/ccde91WQ.s 			page 7
+
+
+ 233:../../core/drivers/S25FL256/src/S25FL256.c ****         return E_SPI_ERROR;
+ 234:../../core/drivers/S25FL256/src/S25FL256.c ****     }
+ 235:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 236:../../core/drivers/S25FL256/src/S25FL256.c ****     //And disabling write again.
+ 237:../../core/drivers/S25FL256/src/S25FL256.c ****     if (S25FL256_sendCommand(SPI_WRDI_CMD) == E_SPI_ERROR)
+ 238:../../core/drivers/S25FL256/src/S25FL256.c ****     {
+ 239:../../core/drivers/S25FL256/src/S25FL256.c ****         return E_SPI_ERROR;
+ 240:../../core/drivers/S25FL256/src/S25FL256.c ****     }
+ 241:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 242:../../core/drivers/S25FL256/src/S25FL256.c ****     return 0;
+ 243:../../core/drivers/S25FL256/src/S25FL256.c **** }
+ 244:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 245:../../core/drivers/S25FL256/src/S25FL256.c **** /**
+ 246:../../core/drivers/S25FL256/src/S25FL256.c ****     * \brief    Erases 256kb of data, starting from the given block.
+ 247:../../core/drivers/S25FL256/src/S25FL256.c ****                 This method is a write action. Poll with isWriteInProgress()
+ 248:../../core/drivers/S25FL256/src/S25FL256.c ****     * \param    aBlockNr   The block you want to start erasing from.
+ 249:../../core/drivers/S25FL256/src/S25FL256.c ****     * \returns  0 if successful
+ 250:../../core/drivers/S25FL256/src/S25FL256.c ****     * \returns  E_WRITE_IN_PROGRESS if the flash is performing a write action.
+ 251:../../core/drivers/S25FL256/src/S25FL256.c ****     * \returns  E_INVALID_BLOCK_NR if aBlockNr is invalid.
+ 252:../../core/drivers/S25FL256/src/S25FL256.c ****     * \returns  E_SPI_ERROR if something went wrong during SPI communication.
+ 253:../../core/drivers/S25FL256/src/S25FL256.c ****     */
+ 254:../../core/drivers/S25FL256/src/S25FL256.c **** int S25FL256_eraseSectorFromBlock(const uint32_t aBlockNr)
+ 255:../../core/drivers/S25FL256/src/S25FL256.c **** {
+ 256:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 257:../../core/drivers/S25FL256/src/S25FL256.c ****     HAL_Delay(SPI_WAIT);
+ 258:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 259:../../core/drivers/S25FL256/src/S25FL256.c ****     if (S25FL256_isWriteInProgress())
+ 260:../../core/drivers/S25FL256/src/S25FL256.c ****     {
+ 261:../../core/drivers/S25FL256/src/S25FL256.c ****         return E_WRITE_IN_PROGRESS;
+ 262:../../core/drivers/S25FL256/src/S25FL256.c ****     }
+ 263:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 264:../../core/drivers/S25FL256/src/S25FL256.c ****     if (aBlockNr > MAX_BLOCK_NUMBER)
+ 265:../../core/drivers/S25FL256/src/S25FL256.c ****     {
+ 266:../../core/drivers/S25FL256/src/S25FL256.c ****         return E_INVALID_BLOCK_NR;
+ 267:../../core/drivers/S25FL256/src/S25FL256.c ****     }
+ 268:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 269:../../core/drivers/S25FL256/src/S25FL256.c ****     //Setting write enable
+ 270:../../core/drivers/S25FL256/src/S25FL256.c ****     if (S25FL256_sendCommand(SPI_WREN_CMD) == E_SPI_ERROR)
+ 271:../../core/drivers/S25FL256/src/S25FL256.c ****     {
+ 272:../../core/drivers/S25FL256/src/S25FL256.c ****         return E_SPI_ERROR;
+ 273:../../core/drivers/S25FL256/src/S25FL256.c ****     }
+ 274:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 275:../../core/drivers/S25FL256/src/S25FL256.c ****     //The actual sector erase
+ 276:../../core/drivers/S25FL256/src/S25FL256.c ****     if (S25FL256_send4BCommand(SPI_SE_CMD, (FIRST_FLASH_ADDRESS + aBlockNr * (FLASH_BLOCK_SIZE))) =
+ 277:../../core/drivers/S25FL256/src/S25FL256.c ****     {
+ 278:../../core/drivers/S25FL256/src/S25FL256.c ****         return E_SPI_ERROR;
+ 279:../../core/drivers/S25FL256/src/S25FL256.c ****     }
+ 280:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 281:../../core/drivers/S25FL256/src/S25FL256.c ****     __HAL_SPI_DISABLE(flashSPI);
+ 282:../../core/drivers/S25FL256/src/S25FL256.c ****     S25FL256_Disable();
+ 283:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 284:../../core/drivers/S25FL256/src/S25FL256.c ****     //Disabling write.
+ 285:../../core/drivers/S25FL256/src/S25FL256.c ****     if (S25FL256_sendCommand(SPI_WRDI_CMD) == E_SPI_ERROR)
+ 286:../../core/drivers/S25FL256/src/S25FL256.c ****     {
+ 287:../../core/drivers/S25FL256/src/S25FL256.c ****         return E_SPI_ERROR;
+ 288:../../core/drivers/S25FL256/src/S25FL256.c ****     }
+ 289:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ARM GAS  /tmp/ccde91WQ.s 			page 8
+
+
+ 290:../../core/drivers/S25FL256/src/S25FL256.c ****     return 0;
+ 291:../../core/drivers/S25FL256/src/S25FL256.c **** }
+ 292:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 293:../../core/drivers/S25FL256/src/S25FL256.c **** /************************************************************************/
+ 294:../../core/drivers/S25FL256/src/S25FL256.c **** /* Private Methods                                                       */
+ 295:../../core/drivers/S25FL256/src/S25FL256.c **** /************************************************************************/
+ 296:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 297:../../core/drivers/S25FL256/src/S25FL256.c **** /**
+ 298:../../core/drivers/S25FL256/src/S25FL256.c ****     * \brief    Reads the value of a register.
+ 299:../../core/drivers/S25FL256/src/S25FL256.c ****     * \param    aReg      The register ytou want to read
+ 300:../../core/drivers/S25FL256/src/S25FL256.c ****     * \param    aData     Pointer to the data location.
+ 301:../../core/drivers/S25FL256/src/S25FL256.c ****     * \returns  0 if successful
+ 302:../../core/drivers/S25FL256/src/S25FL256.c ****     * \returns E_SPI_ERROR if something went wrong during SPI communication.
+ 303:../../core/drivers/S25FL256/src/S25FL256.c ****     */
+ 304:../../core/drivers/S25FL256/src/S25FL256.c **** int S25FL256_readReg(uint8_t aReg, uint8_t aData)
+ 305:../../core/drivers/S25FL256/src/S25FL256.c **** {
+ 306:../../core/drivers/S25FL256/src/S25FL256.c ****     txData[0] = aReg;
+ 307:../../core/drivers/S25FL256/src/S25FL256.c ****     aData = 0x00;
+ 308:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 309:../../core/drivers/S25FL256/src/S25FL256.c ****     __HAL_SPI_ENABLE(flashSPI);
+ 310:../../core/drivers/S25FL256/src/S25FL256.c ****     S25FL256_Enable();
+ 311:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 312:../../core/drivers/S25FL256/src/S25FL256.c ****     HAL_SPI_Transmit(flashSPI, (const uint8_t *)txData, 1, HAL_MAX_DELAY);
+ 313:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 314:../../core/drivers/S25FL256/src/S25FL256.c ****     HAL_SPI_Receive(flashSPI, (const uint8_t *)rxData, 1, HAL_MAX_DELAY);
+ 315:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 316:../../core/drivers/S25FL256/src/S25FL256.c ****     __HAL_SPI_DISABLE(flashSPI);
+ 317:../../core/drivers/S25FL256/src/S25FL256.c ****     S25FL256_Disable();
+ 318:../../core/drivers/S25FL256/src/S25FL256.c ****     aData = rxData[0];
+ 319:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 320:../../core/drivers/S25FL256/src/S25FL256.c ****     return 0;
+ 321:../../core/drivers/S25FL256/src/S25FL256.c **** }
+ 322:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 323:../../core/drivers/S25FL256/src/S25FL256.c **** /**
+ 324:../../core/drivers/S25FL256/src/S25FL256.c ****     * \brief   Flushes the internal buffer and writes it to flash.
+ 325:../../core/drivers/S25FL256/src/S25FL256.c ****        This method should only be called when mMemBlock is full.
+ 326:../../core/drivers/S25FL256/src/S25FL256.c ****     * \returns 0 if successful
+ 327:../../core/drivers/S25FL256/src/S25FL256.c ****     * \returns  E_WRITE_IN_PROGRESS if the flash is performing a write action.
+ 328:../../core/drivers/S25FL256/src/S25FL256.c ****     * \returns  E_SPI_ERROR if something went wrong during SPI communication.
+ 329:../../core/drivers/S25FL256/src/S25FL256.c ****     */
+ 330:../../core/drivers/S25FL256/src/S25FL256.c **** int S25FL256_flush(void)
+ 331:../../core/drivers/S25FL256/src/S25FL256.c **** {
+ 332:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 333:../../core/drivers/S25FL256/src/S25FL256.c ****     if (S25FL256_isWriteInProgress())
+ 334:../../core/drivers/S25FL256/src/S25FL256.c ****     {
+ 335:../../core/drivers/S25FL256/src/S25FL256.c ****         return E_WRITE_IN_PROGRESS;
+ 336:../../core/drivers/S25FL256/src/S25FL256.c ****     }
+ 337:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 338:../../core/drivers/S25FL256/src/S25FL256.c ****     //Setting write enable
+ 339:../../core/drivers/S25FL256/src/S25FL256.c ****     if (S25FL256_sendCommand(SPI_WREN_CMD) == E_SPI_ERROR)
+ 340:../../core/drivers/S25FL256/src/S25FL256.c ****     {
+ 341:../../core/drivers/S25FL256/src/S25FL256.c ****         return E_SPI_ERROR;
+ 342:../../core/drivers/S25FL256/src/S25FL256.c ****     }
+ 343:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 344:../../core/drivers/S25FL256/src/S25FL256.c ****     // write command and address adress
+ 345:../../core/drivers/S25FL256/src/S25FL256.c ****     if (S25FL256_send4BCommand(SPI_PP_4B_CMD, mCurrentWriteAddress) == E_SPI_ERROR)
+ 346:../../core/drivers/S25FL256/src/S25FL256.c ****     {
+ARM GAS  /tmp/ccde91WQ.s 			page 9
+
+
+ 347:../../core/drivers/S25FL256/src/S25FL256.c ****         return E_SPI_ERROR;
+ 348:../../core/drivers/S25FL256/src/S25FL256.c ****     }
+ 349:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 350:../../core/drivers/S25FL256/src/S25FL256.c ****     HAL_SPI_Transmit(flashSPI, (const uint8_t *)mMemBlock, FLASH_BLOCK_SIZE, HAL_MAX_DELAY);
+ 351:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 352:../../core/drivers/S25FL256/src/S25FL256.c ****     //__HAL_SPI_DISABLE(flashSPI);
+ 353:../../core/drivers/S25FL256/src/S25FL256.c ****     S25FL256_Disable();
+ 354:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 355:../../core/drivers/S25FL256/src/S25FL256.c ****     //Setting write disable
+ 356:../../core/drivers/S25FL256/src/S25FL256.c ****     if (S25FL256_sendCommand(SPI_WRDI_CMD) == E_SPI_ERROR)
+ 357:../../core/drivers/S25FL256/src/S25FL256.c ****     {
+ 358:../../core/drivers/S25FL256/src/S25FL256.c ****         return E_SPI_ERROR;
+ 359:../../core/drivers/S25FL256/src/S25FL256.c ****     }
+ 360:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 361:../../core/drivers/S25FL256/src/S25FL256.c ****     //It's possible that we pass LAST_FLASH_ADDRESS here, but the write method checks for that.
+ 362:../../core/drivers/S25FL256/src/S25FL256.c ****     mCurrentWriteAddress += FLASH_BLOCK_SIZE;
+ 363:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 364:../../core/drivers/S25FL256/src/S25FL256.c ****     // Clearing mMemBlock and mMemBlockIndex
+ 365:../../core/drivers/S25FL256/src/S25FL256.c ****     memset(mMemBlock, 0, FLASH_BLOCK_SIZE);
+ 366:../../core/drivers/S25FL256/src/S25FL256.c ****     mMemBlockIndex = 0;
+ 367:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 368:../../core/drivers/S25FL256/src/S25FL256.c ****     return 0;
+ 369:../../core/drivers/S25FL256/src/S25FL256.c **** }
+ 370:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 371:../../core/drivers/S25FL256/src/S25FL256.c **** /**
+ 372:../../core/drivers/S25FL256/src/S25FL256.c ****     * \brief    Sends a single command to the flash
+ 373:../../core/drivers/S25FL256/src/S25FL256.c ****     * \param    command The command to be sent.
+ 374:../../core/drivers/S25FL256/src/S25FL256.c ****     * \returns  0 if successful
+ 375:../../core/drivers/S25FL256/src/S25FL256.c ****     * \returns  E_WRITE_IN_PROGRESS if the flash is performing a write action.
+ 376:../../core/drivers/S25FL256/src/S25FL256.c ****     * \returns  E_SPI_ERROR if something went wrong during SPI communication.
+ 377:../../core/drivers/S25FL256/src/S25FL256.c ****     */
+ 378:../../core/drivers/S25FL256/src/S25FL256.c **** int S25FL256_sendCommand(const uint8_t command)
+ 379:../../core/drivers/S25FL256/src/S25FL256.c **** {
+ 380:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 381:../../core/drivers/S25FL256/src/S25FL256.c ****     if (S25FL256_isWriteInProgress())
+ 382:../../core/drivers/S25FL256/src/S25FL256.c ****     {
+ 383:../../core/drivers/S25FL256/src/S25FL256.c ****         return E_WRITE_IN_PROGRESS;
+ 384:../../core/drivers/S25FL256/src/S25FL256.c ****     }
+ 385:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 386:../../core/drivers/S25FL256/src/S25FL256.c ****     txData[0] = command;
+ 387:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 388:../../core/drivers/S25FL256/src/S25FL256.c ****     __HAL_SPI_ENABLE(flashSPI);
+ 389:../../core/drivers/S25FL256/src/S25FL256.c ****     S25FL256_Enable();
+ 390:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 391:../../core/drivers/S25FL256/src/S25FL256.c ****     HAL_SPI_Transmit(flashSPI, (const uint8_t *)txData, 1, HAL_MAX_DELAY);
+ 392:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 393:../../core/drivers/S25FL256/src/S25FL256.c ****     __HAL_SPI_DISABLE(flashSPI);
+ 394:../../core/drivers/S25FL256/src/S25FL256.c ****     S25FL256_Disable();
+ 395:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 396:../../core/drivers/S25FL256/src/S25FL256.c ****     return 0;
+ 397:../../core/drivers/S25FL256/src/S25FL256.c **** }
+ 398:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 399:../../core/drivers/S25FL256/src/S25FL256.c **** /**
+ 400:../../core/drivers/S25FL256/src/S25FL256.c ****     * \brief    Sends a 4 byte address command
+ 401:../../core/drivers/S25FL256/src/S25FL256.c ****     * \param    command   The command to be sent.
+ 402:../../core/drivers/S25FL256/src/S25FL256.c ****     * \param    aBlockNr  The 4 byte address
+ 403:../../core/drivers/S25FL256/src/S25FL256.c ****     * \returns  0 if successful
+ARM GAS  /tmp/ccde91WQ.s 			page 10
+
+
+ 404:../../core/drivers/S25FL256/src/S25FL256.c ****     * \returns  E_WRITE_IN_PROGRESS if the flash is performing a write action.
+ 405:../../core/drivers/S25FL256/src/S25FL256.c ****     * \returns  E_SPI_ERROR if something went wrong during SPI communication.
+ 406:../../core/drivers/S25FL256/src/S25FL256.c ****     */
+ 407:../../core/drivers/S25FL256/src/S25FL256.c **** int S25FL256_send4BCommand(const uint8_t command, const uint32_t address)
+ 408:../../core/drivers/S25FL256/src/S25FL256.c **** {
+ 409:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 410:../../core/drivers/S25FL256/src/S25FL256.c ****     if (S25FL256_isWriteInProgress())
+ 411:../../core/drivers/S25FL256/src/S25FL256.c ****     {
+ 412:../../core/drivers/S25FL256/src/S25FL256.c ****         return E_WRITE_IN_PROGRESS;
+ 413:../../core/drivers/S25FL256/src/S25FL256.c ****     }
+ 414:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 415:../../core/drivers/S25FL256/src/S25FL256.c ****     uint8_t index = 0;
+ 416:../../core/drivers/S25FL256/src/S25FL256.c ****     txData[index++] = command;
+ 417:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 418:../../core/drivers/S25FL256/src/S25FL256.c ****     //Writing 4 byte address.
+ 419:../../core/drivers/S25FL256/src/S25FL256.c ****     txData[index++] = (uint8_t)((address >> 24) & 0x000000FF);
+ 420:../../core/drivers/S25FL256/src/S25FL256.c ****     txData[index++] = (uint8_t)((address >> 16) & 0x000000FF);
+ 421:../../core/drivers/S25FL256/src/S25FL256.c ****     txData[index++] = (uint8_t)((address >> 8) & 0x000000FF);
+ 422:../../core/drivers/S25FL256/src/S25FL256.c ****     txData[index++] = (uint8_t)(address & 0x000000FF);
+ 423:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 424:../../core/drivers/S25FL256/src/S25FL256.c ****     //We have to enable SPI here, because isWriteInProgress disables it.
+ 425:../../core/drivers/S25FL256/src/S25FL256.c ****     //We don't disable it here, because CS has to stay high after this command.
+ 426:../../core/drivers/S25FL256/src/S25FL256.c ****     __HAL_SPI_ENABLE(flashSPI);
+ 427:../../core/drivers/S25FL256/src/S25FL256.c ****     S25FL256_Enable();
+ 428:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 429:../../core/drivers/S25FL256/src/S25FL256.c ****     //send the command over SPI
+ 430:../../core/drivers/S25FL256/src/S25FL256.c ****     HAL_SPI_Transmit(flashSPI, (const uint8_t *)txData, index, HAL_MAX_DELAY);
+ 431:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 432:../../core/drivers/S25FL256/src/S25FL256.c ****     return 0;
+ 433:../../core/drivers/S25FL256/src/S25FL256.c **** }
+ 434:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 435:../../core/drivers/S25FL256/src/S25FL256.c **** /* Manually toggle enable pin, due to it not being a default SPI pin */
+ 436:../../core/drivers/S25FL256/src/S25FL256.c **** void S25FL256_Enable()
+ 437:../../core/drivers/S25FL256/src/S25FL256.c **** {
+ 114              		.loc 1 437 0
+ 115              		.cfi_startproc
+ 116              		@ args = 0, pretend = 0, frame = 0
+ 117              		@ frame_needed = 0, uses_anonymous_args = 0
+ 118 0000 08B5     		push	{r3, lr}
+ 119              	.LCFI1:
+ 120              		.cfi_def_cfa_offset 8
+ 121              		.cfi_offset 3, -8
+ 122              		.cfi_offset 14, -4
+ 438:../../core/drivers/S25FL256/src/S25FL256.c ****     //set CS pin to low
+ 439:../../core/drivers/S25FL256/src/S25FL256.c ****     HAL_GPIO_WritePin(GPIOF, GPIO_PIN_13, GPIO_PIN_RESET);
+ 123              		.loc 1 439 0
+ 124 0002 0022     		movs	r2, #0
+ 125 0004 4FF40051 		mov	r1, #8192
+ 126 0008 0148     		ldr	r0, .L7
+ 127 000a FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 128              	.LVL7:
+ 440:../../core/drivers/S25FL256/src/S25FL256.c **** }
+ 129              		.loc 1 440 0
+ 130 000e 08BD     		pop	{r3, pc}
+ 131              	.L8:
+ 132              		.align	2
+ 133              	.L7:
+ARM GAS  /tmp/ccde91WQ.s 			page 11
+
+
+ 134 0010 00140048 		.word	1207964672
+ 135              		.cfi_endproc
+ 136              	.LFE137:
+ 138              		.section	.text.S25FL256_Disable,"ax",%progbits
+ 139              		.align	1
+ 140              		.global	S25FL256_Disable
+ 141              		.syntax unified
+ 142              		.thumb
+ 143              		.thumb_func
+ 144              		.fpu fpv4-sp-d16
+ 146              	S25FL256_Disable:
+ 147              	.LFB138:
+ 441:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 442:../../core/drivers/S25FL256/src/S25FL256.c **** /* Manually toggle enable pin, due to it not being a default SPI pin */
+ 443:../../core/drivers/S25FL256/src/S25FL256.c **** void S25FL256_Disable()
+ 444:../../core/drivers/S25FL256/src/S25FL256.c **** {
+ 148              		.loc 1 444 0
+ 149              		.cfi_startproc
+ 150              		@ args = 0, pretend = 0, frame = 0
+ 151              		@ frame_needed = 0, uses_anonymous_args = 0
+ 152 0000 08B5     		push	{r3, lr}
+ 153              	.LCFI2:
+ 154              		.cfi_def_cfa_offset 8
+ 155              		.cfi_offset 3, -8
+ 156              		.cfi_offset 14, -4
+ 445:../../core/drivers/S25FL256/src/S25FL256.c ****     //set CS pin to high
+ 446:../../core/drivers/S25FL256/src/S25FL256.c ****     HAL_GPIO_WritePin(GPIOF, GPIO_PIN_13, GPIO_PIN_SET);
+ 157              		.loc 1 446 0
+ 158 0002 0122     		movs	r2, #1
+ 159 0004 4FF40051 		mov	r1, #8192
+ 160 0008 0148     		ldr	r0, .L11
+ 161 000a FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 162              	.LVL8:
+ 447:../../core/drivers/S25FL256/src/S25FL256.c **** }
+ 163              		.loc 1 447 0
+ 164 000e 08BD     		pop	{r3, pc}
+ 165              	.L12:
+ 166              		.align	2
+ 167              	.L11:
+ 168 0010 00140048 		.word	1207964672
+ 169              		.cfi_endproc
+ 170              	.LFE138:
+ 172              		.section	.text.S25FL256_readReg,"ax",%progbits
+ 173              		.align	1
+ 174              		.global	S25FL256_readReg
+ 175              		.syntax unified
+ 176              		.thumb
+ 177              		.thumb_func
+ 178              		.fpu fpv4-sp-d16
+ 180              	S25FL256_readReg:
+ 181              	.LFB133:
+ 305:../../core/drivers/S25FL256/src/S25FL256.c ****     txData[0] = aReg;
+ 182              		.loc 1 305 0
+ 183              		.cfi_startproc
+ 184              		@ args = 0, pretend = 0, frame = 0
+ 185              		@ frame_needed = 0, uses_anonymous_args = 0
+ 186              	.LVL9:
+ARM GAS  /tmp/ccde91WQ.s 			page 12
+
+
+ 187 0000 38B5     		push	{r3, r4, r5, lr}
+ 188              	.LCFI3:
+ 189              		.cfi_def_cfa_offset 16
+ 190              		.cfi_offset 3, -16
+ 191              		.cfi_offset 4, -12
+ 192              		.cfi_offset 5, -8
+ 193              		.cfi_offset 14, -4
+ 306:../../core/drivers/S25FL256/src/S25FL256.c ****     aData = 0x00;
+ 194              		.loc 1 306 0
+ 195 0002 114D     		ldr	r5, .L15
+ 196 0004 2870     		strb	r0, [r5]
+ 197              	.LVL10:
+ 309:../../core/drivers/S25FL256/src/S25FL256.c ****     S25FL256_Enable();
+ 198              		.loc 1 309 0
+ 199 0006 114C     		ldr	r4, .L15+4
+ 200 0008 2368     		ldr	r3, [r4]
+ 201 000a 1A68     		ldr	r2, [r3]
+ 202 000c 1368     		ldr	r3, [r2]
+ 203 000e 43F04003 		orr	r3, r3, #64
+ 204 0012 1360     		str	r3, [r2]
+ 310:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 205              		.loc 1 310 0
+ 206 0014 FFF7FEFF 		bl	S25FL256_Enable
+ 207              	.LVL11:
+ 312:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 208              		.loc 1 312 0
+ 209 0018 4FF0FF33 		mov	r3, #-1
+ 210 001c 0122     		movs	r2, #1
+ 211 001e 2946     		mov	r1, r5
+ 212 0020 2068     		ldr	r0, [r4]
+ 213 0022 FFF7FEFF 		bl	HAL_SPI_Transmit
+ 214              	.LVL12:
+ 314:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 215              		.loc 1 314 0
+ 216 0026 4FF0FF33 		mov	r3, #-1
+ 217 002a 0122     		movs	r2, #1
+ 218 002c 0849     		ldr	r1, .L15+8
+ 219 002e 2068     		ldr	r0, [r4]
+ 220 0030 FFF7FEFF 		bl	HAL_SPI_Receive
+ 221              	.LVL13:
+ 316:../../core/drivers/S25FL256/src/S25FL256.c ****     S25FL256_Disable();
+ 222              		.loc 1 316 0
+ 223 0034 2368     		ldr	r3, [r4]
+ 224 0036 1A68     		ldr	r2, [r3]
+ 225 0038 1368     		ldr	r3, [r2]
+ 226 003a 23F04003 		bic	r3, r3, #64
+ 227 003e 1360     		str	r3, [r2]
+ 317:../../core/drivers/S25FL256/src/S25FL256.c ****     aData = rxData[0];
+ 228              		.loc 1 317 0
+ 229 0040 FFF7FEFF 		bl	S25FL256_Disable
+ 230              	.LVL14:
+ 321:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 231              		.loc 1 321 0
+ 232 0044 0020     		movs	r0, #0
+ 233 0046 38BD     		pop	{r3, r4, r5, pc}
+ 234              	.L16:
+ 235              		.align	2
+ARM GAS  /tmp/ccde91WQ.s 			page 13
+
+
+ 236              	.L15:
+ 237 0048 00000000 		.word	txData
+ 238 004c 00000000 		.word	flashSPI
+ 239 0050 00000000 		.word	rxData
+ 240              		.cfi_endproc
+ 241              	.LFE133:
+ 243              		.section	.text.S25FL256_isWriteInProgress,"ax",%progbits
+ 244              		.align	1
+ 245              		.global	S25FL256_isWriteInProgress
+ 246              		.syntax unified
+ 247              		.thumb
+ 248              		.thumb_func
+ 249              		.fpu fpv4-sp-d16
+ 251              	S25FL256_isWriteInProgress:
+ 252              	.LFB130:
+ 196:../../core/drivers/S25FL256/src/S25FL256.c ****     HAL_Delay(SPI_WAIT);
+ 253              		.loc 1 196 0
+ 254              		.cfi_startproc
+ 255              		@ args = 0, pretend = 0, frame = 0
+ 256              		@ frame_needed = 0, uses_anonymous_args = 0
+ 257 0000 08B5     		push	{r3, lr}
+ 258              	.LCFI4:
+ 259              		.cfi_def_cfa_offset 8
+ 260              		.cfi_offset 3, -8
+ 261              		.cfi_offset 14, -4
+ 197:../../core/drivers/S25FL256/src/S25FL256.c ****     uint8_t status;
+ 262              		.loc 1 197 0
+ 263 0002 3220     		movs	r0, #50
+ 264 0004 FFF7FEFF 		bl	HAL_Delay
+ 265              	.LVL15:
+ 199:../../core/drivers/S25FL256/src/S25FL256.c ****     {
+ 266              		.loc 1 199 0
+ 267 0008 0021     		movs	r1, #0
+ 268 000a 0520     		movs	r0, #5
+ 269 000c FFF7FEFF 		bl	S25FL256_readReg
+ 270              	.LVL16:
+ 271 0010 00B9     		cbnz	r0, .L21
+ 272              	.L18:
+ 205:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 273              		.loc 1 205 0
+ 274 0012 08BD     		pop	{r3, pc}
+ 275              	.L21:
+ 204:../../core/drivers/S25FL256/src/S25FL256.c **** }
+ 276              		.loc 1 204 0
+ 277 0014 0020     		movs	r0, #0
+ 278 0016 FCE7     		b	.L18
+ 279              		.cfi_endproc
+ 280              	.LFE130:
+ 282              		.section	.text.S25FL256_open,"ax",%progbits
+ 283              		.align	1
+ 284              		.global	S25FL256_open
+ 285              		.syntax unified
+ 286              		.thumb
+ 287              		.thumb_func
+ 288              		.fpu fpv4-sp-d16
+ 290              	S25FL256_open:
+ 291              	.LFB127:
+ARM GAS  /tmp/ccde91WQ.s 			page 14
+
+
+  75:../../core/drivers/S25FL256/src/S25FL256.c ****     HAL_Delay(SPI_WAIT);
+ 292              		.loc 1 75 0
+ 293              		.cfi_startproc
+ 294              		@ args = 0, pretend = 0, frame = 0
+ 295              		@ frame_needed = 0, uses_anonymous_args = 0
+ 296              	.LVL17:
+ 297 0000 10B5     		push	{r4, lr}
+ 298              	.LCFI5:
+ 299              		.cfi_def_cfa_offset 8
+ 300              		.cfi_offset 4, -8
+ 301              		.cfi_offset 14, -4
+ 302 0002 0446     		mov	r4, r0
+  76:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 303              		.loc 1 76 0
+ 304 0004 3220     		movs	r0, #50
+ 305              	.LVL18:
+ 306 0006 FFF7FEFF 		bl	HAL_Delay
+ 307              	.LVL19:
+  78:../../core/drivers/S25FL256/src/S25FL256.c ****     {
+ 308              		.loc 1 78 0
+ 309 000a FFF7FEFF 		bl	S25FL256_isWriteInProgress
+ 310              	.LVL20:
+ 311 000e 50B9     		cbnz	r0, .L24
+  83:../../core/drivers/S25FL256/src/S25FL256.c ****     {
+ 312              		.loc 1 83 0
+ 313 0010 084B     		ldr	r3, .L27
+ 314 0012 9C42     		cmp	r4, r3
+ 315 0014 0AD8     		bhi	.L25
+  88:../../core/drivers/S25FL256/src/S25FL256.c ****     mCurrentReadAddress = newAddress;
+ 316              		.loc 1 88 0
+ 317 0016 04F54054 		add	r4, r4, #12288
+ 318              	.LVL21:
+ 319 001a 2402     		lsls	r4, r4, #8
+ 320              	.LVL22:
+  89:../../core/drivers/S25FL256/src/S25FL256.c ****     mCurrentWriteAddress = newAddress;
+ 321              		.loc 1 89 0
+ 322 001c 064B     		ldr	r3, .L27+4
+ 323 001e 1C60     		str	r4, [r3]
+  90:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 324              		.loc 1 90 0
+ 325 0020 064B     		ldr	r3, .L27+8
+ 326 0022 1C60     		str	r4, [r3]
+ 327              	.LVL23:
+ 328              	.L22:
+  93:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 329              		.loc 1 93 0
+ 330 0024 10BD     		pop	{r4, pc}
+ 331              	.LVL24:
+ 332              	.L24:
+  80:../../core/drivers/S25FL256/src/S25FL256.c ****     }
+ 333              		.loc 1 80 0
+ 334 0026 6FF00100 		mvn	r0, #1
+ 335 002a FBE7     		b	.L22
+ 336              	.L25:
+  85:../../core/drivers/S25FL256/src/S25FL256.c ****     }
+ 337              		.loc 1 85 0
+ 338 002c 6FF00300 		mvn	r0, #3
+ARM GAS  /tmp/ccde91WQ.s 			page 15
+
+
+ 339 0030 F8E7     		b	.L22
+ 340              	.L28:
+ 341 0032 00BF     		.align	2
+ 342              	.L27:
+ 343 0034 47B80100 		.word	112711
+ 344 0038 00000000 		.word	mCurrentReadAddress
+ 345 003c 00000000 		.word	mCurrentWriteAddress
+ 346              		.cfi_endproc
+ 347              	.LFE127:
+ 349              		.section	.text.S25FL256_send4BCommand,"ax",%progbits
+ 350              		.align	1
+ 351              		.global	S25FL256_send4BCommand
+ 352              		.syntax unified
+ 353              		.thumb
+ 354              		.thumb_func
+ 355              		.fpu fpv4-sp-d16
+ 357              	S25FL256_send4BCommand:
+ 358              	.LFB136:
+ 408:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 359              		.loc 1 408 0
+ 360              		.cfi_startproc
+ 361              		@ args = 0, pretend = 0, frame = 0
+ 362              		@ frame_needed = 0, uses_anonymous_args = 0
+ 363              	.LVL25:
+ 364 0000 70B5     		push	{r4, r5, r6, lr}
+ 365              	.LCFI6:
+ 366              		.cfi_def_cfa_offset 16
+ 367              		.cfi_offset 4, -16
+ 368              		.cfi_offset 5, -12
+ 369              		.cfi_offset 6, -8
+ 370              		.cfi_offset 14, -4
+ 371 0002 0646     		mov	r6, r0
+ 372 0004 0D46     		mov	r5, r1
+ 410:../../core/drivers/S25FL256/src/S25FL256.c ****     {
+ 373              		.loc 1 410 0
+ 374 0006 FFF7FEFF 		bl	S25FL256_isWriteInProgress
+ 375              	.LVL26:
+ 376 000a E0B9     		cbnz	r0, .L31
+ 377              	.LVL27:
+ 416:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 378              		.loc 1 416 0
+ 379 000c 0F4C     		ldr	r4, .L33
+ 380 000e 2670     		strb	r6, [r4]
+ 381              	.LVL28:
+ 419:../../core/drivers/S25FL256/src/S25FL256.c ****     txData[index++] = (uint8_t)((address >> 16) & 0x000000FF);
+ 382              		.loc 1 419 0
+ 383 0010 2B0E     		lsrs	r3, r5, #24
+ 384 0012 6370     		strb	r3, [r4, #1]
+ 385              	.LVL29:
+ 420:../../core/drivers/S25FL256/src/S25FL256.c ****     txData[index++] = (uint8_t)((address >> 8) & 0x000000FF);
+ 386              		.loc 1 420 0
+ 387 0014 C5F30743 		ubfx	r3, r5, #16, #8
+ 388 0018 A370     		strb	r3, [r4, #2]
+ 389              	.LVL30:
+ 421:../../core/drivers/S25FL256/src/S25FL256.c ****     txData[index++] = (uint8_t)(address & 0x000000FF);
+ 390              		.loc 1 421 0
+ 391 001a C5F30723 		ubfx	r3, r5, #8, #8
+ARM GAS  /tmp/ccde91WQ.s 			page 16
+
+
+ 392 001e E370     		strb	r3, [r4, #3]
+ 393              	.LVL31:
+ 422:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 394              		.loc 1 422 0
+ 395 0020 2571     		strb	r5, [r4, #4]
+ 426:../../core/drivers/S25FL256/src/S25FL256.c ****     S25FL256_Enable();
+ 396              		.loc 1 426 0
+ 397 0022 0B4D     		ldr	r5, .L33+4
+ 398              	.LVL32:
+ 399 0024 2B68     		ldr	r3, [r5]
+ 400 0026 1A68     		ldr	r2, [r3]
+ 401 0028 1368     		ldr	r3, [r2]
+ 402 002a 43F04003 		orr	r3, r3, #64
+ 403 002e 1360     		str	r3, [r2]
+ 427:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 404              		.loc 1 427 0
+ 405 0030 FFF7FEFF 		bl	S25FL256_Enable
+ 406              	.LVL33:
+ 430:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 407              		.loc 1 430 0
+ 408 0034 4FF0FF33 		mov	r3, #-1
+ 409 0038 0522     		movs	r2, #5
+ 410 003a 2146     		mov	r1, r4
+ 411 003c 2868     		ldr	r0, [r5]
+ 412 003e FFF7FEFF 		bl	HAL_SPI_Transmit
+ 413              	.LVL34:
+ 432:../../core/drivers/S25FL256/src/S25FL256.c **** }
+ 414              		.loc 1 432 0
+ 415 0042 0020     		movs	r0, #0
+ 416              	.LVL35:
+ 417              	.L29:
+ 433:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 418              		.loc 1 433 0
+ 419 0044 70BD     		pop	{r4, r5, r6, pc}
+ 420              	.LVL36:
+ 421              	.L31:
+ 412:../../core/drivers/S25FL256/src/S25FL256.c ****     }
+ 422              		.loc 1 412 0
+ 423 0046 6FF00100 		mvn	r0, #1
+ 424 004a FBE7     		b	.L29
+ 425              	.L34:
+ 426              		.align	2
+ 427              	.L33:
+ 428 004c 00000000 		.word	txData
+ 429 0050 00000000 		.word	flashSPI
+ 430              		.cfi_endproc
+ 431              	.LFE136:
+ 433              		.section	.text.S25FL256_read,"ax",%progbits
+ 434              		.align	1
+ 435              		.global	S25FL256_read
+ 436              		.syntax unified
+ 437              		.thumb
+ 438              		.thumb_func
+ 439              		.fpu fpv4-sp-d16
+ 441              	S25FL256_read:
+ 442              	.LFB128:
+ 104:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ARM GAS  /tmp/ccde91WQ.s 			page 17
+
+
+ 443              		.loc 1 104 0
+ 444              		.cfi_startproc
+ 445              		@ args = 0, pretend = 0, frame = 0
+ 446              		@ frame_needed = 0, uses_anonymous_args = 0
+ 447              	.LVL37:
+ 448 0000 38B5     		push	{r3, r4, r5, lr}
+ 449              	.LCFI7:
+ 450              		.cfi_def_cfa_offset 16
+ 451              		.cfi_offset 3, -16
+ 452              		.cfi_offset 4, -12
+ 453              		.cfi_offset 5, -8
+ 454              		.cfi_offset 14, -4
+ 455 0002 0546     		mov	r5, r0
+ 456 0004 0C46     		mov	r4, r1
+ 106:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 457              		.loc 1 106 0
+ 458 0006 3220     		movs	r0, #50
+ 459              	.LVL38:
+ 460 0008 FFF7FEFF 		bl	HAL_Delay
+ 461              	.LVL39:
+ 108:../../core/drivers/S25FL256/src/S25FL256.c ****     {
+ 462              		.loc 1 108 0
+ 463 000c FFF7FEFF 		bl	S25FL256_isWriteInProgress
+ 464              	.LVL40:
+ 465 0010 98B9     		cbnz	r0, .L37
+ 114:../../core/drivers/S25FL256/src/S25FL256.c ****     {
+ 466              		.loc 1 114 0
+ 467 0012 0B4B     		ldr	r3, .L39
+ 468 0014 1968     		ldr	r1, [r3]
+ 469 0016 1320     		movs	r0, #19
+ 470 0018 FFF7FEFF 		bl	S25FL256_send4BCommand
+ 471              	.LVL41:
+ 472 001c 10F1030F 		cmn	r0, #3
+ 473 0020 0AD0     		beq	.L35
+ 119:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 474              		.loc 1 119 0
+ 475 0022 4FF0FF33 		mov	r3, #-1
+ 476 0026 A2B2     		uxth	r2, r4
+ 477 0028 2946     		mov	r1, r5
+ 478 002a 0648     		ldr	r0, .L39+4
+ 479 002c 0068     		ldr	r0, [r0]
+ 480 002e FFF7FEFF 		bl	HAL_SPI_Receive
+ 481              	.LVL42:
+ 122:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 482              		.loc 1 122 0
+ 483 0032 FFF7FEFF 		bl	S25FL256_Disable
+ 484              	.LVL43:
+ 124:../../core/drivers/S25FL256/src/S25FL256.c **** }
+ 485              		.loc 1 124 0
+ 486 0036 2046     		mov	r0, r4
+ 487              	.L35:
+ 125:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 488              		.loc 1 125 0
+ 489 0038 38BD     		pop	{r3, r4, r5, pc}
+ 490              	.LVL44:
+ 491              	.L37:
+ 110:../../core/drivers/S25FL256/src/S25FL256.c ****     }
+ARM GAS  /tmp/ccde91WQ.s 			page 18
+
+
+ 492              		.loc 1 110 0
+ 493 003a 6FF00100 		mvn	r0, #1
+ 494 003e FBE7     		b	.L35
+ 495              	.L40:
+ 496              		.align	2
+ 497              	.L39:
+ 498 0040 00000000 		.word	mCurrentReadAddress
+ 499 0044 00000000 		.word	flashSPI
+ 500              		.cfi_endproc
+ 501              	.LFE128:
+ 503              		.section	.text.S25FL256_sendCommand,"ax",%progbits
+ 504              		.align	1
+ 505              		.global	S25FL256_sendCommand
+ 506              		.syntax unified
+ 507              		.thumb
+ 508              		.thumb_func
+ 509              		.fpu fpv4-sp-d16
+ 511              	S25FL256_sendCommand:
+ 512              	.LFB135:
+ 379:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 513              		.loc 1 379 0
+ 514              		.cfi_startproc
+ 515              		@ args = 0, pretend = 0, frame = 0
+ 516              		@ frame_needed = 0, uses_anonymous_args = 0
+ 517              	.LVL45:
+ 518 0000 38B5     		push	{r3, r4, r5, lr}
+ 519              	.LCFI8:
+ 520              		.cfi_def_cfa_offset 16
+ 521              		.cfi_offset 3, -16
+ 522              		.cfi_offset 4, -12
+ 523              		.cfi_offset 5, -8
+ 524              		.cfi_offset 14, -4
+ 525 0002 0446     		mov	r4, r0
+ 381:../../core/drivers/S25FL256/src/S25FL256.c ****     {
+ 526              		.loc 1 381 0
+ 527 0004 FFF7FEFF 		bl	S25FL256_isWriteInProgress
+ 528              	.LVL46:
+ 529 0008 D8B9     		cbnz	r0, .L43
+ 386:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 530              		.loc 1 386 0
+ 531 000a 0F4D     		ldr	r5, .L45
+ 532 000c 2C70     		strb	r4, [r5]
+ 388:../../core/drivers/S25FL256/src/S25FL256.c ****     S25FL256_Enable();
+ 533              		.loc 1 388 0
+ 534 000e 0F4C     		ldr	r4, .L45+4
+ 535 0010 2368     		ldr	r3, [r4]
+ 536 0012 1A68     		ldr	r2, [r3]
+ 537 0014 1368     		ldr	r3, [r2]
+ 538 0016 43F04003 		orr	r3, r3, #64
+ 539 001a 1360     		str	r3, [r2]
+ 389:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 540              		.loc 1 389 0
+ 541 001c FFF7FEFF 		bl	S25FL256_Enable
+ 542              	.LVL47:
+ 391:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 543              		.loc 1 391 0
+ 544 0020 4FF0FF33 		mov	r3, #-1
+ARM GAS  /tmp/ccde91WQ.s 			page 19
+
+
+ 545 0024 0122     		movs	r2, #1
+ 546 0026 2946     		mov	r1, r5
+ 547 0028 2068     		ldr	r0, [r4]
+ 548 002a FFF7FEFF 		bl	HAL_SPI_Transmit
+ 549              	.LVL48:
+ 393:../../core/drivers/S25FL256/src/S25FL256.c ****     S25FL256_Disable();
+ 550              		.loc 1 393 0
+ 551 002e 2368     		ldr	r3, [r4]
+ 552 0030 1A68     		ldr	r2, [r3]
+ 553 0032 1368     		ldr	r3, [r2]
+ 554 0034 23F04003 		bic	r3, r3, #64
+ 555 0038 1360     		str	r3, [r2]
+ 394:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 556              		.loc 1 394 0
+ 557 003a FFF7FEFF 		bl	S25FL256_Disable
+ 558              	.LVL49:
+ 396:../../core/drivers/S25FL256/src/S25FL256.c **** }
+ 559              		.loc 1 396 0
+ 560 003e 0020     		movs	r0, #0
+ 561              	.L41:
+ 397:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 562              		.loc 1 397 0
+ 563 0040 38BD     		pop	{r3, r4, r5, pc}
+ 564              	.L43:
+ 383:../../core/drivers/S25FL256/src/S25FL256.c ****     }
+ 565              		.loc 1 383 0
+ 566 0042 6FF00100 		mvn	r0, #1
+ 567 0046 FBE7     		b	.L41
+ 568              	.L46:
+ 569              		.align	2
+ 570              	.L45:
+ 571 0048 00000000 		.word	txData
+ 572 004c 00000000 		.word	flashSPI
+ 573              		.cfi_endproc
+ 574              	.LFE135:
+ 576              		.section	.text.S25FL256_eraseFullFlash,"ax",%progbits
+ 577              		.align	1
+ 578              		.global	S25FL256_eraseFullFlash
+ 579              		.syntax unified
+ 580              		.thumb
+ 581              		.thumb_func
+ 582              		.fpu fpv4-sp-d16
+ 584              	S25FL256_eraseFullFlash:
+ 585              	.LFB131:
+ 215:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 586              		.loc 1 215 0
+ 587              		.cfi_startproc
+ 588              		@ args = 0, pretend = 0, frame = 0
+ 589              		@ frame_needed = 0, uses_anonymous_args = 0
+ 590 0000 08B5     		push	{r3, lr}
+ 591              	.LCFI9:
+ 592              		.cfi_def_cfa_offset 8
+ 593              		.cfi_offset 3, -8
+ 594              		.cfi_offset 14, -4
+ 217:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 595              		.loc 1 217 0
+ 596 0002 3220     		movs	r0, #50
+ARM GAS  /tmp/ccde91WQ.s 			page 20
+
+
+ 597 0004 FFF7FEFF 		bl	HAL_Delay
+ 598              	.LVL50:
+ 219:../../core/drivers/S25FL256/src/S25FL256.c ****     {
+ 599              		.loc 1 219 0
+ 600 0008 FFF7FEFF 		bl	S25FL256_isWriteInProgress
+ 601              	.LVL51:
+ 602 000c 98B9     		cbnz	r0, .L49
+ 225:../../core/drivers/S25FL256/src/S25FL256.c ****     {
+ 603              		.loc 1 225 0
+ 604 000e 0620     		movs	r0, #6
+ 605 0010 FFF7FEFF 		bl	S25FL256_sendCommand
+ 606              	.LVL52:
+ 607 0014 10F1030F 		cmn	r0, #3
+ 608 0018 0CD0     		beq	.L47
+ 231:../../core/drivers/S25FL256/src/S25FL256.c ****     {
+ 609              		.loc 1 231 0
+ 610 001a 6020     		movs	r0, #96
+ 611 001c FFF7FEFF 		bl	S25FL256_sendCommand
+ 612              	.LVL53:
+ 613 0020 10F1030F 		cmn	r0, #3
+ 614 0024 06D0     		beq	.L47
+ 237:../../core/drivers/S25FL256/src/S25FL256.c ****     {
+ 615              		.loc 1 237 0
+ 616 0026 0420     		movs	r0, #4
+ 617 0028 FFF7FEFF 		bl	S25FL256_sendCommand
+ 618              	.LVL54:
+ 619 002c 10F1030F 		cmn	r0, #3
+ 620 0030 00D0     		beq	.L47
+ 242:../../core/drivers/S25FL256/src/S25FL256.c **** }
+ 621              		.loc 1 242 0
+ 622 0032 0020     		movs	r0, #0
+ 623              	.L47:
+ 243:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 624              		.loc 1 243 0
+ 625 0034 08BD     		pop	{r3, pc}
+ 626              	.L49:
+ 221:../../core/drivers/S25FL256/src/S25FL256.c ****     }
+ 627              		.loc 1 221 0
+ 628 0036 6FF00100 		mvn	r0, #1
+ 629 003a FBE7     		b	.L47
+ 630              		.cfi_endproc
+ 631              	.LFE131:
+ 633              		.section	.text.S25FL256_eraseSectorFromBlock,"ax",%progbits
+ 634              		.align	1
+ 635              		.global	S25FL256_eraseSectorFromBlock
+ 636              		.syntax unified
+ 637              		.thumb
+ 638              		.thumb_func
+ 639              		.fpu fpv4-sp-d16
+ 641              	S25FL256_eraseSectorFromBlock:
+ 642              	.LFB132:
+ 255:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 643              		.loc 1 255 0
+ 644              		.cfi_startproc
+ 645              		@ args = 0, pretend = 0, frame = 0
+ 646              		@ frame_needed = 0, uses_anonymous_args = 0
+ 647              	.LVL55:
+ARM GAS  /tmp/ccde91WQ.s 			page 21
+
+
+ 648 0000 10B5     		push	{r4, lr}
+ 649              	.LCFI10:
+ 650              		.cfi_def_cfa_offset 8
+ 651              		.cfi_offset 4, -8
+ 652              		.cfi_offset 14, -4
+ 653 0002 0446     		mov	r4, r0
+ 257:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 654              		.loc 1 257 0
+ 655 0004 3220     		movs	r0, #50
+ 656              	.LVL56:
+ 657 0006 FFF7FEFF 		bl	HAL_Delay
+ 658              	.LVL57:
+ 259:../../core/drivers/S25FL256/src/S25FL256.c ****     {
+ 659              		.loc 1 259 0
+ 660 000a FFF7FEFF 		bl	S25FL256_isWriteInProgress
+ 661              	.LVL58:
+ 662 000e 10BB     		cbnz	r0, .L54
+ 264:../../core/drivers/S25FL256/src/S25FL256.c ****     {
+ 663              		.loc 1 264 0
+ 664 0010 144B     		ldr	r3, .L58
+ 665 0012 9C42     		cmp	r4, r3
+ 666 0014 22D8     		bhi	.L55
+ 270:../../core/drivers/S25FL256/src/S25FL256.c ****     {
+ 667              		.loc 1 270 0
+ 668 0016 0620     		movs	r0, #6
+ 669 0018 FFF7FEFF 		bl	S25FL256_sendCommand
+ 670              	.LVL59:
+ 671 001c 10F1030F 		cmn	r0, #3
+ 672 0020 18D0     		beq	.L52
+ 276:../../core/drivers/S25FL256/src/S25FL256.c ****     {
+ 673              		.loc 1 276 0
+ 674 0022 04F54051 		add	r1, r4, #12288
+ 675 0026 0902     		lsls	r1, r1, #8
+ 676 0028 DC20     		movs	r0, #220
+ 677 002a FFF7FEFF 		bl	S25FL256_send4BCommand
+ 678              	.LVL60:
+ 679 002e 10F1030F 		cmn	r0, #3
+ 680 0032 0FD0     		beq	.L52
+ 281:../../core/drivers/S25FL256/src/S25FL256.c ****     S25FL256_Disable();
+ 681              		.loc 1 281 0
+ 682 0034 0C4B     		ldr	r3, .L58+4
+ 683 0036 1B68     		ldr	r3, [r3]
+ 684 0038 1A68     		ldr	r2, [r3]
+ 685 003a 1368     		ldr	r3, [r2]
+ 686 003c 23F04003 		bic	r3, r3, #64
+ 687 0040 1360     		str	r3, [r2]
+ 282:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 688              		.loc 1 282 0
+ 689 0042 FFF7FEFF 		bl	S25FL256_Disable
+ 690              	.LVL61:
+ 285:../../core/drivers/S25FL256/src/S25FL256.c ****     {
+ 691              		.loc 1 285 0
+ 692 0046 0420     		movs	r0, #4
+ 693 0048 FFF7FEFF 		bl	S25FL256_sendCommand
+ 694              	.LVL62:
+ 695 004c 10F1030F 		cmn	r0, #3
+ 696 0050 00D0     		beq	.L52
+ARM GAS  /tmp/ccde91WQ.s 			page 22
+
+
+ 290:../../core/drivers/S25FL256/src/S25FL256.c **** }
+ 697              		.loc 1 290 0
+ 698 0052 0020     		movs	r0, #0
+ 699              	.L52:
+ 291:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 700              		.loc 1 291 0
+ 701 0054 10BD     		pop	{r4, pc}
+ 702              	.LVL63:
+ 703              	.L54:
+ 261:../../core/drivers/S25FL256/src/S25FL256.c ****     }
+ 704              		.loc 1 261 0
+ 705 0056 6FF00100 		mvn	r0, #1
+ 706 005a FBE7     		b	.L52
+ 707              	.L55:
+ 266:../../core/drivers/S25FL256/src/S25FL256.c ****     }
+ 708              		.loc 1 266 0
+ 709 005c 6FF00300 		mvn	r0, #3
+ 710 0060 F8E7     		b	.L52
+ 711              	.L59:
+ 712 0062 00BF     		.align	2
+ 713              	.L58:
+ 714 0064 47B80100 		.word	112711
+ 715 0068 00000000 		.word	flashSPI
+ 716              		.cfi_endproc
+ 717              	.LFE132:
+ 719              		.section	.text.S25FL256_flush,"ax",%progbits
+ 720              		.align	1
+ 721              		.global	S25FL256_flush
+ 722              		.syntax unified
+ 723              		.thumb
+ 724              		.thumb_func
+ 725              		.fpu fpv4-sp-d16
+ 727              	S25FL256_flush:
+ 728              	.LFB134:
+ 331:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 729              		.loc 1 331 0
+ 730              		.cfi_startproc
+ 731              		@ args = 0, pretend = 0, frame = 0
+ 732              		@ frame_needed = 0, uses_anonymous_args = 0
+ 733 0000 08B5     		push	{r3, lr}
+ 734              	.LCFI11:
+ 735              		.cfi_def_cfa_offset 8
+ 736              		.cfi_offset 3, -8
+ 737              		.cfi_offset 14, -4
+ 333:../../core/drivers/S25FL256/src/S25FL256.c ****     {
+ 738              		.loc 1 333 0
+ 739 0002 FFF7FEFF 		bl	S25FL256_isWriteInProgress
+ 740              	.LVL64:
+ 741 0006 68BB     		cbnz	r0, .L62
+ 339:../../core/drivers/S25FL256/src/S25FL256.c ****     {
+ 742              		.loc 1 339 0
+ 743 0008 0620     		movs	r0, #6
+ 744 000a FFF7FEFF 		bl	S25FL256_sendCommand
+ 745              	.LVL65:
+ 746 000e 10F1030F 		cmn	r0, #3
+ 747 0012 26D0     		beq	.L60
+ 345:../../core/drivers/S25FL256/src/S25FL256.c ****     {
+ARM GAS  /tmp/ccde91WQ.s 			page 23
+
+
+ 748              		.loc 1 345 0
+ 749 0014 154B     		ldr	r3, .L64
+ 750 0016 1968     		ldr	r1, [r3]
+ 751 0018 1220     		movs	r0, #18
+ 752 001a FFF7FEFF 		bl	S25FL256_send4BCommand
+ 753              	.LVL66:
+ 754 001e 10F1030F 		cmn	r0, #3
+ 755 0022 1ED0     		beq	.L60
+ 350:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 756              		.loc 1 350 0
+ 757 0024 4FF0FF33 		mov	r3, #-1
+ 758 0028 4FF48072 		mov	r2, #256
+ 759 002c 1049     		ldr	r1, .L64+4
+ 760 002e 1148     		ldr	r0, .L64+8
+ 761 0030 0068     		ldr	r0, [r0]
+ 762 0032 FFF7FEFF 		bl	HAL_SPI_Transmit
+ 763              	.LVL67:
+ 353:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 764              		.loc 1 353 0
+ 765 0036 FFF7FEFF 		bl	S25FL256_Disable
+ 766              	.LVL68:
+ 356:../../core/drivers/S25FL256/src/S25FL256.c ****     {
+ 767              		.loc 1 356 0
+ 768 003a 0420     		movs	r0, #4
+ 769 003c FFF7FEFF 		bl	S25FL256_sendCommand
+ 770              	.LVL69:
+ 771 0040 10F1030F 		cmn	r0, #3
+ 772 0044 0DD0     		beq	.L60
+ 362:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 773              		.loc 1 362 0
+ 774 0046 094A     		ldr	r2, .L64
+ 775 0048 1368     		ldr	r3, [r2]
+ 776 004a 03F58073 		add	r3, r3, #256
+ 777 004e 1360     		str	r3, [r2]
+ 365:../../core/drivers/S25FL256/src/S25FL256.c ****     mMemBlockIndex = 0;
+ 778              		.loc 1 365 0
+ 779 0050 4FF48072 		mov	r2, #256
+ 780 0054 0021     		movs	r1, #0
+ 781 0056 0648     		ldr	r0, .L64+4
+ 782 0058 FFF7FEFF 		bl	memset
+ 783              	.LVL70:
+ 366:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 784              		.loc 1 366 0
+ 785 005c 0020     		movs	r0, #0
+ 786 005e 064B     		ldr	r3, .L64+12
+ 787 0060 1880     		strh	r0, [r3]	@ movhi
+ 788              	.L60:
+ 369:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 789              		.loc 1 369 0
+ 790 0062 08BD     		pop	{r3, pc}
+ 791              	.L62:
+ 335:../../core/drivers/S25FL256/src/S25FL256.c ****     }
+ 792              		.loc 1 335 0
+ 793 0064 6FF00100 		mvn	r0, #1
+ 794 0068 FBE7     		b	.L60
+ 795              	.L65:
+ 796 006a 00BF     		.align	2
+ARM GAS  /tmp/ccde91WQ.s 			page 24
+
+
+ 797              	.L64:
+ 798 006c 00000000 		.word	mCurrentWriteAddress
+ 799 0070 00000000 		.word	mMemBlock
+ 800 0074 00000000 		.word	flashSPI
+ 801 0078 00000000 		.word	mMemBlockIndex
+ 802              		.cfi_endproc
+ 803              	.LFE134:
+ 805              		.section	.text.S25FL256_write,"ax",%progbits
+ 806              		.align	1
+ 807              		.global	S25FL256_write
+ 808              		.syntax unified
+ 809              		.thumb
+ 810              		.thumb_func
+ 811              		.fpu fpv4-sp-d16
+ 813              	S25FL256_write:
+ 814              	.LFB129:
+ 137:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 815              		.loc 1 137 0
+ 816              		.cfi_startproc
+ 817              		@ args = 0, pretend = 0, frame = 0
+ 818              		@ frame_needed = 0, uses_anonymous_args = 0
+ 819              	.LVL71:
+ 820 0000 F8B5     		push	{r3, r4, r5, r6, r7, lr}
+ 821              	.LCFI12:
+ 822              		.cfi_def_cfa_offset 24
+ 823              		.cfi_offset 3, -24
+ 824              		.cfi_offset 4, -20
+ 825              		.cfi_offset 5, -16
+ 826              		.cfi_offset 6, -12
+ 827              		.cfi_offset 7, -8
+ 828              		.cfi_offset 14, -4
+ 829 0002 0546     		mov	r5, r0
+ 830 0004 0F46     		mov	r7, r1
+ 139:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 831              		.loc 1 139 0
+ 832 0006 3220     		movs	r0, #50
+ 833              	.LVL72:
+ 834 0008 FFF7FEFF 		bl	HAL_Delay
+ 835              	.LVL73:
+ 141:../../core/drivers/S25FL256/src/S25FL256.c ****     {
+ 836              		.loc 1 141 0
+ 837 000c FFF7FEFF 		bl	S25FL256_isWriteInProgress
+ 838              	.LVL74:
+ 839 0010 50BB     		cbnz	r0, .L71
+ 146:../../core/drivers/S25FL256/src/S25FL256.c ****     {
+ 840              		.loc 1 146 0
+ 841 0012 1A4B     		ldr	r3, .L77
+ 842 0014 1A68     		ldr	r2, [r3]
+ 843 0016 1A4B     		ldr	r3, .L77+4
+ 844 0018 9A42     		cmp	r2, r3
+ 845 001a 28D8     		bhi	.L72
+ 151:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 846              		.loc 1 151 0
+ 847 001c 3C46     		mov	r4, r7
+ 848              	.L68:
+ 849              	.LVL75:
+ 153:../../core/drivers/S25FL256/src/S25FL256.c ****     {
+ARM GAS  /tmp/ccde91WQ.s 			page 25
+
+
+ 850              		.loc 1 153 0
+ 851 001e 194B     		ldr	r3, .L77+8
+ 852 0020 1B88     		ldrh	r3, [r3]
+ 853 0022 1A19     		adds	r2, r3, r4
+ 854 0024 FF2A     		cmp	r2, #255
+ 855 0026 0FD9     		bls	.L75
+ 856              	.LBB2:
+ 157:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 857              		.loc 1 157 0
+ 858 0028 C3F58076 		rsb	r6, r3, #256
+ 859              	.LVL76:
+ 160:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 860              		.loc 1 160 0
+ 861 002c 4FF48072 		mov	r2, #256
+ 862 0030 2946     		mov	r1, r5
+ 863 0032 1548     		ldr	r0, .L77+12
+ 864 0034 1844     		add	r0, r0, r3
+ 865 0036 FFF7FEFF 		bl	memcpy
+ 866              	.LVL77:
+ 162:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 867              		.loc 1 162 0
+ 868 003a FFF7FEFF 		bl	S25FL256_flush
+ 869              	.LVL78:
+ 165:../../core/drivers/S25FL256/src/S25FL256.c ****         {
+ 870              		.loc 1 165 0
+ 871 003e 0028     		cmp	r0, #0
+ 872 0040 09DB     		blt	.L66
+ 172:../../core/drivers/S25FL256/src/S25FL256.c ****         bytesLeftToWrite -= bytesToWrite;
+ 873              		.loc 1 172 0
+ 874 0042 3544     		add	r5, r5, r6
+ 875              	.LVL79:
+ 173:../../core/drivers/S25FL256/src/S25FL256.c ****     }
+ 876              		.loc 1 173 0
+ 877 0044 A41B     		subs	r4, r4, r6
+ 878              	.LVL80:
+ 879 0046 EAE7     		b	.L68
+ 880              	.LVL81:
+ 881              	.L75:
+ 882              	.LBE2:
+ 176:../../core/drivers/S25FL256/src/S25FL256.c ****     {
+ 883              		.loc 1 176 0
+ 884 0048 0C4A     		ldr	r2, .L77
+ 885 004a 1168     		ldr	r1, [r2]
+ 886 004c 0C4A     		ldr	r2, .L77+4
+ 887 004e 9142     		cmp	r1, r2
+ 888 0050 10D8     		bhi	.L73
+ 181:../../core/drivers/S25FL256/src/S25FL256.c ****     {
+ 889              		.loc 1 181 0
+ 890 0052 0CB9     		cbnz	r4, .L76
+ 891              	.LVL82:
+ 892              	.L70:
+ 188:../../core/drivers/S25FL256/src/S25FL256.c **** }
+ 893              		.loc 1 188 0
+ 894 0054 381B     		subs	r0, r7, r4
+ 895              	.LVL83:
+ 896              	.L66:
+ 189:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ARM GAS  /tmp/ccde91WQ.s 			page 26
+
+
+ 897              		.loc 1 189 0
+ 898 0056 F8BD     		pop	{r3, r4, r5, r6, r7, pc}
+ 899              	.LVL84:
+ 900              	.L76:
+ 184:../../core/drivers/S25FL256/src/S25FL256.c ****         bytesLeftToWrite = 0;
+ 901              		.loc 1 184 0
+ 902 0058 2246     		mov	r2, r4
+ 903 005a 2946     		mov	r1, r5
+ 904 005c 0A48     		ldr	r0, .L77+12
+ 905 005e 1844     		add	r0, r0, r3
+ 906 0060 FFF7FEFF 		bl	memcpy
+ 907              	.LVL85:
+ 185:../../core/drivers/S25FL256/src/S25FL256.c ****     }
+ 908              		.loc 1 185 0
+ 909 0064 0024     		movs	r4, #0
+ 910 0066 F5E7     		b	.L70
+ 911              	.LVL86:
+ 912              	.L71:
+ 143:../../core/drivers/S25FL256/src/S25FL256.c ****     }
+ 913              		.loc 1 143 0
+ 914 0068 6FF00100 		mvn	r0, #1
+ 915 006c F3E7     		b	.L66
+ 916              	.L72:
+ 148:../../core/drivers/S25FL256/src/S25FL256.c ****     }
+ 917              		.loc 1 148 0
+ 918 006e 6FF00400 		mvn	r0, #4
+ 919 0072 F0E7     		b	.L66
+ 920              	.LVL87:
+ 921              	.L73:
+ 179:../../core/drivers/S25FL256/src/S25FL256.c ****     }
+ 922              		.loc 1 179 0
+ 923 0074 6FF00400 		mvn	r0, #4
+ 924 0078 EDE7     		b	.L66
+ 925              	.L78:
+ 926 007a 00BF     		.align	2
+ 927              	.L77:
+ 928 007c 00000000 		.word	mCurrentWriteAddress
+ 929 0080 0048E801 		.word	32000000
+ 930 0084 00000000 		.word	mMemBlockIndex
+ 931 0088 00000000 		.word	mMemBlock
+ 932              		.cfi_endproc
+ 933              	.LFE129:
+ 935              		.section	.text.S25FL256_TestRW,"ax",%progbits
+ 936              		.align	1
+ 937              		.global	S25FL256_TestRW
+ 938              		.syntax unified
+ 939              		.thumb
+ 940              		.thumb_func
+ 941              		.fpu fpv4-sp-d16
+ 943              	S25FL256_TestRW:
+ 944              	.LFB139:
+ 448:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 449:../../core/drivers/S25FL256/src/S25FL256.c **** /* READ WRITE TEST 
+ 450:../../core/drivers/S25FL256/src/S25FL256.c **** *writes 1 block en reads it
+ 451:../../core/drivers/S25FL256/src/S25FL256.c **** * returns 1 if equal (success), 0 if not equal (fail)
+ 452:../../core/drivers/S25FL256/src/S25FL256.c **** */
+ 453:../../core/drivers/S25FL256/src/S25FL256.c **** uint8_t S25FL256_TestRW()
+ARM GAS  /tmp/ccde91WQ.s 			page 27
+
+
+ 454:../../core/drivers/S25FL256/src/S25FL256.c **** {
+ 945              		.loc 1 454 0
+ 946              		.cfi_startproc
+ 947              		@ args = 0, pretend = 0, frame = 0
+ 948              		@ frame_needed = 0, uses_anonymous_args = 0
+ 949 0000 70B5     		push	{r4, r5, r6, lr}
+ 950              	.LCFI13:
+ 951              		.cfi_def_cfa_offset 16
+ 952              		.cfi_offset 4, -16
+ 953              		.cfi_offset 5, -12
+ 954              		.cfi_offset 6, -8
+ 955              		.cfi_offset 14, -4
+ 956              	.LVL88:
+ 957              	.LBB3:
+ 455:../../core/drivers/S25FL256/src/S25FL256.c ****     //test flash RW
+ 456:../../core/drivers/S25FL256/src/S25FL256.c ****     #define SIZE 256
+ 457:../../core/drivers/S25FL256/src/S25FL256.c ****     #define BLOCK_ID 0
+ 458:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 459:../../core/drivers/S25FL256/src/S25FL256.c ****     uint8_t block1 = 1;
+ 460:../../core/drivers/S25FL256/src/S25FL256.c ****     uint8_t block2 = 1;
+ 461:../../core/drivers/S25FL256/src/S25FL256.c ****     uint8_t block3 = 1;
+ 462:../../core/drivers/S25FL256/src/S25FL256.c ****     
+ 463:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 464:../../core/drivers/S25FL256/src/S25FL256.c ****     static uint8_t tx[SIZE];
+ 465:../../core/drivers/S25FL256/src/S25FL256.c ****     static uint8_t rx[SIZE];
+ 466:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 467:../../core/drivers/S25FL256/src/S25FL256.c ****     //fill tx array
+ 468:../../core/drivers/S25FL256/src/S25FL256.c ****     for (int n = 0; n < SIZE; n++)
+ 958              		.loc 1 468 0
+ 959 0002 0023     		movs	r3, #0
+ 960 0004 02E0     		b	.L80
+ 961              	.LVL89:
+ 962              	.L81:
+ 469:../../core/drivers/S25FL256/src/S25FL256.c ****     {
+ 470:../../core/drivers/S25FL256/src/S25FL256.c ****         tx[n] = n;
+ 963              		.loc 1 470 0 discriminator 3
+ 964 0006 454A     		ldr	r2, .L111
+ 965 0008 D354     		strb	r3, [r2, r3]
+ 468:../../core/drivers/S25FL256/src/S25FL256.c ****     {
+ 966              		.loc 1 468 0 discriminator 3
+ 967 000a 0133     		adds	r3, r3, #1
+ 968              	.LVL90:
+ 969              	.L80:
+ 468:../../core/drivers/S25FL256/src/S25FL256.c ****     {
+ 970              		.loc 1 468 0 is_stmt 0 discriminator 1
+ 971 000c FF2B     		cmp	r3, #255
+ 972 000e FADD     		ble	.L81
+ 973              	.LBE3:
+ 471:../../core/drivers/S25FL256/src/S25FL256.c ****     }
+ 472:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 473:../../core/drivers/S25FL256/src/S25FL256.c ****     S25FL256_open(BLOCK_ID);
+ 974              		.loc 1 473 0 is_stmt 1
+ 975 0010 0020     		movs	r0, #0
+ 976 0012 FFF7FEFF 		bl	S25FL256_open
+ 977              	.LVL91:
+ 474:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 475:../../core/drivers/S25FL256/src/S25FL256.c ****     S25FL256_write((uint8_t *)tx, SIZE);
+ARM GAS  /tmp/ccde91WQ.s 			page 28
+
+
+ 978              		.loc 1 475 0
+ 979 0016 4FF48071 		mov	r1, #256
+ 980 001a 4048     		ldr	r0, .L111
+ 981 001c FFF7FEFF 		bl	S25FL256_write
+ 982              	.LVL92:
+ 476:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 477:../../core/drivers/S25FL256/src/S25FL256.c ****     while (S25FL256_isWriteInProgress())
+ 983              		.loc 1 477 0
+ 984 0020 02E0     		b	.L82
+ 985              	.L83:
+ 478:../../core/drivers/S25FL256/src/S25FL256.c ****     {
+ 479:../../core/drivers/S25FL256/src/S25FL256.c ****         HAL_Delay(SPI_WAIT);
+ 986              		.loc 1 479 0
+ 987 0022 3220     		movs	r0, #50
+ 988 0024 FFF7FEFF 		bl	HAL_Delay
+ 989              	.LVL93:
+ 990              	.L82:
+ 477:../../core/drivers/S25FL256/src/S25FL256.c ****     {
+ 991              		.loc 1 477 0
+ 992 0028 FFF7FEFF 		bl	S25FL256_isWriteInProgress
+ 993              	.LVL94:
+ 994 002c 0546     		mov	r5, r0
+ 995 002e 0028     		cmp	r0, #0
+ 996 0030 F7D1     		bne	.L83
+ 480:../../core/drivers/S25FL256/src/S25FL256.c ****     }
+ 481:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 482:../../core/drivers/S25FL256/src/S25FL256.c ****     S25FL256_read((uint8_t *)rx, SIZE);
+ 997              		.loc 1 482 0
+ 998 0032 4FF48071 		mov	r1, #256
+ 999 0036 3A48     		ldr	r0, .L111+4
+ 1000 0038 FFF7FEFF 		bl	S25FL256_read
+ 1001              	.LVL95:
+ 1002              	.LBB4:
+ 483:../../core/drivers/S25FL256/src/S25FL256.c ****     
+ 484:../../core/drivers/S25FL256/src/S25FL256.c ****     for(int i = 0; i < SIZE; i++)
+ 1003              		.loc 1 484 0
+ 1004 003c 0023     		movs	r3, #0
+ 1005              	.LBE4:
+ 459:../../core/drivers/S25FL256/src/S25FL256.c ****     uint8_t block2 = 1;
+ 1006              		.loc 1 459 0
+ 1007 003e 0124     		movs	r4, #1
+ 1008              	.LBB5:
+ 1009              		.loc 1 484 0
+ 1010 0040 00E0     		b	.L84
+ 1011              	.LVL96:
+ 1012              	.L85:
+ 1013              		.loc 1 484 0 is_stmt 0 discriminator 2
+ 1014 0042 0133     		adds	r3, r3, #1
+ 1015              	.LVL97:
+ 1016              	.L84:
+ 1017              		.loc 1 484 0 discriminator 1
+ 1018 0044 FF2B     		cmp	r3, #255
+ 1019 0046 07DC     		bgt	.L107
+ 485:../../core/drivers/S25FL256/src/S25FL256.c ****     {
+ 486:../../core/drivers/S25FL256/src/S25FL256.c ****         if(tx[i] != rx[i])
+ 1020              		.loc 1 486 0 is_stmt 1
+ 1021 0048 344A     		ldr	r2, .L111
+ARM GAS  /tmp/ccde91WQ.s 			page 29
+
+
+ 1022 004a D15C     		ldrb	r1, [r2, r3]	@ zero_extendqisi2
+ 1023 004c 344A     		ldr	r2, .L111+4
+ 1024 004e D25C     		ldrb	r2, [r2, r3]	@ zero_extendqisi2
+ 1025 0050 9142     		cmp	r1, r2
+ 1026 0052 F6D0     		beq	.L85
+ 487:../../core/drivers/S25FL256/src/S25FL256.c ****         {
+ 488:../../core/drivers/S25FL256/src/S25FL256.c ****             block1 =0;
+ 1027              		.loc 1 488 0
+ 1028 0054 2C46     		mov	r4, r5
+ 1029              	.LVL98:
+ 1030 0056 F4E7     		b	.L85
+ 1031              	.LVL99:
+ 1032              	.L107:
+ 1033              	.LBE5:
+ 1034              	.LBB6:
+ 489:../../core/drivers/S25FL256/src/S25FL256.c ****         }
+ 490:../../core/drivers/S25FL256/src/S25FL256.c ****     }
+ 491:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 492:../../core/drivers/S25FL256/src/S25FL256.c ****     for (int n = 0; n < SIZE; n++)
+ 1035              		.loc 1 492 0
+ 1036 0058 0023     		movs	r3, #0
+ 1037              	.LVL100:
+ 1038 005a 03E0     		b	.L87
+ 1039              	.LVL101:
+ 1040              	.L88:
+ 493:../../core/drivers/S25FL256/src/S25FL256.c ****     {
+ 494:../../core/drivers/S25FL256/src/S25FL256.c ****         tx[n] = 255-n;
+ 1041              		.loc 1 494 0 discriminator 3
+ 1042 005c D943     		mvns	r1, r3
+ 1043 005e 2F4A     		ldr	r2, .L111
+ 1044 0060 D154     		strb	r1, [r2, r3]
+ 492:../../core/drivers/S25FL256/src/S25FL256.c ****     {
+ 1045              		.loc 1 492 0 discriminator 3
+ 1046 0062 0133     		adds	r3, r3, #1
+ 1047              	.LVL102:
+ 1048              	.L87:
+ 492:../../core/drivers/S25FL256/src/S25FL256.c ****     {
+ 1049              		.loc 1 492 0 is_stmt 0 discriminator 1
+ 1050 0064 FF2B     		cmp	r3, #255
+ 1051 0066 F9DD     		ble	.L88
+ 1052              	.LBE6:
+ 495:../../core/drivers/S25FL256/src/S25FL256.c ****     }
+ 496:../../core/drivers/S25FL256/src/S25FL256.c ****     S25FL256_open(BLOCK_ID+1);
+ 1053              		.loc 1 496 0 is_stmt 1
+ 1054 0068 0120     		movs	r0, #1
+ 1055 006a FFF7FEFF 		bl	S25FL256_open
+ 1056              	.LVL103:
+ 497:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 498:../../core/drivers/S25FL256/src/S25FL256.c ****     S25FL256_write((uint8_t *)tx, SIZE);
+ 1057              		.loc 1 498 0
+ 1058 006e 4FF48071 		mov	r1, #256
+ 1059 0072 2A48     		ldr	r0, .L111
+ 1060 0074 FFF7FEFF 		bl	S25FL256_write
+ 1061              	.LVL104:
+ 499:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 500:../../core/drivers/S25FL256/src/S25FL256.c ****     while (S25FL256_isWriteInProgress())
+ 1062              		.loc 1 500 0
+ARM GAS  /tmp/ccde91WQ.s 			page 30
+
+
+ 1063 0078 02E0     		b	.L89
+ 1064              	.L90:
+ 501:../../core/drivers/S25FL256/src/S25FL256.c ****     {
+ 502:../../core/drivers/S25FL256/src/S25FL256.c ****         HAL_Delay(SPI_WAIT);
+ 1065              		.loc 1 502 0
+ 1066 007a 3220     		movs	r0, #50
+ 1067 007c FFF7FEFF 		bl	HAL_Delay
+ 1068              	.LVL105:
+ 1069              	.L89:
+ 500:../../core/drivers/S25FL256/src/S25FL256.c ****     {
+ 1070              		.loc 1 500 0
+ 1071 0080 FFF7FEFF 		bl	S25FL256_isWriteInProgress
+ 1072              	.LVL106:
+ 1073 0084 0646     		mov	r6, r0
+ 1074 0086 0028     		cmp	r0, #0
+ 1075 0088 F7D1     		bne	.L90
+ 503:../../core/drivers/S25FL256/src/S25FL256.c ****     }
+ 504:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 505:../../core/drivers/S25FL256/src/S25FL256.c ****     S25FL256_read((uint8_t *)rx, SIZE);
+ 1076              		.loc 1 505 0
+ 1077 008a 4FF48071 		mov	r1, #256
+ 1078 008e 2448     		ldr	r0, .L111+4
+ 1079 0090 FFF7FEFF 		bl	S25FL256_read
+ 1080              	.LVL107:
+ 1081              	.LBB7:
+ 506:../../core/drivers/S25FL256/src/S25FL256.c ****     
+ 507:../../core/drivers/S25FL256/src/S25FL256.c ****     for(int i = 0; i < SIZE; i++)
+ 1082              		.loc 1 507 0
+ 1083 0094 0023     		movs	r3, #0
+ 1084              	.LBE7:
+ 460:../../core/drivers/S25FL256/src/S25FL256.c ****     uint8_t block3 = 1;
+ 1085              		.loc 1 460 0
+ 1086 0096 0125     		movs	r5, #1
+ 1087              	.LBB8:
+ 1088              		.loc 1 507 0
+ 1089 0098 00E0     		b	.L91
+ 1090              	.LVL108:
+ 1091              	.L92:
+ 1092              		.loc 1 507 0 is_stmt 0 discriminator 2
+ 1093 009a 0133     		adds	r3, r3, #1
+ 1094              	.LVL109:
+ 1095              	.L91:
+ 1096              		.loc 1 507 0 discriminator 1
+ 1097 009c FF2B     		cmp	r3, #255
+ 1098 009e 07DC     		bgt	.L108
+ 508:../../core/drivers/S25FL256/src/S25FL256.c ****     {
+ 509:../../core/drivers/S25FL256/src/S25FL256.c ****         if(tx[i] != rx[i])
+ 1099              		.loc 1 509 0 is_stmt 1
+ 1100 00a0 1E4A     		ldr	r2, .L111
+ 1101 00a2 D15C     		ldrb	r1, [r2, r3]	@ zero_extendqisi2
+ 1102 00a4 1E4A     		ldr	r2, .L111+4
+ 1103 00a6 D25C     		ldrb	r2, [r2, r3]	@ zero_extendqisi2
+ 1104 00a8 9142     		cmp	r1, r2
+ 1105 00aa F6D0     		beq	.L92
+ 510:../../core/drivers/S25FL256/src/S25FL256.c ****         {
+ 511:../../core/drivers/S25FL256/src/S25FL256.c ****             block2 = 0;
+ 1106              		.loc 1 511 0
+ARM GAS  /tmp/ccde91WQ.s 			page 31
+
+
+ 1107 00ac 3546     		mov	r5, r6
+ 1108              	.LVL110:
+ 1109 00ae F4E7     		b	.L92
+ 1110              	.LVL111:
+ 1111              	.L108:
+ 1112              	.LBE8:
+ 1113              	.LBB9:
+ 512:../../core/drivers/S25FL256/src/S25FL256.c ****         }
+ 513:../../core/drivers/S25FL256/src/S25FL256.c ****     }
+ 514:../../core/drivers/S25FL256/src/S25FL256.c ****     for (int n = 0; n < SIZE; n++)
+ 1114              		.loc 1 514 0
+ 1115 00b0 0023     		movs	r3, #0
+ 1116              	.LVL112:
+ 1117 00b2 05E0     		b	.L94
+ 1118              	.LVL113:
+ 1119              	.L95:
+ 515:../../core/drivers/S25FL256/src/S25FL256.c ****     {
+ 516:../../core/drivers/S25FL256/src/S25FL256.c ****         tx[n] = n/2;
+ 1120              		.loc 1 516 0 discriminator 3
+ 1121 00b4 03EBD372 		add	r2, r3, r3, lsr #31
+ 1122 00b8 5210     		asrs	r2, r2, #1
+ 1123 00ba 1849     		ldr	r1, .L111
+ 1124 00bc CA54     		strb	r2, [r1, r3]
+ 514:../../core/drivers/S25FL256/src/S25FL256.c ****     {
+ 1125              		.loc 1 514 0 discriminator 3
+ 1126 00be 0133     		adds	r3, r3, #1
+ 1127              	.LVL114:
+ 1128              	.L94:
+ 514:../../core/drivers/S25FL256/src/S25FL256.c ****     {
+ 1129              		.loc 1 514 0 is_stmt 0 discriminator 1
+ 1130 00c0 FF2B     		cmp	r3, #255
+ 1131 00c2 F7DD     		ble	.L95
+ 1132              	.LBE9:
+ 517:../../core/drivers/S25FL256/src/S25FL256.c ****     }
+ 518:../../core/drivers/S25FL256/src/S25FL256.c ****     S25FL256_open(BLOCK_ID+2);
+ 1133              		.loc 1 518 0 is_stmt 1
+ 1134 00c4 0220     		movs	r0, #2
+ 1135 00c6 FFF7FEFF 		bl	S25FL256_open
+ 1136              	.LVL115:
+ 519:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 520:../../core/drivers/S25FL256/src/S25FL256.c ****     S25FL256_write((uint8_t *)tx, SIZE);
+ 1137              		.loc 1 520 0
+ 1138 00ca 4FF48071 		mov	r1, #256
+ 1139 00ce 1348     		ldr	r0, .L111
+ 1140 00d0 FFF7FEFF 		bl	S25FL256_write
+ 1141              	.LVL116:
+ 521:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 522:../../core/drivers/S25FL256/src/S25FL256.c ****     while (S25FL256_isWriteInProgress())
+ 1142              		.loc 1 522 0
+ 1143 00d4 02E0     		b	.L96
+ 1144              	.L97:
+ 523:../../core/drivers/S25FL256/src/S25FL256.c ****     {
+ 524:../../core/drivers/S25FL256/src/S25FL256.c ****         HAL_Delay(SPI_WAIT);
+ 1145              		.loc 1 524 0
+ 1146 00d6 3220     		movs	r0, #50
+ 1147 00d8 FFF7FEFF 		bl	HAL_Delay
+ 1148              	.LVL117:
+ARM GAS  /tmp/ccde91WQ.s 			page 32
+
+
+ 1149              	.L96:
+ 522:../../core/drivers/S25FL256/src/S25FL256.c ****     {
+ 1150              		.loc 1 522 0
+ 1151 00dc FFF7FEFF 		bl	S25FL256_isWriteInProgress
+ 1152              	.LVL118:
+ 1153 00e0 0646     		mov	r6, r0
+ 1154 00e2 0028     		cmp	r0, #0
+ 1155 00e4 F7D1     		bne	.L97
+ 525:../../core/drivers/S25FL256/src/S25FL256.c ****     }
+ 526:../../core/drivers/S25FL256/src/S25FL256.c **** 
+ 527:../../core/drivers/S25FL256/src/S25FL256.c ****     S25FL256_read((uint8_t *)rx, SIZE);
+ 1156              		.loc 1 527 0
+ 1157 00e6 4FF48071 		mov	r1, #256
+ 1158 00ea 0D48     		ldr	r0, .L111+4
+ 1159 00ec FFF7FEFF 		bl	S25FL256_read
+ 1160              	.LVL119:
+ 1161              	.LBB10:
+ 528:../../core/drivers/S25FL256/src/S25FL256.c ****     
+ 529:../../core/drivers/S25FL256/src/S25FL256.c ****     for(int i = 0; i < SIZE; i++)
+ 1162              		.loc 1 529 0
+ 1163 00f0 0023     		movs	r3, #0
+ 1164              	.LBE10:
+ 461:../../core/drivers/S25FL256/src/S25FL256.c ****     
+ 1165              		.loc 1 461 0
+ 1166 00f2 0120     		movs	r0, #1
+ 1167              	.LBB11:
+ 1168              		.loc 1 529 0
+ 1169 00f4 00E0     		b	.L98
+ 1170              	.LVL120:
+ 1171              	.L99:
+ 1172              		.loc 1 529 0 is_stmt 0 discriminator 2
+ 1173 00f6 0133     		adds	r3, r3, #1
+ 1174              	.LVL121:
+ 1175              	.L98:
+ 1176              		.loc 1 529 0 discriminator 1
+ 1177 00f8 FF2B     		cmp	r3, #255
+ 1178 00fa 07DC     		bgt	.L109
+ 530:../../core/drivers/S25FL256/src/S25FL256.c ****     {
+ 531:../../core/drivers/S25FL256/src/S25FL256.c ****         if(tx[i] != rx[i])
+ 1179              		.loc 1 531 0 is_stmt 1
+ 1180 00fc 074A     		ldr	r2, .L111
+ 1181 00fe D15C     		ldrb	r1, [r2, r3]	@ zero_extendqisi2
+ 1182 0100 074A     		ldr	r2, .L111+4
+ 1183 0102 D25C     		ldrb	r2, [r2, r3]	@ zero_extendqisi2
+ 1184 0104 9142     		cmp	r1, r2
+ 1185 0106 F6D0     		beq	.L99
+ 532:../../core/drivers/S25FL256/src/S25FL256.c ****         {
+ 533:../../core/drivers/S25FL256/src/S25FL256.c ****             block3 = 0;
+ 1186              		.loc 1 533 0
+ 1187 0108 3046     		mov	r0, r6
+ 1188              	.LVL122:
+ 1189 010a F4E7     		b	.L99
+ 1190              	.LVL123:
+ 1191              	.L109:
+ 1192              	.LBE11:
+ 534:../../core/drivers/S25FL256/src/S25FL256.c ****         }
+ 535:../../core/drivers/S25FL256/src/S25FL256.c ****     }
+ARM GAS  /tmp/ccde91WQ.s 			page 33
+
+
+ 536:../../core/drivers/S25FL256/src/S25FL256.c ****     if(block1 && block2 && block3)
+ 1193              		.loc 1 536 0
+ 1194 010c 0CB1     		cbz	r4, .L101
+ 1195              		.loc 1 536 0 is_stmt 0 discriminator 1
+ 1196 010e 05B1     		cbz	r5, .L101
+ 1197              		.loc 1 536 0 discriminator 2
+ 1198 0110 08B9     		cbnz	r0, .L110
+ 1199              	.L101:
+ 537:../../core/drivers/S25FL256/src/S25FL256.c ****         return 1;
+ 538:../../core/drivers/S25FL256/src/S25FL256.c ****     else
+ 539:../../core/drivers/S25FL256/src/S25FL256.c ****         return 0;
+ 540:../../core/drivers/S25FL256/src/S25FL256.c **** }...
+ 1200              		.loc 1 540 0 is_stmt 1
+ 1201 0112 3046     		mov	r0, r6
+ 1202              	.LVL124:
+ 1203 0114 70BD     		pop	{r4, r5, r6, pc}
+ 1204              	.LVL125:
+ 1205              	.L110:
+ 537:../../core/drivers/S25FL256/src/S25FL256.c ****         return 1;
+ 1206              		.loc 1 537 0
+ 1207 0116 0646     		mov	r6, r0
+ 1208 0118 FBE7     		b	.L101
+ 1209              	.L112:
+ 1210 011a 00BF     		.align	2
+ 1211              	.L111:
+ 1212 011c 00000000 		.word	.LANCHOR0
+ 1213 0120 00000000 		.word	.LANCHOR1
+ 1214              		.cfi_endproc
+ 1215              	.LFE139:
+ 1217              		.comm	flashSPI,4,4
+ 1218              		.comm	txData,5,4
+ 1219              		.comm	rxData,1,4
+ 1220              		.comm	_initialised,1,1
+ 1221              		.comm	mMemBlockIndex,2,2
+ 1222              		.comm	mMemBlock,256,4
+ 1223              		.comm	mCurrentWriteAddress,4,4
+ 1224              		.comm	mCurrentReadAddress,4,4
+ 1225              		.section	.bss.rx.10248,"aw",%nobits
+ 1226              		.align	2
+ 1227              		.set	.LANCHOR1,. + 0
+ 1230              	rx.10248:
+ 1231 0000 00000000 		.space	256
+ 1231      00000000 
+ 1231      00000000 
+ 1231      00000000 
+ 1231      00000000 
+ 1232              		.section	.bss.tx.10247,"aw",%nobits
+ 1233              		.align	2
+ 1234              		.set	.LANCHOR0,. + 0
+ 1237              	tx.10247:
+ 1238 0000 00000000 		.space	256
+ 1238      00000000 
+ 1238      00000000 
+ 1238      00000000 
+ 1238      00000000 
+ 1239              		.text
+ 1240              	.Letext0:
+ARM GAS  /tmp/ccde91WQ.s 			page 34
+
+
+ 1241              		.file 2 "/home/mats/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/machine/_default_type
+ 1242              		.file 3 "/home/mats/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/sys/_stdint.h"
+ 1243              		.file 4 "../../core/ST/CMSIS/Include/core_cm4.h"
+ 1244              		.file 5 "../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/system_stm32l4xx.h"
+ 1245              		.file 6 "../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/stm32l496xx.h"
+ 1246              		.file 7 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h"
+ 1247              		.file 8 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_gpio.h"
+ 1248              		.file 9 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_dma.h"
+ 1249              		.file 10 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_spi.h"
+ 1250              		.file 11 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h"
+ 1251              		.file 12 "../../core/drivers/S25FL256/inc/S25FL256.h"
+ 1252              		.file 13 "/home/mats/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/sys/lock.h"
+ 1253              		.file 14 "/home/mats/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/sys/_types.h"
+ 1254              		.file 15 "/home/mats/gcc-arm-none-eabi-7-2018-q2-update/lib/gcc/arm-none-eabi/7.3.1/include/stddef
+ 1255              		.file 16 "/home/mats/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/sys/reent.h"
+ 1256              		.file 17 "<built-in>"
+ARM GAS  /tmp/ccde91WQ.s 			page 35
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 S25FL256.c
+     /tmp/ccde91WQ.s:18     .text.S25FL256_Initialize:0000000000000000 $t
+     /tmp/ccde91WQ.s:25     .text.S25FL256_Initialize:0000000000000000 S25FL256_Initialize
+     /tmp/ccde91WQ.s:93     .text.S25FL256_Initialize:0000000000000054 $d
+                            *COM*:0000000000000002 mMemBlockIndex
+                            *COM*:0000000000000100 mMemBlock
+                            *COM*:0000000000000004 mCurrentReadAddress
+                            *COM*:0000000000000004 mCurrentWriteAddress
+                            *COM*:0000000000000001 _initialised
+                            *COM*:0000000000000004 flashSPI
+     /tmp/ccde91WQ.s:105    .text.S25FL256_Enable:0000000000000000 $t
+     /tmp/ccde91WQ.s:112    .text.S25FL256_Enable:0000000000000000 S25FL256_Enable
+     /tmp/ccde91WQ.s:134    .text.S25FL256_Enable:0000000000000010 $d
+     /tmp/ccde91WQ.s:139    .text.S25FL256_Disable:0000000000000000 $t
+     /tmp/ccde91WQ.s:146    .text.S25FL256_Disable:0000000000000000 S25FL256_Disable
+     /tmp/ccde91WQ.s:168    .text.S25FL256_Disable:0000000000000010 $d
+     /tmp/ccde91WQ.s:173    .text.S25FL256_readReg:0000000000000000 $t
+     /tmp/ccde91WQ.s:180    .text.S25FL256_readReg:0000000000000000 S25FL256_readReg
+     /tmp/ccde91WQ.s:237    .text.S25FL256_readReg:0000000000000048 $d
+                            *COM*:0000000000000005 txData
+                            *COM*:0000000000000001 rxData
+     /tmp/ccde91WQ.s:244    .text.S25FL256_isWriteInProgress:0000000000000000 $t
+     /tmp/ccde91WQ.s:251    .text.S25FL256_isWriteInProgress:0000000000000000 S25FL256_isWriteInProgress
+     /tmp/ccde91WQ.s:283    .text.S25FL256_open:0000000000000000 $t
+     /tmp/ccde91WQ.s:290    .text.S25FL256_open:0000000000000000 S25FL256_open
+     /tmp/ccde91WQ.s:343    .text.S25FL256_open:0000000000000034 $d
+     /tmp/ccde91WQ.s:350    .text.S25FL256_send4BCommand:0000000000000000 $t
+     /tmp/ccde91WQ.s:357    .text.S25FL256_send4BCommand:0000000000000000 S25FL256_send4BCommand
+     /tmp/ccde91WQ.s:428    .text.S25FL256_send4BCommand:000000000000004c $d
+     /tmp/ccde91WQ.s:434    .text.S25FL256_read:0000000000000000 $t
+     /tmp/ccde91WQ.s:441    .text.S25FL256_read:0000000000000000 S25FL256_read
+     /tmp/ccde91WQ.s:498    .text.S25FL256_read:0000000000000040 $d
+     /tmp/ccde91WQ.s:504    .text.S25FL256_sendCommand:0000000000000000 $t
+     /tmp/ccde91WQ.s:511    .text.S25FL256_sendCommand:0000000000000000 S25FL256_sendCommand
+     /tmp/ccde91WQ.s:571    .text.S25FL256_sendCommand:0000000000000048 $d
+     /tmp/ccde91WQ.s:577    .text.S25FL256_eraseFullFlash:0000000000000000 $t
+     /tmp/ccde91WQ.s:584    .text.S25FL256_eraseFullFlash:0000000000000000 S25FL256_eraseFullFlash
+     /tmp/ccde91WQ.s:634    .text.S25FL256_eraseSectorFromBlock:0000000000000000 $t
+     /tmp/ccde91WQ.s:641    .text.S25FL256_eraseSectorFromBlock:0000000000000000 S25FL256_eraseSectorFromBlock
+     /tmp/ccde91WQ.s:714    .text.S25FL256_eraseSectorFromBlock:0000000000000064 $d
+     /tmp/ccde91WQ.s:720    .text.S25FL256_flush:0000000000000000 $t
+     /tmp/ccde91WQ.s:727    .text.S25FL256_flush:0000000000000000 S25FL256_flush
+     /tmp/ccde91WQ.s:798    .text.S25FL256_flush:000000000000006c $d
+     /tmp/ccde91WQ.s:806    .text.S25FL256_write:0000000000000000 $t
+     /tmp/ccde91WQ.s:813    .text.S25FL256_write:0000000000000000 S25FL256_write
+     /tmp/ccde91WQ.s:928    .text.S25FL256_write:000000000000007c $d
+     /tmp/ccde91WQ.s:936    .text.S25FL256_TestRW:0000000000000000 $t
+     /tmp/ccde91WQ.s:943    .text.S25FL256_TestRW:0000000000000000 S25FL256_TestRW
+     /tmp/ccde91WQ.s:1212   .text.S25FL256_TestRW:000000000000011c $d
+     /tmp/ccde91WQ.s:1226   .bss.rx.10248:0000000000000000 $d
+     /tmp/ccde91WQ.s:1230   .bss.rx.10248:0000000000000000 rx.10248
+     /tmp/ccde91WQ.s:1233   .bss.tx.10247:0000000000000000 $d
+     /tmp/ccde91WQ.s:1237   .bss.tx.10247:0000000000000000 tx.10247
+
+UNDEFINED SYMBOLS
+memset
+ARM GAS  /tmp/ccde91WQ.s 			page 36
+
+
+HAL_GPIO_WritePin
+HAL_SPI_Transmit
+HAL_SPI_Receive
+HAL_Delay
+memcpy

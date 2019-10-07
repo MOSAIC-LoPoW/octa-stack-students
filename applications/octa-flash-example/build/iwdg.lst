@@ -1,0 +1,169 @@
+ARM GAS  /tmp/cc7wS7WC.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 28, 1
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.file	"iwdg.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.text.OCTA_IWDG_Init,"ax",%progbits
+  18              		.align	1
+  19              		.global	OCTA_IWDG_Init
+  20              		.syntax unified
+  21              		.thumb
+  22              		.thumb_func
+  23              		.fpu fpv4-sp-d16
+  25              	OCTA_IWDG_Init:
+  26              	.LFB123:
+  27              		.file 1 "../../core/platform/octa/src/iwdg.c"
+   1:../../core/platform/octa/src/iwdg.c **** #include "iwdg.h"
+   2:../../core/platform/octa/src/iwdg.c **** 
+   3:../../core/platform/octa/src/iwdg.c **** /**
+   4:../../core/platform/octa/src/iwdg.c ****   * @brief IWDG Initialization Function
+   5:../../core/platform/octa/src/iwdg.c ****   * @param None
+   6:../../core/platform/octa/src/iwdg.c ****   * @retval None
+   7:../../core/platform/octa/src/iwdg.c ****   */
+   8:../../core/platform/octa/src/iwdg.c **** void OCTA_IWDG_Init(void)
+   9:../../core/platform/octa/src/iwdg.c **** {
+  28              		.loc 1 9 0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32 0000 08B5     		push	{r3, lr}
+  33              	.LCFI0:
+  34              		.cfi_def_cfa_offset 8
+  35              		.cfi_offset 3, -8
+  36              		.cfi_offset 14, -4
+  10:../../core/platform/octa/src/iwdg.c **** 
+  11:../../core/platform/octa/src/iwdg.c ****   /* USER CODE BEGIN IWDG_Init 0 */
+  12:../../core/platform/octa/src/iwdg.c **** 
+  13:../../core/platform/octa/src/iwdg.c ****   /* USER CODE END IWDG_Init 0 */
+  14:../../core/platform/octa/src/iwdg.c **** 
+  15:../../core/platform/octa/src/iwdg.c ****   /* USER CODE BEGIN IWDG_Init 1 */
+  16:../../core/platform/octa/src/iwdg.c **** 
+  17:../../core/platform/octa/src/iwdg.c ****   /* USER CODE END IWDG_Init 1 */
+  18:../../core/platform/octa/src/iwdg.c ****   hiwdg.Instance = IWDG;
+  37              		.loc 1 18 0
+  38 0002 0848     		ldr	r0, .L5
+  39 0004 084B     		ldr	r3, .L5+4
+  40 0006 0360     		str	r3, [r0]
+ARM GAS  /tmp/cc7wS7WC.s 			page 2
+
+
+  19:../../core/platform/octa/src/iwdg.c ****   hiwdg.Init.Prescaler = IWDG_PRESCALER_256;
+  41              		.loc 1 19 0
+  42 0008 0623     		movs	r3, #6
+  43 000a 4360     		str	r3, [r0, #4]
+  20:../../core/platform/octa/src/iwdg.c ****   hiwdg.Init.Window = 4095;
+  44              		.loc 1 20 0
+  45 000c 40F6FF73 		movw	r3, #4095
+  46 0010 C360     		str	r3, [r0, #12]
+  21:../../core/platform/octa/src/iwdg.c ****   hiwdg.Init.Reload = 4095;
+  47              		.loc 1 21 0
+  48 0012 8360     		str	r3, [r0, #8]
+  22:../../core/platform/octa/src/iwdg.c ****   if (HAL_IWDG_Init(&hiwdg) != HAL_OK)
+  49              		.loc 1 22 0
+  50 0014 FFF7FEFF 		bl	HAL_IWDG_Init
+  51              	.LVL0:
+  52 0018 00B9     		cbnz	r0, .L4
+  53              	.L1:
+  23:../../core/platform/octa/src/iwdg.c ****   {
+  24:../../core/platform/octa/src/iwdg.c ****     Error_Handler();
+  25:../../core/platform/octa/src/iwdg.c ****   }
+  26:../../core/platform/octa/src/iwdg.c ****   /* USER CODE BEGIN IWDG_Init 2 */
+  27:../../core/platform/octa/src/iwdg.c **** 
+  28:../../core/platform/octa/src/iwdg.c ****   /* USER CODE END IWDG_Init 2 */
+  29:../../core/platform/octa/src/iwdg.c **** 
+  30:../../core/platform/octa/src/iwdg.c **** }
+  54              		.loc 1 30 0
+  55 001a 08BD     		pop	{r3, pc}
+  56              	.L4:
+  57              	.LBB2:
+  24:../../core/platform/octa/src/iwdg.c ****   }
+  58              		.loc 1 24 0
+  59 001c FFF7FEFF 		bl	Error_Handler
+  60              	.LVL1:
+  61              	.LBE2:
+  62              		.loc 1 30 0
+  63 0020 FBE7     		b	.L1
+  64              	.L6:
+  65 0022 00BF     		.align	2
+  66              	.L5:
+  67 0024 00000000 		.word	hiwdg
+  68 0028 00300040 		.word	1073754112
+  69              		.cfi_endproc
+  70              	.LFE123:
+  72              		.section	.text.IWDG_feed,"ax",%progbits
+  73              		.align	1
+  74              		.global	IWDG_feed
+  75              		.syntax unified
+  76              		.thumb
+  77              		.thumb_func
+  78              		.fpu fpv4-sp-d16
+  80              	IWDG_feed:
+  81              	.LFB124:
+  31:../../core/platform/octa/src/iwdg.c **** 
+  32:../../core/platform/octa/src/iwdg.c **** void IWDG_feed(void const *argument)
+  33:../../core/platform/octa/src/iwdg.c **** {
+  82              		.loc 1 33 0
+  83              		.cfi_startproc
+ARM GAS  /tmp/cc7wS7WC.s 			page 3
+
+
+  84              		@ args = 0, pretend = 0, frame = 0
+  85              		@ frame_needed = 0, uses_anonymous_args = 0
+  86              		@ link register save eliminated.
+  87              	.LVL2:
+  34:../../core/platform/octa/src/iwdg.c ****   WRITE_REG(IWDG->KR, IWDG_KEY_RELOAD);
+  88              		.loc 1 34 0
+  89 0000 024B     		ldr	r3, .L8
+  90 0002 4AF6AA22 		movw	r2, #43690
+  91 0006 1A60     		str	r2, [r3]
+  35:../../core/platform/octa/src/iwdg.c **** }...
+  92              		.loc 1 35 0
+  93 0008 7047     		bx	lr
+  94              	.L9:
+  95 000a 00BF     		.align	2
+  96              	.L8:
+  97 000c 00300040 		.word	1073754112
+  98              		.cfi_endproc
+  99              	.LFE124:
+ 101              		.comm	hiwdg,16,4
+ 102              		.text
+ 103              	.Letext0:
+ 104              		.file 2 "/home/mats/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/machine/_default_type
+ 105              		.file 3 "/home/mats/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/sys/_stdint.h"
+ 106              		.file 4 "../../core/ST/CMSIS/Include/core_cm4.h"
+ 107              		.file 5 "../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/system_stm32l4xx.h"
+ 108              		.file 6 "../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/stm32l496xx.h"
+ 109              		.file 7 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_iwdg.h"
+ 110              		.file 8 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h"
+ 111              		.file 9 "../../core/platform/octa/inc/iwdg.h"
+ 112              		.file 10 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h"
+ARM GAS  /tmp/cc7wS7WC.s 			page 4
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 iwdg.c
+     /tmp/cc7wS7WC.s:18     .text.OCTA_IWDG_Init:0000000000000000 $t
+     /tmp/cc7wS7WC.s:25     .text.OCTA_IWDG_Init:0000000000000000 OCTA_IWDG_Init
+     /tmp/cc7wS7WC.s:67     .text.OCTA_IWDG_Init:0000000000000024 $d
+                            *COM*:0000000000000010 hiwdg
+     /tmp/cc7wS7WC.s:73     .text.IWDG_feed:0000000000000000 $t
+     /tmp/cc7wS7WC.s:80     .text.IWDG_feed:0000000000000000 IWDG_feed
+     /tmp/cc7wS7WC.s:97     .text.IWDG_feed:000000000000000c $d
+
+UNDEFINED SYMBOLS
+HAL_IWDG_Init
+Error_Handler

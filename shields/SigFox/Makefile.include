@@ -1,0 +1,11 @@
+# SigFox sources
+C_SOURCES += $(wildcard $(SHIELDS_DIR)/SigFox/src/*.c)
+
+# SigFox includes
+C_INCLUDES += -I$(SHIELDS_DIR)/SigFox/inc
+
+ifeq ($(origin SIGFOX_CONNECTOR), undefined)
+$(error SIGFOX_CONNECTOR undefined in makefile, please specify a connector in the application makefile)
+endif
+
+SHIELD_DEFINES += -DSIGFOX_CONNECTOR=$(SIGFOX_CONNECTOR)

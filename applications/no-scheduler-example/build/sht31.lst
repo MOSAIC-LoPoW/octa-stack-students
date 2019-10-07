@@ -1,0 +1,1015 @@
+ARM GAS  /tmp/ccRiJuRg.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 28, 1
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.file	"sht31.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.text.setI2CInterface_SHT31,"ax",%progbits
+  18              		.align	1
+  19              		.global	setI2CInterface_SHT31
+  20              		.syntax unified
+  21              		.thumb
+  22              		.thumb_func
+  23              		.fpu fpv4-sp-d16
+  25              	setI2CInterface_SHT31:
+  26              	.LFB126:
+  27              		.file 1 "../../core/drivers/SHT31/src/sht31.c"
+   1:../../core/drivers/SHT31/src/sht31.c **** /*
+   2:../../core/drivers/SHT31/src/sht31.c ****  * sht31.c
+   3:../../core/drivers/SHT31/src/sht31.c ****  *
+   4:../../core/drivers/SHT31/src/sht31.c ****  *  Created on: 7 Mar 2018
+   5:../../core/drivers/SHT31/src/sht31.c ****  *      Author: Fifth
+   6:../../core/drivers/SHT31/src/sht31.c ****  */
+   7:../../core/drivers/SHT31/src/sht31.c **** 
+   8:../../core/drivers/SHT31/src/sht31.c **** #include "sht31.h"
+   9:../../core/drivers/SHT31/src/sht31.c **** 
+  10:../../core/drivers/SHT31/src/sht31.c **** #include <stdio.h>
+  11:../../core/drivers/SHT31/src/sht31.c **** #include <math.h>
+  12:../../core/drivers/SHT31/src/sht31.c **** #define SHT31_DEFAULT_ADDR    0x44
+  13:../../core/drivers/SHT31/src/sht31.c **** 
+  14:../../core/drivers/SHT31/src/sht31.c **** void setI2CInterface_SHT31(I2C_HandleTypeDef *hi2c)
+  15:../../core/drivers/SHT31/src/sht31.c **** {
+  28              		.loc 1 15 0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32              		@ link register save eliminated.
+  33              	.LVL0:
+  16:../../core/drivers/SHT31/src/sht31.c **** 	SHThi2cLib=hi2c;
+  34              		.loc 1 16 0
+  35 0000 014B     		ldr	r3, .L2
+  36 0002 1860     		str	r0, [r3]
+  17:../../core/drivers/SHT31/src/sht31.c **** }
+  37              		.loc 1 17 0
+  38 0004 7047     		bx	lr
+  39              	.L3:
+  40 0006 00BF     		.align	2
+  41              	.L2:
+ARM GAS  /tmp/ccRiJuRg.s 			page 2
+
+
+  42 0008 00000000 		.word	SHThi2cLib
+  43              		.cfi_endproc
+  44              	.LFE126:
+  46              		.section	.text.WRITE_REGISTER_SHT31,"ax",%progbits
+  47              		.align	1
+  48              		.global	WRITE_REGISTER_SHT31
+  49              		.syntax unified
+  50              		.thumb
+  51              		.thumb_func
+  52              		.fpu fpv4-sp-d16
+  54              	WRITE_REGISTER_SHT31:
+  55              	.LFB127:
+  18:../../core/drivers/SHT31/src/sht31.c **** uint8_t WRITE_REGISTER_SHT31(uint8_t pData[],uint8_t length)
+  19:../../core/drivers/SHT31/src/sht31.c **** {
+  56              		.loc 1 19 0
+  57              		.cfi_startproc
+  58              		@ args = 0, pretend = 0, frame = 0
+  59              		@ frame_needed = 0, uses_anonymous_args = 0
+  60              	.LVL1:
+  61 0000 10B5     		push	{r4, lr}
+  62              	.LCFI0:
+  63              		.cfi_def_cfa_offset 8
+  64              		.cfi_offset 4, -8
+  65              		.cfi_offset 14, -4
+  66 0002 82B0     		sub	sp, sp, #8
+  67              	.LCFI1:
+  68              		.cfi_def_cfa_offset 16
+  20:../../core/drivers/SHT31/src/sht31.c **** 	uint8_t status=HAL_I2C_Master_Transmit(SHThi2cLib, SHT31_DEFAULT_ADDR<<1, pData,length, HAL_MAX_DE
+  69              		.loc 1 20 0
+  70 0004 064B     		ldr	r3, .L6
+  71 0006 1C68     		ldr	r4, [r3]
+  72 0008 4FF0FF33 		mov	r3, #-1
+  73 000c 0093     		str	r3, [sp]
+  74 000e 0B46     		mov	r3, r1
+  75 0010 0246     		mov	r2, r0
+  76 0012 8821     		movs	r1, #136
+  77              	.LVL2:
+  78 0014 2046     		mov	r0, r4
+  79              	.LVL3:
+  80 0016 FFF7FEFF 		bl	HAL_I2C_Master_Transmit
+  81              	.LVL4:
+  21:../../core/drivers/SHT31/src/sht31.c **** 	return status;
+  22:../../core/drivers/SHT31/src/sht31.c **** }
+  82              		.loc 1 22 0
+  83 001a 02B0     		add	sp, sp, #8
+  84              	.LCFI2:
+  85              		.cfi_def_cfa_offset 8
+  86              		@ sp needed
+  87 001c 10BD     		pop	{r4, pc}
+  88              	.L7:
+  89 001e 00BF     		.align	2
+  90              	.L6:
+  91 0020 00000000 		.word	SHThi2cLib
+  92              		.cfi_endproc
+  93              	.LFE127:
+  95              		.section	.text.READ_REGISTER_SHT31,"ax",%progbits
+  96              		.align	1
+ARM GAS  /tmp/ccRiJuRg.s 			page 3
+
+
+  97              		.global	READ_REGISTER_SHT31
+  98              		.syntax unified
+  99              		.thumb
+ 100              		.thumb_func
+ 101              		.fpu fpv4-sp-d16
+ 103              	READ_REGISTER_SHT31:
+ 104              	.LFB128:
+  23:../../core/drivers/SHT31/src/sht31.c **** uint8_t READ_REGISTER_SHT31(uint8_t buf[],uint16_t reg,uint8_t length)
+  24:../../core/drivers/SHT31/src/sht31.c **** {
+ 105              		.loc 1 24 0
+ 106              		.cfi_startproc
+ 107              		@ args = 0, pretend = 0, frame = 0
+ 108              		@ frame_needed = 0, uses_anonymous_args = 0
+ 109              	.LVL5:
+ 110 0000 10B5     		push	{r4, lr}
+ 111              	.LCFI3:
+ 112              		.cfi_def_cfa_offset 8
+ 113              		.cfi_offset 4, -8
+ 114              		.cfi_offset 14, -4
+ 115 0002 84B0     		sub	sp, sp, #16
+ 116              	.LCFI4:
+ 117              		.cfi_def_cfa_offset 24
+  25:../../core/drivers/SHT31/src/sht31.c **** 	uint8_t status = HAL_I2C_Mem_Read(SHThi2cLib, SHT31_DEFAULT_ADDR<<1, reg, I2C_MEMADD_SIZE_8BIT, bu
+ 118              		.loc 1 25 0
+ 119 0004 074B     		ldr	r3, .L10
+ 120 0006 1C68     		ldr	r4, [r3]
+ 121 0008 4FF0FF33 		mov	r3, #-1
+ 122 000c 0293     		str	r3, [sp, #8]
+ 123 000e 0192     		str	r2, [sp, #4]
+ 124 0010 0090     		str	r0, [sp]
+ 125 0012 0123     		movs	r3, #1
+ 126 0014 0A46     		mov	r2, r1
+ 127              	.LVL6:
+ 128 0016 8821     		movs	r1, #136
+ 129              	.LVL7:
+ 130 0018 2046     		mov	r0, r4
+ 131              	.LVL8:
+ 132 001a FFF7FEFF 		bl	HAL_I2C_Mem_Read
+ 133              	.LVL9:
+  26:../../core/drivers/SHT31/src/sht31.c **** 	return status;
+  27:../../core/drivers/SHT31/src/sht31.c **** }
+ 134              		.loc 1 27 0
+ 135 001e 04B0     		add	sp, sp, #16
+ 136              	.LCFI5:
+ 137              		.cfi_def_cfa_offset 8
+ 138              		@ sp needed
+ 139 0020 10BD     		pop	{r4, pc}
+ 140              	.L11:
+ 141 0022 00BF     		.align	2
+ 142              	.L10:
+ 143 0024 00000000 		.word	SHThi2cLib
+ 144              		.cfi_endproc
+ 145              	.LFE128:
+ 147              		.section	.text.READ_REG_SHT31,"ax",%progbits
+ 148              		.align	1
+ 149              		.global	READ_REG_SHT31
+ 150              		.syntax unified
+ARM GAS  /tmp/ccRiJuRg.s 			page 4
+
+
+ 151              		.thumb
+ 152              		.thumb_func
+ 153              		.fpu fpv4-sp-d16
+ 155              	READ_REG_SHT31:
+ 156              	.LFB129:
+  28:../../core/drivers/SHT31/src/sht31.c **** uint8_t READ_REG_SHT31(uint8_t buf[],uint8_t length)
+  29:../../core/drivers/SHT31/src/sht31.c **** {
+ 157              		.loc 1 29 0
+ 158              		.cfi_startproc
+ 159              		@ args = 0, pretend = 0, frame = 0
+ 160              		@ frame_needed = 0, uses_anonymous_args = 0
+ 161              	.LVL10:
+ 162 0000 10B5     		push	{r4, lr}
+ 163              	.LCFI6:
+ 164              		.cfi_def_cfa_offset 8
+ 165              		.cfi_offset 4, -8
+ 166              		.cfi_offset 14, -4
+ 167 0002 82B0     		sub	sp, sp, #8
+ 168              	.LCFI7:
+ 169              		.cfi_def_cfa_offset 16
+  30:../../core/drivers/SHT31/src/sht31.c **** 	uint8_t status= HAL_I2C_Master_Receive(SHThi2cLib, SHT31_DEFAULT_ADDR<<1, buf, length, HAL_MAX_DEL
+ 170              		.loc 1 30 0
+ 171 0004 064B     		ldr	r3, .L14
+ 172 0006 1C68     		ldr	r4, [r3]
+ 173 0008 4FF0FF33 		mov	r3, #-1
+ 174 000c 0093     		str	r3, [sp]
+ 175 000e 0B46     		mov	r3, r1
+ 176 0010 0246     		mov	r2, r0
+ 177 0012 8821     		movs	r1, #136
+ 178              	.LVL11:
+ 179 0014 2046     		mov	r0, r4
+ 180              	.LVL12:
+ 181 0016 FFF7FEFF 		bl	HAL_I2C_Master_Receive
+ 182              	.LVL13:
+  31:../../core/drivers/SHT31/src/sht31.c **** return status;
+  32:../../core/drivers/SHT31/src/sht31.c **** }
+ 183              		.loc 1 32 0
+ 184 001a 02B0     		add	sp, sp, #8
+ 185              	.LCFI8:
+ 186              		.cfi_def_cfa_offset 8
+ 187              		@ sp needed
+ 188 001c 10BD     		pop	{r4, pc}
+ 189              	.L15:
+ 190 001e 00BF     		.align	2
+ 191              	.L14:
+ 192 0020 00000000 		.word	SHThi2cLib
+ 193              		.cfi_endproc
+ 194              	.LFE129:
+ 196              		.section	.text.writeCommand,"ax",%progbits
+ 197              		.align	1
+ 198              		.global	writeCommand
+ 199              		.syntax unified
+ 200              		.thumb
+ 201              		.thumb_func
+ 202              		.fpu fpv4-sp-d16
+ 204              	writeCommand:
+ 205              	.LFB132:
+ARM GAS  /tmp/ccRiJuRg.s 			page 5
+
+
+  33:../../core/drivers/SHT31/src/sht31.c **** 
+  34:../../core/drivers/SHT31/src/sht31.c **** uint8_t  SHT31_begin() {
+  35:../../core/drivers/SHT31/src/sht31.c **** 	SHT31_reset();
+  36:../../core/drivers/SHT31/src/sht31.c ****   //return (readStatus() == 0x40);
+  37:../../core/drivers/SHT31/src/sht31.c ****   return 1;
+  38:../../core/drivers/SHT31/src/sht31.c **** }
+  39:../../core/drivers/SHT31/src/sht31.c **** void SHT31_get_temp_hum(float* sht31Data)
+  40:../../core/drivers/SHT31/src/sht31.c **** {
+  41:../../core/drivers/SHT31/src/sht31.c **** 	readTempHum();
+  42:../../core/drivers/SHT31/src/sht31.c **** 	sht31Data[1]= humidity;
+  43:../../core/drivers/SHT31/src/sht31.c **** 	sht31Data[0]= temp;
+  44:../../core/drivers/SHT31/src/sht31.c **** }
+  45:../../core/drivers/SHT31/src/sht31.c **** void  writeCommand(uint16_t cmd) {
+ 206              		.loc 1 45 0
+ 207              		.cfi_startproc
+ 208              		@ args = 0, pretend = 0, frame = 8
+ 209              		@ frame_needed = 0, uses_anonymous_args = 0
+ 210              	.LVL14:
+ 211 0000 00B5     		push	{lr}
+ 212              	.LCFI9:
+ 213              		.cfi_def_cfa_offset 4
+ 214              		.cfi_offset 14, -4
+ 215 0002 83B0     		sub	sp, sp, #12
+ 216              	.LCFI10:
+ 217              		.cfi_def_cfa_offset 16
+  46:../../core/drivers/SHT31/src/sht31.c **** 	uint8_t pData[2];
+  47:../../core/drivers/SHT31/src/sht31.c **** 	pData[0]=cmd >> 8;
+ 218              		.loc 1 47 0
+ 219 0004 030A     		lsrs	r3, r0, #8
+ 220 0006 8DF80430 		strb	r3, [sp, #4]
+  48:../../core/drivers/SHT31/src/sht31.c **** 	pData[1]=cmd & 0xFF;
+ 221              		.loc 1 48 0
+ 222 000a 8DF80500 		strb	r0, [sp, #5]
+  49:../../core/drivers/SHT31/src/sht31.c **** 	WRITE_REGISTER_SHT31(pData,2);
+ 223              		.loc 1 49 0
+ 224 000e 0221     		movs	r1, #2
+ 225 0010 01A8     		add	r0, sp, #4
+ 226              	.LVL15:
+ 227 0012 FFF7FEFF 		bl	WRITE_REGISTER_SHT31
+ 228              	.LVL16:
+  50:../../core/drivers/SHT31/src/sht31.c **** 
+  51:../../core/drivers/SHT31/src/sht31.c **** }
+ 229              		.loc 1 51 0
+ 230 0016 03B0     		add	sp, sp, #12
+ 231              	.LCFI11:
+ 232              		.cfi_def_cfa_offset 4
+ 233              		@ sp needed
+ 234 0018 5DF804FB 		ldr	pc, [sp], #4
+ 235              		.cfi_endproc
+ 236              	.LFE132:
+ 238              		.section	.text.readStatus,"ax",%progbits
+ 239              		.align	1
+ 240              		.global	readStatus
+ 241              		.syntax unified
+ 242              		.thumb
+ 243              		.thumb_func
+ 244              		.fpu fpv4-sp-d16
+ARM GAS  /tmp/ccRiJuRg.s 			page 6
+
+
+ 246              	readStatus:
+ 247              	.LFB133:
+  52:../../core/drivers/SHT31/src/sht31.c **** 
+  53:../../core/drivers/SHT31/src/sht31.c **** uint16_t  readStatus(void) {
+ 248              		.loc 1 53 0
+ 249              		.cfi_startproc
+ 250              		@ args = 0, pretend = 0, frame = 8
+ 251              		@ frame_needed = 0, uses_anonymous_args = 0
+ 252 0000 00B5     		push	{lr}
+ 253              	.LCFI12:
+ 254              		.cfi_def_cfa_offset 4
+ 255              		.cfi_offset 14, -4
+ 256 0002 83B0     		sub	sp, sp, #12
+ 257              	.LCFI13:
+ 258              		.cfi_def_cfa_offset 16
+  54:../../core/drivers/SHT31/src/sht31.c **** 	uint8_t stat[2];
+  55:../../core/drivers/SHT31/src/sht31.c **** 	writeCommand(0xF32D);
+ 259              		.loc 1 55 0
+ 260 0004 4FF22D30 		movw	r0, #62253
+ 261 0008 FFF7FEFF 		bl	writeCommand
+ 262              	.LVL17:
+  56:../../core/drivers/SHT31/src/sht31.c **** 	HAL_Delay(10);
+ 263              		.loc 1 56 0
+ 264 000c 0A20     		movs	r0, #10
+ 265 000e FFF7FEFF 		bl	HAL_Delay
+ 266              	.LVL18:
+  57:../../core/drivers/SHT31/src/sht31.c **** 	READ_REG_SHT31(stat,3);
+ 267              		.loc 1 57 0
+ 268 0012 0321     		movs	r1, #3
+ 269 0014 01A8     		add	r0, sp, #4
+ 270 0016 FFF7FEFF 		bl	READ_REG_SHT31
+ 271              	.LVL19:
+  58:../../core/drivers/SHT31/src/sht31.c **** 	uint16_t stat2=(stat[0]<<8)|stat[1];
+ 272              		.loc 1 58 0
+ 273 001a 9DF80400 		ldrb	r0, [sp, #4]	@ zero_extendqisi2
+ 274 001e 9DF80530 		ldrb	r3, [sp, #5]	@ zero_extendqisi2
+ 275              	.LVL20:
+  59:../../core/drivers/SHT31/src/sht31.c **** 	return stat2;
+  60:../../core/drivers/SHT31/src/sht31.c **** }
+ 276              		.loc 1 60 0
+ 277 0022 43EA0020 		orr	r0, r3, r0, lsl #8
+ 278              	.LVL21:
+ 279 0026 03B0     		add	sp, sp, #12
+ 280              	.LCFI14:
+ 281              		.cfi_def_cfa_offset 4
+ 282              		@ sp needed
+ 283 0028 5DF804FB 		ldr	pc, [sp], #4
+ 284              		.cfi_endproc
+ 285              	.LFE133:
+ 287              		.section	.text.SHT31_reset,"ax",%progbits
+ 288              		.align	1
+ 289              		.global	SHT31_reset
+ 290              		.syntax unified
+ 291              		.thumb
+ 292              		.thumb_func
+ 293              		.fpu fpv4-sp-d16
+ 295              	SHT31_reset:
+ARM GAS  /tmp/ccRiJuRg.s 			page 7
+
+
+ 296              	.LFB134:
+  61:../../core/drivers/SHT31/src/sht31.c **** 
+  62:../../core/drivers/SHT31/src/sht31.c **** void  SHT31_reset(void) {
+ 297              		.loc 1 62 0
+ 298              		.cfi_startproc
+ 299              		@ args = 0, pretend = 0, frame = 0
+ 300              		@ frame_needed = 0, uses_anonymous_args = 0
+ 301 0000 08B5     		push	{r3, lr}
+ 302              	.LCFI15:
+ 303              		.cfi_def_cfa_offset 8
+ 304              		.cfi_offset 3, -8
+ 305              		.cfi_offset 14, -4
+  63:../../core/drivers/SHT31/src/sht31.c ****   writeCommand(SHT31_SOFTRESET);
+ 306              		.loc 1 63 0
+ 307 0002 43F2A200 		movw	r0, #12450
+ 308 0006 FFF7FEFF 		bl	writeCommand
+ 309              	.LVL22:
+  64:../../core/drivers/SHT31/src/sht31.c **** }
+ 310              		.loc 1 64 0
+ 311 000a 08BD     		pop	{r3, pc}
+ 312              		.cfi_endproc
+ 313              	.LFE134:
+ 315              		.section	.text.SHT31_begin,"ax",%progbits
+ 316              		.align	1
+ 317              		.global	SHT31_begin
+ 318              		.syntax unified
+ 319              		.thumb
+ 320              		.thumb_func
+ 321              		.fpu fpv4-sp-d16
+ 323              	SHT31_begin:
+ 324              	.LFB130:
+  34:../../core/drivers/SHT31/src/sht31.c **** 	SHT31_reset();
+ 325              		.loc 1 34 0
+ 326              		.cfi_startproc
+ 327              		@ args = 0, pretend = 0, frame = 0
+ 328              		@ frame_needed = 0, uses_anonymous_args = 0
+ 329 0000 08B5     		push	{r3, lr}
+ 330              	.LCFI16:
+ 331              		.cfi_def_cfa_offset 8
+ 332              		.cfi_offset 3, -8
+ 333              		.cfi_offset 14, -4
+  35:../../core/drivers/SHT31/src/sht31.c ****   //return (readStatus() == 0x40);
+ 334              		.loc 1 35 0
+ 335 0002 FFF7FEFF 		bl	SHT31_reset
+ 336              	.LVL23:
+  38:../../core/drivers/SHT31/src/sht31.c **** void SHT31_get_temp_hum(float* sht31Data)
+ 337              		.loc 1 38 0
+ 338 0006 0120     		movs	r0, #1
+ 339 0008 08BD     		pop	{r3, pc}
+ 340              		.cfi_endproc
+ 341              	.LFE130:
+ 343              		.section	.text.heater,"ax",%progbits
+ 344              		.align	1
+ 345              		.global	heater
+ 346              		.syntax unified
+ 347              		.thumb
+ 348              		.thumb_func
+ARM GAS  /tmp/ccRiJuRg.s 			page 8
+
+
+ 349              		.fpu fpv4-sp-d16
+ 351              	heater:
+ 352              	.LFB135:
+  65:../../core/drivers/SHT31/src/sht31.c **** 
+  66:../../core/drivers/SHT31/src/sht31.c **** void  heater(uint8_t h) {
+ 353              		.loc 1 66 0
+ 354              		.cfi_startproc
+ 355              		@ args = 0, pretend = 0, frame = 0
+ 356              		@ frame_needed = 0, uses_anonymous_args = 0
+ 357              	.LVL24:
+ 358 0000 08B5     		push	{r3, lr}
+ 359              	.LCFI17:
+ 360              		.cfi_def_cfa_offset 8
+ 361              		.cfi_offset 3, -8
+ 362              		.cfi_offset 14, -4
+  67:../../core/drivers/SHT31/src/sht31.c ****   if (h)
+ 363              		.loc 1 67 0
+ 364 0002 20B9     		cbnz	r0, .L28
+  68:../../core/drivers/SHT31/src/sht31.c ****     writeCommand(SHT31_HEATEREN);
+  69:../../core/drivers/SHT31/src/sht31.c ****   else
+  70:../../core/drivers/SHT31/src/sht31.c ****     writeCommand(SHT31_HEATERDIS);
+ 365              		.loc 1 70 0
+ 366 0004 43F26600 		movw	r0, #12390
+ 367              	.LVL25:
+ 368 0008 FFF7FEFF 		bl	writeCommand
+ 369              	.LVL26:
+ 370              	.L24:
+  71:../../core/drivers/SHT31/src/sht31.c **** }
+ 371              		.loc 1 71 0
+ 372 000c 08BD     		pop	{r3, pc}
+ 373              	.LVL27:
+ 374              	.L28:
+  68:../../core/drivers/SHT31/src/sht31.c ****     writeCommand(SHT31_HEATEREN);
+ 375              		.loc 1 68 0
+ 376 000e 43F26D00 		movw	r0, #12397
+ 377              	.LVL28:
+ 378 0012 FFF7FEFF 		bl	writeCommand
+ 379              	.LVL29:
+ 380 0016 F9E7     		b	.L24
+ 381              		.cfi_endproc
+ 382              	.LFE135:
+ 384              		.global	__aeabi_ui2d
+ 385              		.global	__aeabi_dmul
+ 386              		.global	__aeabi_ddiv
+ 387              		.global	__aeabi_dsub
+ 388              		.global	__aeabi_d2f
+ 389              		.section	.text.readTempHum,"ax",%progbits
+ 390              		.align	1
+ 391              		.global	readTempHum
+ 392              		.syntax unified
+ 393              		.thumb
+ 394              		.thumb_func
+ 395              		.fpu fpv4-sp-d16
+ 397              	readTempHum:
+ 398              	.LFB138:
+  72:../../core/drivers/SHT31/src/sht31.c **** 
+  73:../../core/drivers/SHT31/src/sht31.c **** 
+ARM GAS  /tmp/ccRiJuRg.s 			page 9
+
+
+  74:../../core/drivers/SHT31/src/sht31.c **** float  readTemperature(void) {
+  75:../../core/drivers/SHT31/src/sht31.c ****   if (! readTempHum()) return 0;
+  76:../../core/drivers/SHT31/src/sht31.c **** 
+  77:../../core/drivers/SHT31/src/sht31.c ****   return temp;
+  78:../../core/drivers/SHT31/src/sht31.c **** }
+  79:../../core/drivers/SHT31/src/sht31.c **** 
+  80:../../core/drivers/SHT31/src/sht31.c **** 
+  81:../../core/drivers/SHT31/src/sht31.c **** float  readHumidity(void) {
+  82:../../core/drivers/SHT31/src/sht31.c ****   if (! readTempHum()) return 0;
+  83:../../core/drivers/SHT31/src/sht31.c **** 
+  84:../../core/drivers/SHT31/src/sht31.c ****   return humidity;
+  85:../../core/drivers/SHT31/src/sht31.c **** }
+  86:../../core/drivers/SHT31/src/sht31.c **** 
+  87:../../core/drivers/SHT31/src/sht31.c **** 
+  88:../../core/drivers/SHT31/src/sht31.c **** uint8_t  readTempHum(void)
+  89:../../core/drivers/SHT31/src/sht31.c **** {
+ 399              		.loc 1 89 0
+ 400              		.cfi_startproc
+ 401              		@ args = 0, pretend = 0, frame = 8
+ 402              		@ frame_needed = 0, uses_anonymous_args = 0
+ 403 0000 10B5     		push	{r4, lr}
+ 404              	.LCFI18:
+ 405              		.cfi_def_cfa_offset 8
+ 406              		.cfi_offset 4, -8
+ 407              		.cfi_offset 14, -4
+ 408 0002 82B0     		sub	sp, sp, #8
+ 409              	.LCFI19:
+ 410              		.cfi_def_cfa_offset 16
+  90:../../core/drivers/SHT31/src/sht31.c ****   uint8_t readbuffer[6];
+  91:../../core/drivers/SHT31/src/sht31.c **** 
+  92:../../core/drivers/SHT31/src/sht31.c ****   writeCommand(SHT31_MEAS_HIGHREP);
+ 411              		.loc 1 92 0
+ 412 0004 4FF41050 		mov	r0, #9216
+ 413 0008 FFF7FEFF 		bl	writeCommand
+ 414              	.LVL30:
+  93:../../core/drivers/SHT31/src/sht31.c ****   HAL_Delay(50);
+ 415              		.loc 1 93 0
+ 416 000c 3220     		movs	r0, #50
+ 417 000e FFF7FEFF 		bl	HAL_Delay
+ 418              	.LVL31:
+  94:../../core/drivers/SHT31/src/sht31.c ****   READ_REG_SHT31(readbuffer,6);
+ 419              		.loc 1 94 0
+ 420 0012 0621     		movs	r1, #6
+ 421 0014 6846     		mov	r0, sp
+ 422 0016 FFF7FEFF 		bl	READ_REG_SHT31
+ 423              	.LVL32:
+  95:../../core/drivers/SHT31/src/sht31.c **** 
+  96:../../core/drivers/SHT31/src/sht31.c **** 
+  97:../../core/drivers/SHT31/src/sht31.c ****   uint16_t ST, SRH;
+  98:../../core/drivers/SHT31/src/sht31.c ****   ST = readbuffer[0];
+ 424              		.loc 1 98 0
+ 425 001a 9DF80000 		ldrb	r0, [sp]	@ zero_extendqisi2
+ 426              	.LVL33:
+  99:../../core/drivers/SHT31/src/sht31.c ****   ST <<= 8;
+ 100:../../core/drivers/SHT31/src/sht31.c ****   ST |= readbuffer[1];
+ 427              		.loc 1 100 0
+ 428 001e 9DF80130 		ldrb	r3, [sp, #1]	@ zero_extendqisi2
+ARM GAS  /tmp/ccRiJuRg.s 			page 10
+
+
+ 429              	.LVL34:
+ 101:../../core/drivers/SHT31/src/sht31.c **** 
+ 102:../../core/drivers/SHT31/src/sht31.c **** 
+ 103:../../core/drivers/SHT31/src/sht31.c **** 
+ 104:../../core/drivers/SHT31/src/sht31.c ****   SRH = readbuffer[3];
+ 430              		.loc 1 104 0
+ 431 0022 9DF80320 		ldrb	r2, [sp, #3]	@ zero_extendqisi2
+ 432              	.LVL35:
+ 105:../../core/drivers/SHT31/src/sht31.c ****   SRH <<= 8;
+ 106:../../core/drivers/SHT31/src/sht31.c ****   SRH |= readbuffer[4];
+ 433              		.loc 1 106 0
+ 434 0026 9DF80440 		ldrb	r4, [sp, #4]	@ zero_extendqisi2
+ 435 002a 44EA0224 		orr	r4, r4, r2, lsl #8
+ 436              	.LVL36:
+ 107:../../core/drivers/SHT31/src/sht31.c **** 
+ 108:../../core/drivers/SHT31/src/sht31.c **** 
+ 109:../../core/drivers/SHT31/src/sht31.c **** 
+ 110:../../core/drivers/SHT31/src/sht31.c ****  // Serial.print("ST = "); Serial.println(ST);
+ 111:../../core/drivers/SHT31/src/sht31.c ****   double stemp = ST;
+ 437              		.loc 1 111 0
+ 438 002e 43EA0020 		orr	r0, r3, r0, lsl #8
+ 439              	.LVL37:
+ 440 0032 FFF7FEFF 		bl	__aeabi_ui2d
+ 441              	.LVL38:
+ 112:../../core/drivers/SHT31/src/sht31.c ****   stemp *= 175;
+ 442              		.loc 1 112 0
+ 443 0036 18A3     		adr	r3, .L31+24
+ 444 0038 D3E90023 		ldrd	r2, [r3]
+ 445 003c FFF7FEFF 		bl	__aeabi_dmul
+ 446              	.LVL39:
+ 113:../../core/drivers/SHT31/src/sht31.c ****   stemp /= 0xffff;
+ 447              		.loc 1 113 0
+ 448 0040 0FA3     		adr	r3, .L31
+ 449 0042 D3E90023 		ldrd	r2, [r3]
+ 450 0046 FFF7FEFF 		bl	__aeabi_ddiv
+ 451              	.LVL40:
+ 114:../../core/drivers/SHT31/src/sht31.c ****   stemp = -45 + stemp;
+ 452              		.loc 1 114 0
+ 453 004a 0022     		movs	r2, #0
+ 454 004c 0E4B     		ldr	r3, .L31+8
+ 455 004e FFF7FEFF 		bl	__aeabi_dsub
+ 456              	.LVL41:
+ 115:../../core/drivers/SHT31/src/sht31.c ****   temp = stemp;
+ 457              		.loc 1 115 0
+ 458 0052 FFF7FEFF 		bl	__aeabi_d2f
+ 459              	.LVL42:
+ 460 0056 0D4B     		ldr	r3, .L31+12
+ 461 0058 1860     		str	r0, [r3]	@ float
+ 116:../../core/drivers/SHT31/src/sht31.c **** 
+ 117:../../core/drivers/SHT31/src/sht31.c **** //  Serial.print("SRH = "); Serial.println(SRH);
+ 118:../../core/drivers/SHT31/src/sht31.c ****   double shum = SRH;
+ 462              		.loc 1 118 0
+ 463 005a 2046     		mov	r0, r4
+ 464 005c FFF7FEFF 		bl	__aeabi_ui2d
+ 465              	.LVL43:
+ 119:../../core/drivers/SHT31/src/sht31.c ****   shum *= 100;
+ 466              		.loc 1 119 0
+ARM GAS  /tmp/ccRiJuRg.s 			page 11
+
+
+ 467 0060 0022     		movs	r2, #0
+ 468 0062 0B4B     		ldr	r3, .L31+16
+ 469 0064 FFF7FEFF 		bl	__aeabi_dmul
+ 470              	.LVL44:
+ 120:../../core/drivers/SHT31/src/sht31.c ****   shum /= 0xFFFF;
+ 471              		.loc 1 120 0
+ 472 0068 05A3     		adr	r3, .L31
+ 473 006a D3E90023 		ldrd	r2, [r3]
+ 474 006e FFF7FEFF 		bl	__aeabi_ddiv
+ 475              	.LVL45:
+ 121:../../core/drivers/SHT31/src/sht31.c **** 
+ 122:../../core/drivers/SHT31/src/sht31.c ****   humidity = shum;
+ 476              		.loc 1 122 0
+ 477 0072 FFF7FEFF 		bl	__aeabi_d2f
+ 478              	.LVL46:
+ 479 0076 074B     		ldr	r3, .L31+20
+ 480 0078 1860     		str	r0, [r3]	@ float
+ 123:../../core/drivers/SHT31/src/sht31.c **** 
+ 124:../../core/drivers/SHT31/src/sht31.c ****   return 1;
+ 125:../../core/drivers/SHT31/src/sht31.c **** }
+ 481              		.loc 1 125 0
+ 482 007a 0120     		movs	r0, #1
+ 483 007c 02B0     		add	sp, sp, #8
+ 484              	.LCFI20:
+ 485              		.cfi_def_cfa_offset 8
+ 486              		@ sp needed
+ 487 007e 10BD     		pop	{r4, pc}
+ 488              	.LVL47:
+ 489              	.L32:
+ 490              		.align	3
+ 491              	.L31:
+ 492 0080 00000000 		.word	0
+ 493 0084 E0FFEF40 		.word	1089470432
+ 494 0088 00804640 		.word	1078362112
+ 495 008c 00000000 		.word	temp
+ 496 0090 00005940 		.word	1079574528
+ 497 0094 00000000 		.word	humidity
+ 498 0098 00000000 		.word	0
+ 499 009c 00E06540 		.word	1080418304
+ 500              		.cfi_endproc
+ 501              	.LFE138:
+ 503              		.section	.text.SHT31_get_temp_hum,"ax",%progbits
+ 504              		.align	1
+ 505              		.global	SHT31_get_temp_hum
+ 506              		.syntax unified
+ 507              		.thumb
+ 508              		.thumb_func
+ 509              		.fpu fpv4-sp-d16
+ 511              	SHT31_get_temp_hum:
+ 512              	.LFB131:
+  40:../../core/drivers/SHT31/src/sht31.c **** 	readTempHum();
+ 513              		.loc 1 40 0
+ 514              		.cfi_startproc
+ 515              		@ args = 0, pretend = 0, frame = 0
+ 516              		@ frame_needed = 0, uses_anonymous_args = 0
+ 517              	.LVL48:
+ 518 0000 10B5     		push	{r4, lr}
+ARM GAS  /tmp/ccRiJuRg.s 			page 12
+
+
+ 519              	.LCFI21:
+ 520              		.cfi_def_cfa_offset 8
+ 521              		.cfi_offset 4, -8
+ 522              		.cfi_offset 14, -4
+ 523 0002 0446     		mov	r4, r0
+  41:../../core/drivers/SHT31/src/sht31.c **** 	sht31Data[1]= humidity;
+ 524              		.loc 1 41 0
+ 525 0004 FFF7FEFF 		bl	readTempHum
+ 526              	.LVL49:
+  42:../../core/drivers/SHT31/src/sht31.c **** 	sht31Data[0]= temp;
+ 527              		.loc 1 42 0
+ 528 0008 034B     		ldr	r3, .L35
+ 529 000a 1B68     		ldr	r3, [r3]	@ float
+ 530 000c 6360     		str	r3, [r4, #4]	@ float
+  43:../../core/drivers/SHT31/src/sht31.c **** }
+ 531              		.loc 1 43 0
+ 532 000e 034B     		ldr	r3, .L35+4
+ 533 0010 1B68     		ldr	r3, [r3]	@ float
+ 534 0012 2360     		str	r3, [r4]	@ float
+  44:../../core/drivers/SHT31/src/sht31.c **** void  writeCommand(uint16_t cmd) {
+ 535              		.loc 1 44 0
+ 536 0014 10BD     		pop	{r4, pc}
+ 537              	.LVL50:
+ 538              	.L36:
+ 539 0016 00BF     		.align	2
+ 540              	.L35:
+ 541 0018 00000000 		.word	humidity
+ 542 001c 00000000 		.word	temp
+ 543              		.cfi_endproc
+ 544              	.LFE131:
+ 546              		.section	.text.readTemperature,"ax",%progbits
+ 547              		.align	1
+ 548              		.global	readTemperature
+ 549              		.syntax unified
+ 550              		.thumb
+ 551              		.thumb_func
+ 552              		.fpu fpv4-sp-d16
+ 554              	readTemperature:
+ 555              	.LFB136:
+  74:../../core/drivers/SHT31/src/sht31.c ****   if (! readTempHum()) return 0;
+ 556              		.loc 1 74 0
+ 557              		.cfi_startproc
+ 558              		@ args = 0, pretend = 0, frame = 0
+ 559              		@ frame_needed = 0, uses_anonymous_args = 0
+ 560 0000 08B5     		push	{r3, lr}
+ 561              	.LCFI22:
+ 562              		.cfi_def_cfa_offset 8
+ 563              		.cfi_offset 3, -8
+ 564              		.cfi_offset 14, -4
+  75:../../core/drivers/SHT31/src/sht31.c **** 
+ 565              		.loc 1 75 0
+ 566 0002 FFF7FEFF 		bl	readTempHum
+ 567              	.LVL51:
+ 568 0006 18B1     		cbz	r0, .L39
+  77:../../core/drivers/SHT31/src/sht31.c **** }
+ 569              		.loc 1 77 0
+ 570 0008 034B     		ldr	r3, .L41
+ARM GAS  /tmp/ccRiJuRg.s 			page 13
+
+
+ 571 000a 93ED000A 		vldr.32	s0, [r3]
+ 572              	.L37:
+  78:../../core/drivers/SHT31/src/sht31.c **** 
+ 573              		.loc 1 78 0
+ 574 000e 08BD     		pop	{r3, pc}
+ 575              	.L39:
+  75:../../core/drivers/SHT31/src/sht31.c **** 
+ 576              		.loc 1 75 0
+ 577 0010 9FED020A 		vldr.32	s0, .L41+4
+ 578 0014 FBE7     		b	.L37
+ 579              	.L42:
+ 580 0016 00BF     		.align	2
+ 581              	.L41:
+ 582 0018 00000000 		.word	temp
+ 583 001c 00000000 		.word	0
+ 584              		.cfi_endproc
+ 585              	.LFE136:
+ 587              		.section	.text.readHumidity,"ax",%progbits
+ 588              		.align	1
+ 589              		.global	readHumidity
+ 590              		.syntax unified
+ 591              		.thumb
+ 592              		.thumb_func
+ 593              		.fpu fpv4-sp-d16
+ 595              	readHumidity:
+ 596              	.LFB137:
+  81:../../core/drivers/SHT31/src/sht31.c ****   if (! readTempHum()) return 0;
+ 597              		.loc 1 81 0
+ 598              		.cfi_startproc
+ 599              		@ args = 0, pretend = 0, frame = 0
+ 600              		@ frame_needed = 0, uses_anonymous_args = 0
+ 601 0000 08B5     		push	{r3, lr}
+ 602              	.LCFI23:
+ 603              		.cfi_def_cfa_offset 8
+ 604              		.cfi_offset 3, -8
+ 605              		.cfi_offset 14, -4
+  82:../../core/drivers/SHT31/src/sht31.c **** 
+ 606              		.loc 1 82 0
+ 607 0002 FFF7FEFF 		bl	readTempHum
+ 608              	.LVL52:
+ 609 0006 18B1     		cbz	r0, .L45
+  84:../../core/drivers/SHT31/src/sht31.c **** }
+ 610              		.loc 1 84 0
+ 611 0008 034B     		ldr	r3, .L47
+ 612 000a 93ED000A 		vldr.32	s0, [r3]
+ 613              	.L43:
+  85:../../core/drivers/SHT31/src/sht31.c **** 
+ 614              		.loc 1 85 0
+ 615 000e 08BD     		pop	{r3, pc}
+ 616              	.L45:
+  82:../../core/drivers/SHT31/src/sht31.c **** 
+ 617              		.loc 1 82 0
+ 618 0010 9FED020A 		vldr.32	s0, .L47+4
+ 619 0014 FBE7     		b	.L43
+ 620              	.L48:
+ 621 0016 00BF     		.align	2
+ 622              	.L47:
+ARM GAS  /tmp/ccRiJuRg.s 			page 14
+
+
+ 623 0018 00000000 		.word	humidity
+ 624 001c 00000000 		.word	0
+ 625              		.cfi_endproc
+ 626              	.LFE137:
+ 628              		.section	.text.readTempHum2,"ax",%progbits
+ 629              		.align	1
+ 630              		.global	readTempHum2
+ 631              		.syntax unified
+ 632              		.thumb
+ 633              		.thumb_func
+ 634              		.fpu fpv4-sp-d16
+ 636              	readTempHum2:
+ 637              	.LFB139:
+ 126:../../core/drivers/SHT31/src/sht31.c **** 
+ 127:../../core/drivers/SHT31/src/sht31.c **** uint8_t  readTempHum2(uint16_t* sensorData)
+ 128:../../core/drivers/SHT31/src/sht31.c **** {
+ 638              		.loc 1 128 0
+ 639              		.cfi_startproc
+ 640              		@ args = 0, pretend = 0, frame = 8
+ 641              		@ frame_needed = 0, uses_anonymous_args = 0
+ 642              	.LVL53:
+ 643 0000 10B5     		push	{r4, lr}
+ 644              	.LCFI24:
+ 645              		.cfi_def_cfa_offset 8
+ 646              		.cfi_offset 4, -8
+ 647              		.cfi_offset 14, -4
+ 648 0002 82B0     		sub	sp, sp, #8
+ 649              	.LCFI25:
+ 650              		.cfi_def_cfa_offset 16
+ 651 0004 0446     		mov	r4, r0
+ 129:../../core/drivers/SHT31/src/sht31.c ****   uint8_t readbuffer[6];
+ 130:../../core/drivers/SHT31/src/sht31.c **** 
+ 131:../../core/drivers/SHT31/src/sht31.c ****   writeCommand(SHT31_MEAS_HIGHREP);
+ 652              		.loc 1 131 0
+ 653 0006 4FF41050 		mov	r0, #9216
+ 654              	.LVL54:
+ 655 000a FFF7FEFF 		bl	writeCommand
+ 656              	.LVL55:
+ 132:../../core/drivers/SHT31/src/sht31.c ****   HAL_Delay(50);
+ 657              		.loc 1 132 0
+ 658 000e 3220     		movs	r0, #50
+ 659 0010 FFF7FEFF 		bl	HAL_Delay
+ 660              	.LVL56:
+ 133:../../core/drivers/SHT31/src/sht31.c ****   READ_REG_SHT31(readbuffer,6);
+ 661              		.loc 1 133 0
+ 662 0014 0621     		movs	r1, #6
+ 663 0016 6846     		mov	r0, sp
+ 664 0018 FFF7FEFF 		bl	READ_REG_SHT31
+ 665              	.LVL57:
+ 134:../../core/drivers/SHT31/src/sht31.c **** 
+ 135:../../core/drivers/SHT31/src/sht31.c **** 
+ 136:../../core/drivers/SHT31/src/sht31.c ****   uint16_t ST, SRH;
+ 137:../../core/drivers/SHT31/src/sht31.c ****   ST = readbuffer[0];
+ 666              		.loc 1 137 0
+ 667 001c 9DF80030 		ldrb	r3, [sp]	@ zero_extendqisi2
+ 668              	.LVL58:
+ 138:../../core/drivers/SHT31/src/sht31.c ****   ST <<= 8;
+ARM GAS  /tmp/ccRiJuRg.s 			page 15
+
+
+ 139:../../core/drivers/SHT31/src/sht31.c ****   ST |= readbuffer[1];
+ 669              		.loc 1 139 0
+ 670 0020 9DF80120 		ldrb	r2, [sp, #1]	@ zero_extendqisi2
+ 671 0024 42EA0322 		orr	r2, r2, r3, lsl #8
+ 672              	.LVL59:
+ 140:../../core/drivers/SHT31/src/sht31.c **** 
+ 141:../../core/drivers/SHT31/src/sht31.c ****   SRH = readbuffer[3];
+ 673              		.loc 1 141 0
+ 674 0028 9DF80310 		ldrb	r1, [sp, #3]	@ zero_extendqisi2
+ 675              	.LVL60:
+ 142:../../core/drivers/SHT31/src/sht31.c ****   SRH <<= 8;
+ 143:../../core/drivers/SHT31/src/sht31.c ****   SRH |= readbuffer[4];
+ 676              		.loc 1 143 0
+ 677 002c 9DF80430 		ldrb	r3, [sp, #4]	@ zero_extendqisi2
+ 678 0030 43EA0123 		orr	r3, r3, r1, lsl #8
+ 679              	.LVL61:
+ 144:../../core/drivers/SHT31/src/sht31.c **** 
+ 145:../../core/drivers/SHT31/src/sht31.c ****   sensorData[0]=ST;
+ 680              		.loc 1 145 0
+ 681 0034 2280     		strh	r2, [r4]	@ movhi
+ 146:../../core/drivers/SHT31/src/sht31.c **** 
+ 147:../../core/drivers/SHT31/src/sht31.c ****   sensorData[1]=SRH;
+ 682              		.loc 1 147 0
+ 683 0036 6380     		strh	r3, [r4, #2]	@ movhi
+ 148:../../core/drivers/SHT31/src/sht31.c **** 
+ 149:../../core/drivers/SHT31/src/sht31.c ****   return 1;
+ 150:../../core/drivers/SHT31/src/sht31.c **** }
+ 684              		.loc 1 150 0
+ 685 0038 0120     		movs	r0, #1
+ 686 003a 02B0     		add	sp, sp, #8
+ 687              	.LCFI26:
+ 688              		.cfi_def_cfa_offset 8
+ 689              		@ sp needed
+ 690 003c 10BD     		pop	{r4, pc}
+ 691              		.cfi_endproc
+ 692              	.LFE139:
+ 694              		.section	.text.crc8,"ax",%progbits
+ 695              		.align	1
+ 696              		.global	crc8
+ 697              		.syntax unified
+ 698              		.thumb
+ 699              		.thumb_func
+ 700              		.fpu fpv4-sp-d16
+ 702              	crc8:
+ 703              	.LFB140:
+ 151:../../core/drivers/SHT31/src/sht31.c **** 
+ 152:../../core/drivers/SHT31/src/sht31.c **** 
+ 153:../../core/drivers/SHT31/src/sht31.c **** 
+ 154:../../core/drivers/SHT31/src/sht31.c **** uint8_t  crc8(const uint8_t *data, int len)
+ 155:../../core/drivers/SHT31/src/sht31.c **** {
+ 704              		.loc 1 155 0
+ 705              		.cfi_startproc
+ 706              		@ args = 0, pretend = 0, frame = 0
+ 707              		@ frame_needed = 0, uses_anonymous_args = 0
+ 708              		@ link register save eliminated.
+ 709              	.LVL62:
+ 156:../../core/drivers/SHT31/src/sht31.c **** /*
+ARM GAS  /tmp/ccRiJuRg.s 			page 16
+
+
+ 157:../../core/drivers/SHT31/src/sht31.c **** *
+ 158:../../core/drivers/SHT31/src/sht31.c ****  * CRC-8 formula from page 14 of SHT spec pdf
+ 159:../../core/drivers/SHT31/src/sht31.c ****  *
+ 160:../../core/drivers/SHT31/src/sht31.c ****  * Test data 0xBE, 0xEF should yield 0x92
+ 161:../../core/drivers/SHT31/src/sht31.c ****  *
+ 162:../../core/drivers/SHT31/src/sht31.c ****  * Initialization data 0xFF
+ 163:../../core/drivers/SHT31/src/sht31.c ****  * Polynomial 0x31 (x8 + x5 +x4 +1)
+ 164:../../core/drivers/SHT31/src/sht31.c ****  * Final XOR 0x00
+ 165:../../core/drivers/SHT31/src/sht31.c ****  */
+ 166:../../core/drivers/SHT31/src/sht31.c **** /*
+ 167:../../core/drivers/SHT31/src/sht31.c ****   uint8_t POLYNOMIAL(0x31);
+ 168:../../core/drivers/SHT31/src/sht31.c **** 
+ 169:../../core/drivers/SHT31/src/sht31.c ****   uint8_t crc(0xFF);
+ 170:../../core/drivers/SHT31/src/sht31.c **** 
+ 171:../../core/drivers/SHT31/src/sht31.c ****   for ( int j = len; j; --j ) {
+ 172:../../core/drivers/SHT31/src/sht31.c ****       crc ^= *data++;
+ 173:../../core/drivers/SHT31/src/sht31.c **** 
+ 174:../../core/drivers/SHT31/src/sht31.c ****       for ( int i = 8; i; --i ) {
+ 175:../../core/drivers/SHT31/src/sht31.c **** 	crc = ( crc & 0x80 )
+ 176:../../core/drivers/SHT31/src/sht31.c **** 	  ? (crc << 1) ^ POLYNOMIAL
+ 177:../../core/drivers/SHT31/src/sht31.c **** 	  : (crc << 1);
+ 178:../../core/drivers/SHT31/src/sht31.c ****       }
+ 179:../../core/drivers/SHT31/src/sht31.c ****   }
+ 180:../../core/drivers/SHT31/src/sht31.c ****   return crc;
+ 181:../../core/drivers/SHT31/src/sht31.c ****   */
+ 182:../../core/drivers/SHT31/src/sht31.c **** 	return 1;
+ 183:../../core/drivers/SHT31/src/sht31.c **** }
+ 710              		.loc 1 183 0
+ 711 0000 0120     		movs	r0, #1
+ 712              	.LVL63:
+ 713 0002 7047     		bx	lr
+ 714              		.cfi_endproc
+ 715              	.LFE140:
+ 717              		.comm	temp,4,4
+ 718              		.comm	humidity,4,4
+ 719              		.comm	_i2caddr,1,1
+ 720              		.comm	SHThi2cLib,4,4
+ 721              		.text
+ 722              	.Letext0:
+ 723              		.file 2 "/home/mats/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/machine/_default_type
+ 724              		.file 3 "/home/mats/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/sys/_stdint.h"
+ 725              		.file 4 "../../core/ST/CMSIS/Include/core_cm4.h"
+ 726              		.file 5 "../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/system_stm32l4xx.h"
+ 727              		.file 6 "../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/stm32l496xx.h"
+ 728              		.file 7 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h"
+ 729              		.file 8 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_dma.h"
+ 730              		.file 9 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_i2c.h"
+ 731              		.file 10 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h"
+ 732              		.file 11 "../../core/drivers/SHT31/inc/sht31.h"
+ 733              		.file 12 "/home/mats/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/sys/lock.h"
+ 734              		.file 13 "/home/mats/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/sys/_types.h"
+ 735              		.file 14 "/home/mats/gcc-arm-none-eabi-7-2018-q2-update/lib/gcc/arm-none-eabi/7.3.1/include/stddef
+ 736              		.file 15 "/home/mats/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/sys/reent.h"
+ 737              		.file 16 "/home/mats/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/math.h"
+ARM GAS  /tmp/ccRiJuRg.s 			page 17
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 sht31.c
+     /tmp/ccRiJuRg.s:18     .text.setI2CInterface_SHT31:0000000000000000 $t
+     /tmp/ccRiJuRg.s:25     .text.setI2CInterface_SHT31:0000000000000000 setI2CInterface_SHT31
+     /tmp/ccRiJuRg.s:42     .text.setI2CInterface_SHT31:0000000000000008 $d
+                            *COM*:0000000000000004 SHThi2cLib
+     /tmp/ccRiJuRg.s:47     .text.WRITE_REGISTER_SHT31:0000000000000000 $t
+     /tmp/ccRiJuRg.s:54     .text.WRITE_REGISTER_SHT31:0000000000000000 WRITE_REGISTER_SHT31
+     /tmp/ccRiJuRg.s:91     .text.WRITE_REGISTER_SHT31:0000000000000020 $d
+     /tmp/ccRiJuRg.s:96     .text.READ_REGISTER_SHT31:0000000000000000 $t
+     /tmp/ccRiJuRg.s:103    .text.READ_REGISTER_SHT31:0000000000000000 READ_REGISTER_SHT31
+     /tmp/ccRiJuRg.s:143    .text.READ_REGISTER_SHT31:0000000000000024 $d
+     /tmp/ccRiJuRg.s:148    .text.READ_REG_SHT31:0000000000000000 $t
+     /tmp/ccRiJuRg.s:155    .text.READ_REG_SHT31:0000000000000000 READ_REG_SHT31
+     /tmp/ccRiJuRg.s:192    .text.READ_REG_SHT31:0000000000000020 $d
+     /tmp/ccRiJuRg.s:197    .text.writeCommand:0000000000000000 $t
+     /tmp/ccRiJuRg.s:204    .text.writeCommand:0000000000000000 writeCommand
+     /tmp/ccRiJuRg.s:239    .text.readStatus:0000000000000000 $t
+     /tmp/ccRiJuRg.s:246    .text.readStatus:0000000000000000 readStatus
+     /tmp/ccRiJuRg.s:288    .text.SHT31_reset:0000000000000000 $t
+     /tmp/ccRiJuRg.s:295    .text.SHT31_reset:0000000000000000 SHT31_reset
+     /tmp/ccRiJuRg.s:316    .text.SHT31_begin:0000000000000000 $t
+     /tmp/ccRiJuRg.s:323    .text.SHT31_begin:0000000000000000 SHT31_begin
+     /tmp/ccRiJuRg.s:344    .text.heater:0000000000000000 $t
+     /tmp/ccRiJuRg.s:351    .text.heater:0000000000000000 heater
+     /tmp/ccRiJuRg.s:390    .text.readTempHum:0000000000000000 $t
+     /tmp/ccRiJuRg.s:397    .text.readTempHum:0000000000000000 readTempHum
+     /tmp/ccRiJuRg.s:492    .text.readTempHum:0000000000000080 $d
+                            *COM*:0000000000000004 temp
+                            *COM*:0000000000000004 humidity
+     /tmp/ccRiJuRg.s:504    .text.SHT31_get_temp_hum:0000000000000000 $t
+     /tmp/ccRiJuRg.s:511    .text.SHT31_get_temp_hum:0000000000000000 SHT31_get_temp_hum
+     /tmp/ccRiJuRg.s:541    .text.SHT31_get_temp_hum:0000000000000018 $d
+     /tmp/ccRiJuRg.s:547    .text.readTemperature:0000000000000000 $t
+     /tmp/ccRiJuRg.s:554    .text.readTemperature:0000000000000000 readTemperature
+     /tmp/ccRiJuRg.s:582    .text.readTemperature:0000000000000018 $d
+     /tmp/ccRiJuRg.s:588    .text.readHumidity:0000000000000000 $t
+     /tmp/ccRiJuRg.s:595    .text.readHumidity:0000000000000000 readHumidity
+     /tmp/ccRiJuRg.s:623    .text.readHumidity:0000000000000018 $d
+     /tmp/ccRiJuRg.s:629    .text.readTempHum2:0000000000000000 $t
+     /tmp/ccRiJuRg.s:636    .text.readTempHum2:0000000000000000 readTempHum2
+     /tmp/ccRiJuRg.s:695    .text.crc8:0000000000000000 $t
+     /tmp/ccRiJuRg.s:702    .text.crc8:0000000000000000 crc8
+                            *COM*:0000000000000001 _i2caddr
+
+UNDEFINED SYMBOLS
+HAL_I2C_Master_Transmit
+HAL_I2C_Mem_Read
+HAL_I2C_Master_Receive
+HAL_Delay
+__aeabi_ui2d
+__aeabi_dmul
+__aeabi_ddiv
+__aeabi_dsub
+__aeabi_d2f

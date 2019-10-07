@@ -1,0 +1,1829 @@
+ARM GAS  /tmp/cc5Zmwhq.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 28, 1
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.file	"modem.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.text.process_serial_frame,"ax",%progbits
+  18              		.align	1
+  19              		.syntax unified
+  20              		.thumb
+  21              		.thumb_func
+  22              		.fpu fpv4-sp-d16
+  24              	process_serial_frame:
+  25              	.LFB127:
+  26              		.file 1 "../../shields/Murata/src/modem.c"
+   1:../../shields/Murata/src/modem.c **** /* * OSS-7 - An opensource implementation of the DASH7 Alliance Protocol for ultra
+   2:../../shields/Murata/src/modem.c ****  * lowpower wireless sensor communication
+   3:../../shields/Murata/src/modem.c ****  *
+   4:../../shields/Murata/src/modem.c ****  * Copyright 2015 University of Antwerp
+   5:../../shields/Murata/src/modem.c ****  *
+   6:../../shields/Murata/src/modem.c ****  * Licensed under the Apache License, Version 2.0 (the "License");
+   7:../../shields/Murata/src/modem.c ****  * you may not use this file except in compliance with the License.
+   8:../../shields/Murata/src/modem.c ****  * You may obtain a copy of the License at
+   9:../../shields/Murata/src/modem.c ****  *
+  10:../../shields/Murata/src/modem.c ****  *   http://www.apache.org/licenses/LICENSE-2.0
+  11:../../shields/Murata/src/modem.c ****  *
+  12:../../shields/Murata/src/modem.c ****  * Unless required by applicable law or agreed to in writing, software
+  13:../../shields/Murata/src/modem.c ****  * distributed under the License is distributed on an "AS IS" BASIS,
+  14:../../shields/Murata/src/modem.c ****  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  15:../../shields/Murata/src/modem.c ****  * See the License for the specific language governing permissions and
+  16:../../shields/Murata/src/modem.c ****  * limitations under the License.
+  17:../../shields/Murata/src/modem.c ****  */
+  18:../../shields/Murata/src/modem.c **** 
+  19:../../shields/Murata/src/modem.c **** #include "modem.h"
+  20:../../shields/Murata/src/modem.c **** //#include "debug.h"
+  21:../../shields/Murata/src/modem.c **** //#include "log.h"
+  22:../../shields/Murata/src/modem.c **** #include "errors.h"
+  23:../../shields/Murata/src/modem.c **** #include "fifo.h"
+  24:../../shields/Murata/src/modem.c **** #include "alp.h"
+  25:../../shields/Murata/src/modem.c **** //#include "scheduler.h"
+  26:../../shields/Murata/src/modem.c **** //#include "timer.h"
+  27:../../shields/Murata/src/modem.c **** #include "d7ap.h"
+  28:../../shields/Murata/src/modem.c **** #include <stdio.h>
+  29:../../shields/Murata/src/modem.c **** #include <stdlib.h>
+  30:../../shields/Murata/src/modem.c **** //#include "platform.h"
+  31:../../shields/Murata/src/modem.c **** #include "modem_interface.h"
+  32:../../shields/Murata/src/modem.c **** #include "stm32l4xx_hal.h"
+ARM GAS  /tmp/cc5Zmwhq.s 			page 2
+
+
+  33:../../shields/Murata/src/modem.c **** 
+  34:../../shields/Murata/src/modem.c **** #define RX_BUFFER_SIZE 256
+  35:../../shields/Murata/src/modem.c **** #define CMD_BUFFER_SIZE 256
+  36:../../shields/Murata/src/modem.c **** 
+  37:../../shields/Murata/src/modem.c **** #if defined(FRAMEWORK_LOG_ENABLED) && defined(FRAMEWORK_MODEM_LOG_ENABLED)
+  38:../../shields/Murata/src/modem.c ****   #define DPRINT(...) log_print_string(__VA_ARGS__)
+  39:../../shields/Murata/src/modem.c ****   #define DPRINT_DATA(...) log_print_data(__VA_ARGS__)
+  40:../../shields/Murata/src/modem.c **** #else
+  41:../../shields/Murata/src/modem.c ****     #define DPRINT(...)
+  42:../../shields/Murata/src/modem.c ****     #define DPRINT_DATA(...)
+  43:../../shields/Murata/src/modem.c **** #endif
+  44:../../shields/Murata/src/modem.c **** 
+  45:../../shields/Murata/src/modem.c **** 
+  46:../../shields/Murata/src/modem.c **** typedef struct {
+  47:../../shields/Murata/src/modem.c ****   uint8_t tag_id;
+  48:../../shields/Murata/src/modem.c ****   bool is_active;
+  49:../../shields/Murata/src/modem.c ****   fifo_t fifo;
+  50:../../shields/Murata/src/modem.c ****   uint8_t buffer[256];
+  51:../../shields/Murata/src/modem.c **** } command_t;
+  52:../../shields/Murata/src/modem.c **** 
+  53:../../shields/Murata/src/modem.c **** static UART_HandleTypeDef* uart_handle;
+  54:../../shields/Murata/src/modem.c **** static modem_callbacks_t* callbacks;
+  55:../../shields/Murata/src/modem.c **** static uint8_t rx_buffer[RX_BUFFER_SIZE];
+  56:../../shields/Murata/src/modem.c **** static command_t command; // TODO only one active command supported for now
+  57:../../shields/Murata/src/modem.c **** static uint8_t next_tag_id = 0;
+  58:../../shields/Murata/src/modem.c **** static bool parsed_header = false;
+  59:../../shields/Murata/src/modem.c **** static uint8_t payload_len = 0;
+  60:../../shields/Murata/src/modem.c **** extern fifo_t rx_fifo;
+  61:../../shields/Murata/src/modem.c **** 
+  62:../../shields/Murata/src/modem.c **** static void process_serial_frame(fifo_t* fifo) {
+  27              		.loc 1 62 0
+  28              		.cfi_startproc
+  29              		@ args = 0, pretend = 0, frame = 296
+  30              		@ frame_needed = 0, uses_anonymous_args = 0
+  31              	.LVL0:
+  32 0000 F0B5     		push	{r4, r5, r6, r7, lr}
+  33              	.LCFI0:
+  34              		.cfi_def_cfa_offset 20
+  35              		.cfi_offset 4, -20
+  36              		.cfi_offset 5, -16
+  37              		.cfi_offset 6, -12
+  38              		.cfi_offset 7, -8
+  39              		.cfi_offset 14, -4
+  40 0002 CBB0     		sub	sp, sp, #300
+  41              	.LCFI1:
+  42              		.cfi_def_cfa_offset 320
+  43 0004 0446     		mov	r4, r0
+  44              	.LVL1:
+  63:../../shields/Murata/src/modem.c ****   bool command_completed = false;
+  64:../../shields/Murata/src/modem.c ****   bool completed_with_error = false;
+  45              		.loc 1 64 0
+  46 0006 0026     		movs	r6, #0
+  63:../../shields/Murata/src/modem.c ****   bool command_completed = false;
+  47              		.loc 1 63 0
+  48 0008 3746     		mov	r7, r6
+  65:../../shields/Murata/src/modem.c ****   while(fifo_get_size(fifo)) {
+  49              		.loc 1 65 0
+ARM GAS  /tmp/cc5Zmwhq.s 			page 3
+
+
+  50 000a 18E0     		b	.L2
+  51              	.LVL2:
+  52              	.L8:
+  53              	.LBB6:
+  66:../../shields/Murata/src/modem.c ****     alp_action_t action;
+  67:../../shields/Murata/src/modem.c ****     alp_parse_action(fifo, &action);
+  68:../../shields/Murata/src/modem.c **** 
+  69:../../shields/Murata/src/modem.c ****     switch(action.operation) {
+  70:../../shields/Murata/src/modem.c ****       case ALP_OP_RETURN_TAG:
+  71:../../shields/Murata/src/modem.c ****         if(action.tag_response.tag_id == command.tag_id) {
+  54              		.loc 1 71 0
+  55 000c 9DF81E10 		ldrb	r1, [sp, #30]	@ zero_extendqisi2
+  56 0010 634B     		ldr	r3, .L25
+  57 0012 1A78     		ldrb	r2, [r3]	@ zero_extendqisi2
+  58 0014 9142     		cmp	r1, r2
+  59 0016 04D1     		bne	.L9
+  72:../../shields/Murata/src/modem.c ****           command_completed = action.tag_response.completed;
+  60              		.loc 1 72 0
+  61 0018 9DF81C70 		ldrb	r7, [sp, #28]	@ zero_extendqisi2
+  62              	.LVL3:
+  73:../../shields/Murata/src/modem.c ****           completed_with_error = action.tag_response.error;
+  63              		.loc 1 73 0
+  64 001c 9DF81D60 		ldrb	r6, [sp, #29]	@ zero_extendqisi2
+  65              	.LVL4:
+  66 0020 0DE0     		b	.L2
+  67              	.L9:
+  74:../../shields/Murata/src/modem.c ****         } else {
+  75:../../shields/Murata/src/modem.c ****           printf("received resp with unexpected tag_id (%i vs %i)", action.tag_response.tag_id, com
+  68              		.loc 1 75 0
+  69 0022 6048     		ldr	r0, .L25+4
+  70 0024 FFF7FEFF 		bl	printf
+  71              	.LVL5:
+  72 0028 09E0     		b	.L2
+  73              	.L4:
+  76:../../shields/Murata/src/modem.c ****           // TODO unsolicited responses
+  77:../../shields/Murata/src/modem.c ****         }
+  78:../../shields/Murata/src/modem.c ****         break;
+  79:../../shields/Murata/src/modem.c ****       case ALP_OP_WRITE_FILE_DATA:
+  80:../../shields/Murata/src/modem.c ****         if(callbacks->write_file_data_callback)
+  74              		.loc 1 80 0
+  75 002a 5F4B     		ldr	r3, .L25+8
+  76 002c 1B68     		ldr	r3, [r3]
+  77 002e DD68     		ldr	r5, [r3, #12]
+  78 0030 2DB1     		cbz	r5, .L2
+  81:../../shields/Murata/src/modem.c ****           callbacks->write_file_data_callback(action.file_data_operand.file_offset.file_id,
+  79              		.loc 1 81 0
+  80 0032 0AAB     		add	r3, sp, #40
+  81 0034 099A     		ldr	r2, [sp, #36]
+  82 0036 0899     		ldr	r1, [sp, #32]
+  83 0038 9DF81C00 		ldrb	r0, [sp, #28]	@ zero_extendqisi2
+  84 003c A847     		blx	r5
+  85              	.LVL6:
+  86              	.L2:
+  87              	.LBE6:
+  65:../../shields/Murata/src/modem.c ****     alp_action_t action;
+  88              		.loc 1 65 0
+  89 003e 2046     		mov	r0, r4
+ARM GAS  /tmp/cc5Zmwhq.s 			page 4
+
+
+  90 0040 FFF7FEFF 		bl	fifo_get_size
+  91              	.LVL7:
+  92 0044 0028     		cmp	r0, #0
+  93 0046 00F09C80 		beq	.L23
+  94              	.LBB12:
+  67:../../shields/Murata/src/modem.c **** 
+  95              		.loc 1 67 0
+  96 004a 06A9     		add	r1, sp, #24
+  97 004c 2046     		mov	r0, r4
+  98 004e FFF7FEFF 		bl	alp_parse_action
+  99              	.LVL8:
+  69:../../shields/Murata/src/modem.c ****       case ALP_OP_RETURN_TAG:
+ 100              		.loc 1 69 0
+ 101 0052 9DF81830 		ldrb	r3, [sp, #24]	@ zero_extendqisi2
+ 102 0056 043B     		subs	r3, r3, #4
+ 103 0058 1F2B     		cmp	r3, #31
+ 104 005a 00F28C80 		bhi	.L3
+ 105 005e 01A2     		adr	r2, .L5
+ 106 0060 52F823F0 		ldr	pc, [r2, r3, lsl #2]
+ 107              		.p2align 2
+ 108              	.L5:
+ 109 0064 2B000000 		.word	.L4+1
+ 110 0068 77010000 		.word	.L3+1
+ 111 006c 77010000 		.word	.L3+1
+ 112 0070 77010000 		.word	.L3+1
+ 113 0074 77010000 		.word	.L3+1
+ 114 0078 77010000 		.word	.L3+1
+ 115 007c 77010000 		.word	.L3+1
+ 116 0080 77010000 		.word	.L3+1
+ 117 0084 77010000 		.word	.L3+1
+ 118 0088 77010000 		.word	.L3+1
+ 119 008c 77010000 		.word	.L3+1
+ 120 0090 77010000 		.word	.L3+1
+ 121 0094 77010000 		.word	.L3+1
+ 122 0098 77010000 		.word	.L3+1
+ 123 009c 77010000 		.word	.L3+1
+ 124 00a0 77010000 		.word	.L3+1
+ 125 00a4 77010000 		.word	.L3+1
+ 126 00a8 77010000 		.word	.L3+1
+ 127 00ac 77010000 		.word	.L3+1
+ 128 00b0 77010000 		.word	.L3+1
+ 129 00b4 77010000 		.word	.L3+1
+ 130 00b8 77010000 		.word	.L3+1
+ 131 00bc 77010000 		.word	.L3+1
+ 132 00c0 77010000 		.word	.L3+1
+ 133 00c4 77010000 		.word	.L3+1
+ 134 00c8 77010000 		.word	.L3+1
+ 135 00cc 77010000 		.word	.L3+1
+ 136 00d0 77010000 		.word	.L3+1
+ 137 00d4 E5000000 		.word	.L6+1
+ 138 00d8 77010000 		.word	.L3+1
+ 139 00dc FD000000 		.word	.L7+1
+ 140 00e0 0D000000 		.word	.L8+1
+ 141              		.p2align 1
+ 142              	.L6:
+  82:../../shields/Murata/src/modem.c ****                                                action.file_data_operand.file_offset.offset,
+  83:../../shields/Murata/src/modem.c ****                                                action.file_data_operand.provided_data_length,
+ARM GAS  /tmp/cc5Zmwhq.s 			page 5
+
+
+  84:../../shields/Murata/src/modem.c ****                                                action.file_data_operand.data);
+  85:../../shields/Murata/src/modem.c ****         break;
+  86:../../shields/Murata/src/modem.c ****       case ALP_OP_RETURN_FILE_DATA:
+  87:../../shields/Murata/src/modem.c ****         if(callbacks->return_file_data_callback)
+ 143              		.loc 1 87 0
+ 144 00e4 304B     		ldr	r3, .L25+8
+ 145 00e6 1B68     		ldr	r3, [r3]
+ 146 00e8 9D68     		ldr	r5, [r3, #8]
+ 147 00ea 002D     		cmp	r5, #0
+ 148 00ec A7D0     		beq	.L2
+  88:../../shields/Murata/src/modem.c ****           callbacks->return_file_data_callback(action.file_data_operand.file_offset.file_id,
+ 149              		.loc 1 88 0
+ 150 00ee 0AAB     		add	r3, sp, #40
+ 151 00f0 099A     		ldr	r2, [sp, #36]
+ 152 00f2 0899     		ldr	r1, [sp, #32]
+ 153 00f4 9DF81C00 		ldrb	r0, [sp, #28]	@ zero_extendqisi2
+ 154 00f8 A847     		blx	r5
+ 155              	.LVL9:
+ 156 00fa A0E7     		b	.L2
+ 157              	.L7:
+  89:../../shields/Murata/src/modem.c ****                                                action.file_data_operand.file_offset.offset,
+  90:../../shields/Murata/src/modem.c ****                                                action.file_data_operand.provided_data_length,
+  91:../../shields/Murata/src/modem.c ****                                                action.file_data_operand.data);
+  92:../../shields/Murata/src/modem.c ****         break;
+  93:../../shields/Murata/src/modem.c ****       case ALP_OP_RETURN_STATUS:
+  94:../../shields/Murata/src/modem.c ****         if(action.status.type==ALP_ITF_ID_D7ASP)
+ 158              		.loc 1 94 0
+ 159 00fc 9DF81C31 		ldrb	r3, [sp, #284]	@ zero_extendqisi2
+ 160 0100 D72B     		cmp	r3, #215
+ 161 0102 09D0     		beq	.L24
+ 162              	.L11:
+  95:../../shields/Murata/src/modem.c ****         {
+  96:../../shields/Murata/src/modem.c ****           d7ap_session_result_t interface_status = *((d7ap_session_result_t*)action.status.data);
+  97:../../shields/Murata/src/modem.c ****           uint8_t addressee_len = d7ap_addressee_id_length(interface_status.addressee.ctrl.id_type)
+  98:../../shields/Murata/src/modem.c ****           printf("received resp from: ");
+  99:../../shields/Murata/src/modem.c ****           printf(interface_status.addressee.id, addressee_len);
+ 100:../../shields/Murata/src/modem.c ****         }
+ 101:../../shields/Murata/src/modem.c ****         if(callbacks->modem_interface_status_callback)
+ 163              		.loc 1 101 0
+ 164 0104 284B     		ldr	r3, .L25+8
+ 165 0106 1B68     		ldr	r3, [r3]
+ 166 0108 5B68     		ldr	r3, [r3, #4]
+ 167 010a 002B     		cmp	r3, #0
+ 168 010c 97D0     		beq	.L2
+ 102:../../shields/Murata/src/modem.c ****           callbacks->modem_interface_status_callback(action.status.type,&action.status.data);
+ 169              		.loc 1 102 0
+ 170 010e 07A9     		add	r1, sp, #28
+ 171 0110 9DF81C01 		ldrb	r0, [sp, #284]	@ zero_extendqisi2
+ 172 0114 9847     		blx	r3
+ 173              	.LVL10:
+ 174 0116 92E7     		b	.L2
+ 175              	.L24:
+ 176              	.LBB7:
+  96:../../shields/Murata/src/modem.c ****           uint8_t addressee_len = d7ap_addressee_id_length(interface_status.addressee.ctrl.id_type)
+ 177              		.loc 1 96 0
+ 178 0118 6D46     		mov	r5, sp
+ 179 011a 0DF11C0C 		add	ip, sp, #28
+ARM GAS  /tmp/cc5Zmwhq.s 			page 6
+
+
+ 180 011e BCE80F00 		ldmia	ip!, {r0, r1, r2, r3}
+ 181 0122 0FC5     		stmia	r5!, {r0, r1, r2, r3}
+ 182 0124 9CE80300 		ldm	ip, {r0, r1}
+ 183 0128 45F8040B 		str	r0, [r5], #4
+ 184 012c 25F8021B 		strh	r1, [r5], #2	@ movhi
+ 185 0130 090C     		lsrs	r1, r1, #16
+ 186 0132 2970     		strb	r1, [r5]
+  97:../../shields/Murata/src/modem.c ****           printf("received resp from: ");
+ 187              		.loc 1 97 0
+ 188 0134 9DF80D30 		ldrb	r3, [sp, #13]	@ zero_extendqisi2
+ 189 0138 C3F30113 		ubfx	r3, r3, #4, #2
+ 190              	.LVL11:
+ 191              	.LBB8:
+ 192              	.LBB9:
+ 193              		.file 2 "../../shields/Murata/inc/d7ap.h"
+   1:../../shields/Murata/inc/d7ap.h **** 
+   2:../../shields/Murata/inc/d7ap.h **** /* * OSS-7 - An opensource implementation of the DASH7 Alliance Protocol for ultra
+   3:../../shields/Murata/inc/d7ap.h ****  * lowpower wireless sensor communication
+   4:../../shields/Murata/inc/d7ap.h ****  *
+   5:../../shields/Murata/inc/d7ap.h ****  * Copyright 2018 University of Antwerp
+   6:../../shields/Murata/inc/d7ap.h ****  * Copyright 2018 CORTUS SA
+   7:../../shields/Murata/inc/d7ap.h ****  *
+   8:../../shields/Murata/inc/d7ap.h ****  * Licensed under the Apache License, Version 2.0 (the "License");
+   9:../../shields/Murata/inc/d7ap.h ****  * you may not use this file except in compliance with the License.
+  10:../../shields/Murata/inc/d7ap.h ****  * You may obtain a copy of the License at
+  11:../../shields/Murata/inc/d7ap.h ****  *
+  12:../../shields/Murata/inc/d7ap.h ****  *   http://www.apache.org/licenses/LICENSE-2.0
+  13:../../shields/Murata/inc/d7ap.h ****  *
+  14:../../shields/Murata/inc/d7ap.h ****  * Unless required by applicable law or agreed to in writing, software
+  15:../../shields/Murata/inc/d7ap.h ****  * distributed under the License is distributed on an "AS IS" BASIS,
+  16:../../shields/Murata/inc/d7ap.h ****  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  17:../../shields/Murata/inc/d7ap.h ****  * See the License for the specific language governing permissions and
+  18:../../shields/Murata/inc/d7ap.h ****  * limitations under the License.
+  19:../../shields/Murata/inc/d7ap.h ****  *
+  20:../../shields/Murata/inc/d7ap.h ****  * \author philippe.nunes@cortus.com
+  21:../../shields/Murata/inc/d7ap.h ****  */
+  22:../../shields/Murata/inc/d7ap.h **** 
+  23:../../shields/Murata/inc/d7ap.h **** /**
+  24:../../shields/Murata/inc/d7ap.h ****  * @file d7ap.h
+  25:../../shields/Murata/inc/d7ap.h ****  * @addtogroup d7ap
+  26:../../shields/Murata/inc/d7ap.h ****  * @ingroup framework
+  27:../../shields/Murata/inc/d7ap.h ****  * @{
+  28:../../shields/Murata/inc/d7ap.h ****  * @brief D7AP public types (used for modem and/or D7AP stack itself)
+  29:../../shields/Murata/inc/d7ap.h ****  *
+  30:../../shields/Murata/inc/d7ap.h ****  */
+  31:../../shields/Murata/inc/d7ap.h **** 
+  32:../../shields/Murata/inc/d7ap.h **** #ifndef D7AP_H
+  33:../../shields/Murata/inc/d7ap.h **** #define D7AP_H
+  34:../../shields/Murata/inc/d7ap.h **** 
+  35:../../shields/Murata/inc/d7ap.h **** #include "types.h"
+  36:../../shields/Murata/inc/d7ap.h **** #include "assert.h"
+  37:../../shields/Murata/inc/d7ap.h **** 
+  38:../../shields/Murata/inc/d7ap.h **** #define D7AP_MAX_CLIENT_COUNT 8
+  39:../../shields/Murata/inc/d7ap.h **** 
+  40:../../shields/Murata/inc/d7ap.h **** #define D7A_FILE_UID_FILE_ID 0x00
+  41:../../shields/Murata/inc/d7ap.h **** #define D7A_FILE_UID_SIZE 8
+  42:../../shields/Murata/inc/d7ap.h **** 
+ARM GAS  /tmp/cc5Zmwhq.s 			page 7
+
+
+  43:../../shields/Murata/inc/d7ap.h **** #define D7A_FILE_FIRMWARE_VERSION_FILE_ID 0x02
+  44:../../shields/Murata/inc/d7ap.h **** #define D7A_FILE_FIRMWARE_VERSION_APP_NAME_SIZE 6
+  45:../../shields/Murata/inc/d7ap.h **** #define D7A_FILE_FIRMWARE_VERSION_GIT_SHA1_SIZE 7
+  46:../../shields/Murata/inc/d7ap.h **** #define D7A_FILE_FIRMWARE_VERSION_SIZE (2 + D7A_FILE_FIRMWARE_VERSION_APP_NAME_SIZE + D7A_FILE_FIRM
+  47:../../shields/Murata/inc/d7ap.h **** 
+  48:../../shields/Murata/inc/d7ap.h **** #define D7A_FILE_DLL_CONF_FILE_ID	0x0A
+  49:../../shields/Murata/inc/d7ap.h **** #define D7A_FILE_DLL_CONF_SIZE		6
+  50:../../shields/Murata/inc/d7ap.h **** 
+  51:../../shields/Murata/inc/d7ap.h **** #define D7A_FILE_ACCESS_PROFILE_ID 0x20 // the first access class file
+  52:../../shields/Murata/inc/d7ap.h **** #define D7A_FILE_ACCESS_PROFILE_SIZE 65
+  53:../../shields/Murata/inc/d7ap.h **** #define D7A_FILE_ACCESS_PROFILE_COUNT 15
+  54:../../shields/Murata/inc/d7ap.h **** 
+  55:../../shields/Murata/inc/d7ap.h **** #define D7A_FILE_NWL_SECURITY		0x0D
+  56:../../shields/Murata/inc/d7ap.h **** #define D7A_FILE_NWL_SECURITY_SIZE	5
+  57:../../shields/Murata/inc/d7ap.h **** 
+  58:../../shields/Murata/inc/d7ap.h **** #define D7A_FILE_NWL_SECURITY_KEY		0x0E
+  59:../../shields/Murata/inc/d7ap.h **** #define D7A_FILE_NWL_SECURITY_KEY_SIZE	16
+  60:../../shields/Murata/inc/d7ap.h **** 
+  61:../../shields/Murata/inc/d7ap.h **** #define D7A_FILE_NWL_SECURITY_STATE_REG			0x0F
+  62:../../shields/Murata/inc/d7ap.h **** #define D7A_FILE_NWL_SECURITY_STATE_REG_SIZE	2 + (FRAMEWORK_FS_TRUSTED_NODE_TABLE_SIZE)*(D7A_FILE_N
+  63:../../shields/Murata/inc/d7ap.h **** 
+  64:../../shields/Murata/inc/d7ap.h **** 
+  65:../../shields/Murata/inc/d7ap.h **** #define ID_TYPE_NBID_ID_LENGTH 1
+  66:../../shields/Murata/inc/d7ap.h **** #define ID_TYPE_NOID_ID_LENGTH 0
+  67:../../shields/Murata/inc/d7ap.h **** #define ID_TYPE_UID_ID_LENGTH   8
+  68:../../shields/Murata/inc/d7ap.h **** #define ID_TYPE_VID_LENGTH      2
+  69:../../shields/Murata/inc/d7ap.h **** 
+  70:../../shields/Murata/inc/d7ap.h **** #define ID_TYPE_IS_BROADCAST(id_type) (id_type == ID_TYPE_NBID || id_type == ID_TYPE_NOID)
+  71:../../shields/Murata/inc/d7ap.h **** 
+  72:../../shields/Murata/inc/d7ap.h **** #define D7A_PAYLOAD_MAX_SIZE 239 // TODO confirm this value when FEC and security are disabled
+  73:../../shields/Murata/inc/d7ap.h **** 
+  74:../../shields/Murata/inc/d7ap.h **** 
+  75:../../shields/Murata/inc/d7ap.h **** typedef enum {
+  76:../../shields/Murata/inc/d7ap.h ****     ID_TYPE_NBID = 0,
+  77:../../shields/Murata/inc/d7ap.h ****     ID_TYPE_NOID = 1,
+  78:../../shields/Murata/inc/d7ap.h ****     ID_TYPE_UID = 2,
+  79:../../shields/Murata/inc/d7ap.h ****     ID_TYPE_VID = 3
+  80:../../shields/Murata/inc/d7ap.h **** } d7ap_addressee_id_type_t;
+  81:../../shields/Murata/inc/d7ap.h **** 
+  82:../../shields/Murata/inc/d7ap.h **** typedef enum
+  83:../../shields/Murata/inc/d7ap.h **** {
+  84:../../shields/Murata/inc/d7ap.h ****     AES_NONE = 0, /* No security */
+  85:../../shields/Murata/inc/d7ap.h ****     AES_CTR = 0x01, /* data confidentiality */
+  86:../../shields/Murata/inc/d7ap.h ****     AES_CBC_MAC_128 = 0x02, /* data authenticity */
+  87:../../shields/Murata/inc/d7ap.h ****     AES_CBC_MAC_64 = 0x03, /* data authenticity */
+  88:../../shields/Murata/inc/d7ap.h ****     AES_CBC_MAC_32 = 0x04, /* data authenticity */
+  89:../../shields/Murata/inc/d7ap.h ****     AES_CCM_128 = 0x05, /* data confidentiality and authenticity*/
+  90:../../shields/Murata/inc/d7ap.h ****     AES_CCM_64 = 0x06, /* data confidentiality and authenticity*/
+  91:../../shields/Murata/inc/d7ap.h ****     AES_CCM_32 = 0x07, /* data confidentiality and authenticity*/
+  92:../../shields/Murata/inc/d7ap.h **** } nls_method_t;
+  93:../../shields/Murata/inc/d7ap.h **** 
+  94:../../shields/Murata/inc/d7ap.h **** typedef struct {
+  95:../../shields/Murata/inc/d7ap.h ****     union {
+  96:../../shields/Murata/inc/d7ap.h ****         uint8_t raw;
+  97:../../shields/Murata/inc/d7ap.h ****         struct {
+  98:../../shields/Murata/inc/d7ap.h ****             nls_method_t nls_method : 4;
+  99:../../shields/Murata/inc/d7ap.h ****             d7ap_addressee_id_type_t id_type : 2;
+ARM GAS  /tmp/cc5Zmwhq.s 			page 8
+
+
+ 100:../../shields/Murata/inc/d7ap.h ****             uint8_t _rfu : 2;
+ 101:../../shields/Murata/inc/d7ap.h ****         };
+ 102:../../shields/Murata/inc/d7ap.h ****     };
+ 103:../../shields/Murata/inc/d7ap.h **** } d7ap_addressee_ctrl_t;
+ 104:../../shields/Murata/inc/d7ap.h **** 
+ 105:../../shields/Murata/inc/d7ap.h **** typedef struct __attribute__((__packed__)) {
+ 106:../../shields/Murata/inc/d7ap.h ****     d7ap_addressee_ctrl_t ctrl;
+ 107:../../shields/Murata/inc/d7ap.h ****     union {
+ 108:../../shields/Murata/inc/d7ap.h ****         uint8_t access_class;
+ 109:../../shields/Murata/inc/d7ap.h ****         struct {
+ 110:../../shields/Murata/inc/d7ap.h ****             uint8_t access_mask : 4;
+ 111:../../shields/Murata/inc/d7ap.h ****             uint8_t access_specifier : 4;
+ 112:../../shields/Murata/inc/d7ap.h ****         };
+ 113:../../shields/Murata/inc/d7ap.h ****     };
+ 114:../../shields/Murata/inc/d7ap.h ****     uint8_t id[8]; // TODO assuming 8 byte id for now
+ 115:../../shields/Murata/inc/d7ap.h **** } d7ap_addressee_t;
+ 116:../../shields/Murata/inc/d7ap.h **** 
+ 117:../../shields/Murata/inc/d7ap.h **** typedef struct {
+ 118:../../shields/Murata/inc/d7ap.h ****     union {
+ 119:../../shields/Murata/inc/d7ap.h ****         uint8_t raw;
+ 120:../../shields/Murata/inc/d7ap.h ****         struct {
+ 121:../../shields/Murata/inc/d7ap.h ****             uint8_t _rfu : 4;
+ 122:../../shields/Murata/inc/d7ap.h ****             bool ucast : 1;
+ 123:../../shields/Murata/inc/d7ap.h ****             bool retry : 1;
+ 124:../../shields/Murata/inc/d7ap.h ****             bool missed : 1;
+ 125:../../shields/Murata/inc/d7ap.h ****             bool nls : 1;
+ 126:../../shields/Murata/inc/d7ap.h ****         };
+ 127:../../shields/Murata/inc/d7ap.h ****     };
+ 128:../../shields/Murata/inc/d7ap.h **** } d7ap_sp_state_t;
+ 129:../../shields/Murata/inc/d7ap.h **** 
+ 130:../../shields/Murata/inc/d7ap.h **** typedef struct
+ 131:../../shields/Murata/inc/d7ap.h **** {
+ 132:../../shields/Murata/inc/d7ap.h ****     uint8_t channel_header;         /**< PHY layer channel header */
+ 133:../../shields/Murata/inc/d7ap.h ****     uint16_t center_freq_index;     /**< The center frequency index of the channel id */
+ 134:../../shields/Murata/inc/d7ap.h **** } d7ap_channel_t;
+ 135:../../shields/Murata/inc/d7ap.h **** 
+ 136:../../shields/Murata/inc/d7ap.h **** typedef struct __attribute__((__packed__)) {
+ 137:../../shields/Murata/inc/d7ap.h ****     d7ap_channel_t channel;
+ 138:../../shields/Murata/inc/d7ap.h ****     uint8_t rx_level;
+ 139:../../shields/Murata/inc/d7ap.h ****     uint8_t link_budget;
+ 140:../../shields/Murata/inc/d7ap.h ****     uint8_t link_quality;
+ 141:../../shields/Murata/inc/d7ap.h ****     uint8_t target_rx_level;
+ 142:../../shields/Murata/inc/d7ap.h ****     d7ap_sp_state_t status;
+ 143:../../shields/Murata/inc/d7ap.h ****     uint8_t fifo_token;
+ 144:../../shields/Murata/inc/d7ap.h ****     uint8_t seqnr;
+ 145:../../shields/Murata/inc/d7ap.h ****     uint8_t response_to;
+ 146:../../shields/Murata/inc/d7ap.h ****     bool response_expected;
+ 147:../../shields/Murata/inc/d7ap.h ****     d7ap_addressee_t addressee;
+ 148:../../shields/Murata/inc/d7ap.h **** } d7ap_session_result_t;
+ 149:../../shields/Murata/inc/d7ap.h **** 
+ 150:../../shields/Murata/inc/d7ap.h **** typedef enum  {
+ 151:../../shields/Murata/inc/d7ap.h ****     SESSION_RESP_MODE_NO = 0,
+ 152:../../shields/Murata/inc/d7ap.h ****     SESSION_RESP_MODE_ALL = 1,
+ 153:../../shields/Murata/inc/d7ap.h ****     SESSION_RESP_MODE_ANY = 2,
+ 154:../../shields/Murata/inc/d7ap.h ****     SESSION_RESP_MODE_NO_RPT = 4,
+ 155:../../shields/Murata/inc/d7ap.h ****     SESSION_RESP_MODE_ON_ERR = 5,
+ 156:../../shields/Murata/inc/d7ap.h ****     SESSION_RESP_MODE_PREFERRED = 6,
+ARM GAS  /tmp/cc5Zmwhq.s 			page 9
+
+
+ 157:../../shields/Murata/inc/d7ap.h **** } d7ap_session_resp_mode_t;
+ 158:../../shields/Murata/inc/d7ap.h **** 
+ 159:../../shields/Murata/inc/d7ap.h **** typedef enum {
+ 160:../../shields/Murata/inc/d7ap.h ****     SESSION_RETRY_MODE_NO = 0
+ 161:../../shields/Murata/inc/d7ap.h **** } d7ap_session_retry_mode_t;
+ 162:../../shields/Murata/inc/d7ap.h **** 
+ 163:../../shields/Murata/inc/d7ap.h **** typedef struct {
+ 164:../../shields/Murata/inc/d7ap.h ****     union {
+ 165:../../shields/Murata/inc/d7ap.h ****         uint8_t raw;
+ 166:../../shields/Murata/inc/d7ap.h ****         struct {
+ 167:../../shields/Murata/inc/d7ap.h ****             d7ap_session_resp_mode_t qos_resp_mode : 3;
+ 168:../../shields/Murata/inc/d7ap.h ****             d7ap_session_retry_mode_t qos_retry_mode: 3;
+ 169:../../shields/Murata/inc/d7ap.h ****             bool qos_record : 1;
+ 170:../../shields/Murata/inc/d7ap.h ****             bool qos_stop_on_error : 1;
+ 171:../../shields/Murata/inc/d7ap.h ****         };
+ 172:../../shields/Murata/inc/d7ap.h ****     };
+ 173:../../shields/Murata/inc/d7ap.h **** } d7ap_session_qos_t;
+ 174:../../shields/Murata/inc/d7ap.h **** 
+ 175:../../shields/Murata/inc/d7ap.h **** typedef struct {
+ 176:../../shields/Murata/inc/d7ap.h ****     d7ap_session_qos_t qos;
+ 177:../../shields/Murata/inc/d7ap.h ****     uint8_t dormant_timeout;
+ 178:../../shields/Murata/inc/d7ap.h ****     d7ap_addressee_t addressee;
+ 179:../../shields/Murata/inc/d7ap.h **** } d7ap_session_config_t;
+ 180:../../shields/Murata/inc/d7ap.h **** 
+ 181:../../shields/Murata/inc/d7ap.h **** typedef void (*d7ap_receive_callback)(uint16_t trans_id, uint8_t* payload, uint8_t len, d7ap_sessio
+ 182:../../shields/Murata/inc/d7ap.h **** /**
+ 183:../../shields/Murata/inc/d7ap.h ****  * @brief Called when the stack received an unsolicited message
+ 184:../../shields/Murata/inc/d7ap.h ****  * @returns true when the unsolicited request will result in a response payload from the upper laye
+ 185:../../shields/Murata/inc/d7ap.h ****  * the upper layer should return false, so the stack can respond with an ack immediately (if reques
+ 186:../../shields/Murata/inc/d7ap.h ****  */
+ 187:../../shields/Murata/inc/d7ap.h **** typedef bool (*d7ap_receive_unsolicited_callback)(uint8_t* payload, uint8_t len, d7ap_session_resul
+ 188:../../shields/Murata/inc/d7ap.h **** typedef void (*d7ap_transmitted_callback)(uint16_t trans_id, error_t error);
+ 189:../../shields/Murata/inc/d7ap.h **** 
+ 190:../../shields/Murata/inc/d7ap.h **** typedef struct{
+ 191:../../shields/Murata/inc/d7ap.h ****     d7ap_receive_callback  receive_cb;                /*< receive callback,
+ 192:../../shields/Murata/inc/d7ap.h ****                                                           if NULL, all message received for clientI
+ 193:../../shields/Murata/inc/d7ap.h ****     d7ap_transmitted_callback transmitted_cb;         /*< send completion callback,
+ 194:../../shields/Murata/inc/d7ap.h ****                                                           if NULL, the associated packet will be re
+ 195:../../shields/Murata/inc/d7ap.h ****     d7ap_receive_unsolicited_callback unsolicited_cb; /*< unsolicited data callback,
+ 196:../../shields/Murata/inc/d7ap.h ****                                                           if NULL, the associated packet will be re
+ 197:../../shields/Murata/inc/d7ap.h **** } d7ap_resource_desc_t;
+ 198:../../shields/Murata/inc/d7ap.h **** 
+ 199:../../shields/Murata/inc/d7ap.h **** 
+ 200:../../shields/Murata/inc/d7ap.h **** //=========================== prototypes ======================================
+ 201:../../shields/Murata/inc/d7ap.h **** /**
+ 202:../../shields/Murata/inc/d7ap.h ****  * @brief   Initializes d7a module
+ 203:../../shields/Murata/inc/d7ap.h ****  */
+ 204:../../shields/Murata/inc/d7ap.h **** void d7ap_init(void);
+ 205:../../shields/Murata/inc/d7ap.h **** 
+ 206:../../shields/Murata/inc/d7ap.h **** 
+ 207:../../shields/Murata/inc/d7ap.h **** /**
+ 208:../../shields/Murata/inc/d7ap.h ****  * @brief   Register the client callbacks
+ 209:../../shields/Murata/inc/d7ap.h ****  *
+ 210:../../shields/Murata/inc/d7ap.h ****  * @param[in] desc pointer to the client resource
+ 211:../../shields/Murata/inc/d7ap.h ****  *
+ 212:../../shields/Murata/inc/d7ap.h ****  * @return  the client Id
+ 213:../../shields/Murata/inc/d7ap.h ****  */
+ARM GAS  /tmp/cc5Zmwhq.s 			page 10
+
+
+ 214:../../shields/Murata/inc/d7ap.h **** uint8_t d7ap_register(d7ap_resource_desc_t* desc);
+ 215:../../shields/Murata/inc/d7ap.h **** 
+ 216:../../shields/Murata/inc/d7ap.h **** 
+ 217:../../shields/Murata/inc/d7ap.h **** /**
+ 218:../../shields/Murata/inc/d7ap.h ****  * @brief   Gets the device address UID/VID
+ 219:../../shields/Murata/inc/d7ap.h ****  *
+ 220:../../shields/Murata/inc/d7ap.h ****  * @param[out] *addr   Pointer to the device addressee UID/VID
+ 221:../../shields/Murata/inc/d7ap.h ****  */
+ 222:../../shields/Murata/inc/d7ap.h **** void d7ap_get_dev_addr(d7ap_addressee_t* addr);
+ 223:../../shields/Murata/inc/d7ap.h **** 
+ 224:../../shields/Murata/inc/d7ap.h **** 
+ 225:../../shields/Murata/inc/d7ap.h **** /**
+ 226:../../shields/Murata/inc/d7ap.h ****  * @brief Get the maximum payload size.
+ 227:../../shields/Murata/inc/d7ap.h ****  *
+ 228:../../shields/Murata/inc/d7ap.h ****  * @param[in] clientId  The d7A  instance Id.
+ 229:../../shields/Murata/inc/d7ap.h ****  *
+ 230:../../shields/Murata/inc/d7ap.h ****  * @returns the maximum payload size in bytes.
+ 231:../../shields/Murata/inc/d7ap.h ****  */
+ 232:../../shields/Murata/inc/d7ap.h **** uint8_t d7ap_get_payload_max_size(uint8_t clientId);
+ 233:../../shields/Murata/inc/d7ap.h **** 
+ 234:../../shields/Murata/inc/d7ap.h **** 
+ 235:../../shields/Murata/inc/d7ap.h **** /**
+ 236:../../shields/Murata/inc/d7ap.h ****  * @brief   Send a packet over DASH7 network
+ 237:../../shields/Murata/inc/d7ap.h ****  *
+ 238:../../shields/Murata/inc/d7ap.h ****  * @param[in] clientID  The registered client Id
+ 239:../../shields/Murata/inc/d7ap.h ****  * @param[in] config    The configuration for the d7a session. Set to NULL to use the current confi
+ 240:../../shields/Murata/inc/d7ap.h ****  * @param[in] payload   The pointer to the payload buffer
+ 241:../../shields/Murata/inc/d7ap.h ****  * @param[in] len       The length of the payload
+ 242:../../shields/Murata/inc/d7ap.h ****  * @param[in] expected_response_len The length of the expected response
+ 243:../../shields/Murata/inc/d7ap.h ****  * @param[in,out] trans_id   Set the value of this parameter to NULL to cause the function to execu
+ 244:../../shields/Murata/inc/d7ap.h ****  *                           If this parameter is not NULL, the call executes asynchronously. Upon 
+ 245:../../shields/Murata/inc/d7ap.h ****  *                           this points to the transaction identifier associated with the asynchro
+ 246:../../shields/Murata/inc/d7ap.h ****  * @return 0 on success
+ 247:../../shields/Murata/inc/d7ap.h ****  * @return an error (errno.h) in case of failure
+ 248:../../shields/Murata/inc/d7ap.h ****  */
+ 249:../../shields/Murata/inc/d7ap.h **** error_t d7ap_send(uint8_t clientId, d7ap_session_config_t* config, uint8_t* payload,
+ 250:../../shields/Murata/inc/d7ap.h ****                    uint8_t len, uint8_t expected_response_len, uint16_t* trans_id);
+ 251:../../shields/Murata/inc/d7ap.h **** 
+ 252:../../shields/Murata/inc/d7ap.h **** 
+ 253:../../shields/Murata/inc/d7ap.h **** /**
+ 254:../../shields/Murata/inc/d7ap.h ****  * @brief   Sets the channels TX power index
+ 255:../../shields/Murata/inc/d7ap.h ****  *
+ 256:../../shields/Murata/inc/d7ap.h ****  * @param[in] power  The TX power index (from 1 to 16)
+ 257:../../shields/Murata/inc/d7ap.h ****  */
+ 258:../../shields/Murata/inc/d7ap.h **** void d7ap_set_tx_power(uint8_t power);
+ 259:../../shields/Murata/inc/d7ap.h **** 
+ 260:../../shields/Murata/inc/d7ap.h **** 
+ 261:../../shields/Murata/inc/d7ap.h **** /**
+ 262:../../shields/Murata/inc/d7ap.h ****  * @brief   Gets the channels TX power index
+ 263:../../shields/Murata/inc/d7ap.h ****  *
+ 264:../../shields/Murata/inc/d7ap.h ****  * @return  The TX power index (from 1 to 16)
+ 265:../../shields/Murata/inc/d7ap.h ****  */
+ 266:../../shields/Murata/inc/d7ap.h **** uint8_t d7ap_get_tx_power(void);
+ 267:../../shields/Murata/inc/d7ap.h **** 
+ 268:../../shields/Murata/inc/d7ap.h **** 
+ 269:../../shields/Murata/inc/d7ap.h **** /**
+ 270:../../shields/Murata/inc/d7ap.h ****  * @brief   Sets the device access class
+ARM GAS  /tmp/cc5Zmwhq.s 			page 11
+
+
+ 271:../../shields/Murata/inc/d7ap.h ****  *
+ 272:../../shields/Murata/inc/d7ap.h ****  * @param[in] access_class  The device access class
+ 273:../../shields/Murata/inc/d7ap.h ****  */
+ 274:../../shields/Murata/inc/d7ap.h **** void d7ap_set_access_class(uint8_t access_class);
+ 275:../../shields/Murata/inc/d7ap.h **** 
+ 276:../../shields/Murata/inc/d7ap.h **** 
+ 277:../../shields/Murata/inc/d7ap.h **** /**
+ 278:../../shields/Murata/inc/d7ap.h ****  * @brief   Gets the device access class
+ 279:../../shields/Murata/inc/d7ap.h ****  *
+ 280:../../shields/Murata/inc/d7ap.h ****  * @return  The device access class
+ 281:../../shields/Murata/inc/d7ap.h ****  */
+ 282:../../shields/Murata/inc/d7ap.h **** uint8_t d7ap_get_access_class(void);
+ 283:../../shields/Murata/inc/d7ap.h **** 
+ 284:../../shields/Murata/inc/d7ap.h **** /**
+ 285:../../shields/Murata/inc/d7ap.h ****  * @brief   Gets the length of the addressee Id
+ 286:../../shields/Murata/inc/d7ap.h ****  *
+ 287:../../shields/Murata/inc/d7ap.h ****  * @param[in] id_type  The addressee Id type
+ 288:../../shields/Murata/inc/d7ap.h ****  * @return  The length of the addressee Id according the addressee Id type
+ 289:../../shields/Murata/inc/d7ap.h ****  */
+ 290:../../shields/Murata/inc/d7ap.h **** static inline uint8_t d7ap_addressee_id_length(d7ap_addressee_id_type_t id_type) {
+ 291:../../shields/Murata/inc/d7ap.h ****   switch(id_type)
+ 194              		.loc 2 291 0
+ 195 013c 032B     		cmp	r3, #3
+ 196 013e 0FD8     		bhi	.L12
+ 197 0140 DFE803F0 		tbb	[pc, r3]
+ 198              	.L14:
+ 199 0144 17       		.byte	(.L21-.L14)/2
+ 200 0145 15       		.byte	(.L15-.L14)/2
+ 201 0146 02       		.byte	(.L16-.L14)/2
+ 202 0147 0C       		.byte	(.L17-.L14)/2
+ 203              		.p2align 1
+ 204              	.L16:
+ 292:../../shields/Murata/inc/d7ap.h ****   {
+ 293:../../shields/Murata/inc/d7ap.h ****       case ID_TYPE_NOID:
+ 294:../../shields/Murata/inc/d7ap.h ****         return ID_TYPE_NOID_ID_LENGTH;
+ 295:../../shields/Murata/inc/d7ap.h ****       case ID_TYPE_NBID:
+ 296:../../shields/Murata/inc/d7ap.h ****         return ID_TYPE_NBID_ID_LENGTH;
+ 297:../../shields/Murata/inc/d7ap.h ****       case ID_TYPE_UID:
+ 298:../../shields/Murata/inc/d7ap.h ****         return ID_TYPE_UID_ID_LENGTH;
+ 205              		.loc 2 298 0
+ 206 0148 0825     		movs	r5, #8
+ 207              	.L13:
+ 208              	.LVL12:
+ 209              	.LBE9:
+ 210              	.LBE8:
+  98:../../shields/Murata/src/modem.c ****           printf(interface_status.addressee.id, addressee_len);
+ 211              		.loc 1 98 0
+ 212 014a 1848     		ldr	r0, .L25+12
+ 213 014c FFF7FEFF 		bl	printf
+ 214              	.LVL13:
+  99:../../shields/Murata/src/modem.c ****         }
+ 215              		.loc 1 99 0
+ 216 0150 2946     		mov	r1, r5
+ 217 0152 0DF10F00 		add	r0, sp, #15
+ 218 0156 FFF7FEFF 		bl	printf
+ 219              	.LVL14:
+ 220 015a D3E7     		b	.L11
+ARM GAS  /tmp/cc5Zmwhq.s 			page 12
+
+
+ 221              	.LVL15:
+ 222              	.L17:
+ 223              	.LBB11:
+ 224              	.LBB10:
+ 299:../../shields/Murata/inc/d7ap.h ****       case ID_TYPE_VID:
+ 300:../../shields/Murata/inc/d7ap.h ****         return ID_TYPE_VID_LENGTH;
+ 225              		.loc 2 300 0
+ 226 015c 0225     		movs	r5, #2
+ 227 015e F4E7     		b	.L13
+ 228              	.L12:
+ 301:../../shields/Murata/inc/d7ap.h ****       default:
+ 302:../../shields/Murata/inc/d7ap.h ****         assert(false);
+ 229              		.loc 2 302 0
+ 230 0160 134B     		ldr	r3, .L25+16
+ 231 0162 144A     		ldr	r2, .L25+20
+ 232 0164 4FF49771 		mov	r1, #302
+ 233 0168 1348     		ldr	r0, .L25+24
+ 234 016a FFF7FEFF 		bl	__assert_func
+ 235              	.LVL16:
+ 236              	.L15:
+ 294:../../shields/Murata/inc/d7ap.h ****       case ID_TYPE_NBID:
+ 237              		.loc 2 294 0
+ 238 016e 0025     		movs	r5, #0
+ 239 0170 EBE7     		b	.L13
+ 240              	.L21:
+ 296:../../shields/Murata/inc/d7ap.h ****       case ID_TYPE_UID:
+ 241              		.loc 2 296 0
+ 242 0172 0125     		movs	r5, #1
+ 243 0174 E9E7     		b	.L13
+ 244              	.LVL17:
+ 245              	.L3:
+ 246              	.LBE10:
+ 247              	.LBE11:
+ 248              	.LBE7:
+ 103:../../shields/Murata/src/modem.c ****         break;
+ 104:../../shields/Murata/src/modem.c ****       default:
+ 105:../../shields/Murata/src/modem.c ****         assert(false);
+ 249              		.loc 1 105 0
+ 250 0176 0E4B     		ldr	r3, .L25+16
+ 251 0178 104A     		ldr	r2, .L25+28
+ 252 017a 6921     		movs	r1, #105
+ 253 017c 1048     		ldr	r0, .L25+32
+ 254 017e FFF7FEFF 		bl	__assert_func
+ 255              	.LVL18:
+ 256              	.L23:
+ 257              	.LBE12:
+ 106:../../shields/Murata/src/modem.c ****     }
+ 107:../../shields/Murata/src/modem.c ****   }
+ 108:../../shields/Murata/src/modem.c **** 
+ 109:../../shields/Murata/src/modem.c **** 
+ 110:../../shields/Murata/src/modem.c ****   if(command_completed) {
+ 258              		.loc 1 110 0
+ 259 0182 57B1     		cbz	r7, .L1
+ 111:../../shields/Murata/src/modem.c ****     DPRINT("LoRaWAN modem command with tag %i completed ", command.tag_id);
+ 112:../../shields/Murata/src/modem.c ****     if(callbacks->command_completed_callback)
+ 260              		.loc 1 112 0
+ 261 0184 084B     		ldr	r3, .L25+8
+ARM GAS  /tmp/cc5Zmwhq.s 			page 13
+
+
+ 262 0186 1B68     		ldr	r3, [r3]
+ 263 0188 1B68     		ldr	r3, [r3]
+ 264 018a 1BB1     		cbz	r3, .L20
+ 113:../../shields/Murata/src/modem.c ****       callbacks->command_completed_callback(completed_with_error,command.tag_id);
+ 265              		.loc 1 113 0
+ 266 018c 044A     		ldr	r2, .L25
+ 267 018e 1178     		ldrb	r1, [r2]	@ zero_extendqisi2
+ 268 0190 3046     		mov	r0, r6
+ 269 0192 9847     		blx	r3
+ 270              	.LVL19:
+ 271              	.L20:
+ 114:../../shields/Murata/src/modem.c **** 
+ 115:../../shields/Murata/src/modem.c ****     command.is_active = false;
+ 272              		.loc 1 115 0
+ 273 0194 024B     		ldr	r3, .L25
+ 274 0196 0022     		movs	r2, #0
+ 275 0198 5A70     		strb	r2, [r3, #1]
+ 276              	.L1:
+ 116:../../shields/Murata/src/modem.c ****   }
+ 117:../../shields/Murata/src/modem.c **** 
+ 118:../../shields/Murata/src/modem.c **** }
+ 277              		.loc 1 118 0
+ 278 019a 4BB0     		add	sp, sp, #300
+ 279              	.LCFI2:
+ 280              		.cfi_def_cfa_offset 20
+ 281              		@ sp needed
+ 282 019c F0BD     		pop	{r4, r5, r6, r7, pc}
+ 283              	.LVL20:
+ 284              	.L26:
+ 285 019e 00BF     		.align	2
+ 286              	.L25:
+ 287 01a0 00000000 		.word	.LANCHOR0
+ 288 01a4 00000000 		.word	.LC0
+ 289 01a8 00000000 		.word	.LANCHOR1
+ 290 01ac 58000000 		.word	.LC3
+ 291 01b0 30000000 		.word	.LC1
+ 292 01b4 00000000 		.word	.LANCHOR2
+ 293 01b8 38000000 		.word	.LC2
+ 294 01bc 00000000 		.word	.LANCHOR3
+ 295 01c0 70000000 		.word	.LC4
+ 296              		.cfi_endproc
+ 297              	.LFE127:
+ 299              		.section	.text.modem_cb_init,"ax",%progbits
+ 300              		.align	1
+ 301              		.global	modem_cb_init
+ 302              		.syntax unified
+ 303              		.thumb
+ 304              		.thumb_func
+ 305              		.fpu fpv4-sp-d16
+ 307              	modem_cb_init:
+ 308              	.LFB128:
+ 119:../../shields/Murata/src/modem.c **** 
+ 120:../../shields/Murata/src/modem.c **** void modem_cb_init(modem_callbacks_t* cbs)
+ 121:../../shields/Murata/src/modem.c **** {
+ 309              		.loc 1 121 0
+ 310              		.cfi_startproc
+ 311              		@ args = 0, pretend = 0, frame = 0
+ARM GAS  /tmp/cc5Zmwhq.s 			page 14
+
+
+ 312              		@ frame_needed = 0, uses_anonymous_args = 0
+ 313              	.LVL21:
+ 314 0000 08B5     		push	{r3, lr}
+ 315              	.LCFI3:
+ 316              		.cfi_def_cfa_offset 8
+ 317              		.cfi_offset 3, -8
+ 318              		.cfi_offset 14, -4
+ 122:../../shields/Murata/src/modem.c ****     callbacks = cbs;
+ 319              		.loc 1 122 0
+ 320 0002 034B     		ldr	r3, .L30
+ 321 0004 1860     		str	r0, [r3]
+ 123:../../shields/Murata/src/modem.c ****     if(cbs->modem_rebooted_callback)
+ 322              		.loc 1 123 0
+ 323 0006 0069     		ldr	r0, [r0, #16]
+ 324              	.LVL22:
+ 325 0008 08B1     		cbz	r0, .L27
+ 124:../../shields/Murata/src/modem.c ****       modem_interface_set_target_rebooted_callback(cbs->modem_rebooted_callback);
+ 326              		.loc 1 124 0
+ 327 000a FFF7FEFF 		bl	modem_interface_set_target_rebooted_callback
+ 328              	.LVL23:
+ 329              	.L27:
+ 125:../../shields/Murata/src/modem.c **** }
+ 330              		.loc 1 125 0
+ 331 000e 08BD     		pop	{r3, pc}
+ 332              	.L31:
+ 333              		.align	2
+ 334              	.L30:
+ 335 0010 00000000 		.word	.LANCHOR1
+ 336              		.cfi_endproc
+ 337              	.LFE128:
+ 339              		.section	.text.modem_process_fifo,"ax",%progbits
+ 340              		.align	1
+ 341              		.global	modem_process_fifo
+ 342              		.syntax unified
+ 343              		.thumb
+ 344              		.thumb_func
+ 345              		.fpu fpv4-sp-d16
+ 347              	modem_process_fifo:
+ 348              	.LFB129:
+ 126:../../shields/Murata/src/modem.c **** 
+ 127:../../shields/Murata/src/modem.c **** void modem_process_fifo()
+ 128:../../shields/Murata/src/modem.c **** {
+ 349              		.loc 1 128 0
+ 350              		.cfi_startproc
+ 351              		@ args = 0, pretend = 0, frame = 0
+ 352              		@ frame_needed = 0, uses_anonymous_args = 0
+ 353 0000 10B5     		push	{r4, lr}
+ 354              	.LCFI4:
+ 355              		.cfi_def_cfa_offset 8
+ 356              		.cfi_offset 4, -8
+ 357              		.cfi_offset 14, -4
+ 358              	.LVL24:
+ 129:../../shields/Murata/src/modem.c ****   uint8_t retries = 0;
+ 359              		.loc 1 129 0
+ 360 0002 0024     		movs	r4, #0
+ 130:../../shields/Murata/src/modem.c ****   while(fifo_get_size(&rx_fifo)&& retries < 50)
+ 361              		.loc 1 130 0
+ARM GAS  /tmp/cc5Zmwhq.s 			page 15
+
+
+ 362 0004 06E0     		b	.L33
+ 363              	.LVL25:
+ 364              	.L35:
+ 365              	.LBB13:
+ 131:../../shields/Murata/src/modem.c ****   { 
+ 132:../../shields/Murata/src/modem.c ****     process_rx_fifo();
+ 366              		.loc 1 132 0
+ 367 0006 FFF7FEFF 		bl	process_rx_fifo
+ 368              	.LVL26:
+ 133:../../shields/Murata/src/modem.c ****     HAL_Delay(5);
+ 369              		.loc 1 133 0
+ 370 000a 0520     		movs	r0, #5
+ 371 000c FFF7FEFF 		bl	HAL_Delay
+ 372              	.LVL27:
+ 134:../../shields/Murata/src/modem.c ****     retries++;
+ 373              		.loc 1 134 0
+ 374 0010 0134     		adds	r4, r4, #1
+ 375              	.LVL28:
+ 376 0012 E4B2     		uxtb	r4, r4
+ 377              	.LVL29:
+ 378              	.L33:
+ 379              	.LBE13:
+ 130:../../shields/Murata/src/modem.c ****   { 
+ 380              		.loc 1 130 0
+ 381 0014 0348     		ldr	r0, .L37
+ 382 0016 FFF7FEFF 		bl	fifo_get_size
+ 383              	.LVL30:
+ 384 001a 08B1     		cbz	r0, .L32
+ 130:../../shields/Murata/src/modem.c ****   { 
+ 385              		.loc 1 130 0 is_stmt 0 discriminator 1
+ 386 001c 312C     		cmp	r4, #49
+ 387 001e F2D9     		bls	.L35
+ 388              	.L32:
+ 135:../../shields/Murata/src/modem.c ****   }
+ 136:../../shields/Murata/src/modem.c **** }
+ 389              		.loc 1 136 0 is_stmt 1
+ 390 0020 10BD     		pop	{r4, pc}
+ 391              	.LVL31:
+ 392              	.L38:
+ 393 0022 00BF     		.align	2
+ 394              	.L37:
+ 395 0024 00000000 		.word	rx_fifo
+ 396              		.cfi_endproc
+ 397              	.LFE129:
+ 399              		.section	.text.modem_init,"ax",%progbits
+ 400              		.align	1
+ 401              		.global	modem_init
+ 402              		.syntax unified
+ 403              		.thumb
+ 404              		.thumb_func
+ 405              		.fpu fpv4-sp-d16
+ 407              	modem_init:
+ 408              	.LFB130:
+ 137:../../shields/Murata/src/modem.c **** 
+ 138:../../shields/Murata/src/modem.c **** //void modem_init(uint8_t uart_idx, uint32_t baudrate)
+ 139:../../shields/Murata/src/modem.c **** void modem_init(UART_HandleTypeDef* uart)
+ 140:../../shields/Murata/src/modem.c **** {
+ARM GAS  /tmp/cc5Zmwhq.s 			page 16
+
+
+ 409              		.loc 1 140 0
+ 410              		.cfi_startproc
+ 411              		@ args = 0, pretend = 0, frame = 0
+ 412              		@ frame_needed = 0, uses_anonymous_args = 0
+ 413              	.LVL32:
+ 414 0000 08B5     		push	{r3, lr}
+ 415              	.LCFI5:
+ 416              		.cfi_def_cfa_offset 8
+ 417              		.cfi_offset 3, -8
+ 418              		.cfi_offset 14, -4
+ 141:../../shields/Murata/src/modem.c ****   modem_interface_init(uart);//uart_idx, baudrate, 0, 0); // TODO pins
+ 419              		.loc 1 141 0
+ 420 0002 FFF7FEFF 		bl	modem_interface_init
+ 421              	.LVL33:
+ 142:../../shields/Murata/src/modem.c ****   modem_interface_register_handler(&process_serial_frame, SERIAL_MESSAGE_TYPE_ALP_DATA);
+ 422              		.loc 1 142 0
+ 423 0006 0121     		movs	r1, #1
+ 424 0008 0348     		ldr	r0, .L41
+ 425 000a FFF7FEFF 		bl	modem_interface_register_handler
+ 426              	.LVL34:
+ 143:../../shields/Murata/src/modem.c ****   command.is_active = false;
+ 427              		.loc 1 143 0
+ 428 000e 034B     		ldr	r3, .L41+4
+ 429 0010 0022     		movs	r2, #0
+ 430 0012 5A70     		strb	r2, [r3, #1]
+ 144:../../shields/Murata/src/modem.c **** }
+ 431              		.loc 1 144 0
+ 432 0014 08BD     		pop	{r3, pc}
+ 433              	.L42:
+ 434 0016 00BF     		.align	2
+ 435              	.L41:
+ 436 0018 00000000 		.word	process_serial_frame
+ 437 001c 00000000 		.word	.LANCHOR0
+ 438              		.cfi_endproc
+ 439              	.LFE130:
+ 441              		.section	.text.modem_reinit,"ax",%progbits
+ 442              		.align	1
+ 443              		.global	modem_reinit
+ 444              		.syntax unified
+ 445              		.thumb
+ 446              		.thumb_func
+ 447              		.fpu fpv4-sp-d16
+ 449              	modem_reinit:
+ 450              	.LFB131:
+ 145:../../shields/Murata/src/modem.c **** 
+ 146:../../shields/Murata/src/modem.c **** void modem_reinit() {
+ 451              		.loc 1 146 0
+ 452              		.cfi_startproc
+ 453              		@ args = 0, pretend = 0, frame = 0
+ 454              		@ frame_needed = 0, uses_anonymous_args = 0
+ 455              		@ link register save eliminated.
+ 147:../../shields/Murata/src/modem.c ****   command.is_active = false;
+ 456              		.loc 1 147 0
+ 457 0000 014B     		ldr	r3, .L44
+ 458 0002 0022     		movs	r2, #0
+ 459 0004 5A70     		strb	r2, [r3, #1]
+ 148:../../shields/Murata/src/modem.c **** }
+ARM GAS  /tmp/cc5Zmwhq.s 			page 17
+
+
+ 460              		.loc 1 148 0
+ 461 0006 7047     		bx	lr
+ 462              	.L45:
+ 463              		.align	2
+ 464              	.L44:
+ 465 0008 00000000 		.word	.LANCHOR0
+ 466              		.cfi_endproc
+ 467              	.LFE131:
+ 469              		.section	.text.modem_send_ping,"ax",%progbits
+ 470              		.align	1
+ 471              		.global	modem_send_ping
+ 472              		.syntax unified
+ 473              		.thumb
+ 474              		.thumb_func
+ 475              		.fpu fpv4-sp-d16
+ 477              	modem_send_ping:
+ 478              	.LFB132:
+ 149:../../shields/Murata/src/modem.c **** 
+ 150:../../shields/Murata/src/modem.c **** void modem_send_ping() {
+ 479              		.loc 1 150 0
+ 480              		.cfi_startproc
+ 481              		@ args = 0, pretend = 0, frame = 8
+ 482              		@ frame_needed = 0, uses_anonymous_args = 0
+ 483 0000 00B5     		push	{lr}
+ 484              	.LCFI6:
+ 485              		.cfi_def_cfa_offset 4
+ 486              		.cfi_offset 14, -4
+ 487 0002 83B0     		sub	sp, sp, #12
+ 488              	.LCFI7:
+ 489              		.cfi_def_cfa_offset 16
+ 151:../../shields/Murata/src/modem.c ****   uint8_t ping_request[1]={0x01};
+ 490              		.loc 1 151 0
+ 491 0004 0121     		movs	r1, #1
+ 492 0006 02A8     		add	r0, sp, #8
+ 493 0008 00F8041D 		strb	r1, [r0, #-4]!
+ 152:../../shields/Murata/src/modem.c ****   modem_interface_transfer_bytes((uint8_t*) &ping_request, 1, SERIAL_MESSAGE_TYPE_PING_REQUEST);
+ 494              		.loc 1 152 0
+ 495 000c 0222     		movs	r2, #2
+ 496 000e FFF7FEFF 		bl	modem_interface_transfer_bytes
+ 497              	.LVL35:
+ 153:../../shields/Murata/src/modem.c **** }
+ 498              		.loc 1 153 0
+ 499 0012 03B0     		add	sp, sp, #12
+ 500              	.LCFI8:
+ 501              		.cfi_def_cfa_offset 4
+ 502              		@ sp needed
+ 503 0014 5DF804FB 		ldr	pc, [sp], #4
+ 504              		.cfi_endproc
+ 505              	.LFE132:
+ 507              		.section	.text.modem_execute_raw_alp,"ax",%progbits
+ 508              		.align	1
+ 509              		.global	modem_execute_raw_alp
+ 510              		.syntax unified
+ 511              		.thumb
+ 512              		.thumb_func
+ 513              		.fpu fpv4-sp-d16
+ 515              	modem_execute_raw_alp:
+ARM GAS  /tmp/cc5Zmwhq.s 			page 18
+
+
+ 516              	.LFB133:
+ 154:../../shields/Murata/src/modem.c **** 
+ 155:../../shields/Murata/src/modem.c **** bool modem_execute_raw_alp(uint8_t* alp, uint8_t len) {
+ 517              		.loc 1 155 0
+ 518              		.cfi_startproc
+ 519              		@ args = 0, pretend = 0, frame = 0
+ 520              		@ frame_needed = 0, uses_anonymous_args = 0
+ 521              	.LVL36:
+ 522 0000 08B5     		push	{r3, lr}
+ 523              	.LCFI9:
+ 524              		.cfi_def_cfa_offset 8
+ 525              		.cfi_offset 3, -8
+ 526              		.cfi_offset 14, -4
+ 156:../../shields/Murata/src/modem.c ****   modem_interface_transfer_bytes(alp, len, SERIAL_MESSAGE_TYPE_ALP_DATA);
+ 527              		.loc 1 156 0
+ 528 0002 0122     		movs	r2, #1
+ 529 0004 FFF7FEFF 		bl	modem_interface_transfer_bytes
+ 530              	.LVL37:
+ 157:../../shields/Murata/src/modem.c **** }
+ 531              		.loc 1 157 0
+ 532 0008 08BD     		pop	{r3, pc}
+ 533              		.cfi_endproc
+ 534              	.LFE133:
+ 536              		.section	.text.alloc_command,"ax",%progbits
+ 537              		.align	1
+ 538              		.global	alloc_command
+ 539              		.syntax unified
+ 540              		.thumb
+ 541              		.thumb_func
+ 542              		.fpu fpv4-sp-d16
+ 544              	alloc_command:
+ 545              	.LFB134:
+ 158:../../shields/Murata/src/modem.c **** 
+ 159:../../shields/Murata/src/modem.c **** bool alloc_command() {
+ 546              		.loc 1 159 0
+ 547              		.cfi_startproc
+ 548              		@ args = 0, pretend = 0, frame = 0
+ 549              		@ frame_needed = 0, uses_anonymous_args = 0
+ 550 0000 70B5     		push	{r4, r5, r6, lr}
+ 551              	.LCFI10:
+ 552              		.cfi_def_cfa_offset 16
+ 553              		.cfi_offset 4, -16
+ 554              		.cfi_offset 5, -12
+ 555              		.cfi_offset 6, -8
+ 556              		.cfi_offset 14, -4
+ 160:../../shields/Murata/src/modem.c ****   if(command.is_active) {
+ 557              		.loc 1 160 0
+ 558 0002 104B     		ldr	r3, .L55
+ 559 0004 5B78     		ldrb	r3, [r3, #1]	@ zero_extendqisi2
+ 560 0006 ABB9     		cbnz	r3, .L54
+ 161:../../shields/Murata/src/modem.c ****     printf("prev command still active");
+ 162:../../shields/Murata/src/modem.c ****     Murata_toggleResetPin();
+ 163:../../shields/Murata/src/modem.c ****     return false;
+ 164:../../shields/Murata/src/modem.c ****   }
+ 165:../../shields/Murata/src/modem.c **** 
+ 166:../../shields/Murata/src/modem.c ****   command.is_active = true;
+ 561              		.loc 1 166 0
+ARM GAS  /tmp/cc5Zmwhq.s 			page 19
+
+
+ 562 0008 0E4D     		ldr	r5, .L55
+ 563 000a 0124     		movs	r4, #1
+ 564 000c 6C70     		strb	r4, [r5, #1]
+ 167:../../shields/Murata/src/modem.c ****   fifo_init(&command.fifo, command.buffer, CMD_BUFFER_SIZE);
+ 565              		.loc 1 167 0
+ 566 000e 2E1D     		adds	r6, r5, #4
+ 567 0010 4FF48072 		mov	r2, #256
+ 568 0014 05F11401 		add	r1, r5, #20
+ 569 0018 3046     		mov	r0, r6
+ 570 001a FFF7FEFF 		bl	fifo_init
+ 571              	.LVL38:
+ 168:../../shields/Murata/src/modem.c ****   command.tag_id = next_tag_id;
+ 572              		.loc 1 168 0
+ 573 001e 0A4B     		ldr	r3, .L55+4
+ 574 0020 1978     		ldrb	r1, [r3]	@ zero_extendqisi2
+ 575 0022 2970     		strb	r1, [r5]
+ 169:../../shields/Murata/src/modem.c ****   next_tag_id++;
+ 576              		.loc 1 169 0
+ 577 0024 0A19     		adds	r2, r1, r4
+ 578 0026 1A70     		strb	r2, [r3]
+ 170:../../shields/Murata/src/modem.c **** 
+ 171:../../shields/Murata/src/modem.c ****   alp_append_tag_request_action(&command.fifo, command.tag_id, true);
+ 579              		.loc 1 171 0
+ 580 0028 2246     		mov	r2, r4
+ 581 002a 3046     		mov	r0, r6
+ 582 002c FFF7FEFF 		bl	alp_append_tag_request_action
+ 583              	.LVL39:
+ 172:../../shields/Murata/src/modem.c ****   return true;
+ 584              		.loc 1 172 0
+ 585 0030 2046     		mov	r0, r4
+ 586              	.L52:
+ 173:../../shields/Murata/src/modem.c **** }
+ 587              		.loc 1 173 0
+ 588 0032 70BD     		pop	{r4, r5, r6, pc}
+ 589              	.L54:
+ 590              	.LBB14:
+ 161:../../shields/Murata/src/modem.c ****     Murata_toggleResetPin();
+ 591              		.loc 1 161 0
+ 592 0034 0548     		ldr	r0, .L55+8
+ 593 0036 FFF7FEFF 		bl	printf
+ 594              	.LVL40:
+ 162:../../shields/Murata/src/modem.c ****     return false;
+ 595              		.loc 1 162 0
+ 596 003a FFF7FEFF 		bl	Murata_toggleResetPin
+ 597              	.LVL41:
+ 163:../../shields/Murata/src/modem.c ****   }
+ 598              		.loc 1 163 0
+ 599 003e 0020     		movs	r0, #0
+ 600 0040 F7E7     		b	.L52
+ 601              	.L56:
+ 602 0042 00BF     		.align	2
+ 603              	.L55:
+ 604 0044 00000000 		.word	.LANCHOR0
+ 605 0048 00000000 		.word	.LANCHOR4
+ 606 004c 00000000 		.word	.LC5
+ 607              	.LBE14:
+ 608              		.cfi_endproc
+ARM GAS  /tmp/cc5Zmwhq.s 			page 20
+
+
+ 609              	.LFE134:
+ 611              		.section	.text.modem_read_file,"ax",%progbits
+ 612              		.align	1
+ 613              		.global	modem_read_file
+ 614              		.syntax unified
+ 615              		.thumb
+ 616              		.thumb_func
+ 617              		.fpu fpv4-sp-d16
+ 619              	modem_read_file:
+ 620              	.LFB135:
+ 174:../../shields/Murata/src/modem.c **** 
+ 175:../../shields/Murata/src/modem.c **** bool modem_read_file(uint8_t file_id, uint32_t offset, uint32_t size) {
+ 621              		.loc 1 175 0
+ 622              		.cfi_startproc
+ 623              		@ args = 0, pretend = 0, frame = 0
+ 624              		@ frame_needed = 0, uses_anonymous_args = 0
+ 625              	.LVL42:
+ 626 0000 2DE9F047 		push	{r4, r5, r6, r7, r8, r9, r10, lr}
+ 627              	.LCFI11:
+ 628              		.cfi_def_cfa_offset 32
+ 629              		.cfi_offset 4, -32
+ 630              		.cfi_offset 5, -28
+ 631              		.cfi_offset 6, -24
+ 632              		.cfi_offset 7, -20
+ 633              		.cfi_offset 8, -16
+ 634              		.cfi_offset 9, -12
+ 635              		.cfi_offset 10, -8
+ 636              		.cfi_offset 14, -4
+ 637 0004 82B0     		sub	sp, sp, #8
+ 638              	.LCFI12:
+ 639              		.cfi_def_cfa_offset 40
+ 640 0006 0546     		mov	r5, r0
+ 641 0008 0E46     		mov	r6, r1
+ 642 000a 1746     		mov	r7, r2
+ 176:../../shields/Murata/src/modem.c ****   if(!alloc_command())
+ 643              		.loc 1 176 0
+ 644 000c FFF7FEFF 		bl	alloc_command
+ 645              	.LVL43:
+ 646 0010 0446     		mov	r4, r0
+ 647 0012 18B9     		cbnz	r0, .L60
+ 648              	.L58:
+ 177:../../shields/Murata/src/modem.c ****     return false;
+ 178:../../shields/Murata/src/modem.c **** 
+ 179:../../shields/Murata/src/modem.c ****   alp_append_read_file_data_action(&command.fifo, file_id, offset, size, true, false);
+ 180:../../shields/Murata/src/modem.c **** 
+ 181:../../shields/Murata/src/modem.c ****   modem_interface_transfer_bytes(command.buffer, fifo_get_size(&command.fifo), SERIAL_MESSAGE_TYPE_
+ 182:../../shields/Murata/src/modem.c **** 
+ 183:../../shields/Murata/src/modem.c ****   return true;
+ 184:../../shields/Murata/src/modem.c **** }
+ 649              		.loc 1 184 0
+ 650 0014 2046     		mov	r0, r4
+ 651 0016 02B0     		add	sp, sp, #8
+ 652              	.LCFI13:
+ 653              		.cfi_remember_state
+ 654              		.cfi_def_cfa_offset 32
+ 655              		@ sp needed
+ 656 0018 BDE8F087 		pop	{r4, r5, r6, r7, r8, r9, r10, pc}
+ARM GAS  /tmp/cc5Zmwhq.s 			page 21
+
+
+ 657              	.LVL44:
+ 658              	.L60:
+ 659              	.LCFI14:
+ 660              		.cfi_restore_state
+ 179:../../shields/Murata/src/modem.c **** 
+ 661              		.loc 1 179 0
+ 662 001c DFF83080 		ldr	r8, .L61
+ 663 0020 08F1040A 		add	r10, r8, #4
+ 664 0024 0023     		movs	r3, #0
+ 665 0026 0193     		str	r3, [sp, #4]
+ 666 0028 4FF00109 		mov	r9, #1
+ 667 002c CDF80090 		str	r9, [sp]
+ 668 0030 3B46     		mov	r3, r7
+ 669 0032 3246     		mov	r2, r6
+ 670 0034 2946     		mov	r1, r5
+ 671 0036 5046     		mov	r0, r10
+ 672 0038 FFF7FEFF 		bl	alp_append_read_file_data_action
+ 673              	.LVL45:
+ 181:../../shields/Murata/src/modem.c **** 
+ 674              		.loc 1 181 0
+ 675 003c 5046     		mov	r0, r10
+ 676 003e FFF7FEFF 		bl	fifo_get_size
+ 677              	.LVL46:
+ 678 0042 4A46     		mov	r2, r9
+ 679 0044 C1B2     		uxtb	r1, r0
+ 680 0046 08F11400 		add	r0, r8, #20
+ 681 004a FFF7FEFF 		bl	modem_interface_transfer_bytes
+ 682              	.LVL47:
+ 183:../../shields/Murata/src/modem.c **** }
+ 683              		.loc 1 183 0
+ 684 004e E1E7     		b	.L58
+ 685              	.L62:
+ 686              		.align	2
+ 687              	.L61:
+ 688 0050 00000000 		.word	.LANCHOR0
+ 689              		.cfi_endproc
+ 690              	.LFE135:
+ 692              		.section	.text.modem_write_file,"ax",%progbits
+ 693              		.align	1
+ 694              		.global	modem_write_file
+ 695              		.syntax unified
+ 696              		.thumb
+ 697              		.thumb_func
+ 698              		.fpu fpv4-sp-d16
+ 700              	modem_write_file:
+ 701              	.LFB136:
+ 185:../../shields/Murata/src/modem.c **** 
+ 186:../../shields/Murata/src/modem.c **** bool modem_write_file(uint8_t file_id, uint32_t offset, uint32_t size, uint8_t* data) {
+ 702              		.loc 1 186 0
+ 703              		.cfi_startproc
+ 704              		@ args = 0, pretend = 0, frame = 0
+ 705              		@ frame_needed = 0, uses_anonymous_args = 0
+ 706              	.LVL48:
+ 707 0000 2DE9F04F 		push	{r4, r5, r6, r7, r8, r9, r10, fp, lr}
+ 708              	.LCFI15:
+ 709              		.cfi_def_cfa_offset 36
+ 710              		.cfi_offset 4, -36
+ARM GAS  /tmp/cc5Zmwhq.s 			page 22
+
+
+ 711              		.cfi_offset 5, -32
+ 712              		.cfi_offset 6, -28
+ 713              		.cfi_offset 7, -24
+ 714              		.cfi_offset 8, -20
+ 715              		.cfi_offset 9, -16
+ 716              		.cfi_offset 10, -12
+ 717              		.cfi_offset 11, -8
+ 718              		.cfi_offset 14, -4
+ 719 0004 85B0     		sub	sp, sp, #20
+ 720              	.LCFI16:
+ 721              		.cfi_def_cfa_offset 56
+ 722 0006 0546     		mov	r5, r0
+ 723 0008 0E46     		mov	r6, r1
+ 724 000a 1746     		mov	r7, r2
+ 725 000c 9846     		mov	r8, r3
+ 187:../../shields/Murata/src/modem.c ****   if(!alloc_command())
+ 726              		.loc 1 187 0
+ 727 000e FFF7FEFF 		bl	alloc_command
+ 728              	.LVL49:
+ 729 0012 0446     		mov	r4, r0
+ 730 0014 18B9     		cbnz	r0, .L66
+ 731              	.L64:
+ 188:../../shields/Murata/src/modem.c ****     return false;
+ 189:../../shields/Murata/src/modem.c **** 
+ 190:../../shields/Murata/src/modem.c ****   alp_append_write_file_data_action(&command.fifo, file_id, offset, size, data, true, false);
+ 191:../../shields/Murata/src/modem.c **** 
+ 192:../../shields/Murata/src/modem.c ****   modem_interface_transfer_bytes(command.buffer, fifo_get_size(&command.fifo), SERIAL_MESSAGE_TYPE_
+ 193:../../shields/Murata/src/modem.c **** 
+ 194:../../shields/Murata/src/modem.c ****   return true;
+ 195:../../shields/Murata/src/modem.c **** }
+ 732              		.loc 1 195 0
+ 733 0016 2046     		mov	r0, r4
+ 734 0018 05B0     		add	sp, sp, #20
+ 735              	.LCFI17:
+ 736              		.cfi_remember_state
+ 737              		.cfi_def_cfa_offset 36
+ 738              		@ sp needed
+ 739 001a BDE8F08F 		pop	{r4, r5, r6, r7, r8, r9, r10, fp, pc}
+ 740              	.LVL50:
+ 741              	.L66:
+ 742              	.LCFI18:
+ 743              		.cfi_restore_state
+ 190:../../shields/Murata/src/modem.c **** 
+ 744              		.loc 1 190 0
+ 745 001e DFF83890 		ldr	r9, .L67
+ 746 0022 09F1040B 		add	fp, r9, #4
+ 747 0026 0023     		movs	r3, #0
+ 748 0028 0293     		str	r3, [sp, #8]
+ 749 002a 4FF0010A 		mov	r10, #1
+ 750 002e CDF804A0 		str	r10, [sp, #4]
+ 751 0032 CDF80080 		str	r8, [sp]
+ 752 0036 3B46     		mov	r3, r7
+ 753 0038 3246     		mov	r2, r6
+ 754 003a 2946     		mov	r1, r5
+ 755 003c 5846     		mov	r0, fp
+ 756 003e FFF7FEFF 		bl	alp_append_write_file_data_action
+ 757              	.LVL51:
+ARM GAS  /tmp/cc5Zmwhq.s 			page 23
+
+
+ 192:../../shields/Murata/src/modem.c **** 
+ 758              		.loc 1 192 0
+ 759 0042 5846     		mov	r0, fp
+ 760 0044 FFF7FEFF 		bl	fifo_get_size
+ 761              	.LVL52:
+ 762 0048 5246     		mov	r2, r10
+ 763 004a C1B2     		uxtb	r1, r0
+ 764 004c 09F11400 		add	r0, r9, #20
+ 765 0050 FFF7FEFF 		bl	modem_interface_transfer_bytes
+ 766              	.LVL53:
+ 194:../../shields/Murata/src/modem.c **** }
+ 767              		.loc 1 194 0
+ 768 0054 DFE7     		b	.L64
+ 769              	.L68:
+ 770 0056 00BF     		.align	2
+ 771              	.L67:
+ 772 0058 00000000 		.word	.LANCHOR0
+ 773              		.cfi_endproc
+ 774              	.LFE136:
+ 776              		.section	.text.modem_send_unsolicited_response,"ax",%progbits
+ 777              		.align	1
+ 778              		.global	modem_send_unsolicited_response
+ 779              		.syntax unified
+ 780              		.thumb
+ 781              		.thumb_func
+ 782              		.fpu fpv4-sp-d16
+ 784              	modem_send_unsolicited_response:
+ 785              	.LFB137:
+ 196:../../shields/Murata/src/modem.c **** 
+ 197:../../shields/Murata/src/modem.c **** bool modem_send_unsolicited_response(uint8_t file_id, uint32_t offset, uint32_t length, uint8_t* da
+ 198:../../shields/Murata/src/modem.c ****                                      session_config_t* session_config) {
+ 786              		.loc 1 198 0
+ 787              		.cfi_startproc
+ 788              		@ args = 4, pretend = 0, frame = 0
+ 789              		@ frame_needed = 0, uses_anonymous_args = 0
+ 790              	.LVL54:
+ 791 0000 2DE9F047 		push	{r4, r5, r6, r7, r8, r9, r10, lr}
+ 792              	.LCFI19:
+ 793              		.cfi_def_cfa_offset 32
+ 794              		.cfi_offset 4, -32
+ 795              		.cfi_offset 5, -28
+ 796              		.cfi_offset 6, -24
+ 797              		.cfi_offset 7, -20
+ 798              		.cfi_offset 8, -16
+ 799              		.cfi_offset 9, -12
+ 800              		.cfi_offset 10, -8
+ 801              		.cfi_offset 14, -4
+ 802 0004 82B0     		sub	sp, sp, #8
+ 803              	.LCFI20:
+ 804              		.cfi_def_cfa_offset 40
+ 805 0006 0746     		mov	r7, r0
+ 806 0008 8846     		mov	r8, r1
+ 807 000a 9146     		mov	r9, r2
+ 808 000c 9A46     		mov	r10, r3
+ 199:../../shields/Murata/src/modem.c ****   if(!alloc_command())
+ 809              		.loc 1 199 0
+ 810 000e FFF7FEFF 		bl	alloc_command
+ARM GAS  /tmp/cc5Zmwhq.s 			page 24
+
+
+ 811              	.LVL55:
+ 812 0012 0446     		mov	r4, r0
+ 813 0014 C8B1     		cbz	r0, .L70
+ 200:../../shields/Murata/src/modem.c ****     return false;
+ 201:../../shields/Murata/src/modem.c **** 
+ 202:../../shields/Murata/src/modem.c ****   if(session_config->interface_type==DASH7)
+ 814              		.loc 1 202 0
+ 815 0016 0A9B     		ldr	r3, [sp, #40]
+ 816 0018 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 817 001a D3B1     		cbz	r3, .L75
+ 203:../../shields/Murata/src/modem.c ****     alp_append_forward_action(&command.fifo, ALP_ITF_ID_D7ASP, (uint8_t *) &session_config->d7ap_se
+ 204:../../shields/Murata/src/modem.c ****   else if(session_config->interface_type==LORAWAN_OTAA)
+ 818              		.loc 1 204 0
+ 819 001c 012B     		cmp	r3, #1
+ 820 001e 20D0     		beq	.L76
+ 205:../../shields/Murata/src/modem.c ****     alp_append_forward_action(&command.fifo, ALP_ITF_ID_LORAWAN_OTAA, (uint8_t *) &session_config->
+ 206:../../shields/Murata/src/modem.c ****   else if(session_config->interface_type==lorawan_ABP)
+ 821              		.loc 1 206 0
+ 822 0020 022B     		cmp	r3, #2
+ 823 0022 26D0     		beq	.L77
+ 824              	.L72:
+ 207:../../shields/Murata/src/modem.c ****     alp_append_forward_action(&command.fifo, ALP_ITF_ID_LORAWAN_ABP, (uint8_t *) &session_config->l
+ 208:../../shields/Murata/src/modem.c **** 
+ 209:../../shields/Murata/src/modem.c ****   alp_append_return_file_data_action(&command.fifo, file_id, offset, length, data);
+ 825              		.loc 1 209 0
+ 826 0024 174D     		ldr	r5, .L78
+ 827 0026 2E1D     		adds	r6, r5, #4
+ 828 0028 CDF800A0 		str	r10, [sp]
+ 829 002c 4B46     		mov	r3, r9
+ 830 002e 4246     		mov	r2, r8
+ 831 0030 3946     		mov	r1, r7
+ 832 0032 3046     		mov	r0, r6
+ 833 0034 FFF7FEFF 		bl	alp_append_return_file_data_action
+ 834              	.LVL56:
+ 210:../../shields/Murata/src/modem.c **** 
+ 211:../../shields/Murata/src/modem.c ****   modem_interface_transfer_bytes(command.buffer, fifo_get_size(&command.fifo), SERIAL_MESSAGE_TYPE_
+ 835              		.loc 1 211 0
+ 836 0038 3046     		mov	r0, r6
+ 837 003a FFF7FEFF 		bl	fifo_get_size
+ 838              	.LVL57:
+ 839 003e 0122     		movs	r2, #1
+ 840 0040 C1B2     		uxtb	r1, r0
+ 841 0042 05F11400 		add	r0, r5, #20
+ 842 0046 FFF7FEFF 		bl	modem_interface_transfer_bytes
+ 843              	.LVL58:
+ 844              	.L70:
+ 212:../../shields/Murata/src/modem.c ****   return true;
+ 213:../../shields/Murata/src/modem.c **** }
+ 845              		.loc 1 213 0
+ 846 004a 2046     		mov	r0, r4
+ 847 004c 02B0     		add	sp, sp, #8
+ 848              	.LCFI21:
+ 849              		.cfi_remember_state
+ 850              		.cfi_def_cfa_offset 32
+ 851              		@ sp needed
+ 852 004e BDE8F087 		pop	{r4, r5, r6, r7, r8, r9, r10, pc}
+ 853              	.LVL59:
+ARM GAS  /tmp/cc5Zmwhq.s 			page 25
+
+
+ 854              	.L75:
+ 855              	.LCFI22:
+ 856              		.cfi_restore_state
+ 203:../../shields/Murata/src/modem.c ****   else if(session_config->interface_type==LORAWAN_OTAA)
+ 857              		.loc 1 203 0
+ 858 0052 0C23     		movs	r3, #12
+ 859 0054 0A9A     		ldr	r2, [sp, #40]
+ 860 0056 0432     		adds	r2, r2, #4
+ 861 0058 D721     		movs	r1, #215
+ 862 005a 0B48     		ldr	r0, .L78+4
+ 863 005c FFF7FEFF 		bl	alp_append_forward_action
+ 864              	.LVL60:
+ 865 0060 E0E7     		b	.L72
+ 866              	.L76:
+ 205:../../shields/Murata/src/modem.c ****   else if(session_config->interface_type==lorawan_ABP)
+ 867              		.loc 1 205 0
+ 868 0062 2223     		movs	r3, #34
+ 869 0064 0A9A     		ldr	r2, [sp, #40]
+ 870 0066 0432     		adds	r2, r2, #4
+ 871 0068 0321     		movs	r1, #3
+ 872 006a 0748     		ldr	r0, .L78+4
+ 873 006c FFF7FEFF 		bl	alp_append_forward_action
+ 874              	.LVL61:
+ 875 0070 D8E7     		b	.L72
+ 876              	.L77:
+ 207:../../shields/Murata/src/modem.c **** 
+ 877              		.loc 1 207 0
+ 878 0072 2C23     		movs	r3, #44
+ 879 0074 0A9A     		ldr	r2, [sp, #40]
+ 880 0076 0432     		adds	r2, r2, #4
+ 881 0078 0221     		movs	r1, #2
+ 882 007a 0348     		ldr	r0, .L78+4
+ 883 007c FFF7FEFF 		bl	alp_append_forward_action
+ 884              	.LVL62:
+ 885 0080 D0E7     		b	.L72
+ 886              	.L79:
+ 887 0082 00BF     		.align	2
+ 888              	.L78:
+ 889 0084 00000000 		.word	.LANCHOR0
+ 890 0088 04000000 		.word	.LANCHOR0+4
+ 891              		.cfi_endproc
+ 892              	.LFE137:
+ 894              		.section	.text.modem_send_raw_unsolicited_response,"ax",%progbits
+ 895              		.align	1
+ 896              		.global	modem_send_raw_unsolicited_response
+ 897              		.syntax unified
+ 898              		.thumb
+ 899              		.thumb_func
+ 900              		.fpu fpv4-sp-d16
+ 902              	modem_send_raw_unsolicited_response:
+ 903              	.LFB138:
+ 214:../../shields/Murata/src/modem.c **** 
+ 215:../../shields/Murata/src/modem.c **** bool modem_send_raw_unsolicited_response(uint8_t* alp_command, uint32_t length,
+ 216:../../shields/Murata/src/modem.c ****                                          session_config_t* session_config) {
+ 904              		.loc 1 216 0
+ 905              		.cfi_startproc
+ 906              		@ args = 0, pretend = 0, frame = 0
+ARM GAS  /tmp/cc5Zmwhq.s 			page 26
+
+
+ 907              		@ frame_needed = 0, uses_anonymous_args = 0
+ 908              	.LVL63:
+ 909 0000 2DE9F041 		push	{r4, r5, r6, r7, r8, lr}
+ 910              	.LCFI23:
+ 911              		.cfi_def_cfa_offset 24
+ 912              		.cfi_offset 4, -24
+ 913              		.cfi_offset 5, -20
+ 914              		.cfi_offset 6, -16
+ 915              		.cfi_offset 7, -12
+ 916              		.cfi_offset 8, -8
+ 917              		.cfi_offset 14, -4
+ 918 0004 0746     		mov	r7, r0
+ 919 0006 8846     		mov	r8, r1
+ 920 0008 1546     		mov	r5, r2
+ 217:../../shields/Murata/src/modem.c ****   if(!alloc_command())
+ 921              		.loc 1 217 0
+ 922 000a FFF7FEFF 		bl	alloc_command
+ 923              	.LVL64:
+ 924 000e 0446     		mov	r4, r0
+ 925 0010 B0B1     		cbz	r0, .L81
+ 218:../../shields/Murata/src/modem.c ****     return false;
+ 219:../../shields/Murata/src/modem.c **** 
+ 220:../../shields/Murata/src/modem.c ****    if(session_config->interface_type==DASH7)
+ 926              		.loc 1 220 0
+ 927 0012 2B78     		ldrb	r3, [r5]	@ zero_extendqisi2
+ 928 0014 BBB1     		cbz	r3, .L86
+ 221:../../shields/Murata/src/modem.c ****     alp_append_forward_action(&command.fifo, ALP_ITF_ID_D7ASP, (uint8_t *) &session_config->d7ap_se
+ 222:../../shields/Murata/src/modem.c ****   else if(session_config->interface_type==LORAWAN_OTAA)
+ 929              		.loc 1 222 0
+ 930 0016 012B     		cmp	r3, #1
+ 931 0018 1CD0     		beq	.L87
+ 223:../../shields/Murata/src/modem.c ****     alp_append_forward_action(&command.fifo, ALP_ITF_ID_LORAWAN_OTAA, (uint8_t *) &session_config->
+ 224:../../shields/Murata/src/modem.c ****   else if(session_config->interface_type==lorawan_ABP)
+ 932              		.loc 1 224 0
+ 933 001a 022B     		cmp	r3, #2
+ 934 001c 21D0     		beq	.L88
+ 935              	.L83:
+ 225:../../shields/Murata/src/modem.c ****     alp_append_forward_action(&command.fifo, ALP_ITF_ID_LORAWAN_ABP, (uint8_t *) &session_config->l
+ 226:../../shields/Murata/src/modem.c **** 
+ 227:../../shields/Murata/src/modem.c ****   fifo_put(&command.fifo, alp_command, length);
+ 936              		.loc 1 227 0
+ 937 001e 144D     		ldr	r5, .L89
+ 938              	.LVL65:
+ 939 0020 2E1D     		adds	r6, r5, #4
+ 940 0022 1FFA88F2 		uxth	r2, r8
+ 941 0026 3946     		mov	r1, r7
+ 942 0028 3046     		mov	r0, r6
+ 943 002a FFF7FEFF 		bl	fifo_put
+ 944              	.LVL66:
+ 228:../../shields/Murata/src/modem.c **** 
+ 229:../../shields/Murata/src/modem.c ****   modem_interface_transfer_bytes(command.buffer, fifo_get_size(&command.fifo), SERIAL_MESSAGE_TYPE_
+ 945              		.loc 1 229 0
+ 946 002e 3046     		mov	r0, r6
+ 947 0030 FFF7FEFF 		bl	fifo_get_size
+ 948              	.LVL67:
+ 949 0034 0122     		movs	r2, #1
+ 950 0036 C1B2     		uxtb	r1, r0
+ARM GAS  /tmp/cc5Zmwhq.s 			page 27
+
+
+ 951 0038 05F11400 		add	r0, r5, #20
+ 952 003c FFF7FEFF 		bl	modem_interface_transfer_bytes
+ 953              	.LVL68:
+ 954              	.L81:
+ 230:../../shields/Murata/src/modem.c ****   return true;
+ 231:../../shields/Murata/src/modem.c **** }
+ 955              		.loc 1 231 0
+ 956 0040 2046     		mov	r0, r4
+ 957 0042 BDE8F081 		pop	{r4, r5, r6, r7, r8, pc}
+ 958              	.LVL69:
+ 959              	.L86:
+ 221:../../shields/Murata/src/modem.c ****   else if(session_config->interface_type==LORAWAN_OTAA)
+ 960              		.loc 1 221 0
+ 961 0046 0C23     		movs	r3, #12
+ 962 0048 2A1D     		adds	r2, r5, #4
+ 963 004a D721     		movs	r1, #215
+ 964 004c 0948     		ldr	r0, .L89+4
+ 965 004e FFF7FEFF 		bl	alp_append_forward_action
+ 966              	.LVL70:
+ 967 0052 E4E7     		b	.L83
+ 968              	.L87:
+ 223:../../shields/Murata/src/modem.c ****   else if(session_config->interface_type==lorawan_ABP)
+ 969              		.loc 1 223 0
+ 970 0054 2223     		movs	r3, #34
+ 971 0056 2A1D     		adds	r2, r5, #4
+ 972 0058 0321     		movs	r1, #3
+ 973 005a 0648     		ldr	r0, .L89+4
+ 974 005c FFF7FEFF 		bl	alp_append_forward_action
+ 975              	.LVL71:
+ 976 0060 DDE7     		b	.L83
+ 977              	.L88:
+ 225:../../shields/Murata/src/modem.c **** 
+ 978              		.loc 1 225 0
+ 979 0062 2C23     		movs	r3, #44
+ 980 0064 2A1D     		adds	r2, r5, #4
+ 981 0066 0221     		movs	r1, #2
+ 982 0068 0248     		ldr	r0, .L89+4
+ 983 006a FFF7FEFF 		bl	alp_append_forward_action
+ 984              	.LVL72:
+ 985 006e D6E7     		b	.L83
+ 986              	.L90:
+ 987              		.align	2
+ 988              	.L89:
+ 989 0070 00000000 		.word	.LANCHOR0
+ 990 0074 04000000 		.word	.LANCHOR0+4
+ 991              		.cfi_endproc
+ 992              	.LFE138:
+ 994              		.section	.text.modem_get_active_tag_id,"ax",%progbits
+ 995              		.align	1
+ 996              		.global	modem_get_active_tag_id
+ 997              		.syntax unified
+ 998              		.thumb
+ 999              		.thumb_func
+ 1000              		.fpu fpv4-sp-d16
+ 1002              	modem_get_active_tag_id:
+ 1003              	.LFB139:
+ 232:../../shields/Murata/src/modem.c **** 
+ARM GAS  /tmp/cc5Zmwhq.s 			page 28
+
+
+ 233:../../shields/Murata/src/modem.c **** uint8_t modem_get_active_tag_id()
+ 234:../../shields/Murata/src/modem.c **** {
+ 1004              		.loc 1 234 0
+ 1005              		.cfi_startproc
+ 1006              		@ args = 0, pretend = 0, frame = 0
+ 1007              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1008              		@ link register save eliminated.
+ 235:../../shields/Murata/src/modem.c ****   return next_tag_id;
+ 236:../../shields/Murata/src/modem.c **** }
+ 1009              		.loc 1 236 0
+ 1010 0000 014B     		ldr	r3, .L92
+ 1011 0002 1878     		ldrb	r0, [r3]	@ zero_extendqisi2
+ 1012 0004 7047     		bx	lr
+ 1013              	.L93:
+ 1014 0006 00BF     		.align	2
+ 1015              	.L92:
+ 1016 0008 00000000 		.word	.LANCHOR4
+ 1017              		.cfi_endproc
+ 1018              	.LFE139:
+ 1020              		.section	.bss.callbacks,"aw",%nobits
+ 1021              		.align	2
+ 1022              		.set	.LANCHOR1,. + 0
+ 1025              	callbacks:
+ 1026 0000 00000000 		.space	4
+ 1027              		.section	.bss.command,"aw",%nobits
+ 1028              		.align	2
+ 1029              		.set	.LANCHOR0,. + 0
+ 1032              	command:
+ 1033 0000 00000000 		.space	276
+ 1033      00000000 
+ 1033      00000000 
+ 1033      00000000 
+ 1033      00000000 
+ 1034              		.section	.bss.next_tag_id,"aw",%nobits
+ 1035              		.set	.LANCHOR4,. + 0
+ 1038              	next_tag_id:
+ 1039 0000 00       		.space	1
+ 1040              		.section	.rodata.__func__.11040,"a",%progbits
+ 1041              		.align	2
+ 1042              		.set	.LANCHOR3,. + 0
+ 1045              	__func__.11040:
+ 1046 0000 70726F63 		.ascii	"process_serial_frame\000"
+ 1046      6573735F 
+ 1046      73657269 
+ 1046      616C5F66 
+ 1046      72616D65 
+ 1047              		.section	.rodata.__func__.5583,"a",%progbits
+ 1048              		.align	2
+ 1049              		.set	.LANCHOR2,. + 0
+ 1052              	__func__.5583:
+ 1053 0000 64376170 		.ascii	"d7ap_addressee_id_length\000"
+ 1053      5F616464 
+ 1053      72657373 
+ 1053      65655F69 
+ 1053      645F6C65 
+ 1054              		.section	.rodata.alloc_command.str1.4,"aMS",%progbits,1
+ 1055              		.align	2
+ARM GAS  /tmp/cc5Zmwhq.s 			page 29
+
+
+ 1056              	.LC5:
+ 1057 0000 70726576 		.ascii	"prev command still active\000"
+ 1057      20636F6D 
+ 1057      6D616E64 
+ 1057      20737469 
+ 1057      6C6C2061 
+ 1058              		.section	.rodata.process_serial_frame.str1.4,"aMS",%progbits,1
+ 1059              		.align	2
+ 1060              	.LC0:
+ 1061 0000 72656365 		.ascii	"received resp with unexpected tag_id (%i vs %i)\000"
+ 1061      69766564 
+ 1061      20726573 
+ 1061      70207769 
+ 1061      74682075 
+ 1062              	.LC1:
+ 1063 0030 66616C73 		.ascii	"false\000"
+ 1063      6500
+ 1064 0036 0000     		.space	2
+ 1065              	.LC2:
+ 1066 0038 2E2E2F2E 		.ascii	"../../shields/Murata/inc/d7ap.h\000"
+ 1066      2E2F7368 
+ 1066      69656C64 
+ 1066      732F4D75 
+ 1066      72617461 
+ 1067              	.LC3:
+ 1068 0058 72656365 		.ascii	"received resp from: \000"
+ 1068      69766564 
+ 1068      20726573 
+ 1068      70206672 
+ 1068      6F6D3A20 
+ 1069 006d 000000   		.space	3
+ 1070              	.LC4:
+ 1071 0070 2E2E2F2E 		.ascii	"../../shields/Murata/src/modem.c\000"
+ 1071      2E2F7368 
+ 1071      69656C64 
+ 1071      732F4D75 
+ 1071      72617461 
+ 1072              		.text
+ 1073              	.Letext0:
+ 1074              		.file 3 "/home/mats/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/machine/_default_type
+ 1075              		.file 4 "/home/mats/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/sys/_stdint.h"
+ 1076              		.file 5 "../../shields/Murata/inc/lorawan_stack.h"
+ 1077              		.file 6 "../../shields/Murata/inc/fifo.h"
+ 1078              		.file 7 "../../shields/Murata/inc/alp.h"
+ 1079              		.file 8 "../../core/ST/CMSIS/Include/core_cm4.h"
+ 1080              		.file 9 "../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/system_stm32l4xx.h"
+ 1081              		.file 10 "../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/stm32l496xx.h"
+ 1082              		.file 11 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h"
+ 1083              		.file 12 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_dma.h"
+ 1084              		.file 13 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h"
+ 1085              		.file 14 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h"
+ 1086              		.file 15 "../../shields/Murata/inc/modem_interface.h"
+ 1087              		.file 16 "../../shields/Murata/inc/modem.h"
+ 1088              		.file 17 "/home/mats/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/sys/lock.h"
+ 1089              		.file 18 "/home/mats/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/sys/_types.h"
+ 1090              		.file 19 "/home/mats/gcc-arm-none-eabi-7-2018-q2-update/lib/gcc/arm-none-eabi/7.3.1/include/stddef
+ 1091              		.file 20 "/home/mats/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/sys/reent.h"
+ARM GAS  /tmp/cc5Zmwhq.s 			page 30
+
+
+ 1092              		.file 21 "/home/mats/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/sys/errno.h"
+ 1093              		.file 22 "/home/mats/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/stdlib.h"
+ 1094              		.file 23 "/home/mats/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/stdio.h"
+ 1095              		.file 24 "/home/mats/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/assert.h"
+ARM GAS  /tmp/cc5Zmwhq.s 			page 31
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 modem.c
+     /tmp/cc5Zmwhq.s:18     .text.process_serial_frame:0000000000000000 $t
+     /tmp/cc5Zmwhq.s:24     .text.process_serial_frame:0000000000000000 process_serial_frame
+     /tmp/cc5Zmwhq.s:109    .text.process_serial_frame:0000000000000064 $d
+     /tmp/cc5Zmwhq.s:141    .text.process_serial_frame:00000000000000e4 $t
+     /tmp/cc5Zmwhq.s:199    .text.process_serial_frame:0000000000000144 $d
+     /tmp/cc5Zmwhq.s:203    .text.process_serial_frame:0000000000000148 $t
+     /tmp/cc5Zmwhq.s:287    .text.process_serial_frame:00000000000001a0 $d
+     /tmp/cc5Zmwhq.s:300    .text.modem_cb_init:0000000000000000 $t
+     /tmp/cc5Zmwhq.s:307    .text.modem_cb_init:0000000000000000 modem_cb_init
+     /tmp/cc5Zmwhq.s:335    .text.modem_cb_init:0000000000000010 $d
+     /tmp/cc5Zmwhq.s:340    .text.modem_process_fifo:0000000000000000 $t
+     /tmp/cc5Zmwhq.s:347    .text.modem_process_fifo:0000000000000000 modem_process_fifo
+     /tmp/cc5Zmwhq.s:395    .text.modem_process_fifo:0000000000000024 $d
+     /tmp/cc5Zmwhq.s:400    .text.modem_init:0000000000000000 $t
+     /tmp/cc5Zmwhq.s:407    .text.modem_init:0000000000000000 modem_init
+     /tmp/cc5Zmwhq.s:436    .text.modem_init:0000000000000018 $d
+     /tmp/cc5Zmwhq.s:442    .text.modem_reinit:0000000000000000 $t
+     /tmp/cc5Zmwhq.s:449    .text.modem_reinit:0000000000000000 modem_reinit
+     /tmp/cc5Zmwhq.s:465    .text.modem_reinit:0000000000000008 $d
+     /tmp/cc5Zmwhq.s:470    .text.modem_send_ping:0000000000000000 $t
+     /tmp/cc5Zmwhq.s:477    .text.modem_send_ping:0000000000000000 modem_send_ping
+     /tmp/cc5Zmwhq.s:508    .text.modem_execute_raw_alp:0000000000000000 $t
+     /tmp/cc5Zmwhq.s:515    .text.modem_execute_raw_alp:0000000000000000 modem_execute_raw_alp
+     /tmp/cc5Zmwhq.s:537    .text.alloc_command:0000000000000000 $t
+     /tmp/cc5Zmwhq.s:544    .text.alloc_command:0000000000000000 alloc_command
+     /tmp/cc5Zmwhq.s:604    .text.alloc_command:0000000000000044 $d
+     /tmp/cc5Zmwhq.s:612    .text.modem_read_file:0000000000000000 $t
+     /tmp/cc5Zmwhq.s:619    .text.modem_read_file:0000000000000000 modem_read_file
+     /tmp/cc5Zmwhq.s:688    .text.modem_read_file:0000000000000050 $d
+     /tmp/cc5Zmwhq.s:693    .text.modem_write_file:0000000000000000 $t
+     /tmp/cc5Zmwhq.s:700    .text.modem_write_file:0000000000000000 modem_write_file
+     /tmp/cc5Zmwhq.s:772    .text.modem_write_file:0000000000000058 $d
+     /tmp/cc5Zmwhq.s:777    .text.modem_send_unsolicited_response:0000000000000000 $t
+     /tmp/cc5Zmwhq.s:784    .text.modem_send_unsolicited_response:0000000000000000 modem_send_unsolicited_response
+     /tmp/cc5Zmwhq.s:889    .text.modem_send_unsolicited_response:0000000000000084 $d
+     /tmp/cc5Zmwhq.s:895    .text.modem_send_raw_unsolicited_response:0000000000000000 $t
+     /tmp/cc5Zmwhq.s:902    .text.modem_send_raw_unsolicited_response:0000000000000000 modem_send_raw_unsolicited_response
+     /tmp/cc5Zmwhq.s:989    .text.modem_send_raw_unsolicited_response:0000000000000070 $d
+     /tmp/cc5Zmwhq.s:995    .text.modem_get_active_tag_id:0000000000000000 $t
+     /tmp/cc5Zmwhq.s:1002   .text.modem_get_active_tag_id:0000000000000000 modem_get_active_tag_id
+     /tmp/cc5Zmwhq.s:1016   .text.modem_get_active_tag_id:0000000000000008 $d
+     /tmp/cc5Zmwhq.s:1021   .bss.callbacks:0000000000000000 $d
+     /tmp/cc5Zmwhq.s:1025   .bss.callbacks:0000000000000000 callbacks
+     /tmp/cc5Zmwhq.s:1028   .bss.command:0000000000000000 $d
+     /tmp/cc5Zmwhq.s:1032   .bss.command:0000000000000000 command
+     /tmp/cc5Zmwhq.s:1038   .bss.next_tag_id:0000000000000000 next_tag_id
+     /tmp/cc5Zmwhq.s:1039   .bss.next_tag_id:0000000000000000 $d
+     /tmp/cc5Zmwhq.s:1041   .rodata.__func__.11040:0000000000000000 $d
+     /tmp/cc5Zmwhq.s:1045   .rodata.__func__.11040:0000000000000000 __func__.11040
+     /tmp/cc5Zmwhq.s:1048   .rodata.__func__.5583:0000000000000000 $d
+     /tmp/cc5Zmwhq.s:1052   .rodata.__func__.5583:0000000000000000 __func__.5583
+     /tmp/cc5Zmwhq.s:1055   .rodata.alloc_command.str1.4:0000000000000000 $d
+     /tmp/cc5Zmwhq.s:1059   .rodata.process_serial_frame.str1.4:0000000000000000 $d
+
+UNDEFINED SYMBOLS
+ARM GAS  /tmp/cc5Zmwhq.s 			page 32
+
+
+printf
+fifo_get_size
+alp_parse_action
+__assert_func
+modem_interface_set_target_rebooted_callback
+process_rx_fifo
+HAL_Delay
+rx_fifo
+modem_interface_init
+modem_interface_register_handler
+modem_interface_transfer_bytes
+fifo_init
+alp_append_tag_request_action
+Murata_toggleResetPin
+alp_append_read_file_data_action
+alp_append_write_file_data_action
+alp_append_return_file_data_action
+alp_append_forward_action
+fifo_put

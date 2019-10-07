@@ -1,0 +1,1 @@
+include $(wildcard $(DRIVERS_DIR)/*/Makefile.include)

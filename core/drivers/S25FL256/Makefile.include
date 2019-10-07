@@ -1,0 +1,5 @@
+# S25FL256 sources
+C_SOURCES += $(wildcard $(DRIVERS_DIR)/S25FL256/src/*.c)
+
+# S25FL256 includes
+C_INCLUDES += -I$(DRIVERS_DIR)/S25FL256/inc

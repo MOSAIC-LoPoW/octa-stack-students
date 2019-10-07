@@ -1,0 +1,11 @@
+# Firefly sources
+C_SOURCES += $(wildcard $(SHIELDS_DIR)/gps-firefly/src/*.c)
+
+# Firefly includes
+C_INCLUDES += -I$(SHIELDS_DIR)/gps-firefly/inc
+
+ifeq ($(origin FIREFLY_CONNECTOR), undefined)
+$(error FIREFLY_CONNECTOR undefined in makefile, please specify a connector in the application makefile)
+endif
+
+SHIELD_DEFINES += -DFIREFLY_CONNECTOR=$(FIREFLY_CONNECTOR)

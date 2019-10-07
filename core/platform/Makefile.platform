@@ -1,0 +1,13 @@
+# check if platform exists in stack
+ifneq ($(wildcard $(PLATFORM_DIR)/$(PLATFORM)/),)
+    $(info platform $(PLATFORM) OK)
+else
+    $(error platform $(PLATFORM) does not exist. A valid platform must be specified as PLATFORM in the Makefile.)
+endif
+
+# include both the common and the platform specific Makefile.includes
+include $(PLATFORM_DIR)/common/Makefile.include
+include $(PLATFORM_DIR)/$(PLATFORM)/Makefile.include
+
+# platform define var, passed to code when compiling in Makefile.core
+PLATFORM_DEFINE += -D$(addprefix platform_,$(PLATFORM))

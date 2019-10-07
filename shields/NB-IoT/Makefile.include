@@ -1,0 +1,16 @@
+# NB_IoT sources
+C_SOURCES += $(wildcard $(SHIELDS_DIR)/NB-IoT/src/*.c)
+
+# NB_IoT includes
+C_INCLUDES += -I$(SHIELDS_DIR)/NB-IoT/inc
+
+ifeq ($(origin NB_IOT_CONNECTOR), undefined)
+$(error NB_IOT_CONNECTOR undefined in makefile, please specify a connector in the application makefile)
+endif
+
+ifeq ($(origin NB_IOT_PROVIDER), undefined)
+$(error NB_IOT_PROVIDER undefined in makefile, please specify a provider in the application makefile)
+endif
+
+SHIELD_DEFINES += -DNB_IOT_CONNECTOR=$(NB_IOT_CONNECTOR)
+SHIELD_DEFINES += -DNB_IOT_PROVIDER_$(NB_IOT_PROVIDER)

@@ -1,0 +1,5 @@
+# LSM303AGR sources
+C_SOURCES += $(wildcard $(DRIVERS_DIR)/LSM303AGR/src/*.c)
+
+# LSM303AGR includes
+C_INCLUDES += -I$(DRIVERS_DIR)/LSM303AGR/inc

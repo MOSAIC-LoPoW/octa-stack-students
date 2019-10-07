@@ -1,0 +1,5 @@
+# include the common platform source files
+C_SOURCES += $(wildcard $(PLATFORM_DIR)/common/src/*c)
+
+# include the common platform header files
+C_INCLUDES += -I$(PLATFORM_DIR)/common/inc

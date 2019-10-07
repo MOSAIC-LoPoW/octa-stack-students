@@ -1,0 +1,725 @@
+ARM GAS  /tmp/ccfgnkaM.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 28, 1
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.file	"system_stm32l4xx.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.text.SystemInit,"ax",%progbits
+  18              		.align	1
+  19              		.global	SystemInit
+  20              		.syntax unified
+  21              		.thumb
+  22              		.thumb_func
+  23              		.fpu fpv4-sp-d16
+  25              	SystemInit:
+  26              	.LFB123:
+  27              		.file 1 "../../core/platform/octa/src/system_stm32l4xx.c"
+   1:../../core/platform/octa/src/system_stm32l4xx.c **** /**
+   2:../../core/platform/octa/src/system_stm32l4xx.c ****   ******************************************************************************
+   3:../../core/platform/octa/src/system_stm32l4xx.c ****   * @file    system_stm32l4xx.c
+   4:../../core/platform/octa/src/system_stm32l4xx.c ****   * @author  MCD Application Team
+   5:../../core/platform/octa/src/system_stm32l4xx.c ****   * @brief   CMSIS Cortex-M4 Device Peripheral Access Layer System Source File
+   6:../../core/platform/octa/src/system_stm32l4xx.c ****   *
+   7:../../core/platform/octa/src/system_stm32l4xx.c ****   *   This file provides two functions and one global variable to be called from
+   8:../../core/platform/octa/src/system_stm32l4xx.c ****   *   user application:
+   9:../../core/platform/octa/src/system_stm32l4xx.c ****   *      - SystemInit(): This function is called at startup just after reset and
+  10:../../core/platform/octa/src/system_stm32l4xx.c ****   *                      before branch to main program. This call is made inside
+  11:../../core/platform/octa/src/system_stm32l4xx.c ****   *                      the "startup_stm32l4xx.s" file.
+  12:../../core/platform/octa/src/system_stm32l4xx.c ****   *
+  13:../../core/platform/octa/src/system_stm32l4xx.c ****   *      - SystemCoreClock variable: Contains the core clock (HCLK), it can be used
+  14:../../core/platform/octa/src/system_stm32l4xx.c ****   *                                  by the user application to setup the SysTick
+  15:../../core/platform/octa/src/system_stm32l4xx.c ****   *                                  timer or configure other parameters.
+  16:../../core/platform/octa/src/system_stm32l4xx.c ****   *
+  17:../../core/platform/octa/src/system_stm32l4xx.c ****   *      - SystemCoreClockUpdate(): Updates the variable SystemCoreClock and must
+  18:../../core/platform/octa/src/system_stm32l4xx.c ****   *                                 be called whenever the core clock is changed
+  19:../../core/platform/octa/src/system_stm32l4xx.c ****   *                                 during program execution.
+  20:../../core/platform/octa/src/system_stm32l4xx.c ****   *
+  21:../../core/platform/octa/src/system_stm32l4xx.c ****   *   After each device reset the MSI (4 MHz) is used as system clock source.
+  22:../../core/platform/octa/src/system_stm32l4xx.c ****   *   Then SystemInit() function is called, in "startup_stm32l4xx.s" file, to
+  23:../../core/platform/octa/src/system_stm32l4xx.c ****   *   configure the system clock before to branch to main program.
+  24:../../core/platform/octa/src/system_stm32l4xx.c ****   *
+  25:../../core/platform/octa/src/system_stm32l4xx.c ****   *   This file configures the system clock as follows:
+  26:../../core/platform/octa/src/system_stm32l4xx.c ****   *=============================================================================
+  27:../../core/platform/octa/src/system_stm32l4xx.c ****   *-----------------------------------------------------------------------------
+  28:../../core/platform/octa/src/system_stm32l4xx.c ****   *        System Clock source                    | MSI
+  29:../../core/platform/octa/src/system_stm32l4xx.c ****   *-----------------------------------------------------------------------------
+  30:../../core/platform/octa/src/system_stm32l4xx.c ****   *        SYSCLK(Hz)                             | 4000000
+  31:../../core/platform/octa/src/system_stm32l4xx.c ****   *-----------------------------------------------------------------------------
+ARM GAS  /tmp/ccfgnkaM.s 			page 2
+
+
+  32:../../core/platform/octa/src/system_stm32l4xx.c ****   *        HCLK(Hz)                               | 4000000
+  33:../../core/platform/octa/src/system_stm32l4xx.c ****   *-----------------------------------------------------------------------------
+  34:../../core/platform/octa/src/system_stm32l4xx.c ****   *        AHB Prescaler                          | 1
+  35:../../core/platform/octa/src/system_stm32l4xx.c ****   *-----------------------------------------------------------------------------
+  36:../../core/platform/octa/src/system_stm32l4xx.c ****   *        APB1 Prescaler                         | 1
+  37:../../core/platform/octa/src/system_stm32l4xx.c ****   *-----------------------------------------------------------------------------
+  38:../../core/platform/octa/src/system_stm32l4xx.c ****   *        APB2 Prescaler                         | 1
+  39:../../core/platform/octa/src/system_stm32l4xx.c ****   *-----------------------------------------------------------------------------
+  40:../../core/platform/octa/src/system_stm32l4xx.c ****   *        PLL_M                                  | 1
+  41:../../core/platform/octa/src/system_stm32l4xx.c ****   *-----------------------------------------------------------------------------
+  42:../../core/platform/octa/src/system_stm32l4xx.c ****   *        PLL_N                                  | 8
+  43:../../core/platform/octa/src/system_stm32l4xx.c ****   *-----------------------------------------------------------------------------
+  44:../../core/platform/octa/src/system_stm32l4xx.c ****   *        PLL_P                                  | 7
+  45:../../core/platform/octa/src/system_stm32l4xx.c ****   *-----------------------------------------------------------------------------
+  46:../../core/platform/octa/src/system_stm32l4xx.c ****   *        PLL_Q                                  | 2
+  47:../../core/platform/octa/src/system_stm32l4xx.c ****   *-----------------------------------------------------------------------------
+  48:../../core/platform/octa/src/system_stm32l4xx.c ****   *        PLL_R                                  | 2
+  49:../../core/platform/octa/src/system_stm32l4xx.c ****   *-----------------------------------------------------------------------------
+  50:../../core/platform/octa/src/system_stm32l4xx.c ****   *        PLLSAI1_P                              | NA
+  51:../../core/platform/octa/src/system_stm32l4xx.c ****   *-----------------------------------------------------------------------------
+  52:../../core/platform/octa/src/system_stm32l4xx.c ****   *        PLLSAI1_Q                              | NA
+  53:../../core/platform/octa/src/system_stm32l4xx.c ****   *-----------------------------------------------------------------------------
+  54:../../core/platform/octa/src/system_stm32l4xx.c ****   *        PLLSAI1_R                              | NA
+  55:../../core/platform/octa/src/system_stm32l4xx.c ****   *-----------------------------------------------------------------------------
+  56:../../core/platform/octa/src/system_stm32l4xx.c ****   *        PLLSAI2_P                              | NA
+  57:../../core/platform/octa/src/system_stm32l4xx.c ****   *-----------------------------------------------------------------------------
+  58:../../core/platform/octa/src/system_stm32l4xx.c ****   *        PLLSAI2_Q                              | NA
+  59:../../core/platform/octa/src/system_stm32l4xx.c ****   *-----------------------------------------------------------------------------
+  60:../../core/platform/octa/src/system_stm32l4xx.c ****   *        PLLSAI2_R                              | NA
+  61:../../core/platform/octa/src/system_stm32l4xx.c ****   *-----------------------------------------------------------------------------
+  62:../../core/platform/octa/src/system_stm32l4xx.c ****   *        Require 48MHz for USB OTG FS,          | Disabled
+  63:../../core/platform/octa/src/system_stm32l4xx.c ****   *        SDIO and RNG clock                     |
+  64:../../core/platform/octa/src/system_stm32l4xx.c ****   *-----------------------------------------------------------------------------
+  65:../../core/platform/octa/src/system_stm32l4xx.c ****   *=============================================================================
+  66:../../core/platform/octa/src/system_stm32l4xx.c ****   ******************************************************************************
+  67:../../core/platform/octa/src/system_stm32l4xx.c ****   * @attention
+  68:../../core/platform/octa/src/system_stm32l4xx.c ****   *
+  69:../../core/platform/octa/src/system_stm32l4xx.c ****   * <h2><center>&copy; COPYRIGHT(c) 2017 STMicroelectronics</center></h2>
+  70:../../core/platform/octa/src/system_stm32l4xx.c ****   *
+  71:../../core/platform/octa/src/system_stm32l4xx.c ****   * Redistribution and use in source and binary forms, with or without modification,
+  72:../../core/platform/octa/src/system_stm32l4xx.c ****   * are permitted provided that the following conditions are met:
+  73:../../core/platform/octa/src/system_stm32l4xx.c ****   *   1. Redistributions of source code must retain the above copyright notice,
+  74:../../core/platform/octa/src/system_stm32l4xx.c ****   *      this list of conditions and the following disclaimer.
+  75:../../core/platform/octa/src/system_stm32l4xx.c ****   *   2. Redistributions in binary form must reproduce the above copyright notice,
+  76:../../core/platform/octa/src/system_stm32l4xx.c ****   *      this list of conditions and the following disclaimer in the documentation
+  77:../../core/platform/octa/src/system_stm32l4xx.c ****   *      and/or other materials provided with the distribution.
+  78:../../core/platform/octa/src/system_stm32l4xx.c ****   *   3. Neither the name of STMicroelectronics nor the names of its contributors
+  79:../../core/platform/octa/src/system_stm32l4xx.c ****   *      may be used to endorse or promote products derived from this software
+  80:../../core/platform/octa/src/system_stm32l4xx.c ****   *      without specific prior written permission.
+  81:../../core/platform/octa/src/system_stm32l4xx.c ****   *
+  82:../../core/platform/octa/src/system_stm32l4xx.c ****   * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+  83:../../core/platform/octa/src/system_stm32l4xx.c ****   * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+  84:../../core/platform/octa/src/system_stm32l4xx.c ****   * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+  85:../../core/platform/octa/src/system_stm32l4xx.c ****   * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+  86:../../core/platform/octa/src/system_stm32l4xx.c ****   * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+  87:../../core/platform/octa/src/system_stm32l4xx.c ****   * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+  88:../../core/platform/octa/src/system_stm32l4xx.c ****   * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+ARM GAS  /tmp/ccfgnkaM.s 			page 3
+
+
+  89:../../core/platform/octa/src/system_stm32l4xx.c ****   * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+  90:../../core/platform/octa/src/system_stm32l4xx.c ****   * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+  91:../../core/platform/octa/src/system_stm32l4xx.c ****   * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+  92:../../core/platform/octa/src/system_stm32l4xx.c ****   *
+  93:../../core/platform/octa/src/system_stm32l4xx.c ****   ******************************************************************************
+  94:../../core/platform/octa/src/system_stm32l4xx.c ****   */
+  95:../../core/platform/octa/src/system_stm32l4xx.c **** 
+  96:../../core/platform/octa/src/system_stm32l4xx.c **** /** @addtogroup CMSIS
+  97:../../core/platform/octa/src/system_stm32l4xx.c ****   * @{
+  98:../../core/platform/octa/src/system_stm32l4xx.c ****   */
+  99:../../core/platform/octa/src/system_stm32l4xx.c **** 
+ 100:../../core/platform/octa/src/system_stm32l4xx.c **** /** @addtogroup stm32l4xx_system
+ 101:../../core/platform/octa/src/system_stm32l4xx.c ****   * @{
+ 102:../../core/platform/octa/src/system_stm32l4xx.c ****   */
+ 103:../../core/platform/octa/src/system_stm32l4xx.c **** 
+ 104:../../core/platform/octa/src/system_stm32l4xx.c **** /** @addtogroup STM32L4xx_System_Private_Includes
+ 105:../../core/platform/octa/src/system_stm32l4xx.c ****   * @{
+ 106:../../core/platform/octa/src/system_stm32l4xx.c ****   */
+ 107:../../core/platform/octa/src/system_stm32l4xx.c **** 
+ 108:../../core/platform/octa/src/system_stm32l4xx.c **** #include "stm32l4xx.h"
+ 109:../../core/platform/octa/src/system_stm32l4xx.c **** 
+ 110:../../core/platform/octa/src/system_stm32l4xx.c **** #if !defined  (HSE_VALUE)
+ 111:../../core/platform/octa/src/system_stm32l4xx.c ****   #define HSE_VALUE    8000000U  /*!< Value of the External oscillator in Hz */
+ 112:../../core/platform/octa/src/system_stm32l4xx.c **** #endif /* HSE_VALUE */
+ 113:../../core/platform/octa/src/system_stm32l4xx.c **** 
+ 114:../../core/platform/octa/src/system_stm32l4xx.c **** #if !defined  (MSI_VALUE)
+ 115:../../core/platform/octa/src/system_stm32l4xx.c ****   #define MSI_VALUE    4000000U  /*!< Value of the Internal oscillator in Hz*/
+ 116:../../core/platform/octa/src/system_stm32l4xx.c **** #endif /* MSI_VALUE */
+ 117:../../core/platform/octa/src/system_stm32l4xx.c **** 
+ 118:../../core/platform/octa/src/system_stm32l4xx.c **** #if !defined  (HSI_VALUE)
+ 119:../../core/platform/octa/src/system_stm32l4xx.c ****   #define HSI_VALUE    16000000U /*!< Value of the Internal oscillator in Hz*/
+ 120:../../core/platform/octa/src/system_stm32l4xx.c **** #endif /* HSI_VALUE */
+ 121:../../core/platform/octa/src/system_stm32l4xx.c **** 
+ 122:../../core/platform/octa/src/system_stm32l4xx.c **** /**
+ 123:../../core/platform/octa/src/system_stm32l4xx.c ****   * @}
+ 124:../../core/platform/octa/src/system_stm32l4xx.c ****   */
+ 125:../../core/platform/octa/src/system_stm32l4xx.c **** 
+ 126:../../core/platform/octa/src/system_stm32l4xx.c **** /** @addtogroup STM32L4xx_System_Private_TypesDefinitions
+ 127:../../core/platform/octa/src/system_stm32l4xx.c ****   * @{
+ 128:../../core/platform/octa/src/system_stm32l4xx.c ****   */
+ 129:../../core/platform/octa/src/system_stm32l4xx.c **** 
+ 130:../../core/platform/octa/src/system_stm32l4xx.c **** /**
+ 131:../../core/platform/octa/src/system_stm32l4xx.c ****   * @}
+ 132:../../core/platform/octa/src/system_stm32l4xx.c ****   */
+ 133:../../core/platform/octa/src/system_stm32l4xx.c **** 
+ 134:../../core/platform/octa/src/system_stm32l4xx.c **** /** @addtogroup STM32L4xx_System_Private_Defines
+ 135:../../core/platform/octa/src/system_stm32l4xx.c ****   * @{
+ 136:../../core/platform/octa/src/system_stm32l4xx.c ****   */
+ 137:../../core/platform/octa/src/system_stm32l4xx.c **** 
+ 138:../../core/platform/octa/src/system_stm32l4xx.c **** /************************* Miscellaneous Configuration ************************/
+ 139:../../core/platform/octa/src/system_stm32l4xx.c **** /*!< Uncomment the following line if you need to relocate your vector Table in
+ 140:../../core/platform/octa/src/system_stm32l4xx.c ****      Internal SRAM. */
+ 141:../../core/platform/octa/src/system_stm32l4xx.c **** /* #define VECT_TAB_SRAM */
+ 142:../../core/platform/octa/src/system_stm32l4xx.c **** #define VECT_TAB_OFFSET  0x00 /*!< Vector Table base offset field.
+ 143:../../core/platform/octa/src/system_stm32l4xx.c ****                                    This value must be a multiple of 0x200. */
+ 144:../../core/platform/octa/src/system_stm32l4xx.c **** /******************************************************************************/
+ 145:../../core/platform/octa/src/system_stm32l4xx.c **** /**
+ARM GAS  /tmp/ccfgnkaM.s 			page 4
+
+
+ 146:../../core/platform/octa/src/system_stm32l4xx.c ****   * @}
+ 147:../../core/platform/octa/src/system_stm32l4xx.c ****   */
+ 148:../../core/platform/octa/src/system_stm32l4xx.c **** 
+ 149:../../core/platform/octa/src/system_stm32l4xx.c **** /** @addtogroup STM32L4xx_System_Private_Macros
+ 150:../../core/platform/octa/src/system_stm32l4xx.c ****   * @{
+ 151:../../core/platform/octa/src/system_stm32l4xx.c ****   */
+ 152:../../core/platform/octa/src/system_stm32l4xx.c **** 
+ 153:../../core/platform/octa/src/system_stm32l4xx.c **** /**
+ 154:../../core/platform/octa/src/system_stm32l4xx.c ****   * @}
+ 155:../../core/platform/octa/src/system_stm32l4xx.c ****   */
+ 156:../../core/platform/octa/src/system_stm32l4xx.c **** 
+ 157:../../core/platform/octa/src/system_stm32l4xx.c **** /** @addtogroup STM32L4xx_System_Private_Variables
+ 158:../../core/platform/octa/src/system_stm32l4xx.c ****   * @{
+ 159:../../core/platform/octa/src/system_stm32l4xx.c ****   */
+ 160:../../core/platform/octa/src/system_stm32l4xx.c ****   /* The SystemCoreClock variable is updated in three ways:
+ 161:../../core/platform/octa/src/system_stm32l4xx.c ****       1) by calling CMSIS function SystemCoreClockUpdate()
+ 162:../../core/platform/octa/src/system_stm32l4xx.c ****       2) by calling HAL API function HAL_RCC_GetHCLKFreq()
+ 163:../../core/platform/octa/src/system_stm32l4xx.c ****       3) each time HAL_RCC_ClockConfig() is called to configure the system clock frequency
+ 164:../../core/platform/octa/src/system_stm32l4xx.c ****          Note: If you use this function to configure the system clock; then there
+ 165:../../core/platform/octa/src/system_stm32l4xx.c ****                is no need to call the 2 first functions listed above, since SystemCoreClock
+ 166:../../core/platform/octa/src/system_stm32l4xx.c ****                variable is updated automatically.
+ 167:../../core/platform/octa/src/system_stm32l4xx.c ****   */
+ 168:../../core/platform/octa/src/system_stm32l4xx.c ****   uint32_t SystemCoreClock = 4000000U;
+ 169:../../core/platform/octa/src/system_stm32l4xx.c **** 
+ 170:../../core/platform/octa/src/system_stm32l4xx.c ****   const uint8_t  AHBPrescTable[16] = {0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 1U, 2U, 3U, 4U, 6U, 7U, 8U, 9
+ 171:../../core/platform/octa/src/system_stm32l4xx.c ****   const uint8_t  APBPrescTable[8] =  {0U, 0U, 0U, 0U, 1U, 2U, 3U, 4U};
+ 172:../../core/platform/octa/src/system_stm32l4xx.c ****   const uint32_t MSIRangeTable[12] = {100000U,   200000U,   400000U,   800000U,  1000000U,  2000000
+ 173:../../core/platform/octa/src/system_stm32l4xx.c ****                                       4000000U, 8000000U, 16000000U, 24000000U, 32000000U, 48000000
+ 174:../../core/platform/octa/src/system_stm32l4xx.c **** /**
+ 175:../../core/platform/octa/src/system_stm32l4xx.c ****   * @}
+ 176:../../core/platform/octa/src/system_stm32l4xx.c ****   */
+ 177:../../core/platform/octa/src/system_stm32l4xx.c **** 
+ 178:../../core/platform/octa/src/system_stm32l4xx.c **** /** @addtogroup STM32L4xx_System_Private_FunctionPrototypes
+ 179:../../core/platform/octa/src/system_stm32l4xx.c ****   * @{
+ 180:../../core/platform/octa/src/system_stm32l4xx.c ****   */
+ 181:../../core/platform/octa/src/system_stm32l4xx.c **** 
+ 182:../../core/platform/octa/src/system_stm32l4xx.c **** /**
+ 183:../../core/platform/octa/src/system_stm32l4xx.c ****   * @}
+ 184:../../core/platform/octa/src/system_stm32l4xx.c ****   */
+ 185:../../core/platform/octa/src/system_stm32l4xx.c **** 
+ 186:../../core/platform/octa/src/system_stm32l4xx.c **** /** @addtogroup STM32L4xx_System_Private_Functions
+ 187:../../core/platform/octa/src/system_stm32l4xx.c ****   * @{
+ 188:../../core/platform/octa/src/system_stm32l4xx.c ****   */
+ 189:../../core/platform/octa/src/system_stm32l4xx.c **** 
+ 190:../../core/platform/octa/src/system_stm32l4xx.c **** /**
+ 191:../../core/platform/octa/src/system_stm32l4xx.c ****   * @brief  Setup the microcontroller system.
+ 192:../../core/platform/octa/src/system_stm32l4xx.c ****   * @param  None
+ 193:../../core/platform/octa/src/system_stm32l4xx.c ****   * @retval None
+ 194:../../core/platform/octa/src/system_stm32l4xx.c ****   */
+ 195:../../core/platform/octa/src/system_stm32l4xx.c **** 
+ 196:../../core/platform/octa/src/system_stm32l4xx.c **** void SystemInit(void)
+ 197:../../core/platform/octa/src/system_stm32l4xx.c **** {
+  28              		.loc 1 197 0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32              		@ link register save eliminated.
+ARM GAS  /tmp/ccfgnkaM.s 			page 5
+
+
+ 198:../../core/platform/octa/src/system_stm32l4xx.c ****   /* FPU settings ------------------------------------------------------------*/
+ 199:../../core/platform/octa/src/system_stm32l4xx.c ****   #if (__FPU_PRESENT == 1) && (__FPU_USED == 1)
+ 200:../../core/platform/octa/src/system_stm32l4xx.c ****     SCB->CPACR |= ((3UL << 10*2)|(3UL << 11*2));  /* set CP10 and CP11 Full Access */
+  33              		.loc 1 200 0
+  34 0000 0F49     		ldr	r1, .L2
+  35 0002 D1F88830 		ldr	r3, [r1, #136]
+  36 0006 43F47003 		orr	r3, r3, #15728640
+  37 000a C1F88830 		str	r3, [r1, #136]
+ 201:../../core/platform/octa/src/system_stm32l4xx.c ****   #endif
+ 202:../../core/platform/octa/src/system_stm32l4xx.c **** 
+ 203:../../core/platform/octa/src/system_stm32l4xx.c ****   /* Reset the RCC clock configuration to the default reset state ------------*/
+ 204:../../core/platform/octa/src/system_stm32l4xx.c ****   /* Set MSION bit */
+ 205:../../core/platform/octa/src/system_stm32l4xx.c ****   RCC->CR |= RCC_CR_MSION;
+  38              		.loc 1 205 0
+  39 000e 0D4B     		ldr	r3, .L2+4
+  40 0010 1A68     		ldr	r2, [r3]
+  41 0012 42F00102 		orr	r2, r2, #1
+  42 0016 1A60     		str	r2, [r3]
+ 206:../../core/platform/octa/src/system_stm32l4xx.c **** 
+ 207:../../core/platform/octa/src/system_stm32l4xx.c ****   /* Reset CFGR register */
+ 208:../../core/platform/octa/src/system_stm32l4xx.c ****   RCC->CFGR = 0x00000000U;
+  43              		.loc 1 208 0
+  44 0018 0020     		movs	r0, #0
+  45 001a 9860     		str	r0, [r3, #8]
+ 209:../../core/platform/octa/src/system_stm32l4xx.c **** 
+ 210:../../core/platform/octa/src/system_stm32l4xx.c ****   /* Reset HSEON, CSSON , HSION, and PLLON bits */
+ 211:../../core/platform/octa/src/system_stm32l4xx.c ****   RCC->CR &= 0xEAF6FFFFU;
+  46              		.loc 1 211 0
+  47 001c 1A68     		ldr	r2, [r3]
+  48 001e 22F0A852 		bic	r2, r2, #352321536
+  49 0022 22F41022 		bic	r2, r2, #589824
+  50 0026 1A60     		str	r2, [r3]
+ 212:../../core/platform/octa/src/system_stm32l4xx.c **** 
+ 213:../../core/platform/octa/src/system_stm32l4xx.c ****   /* Reset PLLCFGR register */
+ 214:../../core/platform/octa/src/system_stm32l4xx.c ****   RCC->PLLCFGR = 0x00001000U;
+  51              		.loc 1 214 0
+  52 0028 4FF48052 		mov	r2, #4096
+  53 002c DA60     		str	r2, [r3, #12]
+ 215:../../core/platform/octa/src/system_stm32l4xx.c **** 
+ 216:../../core/platform/octa/src/system_stm32l4xx.c ****   /* Reset HSEBYP bit */
+ 217:../../core/platform/octa/src/system_stm32l4xx.c ****   RCC->CR &= 0xFFFBFFFFU;
+  54              		.loc 1 217 0
+  55 002e 1A68     		ldr	r2, [r3]
+  56 0030 22F48022 		bic	r2, r2, #262144
+  57 0034 1A60     		str	r2, [r3]
+ 218:../../core/platform/octa/src/system_stm32l4xx.c **** 
+ 219:../../core/platform/octa/src/system_stm32l4xx.c ****   /* Disable all interrupts */
+ 220:../../core/platform/octa/src/system_stm32l4xx.c ****   RCC->CIER = 0x00000000U;
+  58              		.loc 1 220 0
+  59 0036 9861     		str	r0, [r3, #24]
+ 221:../../core/platform/octa/src/system_stm32l4xx.c **** 
+ 222:../../core/platform/octa/src/system_stm32l4xx.c ****   /* Configure the Vector Table location add offset address ------------------*/
+ 223:../../core/platform/octa/src/system_stm32l4xx.c **** #ifdef VECT_TAB_SRAM
+ 224:../../core/platform/octa/src/system_stm32l4xx.c ****   SCB->VTOR = SRAM_BASE | VECT_TAB_OFFSET; /* Vector Table Relocation in Internal SRAM */
+ 225:../../core/platform/octa/src/system_stm32l4xx.c **** #else
+ 226:../../core/platform/octa/src/system_stm32l4xx.c ****   SCB->VTOR = FLASH_BASE | VECT_TAB_OFFSET; /* Vector Table Relocation in Internal FLASH */
+  60              		.loc 1 226 0
+ARM GAS  /tmp/ccfgnkaM.s 			page 6
+
+
+  61 0038 4FF00063 		mov	r3, #134217728
+  62 003c 8B60     		str	r3, [r1, #8]
+ 227:../../core/platform/octa/src/system_stm32l4xx.c **** #endif
+ 228:../../core/platform/octa/src/system_stm32l4xx.c **** }
+  63              		.loc 1 228 0
+  64 003e 7047     		bx	lr
+  65              	.L3:
+  66              		.align	2
+  67              	.L2:
+  68 0040 00ED00E0 		.word	-536810240
+  69 0044 00100240 		.word	1073876992
+  70              		.cfi_endproc
+  71              	.LFE123:
+  73              		.section	.text.SystemCoreClockUpdate,"ax",%progbits
+  74              		.align	1
+  75              		.global	SystemCoreClockUpdate
+  76              		.syntax unified
+  77              		.thumb
+  78              		.thumb_func
+  79              		.fpu fpv4-sp-d16
+  81              	SystemCoreClockUpdate:
+  82              	.LFB124:
+ 229:../../core/platform/octa/src/system_stm32l4xx.c **** 
+ 230:../../core/platform/octa/src/system_stm32l4xx.c **** /**
+ 231:../../core/platform/octa/src/system_stm32l4xx.c ****   * @brief  Update SystemCoreClock variable according to Clock Register Values.
+ 232:../../core/platform/octa/src/system_stm32l4xx.c ****   *         The SystemCoreClock variable contains the core clock (HCLK), it can
+ 233:../../core/platform/octa/src/system_stm32l4xx.c ****   *         be used by the user application to setup the SysTick timer or configure
+ 234:../../core/platform/octa/src/system_stm32l4xx.c ****   *         other parameters.
+ 235:../../core/platform/octa/src/system_stm32l4xx.c ****   *
+ 236:../../core/platform/octa/src/system_stm32l4xx.c ****   * @note   Each time the core clock (HCLK) changes, this function must be called
+ 237:../../core/platform/octa/src/system_stm32l4xx.c ****   *         to update SystemCoreClock variable value. Otherwise, any configuration
+ 238:../../core/platform/octa/src/system_stm32l4xx.c ****   *         based on this variable will be incorrect.
+ 239:../../core/platform/octa/src/system_stm32l4xx.c ****   *
+ 240:../../core/platform/octa/src/system_stm32l4xx.c ****   * @note   - The system frequency computed by this function is not the real
+ 241:../../core/platform/octa/src/system_stm32l4xx.c ****   *           frequency in the chip. It is calculated based on the predefined
+ 242:../../core/platform/octa/src/system_stm32l4xx.c ****   *           constant and the selected clock source:
+ 243:../../core/platform/octa/src/system_stm32l4xx.c ****   *
+ 244:../../core/platform/octa/src/system_stm32l4xx.c ****   *           - If SYSCLK source is MSI, SystemCoreClock will contain the MSI_VALUE(*)
+ 245:../../core/platform/octa/src/system_stm32l4xx.c ****   *
+ 246:../../core/platform/octa/src/system_stm32l4xx.c ****   *           - If SYSCLK source is HSI, SystemCoreClock will contain the HSI_VALUE(**)
+ 247:../../core/platform/octa/src/system_stm32l4xx.c ****   *
+ 248:../../core/platform/octa/src/system_stm32l4xx.c ****   *           - If SYSCLK source is HSE, SystemCoreClock will contain the HSE_VALUE(***)
+ 249:../../core/platform/octa/src/system_stm32l4xx.c ****   *
+ 250:../../core/platform/octa/src/system_stm32l4xx.c ****   *           - If SYSCLK source is PLL, SystemCoreClock will contain the HSE_VALUE(***)
+ 251:../../core/platform/octa/src/system_stm32l4xx.c ****   *             or HSI_VALUE(*) or MSI_VALUE(*) multiplied/divided by the PLL factors.
+ 252:../../core/platform/octa/src/system_stm32l4xx.c ****   *
+ 253:../../core/platform/octa/src/system_stm32l4xx.c ****   *         (*) MSI_VALUE is a constant defined in stm32l4xx_hal.h file (default value
+ 254:../../core/platform/octa/src/system_stm32l4xx.c ****   *             4 MHz) but the real value may vary depending on the variations
+ 255:../../core/platform/octa/src/system_stm32l4xx.c ****   *             in voltage and temperature.
+ 256:../../core/platform/octa/src/system_stm32l4xx.c ****   *
+ 257:../../core/platform/octa/src/system_stm32l4xx.c ****   *         (**) HSI_VALUE is a constant defined in stm32l4xx_hal.h file (default value
+ 258:../../core/platform/octa/src/system_stm32l4xx.c ****   *              16 MHz) but the real value may vary depending on the variations
+ 259:../../core/platform/octa/src/system_stm32l4xx.c ****   *              in voltage and temperature.
+ 260:../../core/platform/octa/src/system_stm32l4xx.c ****   *
+ 261:../../core/platform/octa/src/system_stm32l4xx.c ****   *         (***) HSE_VALUE is a constant defined in stm32l4xx_hal.h file (default value
+ 262:../../core/platform/octa/src/system_stm32l4xx.c ****   *              8 MHz), user has to ensure that HSE_VALUE is same as the real
+ 263:../../core/platform/octa/src/system_stm32l4xx.c ****   *              frequency of the crystal used. Otherwise, this function may
+ARM GAS  /tmp/ccfgnkaM.s 			page 7
+
+
+ 264:../../core/platform/octa/src/system_stm32l4xx.c ****   *              have wrong result.
+ 265:../../core/platform/octa/src/system_stm32l4xx.c ****   *
+ 266:../../core/platform/octa/src/system_stm32l4xx.c ****   *         - The result of this function could be not correct when using fractional
+ 267:../../core/platform/octa/src/system_stm32l4xx.c ****   *           value for HSE crystal.
+ 268:../../core/platform/octa/src/system_stm32l4xx.c ****   *
+ 269:../../core/platform/octa/src/system_stm32l4xx.c ****   * @param  None
+ 270:../../core/platform/octa/src/system_stm32l4xx.c ****   * @retval None
+ 271:../../core/platform/octa/src/system_stm32l4xx.c ****   */
+ 272:../../core/platform/octa/src/system_stm32l4xx.c **** void SystemCoreClockUpdate(void)
+ 273:../../core/platform/octa/src/system_stm32l4xx.c **** {
+  83              		.loc 1 273 0
+  84              		.cfi_startproc
+  85              		@ args = 0, pretend = 0, frame = 0
+  86              		@ frame_needed = 0, uses_anonymous_args = 0
+  87              		@ link register save eliminated.
+  88              	.LVL0:
+ 274:../../core/platform/octa/src/system_stm32l4xx.c ****   uint32_t tmp = 0U, msirange = 0U, pllvco = 0U, pllr = 2U, pllsource = 0U, pllm = 2U;
+ 275:../../core/platform/octa/src/system_stm32l4xx.c **** 
+ 276:../../core/platform/octa/src/system_stm32l4xx.c ****   /* Get MSI Range frequency--------------------------------------------------*/
+ 277:../../core/platform/octa/src/system_stm32l4xx.c ****   if((RCC->CR & RCC_CR_MSIRGSEL) == RESET)
+  89              		.loc 1 277 0
+  90 0000 2F4B     		ldr	r3, .L19
+  91 0002 1B68     		ldr	r3, [r3]
+  92 0004 13F0080F 		tst	r3, #8
+  93 0008 16D1     		bne	.L5
+ 278:../../core/platform/octa/src/system_stm32l4xx.c ****   { /* MSISRANGE from RCC_CSR applies */
+ 279:../../core/platform/octa/src/system_stm32l4xx.c ****     msirange = (RCC->CSR & RCC_CSR_MSISRANGE) >> 8U;
+  94              		.loc 1 279 0
+  95 000a 2D4B     		ldr	r3, .L19
+  96 000c D3F89430 		ldr	r3, [r3, #148]
+  97 0010 C3F30323 		ubfx	r3, r3, #8, #4
+  98              	.LVL1:
+  99              	.L6:
+ 280:../../core/platform/octa/src/system_stm32l4xx.c ****   }
+ 281:../../core/platform/octa/src/system_stm32l4xx.c ****   else
+ 282:../../core/platform/octa/src/system_stm32l4xx.c ****   { /* MSIRANGE from RCC_CR applies */
+ 283:../../core/platform/octa/src/system_stm32l4xx.c ****     msirange = (RCC->CR & RCC_CR_MSIRANGE) >> 4U;
+ 284:../../core/platform/octa/src/system_stm32l4xx.c ****   }
+ 285:../../core/platform/octa/src/system_stm32l4xx.c ****   /*MSI frequency range in HZ*/
+ 286:../../core/platform/octa/src/system_stm32l4xx.c ****   msirange = MSIRangeTable[msirange];
+ 100              		.loc 1 286 0
+ 101 0014 2B4A     		ldr	r2, .L19+4
+ 102 0016 52F82310 		ldr	r1, [r2, r3, lsl #2]
+ 103              	.LVL2:
+ 287:../../core/platform/octa/src/system_stm32l4xx.c **** 
+ 288:../../core/platform/octa/src/system_stm32l4xx.c ****   /* Get SYSCLK source -------------------------------------------------------*/
+ 289:../../core/platform/octa/src/system_stm32l4xx.c ****   switch (RCC->CFGR & RCC_CFGR_SWS)
+ 104              		.loc 1 289 0
+ 105 001a 294A     		ldr	r2, .L19
+ 106 001c 9368     		ldr	r3, [r2, #8]
+ 107 001e 03F00C03 		and	r3, r3, #12
+ 108 0022 0C2B     		cmp	r3, #12
+ 109 0024 48D8     		bhi	.L7
+ 110 0026 DFE803F0 		tbb	[pc, r3]
+ 111              	.L9:
+ 112 002a 0C       		.byte	(.L8-.L9)/2
+ 113 002b 47       		.byte	(.L7-.L9)/2
+ARM GAS  /tmp/ccfgnkaM.s 			page 8
+
+
+ 114 002c 47       		.byte	(.L7-.L9)/2
+ 115 002d 47       		.byte	(.L7-.L9)/2
+ 116 002e 19       		.byte	(.L10-.L9)/2
+ 117 002f 47       		.byte	(.L7-.L9)/2
+ 118 0030 47       		.byte	(.L7-.L9)/2
+ 119 0031 47       		.byte	(.L7-.L9)/2
+ 120 0032 1D       		.byte	(.L11-.L9)/2
+ 121 0033 47       		.byte	(.L7-.L9)/2
+ 122 0034 47       		.byte	(.L7-.L9)/2
+ 123 0035 47       		.byte	(.L7-.L9)/2
+ 124 0036 21       		.byte	(.L12-.L9)/2
+ 125              	.LVL3:
+ 126 0037 00       		.p2align 1
+ 127              	.L5:
+ 283:../../core/platform/octa/src/system_stm32l4xx.c ****   }
+ 128              		.loc 1 283 0
+ 129 0038 214B     		ldr	r3, .L19
+ 130 003a 1B68     		ldr	r3, [r3]
+ 131 003c C3F30313 		ubfx	r3, r3, #4, #4
+ 132              	.LVL4:
+ 133 0040 E8E7     		b	.L6
+ 134              	.LVL5:
+ 135              	.L8:
+ 290:../../core/platform/octa/src/system_stm32l4xx.c ****   {
+ 291:../../core/platform/octa/src/system_stm32l4xx.c ****     case 0x00:  /* MSI used as system clock source */
+ 292:../../core/platform/octa/src/system_stm32l4xx.c ****       SystemCoreClock = msirange;
+ 136              		.loc 1 292 0
+ 137 0042 214B     		ldr	r3, .L19+8
+ 138 0044 1960     		str	r1, [r3]
+ 139              	.LVL6:
+ 140              	.L13:
+ 293:../../core/platform/octa/src/system_stm32l4xx.c ****       break;
+ 294:../../core/platform/octa/src/system_stm32l4xx.c **** 
+ 295:../../core/platform/octa/src/system_stm32l4xx.c ****     case 0x04:  /* HSI used as system clock source */
+ 296:../../core/platform/octa/src/system_stm32l4xx.c ****       SystemCoreClock = HSI_VALUE;
+ 297:../../core/platform/octa/src/system_stm32l4xx.c ****       break;
+ 298:../../core/platform/octa/src/system_stm32l4xx.c **** 
+ 299:../../core/platform/octa/src/system_stm32l4xx.c ****     case 0x08:  /* HSE used as system clock source */
+ 300:../../core/platform/octa/src/system_stm32l4xx.c ****       SystemCoreClock = HSE_VALUE;
+ 301:../../core/platform/octa/src/system_stm32l4xx.c ****       break;
+ 302:../../core/platform/octa/src/system_stm32l4xx.c **** 
+ 303:../../core/platform/octa/src/system_stm32l4xx.c ****     case 0x0C:  /* PLL used as system clock  source */
+ 304:../../core/platform/octa/src/system_stm32l4xx.c ****       /* PLL_VCO = (HSE_VALUE or HSI_VALUE or MSI_VALUE/ PLLM) * PLLN
+ 305:../../core/platform/octa/src/system_stm32l4xx.c ****          SYSCLK = PLL_VCO / PLLR
+ 306:../../core/platform/octa/src/system_stm32l4xx.c ****          */
+ 307:../../core/platform/octa/src/system_stm32l4xx.c ****       pllsource = (RCC->PLLCFGR & RCC_PLLCFGR_PLLSRC);
+ 308:../../core/platform/octa/src/system_stm32l4xx.c ****       pllm = ((RCC->PLLCFGR & RCC_PLLCFGR_PLLM) >> 4U) + 1U ;
+ 309:../../core/platform/octa/src/system_stm32l4xx.c **** 
+ 310:../../core/platform/octa/src/system_stm32l4xx.c ****       switch (pllsource)
+ 311:../../core/platform/octa/src/system_stm32l4xx.c ****       {
+ 312:../../core/platform/octa/src/system_stm32l4xx.c ****         case 0x02:  /* HSI used as PLL clock source */
+ 313:../../core/platform/octa/src/system_stm32l4xx.c ****           pllvco = (HSI_VALUE / pllm);
+ 314:../../core/platform/octa/src/system_stm32l4xx.c ****           break;
+ 315:../../core/platform/octa/src/system_stm32l4xx.c **** 
+ 316:../../core/platform/octa/src/system_stm32l4xx.c ****         case 0x03:  /* HSE used as PLL clock source */
+ 317:../../core/platform/octa/src/system_stm32l4xx.c ****           pllvco = (HSE_VALUE / pllm);
+ 318:../../core/platform/octa/src/system_stm32l4xx.c ****           break;
+ARM GAS  /tmp/ccfgnkaM.s 			page 9
+
+
+ 319:../../core/platform/octa/src/system_stm32l4xx.c **** 
+ 320:../../core/platform/octa/src/system_stm32l4xx.c ****         default:    /* MSI used as PLL clock source */
+ 321:../../core/platform/octa/src/system_stm32l4xx.c ****           pllvco = (msirange / pllm);
+ 322:../../core/platform/octa/src/system_stm32l4xx.c ****           break;
+ 323:../../core/platform/octa/src/system_stm32l4xx.c ****       }
+ 324:../../core/platform/octa/src/system_stm32l4xx.c ****       pllvco = pllvco * ((RCC->PLLCFGR & RCC_PLLCFGR_PLLN) >> 8U);
+ 325:../../core/platform/octa/src/system_stm32l4xx.c ****       pllr = (((RCC->PLLCFGR & RCC_PLLCFGR_PLLR) >> 25U) + 1U) * 2U;
+ 326:../../core/platform/octa/src/system_stm32l4xx.c ****       SystemCoreClock = pllvco/pllr;
+ 327:../../core/platform/octa/src/system_stm32l4xx.c ****       break;
+ 328:../../core/platform/octa/src/system_stm32l4xx.c **** 
+ 329:../../core/platform/octa/src/system_stm32l4xx.c ****     default:
+ 330:../../core/platform/octa/src/system_stm32l4xx.c ****       SystemCoreClock = msirange;
+ 331:../../core/platform/octa/src/system_stm32l4xx.c ****       break;
+ 332:../../core/platform/octa/src/system_stm32l4xx.c ****   }
+ 333:../../core/platform/octa/src/system_stm32l4xx.c ****   /* Compute HCLK clock frequency --------------------------------------------*/
+ 334:../../core/platform/octa/src/system_stm32l4xx.c ****   /* Get HCLK prescaler */
+ 335:../../core/platform/octa/src/system_stm32l4xx.c ****   tmp = AHBPrescTable[((RCC->CFGR & RCC_CFGR_HPRE) >> 4U)];
+ 141              		.loc 1 335 0
+ 142 0046 1E4B     		ldr	r3, .L19
+ 143 0048 9B68     		ldr	r3, [r3, #8]
+ 144 004a C3F30313 		ubfx	r3, r3, #4, #4
+ 145 004e 1F4A     		ldr	r2, .L19+12
+ 146 0050 D15C     		ldrb	r1, [r2, r3]	@ zero_extendqisi2
+ 147              	.LVL7:
+ 336:../../core/platform/octa/src/system_stm32l4xx.c ****   /* HCLK clock frequency */
+ 337:../../core/platform/octa/src/system_stm32l4xx.c ****   SystemCoreClock >>= tmp;
+ 148              		.loc 1 337 0
+ 149 0052 1D4A     		ldr	r2, .L19+8
+ 150 0054 1368     		ldr	r3, [r2]
+ 151 0056 CB40     		lsrs	r3, r3, r1
+ 152 0058 1360     		str	r3, [r2]
+ 338:../../core/platform/octa/src/system_stm32l4xx.c **** }
+ 153              		.loc 1 338 0
+ 154 005a 7047     		bx	lr
+ 155              	.LVL8:
+ 156              	.L10:
+ 296:../../core/platform/octa/src/system_stm32l4xx.c ****       break;
+ 157              		.loc 1 296 0
+ 158 005c 1A4B     		ldr	r3, .L19+8
+ 159 005e 1C4A     		ldr	r2, .L19+16
+ 160 0060 1A60     		str	r2, [r3]
+ 297:../../core/platform/octa/src/system_stm32l4xx.c **** 
+ 161              		.loc 1 297 0
+ 162 0062 F0E7     		b	.L13
+ 163              	.L11:
+ 300:../../core/platform/octa/src/system_stm32l4xx.c ****       break;
+ 164              		.loc 1 300 0
+ 165 0064 184B     		ldr	r3, .L19+8
+ 166 0066 1B4A     		ldr	r2, .L19+20
+ 167 0068 1A60     		str	r2, [r3]
+ 301:../../core/platform/octa/src/system_stm32l4xx.c **** 
+ 168              		.loc 1 301 0
+ 169 006a ECE7     		b	.L13
+ 170              	.L12:
+ 307:../../core/platform/octa/src/system_stm32l4xx.c ****       pllm = ((RCC->PLLCFGR & RCC_PLLCFGR_PLLM) >> 4U) + 1U ;
+ 171              		.loc 1 307 0
+ 172 006c 144B     		ldr	r3, .L19
+ARM GAS  /tmp/ccfgnkaM.s 			page 10
+
+
+ 173 006e DA68     		ldr	r2, [r3, #12]
+ 174 0070 02F00302 		and	r2, r2, #3
+ 175              	.LVL9:
+ 308:../../core/platform/octa/src/system_stm32l4xx.c **** 
+ 176              		.loc 1 308 0
+ 177 0074 DB68     		ldr	r3, [r3, #12]
+ 178 0076 C3F30213 		ubfx	r3, r3, #4, #3
+ 179 007a 0133     		adds	r3, r3, #1
+ 180              	.LVL10:
+ 310:../../core/platform/octa/src/system_stm32l4xx.c ****       {
+ 181              		.loc 1 310 0
+ 182 007c 022A     		cmp	r2, #2
+ 183 007e 04D0     		beq	.L15
+ 184 0080 032A     		cmp	r2, #3
+ 185 0082 15D0     		beq	.L16
+ 321:../../core/platform/octa/src/system_stm32l4xx.c ****           break;
+ 186              		.loc 1 321 0
+ 187 0084 B1FBF3F3 		udiv	r3, r1, r3
+ 188              	.LVL11:
+ 322:../../core/platform/octa/src/system_stm32l4xx.c ****       }
+ 189              		.loc 1 322 0
+ 190 0088 02E0     		b	.L17
+ 191              	.LVL12:
+ 192              	.L15:
+ 313:../../core/platform/octa/src/system_stm32l4xx.c ****           break;
+ 193              		.loc 1 313 0
+ 194 008a 114A     		ldr	r2, .L19+16
+ 195              	.LVL13:
+ 196 008c B2FBF3F3 		udiv	r3, r2, r3
+ 197              	.LVL14:
+ 198              	.L17:
+ 324:../../core/platform/octa/src/system_stm32l4xx.c ****       pllr = (((RCC->PLLCFGR & RCC_PLLCFGR_PLLR) >> 25U) + 1U) * 2U;
+ 199              		.loc 1 324 0
+ 200 0090 0B49     		ldr	r1, .L19
+ 201              	.LVL15:
+ 202 0092 CA68     		ldr	r2, [r1, #12]
+ 203 0094 C2F30622 		ubfx	r2, r2, #8, #7
+ 204 0098 03FB02F3 		mul	r3, r3, r2
+ 205              	.LVL16:
+ 325:../../core/platform/octa/src/system_stm32l4xx.c ****       SystemCoreClock = pllvco/pllr;
+ 206              		.loc 1 325 0
+ 207 009c CA68     		ldr	r2, [r1, #12]
+ 208 009e C2F34162 		ubfx	r2, r2, #25, #2
+ 209 00a2 0132     		adds	r2, r2, #1
+ 210 00a4 5200     		lsls	r2, r2, #1
+ 211              	.LVL17:
+ 326:../../core/platform/octa/src/system_stm32l4xx.c ****       break;
+ 212              		.loc 1 326 0
+ 213 00a6 B3FBF2F3 		udiv	r3, r3, r2
+ 214              	.LVL18:
+ 215 00aa 074A     		ldr	r2, .L19+8
+ 216              	.LVL19:
+ 217 00ac 1360     		str	r3, [r2]
+ 327:../../core/platform/octa/src/system_stm32l4xx.c **** 
+ 218              		.loc 1 327 0
+ 219 00ae CAE7     		b	.L13
+ 220              	.LVL20:
+ARM GAS  /tmp/ccfgnkaM.s 			page 11
+
+
+ 221              	.L16:
+ 317:../../core/platform/octa/src/system_stm32l4xx.c ****           break;
+ 222              		.loc 1 317 0
+ 223 00b0 084A     		ldr	r2, .L19+20
+ 224              	.LVL21:
+ 225 00b2 B2FBF3F3 		udiv	r3, r2, r3
+ 226              	.LVL22:
+ 318:../../core/platform/octa/src/system_stm32l4xx.c **** 
+ 227              		.loc 1 318 0
+ 228 00b6 EBE7     		b	.L17
+ 229              	.LVL23:
+ 230              	.L7:
+ 330:../../core/platform/octa/src/system_stm32l4xx.c ****       break;
+ 231              		.loc 1 330 0
+ 232 00b8 034B     		ldr	r3, .L19+8
+ 233 00ba 1960     		str	r1, [r3]
+ 331:../../core/platform/octa/src/system_stm32l4xx.c ****   }
+ 234              		.loc 1 331 0
+ 235 00bc C3E7     		b	.L13
+ 236              	.L20:
+ 237 00be 00BF     		.align	2
+ 238              	.L19:
+ 239 00c0 00100240 		.word	1073876992
+ 240 00c4 00000000 		.word	.LANCHOR0
+ 241 00c8 00000000 		.word	.LANCHOR1
+ 242 00cc 00000000 		.word	.LANCHOR2
+ 243 00d0 0024F400 		.word	16000000
+ 244 00d4 00127A00 		.word	8000000
+ 245              		.cfi_endproc
+ 246              	.LFE124:
+ 248              		.global	MSIRangeTable
+ 249              		.global	APBPrescTable
+ 250              		.global	AHBPrescTable
+ 251              		.global	SystemCoreClock
+ 252              		.section	.data.SystemCoreClock,"aw",%progbits
+ 253              		.align	2
+ 254              		.set	.LANCHOR1,. + 0
+ 257              	SystemCoreClock:
+ 258 0000 00093D00 		.word	4000000
+ 259              		.section	.rodata.AHBPrescTable,"a",%progbits
+ 260              		.align	2
+ 261              		.set	.LANCHOR2,. + 0
+ 264              	AHBPrescTable:
+ 265 0000 00       		.byte	0
+ 266 0001 00       		.byte	0
+ 267 0002 00       		.byte	0
+ 268 0003 00       		.byte	0
+ 269 0004 00       		.byte	0
+ 270 0005 00       		.byte	0
+ 271 0006 00       		.byte	0
+ 272 0007 00       		.byte	0
+ 273 0008 01       		.byte	1
+ 274 0009 02       		.byte	2
+ 275 000a 03       		.byte	3
+ 276 000b 04       		.byte	4
+ 277 000c 06       		.byte	6
+ 278 000d 07       		.byte	7
+ARM GAS  /tmp/ccfgnkaM.s 			page 12
+
+
+ 279 000e 08       		.byte	8
+ 280 000f 09       		.byte	9
+ 281              		.section	.rodata.APBPrescTable,"a",%progbits
+ 282              		.align	2
+ 285              	APBPrescTable:
+ 286 0000 00       		.byte	0
+ 287 0001 00       		.byte	0
+ 288 0002 00       		.byte	0
+ 289 0003 00       		.byte	0
+ 290 0004 01       		.byte	1
+ 291 0005 02       		.byte	2
+ 292 0006 03       		.byte	3
+ 293 0007 04       		.byte	4
+ 294              		.section	.rodata.MSIRangeTable,"a",%progbits
+ 295              		.align	2
+ 296              		.set	.LANCHOR0,. + 0
+ 299              	MSIRangeTable:
+ 300 0000 A0860100 		.word	100000
+ 301 0004 400D0300 		.word	200000
+ 302 0008 801A0600 		.word	400000
+ 303 000c 00350C00 		.word	800000
+ 304 0010 40420F00 		.word	1000000
+ 305 0014 80841E00 		.word	2000000
+ 306 0018 00093D00 		.word	4000000
+ 307 001c 00127A00 		.word	8000000
+ 308 0020 0024F400 		.word	16000000
+ 309 0024 00366E01 		.word	24000000
+ 310 0028 0048E801 		.word	32000000
+ 311 002c 006CDC02 		.word	48000000
+ 312              		.text
+ 313              	.Letext0:
+ 314              		.file 2 "/home/mats/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/machine/_default_type
+ 315              		.file 3 "/home/mats/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/sys/_stdint.h"
+ 316              		.file 4 "../../core/ST/CMSIS/Include/core_cm4.h"
+ 317              		.file 5 "../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/system_stm32l4xx.h"
+ 318              		.file 6 "../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/stm32l496xx.h"
+ 319              		.file 7 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h"
+ 320              		.file 8 "../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/stm32l4xx.h"
+ARM GAS  /tmp/ccfgnkaM.s 			page 13
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 system_stm32l4xx.c
+     /tmp/ccfgnkaM.s:18     .text.SystemInit:0000000000000000 $t
+     /tmp/ccfgnkaM.s:25     .text.SystemInit:0000000000000000 SystemInit
+     /tmp/ccfgnkaM.s:68     .text.SystemInit:0000000000000040 $d
+     /tmp/ccfgnkaM.s:74     .text.SystemCoreClockUpdate:0000000000000000 $t
+     /tmp/ccfgnkaM.s:81     .text.SystemCoreClockUpdate:0000000000000000 SystemCoreClockUpdate
+     /tmp/ccfgnkaM.s:112    .text.SystemCoreClockUpdate:000000000000002a $d
+     /tmp/ccfgnkaM.s:239    .text.SystemCoreClockUpdate:00000000000000c0 $d
+     /tmp/ccfgnkaM.s:299    .rodata.MSIRangeTable:0000000000000000 MSIRangeTable
+     /tmp/ccfgnkaM.s:285    .rodata.APBPrescTable:0000000000000000 APBPrescTable
+     /tmp/ccfgnkaM.s:264    .rodata.AHBPrescTable:0000000000000000 AHBPrescTable
+     /tmp/ccfgnkaM.s:257    .data.SystemCoreClock:0000000000000000 SystemCoreClock
+     /tmp/ccfgnkaM.s:253    .data.SystemCoreClock:0000000000000000 $d
+     /tmp/ccfgnkaM.s:260    .rodata.AHBPrescTable:0000000000000000 $d
+     /tmp/ccfgnkaM.s:282    .rodata.APBPrescTable:0000000000000000 $d
+     /tmp/ccfgnkaM.s:295    .rodata.MSIRangeTable:0000000000000000 $d
+     /tmp/ccfgnkaM.s:126    .text.SystemCoreClockUpdate:0000000000000037 $d
+     /tmp/ccfgnkaM.s:126    .text.SystemCoreClockUpdate:0000000000000038 $t
+
+NO UNDEFINED SYMBOLS

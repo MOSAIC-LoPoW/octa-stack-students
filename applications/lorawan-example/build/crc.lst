@@ -1,0 +1,212 @@
+ARM GAS  /tmp/cceXQfDX.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 28, 1
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.file	"crc.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.text.update_crc,"ax",%progbits
+  18              		.align	1
+  19              		.syntax unified
+  20              		.thumb
+  21              		.thumb_func
+  22              		.fpu fpv4-sp-d16
+  24              	update_crc:
+  25              	.LFB0:
+  26              		.file 1 "../../shields/Murata/src/crc.c"
+   1:../../shields/Murata/src/crc.c **** /*! \file crc.c
+   2:../../shields/Murata/src/crc.c ****  *
+   3:../../shields/Murata/src/crc.c **** 
+   4:../../shields/Murata/src/crc.c ****  *  \copyright (C) Copyright 2015 University of Antwerp and others (http://oss-7.cosys.be)
+   5:../../shields/Murata/src/crc.c ****  *
+   6:../../shields/Murata/src/crc.c ****  * Licensed under the Apache License, Version 2.0 (the "License");
+   7:../../shields/Murata/src/crc.c ****  * you may not use this file except in compliance with the License.
+   8:../../shields/Murata/src/crc.c ****  * You may obtain a copy of the License at
+   9:../../shields/Murata/src/crc.c ****  *
+  10:../../shields/Murata/src/crc.c ****  *     http://www.apache.org/licenses/LICENSE-2.0
+  11:../../shields/Murata/src/crc.c ****  *
+  12:../../shields/Murata/src/crc.c ****  * Unless required by applicable law or agreed to in writing, software
+  13:../../shields/Murata/src/crc.c ****  * distributed under the License is distributed on an "AS IS" BASIS,
+  14:../../shields/Murata/src/crc.c ****  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  15:../../shields/Murata/src/crc.c ****  * See the License for the specific language governing permissions and
+  16:../../shields/Murata/src/crc.c ****  * limitations under the License.
+  17:../../shields/Murata/src/crc.c ****  *
+  18:../../shields/Murata/src/crc.c ****  *  \author glenn.ergeerts@uantwerpen.be
+  19:../../shields/Murata/src/crc.c ****  *  \author maarten.weyn@uantwerpen.be
+  20:../../shields/Murata/src/crc.c ****  *
+  21:../../shields/Murata/src/crc.c ****  */
+  22:../../shields/Murata/src/crc.c **** 
+  23:../../shields/Murata/src/crc.c **** #include <stdint.h>
+  24:../../shields/Murata/src/crc.c **** 
+  25:../../shields/Murata/src/crc.c **** #include "crc.h"
+  26:../../shields/Murata/src/crc.c **** 
+  27:../../shields/Murata/src/crc.c **** static uint16_t crc;
+  28:../../shields/Murata/src/crc.c **** 
+  29:../../shields/Murata/src/crc.c **** static void update_crc(uint8_t x)
+  30:../../shields/Murata/src/crc.c **** {
+  27              		.loc 1 30 0
+  28              		.cfi_startproc
+ARM GAS  /tmp/cceXQfDX.s 			page 2
+
+
+  29              		@ args = 0, pretend = 0, frame = 0
+  30              		@ frame_needed = 0, uses_anonymous_args = 0
+  31              		@ link register save eliminated.
+  32              	.LVL0:
+  31:../../shields/Murata/src/crc.c ****      uint16_t crc_new = (uint8_t)(crc >> 8) | (crc << 8);
+  33              		.loc 1 31 0
+  34 0000 094A     		ldr	r2, .L2
+  35 0002 1188     		ldrh	r1, [r2]
+  36 0004 0B02     		lsls	r3, r1, #8
+  37 0006 43EA1123 		orr	r3, r3, r1, lsr #8
+  38 000a 9BB2     		uxth	r3, r3
+  39              	.LVL1:
+  32:../../shields/Murata/src/crc.c ****      crc_new ^= x;
+  40              		.loc 1 32 0
+  41 000c 5840     		eors	r0, r0, r3
+  42              	.LVL2:
+  33:../../shields/Murata/src/crc.c ****      crc_new ^= (uint8_t)(crc_new & 0xff) >> 4;
+  43              		.loc 1 33 0
+  44 000e C0F30313 		ubfx	r3, r0, #4, #4
+  45 0012 5840     		eors	r0, r0, r3
+  46              	.LVL3:
+  34:../../shields/Murata/src/crc.c ****      crc_new ^= crc_new << 12;
+  47              		.loc 1 34 0
+  48 0014 80EA0030 		eor	r0, r0, r0, lsl #12
+  49              	.LVL4:
+  50 0018 00B2     		sxth	r0, r0
+  51 001a 83B2     		uxth	r3, r0
+  52              	.LVL5:
+  35:../../shields/Murata/src/crc.c ****      crc_new ^= (crc_new & 0xff) << 5;
+  53              		.loc 1 35 0
+  54 001c 5B01     		lsls	r3, r3, #5
+  55              	.LVL6:
+  56 001e 03F4FF53 		and	r3, r3, #8160
+  57 0022 5840     		eors	r0, r0, r3
+  58              	.LVL7:
+  36:../../shields/Murata/src/crc.c ****      crc = crc_new;
+  59              		.loc 1 36 0
+  60 0024 1080     		strh	r0, [r2]	@ movhi
+  37:../../shields/Murata/src/crc.c **** }
+  61              		.loc 1 37 0
+  62 0026 7047     		bx	lr
+  63              	.L3:
+  64              		.align	2
+  65              	.L2:
+  66 0028 00000000 		.word	.LANCHOR0
+  67              		.cfi_endproc
+  68              	.LFE0:
+  70              		.section	.text.crc_calculate,"ax",%progbits
+  71              		.align	1
+  72              		.global	crc_calculate
+  73              		.syntax unified
+  74              		.thumb
+  75              		.thumb_func
+  76              		.fpu fpv4-sp-d16
+  78              	crc_calculate:
+  79              	.LFB1:
+  38:../../shields/Murata/src/crc.c **** 
+ARM GAS  /tmp/cceXQfDX.s 			page 3
+
+
+  39:../../shields/Murata/src/crc.c **** uint16_t crc_calculate(uint8_t* data, uint8_t length)
+  40:../../shields/Murata/src/crc.c **** {
+  80              		.loc 1 40 0
+  81              		.cfi_startproc
+  82              		@ args = 0, pretend = 0, frame = 0
+  83              		@ frame_needed = 0, uses_anonymous_args = 0
+  84              	.LVL8:
+  85 0000 70B5     		push	{r4, r5, r6, lr}
+  86              	.LCFI0:
+  87              		.cfi_def_cfa_offset 16
+  88              		.cfi_offset 4, -16
+  89              		.cfi_offset 5, -12
+  90              		.cfi_offset 6, -8
+  91              		.cfi_offset 14, -4
+  92 0002 0646     		mov	r6, r0
+  93 0004 0D46     		mov	r5, r1
+  41:../../shields/Murata/src/crc.c ****     crc = 0xffff;
+  94              		.loc 1 41 0
+  95 0006 084B     		ldr	r3, .L8
+  96 0008 4FF6FF72 		movw	r2, #65535
+  97 000c 1A80     		strh	r2, [r3]	@ movhi
+  98              	.LVL9:
+  42:../../shields/Murata/src/crc.c ****     uint8_t i = 0;
+  99              		.loc 1 42 0
+ 100 000e 0024     		movs	r4, #0
+  43:../../shields/Murata/src/crc.c **** 
+  44:../../shields/Murata/src/crc.c ****     for(; i<length; i++)
+ 101              		.loc 1 44 0
+ 102 0010 04E0     		b	.L5
+ 103              	.LVL10:
+ 104              	.L6:
+  45:../../shields/Murata/src/crc.c ****     {
+  46:../../shields/Murata/src/crc.c ****         update_crc(data[i]);
+ 105              		.loc 1 46 0 discriminator 2
+ 106 0012 305D     		ldrb	r0, [r6, r4]	@ zero_extendqisi2
+ 107 0014 FFF7FEFF 		bl	update_crc
+ 108              	.LVL11:
+  44:../../shields/Murata/src/crc.c ****     {
+ 109              		.loc 1 44 0 discriminator 2
+ 110 0018 0134     		adds	r4, r4, #1
+ 111              	.LVL12:
+ 112 001a E4B2     		uxtb	r4, r4
+ 113              	.LVL13:
+ 114              	.L5:
+  44:../../shields/Murata/src/crc.c ****     {
+ 115              		.loc 1 44 0 is_stmt 0 discriminator 1
+ 116 001c AC42     		cmp	r4, r5
+ 117 001e F8D3     		bcc	.L6
+  47:../../shields/Murata/src/crc.c ****     }
+  48:../../shields/Murata/src/crc.c ****     return crc;
+  49:../../shields/Murata/src/crc.c **** }
+ 118              		.loc 1 49 0 is_stmt 1
+ 119 0020 014B     		ldr	r3, .L8
+ 120 0022 1888     		ldrh	r0, [r3]
+ 121 0024 70BD     		pop	{r4, r5, r6, pc}
+ 122              	.LVL14:
+ 123              	.L9:
+ARM GAS  /tmp/cceXQfDX.s 			page 4
+
+
+ 124 0026 00BF     		.align	2
+ 125              	.L8:
+ 126 0028 00000000 		.word	.LANCHOR0
+ 127              		.cfi_endproc
+ 128              	.LFE1:
+ 130              		.section	.bss.crc,"aw",%nobits
+ 131              		.align	1
+ 132              		.set	.LANCHOR0,. + 0
+ 135              	crc:
+ 136 0000 0000     		.space	2
+ 137              		.text
+ 138              	.Letext0:
+ 139              		.file 2 "/home/mats/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/machine/_default_type
+ 140              		.file 3 "/home/mats/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/sys/_stdint.h"
+ARM GAS  /tmp/cceXQfDX.s 			page 5
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 crc.c
+     /tmp/cceXQfDX.s:18     .text.update_crc:0000000000000000 $t
+     /tmp/cceXQfDX.s:24     .text.update_crc:0000000000000000 update_crc
+     /tmp/cceXQfDX.s:66     .text.update_crc:0000000000000028 $d
+     /tmp/cceXQfDX.s:71     .text.crc_calculate:0000000000000000 $t
+     /tmp/cceXQfDX.s:78     .text.crc_calculate:0000000000000000 crc_calculate
+     /tmp/cceXQfDX.s:126    .text.crc_calculate:0000000000000028 $d
+     /tmp/cceXQfDX.s:131    .bss.crc:0000000000000000 $d
+     /tmp/cceXQfDX.s:135    .bss.crc:0000000000000000 crc
+
+NO UNDEFINED SYMBOLS

@@ -1,0 +1,1019 @@
+ARM GAS  /tmp/ccNLifzn.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 28, 1
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.file	"fifo.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.text.skip,"ax",%progbits
+  18              		.align	1
+  19              		.syntax unified
+  20              		.thumb
+  21              		.thumb_func
+  22              		.fpu fpv4-sp-d16
+  24              	skip:
+  25              	.LFB6:
+  26              		.file 1 "../../shields/Murata/src/fifo.c"
+   1:../../shields/Murata/src/fifo.c **** /* * OSS-7 - An opensource implementation of the DASH7 Alliance Protocol for ultra
+   2:../../shields/Murata/src/fifo.c ****  * lowpower wireless sensor communication
+   3:../../shields/Murata/src/fifo.c ****  *
+   4:../../shields/Murata/src/fifo.c ****  * Copyright 2015 University of Antwerp
+   5:../../shields/Murata/src/fifo.c ****  *
+   6:../../shields/Murata/src/fifo.c ****  * Licensed under the Apache License, Version 2.0 (the "License");
+   7:../../shields/Murata/src/fifo.c ****  * you may not use this file except in compliance with the License.
+   8:../../shields/Murata/src/fifo.c ****  * You may obtain a copy of the License at
+   9:../../shields/Murata/src/fifo.c ****  *
+  10:../../shields/Murata/src/fifo.c ****  *   http://www.apache.org/licenses/LICENSE-2.0
+  11:../../shields/Murata/src/fifo.c ****  *
+  12:../../shields/Murata/src/fifo.c ****  * Unless required by applicable law or agreed to in writing, software
+  13:../../shields/Murata/src/fifo.c ****  * distributed under the License is distributed on an "AS IS" BASIS,
+  14:../../shields/Murata/src/fifo.c ****  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  15:../../shields/Murata/src/fifo.c ****  * See the License for the specific language governing permissions and
+  16:../../shields/Murata/src/fifo.c ****  * limitations under the License.
+  17:../../shields/Murata/src/fifo.c ****  */
+  18:../../shields/Murata/src/fifo.c **** 
+  19:../../shields/Murata/src/fifo.c **** /*! \file fifo.c
+  20:../../shields/Murata/src/fifo.c ****  * \author glenn.ergeerts@uantwerpen.be
+  21:../../shields/Murata/src/fifo.c ****  */
+  22:../../shields/Murata/src/fifo.c **** 
+  23:../../shields/Murata/src/fifo.c **** #include "fifo.h"
+  24:../../shields/Murata/src/fifo.c **** #include "string.h"
+  25:../../shields/Murata/src/fifo.c **** #include "errors.h"
+  26:../../shields/Murata/src/fifo.c **** //#include "debug.h"
+  27:../../shields/Murata/src/fifo.c **** 
+  28:../../shields/Murata/src/fifo.c **** void fifo_init(fifo_t *fifo, uint8_t *buffer, uint16_t max_size)
+  29:../../shields/Murata/src/fifo.c **** {
+  30:../../shields/Murata/src/fifo.c ****     fifo_init_filled(fifo, buffer, 0, max_size);
+  31:../../shields/Murata/src/fifo.c **** }
+  32:../../shields/Murata/src/fifo.c **** 
+ARM GAS  /tmp/ccNLifzn.s 			page 2
+
+
+  33:../../shields/Murata/src/fifo.c **** void fifo_init_filled(fifo_t *fifo, uint8_t *buffer, uint16_t filled_size, uint16_t max_size)
+  34:../../shields/Murata/src/fifo.c **** {
+  35:../../shields/Murata/src/fifo.c ****     fifo->buffer = buffer;
+  36:../../shields/Murata/src/fifo.c ****     fifo->head_idx = 0;
+  37:../../shields/Murata/src/fifo.c ****     fifo->max_size = max_size - 1;
+  38:../../shields/Murata/src/fifo.c ****     fifo->tail_idx = filled_size;
+  39:../../shields/Murata/src/fifo.c ****     fifo->is_subview = false;
+  40:../../shields/Murata/src/fifo.c **** }
+  41:../../shields/Murata/src/fifo.c **** 
+  42:../../shields/Murata/src/fifo.c **** void fifo_init_subview(fifo_t *subset_fifo, fifo_t* original_fifo, uint16_t offset, uint16_t subset
+  43:../../shields/Murata/src/fifo.c ****     //assert(subset_size <= fifo_get_size(original_fifo));
+  44:../../shields/Murata/src/fifo.c ****     //assert(subset_size + offset <= original_fifo->max_size);
+  45:../../shields/Murata/src/fifo.c **** 
+  46:../../shields/Murata/src/fifo.c ****     subset_fifo->buffer = original_fifo->buffer;
+  47:../../shields/Murata/src/fifo.c ****     subset_fifo->head_idx = original_fifo->head_idx + offset;
+  48:../../shields/Murata/src/fifo.c ****     subset_fifo->tail_idx = original_fifo->head_idx + offset + subset_size;
+  49:../../shields/Murata/src/fifo.c ****     if(subset_fifo->tail_idx > original_fifo->max_size) {
+  50:../../shields/Murata/src/fifo.c ****       // wrap
+  51:../../shields/Murata/src/fifo.c ****       subset_fifo->tail_idx = subset_fifo->tail_idx - original_fifo->max_size;
+  52:../../shields/Murata/src/fifo.c ****     }
+  53:../../shields/Murata/src/fifo.c **** 
+  54:../../shields/Murata/src/fifo.c ****     subset_fifo->max_size = original_fifo->max_size;
+  55:../../shields/Murata/src/fifo.c ****     subset_fifo->is_subview = true;
+  56:../../shields/Murata/src/fifo.c **** }
+  57:../../shields/Murata/src/fifo.c **** 
+  58:../../shields/Murata/src/fifo.c **** error_t fifo_put(fifo_t *fifo, uint8_t *data, uint16_t len)
+  59:../../shields/Murata/src/fifo.c **** {
+  60:../../shields/Murata/src/fifo.c ****     if(fifo->is_subview)
+  61:../../shields/Murata/src/fifo.c ****         return EINVAL;
+  62:../../shields/Murata/src/fifo.c **** 
+  63:../../shields/Murata/src/fifo.c ****     if(fifo->tail_idx < fifo->head_idx)
+  64:../../shields/Murata/src/fifo.c ****     {
+  65:../../shields/Murata/src/fifo.c ****         if(fifo->tail_idx + len >= fifo->head_idx)
+  66:../../shields/Murata/src/fifo.c ****             return oss7ESIZE;
+  67:../../shields/Murata/src/fifo.c ****         memcpy(fifo->buffer + fifo->tail_idx, data, len);
+  68:../../shields/Murata/src/fifo.c ****         fifo->tail_idx += len;
+  69:../../shields/Murata/src/fifo.c ****         return oss7SUCCESS;
+  70:../../shields/Murata/src/fifo.c ****     }
+  71:../../shields/Murata/src/fifo.c **** 
+  72:../../shields/Murata/src/fifo.c ****     if(fifo->tail_idx + len <= fifo->max_size)
+  73:../../shields/Murata/src/fifo.c ****     {
+  74:../../shields/Murata/src/fifo.c ****         memcpy(fifo->buffer + fifo->tail_idx, data, len);
+  75:../../shields/Murata/src/fifo.c ****         fifo->tail_idx += len;
+  76:../../shields/Murata/src/fifo.c ****         return oss7SUCCESS;
+  77:../../shields/Murata/src/fifo.c ****     }
+  78:../../shields/Murata/src/fifo.c **** 
+  79:../../shields/Murata/src/fifo.c ****     uint16_t space_left_before_max_size = fifo->max_size - fifo->tail_idx;
+  80:../../shields/Murata/src/fifo.c ****     uint16_t space_needed_after_wrap = len - space_left_before_max_size;
+  81:../../shields/Murata/src/fifo.c ****     if(fifo->head_idx > space_needed_after_wrap)
+  82:../../shields/Murata/src/fifo.c ****     {
+  83:../../shields/Murata/src/fifo.c ****         // wrap
+  84:../../shields/Murata/src/fifo.c ****         memcpy(fifo->buffer + fifo->tail_idx, data, space_left_before_max_size);
+  85:../../shields/Murata/src/fifo.c ****         memcpy(fifo->buffer, data + space_left_before_max_size, space_needed_after_wrap);
+  86:../../shields/Murata/src/fifo.c ****         fifo->tail_idx = space_needed_after_wrap;
+  87:../../shields/Murata/src/fifo.c ****         return oss7SUCCESS;
+  88:../../shields/Murata/src/fifo.c ****     }
+  89:../../shields/Murata/src/fifo.c ****     else
+ARM GAS  /tmp/ccNLifzn.s 			page 3
+
+
+  90:../../shields/Murata/src/fifo.c ****         return oss7ESIZE;
+  91:../../shields/Murata/src/fifo.c **** }
+  92:../../shields/Murata/src/fifo.c **** 
+  93:../../shields/Murata/src/fifo.c **** error_t fifo_put_byte(fifo_t* fifo, uint8_t byte)
+  94:../../shields/Murata/src/fifo.c **** {
+  95:../../shields/Murata/src/fifo.c ****     return fifo_put(fifo, &byte, 1);
+  96:../../shields/Murata/src/fifo.c **** }
+  97:../../shields/Murata/src/fifo.c **** 
+  98:../../shields/Murata/src/fifo.c **** static error_t check_len(fifo_t* fifo, uint16_t len) {
+  99:../../shields/Murata/src/fifo.c ****   // quickly bail out if requested length is zero, nothing to do
+ 100:../../shields/Murata/src/fifo.c ****   if(len == 0) { return oss7SUCCESS; }
+ 101:../../shields/Murata/src/fifo.c **** 
+ 102:../../shields/Murata/src/fifo.c ****   // quick check if requested len doesn't exceed available data
+ 103:../../shields/Murata/src/fifo.c ****   if(len > fifo_get_size(fifo)) { return oss7ESIZE; }
+ 104:../../shields/Murata/src/fifo.c **** 
+ 105:../../shields/Murata/src/fifo.c ****   return oss7SUCCESS;
+ 106:../../shields/Murata/src/fifo.c **** }
+ 107:../../shields/Murata/src/fifo.c **** 
+ 108:../../shields/Murata/src/fifo.c **** static void skip(fifo_t* fifo, uint16_t len) {
+  27              		.loc 1 108 0
+  28              		.cfi_startproc
+  29              		@ args = 0, pretend = 0, frame = 0
+  30              		@ frame_needed = 0, uses_anonymous_args = 0
+  31              		@ link register save eliminated.
+  32              	.LVL0:
+ 109:../../shields/Murata/src/fifo.c ****   // progress head to implement popping behaviour
+ 110:../../shields/Murata/src/fifo.c ****   fifo->head_idx = (fifo->head_idx + len);
+  33              		.loc 1 110 0
+  34 0000 0388     		ldrh	r3, [r0]
+  35 0002 1944     		add	r1, r1, r3
+  36              	.LVL1:
+  37 0004 89B2     		uxth	r1, r1
+  38 0006 0180     		strh	r1, [r0]	@ movhi
+ 111:../../shields/Murata/src/fifo.c ****   if(fifo->head_idx > fifo->max_size)
+  39              		.loc 1 111 0
+  40 0008 8388     		ldrh	r3, [r0, #4]
+  41 000a 9942     		cmp	r1, r3
+  42 000c 04D9     		bls	.L1
+ 112:../../shields/Murata/src/fifo.c ****     fifo->head_idx = fifo->head_idx % fifo->max_size; // when head_idx == max_size we do not want t
+  43              		.loc 1 112 0
+  44 000e B1FBF3F2 		udiv	r2, r1, r3
+  45 0012 03FB1211 		mls	r1, r3, r2, r1
+  46 0016 0180     		strh	r1, [r0]	@ movhi
+  47              	.L1:
+ 113:../../shields/Murata/src/fifo.c **** }
+  48              		.loc 1 113 0
+  49 0018 7047     		bx	lr
+  50              		.cfi_endproc
+  51              	.LFE6:
+  53              		.section	.text.fifo_init_filled,"ax",%progbits
+  54              		.align	1
+  55              		.global	fifo_init_filled
+  56              		.syntax unified
+  57              		.thumb
+  58              		.thumb_func
+  59              		.fpu fpv4-sp-d16
+  61              	fifo_init_filled:
+ARM GAS  /tmp/ccNLifzn.s 			page 4
+
+
+  62              	.LFB1:
+  34:../../shields/Murata/src/fifo.c ****     fifo->buffer = buffer;
+  63              		.loc 1 34 0
+  64              		.cfi_startproc
+  65              		@ args = 0, pretend = 0, frame = 0
+  66              		@ frame_needed = 0, uses_anonymous_args = 0
+  67              		@ link register save eliminated.
+  68              	.LVL2:
+  35:../../shields/Murata/src/fifo.c ****     fifo->head_idx = 0;
+  69              		.loc 1 35 0
+  70 0000 8160     		str	r1, [r0, #8]
+  36:../../shields/Murata/src/fifo.c ****     fifo->max_size = max_size - 1;
+  71              		.loc 1 36 0
+  72 0002 0021     		movs	r1, #0
+  73              	.LVL3:
+  74 0004 0180     		strh	r1, [r0]	@ movhi
+  37:../../shields/Murata/src/fifo.c ****     fifo->tail_idx = filled_size;
+  75              		.loc 1 37 0
+  76 0006 013B     		subs	r3, r3, #1
+  77              	.LVL4:
+  78 0008 8380     		strh	r3, [r0, #4]	@ movhi
+  38:../../shields/Murata/src/fifo.c ****     fifo->is_subview = false;
+  79              		.loc 1 38 0
+  80 000a 4280     		strh	r2, [r0, #2]	@ movhi
+  39:../../shields/Murata/src/fifo.c **** }
+  81              		.loc 1 39 0
+  82 000c 0173     		strb	r1, [r0, #12]
+  40:../../shields/Murata/src/fifo.c **** 
+  83              		.loc 1 40 0
+  84 000e 7047     		bx	lr
+  85              		.cfi_endproc
+  86              	.LFE1:
+  88              		.section	.text.fifo_init,"ax",%progbits
+  89              		.align	1
+  90              		.global	fifo_init
+  91              		.syntax unified
+  92              		.thumb
+  93              		.thumb_func
+  94              		.fpu fpv4-sp-d16
+  96              	fifo_init:
+  97              	.LFB0:
+  29:../../shields/Murata/src/fifo.c ****     fifo_init_filled(fifo, buffer, 0, max_size);
+  98              		.loc 1 29 0
+  99              		.cfi_startproc
+ 100              		@ args = 0, pretend = 0, frame = 0
+ 101              		@ frame_needed = 0, uses_anonymous_args = 0
+ 102              	.LVL5:
+ 103 0000 08B5     		push	{r3, lr}
+ 104              	.LCFI0:
+ 105              		.cfi_def_cfa_offset 8
+ 106              		.cfi_offset 3, -8
+ 107              		.cfi_offset 14, -4
+  30:../../shields/Murata/src/fifo.c **** }
+ 108              		.loc 1 30 0
+ 109 0002 1346     		mov	r3, r2
+ 110 0004 0022     		movs	r2, #0
+ 111              	.LVL6:
+ARM GAS  /tmp/ccNLifzn.s 			page 5
+
+
+ 112 0006 FFF7FEFF 		bl	fifo_init_filled
+ 113              	.LVL7:
+  31:../../shields/Murata/src/fifo.c **** 
+ 114              		.loc 1 31 0
+ 115 000a 08BD     		pop	{r3, pc}
+ 116              		.cfi_endproc
+ 117              	.LFE0:
+ 119              		.section	.text.fifo_init_subview,"ax",%progbits
+ 120              		.align	1
+ 121              		.global	fifo_init_subview
+ 122              		.syntax unified
+ 123              		.thumb
+ 124              		.thumb_func
+ 125              		.fpu fpv4-sp-d16
+ 127              	fifo_init_subview:
+ 128              	.LFB2:
+  42:../../shields/Murata/src/fifo.c ****     //assert(subset_size <= fifo_get_size(original_fifo));
+ 129              		.loc 1 42 0
+ 130              		.cfi_startproc
+ 131              		@ args = 0, pretend = 0, frame = 0
+ 132              		@ frame_needed = 0, uses_anonymous_args = 0
+ 133              		@ link register save eliminated.
+ 134              	.LVL8:
+ 135 0000 10B4     		push	{r4}
+ 136              	.LCFI1:
+ 137              		.cfi_def_cfa_offset 4
+ 138              		.cfi_offset 4, -4
+  46:../../shields/Murata/src/fifo.c ****     subset_fifo->head_idx = original_fifo->head_idx + offset;
+ 139              		.loc 1 46 0
+ 140 0002 8C68     		ldr	r4, [r1, #8]
+ 141 0004 8460     		str	r4, [r0, #8]
+  47:../../shields/Murata/src/fifo.c ****     subset_fifo->tail_idx = original_fifo->head_idx + offset + subset_size;
+ 142              		.loc 1 47 0
+ 143 0006 0C88     		ldrh	r4, [r1]
+ 144 0008 1444     		add	r4, r4, r2
+ 145 000a 0480     		strh	r4, [r0]	@ movhi
+  48:../../shields/Murata/src/fifo.c ****     if(subset_fifo->tail_idx > original_fifo->max_size) {
+ 146              		.loc 1 48 0
+ 147 000c 0C88     		ldrh	r4, [r1]
+ 148 000e 2244     		add	r2, r2, r4
+ 149              	.LVL9:
+ 150 0010 13FA82F3 		uxtah	r3, r3, r2
+ 151              	.LVL10:
+ 152 0014 9BB2     		uxth	r3, r3
+ 153 0016 4380     		strh	r3, [r0, #2]	@ movhi
+  49:../../shields/Murata/src/fifo.c ****       // wrap
+ 154              		.loc 1 49 0
+ 155 0018 8A88     		ldrh	r2, [r1, #4]
+ 156 001a 9342     		cmp	r3, r2
+ 157 001c 01D9     		bls	.L7
+  51:../../shields/Murata/src/fifo.c ****     }
+ 158              		.loc 1 51 0
+ 159 001e 9B1A     		subs	r3, r3, r2
+ 160 0020 4380     		strh	r3, [r0, #2]	@ movhi
+ 161              	.L7:
+  54:../../shields/Murata/src/fifo.c ****     subset_fifo->is_subview = true;
+ 162              		.loc 1 54 0
+ARM GAS  /tmp/ccNLifzn.s 			page 6
+
+
+ 163 0022 8B88     		ldrh	r3, [r1, #4]
+ 164 0024 8380     		strh	r3, [r0, #4]	@ movhi
+  55:../../shields/Murata/src/fifo.c **** }
+ 165              		.loc 1 55 0
+ 166 0026 0123     		movs	r3, #1
+ 167 0028 0373     		strb	r3, [r0, #12]
+  56:../../shields/Murata/src/fifo.c **** 
+ 168              		.loc 1 56 0
+ 169 002a 5DF8044B 		ldr	r4, [sp], #4
+ 170              	.LCFI2:
+ 171              		.cfi_restore 4
+ 172              		.cfi_def_cfa_offset 0
+ 173 002e 7047     		bx	lr
+ 174              		.cfi_endproc
+ 175              	.LFE2:
+ 177              		.section	.text.fifo_put,"ax",%progbits
+ 178              		.align	1
+ 179              		.global	fifo_put
+ 180              		.syntax unified
+ 181              		.thumb
+ 182              		.thumb_func
+ 183              		.fpu fpv4-sp-d16
+ 185              	fifo_put:
+ 186              	.LFB3:
+  59:../../shields/Murata/src/fifo.c ****     if(fifo->is_subview)
+ 187              		.loc 1 59 0
+ 188              		.cfi_startproc
+ 189              		@ args = 0, pretend = 0, frame = 0
+ 190              		@ frame_needed = 0, uses_anonymous_args = 0
+ 191              	.LVL11:
+ 192 0000 F8B5     		push	{r3, r4, r5, r6, r7, lr}
+ 193              	.LCFI3:
+ 194              		.cfi_def_cfa_offset 24
+ 195              		.cfi_offset 3, -24
+ 196              		.cfi_offset 4, -20
+ 197              		.cfi_offset 5, -16
+ 198              		.cfi_offset 6, -12
+ 199              		.cfi_offset 7, -8
+ 200              		.cfi_offset 14, -4
+  60:../../shields/Murata/src/fifo.c ****         return EINVAL;
+ 201              		.loc 1 60 0
+ 202 0002 037B     		ldrb	r3, [r0, #12]	@ zero_extendqisi2
+ 203 0004 002B     		cmp	r3, #0
+ 204 0006 36D1     		bne	.L13
+ 205 0008 1546     		mov	r5, r2
+ 206 000a 0E46     		mov	r6, r1
+ 207 000c 0446     		mov	r4, r0
+  63:../../shields/Murata/src/fifo.c ****     {
+ 208              		.loc 1 63 0
+ 209 000e 4388     		ldrh	r3, [r0, #2]
+ 210 0010 0088     		ldrh	r0, [r0]
+ 211              	.LVL12:
+ 212 0012 8342     		cmp	r3, r0
+ 213 0014 0CD2     		bcs	.L11
+  65:../../shields/Murata/src/fifo.c ****             return oss7ESIZE;
+ 214              		.loc 1 65 0
+ 215 0016 1A44     		add	r2, r2, r3
+ARM GAS  /tmp/ccNLifzn.s 			page 7
+
+
+ 216              	.LVL13:
+ 217 0018 8242     		cmp	r2, r0
+ 218 001a 2EDA     		bge	.L14
+  67:../../shields/Murata/src/fifo.c ****         fifo->tail_idx += len;
+ 219              		.loc 1 67 0
+ 220 001c A068     		ldr	r0, [r4, #8]
+ 221 001e 2A46     		mov	r2, r5
+ 222 0020 1844     		add	r0, r0, r3
+ 223 0022 FFF7FEFF 		bl	memcpy
+ 224              	.LVL14:
+  68:../../shields/Murata/src/fifo.c ****         return oss7SUCCESS;
+ 225              		.loc 1 68 0
+ 226 0026 6288     		ldrh	r2, [r4, #2]
+ 227 0028 2A44     		add	r2, r2, r5
+ 228 002a 6280     		strh	r2, [r4, #2]	@ movhi
+  69:../../shields/Murata/src/fifo.c ****     }
+ 229              		.loc 1 69 0
+ 230 002c 0020     		movs	r0, #0
+ 231 002e 23E0     		b	.L9
+ 232              	.LVL15:
+ 233              	.L11:
+  72:../../shields/Murata/src/fifo.c ****     {
+ 234              		.loc 1 72 0
+ 235 0030 D118     		adds	r1, r2, r3
+ 236              	.LVL16:
+ 237 0032 A288     		ldrh	r2, [r4, #4]
+ 238              	.LVL17:
+ 239 0034 9142     		cmp	r1, r2
+ 240 0036 13DD     		ble	.L17
+  79:../../shields/Murata/src/fifo.c ****     uint16_t space_needed_after_wrap = len - space_left_before_max_size;
+ 241              		.loc 1 79 0
+ 242 0038 D21A     		subs	r2, r2, r3
+ 243 003a 97B2     		uxth	r7, r2
+ 244              	.LVL18:
+  80:../../shields/Murata/src/fifo.c ****     if(fifo->head_idx > space_needed_after_wrap)
+ 245              		.loc 1 80 0
+ 246 003c EA1B     		subs	r2, r5, r7
+ 247 003e 95B2     		uxth	r5, r2
+ 248              	.LVL19:
+  81:../../shields/Murata/src/fifo.c ****     {
+ 249              		.loc 1 81 0
+ 250 0040 A842     		cmp	r0, r5
+ 251 0042 1DD9     		bls	.L15
+  84:../../shields/Murata/src/fifo.c ****         memcpy(fifo->buffer, data + space_left_before_max_size, space_needed_after_wrap);
+ 252              		.loc 1 84 0
+ 253 0044 A068     		ldr	r0, [r4, #8]
+ 254 0046 3A46     		mov	r2, r7
+ 255 0048 3146     		mov	r1, r6
+ 256 004a 1844     		add	r0, r0, r3
+ 257 004c FFF7FEFF 		bl	memcpy
+ 258              	.LVL20:
+  85:../../shields/Murata/src/fifo.c ****         fifo->tail_idx = space_needed_after_wrap;
+ 259              		.loc 1 85 0
+ 260 0050 2A46     		mov	r2, r5
+ 261 0052 F119     		adds	r1, r6, r7
+ 262 0054 A068     		ldr	r0, [r4, #8]
+ 263 0056 FFF7FEFF 		bl	memcpy
+ARM GAS  /tmp/ccNLifzn.s 			page 8
+
+
+ 264              	.LVL21:
+  86:../../shields/Murata/src/fifo.c ****         return oss7SUCCESS;
+ 265              		.loc 1 86 0
+ 266 005a 6580     		strh	r5, [r4, #2]	@ movhi
+  87:../../shields/Murata/src/fifo.c ****     }
+ 267              		.loc 1 87 0
+ 268 005c 0020     		movs	r0, #0
+ 269 005e 0BE0     		b	.L9
+ 270              	.LVL22:
+ 271              	.L17:
+  74:../../shields/Murata/src/fifo.c ****         fifo->tail_idx += len;
+ 272              		.loc 1 74 0
+ 273 0060 A068     		ldr	r0, [r4, #8]
+ 274 0062 2A46     		mov	r2, r5
+ 275 0064 3146     		mov	r1, r6
+ 276 0066 1844     		add	r0, r0, r3
+ 277 0068 FFF7FEFF 		bl	memcpy
+ 278              	.LVL23:
+  75:../../shields/Murata/src/fifo.c ****         return oss7SUCCESS;
+ 279              		.loc 1 75 0
+ 280 006c 6288     		ldrh	r2, [r4, #2]
+ 281 006e 2A44     		add	r2, r2, r5
+ 282 0070 6280     		strh	r2, [r4, #2]	@ movhi
+  76:../../shields/Murata/src/fifo.c ****     }
+ 283              		.loc 1 76 0
+ 284 0072 0020     		movs	r0, #0
+ 285 0074 00E0     		b	.L9
+ 286              	.LVL24:
+ 287              	.L13:
+  61:../../shields/Murata/src/fifo.c **** 
+ 288              		.loc 1 61 0
+ 289 0076 1620     		movs	r0, #22
+ 290              	.LVL25:
+ 291              	.L9:
+  91:../../shields/Murata/src/fifo.c **** 
+ 292              		.loc 1 91 0
+ 293 0078 F8BD     		pop	{r3, r4, r5, r6, r7, pc}
+ 294              	.LVL26:
+ 295              	.L14:
+  66:../../shields/Murata/src/fifo.c ****         memcpy(fifo->buffer + fifo->tail_idx, data, len);
+ 296              		.loc 1 66 0
+ 297 007a 41F28A30 		movw	r0, #5002
+ 298 007e FBE7     		b	.L9
+ 299              	.LVL27:
+ 300              	.L15:
+  90:../../shields/Murata/src/fifo.c **** }
+ 301              		.loc 1 90 0
+ 302 0080 41F28A30 		movw	r0, #5002
+ 303 0084 F8E7     		b	.L9
+ 304              		.cfi_endproc
+ 305              	.LFE3:
+ 307              		.section	.text.fifo_put_byte,"ax",%progbits
+ 308              		.align	1
+ 309              		.global	fifo_put_byte
+ 310              		.syntax unified
+ 311              		.thumb
+ 312              		.thumb_func
+ARM GAS  /tmp/ccNLifzn.s 			page 9
+
+
+ 313              		.fpu fpv4-sp-d16
+ 315              	fifo_put_byte:
+ 316              	.LFB4:
+  94:../../shields/Murata/src/fifo.c ****     return fifo_put(fifo, &byte, 1);
+ 317              		.loc 1 94 0
+ 318              		.cfi_startproc
+ 319              		@ args = 0, pretend = 0, frame = 8
+ 320              		@ frame_needed = 0, uses_anonymous_args = 0
+ 321              	.LVL28:
+ 322 0000 00B5     		push	{lr}
+ 323              	.LCFI4:
+ 324              		.cfi_def_cfa_offset 4
+ 325              		.cfi_offset 14, -4
+ 326 0002 83B0     		sub	sp, sp, #12
+ 327              	.LCFI5:
+ 328              		.cfi_def_cfa_offset 16
+ 329 0004 02AB     		add	r3, sp, #8
+ 330 0006 03F8011D 		strb	r1, [r3, #-1]!
+  95:../../shields/Murata/src/fifo.c **** }
+ 331              		.loc 1 95 0
+ 332 000a 0122     		movs	r2, #1
+ 333 000c 1946     		mov	r1, r3
+ 334              	.LVL29:
+ 335 000e FFF7FEFF 		bl	fifo_put
+ 336              	.LVL30:
+  96:../../shields/Murata/src/fifo.c **** 
+ 337              		.loc 1 96 0
+ 338 0012 03B0     		add	sp, sp, #12
+ 339              	.LCFI6:
+ 340              		.cfi_def_cfa_offset 4
+ 341              		@ sp needed
+ 342 0014 5DF804FB 		ldr	pc, [sp], #4
+ 343              		.cfi_endproc
+ 344              	.LFE4:
+ 346              		.section	.text.fifo_get_size,"ax",%progbits
+ 347              		.align	1
+ 348              		.global	fifo_get_size
+ 349              		.syntax unified
+ 350              		.thumb
+ 351              		.thumb_func
+ 352              		.fpu fpv4-sp-d16
+ 354              	fifo_get_size:
+ 355              	.LFB10:
+ 114:../../shields/Murata/src/fifo.c **** 
+ 115:../../shields/Murata/src/fifo.c **** error_t fifo_skip(fifo_t* fifo, uint16_t len) {
+ 116:../../shields/Murata/src/fifo.c ****   error_t err = check_len(fifo, len);
+ 117:../../shields/Murata/src/fifo.c ****   if(err != oss7SUCCESS)
+ 118:../../shields/Murata/src/fifo.c ****     return err;
+ 119:../../shields/Murata/src/fifo.c **** 
+ 120:../../shields/Murata/src/fifo.c ****   skip(fifo, len);
+ 121:../../shields/Murata/src/fifo.c **** 
+ 122:../../shields/Murata/src/fifo.c ****   return oss7SUCCESS;
+ 123:../../shields/Murata/src/fifo.c **** }
+ 124:../../shields/Murata/src/fifo.c **** 
+ 125:../../shields/Murata/src/fifo.c **** error_t fifo_peek(fifo_t* fifo, uint8_t* buffer, uint16_t offset, uint16_t len) {
+ 126:../../shields/Murata/src/fifo.c ****   error_t err = check_len(fifo, len);
+ 127:../../shields/Murata/src/fifo.c ****   if(err != oss7SUCCESS)
+ARM GAS  /tmp/ccNLifzn.s 			page 10
+
+
+ 128:../../shields/Murata/src/fifo.c ****     return err;
+ 129:../../shields/Murata/src/fifo.c **** 
+ 130:../../shields/Murata/src/fifo.c ****   // determine start/end index (in circular buffer)
+ 131:../../shields/Murata/src/fifo.c ****   uint16_t start_idx = (fifo->head_idx + offset) % fifo->max_size;
+ 132:../../shields/Murata/src/fifo.c ****   uint16_t end_idx   = (start_idx      + len   ) % fifo->max_size;
+ 133:../../shields/Murata/src/fifo.c **** 
+ 134:../../shields/Murata/src/fifo.c ****   // simple case: the end doesn't wrap...
+ 135:../../shields/Murata/src/fifo.c ****   // .............
+ 136:../../shields/Murata/src/fifo.c ****   //     S-len->E
+ 137:../../shields/Murata/src/fifo.c ****   if(end_idx >= start_idx) {
+ 138:../../shields/Murata/src/fifo.c ****     memcpy(buffer, fifo->buffer + start_idx, len);
+ 139:../../shields/Murata/src/fifo.c ****     return oss7SUCCESS;
+ 140:../../shields/Murata/src/fifo.c ****   }
+ 141:../../shields/Murata/src/fifo.c **** 
+ 142:../../shields/Murata/src/fifo.c ****   // the end does wrap...
+ 143:../../shields/Murata/src/fifo.c ****   // .............
+ 144:../../shields/Murata/src/fifo.c ****   // ->E S--len-->
+ 145:../../shields/Murata/src/fifo.c ****   //      <--p1-->
+ 146:../../shields/Murata/src/fifo.c ****   uint16_t part1 = fifo->max_size - start_idx;
+ 147:../../shields/Murata/src/fifo.c ****   // copy first part from start up to the end of the buffer
+ 148:../../shields/Murata/src/fifo.c ****   memcpy(buffer,         fifo->buffer + start_idx, part1);
+ 149:../../shields/Murata/src/fifo.c ****   // copy remaining (wrapped) bytes from start
+ 150:../../shields/Murata/src/fifo.c ****   memcpy(buffer + part1, fifo->buffer,             len - part1);
+ 151:../../shields/Murata/src/fifo.c **** 
+ 152:../../shields/Murata/src/fifo.c ****   return oss7SUCCESS;
+ 153:../../shields/Murata/src/fifo.c **** }
+ 154:../../shields/Murata/src/fifo.c **** 
+ 155:../../shields/Murata/src/fifo.c **** error_t fifo_pop(fifo_t* fifo, uint8_t* buffer, uint16_t len) {
+ 156:../../shields/Murata/src/fifo.c ****   // use peek logic to retrieve data
+ 157:../../shields/Murata/src/fifo.c ****   error_t err = fifo_peek(fifo, buffer, 0, len);
+ 158:../../shields/Murata/src/fifo.c ****   if( err != oss7SUCCESS ) { return err; }
+ 159:../../shields/Murata/src/fifo.c **** 
+ 160:../../shields/Murata/src/fifo.c ****   skip(fifo, len);
+ 161:../../shields/Murata/src/fifo.c **** 
+ 162:../../shields/Murata/src/fifo.c ****   return oss7SUCCESS;
+ 163:../../shields/Murata/src/fifo.c **** }
+ 164:../../shields/Murata/src/fifo.c **** 
+ 165:../../shields/Murata/src/fifo.c **** uint16_t fifo_get_size(fifo_t* fifo)
+ 166:../../shields/Murata/src/fifo.c **** {
+ 356              		.loc 1 166 0
+ 357              		.cfi_startproc
+ 358              		@ args = 0, pretend = 0, frame = 0
+ 359              		@ frame_needed = 0, uses_anonymous_args = 0
+ 360              		@ link register save eliminated.
+ 361              	.LVL31:
+ 167:../../shields/Murata/src/fifo.c ****     if(fifo->head_idx <= fifo->tail_idx)
+ 362              		.loc 1 167 0
+ 363 0000 0288     		ldrh	r2, [r0]
+ 364 0002 4388     		ldrh	r3, [r0, #2]
+ 365 0004 9A42     		cmp	r2, r3
+ 366 0006 05D9     		bls	.L23
+ 168:../../shields/Murata/src/fifo.c ****         return fifo->tail_idx - fifo->head_idx;
+ 169:../../shields/Murata/src/fifo.c ****     else
+ 170:../../shields/Murata/src/fifo.c ****         return fifo->tail_idx + (fifo->max_size - fifo->head_idx);
+ 367              		.loc 1 170 0
+ 368 0008 8088     		ldrh	r0, [r0, #4]
+ 369              	.LVL32:
+ARM GAS  /tmp/ccNLifzn.s 			page 11
+
+
+ 370 000a 801A     		subs	r0, r0, r2
+ 371 000c 13FA80F0 		uxtah	r0, r3, r0
+ 372 0010 80B2     		uxth	r0, r0
+ 171:../../shields/Murata/src/fifo.c **** }
+ 373              		.loc 1 171 0
+ 374 0012 7047     		bx	lr
+ 375              	.LVL33:
+ 376              	.L23:
+ 168:../../shields/Murata/src/fifo.c ****         return fifo->tail_idx - fifo->head_idx;
+ 377              		.loc 1 168 0
+ 378 0014 981A     		subs	r0, r3, r2
+ 379              	.LVL34:
+ 380 0016 80B2     		uxth	r0, r0
+ 381 0018 7047     		bx	lr
+ 382              		.cfi_endproc
+ 383              	.LFE10:
+ 385              		.section	.text.check_len,"ax",%progbits
+ 386              		.align	1
+ 387              		.syntax unified
+ 388              		.thumb
+ 389              		.thumb_func
+ 390              		.fpu fpv4-sp-d16
+ 392              	check_len:
+ 393              	.LFB5:
+  98:../../shields/Murata/src/fifo.c ****   // quickly bail out if requested length is zero, nothing to do
+ 394              		.loc 1 98 0
+ 395              		.cfi_startproc
+ 396              		@ args = 0, pretend = 0, frame = 0
+ 397              		@ frame_needed = 0, uses_anonymous_args = 0
+ 398              	.LVL35:
+ 100:../../shields/Murata/src/fifo.c **** 
+ 399              		.loc 1 100 0
+ 400 0000 51B1     		cbz	r1, .L26
+  98:../../shields/Murata/src/fifo.c ****   // quickly bail out if requested length is zero, nothing to do
+ 401              		.loc 1 98 0
+ 402 0002 10B5     		push	{r4, lr}
+ 403              	.LCFI7:
+ 404              		.cfi_def_cfa_offset 8
+ 405              		.cfi_offset 4, -8
+ 406              		.cfi_offset 14, -4
+ 407 0004 0C46     		mov	r4, r1
+ 103:../../shields/Murata/src/fifo.c **** 
+ 408              		.loc 1 103 0
+ 409 0006 FFF7FEFF 		bl	fifo_get_size
+ 410              	.LVL36:
+ 411 000a A042     		cmp	r0, r4
+ 412 000c 01D3     		bcc	.L32
+ 105:../../shields/Murata/src/fifo.c **** }
+ 413              		.loc 1 105 0
+ 414 000e 0020     		movs	r0, #0
+ 415              	.L24:
+ 106:../../shields/Murata/src/fifo.c **** 
+ 416              		.loc 1 106 0
+ 417 0010 10BD     		pop	{r4, pc}
+ 418              	.L32:
+ 103:../../shields/Murata/src/fifo.c **** 
+ 419              		.loc 1 103 0
+ARM GAS  /tmp/ccNLifzn.s 			page 12
+
+
+ 420 0012 41F28A30 		movw	r0, #5002
+ 421 0016 FBE7     		b	.L24
+ 422              	.LVL37:
+ 423              	.L26:
+ 424              	.LCFI8:
+ 425              		.cfi_def_cfa_offset 0
+ 426              		.cfi_restore 4
+ 427              		.cfi_restore 14
+ 100:../../shields/Murata/src/fifo.c **** 
+ 428              		.loc 1 100 0
+ 429 0018 0020     		movs	r0, #0
+ 430              	.LVL38:
+ 106:../../shields/Murata/src/fifo.c **** 
+ 431              		.loc 1 106 0
+ 432 001a 7047     		bx	lr
+ 433              		.cfi_endproc
+ 434              	.LFE5:
+ 436              		.section	.text.fifo_skip,"ax",%progbits
+ 437              		.align	1
+ 438              		.global	fifo_skip
+ 439              		.syntax unified
+ 440              		.thumb
+ 441              		.thumb_func
+ 442              		.fpu fpv4-sp-d16
+ 444              	fifo_skip:
+ 445              	.LFB7:
+ 115:../../shields/Murata/src/fifo.c ****   error_t err = check_len(fifo, len);
+ 446              		.loc 1 115 0
+ 447              		.cfi_startproc
+ 448              		@ args = 0, pretend = 0, frame = 0
+ 449              		@ frame_needed = 0, uses_anonymous_args = 0
+ 450              	.LVL39:
+ 451 0000 70B5     		push	{r4, r5, r6, lr}
+ 452              	.LCFI9:
+ 453              		.cfi_def_cfa_offset 16
+ 454              		.cfi_offset 4, -16
+ 455              		.cfi_offset 5, -12
+ 456              		.cfi_offset 6, -8
+ 457              		.cfi_offset 14, -4
+ 458 0002 0546     		mov	r5, r0
+ 459 0004 0E46     		mov	r6, r1
+ 116:../../shields/Murata/src/fifo.c ****   if(err != oss7SUCCESS)
+ 460              		.loc 1 116 0
+ 461 0006 FFF7FEFF 		bl	check_len
+ 462              	.LVL40:
+ 117:../../shields/Murata/src/fifo.c ****     return err;
+ 463              		.loc 1 117 0
+ 464 000a 0446     		mov	r4, r0
+ 465 000c 08B1     		cbz	r0, .L36
+ 466              	.LVL41:
+ 467              	.L33:
+ 123:../../shields/Murata/src/fifo.c **** 
+ 468              		.loc 1 123 0
+ 469 000e 2046     		mov	r0, r4
+ 470 0010 70BD     		pop	{r4, r5, r6, pc}
+ 471              	.LVL42:
+ 472              	.L36:
+ARM GAS  /tmp/ccNLifzn.s 			page 13
+
+
+ 120:../../shields/Murata/src/fifo.c **** 
+ 473              		.loc 1 120 0
+ 474 0012 3146     		mov	r1, r6
+ 475 0014 2846     		mov	r0, r5
+ 476              	.LVL43:
+ 477 0016 FFF7FEFF 		bl	skip
+ 478              	.LVL44:
+ 122:../../shields/Murata/src/fifo.c **** }
+ 479              		.loc 1 122 0
+ 480 001a F8E7     		b	.L33
+ 481              		.cfi_endproc
+ 482              	.LFE7:
+ 484              		.section	.text.fifo_peek,"ax",%progbits
+ 485              		.align	1
+ 486              		.global	fifo_peek
+ 487              		.syntax unified
+ 488              		.thumb
+ 489              		.thumb_func
+ 490              		.fpu fpv4-sp-d16
+ 492              	fifo_peek:
+ 493              	.LFB8:
+ 125:../../shields/Murata/src/fifo.c ****   error_t err = check_len(fifo, len);
+ 494              		.loc 1 125 0
+ 495              		.cfi_startproc
+ 496              		@ args = 0, pretend = 0, frame = 0
+ 497              		@ frame_needed = 0, uses_anonymous_args = 0
+ 498              	.LVL45:
+ 499 0000 2DE9F041 		push	{r4, r5, r6, r7, r8, lr}
+ 500              	.LCFI10:
+ 501              		.cfi_def_cfa_offset 24
+ 502              		.cfi_offset 4, -24
+ 503              		.cfi_offset 5, -20
+ 504              		.cfi_offset 6, -16
+ 505              		.cfi_offset 7, -12
+ 506              		.cfi_offset 8, -8
+ 507              		.cfi_offset 14, -4
+ 508 0004 0646     		mov	r6, r0
+ 509 0006 8846     		mov	r8, r1
+ 510 0008 1446     		mov	r4, r2
+ 511 000a 1D46     		mov	r5, r3
+ 126:../../shields/Murata/src/fifo.c ****   if(err != oss7SUCCESS)
+ 512              		.loc 1 126 0
+ 513 000c 1946     		mov	r1, r3
+ 514              	.LVL46:
+ 515 000e FFF7FEFF 		bl	check_len
+ 516              	.LVL47:
+ 127:../../shields/Murata/src/fifo.c ****     return err;
+ 517              		.loc 1 127 0
+ 518 0012 0746     		mov	r7, r0
+ 519 0014 E8B9     		cbnz	r0, .L37
+ 131:../../shields/Murata/src/fifo.c ****   uint16_t end_idx   = (start_idx      + len   ) % fifo->max_size;
+ 520              		.loc 1 131 0
+ 521 0016 3288     		ldrh	r2, [r6]
+ 522 0018 2244     		add	r2, r2, r4
+ 523 001a B388     		ldrh	r3, [r6, #4]
+ 524 001c 92FBF3F1 		sdiv	r1, r2, r3
+ 525 0020 03FB1121 		mls	r1, r3, r1, r2
+ARM GAS  /tmp/ccNLifzn.s 			page 14
+
+
+ 526 0024 89B2     		uxth	r1, r1
+ 527              	.LVL48:
+ 132:../../shields/Murata/src/fifo.c **** 
+ 528              		.loc 1 132 0
+ 529 0026 6818     		adds	r0, r5, r1
+ 530              	.LVL49:
+ 531 0028 90FBF3F2 		sdiv	r2, r0, r3
+ 532 002c 03FB1202 		mls	r2, r3, r2, r0
+ 533 0030 92B2     		uxth	r2, r2
+ 534              	.LVL50:
+ 137:../../shields/Murata/src/fifo.c ****     memcpy(buffer, fifo->buffer + start_idx, len);
+ 535              		.loc 1 137 0
+ 536 0032 9142     		cmp	r1, r2
+ 537 0034 10D9     		bls	.L41
+ 146:../../shields/Murata/src/fifo.c ****   // copy first part from start up to the end of the buffer
+ 538              		.loc 1 146 0
+ 539 0036 5B1A     		subs	r3, r3, r1
+ 540 0038 9CB2     		uxth	r4, r3
+ 541              	.LVL51:
+ 148:../../shields/Murata/src/fifo.c ****   // copy remaining (wrapped) bytes from start
+ 542              		.loc 1 148 0
+ 543 003a B368     		ldr	r3, [r6, #8]
+ 544 003c 2246     		mov	r2, r4
+ 545              	.LVL52:
+ 546 003e 1944     		add	r1, r1, r3
+ 547              	.LVL53:
+ 548 0040 4046     		mov	r0, r8
+ 549              	.LVL54:
+ 550 0042 FFF7FEFF 		bl	memcpy
+ 551              	.LVL55:
+ 150:../../shields/Murata/src/fifo.c **** 
+ 552              		.loc 1 150 0
+ 553 0046 2A1B     		subs	r2, r5, r4
+ 554 0048 B168     		ldr	r1, [r6, #8]
+ 555 004a 08EB0400 		add	r0, r8, r4
+ 556 004e FFF7FEFF 		bl	memcpy
+ 557              	.LVL56:
+ 558              	.L37:
+ 153:../../shields/Murata/src/fifo.c **** 
+ 559              		.loc 1 153 0
+ 560 0052 3846     		mov	r0, r7
+ 561 0054 BDE8F081 		pop	{r4, r5, r6, r7, r8, pc}
+ 562              	.LVL57:
+ 563              	.L41:
+ 138:../../shields/Murata/src/fifo.c ****     return oss7SUCCESS;
+ 564              		.loc 1 138 0
+ 565 0058 B368     		ldr	r3, [r6, #8]
+ 566 005a 2A46     		mov	r2, r5
+ 567              	.LVL58:
+ 568 005c 1944     		add	r1, r1, r3
+ 569              	.LVL59:
+ 570 005e 4046     		mov	r0, r8
+ 571              	.LVL60:
+ 572 0060 FFF7FEFF 		bl	memcpy
+ 573              	.LVL61:
+ 139:../../shields/Murata/src/fifo.c ****   }
+ 574              		.loc 1 139 0
+ARM GAS  /tmp/ccNLifzn.s 			page 15
+
+
+ 575 0064 F5E7     		b	.L37
+ 576              		.cfi_endproc
+ 577              	.LFE8:
+ 579              		.section	.text.fifo_pop,"ax",%progbits
+ 580              		.align	1
+ 581              		.global	fifo_pop
+ 582              		.syntax unified
+ 583              		.thumb
+ 584              		.thumb_func
+ 585              		.fpu fpv4-sp-d16
+ 587              	fifo_pop:
+ 588              	.LFB9:
+ 155:../../shields/Murata/src/fifo.c ****   // use peek logic to retrieve data
+ 589              		.loc 1 155 0
+ 590              		.cfi_startproc
+ 591              		@ args = 0, pretend = 0, frame = 0
+ 592              		@ frame_needed = 0, uses_anonymous_args = 0
+ 593              	.LVL62:
+ 594 0000 70B5     		push	{r4, r5, r6, lr}
+ 595              	.LCFI11:
+ 596              		.cfi_def_cfa_offset 16
+ 597              		.cfi_offset 4, -16
+ 598              		.cfi_offset 5, -12
+ 599              		.cfi_offset 6, -8
+ 600              		.cfi_offset 14, -4
+ 601 0002 0646     		mov	r6, r0
+ 602 0004 1446     		mov	r4, r2
+ 157:../../shields/Murata/src/fifo.c ****   if( err != oss7SUCCESS ) { return err; }
+ 603              		.loc 1 157 0
+ 604 0006 1346     		mov	r3, r2
+ 605 0008 0022     		movs	r2, #0
+ 606              	.LVL63:
+ 607 000a FFF7FEFF 		bl	fifo_peek
+ 608              	.LVL64:
+ 158:../../shields/Murata/src/fifo.c **** 
+ 609              		.loc 1 158 0
+ 610 000e 0546     		mov	r5, r0
+ 611 0010 08B1     		cbz	r0, .L45
+ 612              	.LVL65:
+ 613              	.L42:
+ 163:../../shields/Murata/src/fifo.c **** 
+ 614              		.loc 1 163 0
+ 615 0012 2846     		mov	r0, r5
+ 616 0014 70BD     		pop	{r4, r5, r6, pc}
+ 617              	.LVL66:
+ 618              	.L45:
+ 160:../../shields/Murata/src/fifo.c **** 
+ 619              		.loc 1 160 0
+ 620 0016 2146     		mov	r1, r4
+ 621 0018 3046     		mov	r0, r6
+ 622              	.LVL67:
+ 623 001a FFF7FEFF 		bl	skip
+ 624              	.LVL68:
+ 162:../../shields/Murata/src/fifo.c **** }
+ 625              		.loc 1 162 0
+ 626 001e F8E7     		b	.L42
+ 627              		.cfi_endproc
+ARM GAS  /tmp/ccNLifzn.s 			page 16
+
+
+ 628              	.LFE9:
+ 630              		.section	.text.fifo_clear,"ax",%progbits
+ 631              		.align	1
+ 632              		.global	fifo_clear
+ 633              		.syntax unified
+ 634              		.thumb
+ 635              		.thumb_func
+ 636              		.fpu fpv4-sp-d16
+ 638              	fifo_clear:
+ 639              	.LFB11:
+ 172:../../shields/Murata/src/fifo.c **** 
+ 173:../../shields/Murata/src/fifo.c **** void fifo_clear(fifo_t* fifo)
+ 174:../../shields/Murata/src/fifo.c **** {
+ 640              		.loc 1 174 0
+ 641              		.cfi_startproc
+ 642              		@ args = 0, pretend = 0, frame = 0
+ 643              		@ frame_needed = 0, uses_anonymous_args = 0
+ 644              		@ link register save eliminated.
+ 645              	.LVL69:
+ 175:../../shields/Murata/src/fifo.c ****     fifo->head_idx = 0;
+ 646              		.loc 1 175 0
+ 647 0000 0023     		movs	r3, #0
+ 648 0002 0380     		strh	r3, [r0]	@ movhi
+ 176:../../shields/Murata/src/fifo.c ****     fifo->tail_idx = 0;
+ 649              		.loc 1 176 0
+ 650 0004 4380     		strh	r3, [r0, #2]	@ movhi
+ 177:../../shields/Murata/src/fifo.c **** }
+ 651              		.loc 1 177 0
+ 652 0006 7047     		bx	lr
+ 653              		.cfi_endproc
+ 654              	.LFE11:
+ 656              		.section	.text.fifo_is_full,"ax",%progbits
+ 657              		.align	1
+ 658              		.global	fifo_is_full
+ 659              		.syntax unified
+ 660              		.thumb
+ 661              		.thumb_func
+ 662              		.fpu fpv4-sp-d16
+ 664              	fifo_is_full:
+ 665              	.LFB12:
+ 178:../../shields/Murata/src/fifo.c **** 
+ 179:../../shields/Murata/src/fifo.c **** bool fifo_is_full(fifo_t* fifo) {
+ 666              		.loc 1 179 0
+ 667              		.cfi_startproc
+ 668              		@ args = 0, pretend = 0, frame = 0
+ 669              		@ frame_needed = 0, uses_anonymous_args = 0
+ 670              	.LVL70:
+ 671 0000 10B5     		push	{r4, lr}
+ 672              	.LCFI12:
+ 673              		.cfi_def_cfa_offset 8
+ 674              		.cfi_offset 4, -8
+ 675              		.cfi_offset 14, -4
+ 676 0002 0446     		mov	r4, r0
+ 180:../../shields/Murata/src/fifo.c ****     return fifo_get_size(fifo) == fifo->max_size;
+ 677              		.loc 1 180 0
+ 678 0004 FFF7FEFF 		bl	fifo_get_size
+ 679              	.LVL71:
+ARM GAS  /tmp/ccNLifzn.s 			page 17
+
+
+ 680 0008 A388     		ldrh	r3, [r4, #4]
+ 181:../../shields/Murata/src/fifo.c **** }
+ 681              		.loc 1 181 0
+ 682 000a 9842     		cmp	r0, r3
+ 683 000c 14BF     		ite	ne
+ 684 000e 0020     		movne	r0, #0
+ 685 0010 0120     		moveq	r0, #1
+ 686 0012 10BD     		pop	{r4, pc}
+ 687              		.cfi_endproc
+ 688              	.LFE12:
+ 690              		.text
+ 691              	.Letext0:
+ 692              		.file 2 "/home/mats/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/machine/_default_type
+ 693              		.file 3 "/home/mats/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/sys/_stdint.h"
+ 694              		.file 4 "../../shields/Murata/inc/types.h"
+ 695              		.file 5 "../../shields/Murata/inc/fifo.h"
+ 696              		.file 6 "/home/mats/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/sys/lock.h"
+ 697              		.file 7 "/home/mats/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/sys/_types.h"
+ 698              		.file 8 "/home/mats/gcc-arm-none-eabi-7-2018-q2-update/lib/gcc/arm-none-eabi/7.3.1/include/stddef.
+ 699              		.file 9 "/home/mats/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/sys/reent.h"
+ 700              		.file 10 "/home/mats/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/sys/errno.h"
+ 701              		.file 11 "<built-in>"
+ARM GAS  /tmp/ccNLifzn.s 			page 18
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 fifo.c
+     /tmp/ccNLifzn.s:18     .text.skip:0000000000000000 $t
+     /tmp/ccNLifzn.s:24     .text.skip:0000000000000000 skip
+     /tmp/ccNLifzn.s:54     .text.fifo_init_filled:0000000000000000 $t
+     /tmp/ccNLifzn.s:61     .text.fifo_init_filled:0000000000000000 fifo_init_filled
+     /tmp/ccNLifzn.s:89     .text.fifo_init:0000000000000000 $t
+     /tmp/ccNLifzn.s:96     .text.fifo_init:0000000000000000 fifo_init
+     /tmp/ccNLifzn.s:120    .text.fifo_init_subview:0000000000000000 $t
+     /tmp/ccNLifzn.s:127    .text.fifo_init_subview:0000000000000000 fifo_init_subview
+     /tmp/ccNLifzn.s:178    .text.fifo_put:0000000000000000 $t
+     /tmp/ccNLifzn.s:185    .text.fifo_put:0000000000000000 fifo_put
+     /tmp/ccNLifzn.s:308    .text.fifo_put_byte:0000000000000000 $t
+     /tmp/ccNLifzn.s:315    .text.fifo_put_byte:0000000000000000 fifo_put_byte
+     /tmp/ccNLifzn.s:347    .text.fifo_get_size:0000000000000000 $t
+     /tmp/ccNLifzn.s:354    .text.fifo_get_size:0000000000000000 fifo_get_size
+     /tmp/ccNLifzn.s:386    .text.check_len:0000000000000000 $t
+     /tmp/ccNLifzn.s:392    .text.check_len:0000000000000000 check_len
+     /tmp/ccNLifzn.s:437    .text.fifo_skip:0000000000000000 $t
+     /tmp/ccNLifzn.s:444    .text.fifo_skip:0000000000000000 fifo_skip
+     /tmp/ccNLifzn.s:485    .text.fifo_peek:0000000000000000 $t
+     /tmp/ccNLifzn.s:492    .text.fifo_peek:0000000000000000 fifo_peek
+     /tmp/ccNLifzn.s:580    .text.fifo_pop:0000000000000000 $t
+     /tmp/ccNLifzn.s:587    .text.fifo_pop:0000000000000000 fifo_pop
+     /tmp/ccNLifzn.s:631    .text.fifo_clear:0000000000000000 $t
+     /tmp/ccNLifzn.s:638    .text.fifo_clear:0000000000000000 fifo_clear
+     /tmp/ccNLifzn.s:657    .text.fifo_is_full:0000000000000000 $t
+     /tmp/ccNLifzn.s:664    .text.fifo_is_full:0000000000000000 fifo_is_full
+
+UNDEFINED SYMBOLS
+memcpy

@@ -1,0 +1,219 @@
+# TODO: stack version (riot)?
+
+# Globally set default goal to `all`
+.DEFAULT_GOAL := all
+
+######################################
+# building variables
+######################################
+# debug build?
+DEBUG = 1
+# optimization
+OPT = -Og
+
+# CHECK OS
+ifeq ($(OS),Windows_NT)
+	WINDOWS = 1
+endif
+
+#######################################
+# paths
+#######################################
+# set undefined variables
+PLATFORM_DIR    ?= $(STACKBASE)/core/platform
+DRIVERS_DIR     ?= $(STACKBASE)/core/drivers
+ST_DIR          ?= $(STACKBASE)/core/ST
+APPLICATION_DIR ?= $(STACKBASE)/applications/$(APPLICATION)
+BUILD_DIR       ?= $(STACKBASE)/applications/$(APPLICATION)/build
+STM32CUBEPROG   ?= $(STACKBASE)/core/ST/STM32CubeProgrammer/bin/STM32_Programmer_CLI
+
+######################################
+# source
+######################################
+# check if valid application name
+ifeq (, $(APPLICATION))
+    $(error An application name must be specified as APPLICATION in the Makefile.)
+endif
+
+# application C sources
+C_SOURCES += $(wildcard $(APPLICATION_DIR)/src/*.c)
+
+# INCLUDES
+# application AS includes
+AS_INCLUDES += -I$(APPLICATION_DIR)/inc
+
+# application includes
+C_INCLUDES += -I$(APPLICATION_DIR)/inc
+
+# include shield makefiles
+include $(STACKBASE)/shields/Makefile.shields
+
+# include the platform Makefile.platform
+include $(PLATFORM_DIR)/Makefile.platform
+
+# include the core drivers's Makefile
+include $(DRIVERS_DIR)/Makefile.drivers
+
+#######################################
+# binaries
+#######################################
+PREFIX = arm-none-eabi-
+# The gcc compiler bin path can be either defined in make command via GCC_PATH variable (> make GCC_PATH=xxx)
+# either it can be added to the PATH environment variable.
+ifdef GCC_PATH
+CC = $(GCC_PATH)/$(PREFIX)gcc
+AS = $(GCC_PATH)/$(PREFIX)gcc -x assembler-with-cpp
+CP = $(GCC_PATH)/$(PREFIX)objcopy
+SZ = $(GCC_PATH)/$(PREFIX)size
+else
+CC = $(PREFIX)gcc
+AS = $(PREFIX)gcc -x assembler-with-cpp
+CP = $(PREFIX)objcopy
+SZ = $(PREFIX)size
+endif
+HEX = $(CP) -O ihex
+BIN = $(CP) -O binary -S
+ 
+#######################################
+# CFLAGS
+#######################################
+# float-abi
+FLOAT-ABI = -mfloat-abi=hard
+
+# mcu
+MCU = $(CPU) -mthumb $(FPU) $(FLOAT-ABI)
+
+# macros for gcc
+# AS defines
+AS_DEFS = 
+
+# compile gcc flags
+ASFLAGS = $(MCU) $(AS_DEFS) $(AS_INCLUDES) $(OPT) -Wall -fdata-sections -ffunction-sections
+
+CFLAGS = $(MCU) $(C_DEFS) $(C_INCLUDES) $(OPT) -Wall -fdata-sections -ffunction-sections
+
+ifeq ($(DEBUG), 1)
+	CFLAGS += -g -gdwarf-2
+endif
+
+# Generate dependency information
+CFLAGS += -MMD -MP -MF"$(@:%.o=%.d)"
+
+#######################################
+# LDFLAGS
+#######################################
+# libraries
+LIBS = -lc -lm -lnosys 
+LIBDIR =
+LDFLAGS = $(MCU) -specs=nano.specs -L$(ST_DIR)/SECoreBin/Startup -T$(LDSCRIPT) $(LIBDIR) $(LIBS) -Wl,-Map=$(BUILD_DIR)/$(APPLICATION).map,--cref -Wl,--gc-sections
+
+ifeq ($(PRINT_FLOATS), 1)
+  LDFLAGS += -u _printf_float -u _sprintf_float
+endif
+
+#######################################
+# bootloader define
+#######################################
+ifeq ($(BOOTLOADER),1)
+	USER_DEFINES += -DUSE_BOOTLOADER=1
+	TARGET = $(APPLICATION)-btl
+else
+	USER_DEFINES += -DUSE_BOOTLOADER=0
+	TARGET = $(APPLICATION)
+endif
+
+#######################################
+# stepup define
+#######################################
+ifeq ($(ENABLE_STEPUP),1)
+	USER_DEFINES += -DENABLE_STEPUP=1
+else
+	USER_DEFINES += -DENABLE_STEPUP=0
+endif
+
+#######################################
+# Low power define
+#######################################
+ifeq ($(LOW_POWER),1)
+	USER_DEFINES += -DLOW_POWER=1
+else
+	USER_DEFINES += -DLOW_POWER=0
+endif
+
+# default action: build all
+all: $(BUILD_DIR)/$(TARGET).elf $(BUILD_DIR)/$(TARGET).hex $(BUILD_DIR)/$(TARGET).bin
+
+#######################################
+# build the application
+#######################################
+# list of objects
+OBJECTS = $(addprefix $(BUILD_DIR)/,$(notdir $(C_SOURCES:.c=.o)))
+vpath %.c $(sort $(dir $(C_SOURCES)))
+# list of ASM program objects
+OBJECTS += $(addprefix $(BUILD_DIR)/,$(notdir $(ASM_SOURCES:.s=.o)))
+vpath %.s $(sort $(dir $(ASM_SOURCES)))
+
+# pass defines
+$(BUILD_DIR)/%.o: %.c Makefile | $(BUILD_DIR) 
+	$(CC) -c $(CFLAGS) $(PLATFORM_DEFINE) $(SHIELD_DEFINES) $(USER_DEFINES) -Wa,-a,-ad,-alms=$(BUILD_DIR)/$(notdir $(<:.c=.lst)) $< -o $@
+
+$(BUILD_DIR)/%.o: %.s Makefile | $(BUILD_DIR)
+	$(AS) -c $(CFLAGS) $(PLATFORM_DEFINE) $(SHIELD_DEFINES) $(USER_DEFINES) $< -o $@
+
+$(BUILD_DIR)/$(TARGET).elf: $(OBJECTS) Makefile
+	$(CC) $(OBJECTS) $(LDFLAGS) -o $@
+	$(SZ) $@
+
+$(BUILD_DIR)/%.hex: $(BUILD_DIR)/%.elf | $(BUILD_DIR)
+	$(HEX) $< $@
+	
+$(BUILD_DIR)/%.bin: $(BUILD_DIR)/%.elf | $(BUILD_DIR)
+	$(BIN) $< $@	
+	
+$(BUILD_DIR):
+	mkdir $@
+
+#######################################
+# clean up
+#######################################
+clean:
+	-rm -fR $(BUILD_DIR)
+
+#######################################
+# create-jlink-flash-script
+#######################################
+create-jlink-flash-script:
+ifeq ($(WINDOWS), 1)
+	echo r >> $(BUILD_DIR)/jlink-flash.jlink;echo h>> $(BUILD_DIR)/jlink-flash.jlink; echo loadbin $(BUILD_DIR)/$(TARGET).hex 0x8000000 >> $(BUILD_DIR)/jlink-flash.jlink; echo verifybin $(BUILD_DIR)/$(TARGET).hex 0x8000000 >> $(BUILD_DIR)/jlink-flash.jlink;echo r>> $(BUILD_DIR)/jlink-flash.jlink; echo qc >> $(BUILD_DIR)/jlink-flash.jlink
+else
+	echo r\\nh\\nloadbin $(BUILD_DIR)/$(TARGET).hex 0x8000000\\nverifybin $(BUILD_DIR)/$(TARGET).hex 0x8000000\\nr\\nqc >> $(BUILD_DIR)/jlink-flash.jlink
+endif	
+
+#######################################
+# flash jlink
+#######################################
+flash-jlink: all create-jlink-flash-script
+ifeq ($(WINDOWS), 1)
+	JLink.exe -device STM32L496ZG -if swd -speed 4000 -autoconnect 1 -CommanderScript $(BUILD_DIR)/jlink-flash.jlink
+	del $(BUILD_DIR)/jlink-flash.jlink
+else
+	JLinkExe -device STM32L496ZG -if swd -speed 4000 -autoconnect 1 -CommanderScript $(BUILD_DIR)/jlink-flash.jlink
+	rm $(BUILD_DIR)/jlink-flash.jlink
+endif
+
+#######################################
+# flash st32cubeprog
+#######################################
+flash-st: all
+ifeq ($(WINDOWS), 1)
+	$(STM32CUBEPROG).exe --connect port=swd --readunprotect --optionbytes WRP1A_STRT=0xff WRP1A_END=0x00 --download $(BUILD_DIR)/$(TARGET).elf -g
+else
+	$(STM32CUBEPROG) --connect port=swd --readunprotect --optionbytes WRP1A_STRT=0xff WRP1A_END=0x00 --download $(BUILD_DIR)/$(TARGET).elf -rst -g
+endif
+
+#######################################
+# dependencies
+#######################################
+-include $(wildcard $(BUILD_DIR)/*.d)	
+
+# *** EOF ***

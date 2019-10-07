@@ -1,0 +1,767 @@
+ARM GAS  /tmp/ccTAaWWF.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 28, 1
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.file	"hello-world.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.text.StartDefaultTask,"ax",%progbits
+  18              		.align	1
+  19              		.global	StartDefaultTask
+  20              		.syntax unified
+  21              		.thumb
+  22              		.thumb_func
+  23              		.fpu fpv4-sp-d16
+  25              	StartDefaultTask:
+  26              	.LFB130:
+  27              		.file 1 "../../applications/hello-world/src/hello-world.c"
+   1:../../applications/hello-world/src/hello-world.c **** /* USER CODE BEGIN Header */
+   2:../../applications/hello-world/src/hello-world.c **** /**
+   3:../../applications/hello-world/src/hello-world.c ****   ******************************************************************************
+   4:../../applications/hello-world/src/hello-world.c ****   * @file           : main.c
+   5:../../applications/hello-world/src/hello-world.c ****   * @brief          : Main program body
+   6:../../applications/hello-world/src/hello-world.c ****   ******************************************************************************
+   7:../../applications/hello-world/src/hello-world.c ****   * This notice applies to any and all portions of this file
+   8:../../applications/hello-world/src/hello-world.c ****   * that are not between comment pairs USER CODE BEGIN and
+   9:../../applications/hello-world/src/hello-world.c ****   * USER CODE END. Other portions of this file, whether 
+  10:../../applications/hello-world/src/hello-world.c ****   * inserted by the user or by software development tools
+  11:../../applications/hello-world/src/hello-world.c ****   * are owned by their respective copyright owners.
+  12:../../applications/hello-world/src/hello-world.c ****   *
+  13:../../applications/hello-world/src/hello-world.c ****   * Copyright (c) 2019 STMicroelectronics International N.V. 
+  14:../../applications/hello-world/src/hello-world.c ****   * All rights reserved.
+  15:../../applications/hello-world/src/hello-world.c ****   *
+  16:../../applications/hello-world/src/hello-world.c ****   * Redistribution and use in source and binary forms, with or without 
+  17:../../applications/hello-world/src/hello-world.c ****   * modification, are permitted, provided that the following conditions are met:
+  18:../../applications/hello-world/src/hello-world.c ****   *
+  19:../../applications/hello-world/src/hello-world.c ****   * 1. Redistribution of source code must retain the above copyright notice, 
+  20:../../applications/hello-world/src/hello-world.c ****   *    this list of conditions and the following disclaimer.
+  21:../../applications/hello-world/src/hello-world.c ****   * 2. Redistributions in binary form must reproduce the above copyright notice,
+  22:../../applications/hello-world/src/hello-world.c ****   *    this list of conditions and the following disclaimer in the documentation
+  23:../../applications/hello-world/src/hello-world.c ****   *    and/or other materials provided with the distribution.
+  24:../../applications/hello-world/src/hello-world.c ****   * 3. Neither the name of STMicroelectronics nor the names of other 
+  25:../../applications/hello-world/src/hello-world.c ****   *    contributors to this software may be used to endorse or promote products 
+  26:../../applications/hello-world/src/hello-world.c ****   *    derived from this software without specific written permission.
+  27:../../applications/hello-world/src/hello-world.c ****   * 4. This software, including modifications and/or derivative works of this 
+  28:../../applications/hello-world/src/hello-world.c ****   *    software, must execute solely and exclusively on microcontroller or
+  29:../../applications/hello-world/src/hello-world.c ****   *    microprocessor devices manufactured by or for STMicroelectronics.
+  30:../../applications/hello-world/src/hello-world.c ****   * 5. Redistribution and use of this software other than as permitted under 
+  31:../../applications/hello-world/src/hello-world.c ****   *    this license is void and will automatically terminate your rights under 
+ARM GAS  /tmp/ccTAaWWF.s 			page 2
+
+
+  32:../../applications/hello-world/src/hello-world.c ****   *    this license. 
+  33:../../applications/hello-world/src/hello-world.c ****   *
+  34:../../applications/hello-world/src/hello-world.c ****   * THIS SOFTWARE IS PROVIDED BY STMICROELECTRONICS AND CONTRIBUTORS "AS IS" 
+  35:../../applications/hello-world/src/hello-world.c ****   * AND ANY EXPRESS, IMPLIED OR STATUTORY WARRANTIES, INCLUDING, BUT NOT 
+  36:../../applications/hello-world/src/hello-world.c ****   * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A 
+  37:../../applications/hello-world/src/hello-world.c ****   * PARTICULAR PURPOSE AND NON-INFRINGEMENT OF THIRD PARTY INTELLECTUAL PROPERTY
+  38:../../applications/hello-world/src/hello-world.c ****   * RIGHTS ARE DISCLAIMED TO THE FULLEST EXTENT PERMITTED BY LAW. IN NO EVENT 
+  39:../../applications/hello-world/src/hello-world.c ****   * SHALL STMICROELECTRONICS OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+  40:../../applications/hello-world/src/hello-world.c ****   * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+  41:../../applications/hello-world/src/hello-world.c ****   * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, 
+  42:../../applications/hello-world/src/hello-world.c ****   * OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF 
+  43:../../applications/hello-world/src/hello-world.c ****   * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING 
+  44:../../applications/hello-world/src/hello-world.c ****   * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
+  45:../../applications/hello-world/src/hello-world.c ****   * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+  46:../../applications/hello-world/src/hello-world.c ****   *
+  47:../../applications/hello-world/src/hello-world.c ****   ******************************************************************************
+  48:../../applications/hello-world/src/hello-world.c ****   */
+  49:../../applications/hello-world/src/hello-world.c **** /* USER CODE END Header */
+  50:../../applications/hello-world/src/hello-world.c **** 
+  51:../../applications/hello-world/src/hello-world.c **** /* Includes ------------------------------------------------------------------*/
+  52:../../applications/hello-world/src/hello-world.c **** #include "hello-world.h"
+  53:../../applications/hello-world/src/hello-world.c **** /* Private includes ----------------------------------------------------------*/
+  54:../../applications/hello-world/src/hello-world.c **** /* USER CODE BEGIN Includes */
+  55:../../applications/hello-world/src/hello-world.c **** 
+  56:../../applications/hello-world/src/hello-world.c **** 
+  57:../../applications/hello-world/src/hello-world.c **** /* USER CODE END Includes */
+  58:../../applications/hello-world/src/hello-world.c **** 
+  59:../../applications/hello-world/src/hello-world.c **** /* Private typedef -----------------------------------------------------------*/
+  60:../../applications/hello-world/src/hello-world.c **** /* USER CODE BEGIN PTD */
+  61:../../applications/hello-world/src/hello-world.c **** 
+  62:../../applications/hello-world/src/hello-world.c **** /* USER CODE END PTD */
+  63:../../applications/hello-world/src/hello-world.c **** 
+  64:../../applications/hello-world/src/hello-world.c **** /* Private define ------------------------------------------------------------*/
+  65:../../applications/hello-world/src/hello-world.c **** /* USER CODE BEGIN PD */
+  66:../../applications/hello-world/src/hello-world.c **** 
+  67:../../applications/hello-world/src/hello-world.c **** /* USER CODE END PD */
+  68:../../applications/hello-world/src/hello-world.c **** 
+  69:../../applications/hello-world/src/hello-world.c **** /* Private macro -------------------------------------------------------------*/
+  70:../../applications/hello-world/src/hello-world.c **** /* USER CODE BEGIN PM */
+  71:../../applications/hello-world/src/hello-world.c **** 
+  72:../../applications/hello-world/src/hello-world.c **** /* USER CODE END PM */
+  73:../../applications/hello-world/src/hello-world.c **** 
+  74:../../applications/hello-world/src/hello-world.c **** /* Private user code ---------------------------------------------------------*/
+  75:../../applications/hello-world/src/hello-world.c **** /* USER CODE BEGIN 0 */
+  76:../../applications/hello-world/src/hello-world.c **** /* USER CODE END 0 */
+  77:../../applications/hello-world/src/hello-world.c **** 
+  78:../../applications/hello-world/src/hello-world.c **** /**
+  79:../../applications/hello-world/src/hello-world.c ****   * @brief  The application entry point.
+  80:../../applications/hello-world/src/hello-world.c ****   * @retval int
+  81:../../applications/hello-world/src/hello-world.c ****   */
+  82:../../applications/hello-world/src/hello-world.c **** int main(void)
+  83:../../applications/hello-world/src/hello-world.c **** {
+  84:../../applications/hello-world/src/hello-world.c ****   /* USER CODE BEGIN 1 */
+  85:../../applications/hello-world/src/hello-world.c **** #if USE_BOOTLOADER
+  86:../../applications/hello-world/src/hello-world.c ****   bootloader_SetVTOR();
+  87:../../applications/hello-world/src/hello-world.c **** #endif
+  88:../../applications/hello-world/src/hello-world.c **** 
+ARM GAS  /tmp/ccTAaWWF.s 			page 3
+
+
+  89:../../applications/hello-world/src/hello-world.c ****   /* USER CODE END 1 */
+  90:../../applications/hello-world/src/hello-world.c **** 
+  91:../../applications/hello-world/src/hello-world.c ****   /* MCU Configuration--------------------------------------------------------*/
+  92:../../applications/hello-world/src/hello-world.c **** 
+  93:../../applications/hello-world/src/hello-world.c ****   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
+  94:../../applications/hello-world/src/hello-world.c ****   HAL_Init();
+  95:../../applications/hello-world/src/hello-world.c **** 
+  96:../../applications/hello-world/src/hello-world.c ****   /* USER CODE BEGIN Init */
+  97:../../applications/hello-world/src/hello-world.c **** 
+  98:../../applications/hello-world/src/hello-world.c ****   /* USER CODE END Init */
+  99:../../applications/hello-world/src/hello-world.c **** 
+ 100:../../applications/hello-world/src/hello-world.c ****   /* Configure the system clock */
+ 101:../../applications/hello-world/src/hello-world.c ****   SystemClock_Config();
+ 102:../../applications/hello-world/src/hello-world.c **** 
+ 103:../../applications/hello-world/src/hello-world.c ****   /* USER CODE BEGIN SysInit */
+ 104:../../applications/hello-world/src/hello-world.c **** 
+ 105:../../applications/hello-world/src/hello-world.c ****   /* USER CODE END SysInit */
+ 106:../../applications/hello-world/src/hello-world.c **** 
+ 107:../../applications/hello-world/src/hello-world.c ****   /* Initialize theplatform */
+ 108:../../applications/hello-world/src/hello-world.c ****   Initialize_Platform();
+ 109:../../applications/hello-world/src/hello-world.c ****   /* USER CODE BEGIN 2 */
+ 110:../../applications/hello-world/src/hello-world.c **** 
+ 111:../../applications/hello-world/src/hello-world.c ****   printWelcome();
+ 112:../../applications/hello-world/src/hello-world.c **** 
+ 113:../../applications/hello-world/src/hello-world.c ****   /* USER CODE END 2 */
+ 114:../../applications/hello-world/src/hello-world.c **** 
+ 115:../../applications/hello-world/src/hello-world.c ****   /* USER CODE BEGIN RTOS_MUTEX */
+ 116:../../applications/hello-world/src/hello-world.c ****   /* add mutexes, ... */
+ 117:../../applications/hello-world/src/hello-world.c ****   printf("Initializing RTOS timers, threads and mutex\r\n");
+ 118:../../applications/hello-world/src/hello-world.c **** 
+ 119:../../applications/hello-world/src/hello-world.c **** 
+ 120:../../applications/hello-world/src/hello-world.c ****   /* USER CODE END RTOS_MUTEX */
+ 121:../../applications/hello-world/src/hello-world.c **** 
+ 122:../../applications/hello-world/src/hello-world.c ****   /* USER CODE BEGIN RTOS_SEMAPHORES */
+ 123:../../applications/hello-world/src/hello-world.c ****   /* add semaphores, ... */
+ 124:../../applications/hello-world/src/hello-world.c ****   /* USER CODE END RTOS_SEMAPHORES */
+ 125:../../applications/hello-world/src/hello-world.c **** 
+ 126:../../applications/hello-world/src/hello-world.c ****   /* Create the thread(s) */
+ 127:../../applications/hello-world/src/hello-world.c ****   /* definition and creation of defaultTask */
+ 128:../../applications/hello-world/src/hello-world.c ****   osThreadDef(defaultTask, StartDefaultTask, osPriorityLow, 0, 128);
+ 129:../../applications/hello-world/src/hello-world.c ****   defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
+ 130:../../applications/hello-world/src/hello-world.c **** 
+ 131:../../applications/hello-world/src/hello-world.c ****   /* USER CODE BEGIN RTOS_TIMERS */
+ 132:../../applications/hello-world/src/hello-world.c ****   /* start timers, add new ones, ... */
+ 133:../../applications/hello-world/src/hello-world.c **** 
+ 134:../../applications/hello-world/src/hello-world.c ****   //feed IWDG every 5 seconds
+ 135:../../applications/hello-world/src/hello-world.c ****   IWDG_feed(NULL);
+ 136:../../applications/hello-world/src/hello-world.c ****   osTimerDef(iwdgTim, IWDG_feed);
+ 137:../../applications/hello-world/src/hello-world.c ****   iwdgTimId = osTimerCreate(osTimer(iwdgTim), osTimerPeriodic, NULL);
+ 138:../../applications/hello-world/src/hello-world.c ****   osTimerStart(iwdgTimId, 5 * 1000);
+ 139:../../applications/hello-world/src/hello-world.c **** 
+ 140:../../applications/hello-world/src/hello-world.c ****   /* USER CODE END RTOS_TIMERS */
+ 141:../../applications/hello-world/src/hello-world.c **** 
+ 142:../../applications/hello-world/src/hello-world.c ****   /* USER CODE BEGIN RTOS_THREADS */
+ 143:../../applications/hello-world/src/hello-world.c ****   /* add threads, ... */
+ 144:../../applications/hello-world/src/hello-world.c **** 
+ 145:../../applications/hello-world/src/hello-world.c ****   /* USER CODE END RTOS_THREADS */
+ARM GAS  /tmp/ccTAaWWF.s 			page 4
+
+
+ 146:../../applications/hello-world/src/hello-world.c **** 
+ 147:../../applications/hello-world/src/hello-world.c ****   /* USER CODE BEGIN RTOS_QUEUES */
+ 148:../../applications/hello-world/src/hello-world.c ****   /* add queues, ... */
+ 149:../../applications/hello-world/src/hello-world.c ****   /* USER CODE END RTOS_QUEUES */
+ 150:../../applications/hello-world/src/hello-world.c **** 
+ 151:../../applications/hello-world/src/hello-world.c ****   /* Start scheduler */
+ 152:../../applications/hello-world/src/hello-world.c ****   osKernelStart();
+ 153:../../applications/hello-world/src/hello-world.c **** 
+ 154:../../applications/hello-world/src/hello-world.c ****   /* We should never get here as control is now taken by the scheduler */
+ 155:../../applications/hello-world/src/hello-world.c **** 
+ 156:../../applications/hello-world/src/hello-world.c ****   /* Infinite loop */
+ 157:../../applications/hello-world/src/hello-world.c ****   /* USER CODE BEGIN WHILE */
+ 158:../../applications/hello-world/src/hello-world.c ****   while (1)
+ 159:../../applications/hello-world/src/hello-world.c ****   {
+ 160:../../applications/hello-world/src/hello-world.c ****     /* USER CODE END WHILE */
+ 161:../../applications/hello-world/src/hello-world.c **** 
+ 162:../../applications/hello-world/src/hello-world.c ****     /* USER CODE BEGIN 3 */
+ 163:../../applications/hello-world/src/hello-world.c ****   }
+ 164:../../applications/hello-world/src/hello-world.c ****   /* USER CODE END 3 */
+ 165:../../applications/hello-world/src/hello-world.c **** }
+ 166:../../applications/hello-world/src/hello-world.c **** 
+ 167:../../applications/hello-world/src/hello-world.c **** void printWelcome(void)
+ 168:../../applications/hello-world/src/hello-world.c **** {
+ 169:../../applications/hello-world/src/hello-world.c ****   printf("\r\n");
+ 170:../../applications/hello-world/src/hello-world.c ****   printf("*****************************************\r\n");
+ 171:../../applications/hello-world/src/hello-world.c ****   printf("hello-world\r\n");
+ 172:../../applications/hello-world/src/hello-world.c ****   printf("*****************************************\r\n");
+ 173:../../applications/hello-world/src/hello-world.c ****   printf("\r\n");
+ 174:../../applications/hello-world/src/hello-world.c ****   HAL_GPIO_TogglePin(OCTA_BLED_GPIO_Port, OCTA_BLED_Pin);
+ 175:../../applications/hello-world/src/hello-world.c ****   HAL_Delay(2000);
+ 176:../../applications/hello-world/src/hello-world.c ****   HAL_GPIO_TogglePin(OCTA_BLED_GPIO_Port, OCTA_BLED_Pin);
+ 177:../../applications/hello-world/src/hello-world.c **** }
+ 178:../../applications/hello-world/src/hello-world.c **** 
+ 179:../../applications/hello-world/src/hello-world.c **** /* USER CODE END 4 */
+ 180:../../applications/hello-world/src/hello-world.c **** 
+ 181:../../applications/hello-world/src/hello-world.c **** /* USER CODE BEGIN Header_StartDefaultTask */
+ 182:../../applications/hello-world/src/hello-world.c **** /**
+ 183:../../applications/hello-world/src/hello-world.c ****   * @brief  Function implementing the defaultTask thread.
+ 184:../../applications/hello-world/src/hello-world.c ****   * @param  argument: Not used 
+ 185:../../applications/hello-world/src/hello-world.c ****   * @retval None
+ 186:../../applications/hello-world/src/hello-world.c ****   */
+ 187:../../applications/hello-world/src/hello-world.c **** /* USER CODE END Header_StartDefaultTask */
+ 188:../../applications/hello-world/src/hello-world.c **** void StartDefaultTask(void const *argument)
+ 189:../../applications/hello-world/src/hello-world.c **** {
+  28              		.loc 1 189 0
+  29              		.cfi_startproc
+  30              		@ Volatile: function does not return.
+  31              		@ args = 0, pretend = 0, frame = 0
+  32              		@ frame_needed = 0, uses_anonymous_args = 0
+  33              	.LVL0:
+  34 0000 08B5     		push	{r3, lr}
+  35              	.LCFI0:
+  36              		.cfi_def_cfa_offset 8
+  37              		.cfi_offset 3, -8
+  38              		.cfi_offset 14, -4
+  39              	.LVL1:
+  40              	.L2:
+ARM GAS  /tmp/ccTAaWWF.s 			page 5
+
+
+ 190:../../applications/hello-world/src/hello-world.c **** 
+ 191:../../applications/hello-world/src/hello-world.c ****   /* USER CODE BEGIN 5 */
+ 192:../../applications/hello-world/src/hello-world.c ****   /* Infinite loop */
+ 193:../../applications/hello-world/src/hello-world.c ****   for (;;)
+ 194:../../applications/hello-world/src/hello-world.c ****   {
+ 195:../../applications/hello-world/src/hello-world.c ****     osDelay(1);
+  41              		.loc 1 195 0 discriminator 1
+  42 0002 0120     		movs	r0, #1
+  43 0004 FFF7FEFF 		bl	osDelay
+  44              	.LVL2:
+  45 0008 FBE7     		b	.L2
+  46              		.cfi_endproc
+  47              	.LFE130:
+  49              		.section	.text.printWelcome,"ax",%progbits
+  50              		.align	1
+  51              		.global	printWelcome
+  52              		.syntax unified
+  53              		.thumb
+  54              		.thumb_func
+  55              		.fpu fpv4-sp-d16
+  57              	printWelcome:
+  58              	.LFB129:
+ 168:../../applications/hello-world/src/hello-world.c ****   printf("\r\n");
+  59              		.loc 1 168 0
+  60              		.cfi_startproc
+  61              		@ args = 0, pretend = 0, frame = 0
+  62              		@ frame_needed = 0, uses_anonymous_args = 0
+  63 0000 38B5     		push	{r3, r4, r5, lr}
+  64              	.LCFI1:
+  65              		.cfi_def_cfa_offset 16
+  66              		.cfi_offset 3, -16
+  67              		.cfi_offset 4, -12
+  68              		.cfi_offset 5, -8
+  69              		.cfi_offset 14, -4
+ 169:../../applications/hello-world/src/hello-world.c ****   printf("*****************************************\r\n");
+  70              		.loc 1 169 0
+  71 0002 104C     		ldr	r4, .L6
+  72 0004 2046     		mov	r0, r4
+  73 0006 FFF7FEFF 		bl	puts
+  74              	.LVL3:
+ 170:../../applications/hello-world/src/hello-world.c ****   printf("hello-world\r\n");
+  75              		.loc 1 170 0
+  76 000a 0F4D     		ldr	r5, .L6+4
+  77 000c 2846     		mov	r0, r5
+  78 000e FFF7FEFF 		bl	puts
+  79              	.LVL4:
+ 171:../../applications/hello-world/src/hello-world.c ****   printf("*****************************************\r\n");
+  80              		.loc 1 171 0
+  81 0012 0E48     		ldr	r0, .L6+8
+  82 0014 FFF7FEFF 		bl	puts
+  83              	.LVL5:
+ 172:../../applications/hello-world/src/hello-world.c ****   printf("\r\n");
+  84              		.loc 1 172 0
+  85 0018 2846     		mov	r0, r5
+  86 001a FFF7FEFF 		bl	puts
+  87              	.LVL6:
+ 173:../../applications/hello-world/src/hello-world.c ****   HAL_GPIO_TogglePin(OCTA_BLED_GPIO_Port, OCTA_BLED_Pin);
+ARM GAS  /tmp/ccTAaWWF.s 			page 6
+
+
+  88              		.loc 1 173 0
+  89 001e 2046     		mov	r0, r4
+  90 0020 FFF7FEFF 		bl	puts
+  91              	.LVL7:
+ 174:../../applications/hello-world/src/hello-world.c ****   HAL_Delay(2000);
+  92              		.loc 1 174 0
+  93 0024 0A4C     		ldr	r4, .L6+12
+  94 0026 4FF40041 		mov	r1, #32768
+  95 002a 2046     		mov	r0, r4
+  96 002c FFF7FEFF 		bl	HAL_GPIO_TogglePin
+  97              	.LVL8:
+ 175:../../applications/hello-world/src/hello-world.c ****   HAL_GPIO_TogglePin(OCTA_BLED_GPIO_Port, OCTA_BLED_Pin);
+  98              		.loc 1 175 0
+  99 0030 4FF4FA60 		mov	r0, #2000
+ 100 0034 FFF7FEFF 		bl	HAL_Delay
+ 101              	.LVL9:
+ 176:../../applications/hello-world/src/hello-world.c **** }
+ 102              		.loc 1 176 0
+ 103 0038 4FF40041 		mov	r1, #32768
+ 104 003c 2046     		mov	r0, r4
+ 105 003e FFF7FEFF 		bl	HAL_GPIO_TogglePin
+ 106              	.LVL10:
+ 177:../../applications/hello-world/src/hello-world.c **** 
+ 107              		.loc 1 177 0
+ 108 0042 38BD     		pop	{r3, r4, r5, pc}
+ 109              	.L7:
+ 110              		.align	2
+ 111              	.L6:
+ 112 0044 00000000 		.word	.LC2
+ 113 0048 04000000 		.word	.LC3
+ 114 004c 30000000 		.word	.LC4
+ 115 0050 000C0048 		.word	1207962624
+ 116              		.cfi_endproc
+ 117              	.LFE129:
+ 119              		.section	.text.main,"ax",%progbits
+ 120              		.align	1
+ 121              		.global	main
+ 122              		.syntax unified
+ 123              		.thumb
+ 124              		.thumb_func
+ 125              		.fpu fpv4-sp-d16
+ 127              	main:
+ 128              	.LFB128:
+  83:../../applications/hello-world/src/hello-world.c ****   /* USER CODE BEGIN 1 */
+ 129              		.loc 1 83 0
+ 130              		.cfi_startproc
+ 131              		@ Volatile: function does not return.
+ 132              		@ args = 0, pretend = 0, frame = 24
+ 133              		@ frame_needed = 0, uses_anonymous_args = 0
+ 134 0000 00B5     		push	{lr}
+ 135              	.LCFI2:
+ 136              		.cfi_def_cfa_offset 4
+ 137              		.cfi_offset 14, -4
+ 138 0002 87B0     		sub	sp, sp, #28
+ 139              	.LCFI3:
+ 140              		.cfi_def_cfa_offset 32
+  94:../../applications/hello-world/src/hello-world.c **** 
+ARM GAS  /tmp/ccTAaWWF.s 			page 7
+
+
+ 141              		.loc 1 94 0
+ 142 0004 FFF7FEFF 		bl	HAL_Init
+ 143              	.LVL11:
+ 101:../../applications/hello-world/src/hello-world.c **** 
+ 144              		.loc 1 101 0
+ 145 0008 FFF7FEFF 		bl	SystemClock_Config
+ 146              	.LVL12:
+ 108:../../applications/hello-world/src/hello-world.c ****   /* USER CODE BEGIN 2 */
+ 147              		.loc 1 108 0
+ 148 000c FFF7FEFF 		bl	Initialize_Platform
+ 149              	.LVL13:
+ 111:../../applications/hello-world/src/hello-world.c **** 
+ 150              		.loc 1 111 0
+ 151 0010 FFF7FEFF 		bl	printWelcome
+ 152              	.LVL14:
+ 117:../../applications/hello-world/src/hello-world.c **** 
+ 153              		.loc 1 117 0
+ 154 0014 1148     		ldr	r0, .L11
+ 155 0016 FFF7FEFF 		bl	puts
+ 156              	.LVL15:
+ 128:../../applications/hello-world/src/hello-world.c ****   defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
+ 157              		.loc 1 128 0
+ 158 001a 01AC     		add	r4, sp, #4
+ 159 001c 104D     		ldr	r5, .L11+4
+ 160 001e 0FCD     		ldmia	r5!, {r0, r1, r2, r3}
+ 161 0020 0FC4     		stmia	r4!, {r0, r1, r2, r3}
+ 162 0022 2B68     		ldr	r3, [r5]
+ 163 0024 2360     		str	r3, [r4]
+ 129:../../applications/hello-world/src/hello-world.c **** 
+ 164              		.loc 1 129 0
+ 165 0026 0021     		movs	r1, #0
+ 166 0028 01A8     		add	r0, sp, #4
+ 167 002a FFF7FEFF 		bl	osThreadCreate
+ 168              	.LVL16:
+ 169 002e 0D4B     		ldr	r3, .L11+8
+ 170 0030 1860     		str	r0, [r3]
+ 135:../../applications/hello-world/src/hello-world.c ****   osTimerDef(iwdgTim, IWDG_feed);
+ 171              		.loc 1 135 0
+ 172 0032 0020     		movs	r0, #0
+ 173 0034 FFF7FEFF 		bl	IWDG_feed
+ 174              	.LVL17:
+ 136:../../applications/hello-world/src/hello-world.c ****   iwdgTimId = osTimerCreate(osTimer(iwdgTim), osTimerPeriodic, NULL);
+ 175              		.loc 1 136 0
+ 176 0038 06A8     		add	r0, sp, #24
+ 177 003a 0B4B     		ldr	r3, .L11+12
+ 178 003c 40F8183D 		str	r3, [r0, #-24]!
+ 137:../../applications/hello-world/src/hello-world.c ****   osTimerStart(iwdgTimId, 5 * 1000);
+ 179              		.loc 1 137 0
+ 180 0040 0022     		movs	r2, #0
+ 181 0042 0121     		movs	r1, #1
+ 182 0044 FFF7FEFF 		bl	osTimerCreate
+ 183              	.LVL18:
+ 184 0048 084B     		ldr	r3, .L11+16
+ 185 004a 1860     		str	r0, [r3]
+ 138:../../applications/hello-world/src/hello-world.c **** 
+ 186              		.loc 1 138 0
+ 187 004c 41F28831 		movw	r1, #5000
+ARM GAS  /tmp/ccTAaWWF.s 			page 8
+
+
+ 188 0050 FFF7FEFF 		bl	osTimerStart
+ 189              	.LVL19:
+ 152:../../applications/hello-world/src/hello-world.c **** 
+ 190              		.loc 1 152 0
+ 191 0054 FFF7FEFF 		bl	osKernelStart
+ 192              	.LVL20:
+ 193              	.L9:
+ 194 0058 FEE7     		b	.L9
+ 195              	.L12:
+ 196 005a 00BF     		.align	2
+ 197              	.L11:
+ 198 005c 00000000 		.word	.LC5
+ 199 0060 00000000 		.word	.LANCHOR0
+ 200 0064 00000000 		.word	defaultTaskHandle
+ 201 0068 00000000 		.word	IWDG_feed
+ 202 006c 00000000 		.word	iwdgTimId
+ 203              		.cfi_endproc
+ 204              	.LFE128:
+ 206              		.section	.text.HAL_TIM_PeriodElapsedCallback,"ax",%progbits
+ 207              		.align	1
+ 208              		.global	HAL_TIM_PeriodElapsedCallback
+ 209              		.syntax unified
+ 210              		.thumb
+ 211              		.thumb_func
+ 212              		.fpu fpv4-sp-d16
+ 214              	HAL_TIM_PeriodElapsedCallback:
+ 215              	.LFB131:
+ 196:../../applications/hello-world/src/hello-world.c ****   }
+ 197:../../applications/hello-world/src/hello-world.c ****   /* USER CODE END 5 */
+ 198:../../applications/hello-world/src/hello-world.c **** }
+ 199:../../applications/hello-world/src/hello-world.c **** 
+ 200:../../applications/hello-world/src/hello-world.c **** /**
+ 201:../../applications/hello-world/src/hello-world.c ****   * @brief  Period elapsed callback in non blocking mode
+ 202:../../applications/hello-world/src/hello-world.c ****   * @note   This function is called  when TIM1 interrupt took place, inside
+ 203:../../applications/hello-world/src/hello-world.c ****   * HAL_TIM_IRQHandler(). It makes a direct call to HAL_IncTick() to increment
+ 204:../../applications/hello-world/src/hello-world.c ****   * a global variable "uwTick" used as application time base.
+ 205:../../applications/hello-world/src/hello-world.c ****   * @param  htim : TIM handle
+ 206:../../applications/hello-world/src/hello-world.c ****   * @retval None
+ 207:../../applications/hello-world/src/hello-world.c ****   */
+ 208:../../applications/hello-world/src/hello-world.c **** void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
+ 209:../../applications/hello-world/src/hello-world.c **** {
+ 216              		.loc 1 209 0
+ 217              		.cfi_startproc
+ 218              		@ args = 0, pretend = 0, frame = 0
+ 219              		@ frame_needed = 0, uses_anonymous_args = 0
+ 220              	.LVL21:
+ 221 0000 08B5     		push	{r3, lr}
+ 222              	.LCFI4:
+ 223              		.cfi_def_cfa_offset 8
+ 224              		.cfi_offset 3, -8
+ 225              		.cfi_offset 14, -4
+ 210:../../applications/hello-world/src/hello-world.c ****   /* USER CODE BEGIN Callback 0 */
+ 211:../../applications/hello-world/src/hello-world.c **** 
+ 212:../../applications/hello-world/src/hello-world.c ****   /* USER CODE END Callback 0 */
+ 213:../../applications/hello-world/src/hello-world.c ****   if (htim->Instance == TIM1)
+ 226              		.loc 1 213 0
+ 227 0002 0268     		ldr	r2, [r0]
+ARM GAS  /tmp/ccTAaWWF.s 			page 9
+
+
+ 228 0004 034B     		ldr	r3, .L17
+ 229 0006 9A42     		cmp	r2, r3
+ 230 0008 00D0     		beq	.L16
+ 231              	.LVL22:
+ 232              	.L13:
+ 214:../../applications/hello-world/src/hello-world.c ****   {
+ 215:../../applications/hello-world/src/hello-world.c ****     HAL_IncTick();
+ 216:../../applications/hello-world/src/hello-world.c ****   }
+ 217:../../applications/hello-world/src/hello-world.c ****   /* USER CODE BEGIN Callback 1 */
+ 218:../../applications/hello-world/src/hello-world.c **** 
+ 219:../../applications/hello-world/src/hello-world.c ****   /* USER CODE END Callback 1 */
+ 220:../../applications/hello-world/src/hello-world.c **** }
+ 233              		.loc 1 220 0
+ 234 000a 08BD     		pop	{r3, pc}
+ 235              	.LVL23:
+ 236              	.L16:
+ 215:../../applications/hello-world/src/hello-world.c ****   }
+ 237              		.loc 1 215 0
+ 238 000c FFF7FEFF 		bl	HAL_IncTick
+ 239              	.LVL24:
+ 240              		.loc 1 220 0
+ 241 0010 FBE7     		b	.L13
+ 242              	.L18:
+ 243 0012 00BF     		.align	2
+ 244              	.L17:
+ 245 0014 002C0140 		.word	1073818624
+ 246              		.cfi_endproc
+ 247              	.LFE131:
+ 249              		.section	.text.HAL_UART_RxCpltCallback,"ax",%progbits
+ 250              		.align	1
+ 251              		.global	HAL_UART_RxCpltCallback
+ 252              		.syntax unified
+ 253              		.thumb
+ 254              		.thumb_func
+ 255              		.fpu fpv4-sp-d16
+ 257              	HAL_UART_RxCpltCallback:
+ 258              	.LFB132:
+ 221:../../applications/hello-world/src/hello-world.c **** 
+ 222:../../applications/hello-world/src/hello-world.c **** void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+ 223:../../applications/hello-world/src/hello-world.c **** {
+ 259              		.loc 1 223 0
+ 260              		.cfi_startproc
+ 261              		@ args = 0, pretend = 0, frame = 0
+ 262              		@ frame_needed = 0, uses_anonymous_args = 0
+ 263              		@ link register save eliminated.
+ 264              	.LVL25:
+ 224:../../applications/hello-world/src/hello-world.c **** 	#if USE_BOOTLOADER
+ 225:../../applications/hello-world/src/hello-world.c ****     if(huart == &BLE_UART);
+ 226:../../applications/hello-world/src/hello-world.c ****     {
+ 227:../../applications/hello-world/src/hello-world.c ****           printf("BLE UART INTERRUPT\r\n");
+ 228:../../applications/hello-world/src/hello-world.c ****           bootloader_parse_data();        
+ 229:../../applications/hello-world/src/hello-world.c ****     }
+ 230:../../applications/hello-world/src/hello-world.c ****   #endif
+ 231:../../applications/hello-world/src/hello-world.c **** }
+ 265              		.loc 1 231 0
+ 266 0000 7047     		bx	lr
+ 267              		.cfi_endproc
+ARM GAS  /tmp/ccTAaWWF.s 			page 10
+
+
+ 268              	.LFE132:
+ 270              		.section	.text.Error_Handler,"ax",%progbits
+ 271              		.align	1
+ 272              		.global	Error_Handler
+ 273              		.syntax unified
+ 274              		.thumb
+ 275              		.thumb_func
+ 276              		.fpu fpv4-sp-d16
+ 278              	Error_Handler:
+ 279              	.LFB133:
+ 232:../../applications/hello-world/src/hello-world.c **** 
+ 233:../../applications/hello-world/src/hello-world.c **** /**
+ 234:../../applications/hello-world/src/hello-world.c ****   * @brief  This function is executed in case of error occurrence.
+ 235:../../applications/hello-world/src/hello-world.c ****   * @retval None
+ 236:../../applications/hello-world/src/hello-world.c ****   */
+ 237:../../applications/hello-world/src/hello-world.c **** void Error_Handler(void)
+ 238:../../applications/hello-world/src/hello-world.c **** {
+ 280              		.loc 1 238 0
+ 281              		.cfi_startproc
+ 282              		@ args = 0, pretend = 0, frame = 0
+ 283              		@ frame_needed = 0, uses_anonymous_args = 0
+ 284              		@ link register save eliminated.
+ 239:../../applications/hello-world/src/hello-world.c ****   /* USER CODE BEGIN Error_Handler_Debug */
+ 240:../../applications/hello-world/src/hello-world.c ****   /* User can add his own implementation to report the HAL error return state */
+ 241:../../applications/hello-world/src/hello-world.c **** 
+ 242:../../applications/hello-world/src/hello-world.c ****   /* USER CODE END Error_Handler_Debug */
+ 243:../../applications/hello-world/src/hello-world.c **** }
+ 285              		.loc 1 243 0
+ 286 0000 7047     		bx	lr
+ 287              		.cfi_endproc
+ 288              	.LFE133:
+ 290              		.comm	iwdgTimId,4,4
+ 291              		.comm	defaultTaskHandle,4,4
+ 292              		.comm	P3_header,44,4
+ 293              		.comm	P2_header,44,4
+ 294              		.comm	P1_header,44,4
+ 295              		.comm	FLASH_SPI,100,4
+ 296              		.comm	P3_SPI,100,4
+ 297              		.comm	P2_SPI,100,4
+ 298              		.comm	P1_SPI,100,4
+ 299              		.comm	P3_I2C,76,4
+ 300              		.comm	P2_I2C,76,4
+ 301              		.comm	P1_I2C,76,4
+ 302              		.comm	common_I2C,76,4
+ 303              		.comm	P3_UART,120,4
+ 304              		.comm	P2_UART,120,4
+ 305              		.comm	P1_UART,120,4
+ 306              		.comm	BLE_UART,120,4
+ 307              		.comm	USB_UART,120,4
+ 308              		.comm	hiwdg,16,4
+ 309              		.comm	P3_DIO6,8,4
+ 310              		.comm	P3_DIO5,8,4
+ 311              		.comm	P3_DIO4,8,4
+ 312              		.comm	P3_DIO3,8,4
+ 313              		.comm	P3_DIO2,8,4
+ 314              		.comm	P3_DIO1,8,4
+ 315              		.comm	P2_DIO6,8,4
+ARM GAS  /tmp/ccTAaWWF.s 			page 11
+
+
+ 316              		.comm	P2_DIO5,8,4
+ 317              		.comm	P2_DIO4,8,4
+ 318              		.comm	P2_DIO3,8,4
+ 319              		.comm	P2_DIO2,8,4
+ 320              		.comm	P2_DIO1,8,4
+ 321              		.comm	P1_DIO6,8,4
+ 322              		.comm	P1_DIO5,8,4
+ 323              		.comm	P1_DIO4,8,4
+ 324              		.comm	P1_DIO3,8,4
+ 325              		.comm	P1_DIO2,8,4
+ 326              		.comm	P1_DIO1,8,4
+ 327              		.section	.rodata
+ 328              		.align	2
+ 329              		.set	.LANCHOR0,. + 0
+ 330              	.LC6:
+ 331 0000 00000000 		.word	.LC0
+ 332 0004 00000000 		.word	StartDefaultTask
+ 333 0008 FEFF     		.short	-2
+ 334 000a 0000     		.space	2
+ 335 000c 00000000 		.word	0
+ 336 0010 80000000 		.word	128
+ 337              		.section	.rodata.main.str1.4,"aMS",%progbits,1
+ 338              		.align	2
+ 339              	.LC5:
+ 340 0000 496E6974 		.ascii	"Initializing RTOS timers, threads and mutex\015\000"
+ 340      69616C69 
+ 340      7A696E67 
+ 340      2052544F 
+ 340      53207469 
+ 341              		.section	.rodata.printWelcome.str1.4,"aMS",%progbits,1
+ 342              		.align	2
+ 343              	.LC2:
+ 344 0000 0D00     		.ascii	"\015\000"
+ 345 0002 0000     		.space	2
+ 346              	.LC3:
+ 347 0004 2A2A2A2A 		.ascii	"*****************************************\015\000"
+ 347      2A2A2A2A 
+ 347      2A2A2A2A 
+ 347      2A2A2A2A 
+ 347      2A2A2A2A 
+ 348 002f 00       		.space	1
+ 349              	.LC4:
+ 350 0030 68656C6C 		.ascii	"hello-world\015\000"
+ 350      6F2D776F 
+ 350      726C640D 
+ 350      00
+ 351              		.section	.rodata.str1.4,"aMS",%progbits,1
+ 352              		.align	2
+ 353              	.LC0:
+ 354 0000 64656661 		.ascii	"defaultTask\000"
+ 354      756C7454 
+ 354      61736B00 
+ 355              		.weak	SystemClock_Config
+ 356              		.text
+ 357              	.Letext0:
+ 358              		.file 2 "/home/mats/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/machine/_default_type
+ 359              		.file 3 "/home/mats/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/sys/_stdint.h"
+ARM GAS  /tmp/ccTAaWWF.s 			page 12
+
+
+ 360              		.file 4 "../../core/ST/CMSIS/Include/core_cm4.h"
+ 361              		.file 5 "../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/system_stm32l4xx.h"
+ 362              		.file 6 "../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/stm32l496xx.h"
+ 363              		.file 7 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h"
+ 364              		.file 8 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_dma.h"
+ 365              		.file 9 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_i2c.h"
+ 366              		.file 10 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_iwdg.h"
+ 367              		.file 11 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_spi.h"
+ 368              		.file 12 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_tim.h"
+ 369              		.file 13 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h"
+ 370              		.file 14 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h"
+ 371              		.file 15 "../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/include/task.h"
+ 372              		.file 16 "../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/include/timers.h"
+ 373              		.file 17 "../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h"
+ 374              		.file 18 "../../core/platform/octa/inc/gpio.h"
+ 375              		.file 19 "../../core/platform/octa/inc/iwdg.h"
+ 376              		.file 20 "../../core/platform/octa/inc/uart.h"
+ 377              		.file 21 "../../core/platform/octa/inc/i2c.h"
+ 378              		.file 22 "../../core/platform/octa/inc/spi.h"
+ 379              		.file 23 "../../core/platform/octa/inc/octa.h"
+ 380              		.file 24 "../../applications/hello-world/inc/hello-world.h"
+ 381              		.file 25 "<built-in>"
+ 382              		.file 26 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_gpio.h"
+ 383              		.file 27 "../../core/platform/octa/inc/sysclock.h"
+ 384              		.file 28 "../../core/platform/common/inc/platform.h"
+ARM GAS  /tmp/ccTAaWWF.s 			page 13
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 hello-world.c
+     /tmp/ccTAaWWF.s:18     .text.StartDefaultTask:0000000000000000 $t
+     /tmp/ccTAaWWF.s:25     .text.StartDefaultTask:0000000000000000 StartDefaultTask
+     /tmp/ccTAaWWF.s:50     .text.printWelcome:0000000000000000 $t
+     /tmp/ccTAaWWF.s:57     .text.printWelcome:0000000000000000 printWelcome
+     /tmp/ccTAaWWF.s:112    .text.printWelcome:0000000000000044 $d
+     /tmp/ccTAaWWF.s:120    .text.main:0000000000000000 $t
+     /tmp/ccTAaWWF.s:127    .text.main:0000000000000000 main
+     /tmp/ccTAaWWF.s:198    .text.main:000000000000005c $d
+                            *COM*:0000000000000004 defaultTaskHandle
+                            *COM*:0000000000000004 iwdgTimId
+     /tmp/ccTAaWWF.s:207    .text.HAL_TIM_PeriodElapsedCallback:0000000000000000 $t
+     /tmp/ccTAaWWF.s:214    .text.HAL_TIM_PeriodElapsedCallback:0000000000000000 HAL_TIM_PeriodElapsedCallback
+     /tmp/ccTAaWWF.s:245    .text.HAL_TIM_PeriodElapsedCallback:0000000000000014 $d
+     /tmp/ccTAaWWF.s:250    .text.HAL_UART_RxCpltCallback:0000000000000000 $t
+     /tmp/ccTAaWWF.s:257    .text.HAL_UART_RxCpltCallback:0000000000000000 HAL_UART_RxCpltCallback
+     /tmp/ccTAaWWF.s:271    .text.Error_Handler:0000000000000000 $t
+     /tmp/ccTAaWWF.s:278    .text.Error_Handler:0000000000000000 Error_Handler
+                            *COM*:000000000000002c P3_header
+                            *COM*:000000000000002c P2_header
+                            *COM*:000000000000002c P1_header
+                            *COM*:0000000000000064 FLASH_SPI
+                            *COM*:0000000000000064 P3_SPI
+                            *COM*:0000000000000064 P2_SPI
+                            *COM*:0000000000000064 P1_SPI
+                            *COM*:000000000000004c P3_I2C
+                            *COM*:000000000000004c P2_I2C
+                            *COM*:000000000000004c P1_I2C
+                            *COM*:000000000000004c common_I2C
+                            *COM*:0000000000000078 P3_UART
+                            *COM*:0000000000000078 P2_UART
+                            *COM*:0000000000000078 P1_UART
+                            *COM*:0000000000000078 BLE_UART
+                            *COM*:0000000000000078 USB_UART
+                            *COM*:0000000000000010 hiwdg
+                            *COM*:0000000000000008 P3_DIO6
+                            *COM*:0000000000000008 P3_DIO5
+                            *COM*:0000000000000008 P3_DIO4
+                            *COM*:0000000000000008 P3_DIO3
+                            *COM*:0000000000000008 P3_DIO2
+                            *COM*:0000000000000008 P3_DIO1
+                            *COM*:0000000000000008 P2_DIO6
+                            *COM*:0000000000000008 P2_DIO5
+                            *COM*:0000000000000008 P2_DIO4
+                            *COM*:0000000000000008 P2_DIO3
+                            *COM*:0000000000000008 P2_DIO2
+                            *COM*:0000000000000008 P2_DIO1
+                            *COM*:0000000000000008 P1_DIO6
+                            *COM*:0000000000000008 P1_DIO5
+                            *COM*:0000000000000008 P1_DIO4
+                            *COM*:0000000000000008 P1_DIO3
+                            *COM*:0000000000000008 P1_DIO2
+                            *COM*:0000000000000008 P1_DIO1
+     /tmp/ccTAaWWF.s:328    .rodata:0000000000000000 $d
+     /tmp/ccTAaWWF.s:338    .rodata.main.str1.4:0000000000000000 $d
+     /tmp/ccTAaWWF.s:342    .rodata.printWelcome.str1.4:0000000000000000 $d
+ARM GAS  /tmp/ccTAaWWF.s 			page 14
+
+
+     /tmp/ccTAaWWF.s:352    .rodata.str1.4:0000000000000000 $d
+
+UNDEFINED SYMBOLS
+osDelay
+puts
+HAL_GPIO_TogglePin
+HAL_Delay
+HAL_Init
+SystemClock_Config
+Initialize_Platform
+osThreadCreate
+IWDG_feed
+osTimerCreate
+osTimerStart
+osKernelStart
+HAL_IncTick

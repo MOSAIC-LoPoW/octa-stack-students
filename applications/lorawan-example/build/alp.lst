@@ -1,0 +1,3858 @@
+ARM GAS  /tmp/ccA9SLCI.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 28, 1
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.file	"alp.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.text.parse_op_return_tag,"ax",%progbits
+  18              		.align	1
+  19              		.syntax unified
+  20              		.thumb
+  21              		.thumb_func
+  22              		.fpu fpv4-sp-d16
+  24              	parse_op_return_tag:
+  25              	.LFB14:
+  26              		.file 1 "../../shields/Murata/src/alp.c"
+   1:../../shields/Murata/src/alp.c **** /*! \file alp.c
+   2:../../shields/Murata/src/alp.c ****  *
+   3:../../shields/Murata/src/alp.c **** 
+   4:../../shields/Murata/src/alp.c ****  *  \copyright (C) Copyright 2015 University of Antwerp and others (http://oss-7.cosys.be)
+   5:../../shields/Murata/src/alp.c ****  *
+   6:../../shields/Murata/src/alp.c ****  * Licensed under the Apache License, Version 2.0 (the "License");
+   7:../../shields/Murata/src/alp.c ****  * you may not use this file except in compliance with the License.
+   8:../../shields/Murata/src/alp.c ****  * You may obtain a copy of the License at
+   9:../../shields/Murata/src/alp.c ****  *
+  10:../../shields/Murata/src/alp.c ****  *     http://www.apache.org/licenses/LICENSE-2.0
+  11:../../shields/Murata/src/alp.c ****  *
+  12:../../shields/Murata/src/alp.c ****  * Unless required by applicable law or agreed to in writing, software
+  13:../../shields/Murata/src/alp.c ****  * distributed under the License is distributed on an "AS IS" BASIS,
+  14:../../shields/Murata/src/alp.c ****  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  15:../../shields/Murata/src/alp.c ****  * See the License for the specific language governing permissions and
+  16:../../shields/Murata/src/alp.c ****  * limitations under the License.
+  17:../../shields/Murata/src/alp.c ****  *
+  18:../../shields/Murata/src/alp.c ****  *  \author glenn.ergeerts@uantwerpen.be
+  19:../../shields/Murata/src/alp.c ****  *  \author maarten.weyn@uantwerpen.be
+  20:../../shields/Murata/src/alp.c ****  *
+  21:../../shields/Murata/src/alp.c ****  */
+  22:../../shields/Murata/src/alp.c **** 
+  23:../../shields/Murata/src/alp.c **** #include "stdlib.h"
+  24:../../shields/Murata/src/alp.c **** //#include "debug.h"
+  25:../../shields/Murata/src/alp.c **** #include "errors.h"
+  26:../../shields/Murata/src/alp.c **** 
+  27:../../shields/Murata/src/alp.c **** #include "alp.h"
+  28:../../shields/Murata/src/alp.c **** #include "dae.h"
+  29:../../shields/Murata/src/alp.c **** #include "fifo.h"
+  30:../../shields/Murata/src/alp.c **** #include "d7ap.h"
+  31:../../shields/Murata/src/alp.c **** //#include "log.h"
+  32:../../shields/Murata/src/alp.c **** #include "lorawan_stack.h"
+ARM GAS  /tmp/ccA9SLCI.s 			page 2
+
+
+  33:../../shields/Murata/src/alp.c **** 
+  34:../../shields/Murata/src/alp.c **** #if defined(FRAMEWORK_LOG_ENABLED) && defined(FRAMEWORK_ALP_LOG_ENABLED)
+  35:../../shields/Murata/src/alp.c ****   #define DPRINT(...) log_print_stack_string(LOG_STACK_ALP, __VA_ARGS__)
+  36:../../shields/Murata/src/alp.c **** #else
+  37:../../shields/Murata/src/alp.c ****   #define DPRINT(...)
+  38:../../shields/Murata/src/alp.c **** #endif
+  39:../../shields/Murata/src/alp.c **** 
+  40:../../shields/Murata/src/alp.c **** 
+  41:../../shields/Murata/src/alp.c **** alp_operation_t alp_get_operation(uint8_t* alp_command)
+  42:../../shields/Murata/src/alp.c **** {
+  43:../../shields/Murata/src/alp.c ****     alp_control_t alp_ctrl;
+  44:../../shields/Murata/src/alp.c ****     alp_ctrl.raw = (*alp_command);
+  45:../../shields/Murata/src/alp.c ****     return alp_ctrl.operation;
+  46:../../shields/Murata/src/alp.c **** }
+  47:../../shields/Murata/src/alp.c **** 
+  48:../../shields/Murata/src/alp.c **** uint32_t alp_parse_length_operand(fifo_t* cmd_fifo) {
+  49:../../shields/Murata/src/alp.c ****   uint8_t len = 0;
+  50:../../shields/Murata/src/alp.c ****   fifo_pop(cmd_fifo, (uint8_t*)&len, 1);
+  51:../../shields/Murata/src/alp.c ****   uint8_t field_len = len >> 6;
+  52:../../shields/Murata/src/alp.c ****   if(field_len == 0)
+  53:../../shields/Murata/src/alp.c ****     return (uint32_t)len;
+  54:../../shields/Murata/src/alp.c **** 
+  55:../../shields/Murata/src/alp.c ****   uint32_t full_length = (len & 0x3F) << ( 8 * field_len); // mask field length specificier bits an
+  56:../../shields/Murata/src/alp.c ****   fifo_pop(cmd_fifo, (uint8_t*)&full_length, field_len);
+  57:../../shields/Murata/src/alp.c ****   return full_length;
+  58:../../shields/Murata/src/alp.c **** }
+  59:../../shields/Murata/src/alp.c **** 
+  60:../../shields/Murata/src/alp.c **** void alp_append_length_operand(fifo_t* fifo, uint32_t length) {
+  61:../../shields/Murata/src/alp.c ****   if(length < 64) {
+  62:../../shields/Murata/src/alp.c ****     // can be coded in one byte
+  63:../../shields/Murata/src/alp.c ****     assert(fifo_put(fifo, (uint8_t*)&length, 1) == oss7SUCCESS);
+  64:../../shields/Murata/src/alp.c ****     return;
+  65:../../shields/Murata/src/alp.c ****   }
+  66:../../shields/Murata/src/alp.c **** 
+  67:../../shields/Murata/src/alp.c ****   uint8_t size = 1;
+  68:../../shields/Murata/src/alp.c ****   if(length > 0x3FFF)
+  69:../../shields/Murata/src/alp.c ****     size = 2;
+  70:../../shields/Murata/src/alp.c ****   if(length > 0x3FFFFF)
+  71:../../shields/Murata/src/alp.c ****     size = 3;
+  72:../../shields/Murata/src/alp.c **** 
+  73:../../shields/Murata/src/alp.c ****   uint8_t byte = 0;
+  74:../../shields/Murata/src/alp.c ****   byte += (size << 6); // length specifier bits
+  75:../../shields/Murata/src/alp.c ****   byte += ((uint8_t*)(&length))[size];
+  76:../../shields/Murata/src/alp.c ****   assert(fifo_put(fifo, &byte, 1) == oss7SUCCESS);
+  77:../../shields/Murata/src/alp.c ****   do {
+  78:../../shields/Murata/src/alp.c ****     size--;
+  79:../../shields/Murata/src/alp.c ****     assert(fifo_put(fifo, (uint8_t*)&length + size, 1) == oss7SUCCESS);
+  80:../../shields/Murata/src/alp.c ****   } while(size > 0);
+  81:../../shields/Murata/src/alp.c **** }
+  82:../../shields/Murata/src/alp.c **** 
+  83:../../shields/Murata/src/alp.c **** alp_operand_file_offset_t alp_parse_file_offset_operand(fifo_t* cmd_fifo) {
+  84:../../shields/Murata/src/alp.c ****   alp_operand_file_offset_t operand;
+  85:../../shields/Murata/src/alp.c ****   error_t err = fifo_pop(cmd_fifo, &operand.file_id, 1); assert(err == oss7SUCCESS);
+  86:../../shields/Murata/src/alp.c ****   operand.offset = alp_parse_length_operand(cmd_fifo);
+  87:../../shields/Murata/src/alp.c ****   return operand;
+  88:../../shields/Murata/src/alp.c **** }
+  89:../../shields/Murata/src/alp.c **** 
+ARM GAS  /tmp/ccA9SLCI.s 			page 3
+
+
+  90:../../shields/Murata/src/alp.c **** alp_operand_file_header_t alp_parse_file_header_operand(fifo_t* cmd_fifo) {
+  91:../../shields/Murata/src/alp.c ****   alp_operand_file_header_t operand;
+  92:../../shields/Murata/src/alp.c ****   error_t err = fifo_pop(cmd_fifo, &operand.file_id, 1); assert(err == oss7SUCCESS);
+  93:../../shields/Murata/src/alp.c ****   err = fifo_pop(cmd_fifo, (uint8_t*)&operand.file_header, sizeof(fs_file_header_t)); assert(err ==
+  94:../../shields/Murata/src/alp.c **** 
+  95:../../shields/Murata/src/alp.c ****   // convert to little endian (native)
+  96:../../shields/Murata/src/alp.c ****   operand.file_header.length = __builtin_bswap32(operand.file_header.length);
+  97:../../shields/Murata/src/alp.c ****   operand.file_header.allocated_length = __builtin_bswap32(operand.file_header.allocated_length);
+  98:../../shields/Murata/src/alp.c ****   return operand;
+  99:../../shields/Murata/src/alp.c **** }
+ 100:../../shields/Murata/src/alp.c **** 
+ 101:../../shields/Murata/src/alp.c **** void alp_append_file_offset_operand(fifo_t* fifo, uint8_t file_id, uint32_t offset) {
+ 102:../../shields/Murata/src/alp.c ****   assert(fifo_put_byte(fifo, file_id) == oss7SUCCESS);
+ 103:../../shields/Murata/src/alp.c ****   alp_append_length_operand(fifo, offset);
+ 104:../../shields/Murata/src/alp.c **** }
+ 105:../../shields/Murata/src/alp.c **** 
+ 106:../../shields/Murata/src/alp.c **** void alp_append_forward_action(fifo_t* fifo, uint8_t itf_id, uint8_t *config, uint8_t config_len) {
+ 107:../../shields/Murata/src/alp.c ****   assert(config!=NULL);
+ 108:../../shields/Murata/src/alp.c ****   assert(fifo_put_byte(fifo, ALP_OP_FORWARD) == oss7SUCCESS);
+ 109:../../shields/Murata/src/alp.c ****   assert(fifo_put_byte(fifo, itf_id) == oss7SUCCESS);
+ 110:../../shields/Murata/src/alp.c **** 
+ 111:../../shields/Murata/src/alp.c ****   if (itf_id == ALP_ITF_ID_D7ASP)
+ 112:../../shields/Murata/src/alp.c ****   {
+ 113:../../shields/Murata/src/alp.c ****     assert(fifo_put_byte(fifo, ((d7ap_session_config_t*)config)->qos.raw) == oss7SUCCESS);
+ 114:../../shields/Murata/src/alp.c ****     assert(fifo_put_byte(fifo, ((d7ap_session_config_t*)config)->dormant_timeout) == oss7SUCCESS);
+ 115:../../shields/Murata/src/alp.c ****     assert(fifo_put_byte(fifo, ((d7ap_session_config_t*)config)->addressee.ctrl.raw) == oss7SUCCESS
+ 116:../../shields/Murata/src/alp.c ****     uint8_t id_length = d7ap_addressee_id_length(((d7ap_session_config_t*)config)->addressee.ctrl.i
+ 117:../../shields/Murata/src/alp.c ****     assert(fifo_put_byte(fifo, ((d7ap_session_config_t*)config)->addressee.access_class) == oss7SUC
+ 118:../../shields/Murata/src/alp.c ****     assert(fifo_put(fifo, ((d7ap_session_config_t*)config)->addressee.id, id_length) == oss7SUCCESS
+ 119:../../shields/Murata/src/alp.c ****   }
+ 120:../../shields/Murata/src/alp.c ****   else if(itf_id == ALP_ITF_ID_LORAWAN_ABP)
+ 121:../../shields/Murata/src/alp.c ****   {
+ 122:../../shields/Murata/src/alp.c ****     uint8_t control_byte = ((lorawan_session_config_abp_t*)config)->request_ack << 1;
+ 123:../../shields/Murata/src/alp.c ****     assert(fifo_put_byte(fifo, control_byte) == oss7SUCCESS);
+ 124:../../shields/Murata/src/alp.c ****     assert(fifo_put_byte(fifo, ((lorawan_session_config_abp_t*)config)->application_port) == oss7SU
+ 125:../../shields/Murata/src/alp.c ****     assert(fifo_put(fifo, ((lorawan_session_config_abp_t*)config)->nwkSKey, 16) == oss7SUCCESS);
+ 126:../../shields/Murata/src/alp.c ****     assert(fifo_put(fifo, ((lorawan_session_config_abp_t*)config)->appSKey, 16) == oss7SUCCESS);
+ 127:../../shields/Murata/src/alp.c ****     uint32_t dev_addr = __builtin_bswap32(((lorawan_session_config_abp_t*)config)->devAddr);
+ 128:../../shields/Murata/src/alp.c ****     assert(fifo_put(fifo, (uint8_t*)&dev_addr, 4) == oss7SUCCESS);
+ 129:../../shields/Murata/src/alp.c ****     uint32_t network_id = __builtin_bswap32(((lorawan_session_config_abp_t*)config)->network_id);
+ 130:../../shields/Murata/src/alp.c **** 
+ 131:../../shields/Murata/src/alp.c ****     assert(fifo_put(fifo, (uint8_t*)&network_id, 4) == oss7SUCCESS);
+ 132:../../shields/Murata/src/alp.c ****   }
+ 133:../../shields/Murata/src/alp.c ****   else if(itf_id == ALP_ITF_ID_LORAWAN_OTAA)
+ 134:../../shields/Murata/src/alp.c ****   {
+ 135:../../shields/Murata/src/alp.c ****     uint8_t control_byte = ((lorawan_session_config_otaa_t*)config)->request_ack << 1;
+ 136:../../shields/Murata/src/alp.c ****     assert(fifo_put_byte(fifo, control_byte) == oss7SUCCESS);
+ 137:../../shields/Murata/src/alp.c ****     assert(fifo_put_byte(fifo, ((lorawan_session_config_otaa_t*)config)->application_port) == oss7S
+ 138:../../shields/Murata/src/alp.c ****     assert(fifo_put(fifo, ((lorawan_session_config_otaa_t*)config)->devEUI, 8) == oss7SUCCESS);
+ 139:../../shields/Murata/src/alp.c ****     assert(fifo_put(fifo, ((lorawan_session_config_otaa_t*)config)->appEUI, 8) == oss7SUCCESS);
+ 140:../../shields/Murata/src/alp.c ****     assert(fifo_put(fifo, ((lorawan_session_config_otaa_t*)config)->appKey, 16) == oss7SUCCESS);
+ 141:../../shields/Murata/src/alp.c ****   }
+ 142:../../shields/Murata/src/alp.c ****   else
+ 143:../../shields/Murata/src/alp.c ****   {
+ 144:../../shields/Murata/src/alp.c ****     assert(fifo_put(fifo, config, config_len) == oss7SUCCESS);
+ 145:../../shields/Murata/src/alp.c ****   }
+ 146:../../shields/Murata/src/alp.c **** 
+ARM GAS  /tmp/ccA9SLCI.s 			page 4
+
+
+ 147:../../shields/Murata/src/alp.c ****   DPRINT("FORWARD");
+ 148:../../shields/Murata/src/alp.c **** }
+ 149:../../shields/Murata/src/alp.c **** 
+ 150:../../shields/Murata/src/alp.c **** void alp_append_return_file_data_action(fifo_t* fifo, uint8_t file_id, uint32_t offset, uint32_t le
+ 151:../../shields/Murata/src/alp.c ****   assert(fifo_put_byte(fifo, ALP_OP_RETURN_FILE_DATA) == oss7SUCCESS);
+ 152:../../shields/Murata/src/alp.c ****   assert(fifo_put_byte(fifo, file_id) == oss7SUCCESS);
+ 153:../../shields/Murata/src/alp.c ****   alp_append_length_operand(fifo, offset);
+ 154:../../shields/Murata/src/alp.c ****   alp_append_length_operand(fifo, length);
+ 155:../../shields/Murata/src/alp.c ****   assert(fifo_put(fifo, data, length) == oss7SUCCESS);
+ 156:../../shields/Murata/src/alp.c **** }
+ 157:../../shields/Murata/src/alp.c **** 
+ 158:../../shields/Murata/src/alp.c **** static void append_tag_response(fifo_t* fifo, uint8_t tag_id, bool eop, bool error) {
+ 159:../../shields/Murata/src/alp.c ****   // fill response with tag response
+ 160:../../shields/Murata/src/alp.c ****   uint8_t op_return_tag = ALP_OP_RETURN_TAG | (eop << 7);
+ 161:../../shields/Murata/src/alp.c ****   op_return_tag |= (error << 6);
+ 162:../../shields/Murata/src/alp.c ****   error_t err = fifo_put_byte(fifo, op_return_tag); assert(err == oss7SUCCESS);
+ 163:../../shields/Murata/src/alp.c ****   err = fifo_put_byte(fifo, tag_id); assert(err == oss7SUCCESS);
+ 164:../../shields/Murata/src/alp.c **** }
+ 165:../../shields/Murata/src/alp.c **** 
+ 166:../../shields/Murata/src/alp.c **** 
+ 167:../../shields/Murata/src/alp.c **** static void add_interface_status_action(fifo_t* alp_response_fifo, uint8_t itf_id, uint8_t *status,
+ 168:../../shields/Murata/src/alp.c ****   if (itf_id == ALP_ITF_ID_D7ASP)
+ 169:../../shields/Murata/src/alp.c ****   {
+ 170:../../shields/Murata/src/alp.c ****     fifo_put_byte(alp_response_fifo, ALP_OP_RETURN_STATUS + (1 << 6));
+ 171:../../shields/Murata/src/alp.c ****     fifo_put_byte(alp_response_fifo, ALP_ITF_ID_D7ASP);
+ 172:../../shields/Murata/src/alp.c ****     //TODO insert status len
+ 173:../../shields/Murata/src/alp.c ****     fifo_put_byte(alp_response_fifo, ((d7ap_session_result_t*)status)->channel.channel_header);
+ 174:../../shields/Murata/src/alp.c ****     uint16_t center_freq_index_be = __builtin_bswap16(((d7ap_session_result_t*)status)->channel.cen
+ 175:../../shields/Murata/src/alp.c ****     fifo_put(alp_response_fifo, (uint8_t*)&center_freq_index_be, 2);
+ 176:../../shields/Murata/src/alp.c ****     fifo_put_byte(alp_response_fifo, ((d7ap_session_result_t*)status)->rx_level);
+ 177:../../shields/Murata/src/alp.c ****     fifo_put_byte(alp_response_fifo, ((d7ap_session_result_t*)status)->link_budget);
+ 178:../../shields/Murata/src/alp.c ****     fifo_put_byte(alp_response_fifo, ((d7ap_session_result_t*)status)->target_rx_level);
+ 179:../../shields/Murata/src/alp.c ****     fifo_put_byte(alp_response_fifo, ((d7ap_session_result_t*)status)->status.raw);
+ 180:../../shields/Murata/src/alp.c ****     fifo_put_byte(alp_response_fifo, ((d7ap_session_result_t*)status)->fifo_token);
+ 181:../../shields/Murata/src/alp.c ****     fifo_put_byte(alp_response_fifo, ((d7ap_session_result_t*)status)->seqnr);
+ 182:../../shields/Murata/src/alp.c ****     fifo_put_byte(alp_response_fifo, ((d7ap_session_result_t*)status)->response_to);
+ 183:../../shields/Murata/src/alp.c ****     fifo_put_byte(alp_response_fifo, ((d7ap_session_result_t*)status)->addressee.ctrl.raw);
+ 184:../../shields/Murata/src/alp.c ****     fifo_put_byte(alp_response_fifo, ((d7ap_session_result_t*)status)->addressee.access_class);
+ 185:../../shields/Murata/src/alp.c ****     uint8_t address_len = d7ap_addressee_id_length(((d7ap_session_result_t*)status)->addressee.ctrl
+ 186:../../shields/Murata/src/alp.c ****     fifo_put(alp_response_fifo, ((d7ap_session_result_t*)status)->addressee.id, address_len);
+ 187:../../shields/Murata/src/alp.c ****   }
+ 188:../../shields/Murata/src/alp.c **** }
+ 189:../../shields/Murata/src/alp.c **** 
+ 190:../../shields/Murata/src/alp.c **** 
+ 191:../../shields/Murata/src/alp.c **** static void parse_operand_file_data(fifo_t* fifo, alp_action_t* action) {
+ 192:../../shields/Murata/src/alp.c ****   action->file_data_operand.file_offset = alp_parse_file_offset_operand(fifo);
+ 193:../../shields/Murata/src/alp.c ****   action->file_data_operand.provided_data_length = alp_parse_length_operand(fifo);
+ 194:../../shields/Murata/src/alp.c ****   assert(action->file_data_operand.provided_data_length <= sizeof(action->file_data_operand.data));
+ 195:../../shields/Murata/src/alp.c ****   fifo_pop(fifo, action->file_data_operand.data, action->file_data_operand.provided_data_length);
+ 196:../../shields/Murata/src/alp.c **** }
+ 197:../../shields/Murata/src/alp.c **** 
+ 198:../../shields/Murata/src/alp.c **** static void parse_op_write_file_data(fifo_t* fifo, alp_action_t* action) {
+ 199:../../shields/Murata/src/alp.c ****   parse_operand_file_data(fifo, action);
+ 200:../../shields/Murata/src/alp.c ****   DPRINT("parsed write file data file %i, len %i", action->file_data_operand.file_offset.file_id, a
+ 201:../../shields/Murata/src/alp.c **** }
+ 202:../../shields/Murata/src/alp.c **** 
+ 203:../../shields/Murata/src/alp.c **** 
+ARM GAS  /tmp/ccA9SLCI.s 			page 5
+
+
+ 204:../../shields/Murata/src/alp.c **** static void parse_op_return_file_data(fifo_t* fifo, alp_action_t* action) {
+ 205:../../shields/Murata/src/alp.c ****   parse_operand_file_data(fifo, action);
+ 206:../../shields/Murata/src/alp.c ****   DPRINT("parsed return file data file %i, len %i", action->file_data_operand.file_offset.file_id, 
+ 207:../../shields/Murata/src/alp.c **** }
+ 208:../../shields/Murata/src/alp.c **** 
+ 209:../../shields/Murata/src/alp.c **** static void parse_op_return_tag(fifo_t* fifo, alp_action_t* action, bool b6, bool b7) {
+  27              		.loc 1 209 0
+  28              		.cfi_startproc
+  29              		@ args = 0, pretend = 0, frame = 0
+  30              		@ frame_needed = 0, uses_anonymous_args = 0
+  31              	.LVL0:
+  32 0000 08B5     		push	{r3, lr}
+  33              	.LCFI0:
+  34              		.cfi_def_cfa_offset 8
+  35              		.cfi_offset 3, -8
+  36              		.cfi_offset 14, -4
+ 210:../../shields/Murata/src/alp.c ****   action->tag_response.completed = b7;
+  37              		.loc 1 210 0
+  38 0002 0B71     		strb	r3, [r1, #4]
+ 211:../../shields/Murata/src/alp.c ****   action->tag_response.error = b6;
+  39              		.loc 1 211 0
+  40 0004 4A71     		strb	r2, [r1, #5]
+ 212:../../shields/Murata/src/alp.c ****   assert(fifo_pop(fifo, &action->tag_response.tag_id, 1) == oss7SUCCESS);
+  41              		.loc 1 212 0
+  42 0006 0122     		movs	r2, #1
+  43              	.LVL1:
+  44 0008 0631     		adds	r1, r1, #6
+  45              	.LVL2:
+  46 000a FFF7FEFF 		bl	fifo_pop
+  47              	.LVL3:
+  48 000e 00B9     		cbnz	r0, .L4
+ 213:../../shields/Murata/src/alp.c ****   DPRINT("parsed return tag %i, eop %i, err %i", action->tag_response.tag_id, action->tag_response.
+ 214:../../shields/Murata/src/alp.c **** }
+  49              		.loc 1 214 0
+  50 0010 08BD     		pop	{r3, pc}
+  51              	.L4:
+ 212:../../shields/Murata/src/alp.c ****   assert(fifo_pop(fifo, &action->tag_response.tag_id, 1) == oss7SUCCESS);
+  52              		.loc 1 212 0 discriminator 1
+  53 0012 034B     		ldr	r3, .L5
+  54 0014 034A     		ldr	r2, .L5+4
+  55 0016 D421     		movs	r1, #212
+  56 0018 0348     		ldr	r0, .L5+8
+  57 001a FFF7FEFF 		bl	__assert_func
+  58              	.LVL4:
+  59              	.L6:
+  60 001e 00BF     		.align	2
+  61              	.L5:
+  62 0020 00000000 		.word	.LC0
+  63 0024 00000000 		.word	.LANCHOR0
+  64 0028 40000000 		.word	.LC1
+  65              		.cfi_endproc
+  66              	.LFE14:
+  68              		.section	.text.parse_op_return_status,"ax",%progbits
+  69              		.align	1
+  70              		.syntax unified
+  71              		.thumb
+  72              		.thumb_func
+ARM GAS  /tmp/ccA9SLCI.s 			page 6
+
+
+  73              		.fpu fpv4-sp-d16
+  75              	parse_op_return_status:
+  76              	.LFB15:
+ 215:../../shields/Murata/src/alp.c **** 
+ 216:../../shields/Murata/src/alp.c **** static void parse_op_return_status(fifo_t* fifo, alp_action_t* action, bool b6, bool b7) {
+  77              		.loc 1 216 0
+  78              		.cfi_startproc
+  79              		@ args = 0, pretend = 0, frame = 24
+  80              		@ frame_needed = 0, uses_anonymous_args = 0
+  81              	.LVL5:
+  82 0000 70B5     		push	{r4, r5, r6, lr}
+  83              	.LCFI1:
+  84              		.cfi_def_cfa_offset 16
+  85              		.cfi_offset 4, -16
+  86              		.cfi_offset 5, -12
+  87              		.cfi_offset 6, -8
+  88              		.cfi_offset 14, -4
+  89 0002 86B0     		sub	sp, sp, #24
+  90              	.LCFI2:
+  91              		.cfi_def_cfa_offset 40
+ 217:../../shields/Murata/src/alp.c ****   assert(b6 && !b7); // TODO implement action status
+  92              		.loc 1 217 0
+  93 0004 AAB1     		cbz	r2, .L8
+  94 0006 0446     		mov	r4, r0
+  95 0008 0D46     		mov	r5, r1
+  96              		.loc 1 217 0 is_stmt 0 discriminator 2
+  97 000a 93B9     		cbnz	r3, .L8
+ 218:../../shields/Murata/src/alp.c ****   uint8_t itf_id;
+ 219:../../shields/Murata/src/alp.c ****   assert(fifo_pop(fifo, &itf_id, 1) == oss7SUCCESS);
+  98              		.loc 1 219 0 is_stmt 1
+  99 000c 0122     		movs	r2, #1
+ 100              	.LVL6:
+ 101 000e 0DF11701 		add	r1, sp, #23
+ 102              	.LVL7:
+ 103 0012 FFF7FEFF 		bl	fifo_pop
+ 104              	.LVL8:
+ 105 0016 90B9     		cbnz	r0, .L22
+ 220:../../shields/Murata/src/alp.c ****   // TODO uint32_t itf_len = parse_length_operand(fifo);
+ 221:../../shields/Murata/src/alp.c ****   // assert(itf_len == sizeof(d7ap_session_result_t));
+ 222:../../shields/Murata/src/alp.c ****   action->status.type=itf_id;
+ 106              		.loc 1 222 0
+ 107 0018 9DF81730 		ldrb	r3, [sp, #23]	@ zero_extendqisi2
+ 108 001c 85F80431 		strb	r3, [r5, #260]
+ 223:../../shields/Murata/src/alp.c ****   if (itf_id == ALP_ITF_ID_D7ASP)
+ 109              		.loc 1 223 0
+ 110 0020 D72B     		cmp	r3, #215
+ 111 0022 12D0     		beq	.L23
+ 224:../../shields/Murata/src/alp.c ****   {
+ 225:../../shields/Murata/src/alp.c ****     d7ap_session_result_t interface_status =  *((d7ap_session_result_t*)action->status.data);
+ 226:../../shields/Murata/src/alp.c **** 
+ 227:../../shields/Murata/src/alp.c ****     fifo_pop(fifo, &interface_status.channel.channel_header, 1);
+ 228:../../shields/Murata/src/alp.c ****     fifo_pop(fifo, (uint8_t*)&interface_status.channel.center_freq_index, 2);
+ 229:../../shields/Murata/src/alp.c ****     interface_status.channel.center_freq_index = __builtin_bswap16(interface_status.channel.center_
+ 230:../../shields/Murata/src/alp.c ****     fifo_pop(fifo, &interface_status.rx_level, 1);
+ 231:../../shields/Murata/src/alp.c ****     fifo_pop(fifo, &interface_status.link_budget, 1);
+ 232:../../shields/Murata/src/alp.c ****     fifo_pop(fifo, &interface_status.target_rx_level, 1);
+ 233:../../shields/Murata/src/alp.c ****     fifo_pop(fifo, &interface_status.status.raw, 1);
+ARM GAS  /tmp/ccA9SLCI.s 			page 7
+
+
+ 234:../../shields/Murata/src/alp.c ****     fifo_pop(fifo, &interface_status.fifo_token, 1);
+ 235:../../shields/Murata/src/alp.c ****     fifo_pop(fifo, &interface_status.seqnr, 1);
+ 236:../../shields/Murata/src/alp.c ****     fifo_pop(fifo, &interface_status.response_to, 1);
+ 237:../../shields/Murata/src/alp.c ****     fifo_pop(fifo, &interface_status.addressee.ctrl.raw, 1);
+ 238:../../shields/Murata/src/alp.c ****     fifo_pop(fifo, &interface_status.addressee.access_class, 1);
+ 239:../../shields/Murata/src/alp.c ****     uint8_t addressee_len = d7ap_addressee_id_length(interface_status.addressee.ctrl.id_type);
+ 240:../../shields/Murata/src/alp.c ****     assert(fifo_pop(fifo, interface_status.addressee.id, addressee_len) == oss7SUCCESS);
+ 241:../../shields/Murata/src/alp.c ****   }
+ 242:../../shields/Murata/src/alp.c ****   else if ( (itf_id == ALP_ITF_ID_LORAWAN_OTAA) || (itf_id == ALP_ITF_ID_LORAWAN_ABP))
+ 112              		.loc 1 242 0
+ 113 0024 023B     		subs	r3, r3, #2
+ 114 0026 DBB2     		uxtb	r3, r3
+ 115 0028 012B     		cmp	r3, #1
+ 116 002a 40F28480 		bls	.L24
+ 117              	.LVL9:
+ 118              	.L7:
+ 243:../../shields/Murata/src/alp.c ****   {
+ 244:../../shields/Murata/src/alp.c ****     lorawan_session_result_t interface_status = *((lorawan_session_result_t*)action->status.data);
+ 245:../../shields/Murata/src/alp.c ****     fifo_skip(fifo,1); //size
+ 246:../../shields/Murata/src/alp.c ****     fifo_pop(fifo, &interface_status.attempts, 1);
+ 247:../../shields/Murata/src/alp.c ****     fifo_pop(fifo, &interface_status.error_state, 1);
+ 248:../../shields/Murata/src/alp.c ****   }
+ 249:../../shields/Murata/src/alp.c **** 
+ 250:../../shields/Murata/src/alp.c ****   DPRINT("parsed interface status");
+ 251:../../shields/Murata/src/alp.c **** }
+ 119              		.loc 1 251 0
+ 120 002e 06B0     		add	sp, sp, #24
+ 121              	.LCFI3:
+ 122              		.cfi_remember_state
+ 123              		.cfi_def_cfa_offset 16
+ 124              		@ sp needed
+ 125 0030 70BD     		pop	{r4, r5, r6, pc}
+ 126              	.LVL10:
+ 127              	.L8:
+ 128              	.LCFI4:
+ 129              		.cfi_restore_state
+ 217:../../shields/Murata/src/alp.c ****   uint8_t itf_id;
+ 130              		.loc 1 217 0 discriminator 3
+ 131 0032 4A4B     		ldr	r3, .L25
+ 132              	.LVL11:
+ 133 0034 4A4A     		ldr	r2, .L25+4
+ 134              	.LVL12:
+ 135 0036 D921     		movs	r1, #217
+ 136              	.LVL13:
+ 137 0038 4A48     		ldr	r0, .L25+8
+ 138              	.LVL14:
+ 139 003a FFF7FEFF 		bl	__assert_func
+ 140              	.LVL15:
+ 141              	.L22:
+ 219:../../shields/Murata/src/alp.c ****   // TODO uint32_t itf_len = parse_length_operand(fifo);
+ 142              		.loc 1 219 0 discriminator 1
+ 143 003e 4A4B     		ldr	r3, .L25+12
+ 144 0040 474A     		ldr	r2, .L25+4
+ 145 0042 DB21     		movs	r1, #219
+ 146 0044 4748     		ldr	r0, .L25+8
+ 147 0046 FFF7FEFF 		bl	__assert_func
+ 148              	.LVL16:
+ARM GAS  /tmp/ccA9SLCI.s 			page 8
+
+
+ 149              	.L23:
+ 150              	.LBB6:
+ 225:../../shields/Murata/src/alp.c **** 
+ 151              		.loc 1 225 0
+ 152 004a 6E46     		mov	r6, sp
+ 153 004c 55F8040F 		ldr	r0, [r5, #4]!	@ unaligned
+ 154              	.LVL17:
+ 155 0050 6968     		ldr	r1, [r5, #4]	@ unaligned
+ 156 0052 AA68     		ldr	r2, [r5, #8]	@ unaligned
+ 157 0054 EB68     		ldr	r3, [r5, #12]	@ unaligned
+ 158 0056 0FC6     		stmia	r6!, {r0, r1, r2, r3}
+ 159 0058 2869     		ldr	r0, [r5, #16]	@ unaligned
+ 160 005a 3060     		str	r0, [r6]
+ 161 005c AA8A     		ldrh	r2, [r5, #20]	@ unaligned
+ 162 005e AB7D     		ldrb	r3, [r5, #22]	@ zero_extendqisi2
+ 163 0060 B280     		strh	r2, [r6, #4]	@ unaligned
+ 164 0062 B371     		strb	r3, [r6, #6]
+ 227:../../shields/Murata/src/alp.c ****     fifo_pop(fifo, (uint8_t*)&interface_status.channel.center_freq_index, 2);
+ 165              		.loc 1 227 0
+ 166 0064 0122     		movs	r2, #1
+ 167 0066 6946     		mov	r1, sp
+ 168 0068 2046     		mov	r0, r4
+ 169 006a FFF7FEFF 		bl	fifo_pop
+ 170              	.LVL18:
+ 228:../../shields/Murata/src/alp.c ****     interface_status.channel.center_freq_index = __builtin_bswap16(interface_status.channel.center_
+ 171              		.loc 1 228 0
+ 172 006e 0222     		movs	r2, #2
+ 173 0070 0DEB0201 		add	r1, sp, r2
+ 174 0074 2046     		mov	r0, r4
+ 175 0076 FFF7FEFF 		bl	fifo_pop
+ 176              	.LVL19:
+ 229:../../shields/Murata/src/alp.c ****     fifo_pop(fifo, &interface_status.rx_level, 1);
+ 177              		.loc 1 229 0
+ 178 007a BDF80230 		ldrh	r3, [sp, #2]
+ 179 007e 5BBA     		rev16	r3, r3
+ 180 0080 ADF80230 		strh	r3, [sp, #2]	@ movhi
+ 230:../../shields/Murata/src/alp.c ****     fifo_pop(fifo, &interface_status.link_budget, 1);
+ 181              		.loc 1 230 0
+ 182 0084 0122     		movs	r2, #1
+ 183 0086 01A9     		add	r1, sp, #4
+ 184 0088 2046     		mov	r0, r4
+ 185 008a FFF7FEFF 		bl	fifo_pop
+ 186              	.LVL20:
+ 231:../../shields/Murata/src/alp.c ****     fifo_pop(fifo, &interface_status.target_rx_level, 1);
+ 187              		.loc 1 231 0
+ 188 008e 0122     		movs	r2, #1
+ 189 0090 0DF10501 		add	r1, sp, #5
+ 190 0094 2046     		mov	r0, r4
+ 191 0096 FFF7FEFF 		bl	fifo_pop
+ 192              	.LVL21:
+ 232:../../shields/Murata/src/alp.c ****     fifo_pop(fifo, &interface_status.status.raw, 1);
+ 193              		.loc 1 232 0
+ 194 009a 0122     		movs	r2, #1
+ 195 009c 0DF10701 		add	r1, sp, #7
+ 196 00a0 2046     		mov	r0, r4
+ 197 00a2 FFF7FEFF 		bl	fifo_pop
+ 198              	.LVL22:
+ARM GAS  /tmp/ccA9SLCI.s 			page 9
+
+
+ 233:../../shields/Murata/src/alp.c ****     fifo_pop(fifo, &interface_status.fifo_token, 1);
+ 199              		.loc 1 233 0
+ 200 00a6 0122     		movs	r2, #1
+ 201 00a8 02A9     		add	r1, sp, #8
+ 202 00aa 2046     		mov	r0, r4
+ 203 00ac FFF7FEFF 		bl	fifo_pop
+ 204              	.LVL23:
+ 234:../../shields/Murata/src/alp.c ****     fifo_pop(fifo, &interface_status.seqnr, 1);
+ 205              		.loc 1 234 0
+ 206 00b0 0122     		movs	r2, #1
+ 207 00b2 0DF10901 		add	r1, sp, #9
+ 208 00b6 2046     		mov	r0, r4
+ 209 00b8 FFF7FEFF 		bl	fifo_pop
+ 210              	.LVL24:
+ 235:../../shields/Murata/src/alp.c ****     fifo_pop(fifo, &interface_status.response_to, 1);
+ 211              		.loc 1 235 0
+ 212 00bc 0122     		movs	r2, #1
+ 213 00be 0DF10A01 		add	r1, sp, #10
+ 214 00c2 2046     		mov	r0, r4
+ 215 00c4 FFF7FEFF 		bl	fifo_pop
+ 216              	.LVL25:
+ 236:../../shields/Murata/src/alp.c ****     fifo_pop(fifo, &interface_status.addressee.ctrl.raw, 1);
+ 217              		.loc 1 236 0
+ 218 00c8 0122     		movs	r2, #1
+ 219 00ca 0DF10B01 		add	r1, sp, #11
+ 220 00ce 2046     		mov	r0, r4
+ 221 00d0 FFF7FEFF 		bl	fifo_pop
+ 222              	.LVL26:
+ 237:../../shields/Murata/src/alp.c ****     fifo_pop(fifo, &interface_status.addressee.access_class, 1);
+ 223              		.loc 1 237 0
+ 224 00d4 0122     		movs	r2, #1
+ 225 00d6 0DF10D01 		add	r1, sp, #13
+ 226 00da 2046     		mov	r0, r4
+ 227 00dc FFF7FEFF 		bl	fifo_pop
+ 228              	.LVL27:
+ 238:../../shields/Murata/src/alp.c ****     uint8_t addressee_len = d7ap_addressee_id_length(interface_status.addressee.ctrl.id_type);
+ 229              		.loc 1 238 0
+ 230 00e0 0122     		movs	r2, #1
+ 231 00e2 0DF10E01 		add	r1, sp, #14
+ 232 00e6 2046     		mov	r0, r4
+ 233 00e8 FFF7FEFF 		bl	fifo_pop
+ 234              	.LVL28:
+ 239:../../shields/Murata/src/alp.c ****     assert(fifo_pop(fifo, interface_status.addressee.id, addressee_len) == oss7SUCCESS);
+ 235              		.loc 1 239 0
+ 236 00ec 9DF80D30 		ldrb	r3, [sp, #13]	@ zero_extendqisi2
+ 237 00f0 C3F30113 		ubfx	r3, r3, #4, #2
+ 238              	.LVL29:
+ 239              	.LBB7:
+ 240              	.LBB8:
+ 241              		.file 2 "../../shields/Murata/inc/d7ap.h"
+   1:../../shields/Murata/inc/d7ap.h **** 
+   2:../../shields/Murata/inc/d7ap.h **** /* * OSS-7 - An opensource implementation of the DASH7 Alliance Protocol for ultra
+   3:../../shields/Murata/inc/d7ap.h ****  * lowpower wireless sensor communication
+   4:../../shields/Murata/inc/d7ap.h ****  *
+   5:../../shields/Murata/inc/d7ap.h ****  * Copyright 2018 University of Antwerp
+   6:../../shields/Murata/inc/d7ap.h ****  * Copyright 2018 CORTUS SA
+   7:../../shields/Murata/inc/d7ap.h ****  *
+ARM GAS  /tmp/ccA9SLCI.s 			page 10
+
+
+   8:../../shields/Murata/inc/d7ap.h ****  * Licensed under the Apache License, Version 2.0 (the "License");
+   9:../../shields/Murata/inc/d7ap.h ****  * you may not use this file except in compliance with the License.
+  10:../../shields/Murata/inc/d7ap.h ****  * You may obtain a copy of the License at
+  11:../../shields/Murata/inc/d7ap.h ****  *
+  12:../../shields/Murata/inc/d7ap.h ****  *   http://www.apache.org/licenses/LICENSE-2.0
+  13:../../shields/Murata/inc/d7ap.h ****  *
+  14:../../shields/Murata/inc/d7ap.h ****  * Unless required by applicable law or agreed to in writing, software
+  15:../../shields/Murata/inc/d7ap.h ****  * distributed under the License is distributed on an "AS IS" BASIS,
+  16:../../shields/Murata/inc/d7ap.h ****  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  17:../../shields/Murata/inc/d7ap.h ****  * See the License for the specific language governing permissions and
+  18:../../shields/Murata/inc/d7ap.h ****  * limitations under the License.
+  19:../../shields/Murata/inc/d7ap.h ****  *
+  20:../../shields/Murata/inc/d7ap.h ****  * \author philippe.nunes@cortus.com
+  21:../../shields/Murata/inc/d7ap.h ****  */
+  22:../../shields/Murata/inc/d7ap.h **** 
+  23:../../shields/Murata/inc/d7ap.h **** /**
+  24:../../shields/Murata/inc/d7ap.h ****  * @file d7ap.h
+  25:../../shields/Murata/inc/d7ap.h ****  * @addtogroup d7ap
+  26:../../shields/Murata/inc/d7ap.h ****  * @ingroup framework
+  27:../../shields/Murata/inc/d7ap.h ****  * @{
+  28:../../shields/Murata/inc/d7ap.h ****  * @brief D7AP public types (used for modem and/or D7AP stack itself)
+  29:../../shields/Murata/inc/d7ap.h ****  *
+  30:../../shields/Murata/inc/d7ap.h ****  */
+  31:../../shields/Murata/inc/d7ap.h **** 
+  32:../../shields/Murata/inc/d7ap.h **** #ifndef D7AP_H
+  33:../../shields/Murata/inc/d7ap.h **** #define D7AP_H
+  34:../../shields/Murata/inc/d7ap.h **** 
+  35:../../shields/Murata/inc/d7ap.h **** #include "types.h"
+  36:../../shields/Murata/inc/d7ap.h **** #include "assert.h"
+  37:../../shields/Murata/inc/d7ap.h **** 
+  38:../../shields/Murata/inc/d7ap.h **** #define D7AP_MAX_CLIENT_COUNT 8
+  39:../../shields/Murata/inc/d7ap.h **** 
+  40:../../shields/Murata/inc/d7ap.h **** #define D7A_FILE_UID_FILE_ID 0x00
+  41:../../shields/Murata/inc/d7ap.h **** #define D7A_FILE_UID_SIZE 8
+  42:../../shields/Murata/inc/d7ap.h **** 
+  43:../../shields/Murata/inc/d7ap.h **** #define D7A_FILE_FIRMWARE_VERSION_FILE_ID 0x02
+  44:../../shields/Murata/inc/d7ap.h **** #define D7A_FILE_FIRMWARE_VERSION_APP_NAME_SIZE 6
+  45:../../shields/Murata/inc/d7ap.h **** #define D7A_FILE_FIRMWARE_VERSION_GIT_SHA1_SIZE 7
+  46:../../shields/Murata/inc/d7ap.h **** #define D7A_FILE_FIRMWARE_VERSION_SIZE (2 + D7A_FILE_FIRMWARE_VERSION_APP_NAME_SIZE + D7A_FILE_FIRM
+  47:../../shields/Murata/inc/d7ap.h **** 
+  48:../../shields/Murata/inc/d7ap.h **** #define D7A_FILE_DLL_CONF_FILE_ID	0x0A
+  49:../../shields/Murata/inc/d7ap.h **** #define D7A_FILE_DLL_CONF_SIZE		6
+  50:../../shields/Murata/inc/d7ap.h **** 
+  51:../../shields/Murata/inc/d7ap.h **** #define D7A_FILE_ACCESS_PROFILE_ID 0x20 // the first access class file
+  52:../../shields/Murata/inc/d7ap.h **** #define D7A_FILE_ACCESS_PROFILE_SIZE 65
+  53:../../shields/Murata/inc/d7ap.h **** #define D7A_FILE_ACCESS_PROFILE_COUNT 15
+  54:../../shields/Murata/inc/d7ap.h **** 
+  55:../../shields/Murata/inc/d7ap.h **** #define D7A_FILE_NWL_SECURITY		0x0D
+  56:../../shields/Murata/inc/d7ap.h **** #define D7A_FILE_NWL_SECURITY_SIZE	5
+  57:../../shields/Murata/inc/d7ap.h **** 
+  58:../../shields/Murata/inc/d7ap.h **** #define D7A_FILE_NWL_SECURITY_KEY		0x0E
+  59:../../shields/Murata/inc/d7ap.h **** #define D7A_FILE_NWL_SECURITY_KEY_SIZE	16
+  60:../../shields/Murata/inc/d7ap.h **** 
+  61:../../shields/Murata/inc/d7ap.h **** #define D7A_FILE_NWL_SECURITY_STATE_REG			0x0F
+  62:../../shields/Murata/inc/d7ap.h **** #define D7A_FILE_NWL_SECURITY_STATE_REG_SIZE	2 + (FRAMEWORK_FS_TRUSTED_NODE_TABLE_SIZE)*(D7A_FILE_N
+  63:../../shields/Murata/inc/d7ap.h **** 
+  64:../../shields/Murata/inc/d7ap.h **** 
+ARM GAS  /tmp/ccA9SLCI.s 			page 11
+
+
+  65:../../shields/Murata/inc/d7ap.h **** #define ID_TYPE_NBID_ID_LENGTH 1
+  66:../../shields/Murata/inc/d7ap.h **** #define ID_TYPE_NOID_ID_LENGTH 0
+  67:../../shields/Murata/inc/d7ap.h **** #define ID_TYPE_UID_ID_LENGTH   8
+  68:../../shields/Murata/inc/d7ap.h **** #define ID_TYPE_VID_LENGTH      2
+  69:../../shields/Murata/inc/d7ap.h **** 
+  70:../../shields/Murata/inc/d7ap.h **** #define ID_TYPE_IS_BROADCAST(id_type) (id_type == ID_TYPE_NBID || id_type == ID_TYPE_NOID)
+  71:../../shields/Murata/inc/d7ap.h **** 
+  72:../../shields/Murata/inc/d7ap.h **** #define D7A_PAYLOAD_MAX_SIZE 239 // TODO confirm this value when FEC and security are disabled
+  73:../../shields/Murata/inc/d7ap.h **** 
+  74:../../shields/Murata/inc/d7ap.h **** 
+  75:../../shields/Murata/inc/d7ap.h **** typedef enum {
+  76:../../shields/Murata/inc/d7ap.h ****     ID_TYPE_NBID = 0,
+  77:../../shields/Murata/inc/d7ap.h ****     ID_TYPE_NOID = 1,
+  78:../../shields/Murata/inc/d7ap.h ****     ID_TYPE_UID = 2,
+  79:../../shields/Murata/inc/d7ap.h ****     ID_TYPE_VID = 3
+  80:../../shields/Murata/inc/d7ap.h **** } d7ap_addressee_id_type_t;
+  81:../../shields/Murata/inc/d7ap.h **** 
+  82:../../shields/Murata/inc/d7ap.h **** typedef enum
+  83:../../shields/Murata/inc/d7ap.h **** {
+  84:../../shields/Murata/inc/d7ap.h ****     AES_NONE = 0, /* No security */
+  85:../../shields/Murata/inc/d7ap.h ****     AES_CTR = 0x01, /* data confidentiality */
+  86:../../shields/Murata/inc/d7ap.h ****     AES_CBC_MAC_128 = 0x02, /* data authenticity */
+  87:../../shields/Murata/inc/d7ap.h ****     AES_CBC_MAC_64 = 0x03, /* data authenticity */
+  88:../../shields/Murata/inc/d7ap.h ****     AES_CBC_MAC_32 = 0x04, /* data authenticity */
+  89:../../shields/Murata/inc/d7ap.h ****     AES_CCM_128 = 0x05, /* data confidentiality and authenticity*/
+  90:../../shields/Murata/inc/d7ap.h ****     AES_CCM_64 = 0x06, /* data confidentiality and authenticity*/
+  91:../../shields/Murata/inc/d7ap.h ****     AES_CCM_32 = 0x07, /* data confidentiality and authenticity*/
+  92:../../shields/Murata/inc/d7ap.h **** } nls_method_t;
+  93:../../shields/Murata/inc/d7ap.h **** 
+  94:../../shields/Murata/inc/d7ap.h **** typedef struct {
+  95:../../shields/Murata/inc/d7ap.h ****     union {
+  96:../../shields/Murata/inc/d7ap.h ****         uint8_t raw;
+  97:../../shields/Murata/inc/d7ap.h ****         struct {
+  98:../../shields/Murata/inc/d7ap.h ****             nls_method_t nls_method : 4;
+  99:../../shields/Murata/inc/d7ap.h ****             d7ap_addressee_id_type_t id_type : 2;
+ 100:../../shields/Murata/inc/d7ap.h ****             uint8_t _rfu : 2;
+ 101:../../shields/Murata/inc/d7ap.h ****         };
+ 102:../../shields/Murata/inc/d7ap.h ****     };
+ 103:../../shields/Murata/inc/d7ap.h **** } d7ap_addressee_ctrl_t;
+ 104:../../shields/Murata/inc/d7ap.h **** 
+ 105:../../shields/Murata/inc/d7ap.h **** typedef struct __attribute__((__packed__)) {
+ 106:../../shields/Murata/inc/d7ap.h ****     d7ap_addressee_ctrl_t ctrl;
+ 107:../../shields/Murata/inc/d7ap.h ****     union {
+ 108:../../shields/Murata/inc/d7ap.h ****         uint8_t access_class;
+ 109:../../shields/Murata/inc/d7ap.h ****         struct {
+ 110:../../shields/Murata/inc/d7ap.h ****             uint8_t access_mask : 4;
+ 111:../../shields/Murata/inc/d7ap.h ****             uint8_t access_specifier : 4;
+ 112:../../shields/Murata/inc/d7ap.h ****         };
+ 113:../../shields/Murata/inc/d7ap.h ****     };
+ 114:../../shields/Murata/inc/d7ap.h ****     uint8_t id[8]; // TODO assuming 8 byte id for now
+ 115:../../shields/Murata/inc/d7ap.h **** } d7ap_addressee_t;
+ 116:../../shields/Murata/inc/d7ap.h **** 
+ 117:../../shields/Murata/inc/d7ap.h **** typedef struct {
+ 118:../../shields/Murata/inc/d7ap.h ****     union {
+ 119:../../shields/Murata/inc/d7ap.h ****         uint8_t raw;
+ 120:../../shields/Murata/inc/d7ap.h ****         struct {
+ 121:../../shields/Murata/inc/d7ap.h ****             uint8_t _rfu : 4;
+ARM GAS  /tmp/ccA9SLCI.s 			page 12
+
+
+ 122:../../shields/Murata/inc/d7ap.h ****             bool ucast : 1;
+ 123:../../shields/Murata/inc/d7ap.h ****             bool retry : 1;
+ 124:../../shields/Murata/inc/d7ap.h ****             bool missed : 1;
+ 125:../../shields/Murata/inc/d7ap.h ****             bool nls : 1;
+ 126:../../shields/Murata/inc/d7ap.h ****         };
+ 127:../../shields/Murata/inc/d7ap.h ****     };
+ 128:../../shields/Murata/inc/d7ap.h **** } d7ap_sp_state_t;
+ 129:../../shields/Murata/inc/d7ap.h **** 
+ 130:../../shields/Murata/inc/d7ap.h **** typedef struct
+ 131:../../shields/Murata/inc/d7ap.h **** {
+ 132:../../shields/Murata/inc/d7ap.h ****     uint8_t channel_header;         /**< PHY layer channel header */
+ 133:../../shields/Murata/inc/d7ap.h ****     uint16_t center_freq_index;     /**< The center frequency index of the channel id */
+ 134:../../shields/Murata/inc/d7ap.h **** } d7ap_channel_t;
+ 135:../../shields/Murata/inc/d7ap.h **** 
+ 136:../../shields/Murata/inc/d7ap.h **** typedef struct __attribute__((__packed__)) {
+ 137:../../shields/Murata/inc/d7ap.h ****     d7ap_channel_t channel;
+ 138:../../shields/Murata/inc/d7ap.h ****     uint8_t rx_level;
+ 139:../../shields/Murata/inc/d7ap.h ****     uint8_t link_budget;
+ 140:../../shields/Murata/inc/d7ap.h ****     uint8_t link_quality;
+ 141:../../shields/Murata/inc/d7ap.h ****     uint8_t target_rx_level;
+ 142:../../shields/Murata/inc/d7ap.h ****     d7ap_sp_state_t status;
+ 143:../../shields/Murata/inc/d7ap.h ****     uint8_t fifo_token;
+ 144:../../shields/Murata/inc/d7ap.h ****     uint8_t seqnr;
+ 145:../../shields/Murata/inc/d7ap.h ****     uint8_t response_to;
+ 146:../../shields/Murata/inc/d7ap.h ****     bool response_expected;
+ 147:../../shields/Murata/inc/d7ap.h ****     d7ap_addressee_t addressee;
+ 148:../../shields/Murata/inc/d7ap.h **** } d7ap_session_result_t;
+ 149:../../shields/Murata/inc/d7ap.h **** 
+ 150:../../shields/Murata/inc/d7ap.h **** typedef enum  {
+ 151:../../shields/Murata/inc/d7ap.h ****     SESSION_RESP_MODE_NO = 0,
+ 152:../../shields/Murata/inc/d7ap.h ****     SESSION_RESP_MODE_ALL = 1,
+ 153:../../shields/Murata/inc/d7ap.h ****     SESSION_RESP_MODE_ANY = 2,
+ 154:../../shields/Murata/inc/d7ap.h ****     SESSION_RESP_MODE_NO_RPT = 4,
+ 155:../../shields/Murata/inc/d7ap.h ****     SESSION_RESP_MODE_ON_ERR = 5,
+ 156:../../shields/Murata/inc/d7ap.h ****     SESSION_RESP_MODE_PREFERRED = 6,
+ 157:../../shields/Murata/inc/d7ap.h **** } d7ap_session_resp_mode_t;
+ 158:../../shields/Murata/inc/d7ap.h **** 
+ 159:../../shields/Murata/inc/d7ap.h **** typedef enum {
+ 160:../../shields/Murata/inc/d7ap.h ****     SESSION_RETRY_MODE_NO = 0
+ 161:../../shields/Murata/inc/d7ap.h **** } d7ap_session_retry_mode_t;
+ 162:../../shields/Murata/inc/d7ap.h **** 
+ 163:../../shields/Murata/inc/d7ap.h **** typedef struct {
+ 164:../../shields/Murata/inc/d7ap.h ****     union {
+ 165:../../shields/Murata/inc/d7ap.h ****         uint8_t raw;
+ 166:../../shields/Murata/inc/d7ap.h ****         struct {
+ 167:../../shields/Murata/inc/d7ap.h ****             d7ap_session_resp_mode_t qos_resp_mode : 3;
+ 168:../../shields/Murata/inc/d7ap.h ****             d7ap_session_retry_mode_t qos_retry_mode: 3;
+ 169:../../shields/Murata/inc/d7ap.h ****             bool qos_record : 1;
+ 170:../../shields/Murata/inc/d7ap.h ****             bool qos_stop_on_error : 1;
+ 171:../../shields/Murata/inc/d7ap.h ****         };
+ 172:../../shields/Murata/inc/d7ap.h ****     };
+ 173:../../shields/Murata/inc/d7ap.h **** } d7ap_session_qos_t;
+ 174:../../shields/Murata/inc/d7ap.h **** 
+ 175:../../shields/Murata/inc/d7ap.h **** typedef struct {
+ 176:../../shields/Murata/inc/d7ap.h ****     d7ap_session_qos_t qos;
+ 177:../../shields/Murata/inc/d7ap.h ****     uint8_t dormant_timeout;
+ 178:../../shields/Murata/inc/d7ap.h ****     d7ap_addressee_t addressee;
+ARM GAS  /tmp/ccA9SLCI.s 			page 13
+
+
+ 179:../../shields/Murata/inc/d7ap.h **** } d7ap_session_config_t;
+ 180:../../shields/Murata/inc/d7ap.h **** 
+ 181:../../shields/Murata/inc/d7ap.h **** typedef void (*d7ap_receive_callback)(uint16_t trans_id, uint8_t* payload, uint8_t len, d7ap_sessio
+ 182:../../shields/Murata/inc/d7ap.h **** /**
+ 183:../../shields/Murata/inc/d7ap.h ****  * @brief Called when the stack received an unsolicited message
+ 184:../../shields/Murata/inc/d7ap.h ****  * @returns true when the unsolicited request will result in a response payload from the upper laye
+ 185:../../shields/Murata/inc/d7ap.h ****  * the upper layer should return false, so the stack can respond with an ack immediately (if reques
+ 186:../../shields/Murata/inc/d7ap.h ****  */
+ 187:../../shields/Murata/inc/d7ap.h **** typedef bool (*d7ap_receive_unsolicited_callback)(uint8_t* payload, uint8_t len, d7ap_session_resul
+ 188:../../shields/Murata/inc/d7ap.h **** typedef void (*d7ap_transmitted_callback)(uint16_t trans_id, error_t error);
+ 189:../../shields/Murata/inc/d7ap.h **** 
+ 190:../../shields/Murata/inc/d7ap.h **** typedef struct{
+ 191:../../shields/Murata/inc/d7ap.h ****     d7ap_receive_callback  receive_cb;                /*< receive callback,
+ 192:../../shields/Murata/inc/d7ap.h ****                                                           if NULL, all message received for clientI
+ 193:../../shields/Murata/inc/d7ap.h ****     d7ap_transmitted_callback transmitted_cb;         /*< send completion callback,
+ 194:../../shields/Murata/inc/d7ap.h ****                                                           if NULL, the associated packet will be re
+ 195:../../shields/Murata/inc/d7ap.h ****     d7ap_receive_unsolicited_callback unsolicited_cb; /*< unsolicited data callback,
+ 196:../../shields/Murata/inc/d7ap.h ****                                                           if NULL, the associated packet will be re
+ 197:../../shields/Murata/inc/d7ap.h **** } d7ap_resource_desc_t;
+ 198:../../shields/Murata/inc/d7ap.h **** 
+ 199:../../shields/Murata/inc/d7ap.h **** 
+ 200:../../shields/Murata/inc/d7ap.h **** //=========================== prototypes ======================================
+ 201:../../shields/Murata/inc/d7ap.h **** /**
+ 202:../../shields/Murata/inc/d7ap.h ****  * @brief   Initializes d7a module
+ 203:../../shields/Murata/inc/d7ap.h ****  */
+ 204:../../shields/Murata/inc/d7ap.h **** void d7ap_init(void);
+ 205:../../shields/Murata/inc/d7ap.h **** 
+ 206:../../shields/Murata/inc/d7ap.h **** 
+ 207:../../shields/Murata/inc/d7ap.h **** /**
+ 208:../../shields/Murata/inc/d7ap.h ****  * @brief   Register the client callbacks
+ 209:../../shields/Murata/inc/d7ap.h ****  *
+ 210:../../shields/Murata/inc/d7ap.h ****  * @param[in] desc pointer to the client resource
+ 211:../../shields/Murata/inc/d7ap.h ****  *
+ 212:../../shields/Murata/inc/d7ap.h ****  * @return  the client Id
+ 213:../../shields/Murata/inc/d7ap.h ****  */
+ 214:../../shields/Murata/inc/d7ap.h **** uint8_t d7ap_register(d7ap_resource_desc_t* desc);
+ 215:../../shields/Murata/inc/d7ap.h **** 
+ 216:../../shields/Murata/inc/d7ap.h **** 
+ 217:../../shields/Murata/inc/d7ap.h **** /**
+ 218:../../shields/Murata/inc/d7ap.h ****  * @brief   Gets the device address UID/VID
+ 219:../../shields/Murata/inc/d7ap.h ****  *
+ 220:../../shields/Murata/inc/d7ap.h ****  * @param[out] *addr   Pointer to the device addressee UID/VID
+ 221:../../shields/Murata/inc/d7ap.h ****  */
+ 222:../../shields/Murata/inc/d7ap.h **** void d7ap_get_dev_addr(d7ap_addressee_t* addr);
+ 223:../../shields/Murata/inc/d7ap.h **** 
+ 224:../../shields/Murata/inc/d7ap.h **** 
+ 225:../../shields/Murata/inc/d7ap.h **** /**
+ 226:../../shields/Murata/inc/d7ap.h ****  * @brief Get the maximum payload size.
+ 227:../../shields/Murata/inc/d7ap.h ****  *
+ 228:../../shields/Murata/inc/d7ap.h ****  * @param[in] clientId  The d7A  instance Id.
+ 229:../../shields/Murata/inc/d7ap.h ****  *
+ 230:../../shields/Murata/inc/d7ap.h ****  * @returns the maximum payload size in bytes.
+ 231:../../shields/Murata/inc/d7ap.h ****  */
+ 232:../../shields/Murata/inc/d7ap.h **** uint8_t d7ap_get_payload_max_size(uint8_t clientId);
+ 233:../../shields/Murata/inc/d7ap.h **** 
+ 234:../../shields/Murata/inc/d7ap.h **** 
+ 235:../../shields/Murata/inc/d7ap.h **** /**
+ARM GAS  /tmp/ccA9SLCI.s 			page 14
+
+
+ 236:../../shields/Murata/inc/d7ap.h ****  * @brief   Send a packet over DASH7 network
+ 237:../../shields/Murata/inc/d7ap.h ****  *
+ 238:../../shields/Murata/inc/d7ap.h ****  * @param[in] clientID  The registered client Id
+ 239:../../shields/Murata/inc/d7ap.h ****  * @param[in] config    The configuration for the d7a session. Set to NULL to use the current confi
+ 240:../../shields/Murata/inc/d7ap.h ****  * @param[in] payload   The pointer to the payload buffer
+ 241:../../shields/Murata/inc/d7ap.h ****  * @param[in] len       The length of the payload
+ 242:../../shields/Murata/inc/d7ap.h ****  * @param[in] expected_response_len The length of the expected response
+ 243:../../shields/Murata/inc/d7ap.h ****  * @param[in,out] trans_id   Set the value of this parameter to NULL to cause the function to execu
+ 244:../../shields/Murata/inc/d7ap.h ****  *                           If this parameter is not NULL, the call executes asynchronously. Upon 
+ 245:../../shields/Murata/inc/d7ap.h ****  *                           this points to the transaction identifier associated with the asynchro
+ 246:../../shields/Murata/inc/d7ap.h ****  * @return 0 on success
+ 247:../../shields/Murata/inc/d7ap.h ****  * @return an error (errno.h) in case of failure
+ 248:../../shields/Murata/inc/d7ap.h ****  */
+ 249:../../shields/Murata/inc/d7ap.h **** error_t d7ap_send(uint8_t clientId, d7ap_session_config_t* config, uint8_t* payload,
+ 250:../../shields/Murata/inc/d7ap.h ****                    uint8_t len, uint8_t expected_response_len, uint16_t* trans_id);
+ 251:../../shields/Murata/inc/d7ap.h **** 
+ 252:../../shields/Murata/inc/d7ap.h **** 
+ 253:../../shields/Murata/inc/d7ap.h **** /**
+ 254:../../shields/Murata/inc/d7ap.h ****  * @brief   Sets the channels TX power index
+ 255:../../shields/Murata/inc/d7ap.h ****  *
+ 256:../../shields/Murata/inc/d7ap.h ****  * @param[in] power  The TX power index (from 1 to 16)
+ 257:../../shields/Murata/inc/d7ap.h ****  */
+ 258:../../shields/Murata/inc/d7ap.h **** void d7ap_set_tx_power(uint8_t power);
+ 259:../../shields/Murata/inc/d7ap.h **** 
+ 260:../../shields/Murata/inc/d7ap.h **** 
+ 261:../../shields/Murata/inc/d7ap.h **** /**
+ 262:../../shields/Murata/inc/d7ap.h ****  * @brief   Gets the channels TX power index
+ 263:../../shields/Murata/inc/d7ap.h ****  *
+ 264:../../shields/Murata/inc/d7ap.h ****  * @return  The TX power index (from 1 to 16)
+ 265:../../shields/Murata/inc/d7ap.h ****  */
+ 266:../../shields/Murata/inc/d7ap.h **** uint8_t d7ap_get_tx_power(void);
+ 267:../../shields/Murata/inc/d7ap.h **** 
+ 268:../../shields/Murata/inc/d7ap.h **** 
+ 269:../../shields/Murata/inc/d7ap.h **** /**
+ 270:../../shields/Murata/inc/d7ap.h ****  * @brief   Sets the device access class
+ 271:../../shields/Murata/inc/d7ap.h ****  *
+ 272:../../shields/Murata/inc/d7ap.h ****  * @param[in] access_class  The device access class
+ 273:../../shields/Murata/inc/d7ap.h ****  */
+ 274:../../shields/Murata/inc/d7ap.h **** void d7ap_set_access_class(uint8_t access_class);
+ 275:../../shields/Murata/inc/d7ap.h **** 
+ 276:../../shields/Murata/inc/d7ap.h **** 
+ 277:../../shields/Murata/inc/d7ap.h **** /**
+ 278:../../shields/Murata/inc/d7ap.h ****  * @brief   Gets the device access class
+ 279:../../shields/Murata/inc/d7ap.h ****  *
+ 280:../../shields/Murata/inc/d7ap.h ****  * @return  The device access class
+ 281:../../shields/Murata/inc/d7ap.h ****  */
+ 282:../../shields/Murata/inc/d7ap.h **** uint8_t d7ap_get_access_class(void);
+ 283:../../shields/Murata/inc/d7ap.h **** 
+ 284:../../shields/Murata/inc/d7ap.h **** /**
+ 285:../../shields/Murata/inc/d7ap.h ****  * @brief   Gets the length of the addressee Id
+ 286:../../shields/Murata/inc/d7ap.h ****  *
+ 287:../../shields/Murata/inc/d7ap.h ****  * @param[in] id_type  The addressee Id type
+ 288:../../shields/Murata/inc/d7ap.h ****  * @return  The length of the addressee Id according the addressee Id type
+ 289:../../shields/Murata/inc/d7ap.h ****  */
+ 290:../../shields/Murata/inc/d7ap.h **** static inline uint8_t d7ap_addressee_id_length(d7ap_addressee_id_type_t id_type) {
+ 291:../../shields/Murata/inc/d7ap.h ****   switch(id_type)
+ 242              		.loc 2 291 0
+ARM GAS  /tmp/ccA9SLCI.s 			page 15
+
+
+ 243 00f4 032B     		cmp	r3, #3
+ 244 00f6 07D8     		bhi	.L12
+ 245 00f8 DFE803F0 		tbb	[pc, r3]
+ 246              	.L14:
+ 247 00fc 1B       		.byte	(.L20-.L14)/2
+ 248 00fd 0D       		.byte	(.L15-.L14)/2
+ 249 00fe 02       		.byte	(.L16-.L14)/2
+ 250 00ff 04       		.byte	(.L17-.L14)/2
+ 251              		.p2align 1
+ 252              	.L16:
+ 292:../../shields/Murata/inc/d7ap.h ****   {
+ 293:../../shields/Murata/inc/d7ap.h ****       case ID_TYPE_NOID:
+ 294:../../shields/Murata/inc/d7ap.h ****         return ID_TYPE_NOID_ID_LENGTH;
+ 295:../../shields/Murata/inc/d7ap.h ****       case ID_TYPE_NBID:
+ 296:../../shields/Murata/inc/d7ap.h ****         return ID_TYPE_NBID_ID_LENGTH;
+ 297:../../shields/Murata/inc/d7ap.h ****       case ID_TYPE_UID:
+ 298:../../shields/Murata/inc/d7ap.h ****         return ID_TYPE_UID_ID_LENGTH;
+ 253              		.loc 2 298 0
+ 254 0100 0822     		movs	r2, #8
+ 255 0102 09E0     		b	.L13
+ 256              	.L17:
+ 299:../../shields/Murata/inc/d7ap.h ****       case ID_TYPE_VID:
+ 300:../../shields/Murata/inc/d7ap.h ****         return ID_TYPE_VID_LENGTH;
+ 257              		.loc 2 300 0
+ 258 0104 0222     		movs	r2, #2
+ 259 0106 07E0     		b	.L13
+ 260              	.L12:
+ 301:../../shields/Murata/inc/d7ap.h ****       default:
+ 302:../../shields/Murata/inc/d7ap.h ****         assert(false);
+ 261              		.loc 2 302 0
+ 262 0108 184B     		ldr	r3, .L25+16
+ 263 010a 194A     		ldr	r2, .L25+20
+ 264 010c 4FF49771 		mov	r1, #302
+ 265 0110 1848     		ldr	r0, .L25+24
+ 266 0112 FFF7FEFF 		bl	__assert_func
+ 267              	.LVL30:
+ 268              	.L15:
+ 294:../../shields/Murata/inc/d7ap.h ****       case ID_TYPE_NBID:
+ 269              		.loc 2 294 0
+ 270 0116 0022     		movs	r2, #0
+ 271              	.L13:
+ 272              	.LVL31:
+ 273              	.LBE8:
+ 274              	.LBE7:
+ 240:../../shields/Murata/src/alp.c ****   }
+ 275              		.loc 1 240 0
+ 276 0118 0DF10F01 		add	r1, sp, #15
+ 277 011c 2046     		mov	r0, r4
+ 278 011e FFF7FEFF 		bl	fifo_pop
+ 279              	.LVL32:
+ 280 0122 0028     		cmp	r0, #0
+ 281 0124 83D0     		beq	.L7
+ 240:../../shields/Murata/src/alp.c ****   }
+ 282              		.loc 1 240 0 is_stmt 0 discriminator 1
+ 283 0126 144B     		ldr	r3, .L25+28
+ 284 0128 0D4A     		ldr	r2, .L25+4
+ 285 012a F021     		movs	r1, #240
+ARM GAS  /tmp/ccA9SLCI.s 			page 16
+
+
+ 286 012c 0D48     		ldr	r0, .L25+8
+ 287 012e FFF7FEFF 		bl	__assert_func
+ 288              	.LVL33:
+ 289              	.L20:
+ 290              	.LBB10:
+ 291              	.LBB9:
+ 296:../../shields/Murata/inc/d7ap.h ****       case ID_TYPE_UID:
+ 292              		.loc 2 296 0 is_stmt 1
+ 293 0132 0122     		movs	r2, #1
+ 294 0134 F0E7     		b	.L13
+ 295              	.LVL34:
+ 296              	.L24:
+ 297              	.LBE9:
+ 298              	.LBE10:
+ 299              	.LBE6:
+ 300              	.LBB11:
+ 244:../../shields/Murata/src/alp.c ****     fifo_skip(fifo,1); //size
+ 301              		.loc 1 244 0 discriminator 2
+ 302 0136 AB88     		ldrh	r3, [r5, #4]	@ unaligned
+ 303 0138 ADF80030 		strh	r3, [sp]	@ unaligned
+ 245:../../shields/Murata/src/alp.c ****     fifo_pop(fifo, &interface_status.attempts, 1);
+ 304              		.loc 1 245 0 discriminator 2
+ 305 013c 0121     		movs	r1, #1
+ 306 013e 2046     		mov	r0, r4
+ 307 0140 FFF7FEFF 		bl	fifo_skip
+ 308              	.LVL35:
+ 246:../../shields/Murata/src/alp.c ****     fifo_pop(fifo, &interface_status.error_state, 1);
+ 309              		.loc 1 246 0 discriminator 2
+ 310 0144 0122     		movs	r2, #1
+ 311 0146 6946     		mov	r1, sp
+ 312 0148 2046     		mov	r0, r4
+ 313 014a FFF7FEFF 		bl	fifo_pop
+ 314              	.LVL36:
+ 247:../../shields/Murata/src/alp.c ****   }
+ 315              		.loc 1 247 0 discriminator 2
+ 316 014e 0122     		movs	r2, #1
+ 317 0150 0DEB0201 		add	r1, sp, r2
+ 318 0154 2046     		mov	r0, r4
+ 319 0156 FFF7FEFF 		bl	fifo_pop
+ 320              	.LVL37:
+ 321              	.LBE11:
+ 322              		.loc 1 251 0 discriminator 2
+ 323 015a 68E7     		b	.L7
+ 324              	.L26:
+ 325              		.align	2
+ 326              	.L25:
+ 327 015c 00000000 		.word	.LC2
+ 328 0160 00000000 		.word	.LANCHOR1
+ 329 0164 40000000 		.word	.LC1
+ 330 0168 0C000000 		.word	.LC3
+ 331 016c 38000000 		.word	.LC4
+ 332 0170 00000000 		.word	.LANCHOR2
+ 333 0174 40000000 		.word	.LC5
+ 334 0178 60000000 		.word	.LC6
+ 335              		.cfi_endproc
+ 336              	.LFE15:
+ 338              		.section	.text.alp_get_operation,"ax",%progbits
+ARM GAS  /tmp/ccA9SLCI.s 			page 17
+
+
+ 339              		.align	1
+ 340              		.global	alp_get_operation
+ 341              		.syntax unified
+ 342              		.thumb
+ 343              		.thumb_func
+ 344              		.fpu fpv4-sp-d16
+ 346              	alp_get_operation:
+ 347              	.LFB1:
+  42:../../shields/Murata/src/alp.c ****     alp_control_t alp_ctrl;
+ 348              		.loc 1 42 0
+ 349              		.cfi_startproc
+ 350              		@ args = 0, pretend = 0, frame = 0
+ 351              		@ frame_needed = 0, uses_anonymous_args = 0
+ 352              		@ link register save eliminated.
+ 353              	.LVL38:
+  44:../../shields/Murata/src/alp.c ****     return alp_ctrl.operation;
+ 354              		.loc 1 44 0
+ 355 0000 0078     		ldrb	r0, [r0]	@ zero_extendqisi2
+ 356              	.LVL39:
+  46:../../shields/Murata/src/alp.c **** 
+ 357              		.loc 1 46 0
+ 358 0002 00F03F00 		and	r0, r0, #63
+ 359 0006 7047     		bx	lr
+ 360              		.cfi_endproc
+ 361              	.LFE1:
+ 363              		.section	.text.alp_parse_length_operand,"ax",%progbits
+ 364              		.align	1
+ 365              		.global	alp_parse_length_operand
+ 366              		.syntax unified
+ 367              		.thumb
+ 368              		.thumb_func
+ 369              		.fpu fpv4-sp-d16
+ 371              	alp_parse_length_operand:
+ 372              	.LFB2:
+  48:../../shields/Murata/src/alp.c ****   uint8_t len = 0;
+ 373              		.loc 1 48 0
+ 374              		.cfi_startproc
+ 375              		@ args = 0, pretend = 0, frame = 8
+ 376              		@ frame_needed = 0, uses_anonymous_args = 0
+ 377              	.LVL40:
+ 378 0000 10B5     		push	{r4, lr}
+ 379              	.LCFI5:
+ 380              		.cfi_def_cfa_offset 8
+ 381              		.cfi_offset 4, -8
+ 382              		.cfi_offset 14, -4
+ 383 0002 82B0     		sub	sp, sp, #8
+ 384              	.LCFI6:
+ 385              		.cfi_def_cfa_offset 16
+ 386 0004 0446     		mov	r4, r0
+  49:../../shields/Murata/src/alp.c ****   fifo_pop(cmd_fifo, (uint8_t*)&len, 1);
+ 387              		.loc 1 49 0
+ 388 0006 02A9     		add	r1, sp, #8
+ 389 0008 0023     		movs	r3, #0
+ 390 000a 01F8013D 		strb	r3, [r1, #-1]!
+  50:../../shields/Murata/src/alp.c ****   uint8_t field_len = len >> 6;
+ 391              		.loc 1 50 0
+ 392 000e 0122     		movs	r2, #1
+ARM GAS  /tmp/ccA9SLCI.s 			page 18
+
+
+ 393 0010 FFF7FEFF 		bl	fifo_pop
+ 394              	.LVL41:
+  51:../../shields/Murata/src/alp.c ****   if(field_len == 0)
+ 395              		.loc 1 51 0
+ 396 0014 9DF80700 		ldrb	r0, [sp, #7]	@ zero_extendqisi2
+ 397              	.LVL42:
+  52:../../shields/Murata/src/alp.c ****     return (uint32_t)len;
+ 398              		.loc 1 52 0
+ 399 0018 8209     		lsrs	r2, r0, #6
+ 400 001a 01D1     		bne	.L32
+ 401              	.LVL43:
+ 402              	.L28:
+  58:../../shields/Murata/src/alp.c **** 
+ 403              		.loc 1 58 0
+ 404 001c 02B0     		add	sp, sp, #8
+ 405              	.LCFI7:
+ 406              		.cfi_remember_state
+ 407              		.cfi_def_cfa_offset 8
+ 408              		@ sp needed
+ 409 001e 10BD     		pop	{r4, pc}
+ 410              	.LVL44:
+ 411              	.L32:
+ 412              	.LCFI8:
+ 413              		.cfi_restore_state
+  55:../../shields/Murata/src/alp.c ****   fifo_pop(cmd_fifo, (uint8_t*)&full_length, field_len);
+ 414              		.loc 1 55 0
+ 415 0020 00F03F00 		and	r0, r0, #63
+ 416              	.LVL45:
+ 417 0024 D300     		lsls	r3, r2, #3
+ 418 0026 9840     		lsls	r0, r0, r3
+ 419 0028 02A9     		add	r1, sp, #8
+ 420 002a 41F8080D 		str	r0, [r1, #-8]!
+  56:../../shields/Murata/src/alp.c ****   return full_length;
+ 421              		.loc 1 56 0
+ 422 002e 2046     		mov	r0, r4
+ 423 0030 FFF7FEFF 		bl	fifo_pop
+ 424              	.LVL46:
+  57:../../shields/Murata/src/alp.c **** }
+ 425              		.loc 1 57 0
+ 426 0034 0098     		ldr	r0, [sp]
+ 427 0036 F1E7     		b	.L28
+ 428              		.cfi_endproc
+ 429              	.LFE2:
+ 431              		.section	.text.alp_append_length_operand,"ax",%progbits
+ 432              		.align	1
+ 433              		.global	alp_append_length_operand
+ 434              		.syntax unified
+ 435              		.thumb
+ 436              		.thumb_func
+ 437              		.fpu fpv4-sp-d16
+ 439              	alp_append_length_operand:
+ 440              	.LFB3:
+  60:../../shields/Murata/src/alp.c ****   if(length < 64) {
+ 441              		.loc 1 60 0
+ 442              		.cfi_startproc
+ 443              		@ args = 0, pretend = 0, frame = 16
+ 444              		@ frame_needed = 0, uses_anonymous_args = 0
+ARM GAS  /tmp/ccA9SLCI.s 			page 19
+
+
+ 445              	.LVL47:
+ 446 0000 30B5     		push	{r4, r5, lr}
+ 447              	.LCFI9:
+ 448              		.cfi_def_cfa_offset 12
+ 449              		.cfi_offset 4, -12
+ 450              		.cfi_offset 5, -8
+ 451              		.cfi_offset 14, -4
+ 452 0002 85B0     		sub	sp, sp, #20
+ 453              	.LCFI10:
+ 454              		.cfi_def_cfa_offset 32
+ 455 0004 0546     		mov	r5, r0
+ 456 0006 0191     		str	r1, [sp, #4]
+  61:../../shields/Murata/src/alp.c ****     // can be coded in one byte
+ 457              		.loc 1 61 0
+ 458 0008 3F29     		cmp	r1, #63
+ 459 000a 25D9     		bls	.L44
+ 460              	.LVL48:
+  68:../../shields/Murata/src/alp.c ****     size = 2;
+ 461              		.loc 1 68 0
+ 462 000c B1F5804F 		cmp	r1, #16384
+ 463 0010 2ED2     		bcs	.L41
+  67:../../shields/Murata/src/alp.c ****   if(length > 0x3FFF)
+ 464              		.loc 1 67 0
+ 465 0012 0124     		movs	r4, #1
+ 466              	.L36:
+ 467              	.LVL49:
+  70:../../shields/Murata/src/alp.c ****     size = 3;
+ 468              		.loc 1 70 0
+ 469 0014 B1F5800F 		cmp	r1, #4194304
+ 470 0018 00D3     		bcc	.L37
+  71:../../shields/Murata/src/alp.c **** 
+ 471              		.loc 1 71 0
+ 472 001a 0324     		movs	r4, #3
+ 473              	.LVL50:
+ 474              	.L37:
+  74:../../shields/Murata/src/alp.c ****   byte += ((uint8_t*)(&length))[size];
+ 475              		.loc 1 74 0
+ 476 001c A301     		lsls	r3, r4, #6
+ 477 001e DBB2     		uxtb	r3, r3
+ 478 0020 8DF80F30 		strb	r3, [sp, #15]
+  75:../../shields/Murata/src/alp.c ****   assert(fifo_put(fifo, &byte, 1) == oss7SUCCESS);
+ 479              		.loc 1 75 0
+ 480 0024 04AA     		add	r2, sp, #16
+ 481 0026 2244     		add	r2, r2, r4
+ 482 0028 12F80C2C 		ldrb	r2, [r2, #-12]	@ zero_extendqisi2
+ 483 002c 1344     		add	r3, r3, r2
+ 484 002e 04A9     		add	r1, sp, #16
+ 485              	.LVL51:
+ 486 0030 01F8013D 		strb	r3, [r1, #-1]!
+  76:../../shields/Murata/src/alp.c ****   do {
+ 487              		.loc 1 76 0
+ 488 0034 0122     		movs	r2, #1
+ 489 0036 2846     		mov	r0, r5
+ 490              	.LVL52:
+ 491 0038 FFF7FEFF 		bl	fifo_put
+ 492              	.LVL53:
+ 493 003c D0B9     		cbnz	r0, .L45
+ARM GAS  /tmp/ccA9SLCI.s 			page 20
+
+
+ 494              	.L38:
+  78:../../shields/Murata/src/alp.c ****     assert(fifo_put(fifo, (uint8_t*)&length + size, 1) == oss7SUCCESS);
+ 495              		.loc 1 78 0
+ 496 003e 013C     		subs	r4, r4, #1
+ 497              	.LVL54:
+ 498 0040 E4B2     		uxtb	r4, r4
+ 499              	.LVL55:
+  79:../../shields/Murata/src/alp.c ****   } while(size > 0);
+ 500              		.loc 1 79 0
+ 501 0042 0122     		movs	r2, #1
+ 502 0044 01AB     		add	r3, sp, #4
+ 503 0046 1919     		adds	r1, r3, r4
+ 504 0048 2846     		mov	r0, r5
+ 505 004a FFF7FEFF 		bl	fifo_put
+ 506              	.LVL56:
+ 507 004e B8B9     		cbnz	r0, .L46
+  80:../../shields/Murata/src/alp.c **** }
+ 508              		.loc 1 80 0
+ 509 0050 002C     		cmp	r4, #0
+ 510 0052 F4D1     		bne	.L38
+ 511              	.LVL57:
+ 512              	.L33:
+  81:../../shields/Murata/src/alp.c **** 
+ 513              		.loc 1 81 0
+ 514 0054 05B0     		add	sp, sp, #20
+ 515              	.LCFI11:
+ 516              		.cfi_remember_state
+ 517              		.cfi_def_cfa_offset 12
+ 518              		@ sp needed
+ 519 0056 30BD     		pop	{r4, r5, pc}
+ 520              	.LVL58:
+ 521              	.L44:
+ 522              	.LCFI12:
+ 523              		.cfi_restore_state
+  63:../../shields/Murata/src/alp.c ****     return;
+ 524              		.loc 1 63 0
+ 525 0058 0122     		movs	r2, #1
+ 526 005a 01A9     		add	r1, sp, #4
+ 527              	.LVL59:
+ 528 005c FFF7FEFF 		bl	fifo_put
+ 529              	.LVL60:
+ 530 0060 0028     		cmp	r0, #0
+ 531 0062 F7D0     		beq	.L33
+  63:../../shields/Murata/src/alp.c ****     return;
+ 532              		.loc 1 63 0 is_stmt 0 discriminator 1
+ 533 0064 094B     		ldr	r3, .L47
+ 534 0066 0A4A     		ldr	r2, .L47+4
+ 535 0068 3F21     		movs	r1, #63
+ 536 006a 0A48     		ldr	r0, .L47+8
+ 537 006c FFF7FEFF 		bl	__assert_func
+ 538              	.LVL61:
+ 539              	.L41:
+  69:../../shields/Murata/src/alp.c ****   if(length > 0x3FFFFF)
+ 540              		.loc 1 69 0 is_stmt 1
+ 541 0070 0224     		movs	r4, #2
+ 542 0072 CFE7     		b	.L36
+ 543              	.LVL62:
+ARM GAS  /tmp/ccA9SLCI.s 			page 21
+
+
+ 544              	.L45:
+  76:../../shields/Murata/src/alp.c ****   do {
+ 545              		.loc 1 76 0 discriminator 1
+ 546 0074 084B     		ldr	r3, .L47+12
+ 547 0076 064A     		ldr	r2, .L47+4
+ 548 0078 4C21     		movs	r1, #76
+ 549 007a 0648     		ldr	r0, .L47+8
+ 550 007c FFF7FEFF 		bl	__assert_func
+ 551              	.LVL63:
+ 552              	.L46:
+  79:../../shields/Murata/src/alp.c ****   } while(size > 0);
+ 553              		.loc 1 79 0 discriminator 1
+ 554 0080 064B     		ldr	r3, .L47+16
+ 555 0082 034A     		ldr	r2, .L47+4
+ 556 0084 4F21     		movs	r1, #79
+ 557 0086 0348     		ldr	r0, .L47+8
+ 558 0088 FFF7FEFF 		bl	__assert_func
+ 559              	.LVL64:
+ 560              	.L48:
+ 561              		.align	2
+ 562              	.L47:
+ 563 008c 00000000 		.word	.LC7
+ 564 0090 00000000 		.word	.LANCHOR3
+ 565 0094 40000000 		.word	.LC1
+ 566 0098 34000000 		.word	.LC8
+ 567 009c 5C000000 		.word	.LC9
+ 568              		.cfi_endproc
+ 569              	.LFE3:
+ 571              		.section	.text.alp_parse_file_offset_operand,"ax",%progbits
+ 572              		.align	1
+ 573              		.global	alp_parse_file_offset_operand
+ 574              		.syntax unified
+ 575              		.thumb
+ 576              		.thumb_func
+ 577              		.fpu fpv4-sp-d16
+ 579              	alp_parse_file_offset_operand:
+ 580              	.LFB4:
+  83:../../shields/Murata/src/alp.c ****   alp_operand_file_offset_t operand;
+ 581              		.loc 1 83 0
+ 582              		.cfi_startproc
+ 583              		@ args = 0, pretend = 0, frame = 8
+ 584              		@ frame_needed = 0, uses_anonymous_args = 0
+ 585              	.LVL65:
+ 586 0000 30B5     		push	{r4, r5, lr}
+ 587              	.LCFI13:
+ 588              		.cfi_def_cfa_offset 12
+ 589              		.cfi_offset 4, -12
+ 590              		.cfi_offset 5, -8
+ 591              		.cfi_offset 14, -4
+ 592 0002 83B0     		sub	sp, sp, #12
+ 593              	.LCFI14:
+ 594              		.cfi_def_cfa_offset 24
+ 595 0004 0446     		mov	r4, r0
+ 596 0006 0D46     		mov	r5, r1
+  85:../../shields/Murata/src/alp.c ****   operand.offset = alp_parse_length_operand(cmd_fifo);
+ 597              		.loc 1 85 0
+ 598 0008 0122     		movs	r2, #1
+ARM GAS  /tmp/ccA9SLCI.s 			page 22
+
+
+ 599 000a 6946     		mov	r1, sp
+ 600              	.LVL66:
+ 601 000c 2846     		mov	r0, r5
+ 602              	.LVL67:
+ 603 000e FFF7FEFF 		bl	fifo_pop
+ 604              	.LVL68:
+ 605 0012 58B9     		cbnz	r0, .L52
+  86:../../shields/Murata/src/alp.c ****   return operand;
+ 606              		.loc 1 86 0
+ 607 0014 2846     		mov	r0, r5
+ 608              	.LVL69:
+ 609 0016 FFF7FEFF 		bl	alp_parse_length_operand
+ 610              	.LVL70:
+ 611 001a 0190     		str	r0, [sp, #4]
+  87:../../shields/Murata/src/alp.c **** }
+ 612              		.loc 1 87 0
+ 613 001c 02AB     		add	r3, sp, #8
+ 614 001e 13E90300 		ldmdb	r3, {r0, r1}
+ 615 0022 84E80300 		stm	r4, {r0, r1}
+  88:../../shields/Murata/src/alp.c **** 
+ 616              		.loc 1 88 0
+ 617 0026 2046     		mov	r0, r4
+ 618 0028 03B0     		add	sp, sp, #12
+ 619              	.LCFI15:
+ 620              		.cfi_remember_state
+ 621              		.cfi_def_cfa_offset 12
+ 622              		@ sp needed
+ 623 002a 30BD     		pop	{r4, r5, pc}
+ 624              	.LVL71:
+ 625              	.L52:
+ 626              	.LCFI16:
+ 627              		.cfi_restore_state
+  85:../../shields/Murata/src/alp.c ****   operand.offset = alp_parse_length_operand(cmd_fifo);
+ 628              		.loc 1 85 0 discriminator 1
+ 629 002c 024B     		ldr	r3, .L53
+ 630 002e 034A     		ldr	r2, .L53+4
+ 631 0030 5521     		movs	r1, #85
+ 632 0032 0348     		ldr	r0, .L53+8
+ 633              	.LVL72:
+ 634 0034 FFF7FEFF 		bl	__assert_func
+ 635              	.LVL73:
+ 636              	.L54:
+ 637              		.align	2
+ 638              	.L53:
+ 639 0038 00000000 		.word	.LC10
+ 640 003c 00000000 		.word	.LANCHOR4
+ 641 0040 40000000 		.word	.LC1
+ 642              		.cfi_endproc
+ 643              	.LFE4:
+ 645              		.section	.text.parse_operand_file_data,"ax",%progbits
+ 646              		.align	1
+ 647              		.syntax unified
+ 648              		.thumb
+ 649              		.thumb_func
+ 650              		.fpu fpv4-sp-d16
+ 652              	parse_operand_file_data:
+ 653              	.LFB11:
+ARM GAS  /tmp/ccA9SLCI.s 			page 23
+
+
+ 191:../../shields/Murata/src/alp.c ****   action->file_data_operand.file_offset = alp_parse_file_offset_operand(fifo);
+ 654              		.loc 1 191 0
+ 655              		.cfi_startproc
+ 656              		@ args = 0, pretend = 0, frame = 8
+ 657              		@ frame_needed = 0, uses_anonymous_args = 0
+ 658              	.LVL74:
+ 659 0000 70B5     		push	{r4, r5, r6, lr}
+ 660              	.LCFI17:
+ 661              		.cfi_def_cfa_offset 16
+ 662              		.cfi_offset 4, -16
+ 663              		.cfi_offset 5, -12
+ 664              		.cfi_offset 6, -8
+ 665              		.cfi_offset 14, -4
+ 666 0002 82B0     		sub	sp, sp, #8
+ 667              	.LCFI18:
+ 668              		.cfi_def_cfa_offset 24
+ 669 0004 0546     		mov	r5, r0
+ 670 0006 0E46     		mov	r6, r1
+ 192:../../shields/Murata/src/alp.c ****   action->file_data_operand.provided_data_length = alp_parse_length_operand(fifo);
+ 671              		.loc 1 192 0
+ 672 0008 6C46     		mov	r4, sp
+ 673 000a 0146     		mov	r1, r0
+ 674              	.LVL75:
+ 675 000c 2046     		mov	r0, r4
+ 676              	.LVL76:
+ 677 000e FFF7FEFF 		bl	alp_parse_file_offset_operand
+ 678              	.LVL77:
+ 679 0012 331D     		adds	r3, r6, #4
+ 680 0014 94E80300 		ldm	r4, {r0, r1}
+ 681 0018 83E80300 		stm	r3, {r0, r1}
+ 193:../../shields/Murata/src/alp.c ****   assert(action->file_data_operand.provided_data_length <= sizeof(action->file_data_operand.data));
+ 682              		.loc 1 193 0
+ 683 001c 2846     		mov	r0, r5
+ 684 001e FFF7FEFF 		bl	alp_parse_length_operand
+ 685              	.LVL78:
+ 686 0022 F060     		str	r0, [r6, #12]
+ 194:../../shields/Murata/src/alp.c ****   fifo_pop(fifo, action->file_data_operand.data, action->file_data_operand.provided_data_length);
+ 687              		.loc 1 194 0
+ 688 0024 FF28     		cmp	r0, #255
+ 689 0026 07D8     		bhi	.L58
+ 195:../../shields/Murata/src/alp.c **** }
+ 690              		.loc 1 195 0
+ 691 0028 82B2     		uxth	r2, r0
+ 692 002a 06F11001 		add	r1, r6, #16
+ 693 002e 2846     		mov	r0, r5
+ 694 0030 FFF7FEFF 		bl	fifo_pop
+ 695              	.LVL79:
+ 196:../../shields/Murata/src/alp.c **** 
+ 696              		.loc 1 196 0
+ 697 0034 02B0     		add	sp, sp, #8
+ 698              	.LCFI19:
+ 699              		.cfi_remember_state
+ 700              		.cfi_def_cfa_offset 16
+ 701              		@ sp needed
+ 702 0036 70BD     		pop	{r4, r5, r6, pc}
+ 703              	.LVL80:
+ 704              	.L58:
+ARM GAS  /tmp/ccA9SLCI.s 			page 24
+
+
+ 705              	.LCFI20:
+ 706              		.cfi_restore_state
+ 194:../../shields/Murata/src/alp.c ****   fifo_pop(fifo, action->file_data_operand.data, action->file_data_operand.provided_data_length);
+ 707              		.loc 1 194 0 discriminator 1
+ 708 0038 024B     		ldr	r3, .L59
+ 709 003a 034A     		ldr	r2, .L59+4
+ 710 003c C221     		movs	r1, #194
+ 711 003e 0348     		ldr	r0, .L59+8
+ 712 0040 FFF7FEFF 		bl	__assert_func
+ 713              	.LVL81:
+ 714              	.L60:
+ 715              		.align	2
+ 716              	.L59:
+ 717 0044 00000000 		.word	.LC11
+ 718 0048 00000000 		.word	.LANCHOR5
+ 719 004c 40000000 		.word	.LC1
+ 720              		.cfi_endproc
+ 721              	.LFE11:
+ 723              		.section	.text.parse_op_write_file_data,"ax",%progbits
+ 724              		.align	1
+ 725              		.syntax unified
+ 726              		.thumb
+ 727              		.thumb_func
+ 728              		.fpu fpv4-sp-d16
+ 730              	parse_op_write_file_data:
+ 731              	.LFB12:
+ 198:../../shields/Murata/src/alp.c ****   parse_operand_file_data(fifo, action);
+ 732              		.loc 1 198 0
+ 733              		.cfi_startproc
+ 734              		@ args = 0, pretend = 0, frame = 0
+ 735              		@ frame_needed = 0, uses_anonymous_args = 0
+ 736              	.LVL82:
+ 737 0000 08B5     		push	{r3, lr}
+ 738              	.LCFI21:
+ 739              		.cfi_def_cfa_offset 8
+ 740              		.cfi_offset 3, -8
+ 741              		.cfi_offset 14, -4
+ 199:../../shields/Murata/src/alp.c ****   DPRINT("parsed write file data file %i, len %i", action->file_data_operand.file_offset.file_id, a
+ 742              		.loc 1 199 0
+ 743 0002 FFF7FEFF 		bl	parse_operand_file_data
+ 744              	.LVL83:
+ 201:../../shields/Murata/src/alp.c **** 
+ 745              		.loc 1 201 0
+ 746 0006 08BD     		pop	{r3, pc}
+ 747              		.cfi_endproc
+ 748              	.LFE12:
+ 750              		.section	.text.parse_op_return_file_data,"ax",%progbits
+ 751              		.align	1
+ 752              		.syntax unified
+ 753              		.thumb
+ 754              		.thumb_func
+ 755              		.fpu fpv4-sp-d16
+ 757              	parse_op_return_file_data:
+ 758              	.LFB13:
+ 204:../../shields/Murata/src/alp.c ****   parse_operand_file_data(fifo, action);
+ 759              		.loc 1 204 0
+ 760              		.cfi_startproc
+ARM GAS  /tmp/ccA9SLCI.s 			page 25
+
+
+ 761              		@ args = 0, pretend = 0, frame = 0
+ 762              		@ frame_needed = 0, uses_anonymous_args = 0
+ 763              	.LVL84:
+ 764 0000 08B5     		push	{r3, lr}
+ 765              	.LCFI22:
+ 766              		.cfi_def_cfa_offset 8
+ 767              		.cfi_offset 3, -8
+ 768              		.cfi_offset 14, -4
+ 205:../../shields/Murata/src/alp.c ****   DPRINT("parsed return file data file %i, len %i", action->file_data_operand.file_offset.file_id, 
+ 769              		.loc 1 205 0
+ 770 0002 FFF7FEFF 		bl	parse_operand_file_data
+ 771              	.LVL85:
+ 207:../../shields/Murata/src/alp.c **** 
+ 772              		.loc 1 207 0
+ 773 0006 08BD     		pop	{r3, pc}
+ 774              		.cfi_endproc
+ 775              	.LFE13:
+ 777              		.section	.text.alp_parse_file_header_operand,"ax",%progbits
+ 778              		.align	1
+ 779              		.global	alp_parse_file_header_operand
+ 780              		.syntax unified
+ 781              		.thumb
+ 782              		.thumb_func
+ 783              		.fpu fpv4-sp-d16
+ 785              	alp_parse_file_header_operand:
+ 786              	.LFB5:
+  90:../../shields/Murata/src/alp.c ****   alp_operand_file_header_t operand;
+ 787              		.loc 1 90 0
+ 788              		.cfi_startproc
+ 789              		@ args = 0, pretend = 0, frame = 16
+ 790              		@ frame_needed = 0, uses_anonymous_args = 0
+ 791              	.LVL86:
+ 792 0000 30B5     		push	{r4, r5, lr}
+ 793              	.LCFI23:
+ 794              		.cfi_def_cfa_offset 12
+ 795              		.cfi_offset 4, -12
+ 796              		.cfi_offset 5, -8
+ 797              		.cfi_offset 14, -4
+ 798 0002 85B0     		sub	sp, sp, #20
+ 799              	.LCFI24:
+ 800              		.cfi_def_cfa_offset 32
+ 801 0004 0446     		mov	r4, r0
+ 802 0006 0D46     		mov	r5, r1
+  92:../../shields/Murata/src/alp.c ****   err = fifo_pop(cmd_fifo, (uint8_t*)&operand.file_header, sizeof(fs_file_header_t)); assert(err ==
+ 803              		.loc 1 92 0
+ 804 0008 0122     		movs	r2, #1
+ 805 000a 6946     		mov	r1, sp
+ 806              	.LVL87:
+ 807 000c 2846     		mov	r0, r5
+ 808              	.LVL88:
+ 809 000e FFF7FEFF 		bl	fifo_pop
+ 810              	.LVL89:
+ 811 0012 D0B9     		cbnz	r0, .L69
+  93:../../shields/Murata/src/alp.c **** 
+ 812              		.loc 1 93 0
+ 813 0014 0C22     		movs	r2, #12
+ 814 0016 0DF10101 		add	r1, sp, #1
+ARM GAS  /tmp/ccA9SLCI.s 			page 26
+
+
+ 815 001a 2846     		mov	r0, r5
+ 816              	.LVL90:
+ 817 001c FFF7FEFF 		bl	fifo_pop
+ 818              	.LVL91:
+ 819 0020 C8B9     		cbnz	r0, .L70
+  96:../../shields/Murata/src/alp.c ****   operand.file_header.allocated_length = __builtin_bswap32(operand.file_header.allocated_length);
+ 820              		.loc 1 96 0
+ 821 0022 DDF80530 		ldr	r3, [sp, #5]	@ unaligned
+ 822 0026 1BBA     		rev	r3, r3
+ 823 0028 CDF80530 		str	r3, [sp, #5]	@ unaligned
+  97:../../shields/Murata/src/alp.c ****   return operand;
+ 824              		.loc 1 97 0
+ 825 002c DDF80930 		ldr	r3, [sp, #9]	@ unaligned
+ 826 0030 1BBA     		rev	r3, r3
+ 827 0032 CDF80930 		str	r3, [sp, #9]	@ unaligned
+  98:../../shields/Murata/src/alp.c **** }
+ 828              		.loc 1 98 0
+ 829 0036 6B46     		mov	r3, sp
+ 830 0038 07CB     		ldmia	r3!, {r0, r1, r2}
+ 831              	.LVL92:
+ 832 003a 2060     		str	r0, [r4]	@ unaligned
+ 833 003c 6160     		str	r1, [r4, #4]	@ unaligned
+ 834 003e A260     		str	r2, [r4, #8]	@ unaligned
+ 835 0040 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 836 0042 2373     		strb	r3, [r4, #12]
+  99:../../shields/Murata/src/alp.c **** 
+ 837              		.loc 1 99 0
+ 838 0044 2046     		mov	r0, r4
+ 839 0046 05B0     		add	sp, sp, #20
+ 840              	.LCFI25:
+ 841              		.cfi_remember_state
+ 842              		.cfi_def_cfa_offset 12
+ 843              		@ sp needed
+ 844 0048 30BD     		pop	{r4, r5, pc}
+ 845              	.LVL93:
+ 846              	.L69:
+ 847              	.LCFI26:
+ 848              		.cfi_restore_state
+  92:../../shields/Murata/src/alp.c ****   err = fifo_pop(cmd_fifo, (uint8_t*)&operand.file_header, sizeof(fs_file_header_t)); assert(err ==
+ 849              		.loc 1 92 0 discriminator 1
+ 850 004a 064B     		ldr	r3, .L71
+ 851 004c 064A     		ldr	r2, .L71+4
+ 852 004e 5C21     		movs	r1, #92
+ 853 0050 0648     		ldr	r0, .L71+8
+ 854              	.LVL94:
+ 855 0052 FFF7FEFF 		bl	__assert_func
+ 856              	.LVL95:
+ 857              	.L70:
+  93:../../shields/Murata/src/alp.c **** 
+ 858              		.loc 1 93 0 discriminator 1
+ 859 0056 034B     		ldr	r3, .L71
+ 860 0058 034A     		ldr	r2, .L71+4
+ 861 005a 5D21     		movs	r1, #93
+ 862 005c 0348     		ldr	r0, .L71+8
+ 863              	.LVL96:
+ 864 005e FFF7FEFF 		bl	__assert_func
+ 865              	.LVL97:
+ARM GAS  /tmp/ccA9SLCI.s 			page 27
+
+
+ 866              	.L72:
+ 867 0062 00BF     		.align	2
+ 868              	.L71:
+ 869 0064 00000000 		.word	.LC10
+ 870 0068 00000000 		.word	.LANCHOR6
+ 871 006c 40000000 		.word	.LC1
+ 872              		.cfi_endproc
+ 873              	.LFE5:
+ 875              		.section	.text.alp_append_file_offset_operand,"ax",%progbits
+ 876              		.align	1
+ 877              		.global	alp_append_file_offset_operand
+ 878              		.syntax unified
+ 879              		.thumb
+ 880              		.thumb_func
+ 881              		.fpu fpv4-sp-d16
+ 883              	alp_append_file_offset_operand:
+ 884              	.LFB6:
+ 101:../../shields/Murata/src/alp.c ****   assert(fifo_put_byte(fifo, file_id) == oss7SUCCESS);
+ 885              		.loc 1 101 0
+ 886              		.cfi_startproc
+ 887              		@ args = 0, pretend = 0, frame = 0
+ 888              		@ frame_needed = 0, uses_anonymous_args = 0
+ 889              	.LVL98:
+ 890 0000 38B5     		push	{r3, r4, r5, lr}
+ 891              	.LCFI27:
+ 892              		.cfi_def_cfa_offset 16
+ 893              		.cfi_offset 3, -16
+ 894              		.cfi_offset 4, -12
+ 895              		.cfi_offset 5, -8
+ 896              		.cfi_offset 14, -4
+ 897 0002 0446     		mov	r4, r0
+ 898 0004 1546     		mov	r5, r2
+ 102:../../shields/Murata/src/alp.c ****   alp_append_length_operand(fifo, offset);
+ 899              		.loc 1 102 0
+ 900 0006 FFF7FEFF 		bl	fifo_put_byte
+ 901              	.LVL99:
+ 902 000a 20B9     		cbnz	r0, .L76
+ 103:../../shields/Murata/src/alp.c **** }
+ 903              		.loc 1 103 0
+ 904 000c 2946     		mov	r1, r5
+ 905 000e 2046     		mov	r0, r4
+ 906 0010 FFF7FEFF 		bl	alp_append_length_operand
+ 907              	.LVL100:
+ 104:../../shields/Murata/src/alp.c **** 
+ 908              		.loc 1 104 0
+ 909 0014 38BD     		pop	{r3, r4, r5, pc}
+ 910              	.LVL101:
+ 911              	.L76:
+ 102:../../shields/Murata/src/alp.c ****   alp_append_length_operand(fifo, offset);
+ 912              		.loc 1 102 0 discriminator 1
+ 913 0016 034B     		ldr	r3, .L77
+ 914 0018 034A     		ldr	r2, .L77+4
+ 915 001a 6621     		movs	r1, #102
+ 916 001c 0348     		ldr	r0, .L77+8
+ 917 001e FFF7FEFF 		bl	__assert_func
+ 918              	.LVL102:
+ 919              	.L78:
+ARM GAS  /tmp/ccA9SLCI.s 			page 28
+
+
+ 920 0022 00BF     		.align	2
+ 921              	.L77:
+ 922 0024 00000000 		.word	.LC12
+ 923 0028 00000000 		.word	.LANCHOR7
+ 924 002c 40000000 		.word	.LC1
+ 925              		.cfi_endproc
+ 926              	.LFE6:
+ 928              		.section	.text.alp_append_forward_action,"ax",%progbits
+ 929              		.align	1
+ 930              		.global	alp_append_forward_action
+ 931              		.syntax unified
+ 932              		.thumb
+ 933              		.thumb_func
+ 934              		.fpu fpv4-sp-d16
+ 936              	alp_append_forward_action:
+ 937              	.LFB7:
+ 106:../../shields/Murata/src/alp.c ****   assert(config!=NULL);
+ 938              		.loc 1 106 0
+ 939              		.cfi_startproc
+ 940              		@ args = 0, pretend = 0, frame = 8
+ 941              		@ frame_needed = 0, uses_anonymous_args = 0
+ 942              	.LVL103:
+ 943 0000 F0B5     		push	{r4, r5, r6, r7, lr}
+ 944              	.LCFI28:
+ 945              		.cfi_def_cfa_offset 20
+ 946              		.cfi_offset 4, -20
+ 947              		.cfi_offset 5, -16
+ 948              		.cfi_offset 6, -12
+ 949              		.cfi_offset 7, -8
+ 950              		.cfi_offset 14, -4
+ 951 0002 83B0     		sub	sp, sp, #12
+ 952              	.LCFI29:
+ 953              		.cfi_def_cfa_offset 32
+ 107:../../shields/Murata/src/alp.c ****   assert(fifo_put_byte(fifo, ALP_OP_FORWARD) == oss7SUCCESS);
+ 954              		.loc 1 107 0
+ 955 0004 EAB1     		cbz	r2, .L109
+ 956 0006 0446     		mov	r4, r0
+ 957 0008 0E46     		mov	r6, r1
+ 958 000a 1F46     		mov	r7, r3
+ 959 000c 1546     		mov	r5, r2
+ 108:../../shields/Murata/src/alp.c ****   assert(fifo_put_byte(fifo, itf_id) == oss7SUCCESS);
+ 960              		.loc 1 108 0
+ 961 000e 3221     		movs	r1, #50
+ 962              	.LVL104:
+ 963 0010 FFF7FEFF 		bl	fifo_put_byte
+ 964              	.LVL105:
+ 965 0014 D8B9     		cbnz	r0, .L110
+ 109:../../shields/Murata/src/alp.c **** 
+ 966              		.loc 1 109 0
+ 967 0016 3146     		mov	r1, r6
+ 968 0018 2046     		mov	r0, r4
+ 969 001a FFF7FEFF 		bl	fifo_put_byte
+ 970              	.LVL106:
+ 971 001e E0B9     		cbnz	r0, .L111
+ 111:../../shields/Murata/src/alp.c ****   {
+ 972              		.loc 1 111 0
+ 973 0020 D72E     		cmp	r6, #215
+ARM GAS  /tmp/ccA9SLCI.s 			page 29
+
+
+ 974 0022 20D0     		beq	.L112
+ 120:../../shields/Murata/src/alp.c ****   {
+ 975              		.loc 1 120 0
+ 976 0024 022E     		cmp	r6, #2
+ 977 0026 6ED0     		beq	.L113
+ 133:../../shields/Murata/src/alp.c ****   {
+ 978              		.loc 1 133 0
+ 979 0028 032E     		cmp	r6, #3
+ 980 002a 00F0C180 		beq	.L114
+ 144:../../shields/Murata/src/alp.c ****   }
+ 981              		.loc 1 144 0
+ 982 002e 3A46     		mov	r2, r7
+ 983 0030 2946     		mov	r1, r5
+ 984 0032 2046     		mov	r0, r4
+ 985 0034 FFF7FEFF 		bl	fifo_put
+ 986              	.LVL107:
+ 987 0038 0028     		cmp	r0, #0
+ 988 003a 40F0FA80 		bne	.L115
+ 989              	.L79:
+ 148:../../shields/Murata/src/alp.c **** 
+ 990              		.loc 1 148 0
+ 991 003e 03B0     		add	sp, sp, #12
+ 992              	.LCFI30:
+ 993              		.cfi_remember_state
+ 994              		.cfi_def_cfa_offset 20
+ 995              		@ sp needed
+ 996 0040 F0BD     		pop	{r4, r5, r6, r7, pc}
+ 997              	.LVL108:
+ 998              	.L109:
+ 999              	.LCFI31:
+ 1000              		.cfi_restore_state
+ 107:../../shields/Murata/src/alp.c ****   assert(fifo_put_byte(fifo, ALP_OP_FORWARD) == oss7SUCCESS);
+ 1001              		.loc 1 107 0 discriminator 1
+ 1002 0042 7F4B     		ldr	r3, .L129
+ 1003              	.LVL109:
+ 1004 0044 7F4A     		ldr	r2, .L129+4
+ 1005              	.LVL110:
+ 1006 0046 6B21     		movs	r1, #107
+ 1007              	.LVL111:
+ 1008 0048 7F48     		ldr	r0, .L129+8
+ 1009              	.LVL112:
+ 1010 004a FFF7FEFF 		bl	__assert_func
+ 1011              	.LVL113:
+ 1012              	.L110:
+ 108:../../shields/Murata/src/alp.c ****   assert(fifo_put_byte(fifo, itf_id) == oss7SUCCESS);
+ 1013              		.loc 1 108 0 discriminator 1
+ 1014 004e 7F4B     		ldr	r3, .L129+12
+ 1015 0050 7C4A     		ldr	r2, .L129+4
+ 1016 0052 6C21     		movs	r1, #108
+ 1017 0054 7C48     		ldr	r0, .L129+8
+ 1018 0056 FFF7FEFF 		bl	__assert_func
+ 1019              	.LVL114:
+ 1020              	.L111:
+ 109:../../shields/Murata/src/alp.c **** 
+ 1021              		.loc 1 109 0 discriminator 1
+ 1022 005a 7D4B     		ldr	r3, .L129+16
+ 1023 005c 794A     		ldr	r2, .L129+4
+ARM GAS  /tmp/ccA9SLCI.s 			page 30
+
+
+ 1024 005e 6D21     		movs	r1, #109
+ 1025 0060 7948     		ldr	r0, .L129+8
+ 1026 0062 FFF7FEFF 		bl	__assert_func
+ 1027              	.LVL115:
+ 1028              	.L112:
+ 1029              	.LBB17:
+ 113:../../shields/Murata/src/alp.c ****     assert(fifo_put_byte(fifo, ((d7ap_session_config_t*)config)->dormant_timeout) == oss7SUCCESS);
+ 1030              		.loc 1 113 0
+ 1031 0066 2978     		ldrb	r1, [r5]	@ zero_extendqisi2
+ 1032 0068 2046     		mov	r0, r4
+ 1033 006a FFF7FEFF 		bl	fifo_put_byte
+ 1034              	.LVL116:
+ 1035 006e 90B9     		cbnz	r0, .L116
+ 114:../../shields/Murata/src/alp.c ****     assert(fifo_put_byte(fifo, ((d7ap_session_config_t*)config)->addressee.ctrl.raw) == oss7SUCCESS
+ 1036              		.loc 1 114 0
+ 1037 0070 6978     		ldrb	r1, [r5, #1]	@ zero_extendqisi2
+ 1038 0072 2046     		mov	r0, r4
+ 1039 0074 FFF7FEFF 		bl	fifo_put_byte
+ 1040              	.LVL117:
+ 1041 0078 98B9     		cbnz	r0, .L117
+ 115:../../shields/Murata/src/alp.c ****     uint8_t id_length = d7ap_addressee_id_length(((d7ap_session_config_t*)config)->addressee.ctrl.i
+ 1042              		.loc 1 115 0
+ 1043 007a A978     		ldrb	r1, [r5, #2]	@ zero_extendqisi2
+ 1044 007c 2046     		mov	r0, r4
+ 1045 007e FFF7FEFF 		bl	fifo_put_byte
+ 1046              	.LVL118:
+ 1047 0082 A0B9     		cbnz	r0, .L118
+ 116:../../shields/Murata/src/alp.c ****     assert(fifo_put_byte(fifo, ((d7ap_session_config_t*)config)->addressee.access_class) == oss7SUC
+ 1048              		.loc 1 116 0
+ 1049 0084 AB78     		ldrb	r3, [r5, #2]	@ zero_extendqisi2
+ 1050 0086 C3F30113 		ubfx	r3, r3, #4, #2
+ 1051              	.LVL119:
+ 1052              	.LBB18:
+ 1053              	.LBB19:
+ 291:../../shields/Murata/inc/d7ap.h ****   {
+ 1054              		.loc 2 291 0
+ 1055 008a 032B     		cmp	r3, #3
+ 1056 008c 2AD8     		bhi	.L87
+ 1057 008e DFE803F0 		tbb	[pc, r3]
+ 1058              	.L89:
+ 1059 0092 32       		.byte	(.L107-.L89)/2
+ 1060 0093 30       		.byte	(.L90-.L89)/2
+ 1061 0094 14       		.byte	(.L91-.L89)/2
+ 1062 0095 27       		.byte	(.L92-.L89)/2
+ 1063              	.LVL120:
+ 1064              		.p2align 1
+ 1065              	.L116:
+ 1066              	.LBE19:
+ 1067              	.LBE18:
+ 113:../../shields/Murata/src/alp.c ****     assert(fifo_put_byte(fifo, ((d7ap_session_config_t*)config)->dormant_timeout) == oss7SUCCESS);
+ 1068              		.loc 1 113 0 discriminator 1
+ 1069 0096 6F4B     		ldr	r3, .L129+20
+ 1070 0098 6A4A     		ldr	r2, .L129+4
+ 1071 009a 7121     		movs	r1, #113
+ 1072 009c 6A48     		ldr	r0, .L129+8
+ 1073 009e FFF7FEFF 		bl	__assert_func
+ 1074              	.LVL121:
+ARM GAS  /tmp/ccA9SLCI.s 			page 31
+
+
+ 1075              	.L117:
+ 114:../../shields/Murata/src/alp.c ****     assert(fifo_put_byte(fifo, ((d7ap_session_config_t*)config)->addressee.ctrl.raw) == oss7SUCCESS
+ 1076              		.loc 1 114 0 discriminator 1
+ 1077 00a2 6D4B     		ldr	r3, .L129+24
+ 1078 00a4 674A     		ldr	r2, .L129+4
+ 1079 00a6 7221     		movs	r1, #114
+ 1080 00a8 6748     		ldr	r0, .L129+8
+ 1081 00aa FFF7FEFF 		bl	__assert_func
+ 1082              	.LVL122:
+ 1083              	.L118:
+ 115:../../shields/Murata/src/alp.c ****     uint8_t id_length = d7ap_addressee_id_length(((d7ap_session_config_t*)config)->addressee.ctrl.i
+ 1084              		.loc 1 115 0 discriminator 1
+ 1085 00ae 6B4B     		ldr	r3, .L129+28
+ 1086 00b0 644A     		ldr	r2, .L129+4
+ 1087 00b2 7321     		movs	r1, #115
+ 1088 00b4 6448     		ldr	r0, .L129+8
+ 1089 00b6 FFF7FEFF 		bl	__assert_func
+ 1090              	.LVL123:
+ 1091              	.L91:
+ 1092              	.LBB22:
+ 1093              	.LBB20:
+ 298:../../shields/Murata/inc/d7ap.h ****       case ID_TYPE_VID:
+ 1094              		.loc 2 298 0
+ 1095 00ba 0826     		movs	r6, #8
+ 1096              	.L88:
+ 1097              	.LVL124:
+ 1098              	.LBE20:
+ 1099              	.LBE22:
+ 117:../../shields/Murata/src/alp.c ****     assert(fifo_put(fifo, ((d7ap_session_config_t*)config)->addressee.id, id_length) == oss7SUCCESS
+ 1100              		.loc 1 117 0
+ 1101 00bc E978     		ldrb	r1, [r5, #3]	@ zero_extendqisi2
+ 1102 00be 2046     		mov	r0, r4
+ 1103 00c0 FFF7FEFF 		bl	fifo_put_byte
+ 1104              	.LVL125:
+ 1105 00c4 C8B9     		cbnz	r0, .L119
+ 118:../../shields/Murata/src/alp.c ****   }
+ 1106              		.loc 1 118 0
+ 1107 00c6 3246     		mov	r2, r6
+ 1108 00c8 291D     		adds	r1, r5, #4
+ 1109 00ca 2046     		mov	r0, r4
+ 1110 00cc FFF7FEFF 		bl	fifo_put
+ 1111              	.LVL126:
+ 1112 00d0 0028     		cmp	r0, #0
+ 1113 00d2 B4D0     		beq	.L79
+ 118:../../shields/Murata/src/alp.c ****   }
+ 1114              		.loc 1 118 0 is_stmt 0 discriminator 1
+ 1115 00d4 624B     		ldr	r3, .L129+32
+ 1116 00d6 5B4A     		ldr	r2, .L129+4
+ 1117 00d8 7621     		movs	r1, #118
+ 1118 00da 5B48     		ldr	r0, .L129+8
+ 1119 00dc FFF7FEFF 		bl	__assert_func
+ 1120              	.LVL127:
+ 1121              	.L92:
+ 1122              	.LBB23:
+ 1123              	.LBB21:
+ 300:../../shields/Murata/inc/d7ap.h ****       default:
+ 1124              		.loc 2 300 0 is_stmt 1
+ARM GAS  /tmp/ccA9SLCI.s 			page 32
+
+
+ 1125 00e0 0226     		movs	r6, #2
+ 1126 00e2 EBE7     		b	.L88
+ 1127              	.L87:
+ 1128              		.loc 2 302 0
+ 1129 00e4 5F4B     		ldr	r3, .L129+36
+ 1130 00e6 604A     		ldr	r2, .L129+40
+ 1131 00e8 4FF49771 		mov	r1, #302
+ 1132 00ec 5F48     		ldr	r0, .L129+44
+ 1133 00ee FFF7FEFF 		bl	__assert_func
+ 1134              	.LVL128:
+ 1135              	.L90:
+ 294:../../shields/Murata/inc/d7ap.h ****       case ID_TYPE_NBID:
+ 1136              		.loc 2 294 0
+ 1137 00f2 0026     		movs	r6, #0
+ 1138 00f4 E2E7     		b	.L88
+ 1139              	.L107:
+ 296:../../shields/Murata/inc/d7ap.h ****       case ID_TYPE_UID:
+ 1140              		.loc 2 296 0
+ 1141 00f6 0126     		movs	r6, #1
+ 1142 00f8 E0E7     		b	.L88
+ 1143              	.LVL129:
+ 1144              	.L119:
+ 1145              	.LBE21:
+ 1146              	.LBE23:
+ 117:../../shields/Murata/src/alp.c ****     assert(fifo_put(fifo, ((d7ap_session_config_t*)config)->addressee.id, id_length) == oss7SUCCESS
+ 1147              		.loc 1 117 0 discriminator 1
+ 1148 00fa 5D4B     		ldr	r3, .L129+48
+ 1149 00fc 514A     		ldr	r2, .L129+4
+ 1150 00fe 7521     		movs	r1, #117
+ 1151 0100 5148     		ldr	r0, .L129+8
+ 1152 0102 FFF7FEFF 		bl	__assert_func
+ 1153              	.LVL130:
+ 1154              	.L113:
+ 1155              	.LBE17:
+ 1156              	.LBB24:
+ 122:../../shields/Murata/src/alp.c ****     assert(fifo_put_byte(fifo, control_byte) == oss7SUCCESS);
+ 1157              		.loc 1 122 0
+ 1158 0106 95F82810 		ldrb	r1, [r5, #40]	@ zero_extendqisi2
+ 1159 010a 4900     		lsls	r1, r1, #1
+ 1160              	.LVL131:
+ 123:../../shields/Murata/src/alp.c ****     assert(fifo_put_byte(fifo, ((lorawan_session_config_abp_t*)config)->application_port) == oss7SU
+ 1161              		.loc 1 123 0
+ 1162 010c 01F0FE01 		and	r1, r1, #254
+ 1163              	.LVL132:
+ 1164 0110 2046     		mov	r0, r4
+ 1165 0112 FFF7FEFF 		bl	fifo_put_byte
+ 1166              	.LVL133:
+ 1167 0116 68BB     		cbnz	r0, .L120
+ 124:../../shields/Murata/src/alp.c ****     assert(fifo_put(fifo, ((lorawan_session_config_abp_t*)config)->nwkSKey, 16) == oss7SUCCESS);
+ 1168              		.loc 1 124 0
+ 1169 0118 95F82910 		ldrb	r1, [r5, #41]	@ zero_extendqisi2
+ 1170 011c 2046     		mov	r0, r4
+ 1171 011e FFF7FEFF 		bl	fifo_put_byte
+ 1172              	.LVL134:
+ 1173 0122 68BB     		cbnz	r0, .L121
+ 125:../../shields/Murata/src/alp.c ****     assert(fifo_put(fifo, ((lorawan_session_config_abp_t*)config)->appSKey, 16) == oss7SUCCESS);
+ 1174              		.loc 1 125 0
+ARM GAS  /tmp/ccA9SLCI.s 			page 33
+
+
+ 1175 0124 1022     		movs	r2, #16
+ 1176 0126 2946     		mov	r1, r5
+ 1177 0128 2046     		mov	r0, r4
+ 1178 012a FFF7FEFF 		bl	fifo_put
+ 1179              	.LVL135:
+ 1180 012e 68BB     		cbnz	r0, .L122
+ 126:../../shields/Murata/src/alp.c ****     uint32_t dev_addr = __builtin_bswap32(((lorawan_session_config_abp_t*)config)->devAddr);
+ 1181              		.loc 1 126 0
+ 1182 0130 1022     		movs	r2, #16
+ 1183 0132 A918     		adds	r1, r5, r2
+ 1184 0134 2046     		mov	r0, r4
+ 1185 0136 FFF7FEFF 		bl	fifo_put
+ 1186              	.LVL136:
+ 1187 013a 68BB     		cbnz	r0, .L123
+ 127:../../shields/Murata/src/alp.c ****     assert(fifo_put(fifo, (uint8_t*)&dev_addr, 4) == oss7SUCCESS);
+ 1188              		.loc 1 127 0
+ 1189 013c 2B6A     		ldr	r3, [r5, #32]
+ 1190 013e 1BBA     		rev	r3, r3
+ 1191 0140 02A9     		add	r1, sp, #8
+ 1192 0142 41F8083D 		str	r3, [r1, #-8]!
+ 128:../../shields/Murata/src/alp.c ****     uint32_t network_id = __builtin_bswap32(((lorawan_session_config_abp_t*)config)->network_id);
+ 1193              		.loc 1 128 0
+ 1194 0146 0422     		movs	r2, #4
+ 1195 0148 2046     		mov	r0, r4
+ 1196 014a FFF7FEFF 		bl	fifo_put
+ 1197              	.LVL137:
+ 1198 014e 48BB     		cbnz	r0, .L124
+ 129:../../shields/Murata/src/alp.c **** 
+ 1199              		.loc 1 129 0
+ 1200 0150 6B6A     		ldr	r3, [r5, #36]
+ 1201 0152 1BBA     		rev	r3, r3
+ 1202 0154 02A9     		add	r1, sp, #8
+ 1203 0156 41F8043D 		str	r3, [r1, #-4]!
+ 131:../../shields/Murata/src/alp.c ****   }
+ 1204              		.loc 1 131 0
+ 1205 015a 0422     		movs	r2, #4
+ 1206 015c 2046     		mov	r0, r4
+ 1207 015e FFF7FEFF 		bl	fifo_put
+ 1208              	.LVL138:
+ 1209 0162 0028     		cmp	r0, #0
+ 1210 0164 3FF46BAF 		beq	.L79
+ 131:../../shields/Murata/src/alp.c ****   }
+ 1211              		.loc 1 131 0 is_stmt 0 discriminator 1
+ 1212 0168 424B     		ldr	r3, .L129+52
+ 1213 016a 364A     		ldr	r2, .L129+4
+ 1214 016c 8321     		movs	r1, #131
+ 1215 016e 3648     		ldr	r0, .L129+8
+ 1216 0170 FFF7FEFF 		bl	__assert_func
+ 1217              	.LVL139:
+ 1218              	.L120:
+ 123:../../shields/Murata/src/alp.c ****     assert(fifo_put_byte(fifo, ((lorawan_session_config_abp_t*)config)->application_port) == oss7SU
+ 1219              		.loc 1 123 0 is_stmt 1 discriminator 1
+ 1220 0174 404B     		ldr	r3, .L129+56
+ 1221 0176 334A     		ldr	r2, .L129+4
+ 1222 0178 7B21     		movs	r1, #123
+ 1223 017a 3348     		ldr	r0, .L129+8
+ 1224 017c FFF7FEFF 		bl	__assert_func
+ARM GAS  /tmp/ccA9SLCI.s 			page 34
+
+
+ 1225              	.LVL140:
+ 1226              	.L121:
+ 124:../../shields/Murata/src/alp.c ****     assert(fifo_put(fifo, ((lorawan_session_config_abp_t*)config)->nwkSKey, 16) == oss7SUCCESS);
+ 1227              		.loc 1 124 0 discriminator 1
+ 1228 0180 3E4B     		ldr	r3, .L129+60
+ 1229 0182 304A     		ldr	r2, .L129+4
+ 1230 0184 7C21     		movs	r1, #124
+ 1231 0186 3048     		ldr	r0, .L129+8
+ 1232 0188 FFF7FEFF 		bl	__assert_func
+ 1233              	.LVL141:
+ 1234              	.L122:
+ 125:../../shields/Murata/src/alp.c ****     assert(fifo_put(fifo, ((lorawan_session_config_abp_t*)config)->appSKey, 16) == oss7SUCCESS);
+ 1235              		.loc 1 125 0 discriminator 1
+ 1236 018c 3C4B     		ldr	r3, .L129+64
+ 1237 018e 2D4A     		ldr	r2, .L129+4
+ 1238 0190 7D21     		movs	r1, #125
+ 1239 0192 2D48     		ldr	r0, .L129+8
+ 1240 0194 FFF7FEFF 		bl	__assert_func
+ 1241              	.LVL142:
+ 1242              	.L123:
+ 126:../../shields/Murata/src/alp.c ****     uint32_t dev_addr = __builtin_bswap32(((lorawan_session_config_abp_t*)config)->devAddr);
+ 1243              		.loc 1 126 0 discriminator 1
+ 1244 0198 3A4B     		ldr	r3, .L129+68
+ 1245 019a 2A4A     		ldr	r2, .L129+4
+ 1246 019c 7E21     		movs	r1, #126
+ 1247 019e 2A48     		ldr	r0, .L129+8
+ 1248 01a0 FFF7FEFF 		bl	__assert_func
+ 1249              	.LVL143:
+ 1250              	.L124:
+ 128:../../shields/Murata/src/alp.c ****     uint32_t network_id = __builtin_bswap32(((lorawan_session_config_abp_t*)config)->network_id);
+ 1251              		.loc 1 128 0 discriminator 1
+ 1252 01a4 384B     		ldr	r3, .L129+72
+ 1253 01a6 274A     		ldr	r2, .L129+4
+ 1254 01a8 8021     		movs	r1, #128
+ 1255 01aa 2748     		ldr	r0, .L129+8
+ 1256 01ac FFF7FEFF 		bl	__assert_func
+ 1257              	.LVL144:
+ 1258              	.L114:
+ 1259              	.LBE24:
+ 1260              	.LBB25:
+ 135:../../shields/Murata/src/alp.c ****     assert(fifo_put_byte(fifo, control_byte) == oss7SUCCESS);
+ 1261              		.loc 1 135 0
+ 1262 01b0 95F82010 		ldrb	r1, [r5, #32]	@ zero_extendqisi2
+ 1263 01b4 4900     		lsls	r1, r1, #1
+ 1264              	.LVL145:
+ 136:../../shields/Murata/src/alp.c ****     assert(fifo_put_byte(fifo, ((lorawan_session_config_otaa_t*)config)->application_port) == oss7S
+ 1265              		.loc 1 136 0
+ 1266 01b6 01F0FE01 		and	r1, r1, #254
+ 1267              	.LVL146:
+ 1268 01ba 2046     		mov	r0, r4
+ 1269 01bc FFF7FEFF 		bl	fifo_put_byte
+ 1270              	.LVL147:
+ 1271 01c0 F8B9     		cbnz	r0, .L125
+ 137:../../shields/Murata/src/alp.c ****     assert(fifo_put(fifo, ((lorawan_session_config_otaa_t*)config)->devEUI, 8) == oss7SUCCESS);
+ 1272              		.loc 1 137 0
+ 1273 01c2 95F82110 		ldrb	r1, [r5, #33]	@ zero_extendqisi2
+ 1274 01c6 2046     		mov	r0, r4
+ARM GAS  /tmp/ccA9SLCI.s 			page 35
+
+
+ 1275 01c8 FFF7FEFF 		bl	fifo_put_byte
+ 1276              	.LVL148:
+ 1277 01cc F8B9     		cbnz	r0, .L126
+ 138:../../shields/Murata/src/alp.c ****     assert(fifo_put(fifo, ((lorawan_session_config_otaa_t*)config)->appEUI, 8) == oss7SUCCESS);
+ 1278              		.loc 1 138 0
+ 1279 01ce 0822     		movs	r2, #8
+ 1280 01d0 2946     		mov	r1, r5
+ 1281 01d2 2046     		mov	r0, r4
+ 1282 01d4 FFF7FEFF 		bl	fifo_put
+ 1283              	.LVL149:
+ 1284 01d8 F8B9     		cbnz	r0, .L127
+ 139:../../shields/Murata/src/alp.c ****     assert(fifo_put(fifo, ((lorawan_session_config_otaa_t*)config)->appKey, 16) == oss7SUCCESS);
+ 1285              		.loc 1 139 0
+ 1286 01da 0822     		movs	r2, #8
+ 1287 01dc A918     		adds	r1, r5, r2
+ 1288 01de 2046     		mov	r0, r4
+ 1289 01e0 FFF7FEFF 		bl	fifo_put
+ 1290              	.LVL150:
+ 1291 01e4 F8B9     		cbnz	r0, .L128
+ 140:../../shields/Murata/src/alp.c ****   }
+ 1292              		.loc 1 140 0
+ 1293 01e6 1022     		movs	r2, #16
+ 1294 01e8 A918     		adds	r1, r5, r2
+ 1295 01ea 2046     		mov	r0, r4
+ 1296 01ec FFF7FEFF 		bl	fifo_put
+ 1297              	.LVL151:
+ 1298 01f0 0028     		cmp	r0, #0
+ 1299 01f2 3FF424AF 		beq	.L79
+ 140:../../shields/Murata/src/alp.c ****   }
+ 1300              		.loc 1 140 0 is_stmt 0 discriminator 1
+ 1301 01f6 254B     		ldr	r3, .L129+76
+ 1302 01f8 124A     		ldr	r2, .L129+4
+ 1303 01fa 8C21     		movs	r1, #140
+ 1304 01fc 1248     		ldr	r0, .L129+8
+ 1305 01fe FFF7FEFF 		bl	__assert_func
+ 1306              	.LVL152:
+ 1307              	.L125:
+ 136:../../shields/Murata/src/alp.c ****     assert(fifo_put_byte(fifo, ((lorawan_session_config_otaa_t*)config)->application_port) == oss7S
+ 1308              		.loc 1 136 0 is_stmt 1 discriminator 1
+ 1309 0202 1D4B     		ldr	r3, .L129+56
+ 1310 0204 0F4A     		ldr	r2, .L129+4
+ 1311 0206 8821     		movs	r1, #136
+ 1312 0208 0F48     		ldr	r0, .L129+8
+ 1313 020a FFF7FEFF 		bl	__assert_func
+ 1314              	.LVL153:
+ 1315              	.L126:
+ 137:../../shields/Murata/src/alp.c ****     assert(fifo_put(fifo, ((lorawan_session_config_otaa_t*)config)->devEUI, 8) == oss7SUCCESS);
+ 1316              		.loc 1 137 0 discriminator 1
+ 1317 020e 204B     		ldr	r3, .L129+80
+ 1318 0210 0C4A     		ldr	r2, .L129+4
+ 1319 0212 8921     		movs	r1, #137
+ 1320 0214 0C48     		ldr	r0, .L129+8
+ 1321 0216 FFF7FEFF 		bl	__assert_func
+ 1322              	.LVL154:
+ 1323              	.L127:
+ 138:../../shields/Murata/src/alp.c ****     assert(fifo_put(fifo, ((lorawan_session_config_otaa_t*)config)->appEUI, 8) == oss7SUCCESS);
+ 1324              		.loc 1 138 0 discriminator 1
+ARM GAS  /tmp/ccA9SLCI.s 			page 36
+
+
+ 1325 021a 1E4B     		ldr	r3, .L129+84
+ 1326 021c 094A     		ldr	r2, .L129+4
+ 1327 021e 8A21     		movs	r1, #138
+ 1328 0220 0948     		ldr	r0, .L129+8
+ 1329 0222 FFF7FEFF 		bl	__assert_func
+ 1330              	.LVL155:
+ 1331              	.L128:
+ 139:../../shields/Murata/src/alp.c ****     assert(fifo_put(fifo, ((lorawan_session_config_otaa_t*)config)->appKey, 16) == oss7SUCCESS);
+ 1332              		.loc 1 139 0 discriminator 1
+ 1333 0226 1C4B     		ldr	r3, .L129+88
+ 1334 0228 064A     		ldr	r2, .L129+4
+ 1335 022a 8B21     		movs	r1, #139
+ 1336 022c 0648     		ldr	r0, .L129+8
+ 1337 022e FFF7FEFF 		bl	__assert_func
+ 1338              	.LVL156:
+ 1339              	.L115:
+ 1340              	.LBE25:
+ 144:../../shields/Murata/src/alp.c ****   }
+ 1341              		.loc 1 144 0 discriminator 1
+ 1342 0232 1A4B     		ldr	r3, .L129+92
+ 1343 0234 034A     		ldr	r2, .L129+4
+ 1344 0236 9021     		movs	r1, #144
+ 1345 0238 0348     		ldr	r0, .L129+8
+ 1346 023a FFF7FEFF 		bl	__assert_func
+ 1347              	.LVL157:
+ 1348              	.L130:
+ 1349 023e 00BF     		.align	2
+ 1350              	.L129:
+ 1351 0240 00000000 		.word	.LC13
+ 1352 0244 00000000 		.word	.LANCHOR8
+ 1353 0248 40000000 		.word	.LC1
+ 1354 024c 10000000 		.word	.LC14
+ 1355 0250 44000000 		.word	.LC15
+ 1356 0254 70000000 		.word	.LC16
+ 1357 0258 C0000000 		.word	.LC17
+ 1358 025c 18010000 		.word	.LC18
+ 1359 0260 D4010000 		.word	.LC20
+ 1360 0264 38000000 		.word	.LC4
+ 1361 0268 00000000 		.word	.LANCHOR2
+ 1362 026c 40000000 		.word	.LC5
+ 1363 0270 74010000 		.word	.LC19
+ 1364 0274 A4030000 		.word	.LC26
+ 1365 0278 30020000 		.word	.LC21
+ 1366 027c 64020000 		.word	.LC22
+ 1367 0280 C4020000 		.word	.LC23
+ 1368 0284 18030000 		.word	.LC24
+ 1369 0288 6C030000 		.word	.LC25
+ 1370 028c E4040000 		.word	.LC30
+ 1371 0290 DC030000 		.word	.LC27
+ 1372 0294 3C040000 		.word	.LC28
+ 1373 0298 90040000 		.word	.LC29
+ 1374 029c 38050000 		.word	.LC31
+ 1375              		.cfi_endproc
+ 1376              	.LFE7:
+ 1378              		.section	.text.alp_append_return_file_data_action,"ax",%progbits
+ 1379              		.align	1
+ 1380              		.global	alp_append_return_file_data_action
+ARM GAS  /tmp/ccA9SLCI.s 			page 37
+
+
+ 1381              		.syntax unified
+ 1382              		.thumb
+ 1383              		.thumb_func
+ 1384              		.fpu fpv4-sp-d16
+ 1386              	alp_append_return_file_data_action:
+ 1387              	.LFB8:
+ 150:../../shields/Murata/src/alp.c ****   assert(fifo_put_byte(fifo, ALP_OP_RETURN_FILE_DATA) == oss7SUCCESS);
+ 1388              		.loc 1 150 0
+ 1389              		.cfi_startproc
+ 1390              		@ args = 4, pretend = 0, frame = 0
+ 1391              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1392              	.LVL158:
+ 1393 0000 F8B5     		push	{r3, r4, r5, r6, r7, lr}
+ 1394              	.LCFI32:
+ 1395              		.cfi_def_cfa_offset 24
+ 1396              		.cfi_offset 3, -24
+ 1397              		.cfi_offset 4, -20
+ 1398              		.cfi_offset 5, -16
+ 1399              		.cfi_offset 6, -12
+ 1400              		.cfi_offset 7, -8
+ 1401              		.cfi_offset 14, -4
+ 1402 0002 0446     		mov	r4, r0
+ 1403 0004 0F46     		mov	r7, r1
+ 1404 0006 1646     		mov	r6, r2
+ 1405 0008 1D46     		mov	r5, r3
+ 151:../../shields/Murata/src/alp.c ****   assert(fifo_put_byte(fifo, file_id) == oss7SUCCESS);
+ 1406              		.loc 1 151 0
+ 1407 000a 2021     		movs	r1, #32
+ 1408              	.LVL159:
+ 1409 000c FFF7FEFF 		bl	fifo_put_byte
+ 1410              	.LVL160:
+ 1411 0010 98B9     		cbnz	r0, .L136
+ 152:../../shields/Murata/src/alp.c ****   alp_append_length_operand(fifo, offset);
+ 1412              		.loc 1 152 0
+ 1413 0012 3946     		mov	r1, r7
+ 1414 0014 2046     		mov	r0, r4
+ 1415 0016 FFF7FEFF 		bl	fifo_put_byte
+ 1416              	.LVL161:
+ 1417 001a A0B9     		cbnz	r0, .L137
+ 153:../../shields/Murata/src/alp.c ****   alp_append_length_operand(fifo, length);
+ 1418              		.loc 1 153 0
+ 1419 001c 3146     		mov	r1, r6
+ 1420 001e 2046     		mov	r0, r4
+ 1421 0020 FFF7FEFF 		bl	alp_append_length_operand
+ 1422              	.LVL162:
+ 154:../../shields/Murata/src/alp.c ****   assert(fifo_put(fifo, data, length) == oss7SUCCESS);
+ 1423              		.loc 1 154 0
+ 1424 0024 2946     		mov	r1, r5
+ 1425 0026 2046     		mov	r0, r4
+ 1426 0028 FFF7FEFF 		bl	alp_append_length_operand
+ 1427              	.LVL163:
+ 155:../../shields/Murata/src/alp.c **** }
+ 1428              		.loc 1 155 0
+ 1429 002c AAB2     		uxth	r2, r5
+ 1430 002e 0699     		ldr	r1, [sp, #24]
+ 1431 0030 2046     		mov	r0, r4
+ 1432 0032 FFF7FEFF 		bl	fifo_put
+ARM GAS  /tmp/ccA9SLCI.s 			page 38
+
+
+ 1433              	.LVL164:
+ 1434 0036 60B9     		cbnz	r0, .L138
+ 156:../../shields/Murata/src/alp.c **** 
+ 1435              		.loc 1 156 0
+ 1436 0038 F8BD     		pop	{r3, r4, r5, r6, r7, pc}
+ 1437              	.LVL165:
+ 1438              	.L136:
+ 151:../../shields/Murata/src/alp.c ****   assert(fifo_put_byte(fifo, file_id) == oss7SUCCESS);
+ 1439              		.loc 1 151 0 discriminator 1
+ 1440 003a 094B     		ldr	r3, .L139
+ 1441 003c 094A     		ldr	r2, .L139+4
+ 1442 003e 9721     		movs	r1, #151
+ 1443 0040 0948     		ldr	r0, .L139+8
+ 1444 0042 FFF7FEFF 		bl	__assert_func
+ 1445              	.LVL166:
+ 1446              	.L137:
+ 152:../../shields/Murata/src/alp.c ****   alp_append_length_operand(fifo, offset);
+ 1447              		.loc 1 152 0 discriminator 1
+ 1448 0046 094B     		ldr	r3, .L139+12
+ 1449 0048 064A     		ldr	r2, .L139+4
+ 1450 004a 9821     		movs	r1, #152
+ 1451 004c 0648     		ldr	r0, .L139+8
+ 1452 004e FFF7FEFF 		bl	__assert_func
+ 1453              	.LVL167:
+ 1454              	.L138:
+ 155:../../shields/Murata/src/alp.c **** }
+ 1455              		.loc 1 155 0 discriminator 1
+ 1456 0052 074B     		ldr	r3, .L139+16
+ 1457 0054 034A     		ldr	r2, .L139+4
+ 1458 0056 9B21     		movs	r1, #155
+ 1459 0058 0348     		ldr	r0, .L139+8
+ 1460 005a FFF7FEFF 		bl	__assert_func
+ 1461              	.LVL168:
+ 1462              	.L140:
+ 1463 005e 00BF     		.align	2
+ 1464              	.L139:
+ 1465 0060 00000000 		.word	.LC32
+ 1466 0064 00000000 		.word	.LANCHOR9
+ 1467 0068 40000000 		.word	.LC1
+ 1468 006c 00000000 		.word	.LC12
+ 1469 0070 3C000000 		.word	.LC33
+ 1470              		.cfi_endproc
+ 1471              	.LFE8:
+ 1473              		.section	.text.alp_parse_action,"ax",%progbits
+ 1474              		.align	1
+ 1475              		.global	alp_parse_action
+ 1476              		.syntax unified
+ 1477              		.thumb
+ 1478              		.thumb_func
+ 1479              		.fpu fpv4-sp-d16
+ 1481              	alp_parse_action:
+ 1482              	.LFB16:
+ 252:../../shields/Murata/src/alp.c **** 
+ 253:../../shields/Murata/src/alp.c **** void alp_parse_action(fifo_t* fifo, alp_action_t* action) {
+ 1483              		.loc 1 253 0
+ 1484              		.cfi_startproc
+ 1485              		@ args = 0, pretend = 0, frame = 8
+ARM GAS  /tmp/ccA9SLCI.s 			page 39
+
+
+ 1486              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1487              	.LVL169:
+ 1488 0000 30B5     		push	{r4, r5, lr}
+ 1489              	.LCFI33:
+ 1490              		.cfi_def_cfa_offset 12
+ 1491              		.cfi_offset 4, -12
+ 1492              		.cfi_offset 5, -8
+ 1493              		.cfi_offset 14, -4
+ 1494 0002 83B0     		sub	sp, sp, #12
+ 1495              	.LCFI34:
+ 1496              		.cfi_def_cfa_offset 24
+ 1497 0004 0546     		mov	r5, r0
+ 1498 0006 0C46     		mov	r4, r1
+ 254:../../shields/Murata/src/alp.c ****   uint8_t op;
+ 255:../../shields/Murata/src/alp.c ****   assert(fifo_pop(fifo, &op, 1) == oss7SUCCESS);
+ 1499              		.loc 1 255 0
+ 1500 0008 0122     		movs	r2, #1
+ 1501 000a 0DF10701 		add	r1, sp, #7
+ 1502              	.LVL170:
+ 1503 000e FFF7FEFF 		bl	fifo_pop
+ 1504              	.LVL171:
+ 1505 0012 F0B9     		cbnz	r0, .L151
+ 256:../../shields/Murata/src/alp.c ****   bool b6 = (op >> 6) & 1;
+ 1506              		.loc 1 256 0
+ 1507 0014 9DF80710 		ldrb	r1, [sp, #7]	@ zero_extendqisi2
+ 1508 0018 C1F38012 		ubfx	r2, r1, #6, #1
+ 1509              	.LVL172:
+ 257:../../shields/Murata/src/alp.c ****   bool b7 = op >> 7;
+ 1510              		.loc 1 257 0
+ 1511 001c CB09     		lsrs	r3, r1, #7
+ 1512              	.LVL173:
+ 258:../../shields/Murata/src/alp.c ****   op &= 0x3F; // op is in b5-b0
+ 1513              		.loc 1 258 0
+ 1514 001e 01F03F01 		and	r1, r1, #63
+ 1515 0022 8DF80710 		strb	r1, [sp, #7]
+ 259:../../shields/Murata/src/alp.c ****   action->operation = op;
+ 1516              		.loc 1 259 0
+ 1517 0026 2170     		strb	r1, [r4]
+ 260:../../shields/Murata/src/alp.c ****   switch(op) {
+ 1518              		.loc 1 260 0
+ 1519 0028 0439     		subs	r1, r1, #4
+ 1520 002a 1F29     		cmp	r1, #31
+ 1521 002c 2CD8     		bhi	.L143
+ 1522 002e DFE801F0 		tbb	[pc, r1]
+ 1523              	.L145:
+ 1524 0032 16       		.byte	(.L144-.L145)/2
+ 1525 0033 2B       		.byte	(.L143-.L145)/2
+ 1526 0034 2B       		.byte	(.L143-.L145)/2
+ 1527 0035 2B       		.byte	(.L143-.L145)/2
+ 1528 0036 2B       		.byte	(.L143-.L145)/2
+ 1529 0037 2B       		.byte	(.L143-.L145)/2
+ 1530 0038 2B       		.byte	(.L143-.L145)/2
+ 1531 0039 2B       		.byte	(.L143-.L145)/2
+ 1532 003a 2B       		.byte	(.L143-.L145)/2
+ 1533 003b 2B       		.byte	(.L143-.L145)/2
+ 1534 003c 2B       		.byte	(.L143-.L145)/2
+ 1535 003d 2B       		.byte	(.L143-.L145)/2
+ARM GAS  /tmp/ccA9SLCI.s 			page 40
+
+
+ 1536 003e 2B       		.byte	(.L143-.L145)/2
+ 1537 003f 2B       		.byte	(.L143-.L145)/2
+ 1538 0040 2B       		.byte	(.L143-.L145)/2
+ 1539 0041 2B       		.byte	(.L143-.L145)/2
+ 1540 0042 2B       		.byte	(.L143-.L145)/2
+ 1541 0043 2B       		.byte	(.L143-.L145)/2
+ 1542 0044 2B       		.byte	(.L143-.L145)/2
+ 1543 0045 2B       		.byte	(.L143-.L145)/2
+ 1544 0046 2B       		.byte	(.L143-.L145)/2
+ 1545 0047 2B       		.byte	(.L143-.L145)/2
+ 1546 0048 2B       		.byte	(.L143-.L145)/2
+ 1547 0049 2B       		.byte	(.L143-.L145)/2
+ 1548 004a 2B       		.byte	(.L143-.L145)/2
+ 1549 004b 2B       		.byte	(.L143-.L145)/2
+ 1550 004c 2B       		.byte	(.L143-.L145)/2
+ 1551 004d 2B       		.byte	(.L143-.L145)/2
+ 1552 004e 1C       		.byte	(.L146-.L145)/2
+ 1553 004f 2B       		.byte	(.L143-.L145)/2
+ 1554 0050 26       		.byte	(.L147-.L145)/2
+ 1555 0051 21       		.byte	(.L148-.L145)/2
+ 1556              	.LVL174:
+ 1557              		.p2align 1
+ 1558              	.L151:
+ 255:../../shields/Murata/src/alp.c ****   bool b6 = (op >> 6) & 1;
+ 1559              		.loc 1 255 0 discriminator 1
+ 1560 0052 114B     		ldr	r3, .L152
+ 1561 0054 114A     		ldr	r2, .L152+4
+ 1562 0056 FF21     		movs	r1, #255
+ 1563 0058 1148     		ldr	r0, .L152+8
+ 1564 005a FFF7FEFF 		bl	__assert_func
+ 1565              	.LVL175:
+ 1566              	.L144:
+ 261:../../shields/Murata/src/alp.c ****     case ALP_OP_WRITE_FILE_DATA:
+ 262:../../shields/Murata/src/alp.c ****       parse_op_write_file_data(fifo, action);
+ 1567              		.loc 1 262 0
+ 1568 005e 2146     		mov	r1, r4
+ 1569 0060 2846     		mov	r0, r5
+ 1570 0062 FFF7FEFF 		bl	parse_op_write_file_data
+ 1571              	.LVL176:
+ 1572              	.L141:
+ 263:../../shields/Murata/src/alp.c ****       break;
+ 264:../../shields/Murata/src/alp.c ****     case ALP_OP_RETURN_FILE_DATA:
+ 265:../../shields/Murata/src/alp.c ****       parse_op_return_file_data(fifo, action);
+ 266:../../shields/Murata/src/alp.c ****       break;
+ 267:../../shields/Murata/src/alp.c ****     case ALP_OP_RETURN_TAG:
+ 268:../../shields/Murata/src/alp.c ****       parse_op_return_tag(fifo, action, b6, b7);
+ 269:../../shields/Murata/src/alp.c ****       break;
+ 270:../../shields/Murata/src/alp.c ****     case ALP_OP_RETURN_STATUS:
+ 271:../../shields/Murata/src/alp.c ****       parse_op_return_status(fifo, action, b6, b7);
+ 272:../../shields/Murata/src/alp.c ****       break;
+ 273:../../shields/Murata/src/alp.c ****     default:
+ 274:../../shields/Murata/src/alp.c ****       DPRINT("op %x not implemented", op);
+ 275:../../shields/Murata/src/alp.c ****       assert(false);
+ 276:../../shields/Murata/src/alp.c ****   }
+ 277:../../shields/Murata/src/alp.c **** 
+ 278:../../shields/Murata/src/alp.c ****   DPRINT("parsed action");
+ 279:../../shields/Murata/src/alp.c **** }
+ARM GAS  /tmp/ccA9SLCI.s 			page 41
+
+
+ 1573              		.loc 1 279 0
+ 1574 0066 03B0     		add	sp, sp, #12
+ 1575              	.LCFI35:
+ 1576              		.cfi_remember_state
+ 1577              		.cfi_def_cfa_offset 12
+ 1578              		@ sp needed
+ 1579 0068 30BD     		pop	{r4, r5, pc}
+ 1580              	.LVL177:
+ 1581              	.L146:
+ 1582              	.LCFI36:
+ 1583              		.cfi_restore_state
+ 265:../../shields/Murata/src/alp.c ****       break;
+ 1584              		.loc 1 265 0
+ 1585 006a 2146     		mov	r1, r4
+ 1586 006c 2846     		mov	r0, r5
+ 1587 006e FFF7FEFF 		bl	parse_op_return_file_data
+ 1588              	.LVL178:
+ 266:../../shields/Murata/src/alp.c ****     case ALP_OP_RETURN_TAG:
+ 1589              		.loc 1 266 0
+ 1590 0072 F8E7     		b	.L141
+ 1591              	.LVL179:
+ 1592              	.L148:
+ 268:../../shields/Murata/src/alp.c ****       break;
+ 1593              		.loc 1 268 0
+ 1594 0074 2146     		mov	r1, r4
+ 1595 0076 2846     		mov	r0, r5
+ 1596 0078 FFF7FEFF 		bl	parse_op_return_tag
+ 1597              	.LVL180:
+ 269:../../shields/Murata/src/alp.c ****     case ALP_OP_RETURN_STATUS:
+ 1598              		.loc 1 269 0
+ 1599 007c F3E7     		b	.L141
+ 1600              	.LVL181:
+ 1601              	.L147:
+ 271:../../shields/Murata/src/alp.c ****       break;
+ 1602              		.loc 1 271 0
+ 1603 007e 2146     		mov	r1, r4
+ 1604 0080 2846     		mov	r0, r5
+ 1605 0082 FFF7FEFF 		bl	parse_op_return_status
+ 1606              	.LVL182:
+ 272:../../shields/Murata/src/alp.c ****     default:
+ 1607              		.loc 1 272 0
+ 1608 0086 EEE7     		b	.L141
+ 1609              	.LVL183:
+ 1610              	.L143:
+ 275:../../shields/Murata/src/alp.c ****   }
+ 1611              		.loc 1 275 0
+ 1612 0088 064B     		ldr	r3, .L152+12
+ 1613              	.LVL184:
+ 1614 008a 044A     		ldr	r2, .L152+4
+ 1615              	.LVL185:
+ 1616 008c 40F21311 		movw	r1, #275
+ 1617 0090 0348     		ldr	r0, .L152+8
+ 1618 0092 FFF7FEFF 		bl	__assert_func
+ 1619              	.LVL186:
+ 1620              	.L153:
+ 1621 0096 00BF     		.align	2
+ 1622              	.L152:
+ARM GAS  /tmp/ccA9SLCI.s 			page 42
+
+
+ 1623 0098 00000000 		.word	.LC34
+ 1624 009c 00000000 		.word	.LANCHOR10
+ 1625 00a0 40000000 		.word	.LC1
+ 1626 00a4 38000000 		.word	.LC4
+ 1627              		.cfi_endproc
+ 1628              	.LFE16:
+ 1630              		.section	.text.alp_append_tag_request_action,"ax",%progbits
+ 1631              		.align	1
+ 1632              		.global	alp_append_tag_request_action
+ 1633              		.syntax unified
+ 1634              		.thumb
+ 1635              		.thumb_func
+ 1636              		.fpu fpv4-sp-d16
+ 1638              	alp_append_tag_request_action:
+ 1639              	.LFB18:
+ 280:../../shields/Murata/src/alp.c **** 
+ 281:../../shields/Murata/src/alp.c **** uint8_t alp_get_expected_response_length(uint8_t* alp_command, uint8_t alp_command_length) {
+ 282:../../shields/Murata/src/alp.c ****   uint8_t expected_response_length = 0;
+ 283:../../shields/Murata/src/alp.c ****   fifo_t fifo;
+ 284:../../shields/Murata/src/alp.c ****   fifo_init_filled(&fifo, alp_command, alp_command_length, alp_command_length + 1);
+ 285:../../shields/Murata/src/alp.c **** 
+ 286:../../shields/Murata/src/alp.c ****   while(fifo_get_size(&fifo) > 0) {
+ 287:../../shields/Murata/src/alp.c ****     alp_control_t control;
+ 288:../../shields/Murata/src/alp.c ****     fifo_pop(&fifo, (uint8_t*)&control.raw, 1);
+ 289:../../shields/Murata/src/alp.c ****     switch(control.operation) {
+ 290:../../shields/Murata/src/alp.c ****       case ALP_OP_READ_FILE_DATA:
+ 291:../../shields/Murata/src/alp.c ****         fifo_skip(&fifo, 1); // skip file ID
+ 292:../../shields/Murata/src/alp.c ****         uint32_t offset = alp_parse_length_operand(&fifo); // offset
+ 293:../../shields/Murata/src/alp.c ****         expected_response_length += alp_parse_length_operand(&fifo); // the file length
+ 294:../../shields/Murata/src/alp.c ****         expected_response_length += alp_length_operand_coded_length(expected_response_length); // t
+ 295:../../shields/Murata/src/alp.c ****         expected_response_length += alp_length_operand_coded_length(offset) + 1; // the length of t
+ 296:../../shields/Murata/src/alp.c ****         expected_response_length += 1; // the opcode
+ 297:../../shields/Murata/src/alp.c ****         break;
+ 298:../../shields/Murata/src/alp.c ****       case ALP_OP_REQUEST_TAG:
+ 299:../../shields/Murata/src/alp.c ****         fifo_skip(&fifo, 1); // skip tag ID operand
+ 300:../../shields/Murata/src/alp.c ****         break;
+ 301:../../shields/Murata/src/alp.c ****       case ALP_OP_RETURN_FILE_DATA:
+ 302:../../shields/Murata/src/alp.c ****       case ALP_OP_WRITE_FILE_DATA:
+ 303:../../shields/Murata/src/alp.c ****         fifo_skip(&fifo, 1); // skip file ID
+ 304:../../shields/Murata/src/alp.c ****         alp_parse_length_operand(&fifo); // offset
+ 305:../../shields/Murata/src/alp.c ****         fifo_skip(&fifo, alp_parse_length_operand(&fifo));
+ 306:../../shields/Murata/src/alp.c ****         break;
+ 307:../../shields/Murata/src/alp.c ****       case ALP_OP_FORWARD: ;
+ 308:../../shields/Murata/src/alp.c ****         uint8_t itf_id;
+ 309:../../shields/Murata/src/alp.c ****         fifo_pop(&fifo, &itf_id, 1);
+ 310:../../shields/Murata/src/alp.c ****         if(itf_id == ALP_ITF_ID_D7ASP) {
+ 311:../../shields/Murata/src/alp.c ****           fifo_skip(&fifo, 1); // skip QoS, dormant timeout
+ 312:../../shields/Murata/src/alp.c ****           d7ap_addressee_ctrl_t addressee_ctrl;
+ 313:../../shields/Murata/src/alp.c ****           fifo_pop(&fifo, (uint8_t*)&addressee_ctrl.raw, 1);
+ 314:../../shields/Murata/src/alp.c ****           fifo_skip(&fifo, 2 + d7ap_addressee_id_length(addressee_ctrl.id_type)); // skip addressee
+ 315:../../shields/Murata/src/alp.c ****           // TODO refactor to reuse same logic for parsing and response length counting
+ 316:../../shields/Murata/src/alp.c ****         }
+ 317:../../shields/Murata/src/alp.c ****         // other ITFs have no configuration
+ 318:../../shields/Murata/src/alp.c ****         break;
+ 319:../../shields/Murata/src/alp.c ****       case ALP_OP_WRITE_FILE_PROPERTIES:
+ 320:../../shields/Murata/src/alp.c ****         fifo_skip(&fifo, 1 + sizeof(fs_file_header_t)); // skip file ID & header
+ 321:../../shields/Murata/src/alp.c ****         break;
+ARM GAS  /tmp/ccA9SLCI.s 			page 43
+
+
+ 322:../../shields/Murata/src/alp.c ****       // TODO other operations
+ 323:../../shields/Murata/src/alp.c ****       default:
+ 324:../../shields/Murata/src/alp.c ****         DPRINT("op %i not implemented", control.operation);
+ 325:../../shields/Murata/src/alp.c ****         assert(false);
+ 326:../../shields/Murata/src/alp.c ****     }
+ 327:../../shields/Murata/src/alp.c ****   }
+ 328:../../shields/Murata/src/alp.c **** 
+ 329:../../shields/Murata/src/alp.c ****   DPRINT("Expected ALP response length=%i", expected_response_length);
+ 330:../../shields/Murata/src/alp.c ****   return expected_response_length;
+ 331:../../shields/Murata/src/alp.c **** }
+ 332:../../shields/Murata/src/alp.c **** 
+ 333:../../shields/Murata/src/alp.c **** void alp_append_tag_request_action(fifo_t* fifo, uint8_t tag_id, bool eop) {
+ 1640              		.loc 1 333 0
+ 1641              		.cfi_startproc
+ 1642              		@ args = 0, pretend = 0, frame = 0
+ 1643              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1644              	.LVL187:
+ 1645 0000 38B5     		push	{r3, r4, r5, lr}
+ 1646              	.LCFI37:
+ 1647              		.cfi_def_cfa_offset 16
+ 1648              		.cfi_offset 3, -16
+ 1649              		.cfi_offset 4, -12
+ 1650              		.cfi_offset 5, -8
+ 1651              		.cfi_offset 14, -4
+ 1652 0002 0446     		mov	r4, r0
+ 1653 0004 0D46     		mov	r5, r1
+ 334:../../shields/Murata/src/alp.c ****   DPRINT("append tag %i", tag_id);
+ 335:../../shields/Murata/src/alp.c ****   uint8_t op = ALP_OP_REQUEST_TAG | (eop << 7);
+ 1654              		.loc 1 335 0
+ 1655 0006 D201     		lsls	r2, r2, #7
+ 1656              	.LVL188:
+ 1657 0008 42F03401 		orr	r1, r2, #52
+ 1658              	.LVL189:
+ 336:../../shields/Murata/src/alp.c ****   assert(fifo_put_byte(fifo, op) == oss7SUCCESS);
+ 1659              		.loc 1 336 0
+ 1660 000c 01F0B401 		and	r1, r1, #180
+ 1661              	.LVL190:
+ 1662 0010 FFF7FEFF 		bl	fifo_put_byte
+ 1663              	.LVL191:
+ 1664 0014 28B9     		cbnz	r0, .L158
+ 337:../../shields/Murata/src/alp.c ****   assert(fifo_put_byte(fifo, tag_id) == oss7SUCCESS);
+ 1665              		.loc 1 337 0
+ 1666 0016 2946     		mov	r1, r5
+ 1667 0018 2046     		mov	r0, r4
+ 1668 001a FFF7FEFF 		bl	fifo_put_byte
+ 1669              	.LVL192:
+ 1670 001e 38B9     		cbnz	r0, .L159
+ 338:../../shields/Murata/src/alp.c **** }
+ 1671              		.loc 1 338 0
+ 1672 0020 38BD     		pop	{r3, r4, r5, pc}
+ 1673              	.LVL193:
+ 1674              	.L158:
+ 336:../../shields/Murata/src/alp.c ****   assert(fifo_put_byte(fifo, op) == oss7SUCCESS);
+ 1675              		.loc 1 336 0 discriminator 1
+ 1676 0022 074B     		ldr	r3, .L160
+ 1677 0024 074A     		ldr	r2, .L160+4
+ 1678 0026 4FF4A871 		mov	r1, #336
+ARM GAS  /tmp/ccA9SLCI.s 			page 44
+
+
+ 1679 002a 0748     		ldr	r0, .L160+8
+ 1680 002c FFF7FEFF 		bl	__assert_func
+ 1681              	.LVL194:
+ 1682              	.L159:
+ 337:../../shields/Murata/src/alp.c ****   assert(fifo_put_byte(fifo, tag_id) == oss7SUCCESS);
+ 1683              		.loc 1 337 0 discriminator 1
+ 1684 0030 064B     		ldr	r3, .L160+12
+ 1685 0032 044A     		ldr	r2, .L160+4
+ 1686 0034 40F25111 		movw	r1, #337
+ 1687 0038 0348     		ldr	r0, .L160+8
+ 1688 003a FFF7FEFF 		bl	__assert_func
+ 1689              	.LVL195:
+ 1690              	.L161:
+ 1691 003e 00BF     		.align	2
+ 1692              	.L160:
+ 1693 0040 00000000 		.word	.LC35
+ 1694 0044 00000000 		.word	.LANCHOR11
+ 1695 0048 40000000 		.word	.LC1
+ 1696 004c 28000000 		.word	.LC36
+ 1697              		.cfi_endproc
+ 1698              	.LFE18:
+ 1700              		.section	.text.alp_append_read_file_data_action,"ax",%progbits
+ 1701              		.align	1
+ 1702              		.global	alp_append_read_file_data_action
+ 1703              		.syntax unified
+ 1704              		.thumb
+ 1705              		.thumb_func
+ 1706              		.fpu fpv4-sp-d16
+ 1708              	alp_append_read_file_data_action:
+ 1709              	.LFB19:
+ 339:../../shields/Murata/src/alp.c **** 
+ 340:../../shields/Murata/src/alp.c **** void alp_append_read_file_data_action(fifo_t* fifo, uint8_t file_id, uint32_t offset, uint32_t leng
+ 1710              		.loc 1 340 0
+ 1711              		.cfi_startproc
+ 1712              		@ args = 8, pretend = 0, frame = 0
+ 1713              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1714              	.LVL196:
+ 1715 0000 F8B5     		push	{r3, r4, r5, r6, r7, lr}
+ 1716              	.LCFI38:
+ 1717              		.cfi_def_cfa_offset 24
+ 1718              		.cfi_offset 3, -24
+ 1719              		.cfi_offset 4, -20
+ 1720              		.cfi_offset 5, -16
+ 1721              		.cfi_offset 6, -12
+ 1722              		.cfi_offset 7, -8
+ 1723              		.cfi_offset 14, -4
+ 1724 0002 0446     		mov	r4, r0
+ 1725 0004 0E46     		mov	r6, r1
+ 1726 0006 1746     		mov	r7, r2
+ 1727 0008 1D46     		mov	r5, r3
+ 341:../../shields/Murata/src/alp.c ****   uint8_t op = ALP_OP_READ_FILE_DATA | (resp << 6) | (group << 7);
+ 1728              		.loc 1 341 0
+ 1729 000a 9DF81810 		ldrb	r1, [sp, #24]	@ zero_extendqisi2
+ 1730              	.LVL197:
+ 1731 000e 8901     		lsls	r1, r1, #6
+ 1732 0010 41F00101 		orr	r1, r1, #1
+ 1733 0014 49B2     		sxtb	r1, r1
+ARM GAS  /tmp/ccA9SLCI.s 			page 45
+
+
+ 1734 0016 9DF81C30 		ldrb	r3, [sp, #28]	@ zero_extendqisi2
+ 1735              	.LVL198:
+ 1736 001a 41EAC311 		orr	r1, r1, r3, lsl #7
+ 1737              	.LVL199:
+ 342:../../shields/Murata/src/alp.c ****   assert(fifo_put_byte(fifo, op) == oss7SUCCESS);
+ 1738              		.loc 1 342 0
+ 1739 001e 01F0C101 		and	r1, r1, #193
+ 1740              	.LVL200:
+ 1741 0022 FFF7FEFF 		bl	fifo_put_byte
+ 1742              	.LVL201:
+ 1743 0026 48B9     		cbnz	r0, .L165
+ 343:../../shields/Murata/src/alp.c ****   alp_append_file_offset_operand(fifo, file_id, offset);
+ 1744              		.loc 1 343 0
+ 1745 0028 3A46     		mov	r2, r7
+ 1746 002a 3146     		mov	r1, r6
+ 1747 002c 2046     		mov	r0, r4
+ 1748 002e FFF7FEFF 		bl	alp_append_file_offset_operand
+ 1749              	.LVL202:
+ 344:../../shields/Murata/src/alp.c ****   alp_append_length_operand(fifo, length);
+ 1750              		.loc 1 344 0
+ 1751 0032 2946     		mov	r1, r5
+ 1752 0034 2046     		mov	r0, r4
+ 1753 0036 FFF7FEFF 		bl	alp_append_length_operand
+ 1754              	.LVL203:
+ 345:../../shields/Murata/src/alp.c **** }
+ 1755              		.loc 1 345 0
+ 1756 003a F8BD     		pop	{r3, r4, r5, r6, r7, pc}
+ 1757              	.LVL204:
+ 1758              	.L165:
+ 342:../../shields/Murata/src/alp.c ****   alp_append_file_offset_operand(fifo, file_id, offset);
+ 1759              		.loc 1 342 0 discriminator 1
+ 1760 003c 034B     		ldr	r3, .L166
+ 1761 003e 044A     		ldr	r2, .L166+4
+ 1762 0040 4FF4AB71 		mov	r1, #342
+ 1763 0044 0348     		ldr	r0, .L166+8
+ 1764 0046 FFF7FEFF 		bl	__assert_func
+ 1765              	.LVL205:
+ 1766              	.L167:
+ 1767 004a 00BF     		.align	2
+ 1768              	.L166:
+ 1769 004c 00000000 		.word	.LC35
+ 1770 0050 00000000 		.word	.LANCHOR12
+ 1771 0054 40000000 		.word	.LC1
+ 1772              		.cfi_endproc
+ 1773              	.LFE19:
+ 1775              		.section	.text.alp_append_write_file_data_action,"ax",%progbits
+ 1776              		.align	1
+ 1777              		.global	alp_append_write_file_data_action
+ 1778              		.syntax unified
+ 1779              		.thumb
+ 1780              		.thumb_func
+ 1781              		.fpu fpv4-sp-d16
+ 1783              	alp_append_write_file_data_action:
+ 1784              	.LFB20:
+ 346:../../shields/Murata/src/alp.c **** 
+ 347:../../shields/Murata/src/alp.c **** void alp_append_write_file_data_action(fifo_t* fifo, uint8_t file_id, uint32_t offset, uint32_t len
+ 1785              		.loc 1 347 0
+ARM GAS  /tmp/ccA9SLCI.s 			page 46
+
+
+ 1786              		.cfi_startproc
+ 1787              		@ args = 12, pretend = 0, frame = 0
+ 1788              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1789              	.LVL206:
+ 1790 0000 F8B5     		push	{r3, r4, r5, r6, r7, lr}
+ 1791              	.LCFI39:
+ 1792              		.cfi_def_cfa_offset 24
+ 1793              		.cfi_offset 3, -24
+ 1794              		.cfi_offset 4, -20
+ 1795              		.cfi_offset 5, -16
+ 1796              		.cfi_offset 6, -12
+ 1797              		.cfi_offset 7, -8
+ 1798              		.cfi_offset 14, -4
+ 1799 0002 0446     		mov	r4, r0
+ 1800 0004 0E46     		mov	r6, r1
+ 1801 0006 1746     		mov	r7, r2
+ 1802 0008 1D46     		mov	r5, r3
+ 348:../../shields/Murata/src/alp.c ****   uint8_t op = ALP_OP_WRITE_FILE_DATA | (resp << 6) | (group << 7);
+ 1803              		.loc 1 348 0
+ 1804 000a 9DF81C10 		ldrb	r1, [sp, #28]	@ zero_extendqisi2
+ 1805              	.LVL207:
+ 1806 000e 8901     		lsls	r1, r1, #6
+ 1807 0010 41F00401 		orr	r1, r1, #4
+ 1808 0014 49B2     		sxtb	r1, r1
+ 1809 0016 9DF82030 		ldrb	r3, [sp, #32]	@ zero_extendqisi2
+ 1810              	.LVL208:
+ 1811 001a 41EAC311 		orr	r1, r1, r3, lsl #7
+ 1812              	.LVL209:
+ 349:../../shields/Murata/src/alp.c ****   assert(fifo_put_byte(fifo, op) == oss7SUCCESS);
+ 1813              		.loc 1 349 0
+ 1814 001e 01F0C401 		and	r1, r1, #196
+ 1815              	.LVL210:
+ 1816 0022 FFF7FEFF 		bl	fifo_put_byte
+ 1817              	.LVL211:
+ 1818 0026 78B9     		cbnz	r0, .L172
+ 350:../../shields/Murata/src/alp.c ****   alp_append_file_offset_operand(fifo, file_id, offset);
+ 1819              		.loc 1 350 0
+ 1820 0028 3A46     		mov	r2, r7
+ 1821 002a 3146     		mov	r1, r6
+ 1822 002c 2046     		mov	r0, r4
+ 1823 002e FFF7FEFF 		bl	alp_append_file_offset_operand
+ 1824              	.LVL212:
+ 351:../../shields/Murata/src/alp.c ****   alp_append_length_operand(fifo, length);
+ 1825              		.loc 1 351 0
+ 1826 0032 2946     		mov	r1, r5
+ 1827 0034 2046     		mov	r0, r4
+ 1828 0036 FFF7FEFF 		bl	alp_append_length_operand
+ 1829              	.LVL213:
+ 352:../../shields/Murata/src/alp.c ****   assert(fifo_put(fifo, data, length) == oss7SUCCESS);
+ 1830              		.loc 1 352 0
+ 1831 003a AAB2     		uxth	r2, r5
+ 1832 003c 0699     		ldr	r1, [sp, #24]
+ 1833 003e 2046     		mov	r0, r4
+ 1834 0040 FFF7FEFF 		bl	fifo_put
+ 1835              	.LVL214:
+ 1836 0044 38B9     		cbnz	r0, .L173
+ 353:../../shields/Murata/src/alp.c **** }
+ARM GAS  /tmp/ccA9SLCI.s 			page 47
+
+
+ 1837              		.loc 1 353 0
+ 1838 0046 F8BD     		pop	{r3, r4, r5, r6, r7, pc}
+ 1839              	.LVL215:
+ 1840              	.L172:
+ 349:../../shields/Murata/src/alp.c ****   alp_append_file_offset_operand(fifo, file_id, offset);
+ 1841              		.loc 1 349 0 discriminator 1
+ 1842 0048 064B     		ldr	r3, .L174
+ 1843 004a 074A     		ldr	r2, .L174+4
+ 1844 004c 40F25D11 		movw	r1, #349
+ 1845 0050 0648     		ldr	r0, .L174+8
+ 1846 0052 FFF7FEFF 		bl	__assert_func
+ 1847              	.LVL216:
+ 1848              	.L173:
+ 352:../../shields/Murata/src/alp.c ****   assert(fifo_put(fifo, data, length) == oss7SUCCESS);
+ 1849              		.loc 1 352 0 discriminator 1
+ 1850 0056 064B     		ldr	r3, .L174+12
+ 1851 0058 034A     		ldr	r2, .L174+4
+ 1852 005a 4FF4B071 		mov	r1, #352
+ 1853 005e 0348     		ldr	r0, .L174+8
+ 1854 0060 FFF7FEFF 		bl	__assert_func
+ 1855              	.LVL217:
+ 1856              	.L175:
+ 1857              		.align	2
+ 1858              	.L174:
+ 1859 0064 00000000 		.word	.LC35
+ 1860 0068 00000000 		.word	.LANCHOR13
+ 1861 006c 40000000 		.word	.LC1
+ 1862 0070 3C000000 		.word	.LC33
+ 1863              		.cfi_endproc
+ 1864              	.LFE20:
+ 1866              		.section	.text.alp_length_operand_coded_length,"ax",%progbits
+ 1867              		.align	1
+ 1868              		.global	alp_length_operand_coded_length
+ 1869              		.syntax unified
+ 1870              		.thumb
+ 1871              		.thumb_func
+ 1872              		.fpu fpv4-sp-d16
+ 1874              	alp_length_operand_coded_length:
+ 1875              	.LFB21:
+ 354:../../shields/Murata/src/alp.c **** 
+ 355:../../shields/Murata/src/alp.c **** uint8_t alp_length_operand_coded_length(uint32_t length) {
+ 1876              		.loc 1 355 0
+ 1877              		.cfi_startproc
+ 1878              		@ args = 0, pretend = 0, frame = 0
+ 1879              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1880              		@ link register save eliminated.
+ 1881              	.LVL218:
+ 1882 0000 0346     		mov	r3, r0
+ 1883              	.LVL219:
+ 356:../../shields/Murata/src/alp.c ****   uint8_t coded_len = 1;
+ 357:../../shields/Murata/src/alp.c ****   if(length > 0x3F)
+ 1884              		.loc 1 357 0
+ 1885 0002 3F28     		cmp	r0, #63
+ 1886 0004 08D8     		bhi	.L180
+ 356:../../shields/Murata/src/alp.c ****   uint8_t coded_len = 1;
+ 1887              		.loc 1 356 0
+ 1888 0006 0120     		movs	r0, #1
+ARM GAS  /tmp/ccA9SLCI.s 			page 48
+
+
+ 1889              	.LVL220:
+ 1890              	.L177:
+ 358:../../shields/Murata/src/alp.c ****     coded_len = 2;
+ 359:../../shields/Murata/src/alp.c **** 
+ 360:../../shields/Murata/src/alp.c ****   if(length > 0x3FFF)
+ 1891              		.loc 1 360 0
+ 1892 0008 B3F5804F 		cmp	r3, #16384
+ 1893 000c 00D3     		bcc	.L178
+ 361:../../shields/Murata/src/alp.c ****     coded_len = 3;
+ 1894              		.loc 1 361 0
+ 1895 000e 0320     		movs	r0, #3
+ 1896              	.LVL221:
+ 1897              	.L178:
+ 362:../../shields/Murata/src/alp.c **** 
+ 363:../../shields/Murata/src/alp.c ****   if(length > 0x3FFFFF)
+ 1898              		.loc 1 363 0
+ 1899 0010 B3F5800F 		cmp	r3, #4194304
+ 1900 0014 02D2     		bcs	.L183
+ 1901              	.LVL222:
+ 1902              	.L179:
+ 364:../../shields/Murata/src/alp.c ****     coded_len = 4;
+ 365:../../shields/Murata/src/alp.c **** 
+ 366:../../shields/Murata/src/alp.c ****   return coded_len;
+ 367:../../shields/Murata/src/alp.c **** }
+ 1903              		.loc 1 367 0
+ 1904 0016 7047     		bx	lr
+ 1905              	.LVL223:
+ 1906              	.L180:
+ 358:../../shields/Murata/src/alp.c **** 
+ 1907              		.loc 1 358 0
+ 1908 0018 0220     		movs	r0, #2
+ 1909              	.LVL224:
+ 1910 001a F5E7     		b	.L177
+ 1911              	.LVL225:
+ 1912              	.L183:
+ 364:../../shields/Murata/src/alp.c ****     coded_len = 4;
+ 1913              		.loc 1 364 0
+ 1914 001c 0420     		movs	r0, #4
+ 1915              	.LVL226:
+ 1916 001e FAE7     		b	.L179
+ 1917              		.cfi_endproc
+ 1918              	.LFE21:
+ 1920              		.section	.text.alp_get_expected_response_length,"ax",%progbits
+ 1921              		.align	1
+ 1922              		.global	alp_get_expected_response_length
+ 1923              		.syntax unified
+ 1924              		.thumb
+ 1925              		.thumb_func
+ 1926              		.fpu fpv4-sp-d16
+ 1928              	alp_get_expected_response_length:
+ 1929              	.LFB17:
+ 281:../../shields/Murata/src/alp.c ****   uint8_t expected_response_length = 0;
+ 1930              		.loc 1 281 0
+ 1931              		.cfi_startproc
+ 1932              		@ args = 0, pretend = 0, frame = 24
+ 1933              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1934              	.LVL227:
+ARM GAS  /tmp/ccA9SLCI.s 			page 49
+
+
+ 1935 0000 30B5     		push	{r4, r5, lr}
+ 1936              	.LCFI40:
+ 1937              		.cfi_def_cfa_offset 12
+ 1938              		.cfi_offset 4, -12
+ 1939              		.cfi_offset 5, -8
+ 1940              		.cfi_offset 14, -4
+ 1941 0002 87B0     		sub	sp, sp, #28
+ 1942              	.LCFI41:
+ 1943              		.cfi_def_cfa_offset 40
+ 1944              	.LVL228:
+ 284:../../shields/Murata/src/alp.c **** 
+ 1945              		.loc 1 284 0
+ 1946 0004 0A46     		mov	r2, r1
+ 1947 0006 4B1C     		adds	r3, r1, #1
+ 1948 0008 0146     		mov	r1, r0
+ 1949              	.LVL229:
+ 1950 000a 02A8     		add	r0, sp, #8
+ 1951              	.LVL230:
+ 1952 000c FFF7FEFF 		bl	fifo_init_filled
+ 1953              	.LVL231:
+ 282:../../shields/Murata/src/alp.c ****   fifo_t fifo;
+ 1954              		.loc 1 282 0
+ 1955 0010 0024     		movs	r4, #0
+ 286:../../shields/Murata/src/alp.c ****     alp_control_t control;
+ 1956              		.loc 1 286 0
+ 1957 0012 19E0     		b	.L185
+ 1958              	.LVL232:
+ 1959              	.L187:
+ 1960              	.LBB31:
+ 1961              	.LBB32:
+ 291:../../shields/Murata/src/alp.c ****         uint32_t offset = alp_parse_length_operand(&fifo); // offset
+ 1962              		.loc 1 291 0
+ 1963 0014 0121     		movs	r1, #1
+ 1964 0016 02A8     		add	r0, sp, #8
+ 1965 0018 FFF7FEFF 		bl	fifo_skip
+ 1966              	.LVL233:
+ 292:../../shields/Murata/src/alp.c ****         expected_response_length += alp_parse_length_operand(&fifo); // the file length
+ 1967              		.loc 1 292 0
+ 1968 001c 02A8     		add	r0, sp, #8
+ 1969 001e FFF7FEFF 		bl	alp_parse_length_operand
+ 1970              	.LVL234:
+ 1971 0022 0546     		mov	r5, r0
+ 1972              	.LVL235:
+ 293:../../shields/Murata/src/alp.c ****         expected_response_length += alp_length_operand_coded_length(expected_response_length); // t
+ 1973              		.loc 1 293 0
+ 1974 0024 02A8     		add	r0, sp, #8
+ 1975              	.LVL236:
+ 1976 0026 FFF7FEFF 		bl	alp_parse_length_operand
+ 1977              	.LVL237:
+ 1978 002a 0444     		add	r4, r4, r0
+ 1979              	.LVL238:
+ 1980 002c E4B2     		uxtb	r4, r4
+ 1981              	.LVL239:
+ 294:../../shields/Murata/src/alp.c ****         expected_response_length += alp_length_operand_coded_length(offset) + 1; // the length of t
+ 1982              		.loc 1 294 0
+ 1983 002e 2046     		mov	r0, r4
+ 1984 0030 FFF7FEFF 		bl	alp_length_operand_coded_length
+ARM GAS  /tmp/ccA9SLCI.s 			page 50
+
+
+ 1985              	.LVL240:
+ 1986 0034 0444     		add	r4, r4, r0
+ 1987              	.LVL241:
+ 1988 0036 E4B2     		uxtb	r4, r4
+ 1989              	.LVL242:
+ 295:../../shields/Murata/src/alp.c ****         expected_response_length += 1; // the opcode
+ 1990              		.loc 1 295 0
+ 1991 0038 2846     		mov	r0, r5
+ 1992 003a FFF7FEFF 		bl	alp_length_operand_coded_length
+ 1993              	.LVL243:
+ 1994 003e 0130     		adds	r0, r0, #1
+ 1995 0040 0444     		add	r4, r4, r0
+ 1996              	.LVL244:
+ 1997 0042 E4B2     		uxtb	r4, r4
+ 1998              	.LVL245:
+ 296:../../shields/Murata/src/alp.c ****         break;
+ 1999              		.loc 1 296 0
+ 2000 0044 0134     		adds	r4, r4, #1
+ 2001              	.LVL246:
+ 2002 0046 E4B2     		uxtb	r4, r4
+ 2003              	.LVL247:
+ 2004              	.L185:
+ 2005              	.LBE32:
+ 2006              	.LBE31:
+ 286:../../shields/Murata/src/alp.c ****     alp_control_t control;
+ 2007              		.loc 1 286 0
+ 2008 0048 02A8     		add	r0, sp, #8
+ 2009 004a FFF7FEFF 		bl	fifo_get_size
+ 2010              	.LVL248:
+ 2011 004e 0028     		cmp	r0, #0
+ 2012 0050 00F0C980 		beq	.L203
+ 2013              	.LBB39:
+ 288:../../shields/Murata/src/alp.c ****     switch(control.operation) {
+ 2014              		.loc 1 288 0
+ 2015 0054 0122     		movs	r2, #1
+ 2016 0056 6946     		mov	r1, sp
+ 2017 0058 02A8     		add	r0, sp, #8
+ 2018 005a FFF7FEFF 		bl	fifo_pop
+ 2019              	.LVL249:
+ 289:../../shields/Murata/src/alp.c ****       case ALP_OP_READ_FILE_DATA:
+ 2020              		.loc 1 289 0
+ 2021 005e 9DF80030 		ldrb	r3, [sp]	@ zero_extendqisi2
+ 2022 0062 03F03F03 		and	r3, r3, #63
+ 2023 0066 013B     		subs	r3, r3, #1
+ 2024 0068 332B     		cmp	r3, #51
+ 2025 006a 00F2B580 		bhi	.L186
+ 2026 006e 01A2     		adr	r2, .L188
+ 2027 0070 52F823F0 		ldr	pc, [r2, r3, lsl #2]
+ 2028              		.p2align 2
+ 2029              	.L188:
+ 2030 0074 15000000 		.word	.L187+1
+ 2031 0078 D9010000 		.word	.L186+1
+ 2032 007c D9010000 		.word	.L186+1
+ 2033 0080 4F010000 		.word	.L189+1
+ 2034 0084 D9010000 		.word	.L186+1
+ 2035 0088 CF010000 		.word	.L190+1
+ 2036 008c D9010000 		.word	.L186+1
+ARM GAS  /tmp/ccA9SLCI.s 			page 51
+
+
+ 2037 0090 D9010000 		.word	.L186+1
+ 2038 0094 D9010000 		.word	.L186+1
+ 2039 0098 D9010000 		.word	.L186+1
+ 2040 009c D9010000 		.word	.L186+1
+ 2041 00a0 D9010000 		.word	.L186+1
+ 2042 00a4 D9010000 		.word	.L186+1
+ 2043 00a8 D9010000 		.word	.L186+1
+ 2044 00ac D9010000 		.word	.L186+1
+ 2045 00b0 D9010000 		.word	.L186+1
+ 2046 00b4 D9010000 		.word	.L186+1
+ 2047 00b8 D9010000 		.word	.L186+1
+ 2048 00bc D9010000 		.word	.L186+1
+ 2049 00c0 D9010000 		.word	.L186+1
+ 2050 00c4 D9010000 		.word	.L186+1
+ 2051 00c8 D9010000 		.word	.L186+1
+ 2052 00cc D9010000 		.word	.L186+1
+ 2053 00d0 D9010000 		.word	.L186+1
+ 2054 00d4 D9010000 		.word	.L186+1
+ 2055 00d8 D9010000 		.word	.L186+1
+ 2056 00dc D9010000 		.word	.L186+1
+ 2057 00e0 D9010000 		.word	.L186+1
+ 2058 00e4 D9010000 		.word	.L186+1
+ 2059 00e8 D9010000 		.word	.L186+1
+ 2060 00ec D9010000 		.word	.L186+1
+ 2061 00f0 4F010000 		.word	.L189+1
+ 2062 00f4 D9010000 		.word	.L186+1
+ 2063 00f8 D9010000 		.word	.L186+1
+ 2064 00fc D9010000 		.word	.L186+1
+ 2065 0100 D9010000 		.word	.L186+1
+ 2066 0104 D9010000 		.word	.L186+1
+ 2067 0108 D9010000 		.word	.L186+1
+ 2068 010c D9010000 		.word	.L186+1
+ 2069 0110 D9010000 		.word	.L186+1
+ 2070 0114 D9010000 		.word	.L186+1
+ 2071 0118 D9010000 		.word	.L186+1
+ 2072 011c D9010000 		.word	.L186+1
+ 2073 0120 D9010000 		.word	.L186+1
+ 2074 0124 D9010000 		.word	.L186+1
+ 2075 0128 D9010000 		.word	.L186+1
+ 2076 012c D9010000 		.word	.L186+1
+ 2077 0130 D9010000 		.word	.L186+1
+ 2078 0134 D9010000 		.word	.L186+1
+ 2079 0138 6D010000 		.word	.L191+1
+ 2080 013c D9010000 		.word	.L186+1
+ 2081 0140 45010000 		.word	.L192+1
+ 2082              		.p2align 1
+ 2083              	.L192:
+ 2084              	.LBB38:
+ 299:../../shields/Murata/src/alp.c ****         break;
+ 2085              		.loc 1 299 0
+ 2086 0144 0121     		movs	r1, #1
+ 2087 0146 02A8     		add	r0, sp, #8
+ 2088 0148 FFF7FEFF 		bl	fifo_skip
+ 2089              	.LVL250:
+ 300:../../shields/Murata/src/alp.c ****       case ALP_OP_RETURN_FILE_DATA:
+ 2090              		.loc 1 300 0
+ 2091 014c 7CE7     		b	.L185
+ARM GAS  /tmp/ccA9SLCI.s 			page 52
+
+
+ 2092              	.L189:
+ 303:../../shields/Murata/src/alp.c ****         alp_parse_length_operand(&fifo); // offset
+ 2093              		.loc 1 303 0
+ 2094 014e 0121     		movs	r1, #1
+ 2095 0150 02A8     		add	r0, sp, #8
+ 2096 0152 FFF7FEFF 		bl	fifo_skip
+ 2097              	.LVL251:
+ 304:../../shields/Murata/src/alp.c ****         fifo_skip(&fifo, alp_parse_length_operand(&fifo));
+ 2098              		.loc 1 304 0
+ 2099 0156 02A8     		add	r0, sp, #8
+ 2100 0158 FFF7FEFF 		bl	alp_parse_length_operand
+ 2101              	.LVL252:
+ 305:../../shields/Murata/src/alp.c ****         break;
+ 2102              		.loc 1 305 0
+ 2103 015c 02A8     		add	r0, sp, #8
+ 2104 015e FFF7FEFF 		bl	alp_parse_length_operand
+ 2105              	.LVL253:
+ 2106 0162 81B2     		uxth	r1, r0
+ 2107 0164 02A8     		add	r0, sp, #8
+ 2108 0166 FFF7FEFF 		bl	fifo_skip
+ 2109              	.LVL254:
+ 306:../../shields/Murata/src/alp.c ****       case ALP_OP_FORWARD: ;
+ 2110              		.loc 1 306 0
+ 2111 016a 6DE7     		b	.L185
+ 2112              	.L191:
+ 309:../../shields/Murata/src/alp.c ****         if(itf_id == ALP_ITF_ID_D7ASP) {
+ 2113              		.loc 1 309 0
+ 2114 016c 0122     		movs	r2, #1
+ 2115 016e 0DF10701 		add	r1, sp, #7
+ 2116 0172 02A8     		add	r0, sp, #8
+ 2117 0174 FFF7FEFF 		bl	fifo_pop
+ 2118              	.LVL255:
+ 310:../../shields/Murata/src/alp.c ****           fifo_skip(&fifo, 1); // skip QoS, dormant timeout
+ 2119              		.loc 1 310 0
+ 2120 0178 9DF80730 		ldrb	r3, [sp, #7]	@ zero_extendqisi2
+ 2121 017c D72B     		cmp	r3, #215
+ 2122 017e 7FF463AF 		bne	.L185
+ 2123              	.LBB33:
+ 311:../../shields/Murata/src/alp.c ****           d7ap_addressee_ctrl_t addressee_ctrl;
+ 2124              		.loc 1 311 0
+ 2125 0182 0121     		movs	r1, #1
+ 2126 0184 02A8     		add	r0, sp, #8
+ 2127 0186 FFF7FEFF 		bl	fifo_skip
+ 2128              	.LVL256:
+ 313:../../shields/Murata/src/alp.c ****           fifo_skip(&fifo, 2 + d7ap_addressee_id_length(addressee_ctrl.id_type)); // skip addressee
+ 2129              		.loc 1 313 0
+ 2130 018a 0122     		movs	r2, #1
+ 2131 018c 01A9     		add	r1, sp, #4
+ 2132 018e 02A8     		add	r0, sp, #8
+ 2133 0190 FFF7FEFF 		bl	fifo_pop
+ 2134              	.LVL257:
+ 314:../../shields/Murata/src/alp.c ****           // TODO refactor to reuse same logic for parsing and response length counting
+ 2135              		.loc 1 314 0
+ 2136 0194 9DF80430 		ldrb	r3, [sp, #4]	@ zero_extendqisi2
+ 2137 0198 C3F30113 		ubfx	r3, r3, #4, #2
+ 2138              	.LVL258:
+ 2139              	.LBB34:
+ARM GAS  /tmp/ccA9SLCI.s 			page 53
+
+
+ 2140              	.LBB35:
+ 291:../../shields/Murata/inc/d7ap.h ****   {
+ 2141              		.loc 2 291 0
+ 2142 019c 032B     		cmp	r3, #3
+ 2143 019e 0BD8     		bhi	.L194
+ 2144 01a0 DFE803F0 		tbb	[pc, r3]
+ 2145              	.L196:
+ 2146 01a4 13       		.byte	(.L201-.L196)/2
+ 2147 01a5 11       		.byte	(.L197-.L196)/2
+ 2148 01a6 02       		.byte	(.L198-.L196)/2
+ 2149 01a7 08       		.byte	(.L199-.L196)/2
+ 2150              		.p2align 1
+ 2151              	.L198:
+ 298:../../shields/Murata/inc/d7ap.h ****       case ID_TYPE_VID:
+ 2152              		.loc 2 298 0
+ 2153 01a8 0821     		movs	r1, #8
+ 2154              	.L195:
+ 2155              	.LVL259:
+ 2156              	.LBE35:
+ 2157              	.LBE34:
+ 314:../../shields/Murata/src/alp.c ****           // TODO refactor to reuse same logic for parsing and response length counting
+ 2158              		.loc 1 314 0
+ 2159 01aa 0231     		adds	r1, r1, #2
+ 2160 01ac 02A8     		add	r0, sp, #8
+ 2161 01ae FFF7FEFF 		bl	fifo_skip
+ 2162              	.LVL260:
+ 2163 01b2 49E7     		b	.L185
+ 2164              	.LVL261:
+ 2165              	.L199:
+ 2166              	.LBB37:
+ 2167              	.LBB36:
+ 300:../../shields/Murata/inc/d7ap.h ****       default:
+ 2168              		.loc 2 300 0
+ 2169 01b4 0221     		movs	r1, #2
+ 2170 01b6 F8E7     		b	.L195
+ 2171              	.L194:
+ 2172              		.loc 2 302 0
+ 2173 01b8 0C4B     		ldr	r3, .L204
+ 2174 01ba 0D4A     		ldr	r2, .L204+4
+ 2175 01bc 4FF49771 		mov	r1, #302
+ 2176 01c0 0C48     		ldr	r0, .L204+8
+ 2177 01c2 FFF7FEFF 		bl	__assert_func
+ 2178              	.LVL262:
+ 2179              	.L197:
+ 294:../../shields/Murata/inc/d7ap.h ****       case ID_TYPE_NBID:
+ 2180              		.loc 2 294 0
+ 2181 01c6 0021     		movs	r1, #0
+ 2182 01c8 EFE7     		b	.L195
+ 2183              	.L201:
+ 296:../../shields/Murata/inc/d7ap.h ****       case ID_TYPE_UID:
+ 2184              		.loc 2 296 0
+ 2185 01ca 0121     		movs	r1, #1
+ 2186 01cc EDE7     		b	.L195
+ 2187              	.LVL263:
+ 2188              	.L190:
+ 2189              	.LBE36:
+ 2190              	.LBE37:
+ARM GAS  /tmp/ccA9SLCI.s 			page 54
+
+
+ 2191              	.LBE33:
+ 320:../../shields/Murata/src/alp.c ****         break;
+ 2192              		.loc 1 320 0
+ 2193 01ce 0D21     		movs	r1, #13
+ 2194 01d0 02A8     		add	r0, sp, #8
+ 2195 01d2 FFF7FEFF 		bl	fifo_skip
+ 2196              	.LVL264:
+ 321:../../shields/Murata/src/alp.c ****       // TODO other operations
+ 2197              		.loc 1 321 0
+ 2198 01d6 37E7     		b	.L185
+ 2199              	.L186:
+ 325:../../shields/Murata/src/alp.c ****     }
+ 2200              		.loc 1 325 0
+ 2201 01d8 044B     		ldr	r3, .L204
+ 2202 01da 074A     		ldr	r2, .L204+12
+ 2203 01dc 40F24511 		movw	r1, #325
+ 2204 01e0 0648     		ldr	r0, .L204+16
+ 2205 01e2 FFF7FEFF 		bl	__assert_func
+ 2206              	.LVL265:
+ 2207              	.L203:
+ 2208              	.LBE38:
+ 2209              	.LBE39:
+ 331:../../shields/Murata/src/alp.c **** 
+ 2210              		.loc 1 331 0
+ 2211 01e6 2046     		mov	r0, r4
+ 2212 01e8 07B0     		add	sp, sp, #28
+ 2213              	.LCFI42:
+ 2214              		.cfi_def_cfa_offset 12
+ 2215              		@ sp needed
+ 2216 01ea 30BD     		pop	{r4, r5, pc}
+ 2217              	.LVL266:
+ 2218              	.L205:
+ 2219              		.align	2
+ 2220              	.L204:
+ 2221 01ec 38000000 		.word	.LC4
+ 2222 01f0 00000000 		.word	.LANCHOR2
+ 2223 01f4 40000000 		.word	.LC5
+ 2224 01f8 00000000 		.word	.LANCHOR14
+ 2225 01fc 40000000 		.word	.LC1
+ 2226              		.cfi_endproc
+ 2227              	.LFE17:
+ 2229              		.section	.rodata.__func__.6200,"a",%progbits
+ 2230              		.align	2
+ 2231              		.set	.LANCHOR2,. + 0
+ 2234              	__func__.6200:
+ 2235 0000 64376170 		.ascii	"d7ap_addressee_id_length\000"
+ 2235      5F616464 
+ 2235      72657373 
+ 2235      65655F69 
+ 2235      645F6C65 
+ 2236              		.section	.rodata.__func__.6632,"a",%progbits
+ 2237              		.align	2
+ 2238              		.set	.LANCHOR3,. + 0
+ 2241              	__func__.6632:
+ 2242 0000 616C705F 		.ascii	"alp_append_length_operand\000"
+ 2242      61707065 
+ 2242      6E645F6C 
+ARM GAS  /tmp/ccA9SLCI.s 			page 55
+
+
+ 2242      656E6774 
+ 2242      685F6F70 
+ 2243              		.section	.rodata.__func__.6642,"a",%progbits
+ 2244              		.align	2
+ 2245              		.set	.LANCHOR4,. + 0
+ 2248              	__func__.6642:
+ 2249 0000 616C705F 		.ascii	"alp_parse_file_offset_operand\000"
+ 2249      70617273 
+ 2249      655F6669 
+ 2249      6C655F6F 
+ 2249      66667365 
+ 2250              		.section	.rodata.__func__.6648,"a",%progbits
+ 2251              		.align	2
+ 2252              		.set	.LANCHOR6,. + 0
+ 2255              	__func__.6648:
+ 2256 0000 616C705F 		.ascii	"alp_parse_file_header_operand\000"
+ 2256      70617273 
+ 2256      655F6669 
+ 2256      6C655F68 
+ 2256      65616465 
+ 2257              		.section	.rodata.__func__.6654,"a",%progbits
+ 2258              		.align	2
+ 2259              		.set	.LANCHOR7,. + 0
+ 2262              	__func__.6654:
+ 2263 0000 616C705F 		.ascii	"alp_append_file_offset_operand\000"
+ 2263      61707065 
+ 2263      6E645F66 
+ 2263      696C655F 
+ 2263      6F666673 
+ 2264              		.section	.rodata.__func__.6661,"a",%progbits
+ 2265              		.align	2
+ 2266              		.set	.LANCHOR8,. + 0
+ 2269              	__func__.6661:
+ 2270 0000 616C705F 		.ascii	"alp_append_forward_action\000"
+ 2270      61707065 
+ 2270      6E645F66 
+ 2270      6F727761 
+ 2270      72645F61 
+ 2271              		.section	.rodata.__func__.6674,"a",%progbits
+ 2272              		.align	2
+ 2273              		.set	.LANCHOR9,. + 0
+ 2276              	__func__.6674:
+ 2277 0000 616C705F 		.ascii	"alp_append_return_file_data_action\000"
+ 2277      61707065 
+ 2277      6E645F72 
+ 2277      65747572 
+ 2277      6E5F6669 
+ 2278              		.section	.rodata.__func__.6696,"a",%progbits
+ 2279              		.align	2
+ 2280              		.set	.LANCHOR5,. + 0
+ 2283              	__func__.6696:
+ 2284 0000 70617273 		.ascii	"parse_operand_file_data\000"
+ 2284      655F6F70 
+ 2284      6572616E 
+ 2284      645F6669 
+ 2284      6C655F64 
+ 2285              		.section	.rodata.__func__.6711,"a",%progbits
+ARM GAS  /tmp/ccA9SLCI.s 			page 56
+
+
+ 2286              		.align	2
+ 2287              		.set	.LANCHOR0,. + 0
+ 2290              	__func__.6711:
+ 2291 0000 70617273 		.ascii	"parse_op_return_tag\000"
+ 2291      655F6F70 
+ 2291      5F726574 
+ 2291      75726E5F 
+ 2291      74616700 
+ 2292              		.section	.rodata.__func__.6718,"a",%progbits
+ 2293              		.align	2
+ 2294              		.set	.LANCHOR1,. + 0
+ 2297              	__func__.6718:
+ 2298 0000 70617273 		.ascii	"parse_op_return_status\000"
+ 2298      655F6F70 
+ 2298      5F726574 
+ 2298      75726E5F 
+ 2298      73746174 
+ 2299              		.section	.rodata.__func__.6728,"a",%progbits
+ 2300              		.align	2
+ 2301              		.set	.LANCHOR10,. + 0
+ 2304              	__func__.6728:
+ 2305 0000 616C705F 		.ascii	"alp_parse_action\000"
+ 2305      70617273 
+ 2305      655F6163 
+ 2305      74696F6E 
+ 2305      00
+ 2306              		.section	.rodata.__func__.6755,"a",%progbits
+ 2307              		.align	2
+ 2308              		.set	.LANCHOR14,. + 0
+ 2311              	__func__.6755:
+ 2312 0000 616C705F 		.ascii	"alp_get_expected_response_length\000"
+ 2312      6765745F 
+ 2312      65787065 
+ 2312      63746564 
+ 2312      5F726573 
+ 2313              		.section	.rodata.__func__.6765,"a",%progbits
+ 2314              		.align	2
+ 2315              		.set	.LANCHOR11,. + 0
+ 2318              	__func__.6765:
+ 2319 0000 616C705F 		.ascii	"alp_append_tag_request_action\000"
+ 2319      61707065 
+ 2319      6E645F74 
+ 2319      61675F72 
+ 2319      65717565 
+ 2320              		.section	.rodata.__func__.6775,"a",%progbits
+ 2321              		.align	2
+ 2322              		.set	.LANCHOR12,. + 0
+ 2325              	__func__.6775:
+ 2326 0000 616C705F 		.ascii	"alp_append_read_file_data_action\000"
+ 2326      61707065 
+ 2326      6E645F72 
+ 2326      6561645F 
+ 2326      66696C65 
+ 2327              		.section	.rodata.__func__.6786,"a",%progbits
+ 2328              		.align	2
+ 2329              		.set	.LANCHOR13,. + 0
+ 2332              	__func__.6786:
+ARM GAS  /tmp/ccA9SLCI.s 			page 57
+
+
+ 2333 0000 616C705F 		.ascii	"alp_append_write_file_data_action\000"
+ 2333      61707065 
+ 2333      6E645F77 
+ 2333      72697465 
+ 2333      5F66696C 
+ 2334              		.section	.rodata.alp_append_file_offset_operand.str1.4,"aMS",%progbits,1
+ 2335              		.align	2
+ 2336              	.LC12:
+ 2337 0000 6669666F 		.ascii	"fifo_put_byte(fifo, file_id) == oss7SUCCESS\000"
+ 2337      5F707574 
+ 2337      5F627974 
+ 2337      65286669 
+ 2337      666F2C20 
+ 2338              		.section	.rodata.alp_append_forward_action.str1.4,"aMS",%progbits,1
+ 2339              		.align	2
+ 2340              	.LC13:
+ 2341 0000 636F6E66 		.ascii	"config!=NULL\000"
+ 2341      6967213D 
+ 2341      4E554C4C 
+ 2341      00
+ 2342 000d 000000   		.space	3
+ 2343              	.LC14:
+ 2344 0010 6669666F 		.ascii	"fifo_put_byte(fifo, ALP_OP_FORWARD) == oss7SUCCESS\000"
+ 2344      5F707574 
+ 2344      5F627974 
+ 2344      65286669 
+ 2344      666F2C20 
+ 2345 0043 00       		.space	1
+ 2346              	.LC15:
+ 2347 0044 6669666F 		.ascii	"fifo_put_byte(fifo, itf_id) == oss7SUCCESS\000"
+ 2347      5F707574 
+ 2347      5F627974 
+ 2347      65286669 
+ 2347      666F2C20 
+ 2348 006f 00       		.space	1
+ 2349              	.LC16:
+ 2350 0070 6669666F 		.ascii	"fifo_put_byte(fifo, ((d7ap_session_config_t*)config"
+ 2350      5F707574 
+ 2350      5F627974 
+ 2350      65286669 
+ 2350      666F2C20 
+ 2351 00a3 292D3E71 		.ascii	")->qos.raw) == oss7SUCCESS\000"
+ 2351      6F732E72 
+ 2351      61772920 
+ 2351      3D3D206F 
+ 2351      73733753 
+ 2352 00be 0000     		.space	2
+ 2353              	.LC17:
+ 2354 00c0 6669666F 		.ascii	"fifo_put_byte(fifo, ((d7ap_session_config_t*)config"
+ 2354      5F707574 
+ 2354      5F627974 
+ 2354      65286669 
+ 2354      666F2C20 
+ 2355 00f3 292D3E64 		.ascii	")->dormant_timeout) == oss7SUCCESS\000"
+ 2355      6F726D61 
+ 2355      6E745F74 
+ 2355      696D656F 
+ARM GAS  /tmp/ccA9SLCI.s 			page 58
+
+
+ 2355      75742920 
+ 2356 0116 0000     		.space	2
+ 2357              	.LC18:
+ 2358 0118 6669666F 		.ascii	"fifo_put_byte(fifo, ((d7ap_session_config_t*)config"
+ 2358      5F707574 
+ 2358      5F627974 
+ 2358      65286669 
+ 2358      666F2C20 
+ 2359 014b 292D3E61 		.ascii	")->addressee.ctrl.raw) == oss7SUCCESS\000"
+ 2359      64647265 
+ 2359      73736565 
+ 2359      2E637472 
+ 2359      6C2E7261 
+ 2360 0171 000000   		.space	3
+ 2361              	.LC19:
+ 2362 0174 6669666F 		.ascii	"fifo_put_byte(fifo, ((d7ap_session_config_t*)config"
+ 2362      5F707574 
+ 2362      5F627974 
+ 2362      65286669 
+ 2362      666F2C20 
+ 2363 01a7 292D3E61 		.ascii	")->addressee.access_class) == oss7SUCCESS\000"
+ 2363      64647265 
+ 2363      73736565 
+ 2363      2E616363 
+ 2363      6573735F 
+ 2364 01d1 000000   		.space	3
+ 2365              	.LC20:
+ 2366 01d4 6669666F 		.ascii	"fifo_put(fifo, ((d7ap_session_config_t*)config)->ad"
+ 2366      5F707574 
+ 2366      28666966 
+ 2366      6F2C2028 
+ 2366      28643761 
+ 2367 0207 64726573 		.ascii	"dressee.id, id_length) == oss7SUCCESS\000"
+ 2367      7365652E 
+ 2367      69642C20 
+ 2367      69645F6C 
+ 2367      656E6774 
+ 2368 022d 000000   		.space	3
+ 2369              	.LC21:
+ 2370 0230 6669666F 		.ascii	"fifo_put_byte(fifo, control_byte) == oss7SUCCESS\000"
+ 2370      5F707574 
+ 2370      5F627974 
+ 2370      65286669 
+ 2370      666F2C20 
+ 2371 0261 000000   		.space	3
+ 2372              	.LC22:
+ 2373 0264 6669666F 		.ascii	"fifo_put_byte(fifo, ((lorawan_session_config_abp_t*"
+ 2373      5F707574 
+ 2373      5F627974 
+ 2373      65286669 
+ 2373      666F2C20 
+ 2374 0297 29636F6E 		.ascii	")config)->application_port) == oss7SUCCESS\000"
+ 2374      66696729 
+ 2374      2D3E6170 
+ 2374      706C6963 
+ 2374      6174696F 
+ 2375 02c2 0000     		.space	2
+ARM GAS  /tmp/ccA9SLCI.s 			page 59
+
+
+ 2376              	.LC23:
+ 2377 02c4 6669666F 		.ascii	"fifo_put(fifo, ((lorawan_session_config_abp_t*)conf"
+ 2377      5F707574 
+ 2377      28666966 
+ 2377      6F2C2028 
+ 2377      286C6F72 
+ 2378 02f7 6967292D 		.ascii	"ig)->nwkSKey, 16) == oss7SUCCESS\000"
+ 2378      3E6E776B 
+ 2378      534B6579 
+ 2378      2C203136 
+ 2378      29203D3D 
+ 2379              	.LC24:
+ 2380 0318 6669666F 		.ascii	"fifo_put(fifo, ((lorawan_session_config_abp_t*)conf"
+ 2380      5F707574 
+ 2380      28666966 
+ 2380      6F2C2028 
+ 2380      286C6F72 
+ 2381 034b 6967292D 		.ascii	"ig)->appSKey, 16) == oss7SUCCESS\000"
+ 2381      3E617070 
+ 2381      534B6579 
+ 2381      2C203136 
+ 2381      29203D3D 
+ 2382              	.LC25:
+ 2383 036c 6669666F 		.ascii	"fifo_put(fifo, (uint8_t*)&dev_addr, 4) == oss7SUCCE"
+ 2383      5F707574 
+ 2383      28666966 
+ 2383      6F2C2028 
+ 2383      75696E74 
+ 2384 039f 535300   		.ascii	"SS\000"
+ 2385 03a2 0000     		.space	2
+ 2386              	.LC26:
+ 2387 03a4 6669666F 		.ascii	"fifo_put(fifo, (uint8_t*)&network_id, 4) == oss7SUC"
+ 2387      5F707574 
+ 2387      28666966 
+ 2387      6F2C2028 
+ 2387      75696E74 
+ 2388 03d7 43455353 		.ascii	"CESS\000"
+ 2388      00
+ 2389              	.LC27:
+ 2390 03dc 6669666F 		.ascii	"fifo_put_byte(fifo, ((lorawan_session_config_otaa_t"
+ 2390      5F707574 
+ 2390      5F627974 
+ 2390      65286669 
+ 2390      666F2C20 
+ 2391 040f 2A29636F 		.ascii	"*)config)->application_port) == oss7SUCCESS\000"
+ 2391      6E666967 
+ 2391      292D3E61 
+ 2391      70706C69 
+ 2391      63617469 
+ 2392 043b 00       		.space	1
+ 2393              	.LC28:
+ 2394 043c 6669666F 		.ascii	"fifo_put(fifo, ((lorawan_session_config_otaa_t*)con"
+ 2394      5F707574 
+ 2394      28666966 
+ 2394      6F2C2028 
+ 2394      286C6F72 
+ 2395 046f 66696729 		.ascii	"fig)->devEUI, 8) == oss7SUCCESS\000"
+ARM GAS  /tmp/ccA9SLCI.s 			page 60
+
+
+ 2395      2D3E6465 
+ 2395      76455549 
+ 2395      2C203829 
+ 2395      203D3D20 
+ 2396 048f 00       		.space	1
+ 2397              	.LC29:
+ 2398 0490 6669666F 		.ascii	"fifo_put(fifo, ((lorawan_session_config_otaa_t*)con"
+ 2398      5F707574 
+ 2398      28666966 
+ 2398      6F2C2028 
+ 2398      286C6F72 
+ 2399 04c3 66696729 		.ascii	"fig)->appEUI, 8) == oss7SUCCESS\000"
+ 2399      2D3E6170 
+ 2399      70455549 
+ 2399      2C203829 
+ 2399      203D3D20 
+ 2400 04e3 00       		.space	1
+ 2401              	.LC30:
+ 2402 04e4 6669666F 		.ascii	"fifo_put(fifo, ((lorawan_session_config_otaa_t*)con"
+ 2402      5F707574 
+ 2402      28666966 
+ 2402      6F2C2028 
+ 2402      286C6F72 
+ 2403 0517 66696729 		.ascii	"fig)->appKey, 16) == oss7SUCCESS\000"
+ 2403      2D3E6170 
+ 2403      704B6579 
+ 2403      2C203136 
+ 2403      29203D3D 
+ 2404              	.LC31:
+ 2405 0538 6669666F 		.ascii	"fifo_put(fifo, config, config_len) == oss7SUCCESS\000"
+ 2405      5F707574 
+ 2405      28666966 
+ 2405      6F2C2063 
+ 2405      6F6E6669 
+ 2406              		.section	.rodata.alp_append_length_operand.str1.4,"aMS",%progbits,1
+ 2407              		.align	2
+ 2408              	.LC7:
+ 2409 0000 6669666F 		.ascii	"fifo_put(fifo, (uint8_t*)&length, 1) == oss7SUCCESS"
+ 2409      5F707574 
+ 2409      28666966 
+ 2409      6F2C2028 
+ 2409      75696E74 
+ 2410 0033 00       		.ascii	"\000"
+ 2411              	.LC8:
+ 2412 0034 6669666F 		.ascii	"fifo_put(fifo, &byte, 1) == oss7SUCCESS\000"
+ 2412      5F707574 
+ 2412      28666966 
+ 2412      6F2C2026 
+ 2412      62797465 
+ 2413              	.LC9:
+ 2414 005c 6669666F 		.ascii	"fifo_put(fifo, (uint8_t*)&length + size, 1) == oss7"
+ 2414      5F707574 
+ 2414      28666966 
+ 2414      6F2C2028 
+ 2414      75696E74 
+ 2415 008f 53554343 		.ascii	"SUCCESS\000"
+ 2415      45535300 
+ARM GAS  /tmp/ccA9SLCI.s 			page 61
+
+
+ 2416              		.section	.rodata.alp_append_return_file_data_action.str1.4,"aMS",%progbits,1
+ 2417              		.align	2
+ 2418              	.LC32:
+ 2419 0000 6669666F 		.ascii	"fifo_put_byte(fifo, ALP_OP_RETURN_FILE_DATA) == oss"
+ 2419      5F707574 
+ 2419      5F627974 
+ 2419      65286669 
+ 2419      666F2C20 
+ 2420 0033 37535543 		.ascii	"7SUCCESS\000"
+ 2420      43455353 
+ 2420      00
+ 2421              	.LC33:
+ 2422 003c 6669666F 		.ascii	"fifo_put(fifo, data, length) == oss7SUCCESS\000"
+ 2422      5F707574 
+ 2422      28666966 
+ 2422      6F2C2064 
+ 2422      6174612C 
+ 2423              		.section	.rodata.alp_append_tag_request_action.str1.4,"aMS",%progbits,1
+ 2424              		.align	2
+ 2425              	.LC35:
+ 2426 0000 6669666F 		.ascii	"fifo_put_byte(fifo, op) == oss7SUCCESS\000"
+ 2426      5F707574 
+ 2426      5F627974 
+ 2426      65286669 
+ 2426      666F2C20 
+ 2427 0027 00       		.space	1
+ 2428              	.LC36:
+ 2429 0028 6669666F 		.ascii	"fifo_put_byte(fifo, tag_id) == oss7SUCCESS\000"
+ 2429      5F707574 
+ 2429      5F627974 
+ 2429      65286669 
+ 2429      666F2C20 
+ 2430              		.section	.rodata.alp_parse_action.str1.4,"aMS",%progbits,1
+ 2431              		.align	2
+ 2432              	.LC34:
+ 2433 0000 6669666F 		.ascii	"fifo_pop(fifo, &op, 1) == oss7SUCCESS\000"
+ 2433      5F706F70 
+ 2433      28666966 
+ 2433      6F2C2026 
+ 2433      6F702C20 
+ 2434              		.section	.rodata.alp_parse_file_offset_operand.str1.4,"aMS",%progbits,1
+ 2435              		.align	2
+ 2436              	.LC10:
+ 2437 0000 65727220 		.ascii	"err == oss7SUCCESS\000"
+ 2437      3D3D206F 
+ 2437      73733753 
+ 2437      55434345 
+ 2437      535300
+ 2438              		.section	.rodata.parse_op_return_status.str1.4,"aMS",%progbits,1
+ 2439              		.align	2
+ 2440              	.LC2:
+ 2441 0000 62362026 		.ascii	"b6 && !b7\000"
+ 2441      26202162 
+ 2441      3700
+ 2442 000a 0000     		.space	2
+ 2443              	.LC3:
+ 2444 000c 6669666F 		.ascii	"fifo_pop(fifo, &itf_id, 1) == oss7SUCCESS\000"
+ARM GAS  /tmp/ccA9SLCI.s 			page 62
+
+
+ 2444      5F706F70 
+ 2444      28666966 
+ 2444      6F2C2026 
+ 2444      6974665F 
+ 2445 0036 0000     		.space	2
+ 2446              	.LC4:
+ 2447 0038 66616C73 		.ascii	"false\000"
+ 2447      6500
+ 2448 003e 0000     		.space	2
+ 2449              	.LC5:
+ 2450 0040 2E2E2F2E 		.ascii	"../../shields/Murata/inc/d7ap.h\000"
+ 2450      2E2F7368 
+ 2450      69656C64 
+ 2450      732F4D75 
+ 2450      72617461 
+ 2451              	.LC6:
+ 2452 0060 6669666F 		.ascii	"fifo_pop(fifo, interface_status.addressee.id, addre"
+ 2452      5F706F70 
+ 2452      28666966 
+ 2452      6F2C2069 
+ 2452      6E746572 
+ 2453 0093 73736565 		.ascii	"ssee_len) == oss7SUCCESS\000"
+ 2453      5F6C656E 
+ 2453      29203D3D 
+ 2453      206F7373 
+ 2453      37535543 
+ 2454              		.section	.rodata.parse_op_return_tag.str1.4,"aMS",%progbits,1
+ 2455              		.align	2
+ 2456              	.LC0:
+ 2457 0000 6669666F 		.ascii	"fifo_pop(fifo, &action->tag_response.tag_id, 1) == "
+ 2457      5F706F70 
+ 2457      28666966 
+ 2457      6F2C2026 
+ 2457      61637469 
+ 2458 0033 6F737337 		.ascii	"oss7SUCCESS\000"
+ 2458      53554343 
+ 2458      45535300 
+ 2459 003f 00       		.space	1
+ 2460              	.LC1:
+ 2461 0040 2E2E2F2E 		.ascii	"../../shields/Murata/src/alp.c\000"
+ 2461      2E2F7368 
+ 2461      69656C64 
+ 2461      732F4D75 
+ 2461      72617461 
+ 2462              		.section	.rodata.parse_operand_file_data.str1.4,"aMS",%progbits,1
+ 2463              		.align	2
+ 2464              	.LC11:
+ 2465 0000 61637469 		.ascii	"action->file_data_operand.provided_data_length <= s"
+ 2465      6F6E2D3E 
+ 2465      66696C65 
+ 2465      5F646174 
+ 2465      615F6F70 
+ 2466 0033 697A656F 		.ascii	"izeof(action->file_data_operand.data)\000"
+ 2466      66286163 
+ 2466      74696F6E 
+ 2466      2D3E6669 
+ 2466      6C655F64 
+ARM GAS  /tmp/ccA9SLCI.s 			page 63
+
+
+ 2467              		.text
+ 2468              	.Letext0:
+ 2469              		.file 3 "/home/mats/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/machine/_default_type
+ 2470              		.file 4 "/home/mats/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/sys/lock.h"
+ 2471              		.file 5 "/home/mats/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/sys/_types.h"
+ 2472              		.file 6 "/home/mats/gcc-arm-none-eabi-7-2018-q2-update/lib/gcc/arm-none-eabi/7.3.1/include/stddef.
+ 2473              		.file 7 "/home/mats/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/sys/reent.h"
+ 2474              		.file 8 "/home/mats/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/stdlib.h"
+ 2475              		.file 9 "/home/mats/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/sys/_stdint.h"
+ 2476              		.file 10 "../../shields/Murata/inc/types.h"
+ 2477              		.file 11 "/home/mats/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/sys/errno.h"
+ 2478              		.file 12 "../../shields/Murata/inc/lorawan_stack.h"
+ 2479              		.file 13 "../../shields/Murata/inc/dae.h"
+ 2480              		.file 14 "../../shields/Murata/inc/fifo.h"
+ 2481              		.file 15 "../../shields/Murata/inc/alp.h"
+ 2482              		.file 16 "/home/mats/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/assert.h"
+ARM GAS  /tmp/ccA9SLCI.s 			page 64
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 alp.c
+     /tmp/ccA9SLCI.s:18     .text.parse_op_return_tag:0000000000000000 $t
+     /tmp/ccA9SLCI.s:24     .text.parse_op_return_tag:0000000000000000 parse_op_return_tag
+     /tmp/ccA9SLCI.s:62     .text.parse_op_return_tag:0000000000000020 $d
+     /tmp/ccA9SLCI.s:69     .text.parse_op_return_status:0000000000000000 $t
+     /tmp/ccA9SLCI.s:75     .text.parse_op_return_status:0000000000000000 parse_op_return_status
+     /tmp/ccA9SLCI.s:247    .text.parse_op_return_status:00000000000000fc $d
+     /tmp/ccA9SLCI.s:251    .text.parse_op_return_status:0000000000000100 $t
+     /tmp/ccA9SLCI.s:327    .text.parse_op_return_status:000000000000015c $d
+     /tmp/ccA9SLCI.s:339    .text.alp_get_operation:0000000000000000 $t
+     /tmp/ccA9SLCI.s:346    .text.alp_get_operation:0000000000000000 alp_get_operation
+     /tmp/ccA9SLCI.s:364    .text.alp_parse_length_operand:0000000000000000 $t
+     /tmp/ccA9SLCI.s:371    .text.alp_parse_length_operand:0000000000000000 alp_parse_length_operand
+     /tmp/ccA9SLCI.s:432    .text.alp_append_length_operand:0000000000000000 $t
+     /tmp/ccA9SLCI.s:439    .text.alp_append_length_operand:0000000000000000 alp_append_length_operand
+     /tmp/ccA9SLCI.s:563    .text.alp_append_length_operand:000000000000008c $d
+     /tmp/ccA9SLCI.s:572    .text.alp_parse_file_offset_operand:0000000000000000 $t
+     /tmp/ccA9SLCI.s:579    .text.alp_parse_file_offset_operand:0000000000000000 alp_parse_file_offset_operand
+     /tmp/ccA9SLCI.s:639    .text.alp_parse_file_offset_operand:0000000000000038 $d
+     /tmp/ccA9SLCI.s:646    .text.parse_operand_file_data:0000000000000000 $t
+     /tmp/ccA9SLCI.s:652    .text.parse_operand_file_data:0000000000000000 parse_operand_file_data
+     /tmp/ccA9SLCI.s:717    .text.parse_operand_file_data:0000000000000044 $d
+     /tmp/ccA9SLCI.s:724    .text.parse_op_write_file_data:0000000000000000 $t
+     /tmp/ccA9SLCI.s:730    .text.parse_op_write_file_data:0000000000000000 parse_op_write_file_data
+     /tmp/ccA9SLCI.s:751    .text.parse_op_return_file_data:0000000000000000 $t
+     /tmp/ccA9SLCI.s:757    .text.parse_op_return_file_data:0000000000000000 parse_op_return_file_data
+     /tmp/ccA9SLCI.s:778    .text.alp_parse_file_header_operand:0000000000000000 $t
+     /tmp/ccA9SLCI.s:785    .text.alp_parse_file_header_operand:0000000000000000 alp_parse_file_header_operand
+     /tmp/ccA9SLCI.s:869    .text.alp_parse_file_header_operand:0000000000000064 $d
+     /tmp/ccA9SLCI.s:876    .text.alp_append_file_offset_operand:0000000000000000 $t
+     /tmp/ccA9SLCI.s:883    .text.alp_append_file_offset_operand:0000000000000000 alp_append_file_offset_operand
+     /tmp/ccA9SLCI.s:922    .text.alp_append_file_offset_operand:0000000000000024 $d
+     /tmp/ccA9SLCI.s:929    .text.alp_append_forward_action:0000000000000000 $t
+     /tmp/ccA9SLCI.s:936    .text.alp_append_forward_action:0000000000000000 alp_append_forward_action
+     /tmp/ccA9SLCI.s:1059   .text.alp_append_forward_action:0000000000000092 $d
+     /tmp/ccA9SLCI.s:1064   .text.alp_append_forward_action:0000000000000096 $t
+     /tmp/ccA9SLCI.s:1351   .text.alp_append_forward_action:0000000000000240 $d
+     /tmp/ccA9SLCI.s:1379   .text.alp_append_return_file_data_action:0000000000000000 $t
+     /tmp/ccA9SLCI.s:1386   .text.alp_append_return_file_data_action:0000000000000000 alp_append_return_file_data_action
+     /tmp/ccA9SLCI.s:1465   .text.alp_append_return_file_data_action:0000000000000060 $d
+     /tmp/ccA9SLCI.s:1474   .text.alp_parse_action:0000000000000000 $t
+     /tmp/ccA9SLCI.s:1481   .text.alp_parse_action:0000000000000000 alp_parse_action
+     /tmp/ccA9SLCI.s:1524   .text.alp_parse_action:0000000000000032 $d
+     /tmp/ccA9SLCI.s:1557   .text.alp_parse_action:0000000000000052 $t
+     /tmp/ccA9SLCI.s:1623   .text.alp_parse_action:0000000000000098 $d
+     /tmp/ccA9SLCI.s:1631   .text.alp_append_tag_request_action:0000000000000000 $t
+     /tmp/ccA9SLCI.s:1638   .text.alp_append_tag_request_action:0000000000000000 alp_append_tag_request_action
+     /tmp/ccA9SLCI.s:1693   .text.alp_append_tag_request_action:0000000000000040 $d
+     /tmp/ccA9SLCI.s:1701   .text.alp_append_read_file_data_action:0000000000000000 $t
+     /tmp/ccA9SLCI.s:1708   .text.alp_append_read_file_data_action:0000000000000000 alp_append_read_file_data_action
+     /tmp/ccA9SLCI.s:1769   .text.alp_append_read_file_data_action:000000000000004c $d
+     /tmp/ccA9SLCI.s:1776   .text.alp_append_write_file_data_action:0000000000000000 $t
+     /tmp/ccA9SLCI.s:1783   .text.alp_append_write_file_data_action:0000000000000000 alp_append_write_file_data_action
+     /tmp/ccA9SLCI.s:1859   .text.alp_append_write_file_data_action:0000000000000064 $d
+     /tmp/ccA9SLCI.s:1867   .text.alp_length_operand_coded_length:0000000000000000 $t
+     /tmp/ccA9SLCI.s:1874   .text.alp_length_operand_coded_length:0000000000000000 alp_length_operand_coded_length
+ARM GAS  /tmp/ccA9SLCI.s 			page 65
+
+
+     /tmp/ccA9SLCI.s:1921   .text.alp_get_expected_response_length:0000000000000000 $t
+     /tmp/ccA9SLCI.s:1928   .text.alp_get_expected_response_length:0000000000000000 alp_get_expected_response_length
+     /tmp/ccA9SLCI.s:2030   .text.alp_get_expected_response_length:0000000000000074 $d
+     /tmp/ccA9SLCI.s:2082   .text.alp_get_expected_response_length:0000000000000144 $t
+     /tmp/ccA9SLCI.s:2146   .text.alp_get_expected_response_length:00000000000001a4 $d
+     /tmp/ccA9SLCI.s:2150   .text.alp_get_expected_response_length:00000000000001a8 $t
+     /tmp/ccA9SLCI.s:2221   .text.alp_get_expected_response_length:00000000000001ec $d
+     /tmp/ccA9SLCI.s:2230   .rodata.__func__.6200:0000000000000000 $d
+     /tmp/ccA9SLCI.s:2234   .rodata.__func__.6200:0000000000000000 __func__.6200
+     /tmp/ccA9SLCI.s:2237   .rodata.__func__.6632:0000000000000000 $d
+     /tmp/ccA9SLCI.s:2241   .rodata.__func__.6632:0000000000000000 __func__.6632
+     /tmp/ccA9SLCI.s:2244   .rodata.__func__.6642:0000000000000000 $d
+     /tmp/ccA9SLCI.s:2248   .rodata.__func__.6642:0000000000000000 __func__.6642
+     /tmp/ccA9SLCI.s:2251   .rodata.__func__.6648:0000000000000000 $d
+     /tmp/ccA9SLCI.s:2255   .rodata.__func__.6648:0000000000000000 __func__.6648
+     /tmp/ccA9SLCI.s:2258   .rodata.__func__.6654:0000000000000000 $d
+     /tmp/ccA9SLCI.s:2262   .rodata.__func__.6654:0000000000000000 __func__.6654
+     /tmp/ccA9SLCI.s:2265   .rodata.__func__.6661:0000000000000000 $d
+     /tmp/ccA9SLCI.s:2269   .rodata.__func__.6661:0000000000000000 __func__.6661
+     /tmp/ccA9SLCI.s:2272   .rodata.__func__.6674:0000000000000000 $d
+     /tmp/ccA9SLCI.s:2276   .rodata.__func__.6674:0000000000000000 __func__.6674
+     /tmp/ccA9SLCI.s:2279   .rodata.__func__.6696:0000000000000000 $d
+     /tmp/ccA9SLCI.s:2283   .rodata.__func__.6696:0000000000000000 __func__.6696
+     /tmp/ccA9SLCI.s:2286   .rodata.__func__.6711:0000000000000000 $d
+     /tmp/ccA9SLCI.s:2290   .rodata.__func__.6711:0000000000000000 __func__.6711
+     /tmp/ccA9SLCI.s:2293   .rodata.__func__.6718:0000000000000000 $d
+     /tmp/ccA9SLCI.s:2297   .rodata.__func__.6718:0000000000000000 __func__.6718
+     /tmp/ccA9SLCI.s:2300   .rodata.__func__.6728:0000000000000000 $d
+     /tmp/ccA9SLCI.s:2304   .rodata.__func__.6728:0000000000000000 __func__.6728
+     /tmp/ccA9SLCI.s:2307   .rodata.__func__.6755:0000000000000000 $d
+     /tmp/ccA9SLCI.s:2311   .rodata.__func__.6755:0000000000000000 __func__.6755
+     /tmp/ccA9SLCI.s:2314   .rodata.__func__.6765:0000000000000000 $d
+     /tmp/ccA9SLCI.s:2318   .rodata.__func__.6765:0000000000000000 __func__.6765
+     /tmp/ccA9SLCI.s:2321   .rodata.__func__.6775:0000000000000000 $d
+     /tmp/ccA9SLCI.s:2325   .rodata.__func__.6775:0000000000000000 __func__.6775
+     /tmp/ccA9SLCI.s:2328   .rodata.__func__.6786:0000000000000000 $d
+     /tmp/ccA9SLCI.s:2332   .rodata.__func__.6786:0000000000000000 __func__.6786
+     /tmp/ccA9SLCI.s:2335   .rodata.alp_append_file_offset_operand.str1.4:0000000000000000 $d
+     /tmp/ccA9SLCI.s:2339   .rodata.alp_append_forward_action.str1.4:0000000000000000 $d
+     /tmp/ccA9SLCI.s:2407   .rodata.alp_append_length_operand.str1.4:0000000000000000 $d
+     /tmp/ccA9SLCI.s:2417   .rodata.alp_append_return_file_data_action.str1.4:0000000000000000 $d
+     /tmp/ccA9SLCI.s:2424   .rodata.alp_append_tag_request_action.str1.4:0000000000000000 $d
+     /tmp/ccA9SLCI.s:2431   .rodata.alp_parse_action.str1.4:0000000000000000 $d
+     /tmp/ccA9SLCI.s:2435   .rodata.alp_parse_file_offset_operand.str1.4:0000000000000000 $d
+     /tmp/ccA9SLCI.s:2439   .rodata.parse_op_return_status.str1.4:0000000000000000 $d
+     /tmp/ccA9SLCI.s:2455   .rodata.parse_op_return_tag.str1.4:0000000000000000 $d
+     /tmp/ccA9SLCI.s:2463   .rodata.parse_operand_file_data.str1.4:0000000000000000 $d
+
+UNDEFINED SYMBOLS
+fifo_pop
+__assert_func
+fifo_skip
+fifo_put
+fifo_put_byte
+fifo_init_filled
+fifo_get_size
