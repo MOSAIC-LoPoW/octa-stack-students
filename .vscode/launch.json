@@ -81,6 +81,16 @@
             "name": "octa-flash-example",
             "device": "STM32L496ZG",
             "interface": "swd",
+        },
+        {
+            "cwd": "${workspaceRoot}/applications/murata-dualstack-example-ns",
+            "executable": "./build/murata-dualstack-example-ns.elf",
+            "request": "launch",
+            "type": "cortex-debug",
+            "servertype": "jlink",
+            "name": "murata-dualstack-example-ns",
+            "device": "STM32L496ZG",
+            "interface": "swd",
         }
     ]
 }

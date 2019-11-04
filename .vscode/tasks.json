@@ -210,6 +210,32 @@
                 "kind": "build",
                 "isDefault": true
             }
+        },
+        {
+            "label": "make firmware murata-dualstack-example-ns",
+            "type": "shell",
+            // change the cd path to the current application path
+            "command": "cd applications/murata-dualstack-example-ns/; make",
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "make clean all firmware murata-dualstack-example-ns",
+            "type": "shell",
+            // change the cd path to the current application path
+            "command": "cd applications/murata-dualstack-example-ns/; make clean all",
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
         }
     ]
 }
