@@ -1,4 +1,0 @@
-NB-IoT
-0.1.0: initial version
-0.1.1: fixed CSQ (RSSI) parser to be able to parse variable length numbers
-0.2.0: added application name support. Set app name in app makefile, corresponding server parameters from SARAN21X_Params.h are used
