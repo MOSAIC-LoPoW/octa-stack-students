@@ -1,5 +1,6 @@
 # name of your application
 APPLICATION = lorawan-example
+APPLICATION_VERSION = 0.2.0
 
 # platform for which the application will be built
 PLATFORM ?= octa

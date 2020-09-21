@@ -1,0 +1,5 @@
+# OCTA_FLASH sources
+C_SOURCES += $(wildcard $(DRIVERS_DIR)/octa-flash/src/*.c)
+
+# OCTA_FLASH includes
+C_INCLUDES += -I$(DRIVERS_DIR)/octa-flash/inc

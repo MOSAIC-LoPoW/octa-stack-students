@@ -1,0 +1,26 @@
+NB_IOT_VERSION = 0.2.2
+
+# NB_IoT sources
+C_SOURCES += $(wildcard $(SHIELDS_DIR)/Nordic-NB-IoT/src/*.c)
+
+# NB_IoT includes
+C_INCLUDES += -I$(SHIELDS_DIR)/Nordic-NB-IoT/inc
+
+ifneq ($(origin NB_IOT_CONNECTOR), undefined)
+SHIELD_DEFINES += -DNB_IOT_CONNECTOR=$(NB_IOT_CONNECTOR)
+endif
+
+ifeq ($(origin NB_IOT_PROVIDER), undefined)
+$(error NB_IOT_PROVIDER undefined in makefile, please specify a provider in the application makefile)
+endif
+
+# Check if params file exists in inc folder
+ifneq ("$(wildcard $(SHIELDS_DIR)/Nordic-NB-IoT/inc/NORDIC9160_Params.h)","")
+    SHIELD_DEFINES += -DNORDIC9160_Params_Exists
+endif
+
+SHIELD_DEFINES += -DNB_IOT_PROVIDER_$(NB_IOT_PROVIDER)
+SHIELD_DEFINES += -DNB_IOT_VERSION="$(NB_IOT_VERSION)"
+SHIELD_DEFINES += -DNB_IOT_PROVIDERNAME="$(NB_IOT_PROVIDER)"
+SHIELD_DEFINES += -DNB_IOT_SERVER_$(NB_IOT_SERVER)
+SHIELD_DEFINES += -DNB_IOT_CHIP_NORDIC

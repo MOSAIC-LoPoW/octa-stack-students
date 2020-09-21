@@ -1,0 +1,5 @@
+# TCS3472 sources
+C_SOURCES += $(wildcard $(DRIVERS_DIR)/DNS/src/*.c)
+
+# TCS3472 includes
+C_INCLUDES += -I$(DRIVERS_DIR)/DNS/inc

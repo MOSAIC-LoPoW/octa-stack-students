@@ -288,6 +288,17 @@ extern const osThreadDef_t os_thread_def_##name
 const osThreadDef_t os_thread_def_##name = \
 { (name), (priority), (instances), (stacksz)  }
 #endif
+
+/* ST MIDDLEWARE CUSTOM
+***********************************/
+#define osThreadDef(name, thread, priority, instances, stacksz)  \
+const osThreadDef_t os_thread_def_##name = \
+{ #name, (thread), (priority), (instances), (stacksz)}
+
+/*
+***********************************/
+
+
  
 /// Access a Thread definition.
 /// \param         name          name of the thread definition object.

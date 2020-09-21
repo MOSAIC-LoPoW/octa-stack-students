@@ -1,7 +1,6 @@
 #include "platform.h"
 #include "murata.h"
 
-uint8_t use_scheduler = 0;
 struct OCTA_header murataHeader;
 
 session_config_t session_config_lora =
@@ -48,17 +47,17 @@ modem_callbacks_t modem_callbacks = {
 
 void on_modem_command_completed_callback(bool with_error, uint8_t tag_id)
 {
-    printf("Murata modem command with tag %i completed (success = %i)\r\n", tag_id, !with_error);
+    printINF("Murata modem command with tag %i completed (success = %i)\r\n", tag_id, !with_error);
 }
 
 void on_modem_return_file_data_callback(uint8_t file_id, uint32_t offset, uint32_t size, uint8_t *output_buffer)
 {
-    printf("Murata modem return file data file %i offset %li size %li buffer %p\r\n", file_id, offset, size, output_buffer);
+    printINF("Murata modem return file data file %i offset %li size %li buffer %p\r\n", file_id, offset, size, output_buffer);
 }
 
 void on_modem_write_file_data_callback(uint8_t file_id, uint32_t offset, uint32_t size, uint8_t *output_buffer)
 {
-    printf("Murata modem write file data file %i offset %li size %li buffer %p\r\n", file_id, offset, size, output_buffer);
+    printINF("Murata modem write file data file %i offset %li size %li buffer %p\r\n", file_id, offset, size, output_buffer);
 }
 
 void on_modem_interface_status_callback(alp_itf_id_t interface_type, uint8_t* data)
@@ -66,14 +65,14 @@ void on_modem_interface_status_callback(alp_itf_id_t interface_type, uint8_t* da
     if((interface_type==ALP_ITF_ID_LORAWAN_ABP)||(interface_type==ALP_ITF_ID_LORAWAN_OTAA))
     {
         lorawan_session_result_t interface_status = *((lorawan_session_result_t*)data);
-        printf("LoRaWAN interface status: attemps = %d, error state = %d, duty cycle wait time = %d \r\n", interface_status.attempts, 
+        printDBG("LoRaWAN interface status: attemps = %d, error state = %d, duty cycle wait time = %d \r\n", interface_status.attempts, 
                                                                                                             interface_status.error_state, 
                                                                                                             interface_status.duty_cycle_wait_time);
     }
     else if(interface_type==ALP_ITF_ID_D7ASP)
     {
         d7ap_session_result_t interface_status = *((d7ap_session_result_t*)data);
-        printf("Dash7 interface status: channel.header =  %d, channel.center_freq_index = %d, rx_level = %d, link_budget = %d, link_quality = %d, target_rx_level = %d, fifo_token = %d, seqnr = %d, response_to = %d, response_expected = %d \r\n",
+        printDBG("Dash7 interface status: channel.header =  %d, channel.center_freq_index = %d, rx_level = %d, link_budget = %d, link_quality = %d, target_rx_level = %d, fifo_token = %d, seqnr = %d, response_to = %d, response_expected = %d \r\n",
                                 interface_status.channel.channel_header, 
                                 interface_status.channel.center_freq_index, 
                                 interface_status.rx_level,
@@ -85,36 +84,33 @@ void on_modem_interface_status_callback(alp_itf_id_t interface_type, uint8_t* da
                                 interface_status.response_to,
                                 interface_status.response_expected);
     }
-
-
 }
 
 void on_modem_reboot_callback(void)
 {
-    printf("Murata murata-dual modem has rebooted \r\n");
+    printINF("Murata murata-dual modem has rebooted \r\n");
     modem_reinit();
 }
 
-//TODO: use_scheduler in makefiles
-uint8_t Murata_Initialize(uint64_t octa_UID, uint8_t use_RTOS)
+uint8_t Murata_Initialize(uint64_t octa_UID)
 {    
-    printf("***Initializing murata dualstack modem driver***\r\n");
+    printINF("***Initializing murata dualstack modem driver***\r\n");
 
     #ifndef MURATA_CONNECTOR
-        printf("No MURATA_CONNECTOR provided in Makefile\r\n");
-        return 1;
+        printERR("No MURATA_CONNECTOR provided in Makefile\r\n");
+        return 0;
     #else
         murataHeader = platform_getHeader((uint8_t)MURATA_CONNECTOR);
         if(!murataHeader.active)
         {
-            printf("Invalid MURATA_CONNECTOR provided in Makefile\r\n");
+            printERR("Invalid MURATA_CONNECTOR provided in Makefile\r\n");
             return 0;  
         }
         else
-            printf("Murata on P%d, initializing UART\r\n", (uint8_t)MURATA_CONNECTOR);         
+            printINF("Murata on P%d, initializing UART\r\n", (uint8_t)MURATA_CONNECTOR);         
     #endif
     #ifdef LORAWAN_APP_NAME
-        printf("Using LoRaWAN keys of %s application \r\n", LORAWAN_APP_NAME);
+        printINF("Using LoRaWAN keys of %s application \r\n", LORAWAN_APP_NAME);
     #endif
 
     //copy OCTA UID into lorawan otaa DEV EUI
@@ -128,10 +124,10 @@ uint8_t Murata_Initialize(uint64_t octa_UID, uint8_t use_RTOS)
     
     modem_interface_init(murataHeader.uartHandle);
     modem_cb_init(&modem_callbacks);
+    
+    UART_SetShieldCallback(&Murata_rxCallback, (uint8_t)MURATA_CONNECTOR);
 
-    use_scheduler = use_RTOS;
-
-    printf("Murata module init OK \r\n\r\n");
+    printINF("Murata module init OK \r\n\r\n");
     return 1;
 }
 
@@ -163,7 +159,7 @@ uint8_t Murata_LoRaWAN_Join(void)
 {
     uint8_t status = 0;
     status = modem_send_unsolicited_response(0x40, 0, 0, 0, &session_config_lora);
-    printf("Joining the LoRaWAN Network\r\n");
+    printINF("Joining the LoRaWAN Network\r\n");
     return status;
 }
 
@@ -171,17 +167,15 @@ uint8_t Murata_LoRaWAN_Send(uint8_t *buffer, uint8_t length)
 {
     uint8_t status = 0;
     status = modem_send_unsolicited_response(0x40, 0, length, (uint8_t *)buffer, &session_config_lora);
-    printf("Sending LoRaWAN message with payload size %d\r\n", length);
+    printINF("Sending LoRaWAN message with payload size %d\r\n", length);
     return status;
 }
-
-
 
 uint8_t Murata_Dash7_Send(uint8_t *buffer, uint8_t length)
 {
     uint8_t status = 0;
     status = modem_send_unsolicited_response(0x40, 0, length, (uint8_t *)buffer, &session_config_d7);
-    printf("Sending Dash7 message with payload size %d\r\n", length);
+    printINF("Sending Dash7 message with payload size %d\r\n", length);
     return status;
 }
 
@@ -193,9 +187,10 @@ uint8_t Murata_process_fifo(void)
 void Murata_rxCallback(void)
 {
     uart_rx_cb();
-    if(use_scheduler)
-    {
-        //start rx processing thread
-        RTOS_Send_Notification(threadToNotify);
-    }
+    #if USE_RTOS_SCHEDULER
+        {
+            //start rx processing thread
+            RTOS_Send_Notification(threadToNotify);
+        }
+    #endif
 }

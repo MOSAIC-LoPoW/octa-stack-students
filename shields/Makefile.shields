@@ -2,6 +2,5 @@ SHIELDS_DIR     ?= $(STACKBASE)/shields
 
 # include the Makefile.Include file of every shield used in the application
 SHIELDS_MAKEFILES = $(addprefix $(SHIELDS_DIR)/,$(SHIELDS:=/Makefile.include))
-# TODO: check if valid, iterate?
 #$(foreach shield_makefile, $(SHIELDS_MAKEFILES), $(info makefile: $(shield_makefile)))
 include $(SHIELDS_MAKEFILES)

@@ -1,0 +1,4 @@
+octa-stm-example
+0.1.0: initial version
+0.1.1: added nb-iot, flash, sensors and LEDs
+0.2.0: changed from S25FL256 specific flash driver to generic octa-flash driver

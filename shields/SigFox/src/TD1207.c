@@ -31,20 +31,20 @@ uint8_t TD1207_Initialize(void)
         return 0;
     }
 
-    printf("***Initializing Sigfox driver***\r\n");
+    printINF("***Initializing Sigfox driver***\r\n");
 
     #ifndef SIGFOX_CONNECTOR
-        printf("No SIGFOX_CONNECTOR provided in Makefile\r\n");
+        printERR("No SIGFOX_CONNECTOR provided in Makefile\r\n");
         return 0;
     #else
         SigFoxHeader = platform_getHeader((uint8_t)SIGFOX_CONNECTOR);
         if(!SigFoxHeader.active)
         {
-            printf("Invalid SIGFOX_CONNECTOR provided in Makefile\r\n");
+            printERR("Invalid SIGFOX_CONNECTOR provided in Makefile\r\n");
             return 0;  
         }
         else   
-            printf("SigFox on P%d, initializing UART\r\n", (uint8_t)SIGFOX_CONNECTOR);                         
+            printINF("SigFox on P%d, initializing UART\r\n", (uint8_t)SIGFOX_CONNECTOR);                         
     #endif
 
     // Initialize UART peripheral with driver baudrate
@@ -62,14 +62,14 @@ uint8_t TD1207_Initialize(void)
     
     uint8_t response[7];
     HAL_UART_Receive(uarthandle, (uint8_t *)response, 15, 1000);
-    printf("Sigfox AT response: '%s'\n", response);
+    printDBG("Sigfox AT response: '%s'\n", response);
     if(!strstr(response,"OK"))
     {
-        printf("OK not found after AT check\r\n");
+        printERR("OK not found after AT check\r\n");
         return 0;
     }
     else
-        printf("SigFox Init OK\r\n\r\n");
+        printINF("SigFox Init OK\r\n\r\n");
     TD1207_initialized = 1;
 
     return result;
@@ -89,7 +89,7 @@ uint8_t TD1207_send(uint8_t *bytes, uint8_t length, uint8_t ack)
     HAL_Delay(2000);
     if (length > 12)
     {
-        printf("TD1207 ERROR: payload size should not exceed 12 bytes!\n");
+        printERR("TD1207 ERROR: payload size should not exceed 12 bytes!\n");
         return 0;
     }
 
@@ -117,6 +117,6 @@ uint8_t TD1207_send(uint8_t *bytes, uint8_t length, uint8_t ack)
 
     char end = '\r';
     result = result && (HAL_UART_Transmit(uarthandle, (uint8_t *)&end, 1, 1000)==HAL_OK); //mpUART->writeBlocking((uint8_t*) &end, 1);
-    printf("Sigfox message sent with payload size %d\r\n", length);
+    printINF("Sigfox message sent with payload size %d\r\n", length);
     return result;
 }

@@ -21,20 +21,20 @@ struct OCTA_GPIO *firefly_reset_pin; //DIO6
 
 uint8_t Firefly_Initialize(void)
 {
-    printf("***Initializing Firefly-GPS driver***\r\n");
+    printINF("***Initializing Firefly-GPS driver***\r\n");
 
     #ifndef FIREFLY_CONNECTOR
-        printf("No FIREFLY_CONNECTOR provided in Makefile\r\n");
+        printERR("No FIREFLY_CONNECTOR provided in Makefile\r\n");
         return 0;
     #else
         FireflyHeader = platform_getHeader((uint8_t)FIREFLY_CONNECTOR);
         if(!FireflyHeader.active)
         {
-            printf("Invalid FIREFLY_CONNECTOR provided in Makefile\r\n");
+            printERR("Invalid FIREFLY_CONNECTOR provided in Makefile\r\n");
             return 0;  
         }
         else   
-            printf("Firefly on P%d, initializing I2C\r\n", (uint8_t)FIREFLY_CONNECTOR);                         
+            printINF("Firefly on P%d, initializing I2C\r\n", (uint8_t)FIREFLY_CONNECTOR);                         
     #endif
 
     // Initialize I2C peripheral with driver baudrate
@@ -44,13 +44,12 @@ uint8_t Firefly_Initialize(void)
     firefly_int_pin = FireflyHeader.DIO1;
     firefly_reset_pin = FireflyHeader.DIO6;
 
-    //TODO: gps communication check
     if(!Firefly_communication_check())
     {
-        printf("Firefly GPS Init NOK\r\n\r\n");
+        printERR("Firefly GPS Init NOK\r\n\r\n");
         return 0;
     }
-    printf("Firefly GPS Init OK\r\n\r\n");
+    printINF("Firefly GPS Init OK\r\n\r\n");
     return 1;
     
 }
@@ -60,12 +59,12 @@ uint8_t Firefly_communication_check(void)
     uint8_t buffer[10];
     if(!READ_REG_GPS(buffer,10))
     {
-        printf("Firefly communication check OK\r\n");
+        printDBG("Firefly communication check OK\r\n");
         return 1;
     }
     else
     {
-        printf("Firefly communication check NOK\r\n");
+        printDBG("Firefly communication check NOK\r\n");
         return 0;
     }
 }

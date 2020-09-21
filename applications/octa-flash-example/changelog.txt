@@ -1,0 +1,4 @@
+octa-flash-example
+0.1.0: initial version
+0.2.0: changed SPI clock baudrate divider and changed BLOCK terminology in S25FL driver to PAGE
+0.3.0: changed from S25FL256 specific flash driver to generic octa-flash driver

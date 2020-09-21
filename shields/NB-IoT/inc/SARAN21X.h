@@ -15,7 +15,11 @@
 #define SARAN21X_HPP_
 
 //use the SARAN21X_Params_Example file to create your own
-#include "SARAN21X_Params.h"
+#ifdef SARAN21X_Params_Exists
+    #include "SARAN21X_Params.h"
+#else
+    #include "SARAN21X_Params_example.h"
+#endif
 #include "stm32l4xx.h"
 #include "stdbool.h"
 #include <stdlib.h>
@@ -66,7 +70,8 @@ union {
 bool SARAN21X_Initialize(void);
 void SARAN21X_toggleResetPin(void);
 bool SARAN21X_init_module(const char *server_ip, const uint32_t server_port);
-bool SARAN21X_send(uint8_t *msg, uint8_t length);
+bool SARAN21X_send(uint8_t *msg, uint16_t length);
+bool SARAN21X_send_to_server(uint8_t *msg, uint16_t length, const char *server_ip, const uint32_t server_port);
 bool SARAN21X_receive(uint16_t length);
 bool SARAN21X_get_imsi(char *imsi);
 uint64_t SARAN21X_convert_imsi_char_to_u64(const char* text);
@@ -78,8 +83,10 @@ bool SARAN21X_get_nuestats(char *cell, char *txpower);
 bool SARAN21X_get_RSSI(char *RSSI);
 void SARAN21X_setApplicationRxCallback(void (*callback)(uint8_t *buffer, uint16_t len));
 void SARAN21X_rxCallback(void);
+void SARAN21X_set_server_parameters(const char* server_ip, const uint32_t server_port);
 
 uint16_t SARAN21X_read_line(char *ptr, uint16_t len, bool debug, uint32_t delay);
+void SARAN21X_Disable_Interrupt(void);
 bool SARAN21X_reboot(void);
 bool SARAN21X_turn_on(void);
 bool SARAN21X_set_low_power_mode(void);

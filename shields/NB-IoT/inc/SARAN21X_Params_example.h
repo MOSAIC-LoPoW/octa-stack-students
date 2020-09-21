@@ -1,4 +1,6 @@
 /* NB IOT server parameters */
+#define NB_IOT_SERVER_NAME      "example.com"
+#define NB_IOT_DNS_SERVER       "8.8.8.8"
 #define NB_IOT_SERVER_ADDRESS   "1.1.1.1"
 #define NB_IOT_SERVER_PORT       1111
 

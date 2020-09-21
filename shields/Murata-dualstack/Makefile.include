@@ -1,3 +1,5 @@
+MURATA_VERSION = 0.1.0
+
 # Murata sources
 C_SOURCES += $(wildcard $(SHIELDS_DIR)/Murata-dualstack/src/*.c)
 
@@ -14,4 +16,12 @@ else
     SHIELD_DEFINES += -DLORAWAN_APPLICATION_$(LORAWAN_APPLICATION)
 endif
 
+# Check if params file exists in inc folder
+ifneq ("$(wildcard $(SHIELDS_DIR)/Murata-dualstack/inc/keys.h)","")
+    SHIELD_DEFINES += -DMURATA_Keys_Exists
+endif
+
 SHIELD_DEFINES += -DMURATA_CONNECTOR=$(MURATA_CONNECTOR)
+SHIELD_DEFINES += -DMURATA_VERSION="$(MURATA_VERSION)"
+SHIELD_DEFINES += -DMURATA_DUALSTACK
+SHIELD_DEFINES += -DLORAWAN_APPLICATIONNAME="$(LORAWAN_APPLICATION)"

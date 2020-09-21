@@ -1,0 +1,5 @@
+tickless-example
+0.1.0: initial version
+0.2.0: updated uart interrupt flow (BLE)
+0.3.0: updated RTC wakeup interrupt flow
+0.4.0: major tickless changes, add app reinit and deinit functions

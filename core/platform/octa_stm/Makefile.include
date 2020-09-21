@@ -1,0 +1,105 @@
+# cpu
+CPU = -mcpu=cortex-m4
+
+# fpu
+FPU = -mfpu=fpv4-sp-d16
+
+# stml4xx specific source & inc files
+C_SOURCES += $(ST_DIR)/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_i2c.c 
+C_SOURCES += $(ST_DIR)/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_i2c_ex.c 
+C_SOURCES += $(ST_DIR)/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_spi.c 
+C_SOURCES += $(ST_DIR)/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_spi_ex.c 
+C_SOURCES += $(ST_DIR)/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_iwdg.c 
+C_SOURCES += $(ST_DIR)/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_uart.c 
+C_SOURCES += $(ST_DIR)/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_uart_ex.c 
+C_SOURCES += $(ST_DIR)/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_tim.c 
+C_SOURCES += $(ST_DIR)/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_tim_ex.c 
+C_SOURCES += $(ST_DIR)/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal.c 
+C_SOURCES += $(ST_DIR)/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rcc.c 
+C_SOURCES += $(ST_DIR)/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rcc_ex.c 
+C_SOURCES += $(ST_DIR)/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash.c 
+C_SOURCES += $(ST_DIR)/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c 
+C_SOURCES += $(ST_DIR)/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ramfunc.c 
+C_SOURCES += $(ST_DIR)/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_gpio.c 
+C_SOURCES += $(ST_DIR)/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c 
+C_SOURCES += $(ST_DIR)/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma_ex.c 
+C_SOURCES += $(ST_DIR)/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_pwr.c
+C_SOURCES += $(ST_DIR)/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_pwr_ex.c 
+C_SOURCES += $(ST_DIR)/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_cortex.c
+C_SOURCES += $(ST_DIR)/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_crc.c
+C_SOURCES += $(ST_DIR)/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_crc_ex.c
+#C_SOURCES += $(ST_DIR)/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_lptim.c
+C_SOURCES += $(ST_DIR)/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc.c
+C_SOURCES += $(ST_DIR)/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c
+C_SOURCES += $(wildcard $(ST_DIR)/Middlewares/Third_Party/FreeRTOS/Source/*.c)
+C_SOURCES += $(ST_DIR)/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.c 
+C_SOURCES += $(ST_DIR)/Middlewares/Third_Party/FreeRTOS/Source/portable/MemMang/heap_4.c 
+C_SOURCES += $(ST_DIR)/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.c 
+ifeq ($(BOOTLOADER),1)
+    C_SOURCES += $(ST_DIR)/SBSFU/Src/OTAcomm.c
+    C_SOURCES += $(ST_DIR)/SBSFU/Src/bootloader.c
+    C_SOURCES += $(ST_DIR)/SBSFU/Src/common.c
+    C_SOURCES += $(ST_DIR)/SBSFU/Src/flash_if.c
+    C_SOURCES += $(ST_DIR)/SBSFU/Src/fw_update_app.c
+    C_SOURCES += $(ST_DIR)/SBSFU/Src/sfu_app_new_image.c
+    C_SOURCES += $(ST_DIR)/SBSFU/Src/ymodem.c
+endif
+
+C_INCLUDES += -I$(ST_DIR)/STM32L4xx_HAL_Driver/Inc
+C_INCLUDES += -I$(ST_DIR)/STM32L4xx_HAL_Driver/Inc/Legacy 
+C_INCLUDES += -I$(ST_DIR)/Middlewares/Third_Party/FreeRTOS/Source/include 
+C_INCLUDES += -I$(ST_DIR)/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS 
+C_INCLUDES += -I$(ST_DIR)/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F 
+C_INCLUDES += -I$(ST_DIR)/CMSIS/Device/ST/STM32L4xx/Include 
+C_INCLUDES += -I$(ST_DIR)/CMSIS/Include
+ifeq ($(BOOTLOADER),1)
+    C_INCLUDES += -I$(ST_DIR)/STM32_Secure_Engine/Core
+    C_INCLUDES += -I$(ST_DIR)/SBSFU/Inc
+    C_INCLUDES += -I$(ST_DIR)/SECoreBin/Inc
+endif
+
+
+# OCTA platform specific files
+OCTA_DIR = $(PLATFORM_DIR)/octa_stm
+
+C_SOURCES += $(OCTA_DIR)/src/freertos.c
+C_SOURCES += $(OCTA_DIR)/src/gpio.c
+C_SOURCES += $(OCTA_DIR)/src/i2c.c
+C_SOURCES += $(OCTA_DIR)/src/iwdg.c
+C_SOURCES += $(OCTA_DIR)/src/octa_stm.c
+C_SOURCES += $(OCTA_DIR)/src/rtc.c
+C_SOURCES += $(OCTA_DIR)/src/spi.c
+C_SOURCES += $(OCTA_DIR)/src/uart.c
+C_SOURCES += $(OCTA_DIR)/src/stm32l4xx_hal_msp.c
+C_SOURCES += $(OCTA_DIR)/src/stm32l4xx_hal_timebase_tim.c
+C_SOURCES += $(OCTA_DIR)/src/stm32l4xx_it.c
+C_SOURCES += $(OCTA_DIR)/src/sysclock.c
+C_SOURCES += $(OCTA_DIR)/src/system_stm32l4xx.c
+C_SOURCES += $(OCTA_DIR)/drivers/BQ35100/src/bq35100.c
+
+## ONLY INCLUDE TICKLESS IF LOWPOWER == 2
+ifeq ($(LOW_POWER),2)
+C_SOURCES += $(OCTA_DIR)/src/tickless.c
+endif
+
+C_INCLUDES += -I$(OCTA_DIR)/inc
+C_INCLUDES += -I$(OCTA_DIR)/drivers/BQ35100/inc
+
+# ASM sources
+ASM_SOURCES =  \
+$(OCTA_DIR)/startup_stm32l496xx.s
+
+# C defines
+C_DEFS =  \
+-DUSE_HAL_DRIVER \
+-DSTM32L496xx
+
+#######################################
+# LDFLAGS
+#######################################
+# link script
+ifeq ($(BOOTLOADER),1)
+LDSCRIPT = $(OCTA_DIR)/STM32L496ZGTxP_FLASH_bootloader.ld
+else
+LDSCRIPT = $(OCTA_DIR)/STM32L496ZGTxP_FLASH.ld
+endif

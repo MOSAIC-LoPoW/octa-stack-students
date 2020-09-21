@@ -1,0 +1,33 @@
+octa-stack versions
+0.0.1: initial development
+0.0.2-tickless: added tickless support
+0.0.3-rtc: added RTC as a resource to wake up from stop mode in tickless mode
+0.0.4: added RTOS_Print_Stats() method to print info about current running thread
+0.0.5: added debug flag to makefile, so certain prints will only be done under debug mode
+0.0.6: lowpower clock 8MHz, moved RTOS_Print_Stats() to stack instead of application, freertos cleanup
+0.0.7: moved HAL_Init, Sysclk config and bootloader vectortable to platform init
+0.1.0:  - added printDBG, printINF and printERR messages
+        - fixed some bugs from version 0.0.7
+        - removed RTOS_Print_Stats on BTN 2
+        - removed grow project from stack, due to too many duplicate files
+0.1.1: cleaned up some code, removing several warnings in the process
+0.2.0: removed common platform, which cleaned up a lot of undefined warnings.
+0.2.1:  - fixed debugging with cortex-debug when DEBUG flag is disabled
+        - re added common platform, for generic error, print and assert handlers
+0.2.2: added assert() handler as well, fixing the assert() calls in the murata driver
+0.3.0:  - updated UART interrupt flow with function pointers
+        - updated GPIO interrupt flow with function pointers
+        - updated RTC wakeup interrupt flow with function pointers
+0.3.1:  - added versioning to shield drivers
+        - update printwelcome function to display shield info
+0.3.2:  - split up payloadparser(configparser) from app to platfor/common
+        - adding unit testing tools to testing folder, as wel as first unit test for payloadparser & dns
+0.3.3:  - clean of printwelcome, printing appname and version in one line
+        - copy binary with version name to release folder per application
+0.3.4:  - added support for PRINT_RTOS_STATS 0 in app makefile, disabling BTN2 interrupt, is 1 by default
+        - disabled "feed IWDG" prints
+0.3.5:  - major changes to tickless mode, significantly reducing stop mode power consumption
+0.3.6:  - moved commonly used datatypes to datatypes.h in core/platform/inc/datatypes.h
+0.3.7:  - printing octa_UID in dec as well as u64 le hex string
+0.4.0: changed from specific flash drivers per platform to generic octa-flash driver
+0.4.1: changed printwelcome to print chip specific nb-iot info

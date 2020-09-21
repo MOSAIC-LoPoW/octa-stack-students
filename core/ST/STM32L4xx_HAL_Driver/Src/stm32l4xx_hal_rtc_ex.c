@@ -850,7 +850,6 @@ HAL_StatusTypeDef HAL_RTCEx_SetWakeUpTimer_IT(RTC_HandleTypeDef *hrtc, uint32_t 
 
        /* Process Unlocked */
        __HAL_UNLOCK(hrtc);
-
        return HAL_TIMEOUT;
       }
     }

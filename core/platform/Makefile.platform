@@ -5,7 +5,7 @@ else
     $(error platform $(PLATFORM) does not exist. A valid platform must be specified as PLATFORM in the Makefile.)
 endif
 
-# include both the common and the platform specific Makefile.includes
+# include the platform specific Makefile.includes
 include $(PLATFORM_DIR)/common/Makefile.include
 include $(PLATFORM_DIR)/$(PLATFORM)/Makefile.include
 

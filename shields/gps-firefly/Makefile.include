@@ -1,3 +1,5 @@
+FIREFLY_VERSION = 0.1.0
+
 # Firefly sources
 C_SOURCES += $(wildcard $(SHIELDS_DIR)/gps-firefly/src/*.c)
 
@@ -9,3 +11,4 @@ $(error FIREFLY_CONNECTOR undefined in makefile, please specify a connector in t
 endif
 
 SHIELD_DEFINES += -DFIREFLY_CONNECTOR=$(FIREFLY_CONNECTOR)
+SHIELD_DEFINES += -DFIREFLY_VERSION="$(FIREFLY_VERSION)"

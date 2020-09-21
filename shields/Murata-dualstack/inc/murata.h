@@ -1,5 +1,9 @@
 #include "modem.h"
-#include "keys.h"
+#ifdef MURATA_Keys_Exists
+    #include "keys.h"
+#else
+    #include "keys_example.h"
+#endif
 #include "cmsis_os.h"
 
 #define MURATA_BAUDRATE 115200
@@ -12,7 +16,7 @@ void on_modem_reboot_callback(void);
 void modem_wakeup(void);
 void modem_release(void);
 void Murata_toggleResetPin(void);
-uint8_t Murata_Initialize(uint64_t octa_UID, uint8_t use_scheduler);
+uint8_t Murata_Initialize(uint64_t octa_UID);
 uint8_t Murata_SetProcessingThread(osThreadId aThreadId);
 uint8_t Murata_LoRaWAN_Join(void);
 uint8_t Murata_LoRaWAN_Send(uint8_t *buffer, uint8_t length);

@@ -86,16 +86,6 @@
 #define LSM303AGR_ACC_WHO_AM_I_RSP 		0x33
 #define LSM303AGR_MAG_WHO_AM_I_RSP 		0x40
 
-
-
-
-uint8_t LSM303AGR_setting;
-I2C_HandleTypeDef *LSM303AGR_hi2c;
-uint8_t accRegisterData[6];
-int16_t accRawData[3];
-uint8_t magRegisterData[6];
-int16_t magRawData[3];
-
 void LSM303AGR_setI2CInterface(I2C_HandleTypeDef *hi2c);
 HAL_StatusTypeDef LSM303AGR_readRegister(uint8_t LSM303AGR_reg,
 		uint8_t LSM303AGR_data, uint8_t ACC_MAG);

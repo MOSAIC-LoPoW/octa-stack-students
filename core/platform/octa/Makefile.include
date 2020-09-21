@@ -28,6 +28,9 @@ C_SOURCES += $(ST_DIR)/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_pwr_ex.c
 C_SOURCES += $(ST_DIR)/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_cortex.c
 C_SOURCES += $(ST_DIR)/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_crc.c
 C_SOURCES += $(ST_DIR)/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_crc_ex.c
+#C_SOURCES += $(ST_DIR)/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_lptim.c
+C_SOURCES += $(ST_DIR)/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc.c
+C_SOURCES += $(ST_DIR)/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c
 C_SOURCES += $(wildcard $(ST_DIR)/Middlewares/Third_Party/FreeRTOS/Source/*.c)
 C_SOURCES += $(ST_DIR)/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.c 
 C_SOURCES += $(ST_DIR)/Middlewares/Third_Party/FreeRTOS/Source/portable/MemMang/heap_4.c 
@@ -42,8 +45,6 @@ ifeq ($(BOOTLOADER),1)
     C_SOURCES += $(ST_DIR)/SBSFU/Src/ymodem.c
 endif
 
-
-
 C_INCLUDES += -I$(ST_DIR)/STM32L4xx_HAL_Driver/Inc
 C_INCLUDES += -I$(ST_DIR)/STM32L4xx_HAL_Driver/Inc/Legacy 
 C_INCLUDES += -I$(ST_DIR)/Middlewares/Third_Party/FreeRTOS/Source/include 
@@ -51,6 +52,7 @@ C_INCLUDES += -I$(ST_DIR)/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS
 C_INCLUDES += -I$(ST_DIR)/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F 
 C_INCLUDES += -I$(ST_DIR)/CMSIS/Device/ST/STM32L4xx/Include 
 C_INCLUDES += -I$(ST_DIR)/CMSIS/Include
+
 ifeq ($(BOOTLOADER),1)
     C_INCLUDES += -I$(ST_DIR)/STM32_Secure_Engine/Core
     C_INCLUDES += -I$(ST_DIR)/SBSFU/Inc
@@ -61,9 +63,28 @@ endif
 # OCTA platform specific files
 OCTA_DIR = $(PLATFORM_DIR)/octa
 
-C_SOURCES += $(wildcard $(OCTA_DIR)/src/*.c)
+C_SOURCES += $(OCTA_DIR)/src/freertos.c
+C_SOURCES += $(OCTA_DIR)/src/gpio.c
+C_SOURCES += $(OCTA_DIR)/src/i2c.c
+C_SOURCES += $(OCTA_DIR)/src/iwdg.c
+C_SOURCES += $(OCTA_DIR)/src/octa.c
+C_SOURCES += $(OCTA_DIR)/src/rtc.c
+C_SOURCES += $(OCTA_DIR)/src/spi.c
+C_SOURCES += $(OCTA_DIR)/src/uart.c
+C_SOURCES += $(OCTA_DIR)/src/stm32l4xx_hal_msp.c
+C_SOURCES += $(OCTA_DIR)/src/stm32l4xx_hal_timebase_tim.c
+C_SOURCES += $(OCTA_DIR)/src/stm32l4xx_it.c
+C_SOURCES += $(OCTA_DIR)/src/sysclock.c
+C_SOURCES += $(OCTA_DIR)/src/system_stm32l4xx.c
+C_SOURCES += $(OCTA_DIR)/drivers/STC3115/src/stc3115.c
+
+## ONLY INCLUDE TICKLESS IF LOWPOWER == 2
+ifeq ($(LOW_POWER),2)
+C_SOURCES += $(OCTA_DIR)/src/tickless.c
+endif
 
 C_INCLUDES += -I$(OCTA_DIR)/inc
+C_INCLUDES += -I$(OCTA_DIR)/drivers/STC3115/inc
 
 # ASM sources
 ASM_SOURCES =  \

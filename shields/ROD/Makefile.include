@@ -1,0 +1,13 @@
+ROD_VERSION = 0.1.3
+
+# Nova PM sensor sources
+C_SOURCES += $(wildcard $(SHIELDS_DIR)/ROD/src/*.c)
+
+# Nova PM sensor includes
+C_INCLUDES += -I$(SHIELDS_DIR)/ROD/inc
+
+ifneq ($(origin ROD_CONNECTOR), undefined)
+SHIELD_DEFINES += -DROD_CONNECTOR=$(ROD_CONNECTOR)
+endif
+
+SHIELD_DEFINES += -DROD_VERSION="$(ROD_VERSION)"

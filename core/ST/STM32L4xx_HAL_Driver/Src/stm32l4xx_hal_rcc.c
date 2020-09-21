@@ -1220,8 +1220,8 @@ HAL_StatusTypeDef HAL_RCC_ClockConfig(RCC_ClkInitTypeDef  *RCC_ClkInitStruct, ui
   SystemCoreClock = HAL_RCC_GetSysClockFreq() >> (AHBPrescTable[READ_BIT(RCC->CFGR, RCC_CFGR_HPRE) >> RCC_CFGR_HPRE_Pos] & 0x1FU);
 
   /* Configure the source of time base considering new system clocks settings*/
-  status = HAL_InitTick (TICK_INT_PRIORITY);
 
+  status = HAL_InitTick (TICK_INT_PRIORITY);
   return status;
 }
 

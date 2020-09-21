@@ -1,0 +1,7 @@
+Nordic-NB-IoT
+0.1.0: initial version
+0.1.1: added octa_stm specific init
+0.1.1: updated receive function
+0.2.0: updated at command flow to use new modem firmware (at command spec 1.4)
+0.2.1: updated UDPSEND command to send data as hexstring, fixing the issue of 0 causing string temination
+0.2.2: added udp_connect and udp_disconnect functions, used after ip is received from dns for example

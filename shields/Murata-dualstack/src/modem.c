@@ -154,7 +154,7 @@ bool modem_execute_raw_alp(uint8_t* alp, uint8_t len) {
 
 bool alloc_command() {
   if(command.is_active) {
-    printf("prev command still active");
+    printINF("prev command still active\r\n");
     return false;
   }
 

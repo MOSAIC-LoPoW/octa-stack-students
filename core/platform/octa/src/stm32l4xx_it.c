@@ -38,6 +38,9 @@
 #include "cmsis_os.h"
 #include "uart.h"
 #include "spi.h"
+#include "rtc.h"
+#include "gpio.h"
+#include "sysclock.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 /* USER CODE END Includes */
@@ -73,7 +76,6 @@
 /* USER CODE END 0 */
 
 /* External variables --------------------------------------------------------*/
-extern TIM_HandleTypeDef htim1;
 /* USER CODE BEGIN EV */
 
 /* USER CODE END EV */
@@ -188,6 +190,12 @@ void TIM1_UP_TIM16_IRQHandler(void)
   /* USER CODE END TIM1_UP_TIM16_IRQn 1 */
 }
 
+void TIM6_DAC_IRQHandler(void)
+{
+  HAL_TIM_IRQHandler(&htim6);
+}
+
+
 /* USER CODE BEGIN 1 */
 /**
 * @brief This function handles USART2 global interrupt.
@@ -276,5 +284,33 @@ void SPI3_IRQHandler(void)
 
   /* USER CODE END SPI3_IRQn 1 */
 }
+
+void EXTI0_IRQHandler(void) 
+{
+    HAL_GPIO_EXTI_IRQHandler(OCTA_BTN1_Pin);
+}
+
+void EXTI1_IRQHandler(void) 
+{
+    HAL_GPIO_EXTI_IRQHandler(OCTA_BTN2_Pin);
+}
+
+void EXTI15_10_IRQHandler(void) 
+{
+    HAL_GPIO_EXTI_IRQHandler(B1_Pin);
+}
+
+/**
+  * @brief  This function handles RTC Auto wake-up interrupt request.
+  * @param  None
+  * @retval None
+  */
+
+ 
+void RTC_WKUP_IRQHandler(void)
+{
+  HAL_RTCEx_WakeUpTimerIRQHandler(&hrtc);
+}
+
 /* USER CODE END 1 */
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

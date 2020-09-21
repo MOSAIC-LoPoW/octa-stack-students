@@ -1,5 +1,11 @@
 #include "LSM303AGRSensor.h"
 
+uint8_t LSM303AGR_setting;
+I2C_HandleTypeDef *LSM303AGR_hi2c;
+uint8_t accRegisterData[6];
+int16_t accRawData[3];
+uint8_t magRegisterData[6];
+int16_t magRawData[3];
 
 /**
  * Sets the I2C interface for the LSM303AGR

@@ -1,9 +1,3 @@
-/*
- * sht31.h
- *
- *  Created on: 7 Mar 2018
- *      Author: Fifth
- */
 #include "stm32l4xx_hal.h"
 #ifndef SHT31_H_
 #define SHT31_H_
@@ -20,7 +14,6 @@
 #define SHT31_SOFTRESET            0x30A2
 #define SHT31_HEATEREN             0x306D
 #define SHT31_HEATERDIS            0x3066
-
 
 I2C_HandleTypeDef *SHThi2cLib;
 void setI2CInterface_SHT31(I2C_HandleTypeDef *hi2c);

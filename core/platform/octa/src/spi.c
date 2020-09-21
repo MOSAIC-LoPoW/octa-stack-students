@@ -1,21 +1,8 @@
 #include "spi.h"
+#include "platform.h"
 
-/**
-  * @brief SPI1 Initialization Function
-  * @param None
-  * @retval None
-  */
- void P3_SPI_Init(void)
+void P3_SPI_Init(void)
 {
-
-  /* USER CODE BEGIN SPI1_Init 0 */
-
-  /* USER CODE END SPI1_Init 0 */
-
-  /* USER CODE BEGIN SPI1_Init 1 */
-
-  /* USER CODE END SPI1_Init 1 */
-  /* SPI1 parameter configuration*/
   P3_SPI.Instance = SPI1;
   P3_SPI.Init.Mode = SPI_MODE_MASTER;
   P3_SPI.Init.Direction = SPI_DIRECTION_2LINES;
@@ -34,28 +21,10 @@
   {
     Error_Handler();
   }
-  /* USER CODE BEGIN SPI1_Init 2 */
-
-  /* USER CODE END SPI1_Init 2 */
-
 }
 
-/**
-  * @brief SPI2 Initialization Function
-  * @param None
-  * @retval None
-  */
 void P2_SPI_Init(void)
 {
-
-  /* USER CODE BEGIN SPI2_Init 0 */
-
-  /* USER CODE END SPI2_Init 0 */
-
-  /* USER CODE BEGIN SPI2_Init 1 */
-
-  /* USER CODE END SPI2_Init 1 */
-  /* SPI2 parameter configuration*/
   P2_SPI.Instance = SPI2;
   P2_SPI.Init.Mode = SPI_MODE_MASTER;
   P2_SPI.Init.Direction = SPI_DIRECTION_2LINES;
@@ -74,28 +43,10 @@ void P2_SPI_Init(void)
   {
     Error_Handler();
   }
-  /* USER CODE BEGIN SPI2_Init 2 */
-
-  /* USER CODE END SPI2_Init 2 */
-
 }
 
-/**
-  * @brief SPI3 Initialization Function
-  * @param None
-  * @retval None
-  */
 void P1_SPI_Init(void)
 {
-
-  /* USER CODE BEGIN SPI3_Init 0 */
-
-  /* USER CODE END SPI3_Init 0 */
-
-  /* USER CODE BEGIN SPI3_Init 1 */
-
-  /* USER CODE END SPI3_Init 1 */
-  /* SPI3 parameter configuration*/
   P1_SPI.Instance = SPI3;
   P1_SPI.Init.Mode = SPI_MODE_MASTER;
   P1_SPI.Init.Direction = SPI_DIRECTION_2LINES;
@@ -114,16 +65,10 @@ void P1_SPI_Init(void)
   {
     Error_Handler();
   }
-  /* USER CODE BEGIN SPI3_Init 2 */
-
-  /* USER CODE END SPI3_Init 2 */
-
 }
 
 void FLASH_SPI_Init(void)
 {
-
-  /* SPI1 parameter configuration*/
   FLASH_SPI.Instance = SPI1;
   FLASH_SPI.Init.Mode = SPI_MODE_MASTER;
   FLASH_SPI.Init.Direction = SPI_DIRECTION_2LINES;
@@ -131,7 +76,7 @@ void FLASH_SPI_Init(void)
   FLASH_SPI.Init.CLKPolarity = SPI_POLARITY_LOW;
   FLASH_SPI.Init.CLKPhase = SPI_PHASE_1EDGE;
   FLASH_SPI.Init.NSS = SPI_NSS_SOFT;
-  FLASH_SPI.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_2;
+  FLASH_SPI.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_64;
   FLASH_SPI.Init.FirstBit = SPI_FIRSTBIT_MSB;
   FLASH_SPI.Init.TIMode = SPI_TIMODE_DISABLE;
   FLASH_SPI.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
@@ -142,5 +87,4 @@ void FLASH_SPI_Init(void)
   {
      Error_Handler();
   }
-
 }

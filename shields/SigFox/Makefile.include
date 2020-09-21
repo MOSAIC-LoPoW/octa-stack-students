@@ -1,3 +1,5 @@
+SIGFOX_VERSION = 0.1.0
+
 # SigFox sources
 C_SOURCES += $(wildcard $(SHIELDS_DIR)/SigFox/src/*.c)
 
@@ -9,3 +11,4 @@ $(error SIGFOX_CONNECTOR undefined in makefile, please specify a connector in th
 endif
 
 SHIELD_DEFINES += -DSIGFOX_CONNECTOR=$(SIGFOX_CONNECTOR)
+SHIELD_DEFINES += -DSIGFOX_VERSION="$(SIGFOX_VERSION)"

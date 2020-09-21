@@ -1,4 +1,7 @@
-# TODO: stack version (riot)?
+######################################
+# STACK VERSION (https://semver.org/)
+######################################
+STACK_VERSION = 0.4.1
 
 # Globally set default goal to `all`
 .DEFAULT_GOAL := all
@@ -6,8 +9,6 @@
 ######################################
 # building variables
 ######################################
-# debug build?
-DEBUG = 1
 # optimization
 OPT = -Og
 
@@ -25,6 +26,7 @@ DRIVERS_DIR     ?= $(STACKBASE)/core/drivers
 ST_DIR          ?= $(STACKBASE)/core/ST
 APPLICATION_DIR ?= $(STACKBASE)/applications/$(APPLICATION)
 BUILD_DIR       ?= $(STACKBASE)/applications/$(APPLICATION)/build
+RELEASE_DIR       ?= $(STACKBASE)/applications/$(APPLICATION)/release
 STM32CUBEPROG   ?= $(STACKBASE)/core/ST/STM32CubeProgrammer/bin/STM32_Programmer_CLI
 
 ######################################
@@ -92,9 +94,8 @@ ASFLAGS = $(MCU) $(AS_DEFS) $(AS_INCLUDES) $(OPT) -Wall -fdata-sections -ffuncti
 
 CFLAGS = $(MCU) $(C_DEFS) $(C_INCLUDES) $(OPT) -Wall -fdata-sections -ffunction-sections
 
-ifeq ($(DEBUG), 1)
-	CFLAGS += -g -gdwarf-2
-endif
+## DEBUG?
+CFLAGS += -g -gdwarf-2
 
 # Generate dependency information
 CFLAGS += -MMD -MP -MF"$(@:%.o=%.d)"
@@ -112,14 +113,37 @@ ifeq ($(PRINT_FLOATS), 1)
 endif
 
 #######################################
+# application_name define
+#######################################
+USER_DEFINES += -DAPPLICATION_NAME="$(TARGET)" 
+
+#######################################
+# stack define
+#######################################
+ifdef STACK_VERSION
+	USER_DEFINES += -DSTACK_VERSION="$(STACK_VERSION)"
+endif
+
+
+#######################################
+# application_version define
+#######################################
+ifdef APPLICATION_VERSION
+	USER_DEFINES += -DAPPLICATION_VERSION="$(APPLICATION_VERSION)"
+endif
+
+APP_VERSION_NODOTS = $(subst .,-,$(APPLICATION_VERSION))
+#######################################
 # bootloader define
 #######################################
 ifeq ($(BOOTLOADER),1)
 	USER_DEFINES += -DUSE_BOOTLOADER=1
 	TARGET = $(APPLICATION)-btl
+	TARGET_WITH_VERSION = $(APPLICATION)-btl-v$(APP_VERSION_NODOTS)
 else
 	USER_DEFINES += -DUSE_BOOTLOADER=0
 	TARGET = $(APPLICATION)
+	TARGET_WITH_VERSION = $(APPLICATION)-v$(APP_VERSION_NODOTS)
 endif
 
 #######################################
@@ -134,15 +158,50 @@ endif
 #######################################
 # Low power define
 #######################################
-ifeq ($(LOW_POWER),1)
-	USER_DEFINES += -DLOW_POWER=1
-else
+ifndef LOW_POWER
 	USER_DEFINES += -DLOW_POWER=0
+else
+	USER_DEFINES += -DLOW_POWER=$(LOW_POWER)
+endif
+
+#######################################
+# RTOS Scheduler define
+#######################################
+ifeq ($(USE_RTOS_SCHEDULER),0)
+	USER_DEFINES += -DUSE_RTOS_SCHEDULER=0
+else
+	USER_DEFINES += -DUSE_RTOS_SCHEDULER=1
+endif
+
+#######################################
+# RTOS PRINT STATUS define
+#######################################
+ifeq ($(PRINT_RTOS_STATS),0)
+	USER_DEFINES += -DPRINT_RTOS_STATS=0
+else
+	USER_DEFINES += -DPRINT_RTOS_STATS=1
+endif
+
+#######################################
+# RTOS DEBUG define
+#######################################
+ifeq ($(DEBUG),1)
+	USER_DEFINES += -DDEBUG=1
+endif
+
+#######################################
+# FTDI Logging define
+#######################################
+ifeq ($(USE_FTDI_LOGGING),1)
+	USER_DEFINES += -DUSE_FTDI_LOGGING=1
+else
+	USER_DEFINES += -DUSE_FTDI_LOGGING=0
 endif
 
 # default action: build all
-all: $(BUILD_DIR)/$(TARGET).elf $(BUILD_DIR)/$(TARGET).hex $(BUILD_DIR)/$(TARGET).bin
+all: build
 
+build: $(BUILD_DIR)/$(TARGET).elf $(BUILD_DIR)/$(TARGET).hex $(BUILD_DIR)/$(TARGET).bin
 #######################################
 # build the application
 #######################################
@@ -172,6 +231,17 @@ $(BUILD_DIR)/%.bin: $(BUILD_DIR)/%.elf | $(BUILD_DIR)
 	
 $(BUILD_DIR):
 	mkdir $@
+
+#######################################
+# cp elf to release with version
+#######################################
+release: create_release_dir $(RELEASE_DIR)/$(TARGET_WITH_VERSION).elf
+
+create_release_dir:
+	if test -d $(RELEASE_DIR); then echo exists; else mkdir $(RELEASE_DIR); fi
+	
+$(RELEASE_DIR)/$(TARGET_WITH_VERSION).elf:
+	cp $(BUILD_DIR)/$(TARGET).elf $@
 
 #######################################
 # clean up

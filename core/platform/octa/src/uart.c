@@ -1,20 +1,17 @@
-#include "uart.h"
+#include "platform.h"
 
-/**
-  * @brief LPUART1 Initialization Function
-  * @param None
-  * @retval None
-  */
+static void (*P1_Shield_UART_RX_Callback)(void) = 0;
+static void (*P1_Application_UART_RX_Callback)(void) = 0;
+static void (*P2_Shield_UART_RX_Callback)(void) = 0;
+static void (*P2_Application_UART_RX_Callback)(void) = 0;
+static void (*P3_Shield_UART_RX_Callback)(void) = 0;
+static void (*P3_Application_UART_RX_Callback)(void) = 0;
+static void (*BLE_UART_RX_Callback)(void) = 0;
+static void (*USB_UART_RX_Callback)(void) = 0;
+static void (*FTDI_UART_RX_Callback)(void) = 0;
+
 void USB_UART_Init(uint32_t aBaudRate)
 {
-
-  /* USER CODE BEGIN LPUART1_Init 0 */
-
-  /* USER CODE END LPUART1_Init 0 */
-
-  /* USER CODE BEGIN LPUART1_Init 1 */
-
-  /* USER CODE END LPUART1_Init 1 */
   USB_UART.Instance = LPUART1;
   USB_UART.Init.BaudRate = aBaudRate;
   USB_UART.Init.WordLength = UART_WORDLENGTH_8B;
@@ -28,27 +25,10 @@ void USB_UART_Init(uint32_t aBaudRate)
   {
     Error_Handler();
   }
-  /* USER CODE BEGIN LPUART1_Init 2 */
-
-  /* USER CODE END LPUART1_Init 2 */
-
 }
 
-/**
-  * @brief UART5 Initialization Function
-  * @param None
-  * @retval None
-  */
 void P1_UART_Init(uint32_t aBaudRate)
 {
-
-  /* USER CODE BEGIN UART5_Init 0 */
-
-  /* USER CODE END UART5_Init 0 */
-
-  /* USER CODE BEGIN UART5_Init 1 */
-
-  /* USER CODE END UART5_Init 1 */
   P1_UART.Instance = UART5;
   P1_UART.Init.BaudRate = aBaudRate;
   P1_UART.Init.WordLength = UART_WORDLENGTH_8B;
@@ -63,28 +43,12 @@ void P1_UART_Init(uint32_t aBaudRate)
   {
     Error_Handler();
   }
-  /* USER CODE BEGIN UART5_Init 2 */
   HAL_NVIC_SetPriority(UART5_IRQn, 7, 0);
   HAL_NVIC_EnableIRQ(UART5_IRQn);
-
-  /* USER CODE END UART5_Init 2 */
-
 }
 
-/**
-  * @brief USART2 Initialization Function
-  * @param None
-  * @retval None
-  */
 void P2_UART_Init(uint32_t aBaudRate)
 {
-
-  /* USER CODE BEGIN USART2_Init 0 */
-
-  /* USER CODE END USART2_Init 0 */
-
-  /* USER CODE BEGIN USART2_Init 1 */
-  /* USER CODE END USART2_Init 1 */
   P2_UART.Instance = USART2;
   P2_UART.Init.BaudRate = aBaudRate;
   P2_UART.Init.WordLength = UART_WORDLENGTH_8B;
@@ -99,30 +63,12 @@ void P2_UART_Init(uint32_t aBaudRate)
   {
     Error_Handler();
   }
-
-  /* USER CODE BEGIN USART2_Init 2 */
   HAL_NVIC_SetPriority(USART2_IRQn, 7, 0);
   HAL_NVIC_EnableIRQ(USART2_IRQn);
-
-  /* USER CODE END USART2_Init 2 */
-
 }
 
-/**
-  * @brief USART3 Initialization Function
-  * @param None
-  * @retval None
-  */
 void P3_UART_Init(uint32_t aBaudRate)
 {
-
-  /* USER CODE BEGIN USART3_Init 0 */
-
-  /* USER CODE END USART3_Init 0 */
-
-  /* USER CODE BEGIN USART3_Init 1 */
-
-  /* USER CODE END USART3_Init 1 */
   P3_UART.Instance = USART3;
   P3_UART.Init.BaudRate = aBaudRate;
   P3_UART.Init.WordLength = UART_WORDLENGTH_8B;
@@ -137,29 +83,32 @@ void P3_UART_Init(uint32_t aBaudRate)
   {
     Error_Handler();
   }
-  /* USER CODE BEGIN USART3_Init 2 */
   HAL_NVIC_SetPriority(USART3_IRQn, 7, 0);
   HAL_NVIC_EnableIRQ(USART3_IRQn);
-  /* USER CODE END USART3_Init 2 */
-
 }
 
+void FTDI_UART_Init(uint32_t aBaudRate)
+{
+  FTDI_UART.Instance = USART3;
+  FTDI_UART.Init.BaudRate = aBaudRate;
+  FTDI_UART.Init.WordLength = UART_WORDLENGTH_8B;
+  FTDI_UART.Init.StopBits = UART_STOPBITS_1;
+  FTDI_UART.Init.Parity = UART_PARITY_NONE;
+  FTDI_UART.Init.Mode = UART_MODE_TX_RX;
+  FTDI_UART.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+  FTDI_UART.Init.OverSampling = UART_OVERSAMPLING_16;
+  FTDI_UART.Init.OneBitSampling = UART_ONE_BIT_SAMPLE_DISABLE;
+  FTDI_UART.AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_NO_INIT;
+  if (HAL_UART_Init(&FTDI_UART) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  HAL_NVIC_SetPriority(USART3_IRQn, 7, 0);
+  HAL_NVIC_EnableIRQ(USART3_IRQn);
+}
 
-/**
-  * @brief USART2 Initialization Function
-  * @param None
-  * @retval None
-  */
 void BLE_UART_Init(uint32_t aBaudRate)
 {
-
-  /* USER CODE BEGIN USART2_Init 0 */
-
-  /* USER CODE END USART2_Init 0 */
-
-  /* USER CODE BEGIN USART2_Init 1 */
-
-  /* USER CODE END USART2_Init 1 */
   BLE_UART.Instance = USART2;
   BLE_UART.Init.BaudRate = aBaudRate;
   BLE_UART.Init.WordLength = UART_WORDLENGTH_8B;
@@ -174,29 +123,114 @@ void BLE_UART_Init(uint32_t aBaudRate)
   {
     Error_Handler();
   }
-
-  /* USER CODE BEGIN USART2_Init 2 */
   HAL_NVIC_SetPriority(USART2_IRQn, 7, 0);
   HAL_NVIC_EnableIRQ(USART2_IRQn);
-  /* USER CODE END USART2_Init 2 */
-
 }
 
-// WEAK UART RX CALLBACK
-__weak void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+// UART RX CALLBACK
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
-  printf("uart interrupt callback not implemented in application\r\n");
+  if (huart == &P1_UART)
+  {
+    if(P1_Shield_UART_RX_Callback)
+      P1_Shield_UART_RX_Callback();
+    if(P1_Application_UART_RX_Callback)
+      P1_Application_UART_RX_Callback();
+  }
+  else if (huart == &P2_UART)
+  {
+    if(P2_Shield_UART_RX_Callback)
+      P2_Shield_UART_RX_Callback();
+    if(P2_Application_UART_RX_Callback)
+      P2_Application_UART_RX_Callback();
+  }
+  else if (huart == &P3_UART)
+  {
+    if(P3_Shield_UART_RX_Callback)
+      P3_Shield_UART_RX_Callback();
+    if(P3_Application_UART_RX_Callback)
+      P3_Application_UART_RX_Callback();
+  }
+  else if (huart == &BLE_UART)
+  {
+    if(BLE_UART_RX_Callback)
+      BLE_UART_RX_Callback();
+  }
+  else if (huart == &USB_UART)
+  {
+    if(USB_UART_RX_Callback)
+      USB_UART_RX_Callback();
+  }
+  else if (huart == &FTDI_UART)
+  {
+    if(FTDI_UART_RX_Callback)
+      FTDI_UART_RX_Callback();
+  }
+  else 
+  {
+    printERR("UART Handle unknown\r\n");
+    Error_Handler();
+  }
+}
+
+void UART_SetApplicationCallback(void (*appcallback), uint8_t connector)
+{
+  switch(connector)
+  {
+    case 1:
+      P1_Application_UART_RX_Callback = appcallback;
+      break;
+    case 2:
+      P2_Application_UART_RX_Callback = appcallback;
+      break;
+    case 3:
+      P3_Application_UART_RX_Callback = appcallback;
+      break;
+    default:
+      break;
+  }
+}
+
+void UART_SetShieldCallback(void (*shieldcallback), uint8_t connector)
+{
+  switch(connector)
+  {
+    case 1:
+      P1_Shield_UART_RX_Callback = shieldcallback;
+      break;
+    case 2:
+      P2_Shield_UART_RX_Callback = shieldcallback;
+      break;
+    case 3:
+      P3_Shield_UART_RX_Callback = shieldcallback;
+      break;
+    default:
+      break;
+  }
+}
+
+void UART_BLE_SetRxCallback(void (*rxcallback))
+{
+  BLE_UART_RX_Callback = rxcallback;
+}
+
+void UART_USB_SetRxCallback(void (*rxcallback))
+{
+  USB_UART_RX_Callback = rxcallback;
+}
+
+void UART_FTDI_SetRxCallback(void (*rxcallback))
+{
+  FTDI_UART_RX_Callback = rxcallback;
 }
 
 /*******************************************
 PRINTF TO SERIAL REDIRECT FUNCTION PROTOTYPE 
 ********************************************/
 #ifdef __GNUC__
-
 #define PUTCHAR_PROTOTYPE int __io_putchar(int ch)
 #else
 #define PUTCHAR_PROTOTYPE int fputc(int ch, FILE *f)
-
 #endif
 
 /* required for printf to work */
@@ -218,6 +252,10 @@ int _write(int file, char *ptr, int len)
   */
 PUTCHAR_PROTOTYPE
 {
-  HAL_UART_Transmit(&USB_UART, (uint8_t *)&ch, 1, 0xFFFF);
+  #if USE_FTDI_LOGGING
+    HAL_UART_Transmit(&FTDI_UART, (uint8_t *)&ch, 1, 0xFFFF);
+  #else
+    HAL_UART_Transmit(&USB_UART, (uint8_t *)&ch, 1, 0xFFFF);
+  #endif
   return ch;
 }
