@@ -4,6 +4,7 @@
 static void (*OCTA_BTN1_Pressed_Callback)(void) = 0;
 static void (*OCTA_BTN2_Pressed_Callback)(void) = 0;
 static void (*Nucleo_BTN1_Pressed_Callback)(void) = 0;
+static void (*AccInt1_Callback)(void) = 0;
 
 void OCTA_GPIO_Init(void)
 {
@@ -205,6 +206,14 @@ void HAL_GPIO_EXTI_Callback(uint16_t gpioPinNumber)
         if(Nucleo_BTN1_Pressed_Callback)
           Nucleo_BTN1_Pressed_Callback();
     }
+    // Accelerometer INT1 pin
+    if (gpioPinNumber == GPIO_PIN_13)
+    {
+      printDBG("Accelerometer triggered\r\n");
+      if(AccInt1_Callback){
+        AccInt1_Callback();
+      }
+    }
 }
 
 void GPIO_SetApplicationCallback(void (*callback), uint16_t pinNumber)
@@ -219,6 +228,9 @@ void GPIO_SetApplicationCallback(void (*callback), uint16_t pinNumber)
       break;
     case B1_Pin:
       Nucleo_BTN1_Pressed_Callback = callback;
+      break;
+    case 13:
+      AccInt1_Callback = callback;
       break;
     default:
       break;

@@ -298,6 +298,7 @@ void EXTI1_IRQHandler(void)
 void EXTI15_10_IRQHandler(void) 
 {
     HAL_GPIO_EXTI_IRQHandler(B1_Pin);
+    HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_13); // Accelerometer INT1 pin
 }
 
 /**
