@@ -106,7 +106,7 @@
                 "kind": "build",
                 "isDefault": true
             }
-        }
+        },
         {
             "label": "make firmware acc-mag-sensor",
             "type": "shell",
@@ -236,6 +236,32 @@
                 "kind": "build",
                 "isDefault": true
             }
-        }
+        },
+        {
+            "label": "make firmware acc-interrupt-led",
+            "type": "shell",
+            // change the cd path to the current application path
+            "command": "cd applications/acc-interrupt-led/; make",
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "make clean all firmware acc-interrupt-led",
+            "type": "shell",
+            // change the cd path to the current application path
+            "command": "cd applications/acc-interrupt-led/; make clean all",
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
     ]
 }

@@ -2,6 +2,7 @@
 {
     "version": "0.2.0",
     "configurations": [
+
         {
             "cwd": "${workspaceRoot}/applications/hello-world",
             "executable": "./build/hello-world.elf",
@@ -91,6 +92,16 @@
             "name": "murata-dualstack-example-ns",
             "device": "STM32L496ZG",
             "interface": "swd",
-        }
+        },
+        {
+            "cwd": "${workspaceRoot}/applications/acc-interrupt-led",
+            "executable": "./build/acc-interrupt-led.elf",
+            "request": "launch",
+            "type": "cortex-debug",
+            "servertype": "jlink",
+            "name": "acc-interrupt-led",
+            "device": "STM32L496ZG",
+            "interface": "swd",
+        },
     ]
 }
