@@ -1,2 +1,3 @@
 Murata-dualstack
 0.1.0: initial version
+0.1.1: added murata reset to init, extra check in uart callback
