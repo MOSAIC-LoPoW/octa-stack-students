@@ -36,10 +36,12 @@ void OCTA_Initialize_Common_Peripherals(void)
     #if USE_BLE
         printINF("\r\nusing BLE, initializing BLE UART\r\n");
         BLE_UART_Init(115200); 
-        bootloader_initialize(&BLE_UART);
-        UART_BLE_SetRxCallback(bootloader_parse_data);   
     #endif
-
+    #if USE_BOOTLOADER
+        bootloader_initialize(&BLE_UART);
+        UART_BLE_SetRxCallback(bootloader_parse_data);
+    #endif
+    
     // Get Unique ID of octa
     short_UID = get_UID();
     octa_uid.u64 = short_UID;
@@ -68,8 +70,10 @@ void OCTA_ReInitialize_Common_Peripherals(void)
     #if USE_BLE
         printINF("\r\nusing BLE, initializing BLE UART\r\n");
         BLE_UART_Init(115200); 
+    #endif
+    #if USE_BOOTLOADER
         bootloader_initialize(&BLE_UART);
-        UART_BLE_SetRxCallback(bootloader_parse_data);   
+        UART_BLE_SetRxCallback(bootloader_parse_data);
     #endif
 }
 
@@ -266,7 +270,7 @@ __weak void printWelcome(void)
         printf(", bootlader");
     #endif
     #if USE_BLE
-        printf(", bootlader");
+        printf(", ble");
     #endif
     #if DEBUG
         printf(", debug");
