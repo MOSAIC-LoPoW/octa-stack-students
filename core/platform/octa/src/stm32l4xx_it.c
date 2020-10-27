@@ -205,7 +205,7 @@ void USART2_IRQHandler(void)
   /* USER CODE BEGIN USART2_IRQn 0 */
 
   /* USER CODE END USART2_IRQn 0 */
-  #if USE_BOOTLOADER
+  #if USE_BLE
     HAL_UART_IRQHandler(&BLE_UART);
   #else
     HAL_UART_IRQHandler(&P2_UART);

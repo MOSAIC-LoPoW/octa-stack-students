@@ -155,6 +155,16 @@ else
 	USER_DEFINES += -DENABLE_STEPUP=0
 endif
 
+
+#######################################
+# BLE define
+#######################################
+ifeq ($(USE_BLE),1)
+	USER_DEFINES += -DUSE_BLE=1
+else
+	USER_DEFINES += -DUSE_BLE=0
+endif
+
 #######################################
 # Low power define
 #######################################

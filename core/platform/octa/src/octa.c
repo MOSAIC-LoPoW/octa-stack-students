@@ -33,8 +33,8 @@ void OCTA_Initialize_Common_Peripherals(void)
     #if USE_FTDI_LOGGING
         FTDI_UART_Init(115200);
     #endif
-    #if USE_BOOTLOADER
-        printINF("\r\nusing bootloader, initializing BLE UART\r\n");
+    #if USE_BLE
+        printINF("\r\nusing BLE, initializing BLE UART\r\n");
         BLE_UART_Init(115200); 
         bootloader_initialize(&BLE_UART);
         UART_BLE_SetRxCallback(bootloader_parse_data);   
@@ -65,8 +65,8 @@ void OCTA_ReInitialize_Common_Peripherals(void)
     #if USE_FTDI_LOGGING
         FTDI_UART_Init(115200);
     #endif
-    #if USE_BOOTLOADER
-        printINF("\r\nusing bootloader, initializing BLE UART\r\n");
+    #if USE_BLE
+        printINF("\r\nusing BLE, initializing BLE UART\r\n");
         BLE_UART_Init(115200); 
         bootloader_initialize(&BLE_UART);
         UART_BLE_SetRxCallback(bootloader_parse_data);   
@@ -101,8 +101,8 @@ void OCTA_Initialize_P1_Peripherals(void)
 void OCTA_Initialize_P2_Peripherals(void)
 {
     P2_header.number = 2;
-    #if USE_BOOTLOADER
-        printINF("\r\nusing bootloader, P2 UART unavailable\r\n");
+    #if USE_BLE
+        printINF("\r\nusing BLE, P2 UART unavailable\r\n");
         P2_header.uartHandle = NULL;
     #else
         P2_header.uartHandle = &P2_UART;
@@ -263,6 +263,9 @@ __weak void printWelcome(void)
         printf("noscheduler");
     #endif
     #if USE_BOOTLOADER
+        printf(", bootlader");
+    #endif
+    #if USE_BLE
         printf(", bootlader");
     #endif
     #if DEBUG
