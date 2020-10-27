@@ -337,7 +337,7 @@ bool process_rx_fifo(void *arg)
       {
         uint8_t reboot_reason;
         fifo_pop(&payload_fifo, &reboot_reason, 1);
-        printf("target rebooted, reason=%i\n\r\n", reboot_reason);
+        printf("target rebooted, reason=%i\r\n", reboot_reason);
         if(target_rebooted_cb)
           target_rebooted_cb(reboot_reason);
       }

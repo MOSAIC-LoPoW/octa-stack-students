@@ -126,6 +126,8 @@ uint8_t Murata_Initialize(uint64_t octa_UID)
     modem_cb_init(&modem_callbacks);
     
     UART_SetShieldCallback(&Murata_rxCallback, (uint8_t)MURATA_CONNECTOR);
+    printINF("Toggling reset pin of murata, starting with clean session\r\n");
+    Murata_toggleResetPin();
 
     printINF("Murata module init OK \r\n\r\n");
     return 1;
@@ -190,7 +192,8 @@ void Murata_rxCallback(void)
     #if USE_RTOS_SCHEDULER
         {
             //start rx processing thread
-            RTOS_Send_Notification(threadToNotify);
+            if(osKernelRunning())
+                RTOS_Send_Notification(threadToNotify);
         }
     #endif
 }

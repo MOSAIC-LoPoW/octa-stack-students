@@ -1,4 +1,4 @@
-MURATA_VERSION = 0.1.0
+MURATA_VERSION = 0.1.1
 
 # Murata sources
 C_SOURCES += $(wildcard $(SHIELDS_DIR)/Murata-dualstack/src/*.c)
