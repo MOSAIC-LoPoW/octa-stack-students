@@ -1,0 +1,838 @@
+ARM GAS  /tmp/ccu8lkIv.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 28, 1
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.file	"Iim423xxTransport.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.text.get_register_cache_addr,"ax",%progbits
+  18              		.align	1
+  19              		.arch armv7e-m
+  20              		.syntax unified
+  21              		.thumb
+  22              		.thumb_func
+  23              		.fpu fpv4-sp-d16
+  25              	get_register_cache_addr:
+  26              	.LVL0:
+  27              	.LFB126:
+  28              		.file 1 "../../../shields/IIM423xx/src/Iim423xxTransport.c"
+   1:../../../shields/IIM423xx/src/Iim423xxTransport.c **** /*
+   2:../../../shields/IIM423xx/src/Iim423xxTransport.c ****  * ________________________________________________________________________________________________
+   3:../../../shields/IIM423xx/src/Iim423xxTransport.c ****  * Copyright (c) 2015-2015 InvenSense Inc. All rights reserved.
+   4:../../../shields/IIM423xx/src/Iim423xxTransport.c ****  *
+   5:../../../shields/IIM423xx/src/Iim423xxTransport.c ****  * This software, related documentation and any modifications thereto (collectively “Software”)
+   6:../../../shields/IIM423xx/src/Iim423xxTransport.c ****  * to InvenSense and its licensors' intellectual property rights under U.S. and international copyr
+   7:../../../shields/IIM423xx/src/Iim423xxTransport.c ****  * and other intellectual property rights laws.
+   8:../../../shields/IIM423xx/src/Iim423xxTransport.c ****  *
+   9:../../../shields/IIM423xx/src/Iim423xxTransport.c ****  * InvenSense and its licensors retain all intellectual property and proprietary rights in and to t
+  10:../../../shields/IIM423xx/src/Iim423xxTransport.c ****  * and any use, reproduction, disclosure or distribution of the Software without an express license
+  11:../../../shields/IIM423xx/src/Iim423xxTransport.c ****  * from InvenSense is strictly prohibited.
+  12:../../../shields/IIM423xx/src/Iim423xxTransport.c ****  *
+  13:../../../shields/IIM423xx/src/Iim423xxTransport.c ****  * EXCEPT AS OTHERWISE PROVIDED IN A LICENSE AGREEMENT BETWEEN THE PARTIES, THE SOFTWARE IS
+  14:../../../shields/IIM423xx/src/Iim423xxTransport.c ****  * PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+  15:../../../shields/IIM423xx/src/Iim423xxTransport.c ****  * TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT.
+  16:../../../shields/IIM423xx/src/Iim423xxTransport.c ****  * EXCEPT AS OTHERWISE PROVIDED IN A LICENSE AGREEMENT BETWEEN THE PARTIES, IN NO EVENT SHALL
+  17:../../../shields/IIM423xx/src/Iim423xxTransport.c ****  * INVENSENSE BE LIABLE FOR ANY DIRECT, SPECIAL, INDIRECT, INCIDENTAL, OR CONSEQUENTIAL DAMAGES, OR
+  18:../../../shields/IIM423xx/src/Iim423xxTransport.c ****  * DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT
+  19:../../../shields/IIM423xx/src/Iim423xxTransport.c ****  * NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE
+  20:../../../shields/IIM423xx/src/Iim423xxTransport.c ****  * OF THE SOFTWARE.
+  21:../../../shields/IIM423xx/src/Iim423xxTransport.c ****  * ________________________________________________________________________________________________
+  22:../../../shields/IIM423xx/src/Iim423xxTransport.c ****  */
+  23:../../../shields/IIM423xx/src/Iim423xxTransport.c ****  
+  24:../../../shields/IIM423xx/src/Iim423xxTransport.c **** #include "Iim423xxTransport.h"
+  25:../../../shields/IIM423xx/src/Iim423xxTransport.c **** #include "Iim423xxDefs.h"
+  26:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 
+  27:../../../shields/IIM423xx/src/Iim423xxTransport.c **** #include "InvError.h"
+  28:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 
+  29:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 
+  30:../../../shields/IIM423xx/src/Iim423xxTransport.c **** /* Function definition */
+ARM GAS  /tmp/ccu8lkIv.s 			page 2
+
+
+  31:../../../shields/IIM423xx/src/Iim423xxTransport.c **** static uint8_t * get_register_cache_addr(struct inv_iim423xx * s, uint8_t reg);
+  32:../../../shields/IIM423xx/src/Iim423xxTransport.c **** static uint8_t is_aux_interface(struct inv_iim423xx_transport *t);
+  33:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 
+  34:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 
+  35:../../../shields/IIM423xx/src/Iim423xxTransport.c **** int inv_iim423xx_init_transport(struct inv_iim423xx * s)
+  36:../../../shields/IIM423xx/src/Iim423xxTransport.c **** {
+  37:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 	// Registers in cache must be in bank 0
+  38:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 	int status = 0;
+  39:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 	struct inv_iim423xx_transport *t = (struct inv_iim423xx_transport *)s;
+  40:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 
+  41:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 	if(!is_aux_interface(t)){
+  42:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 		status |= t->serif.read_reg(&(t->serif), MPUREG_INTF_CONFIG1,  &(t->register_cache.intf_cfg_1_reg
+  43:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 		status |= t->serif.read_reg(&(t->serif), MPUREG_PWR_MGMT_0,    &(t->register_cache.pwr_mngt_0_reg
+  44:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 		status |= t->serif.read_reg(&(t->serif), MPUREG_ACCEL_CONFIG0, &(t->register_cache.accel_cfg_0_re
+  45:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 		status |= t->serif.read_reg(&(t->serif), MPUREG_TMST_CONFIG,   &(t->register_cache.tmst_cfg_reg),
+  46:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 	}
+  47:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 	
+  48:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 	status |= t->serif.read_reg(&(t->serif), MPUREG_REG_BANK_SEL,  &(t->register_cache.bank_sel_reg), 
+  49:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 
+  50:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 	return status;
+  51:../../../shields/IIM423xx/src/Iim423xxTransport.c **** }
+  52:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 
+  53:../../../shields/IIM423xx/src/Iim423xxTransport.c **** int inv_iim423xx_read_reg(struct inv_iim423xx * s, uint8_t reg, uint32_t len, uint8_t * buf)
+  54:../../../shields/IIM423xx/src/Iim423xxTransport.c **** {
+  55:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 	// First field of struct inv_iim423xx is assumed to be a struct inv_iim423xx_transport object.
+  56:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 	// So let's cast s to struct inv_iim423xx_transport and ignore the rest of struct inv_iim423xx.
+  57:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 	struct inv_iim423xx_transport *t = (struct inv_iim423xx_transport *)s;
+  58:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 	uint32_t i=0;
+  59:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 	
+  60:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 	// Registers in cache are only in bank 0
+  61:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 	// Check if bank0 is used because of duplicate register addresses between banks
+  62:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 	// For AUX interface, register cache must not be used
+  63:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 	if((t->register_cache.bank_sel_reg == 0) && (is_aux_interface(t) == 0)) {
+  64:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 		for(i=0; i<len ; i++) {
+  65:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 			uint8_t * cache_addr  = get_register_cache_addr(s, reg+i);
+  66:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 			if(cache_addr)
+  67:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 				buf[i] = *cache_addr;
+  68:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 			else
+  69:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 				break; // If one register isn't in cache, exit the loop and proceed a physical access
+  70:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 		}
+  71:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 		
+  72:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 		if(i==len) // If the end of loop is reached, then all registers have been read in cache so return
+  73:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 			return 0;
+  74:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 	}
+  75:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 	
+  76:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 	// Physical access to read registers
+  77:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 	if((len-i) > t->serif.max_read)
+  78:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 		return INV_ERROR_SIZE;
+  79:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 	if(t->serif.read_reg(&(t->serif), reg+i, &buf[i], len-i) != 0)
+  80:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 		return INV_ERROR_TRANSPORT;
+  81:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 	
+  82:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 	return 0;
+  83:../../../shields/IIM423xx/src/Iim423xxTransport.c **** }
+  84:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 
+  85:../../../shields/IIM423xx/src/Iim423xxTransport.c **** int inv_iim423xx_write_reg(struct inv_iim423xx * s, uint8_t reg, uint32_t len, const uint8_t * buf)
+  86:../../../shields/IIM423xx/src/Iim423xxTransport.c **** {
+  87:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 	// First field of struct inv_iim423xx is assumed to be a struct inv_iim423xx_transport object.
+ARM GAS  /tmp/ccu8lkIv.s 			page 3
+
+
+  88:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 	// So let's cast s to struct inv_iim423xx_transport and ignore the rest of struct inv_iim423xx.
+  89:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 	struct inv_iim423xx_transport *t = (struct inv_iim423xx_transport *)s;
+  90:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 	uint32_t i;
+  91:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 	
+  92:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 	if(len > t->serif.max_write)
+  93:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 		return INV_ERROR_SIZE;
+  94:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 	
+  95:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 	
+  96:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 	for(i=0; i<len; i++) {
+  97:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 		// Update bank_sel_reg in the cache
+  98:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 		if((reg+i) == MPUREG_REG_BANK_SEL){
+  99:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 			t->register_cache.bank_sel_reg = buf[i];
+ 100:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 		}
+ 101:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 		else {
+ 102:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 			uint8_t * cache_addr  = get_register_cache_addr(s, reg+i);
+ 103:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 			if(cache_addr){
+ 104:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 				if (t->register_cache.bank_sel_reg == 0){
+ 105:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 					if(is_aux_interface(t) == 1)
+ 106:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 						return INV_ERROR_BAD_ARG; // Cached registers must not be written from AUX interface
+ 107:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 					else
+ 108:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 						*cache_addr = buf[i]; // Update register cache if the current bank is 0
+ 109:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 				}
+ 110:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 			}
+ 111:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 		}
+ 112:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 	}
+ 113:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 	
+ 114:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 	// Physical access to write registers
+ 115:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 	if(t->serif.write_reg(&(t->serif), reg, buf, len) != 0)
+ 116:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 		return INV_ERROR_TRANSPORT;
+ 117:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 
+ 118:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 	return 0;
+ 119:../../../shields/IIM423xx/src/Iim423xxTransport.c **** }
+ 120:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 
+ 121:../../../shields/IIM423xx/src/Iim423xxTransport.c **** /* Static function */
+ 122:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 
+ 123:../../../shields/IIM423xx/src/Iim423xxTransport.c **** /* MPUREG_REG_BANK_SEL shall never be added to the function get_register_cache_addr() */
+ 124:../../../shields/IIM423xx/src/Iim423xxTransport.c **** static uint8_t * get_register_cache_addr(struct inv_iim423xx * s, uint8_t reg)
+ 125:../../../shields/IIM423xx/src/Iim423xxTransport.c **** {
+  29              		.loc 1 125 1 view -0
+  30              		.cfi_startproc
+  31              		@ args = 0, pretend = 0, frame = 0
+  32              		@ frame_needed = 0, uses_anonymous_args = 0
+  33              		@ link register save eliminated.
+ 126:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 	struct inv_iim423xx_transport *t = (struct inv_iim423xx_transport *)s;
+  34              		.loc 1 126 2 view .LVU1
+ 127:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 
+ 128:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 	switch(reg) {
+  35              		.loc 1 128 2 view .LVU2
+  36 0000 4D39     		subs	r1, r1, #77
+  37              	.LVL1:
+  38              		.loc 1 128 2 is_stmt 0 view .LVU3
+  39 0002 0729     		cmp	r1, #7
+  40 0004 0DD8     		bhi	.L8
+  41 0006 DFE801F0 		tbb	[pc, r1]
+  42              	.L4:
+  43 000a 04       		.byte	(.L7-.L4)/2
+  44 000b 06       		.byte	(.L6-.L4)/2
+ARM GAS  /tmp/ccu8lkIv.s 			page 4
+
+
+  45 000c 0C       		.byte	(.L8-.L4)/2
+  46 000d 08       		.byte	(.L5-.L4)/2
+  47 000e 0C       		.byte	(.L8-.L4)/2
+  48 000f 0C       		.byte	(.L8-.L4)/2
+  49 0010 0C       		.byte	(.L8-.L4)/2
+  50 0011 0A       		.byte	(.L3-.L4)/2
+  51              		.p2align 1
+  52              	.L7:
+ 129:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 		case MPUREG_INTF_CONFIG1:     return &(t->register_cache.intf_cfg_1_reg);
+  53              		.loc 1 129 33 is_stmt 1 view .LVU4
+  54              		.loc 1 129 40 is_stmt 0 view .LVU5
+  55 0012 2030     		adds	r0, r0, #32
+  56              	.LVL2:
+  57              		.loc 1 129 40 view .LVU6
+  58 0014 7047     		bx	lr
+  59              	.LVL3:
+  60              	.L6:
+ 130:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 		case MPUREG_PWR_MGMT_0:       return &(t->register_cache.pwr_mngt_0_reg);
+  61              		.loc 1 130 33 is_stmt 1 view .LVU7
+  62              		.loc 1 130 40 is_stmt 0 view .LVU8
+  63 0016 2130     		adds	r0, r0, #33
+  64              	.LVL4:
+  65              		.loc 1 130 40 view .LVU9
+  66 0018 7047     		bx	lr
+  67              	.LVL5:
+  68              	.L5:
+ 131:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 
+ 132:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 		case MPUREG_ACCEL_CONFIG0:    return &(t->register_cache.accel_cfg_0_reg);
+  69              		.loc 1 132 33 is_stmt 1 view .LVU10
+  70              		.loc 1 132 40 is_stmt 0 view .LVU11
+  71 001a 2230     		adds	r0, r0, #34
+  72              	.LVL6:
+  73              		.loc 1 132 40 view .LVU12
+  74 001c 7047     		bx	lr
+  75              	.LVL7:
+  76              	.L3:
+ 133:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 		case MPUREG_TMST_CONFIG:      return &(t->register_cache.tmst_cfg_reg);
+  77              		.loc 1 133 33 is_stmt 1 view .LVU13
+  78              		.loc 1 133 40 is_stmt 0 view .LVU14
+  79 001e 2330     		adds	r0, r0, #35
+  80              	.LVL8:
+  81              		.loc 1 133 40 view .LVU15
+  82 0020 7047     		bx	lr
+  83              	.LVL9:
+  84              	.L8:
+ 125:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 	struct inv_iim423xx_transport *t = (struct inv_iim423xx_transport *)s;
+  85              		.loc 1 125 1 view .LVU16
+  86 0022 0020     		movs	r0, #0
+  87              	.LVL10:
+ 134:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 		default:                      return (uint8_t *)0; // Not found
+ 135:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 	}
+ 136:../../../shields/IIM423xx/src/Iim423xxTransport.c **** }
+  88              		.loc 1 136 1 view .LVU17
+  89 0024 7047     		bx	lr
+  90              		.cfi_endproc
+  91              	.LFE126:
+  93              		.section	.text.is_aux_interface,"ax",%progbits
+ARM GAS  /tmp/ccu8lkIv.s 			page 5
+
+
+  94              		.align	1
+  95              		.syntax unified
+  96              		.thumb
+  97              		.thumb_func
+  98              		.fpu fpv4-sp-d16
+ 100              	is_aux_interface:
+ 101              	.LVL11:
+ 102              	.LFB127:
+ 137:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 
+ 138:../../../shields/IIM423xx/src/Iim423xxTransport.c **** static uint8_t is_aux_interface(struct inv_iim423xx_transport *t)
+ 139:../../../shields/IIM423xx/src/Iim423xxTransport.c **** {
+ 103              		.loc 1 139 1 is_stmt 1 view -0
+ 104              		.cfi_startproc
+ 105              		@ args = 0, pretend = 0, frame = 0
+ 106              		@ frame_needed = 0, uses_anonymous_args = 0
+ 107              		@ link register save eliminated.
+ 140:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 	if ((t->serif.serif_type == IIM423XX_AUX1_SPI3) || (t->serif.serif_type == IIM423XX_AUX2_SPI3) || 
+ 108              		.loc 1 140 2 view .LVU19
+ 109              		.loc 1 140 15 is_stmt 0 view .LVU20
+ 110 0000 037E     		ldrb	r3, [r0, #24]	@ zero_extendqisi2
+ 111              		.loc 1 140 97 view .LVU21
+ 112 0002 033B     		subs	r3, r3, #3
+ 113 0004 DBB2     		uxtb	r3, r3
+ 114              		.loc 1 140 5 view .LVU22
+ 115 0006 022B     		cmp	r3, #2
+ 116 0008 01D8     		bhi	.L11
+ 141:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 		return 1;
+ 117              		.loc 1 141 10 view .LVU23
+ 118 000a 0120     		movs	r0, #1
+ 119              	.LVL12:
+ 120              		.loc 1 141 10 view .LVU24
+ 121 000c 7047     		bx	lr
+ 122              	.LVL13:
+ 123              	.L11:
+ 142:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 	else
+ 143:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 		return 0;
+ 124              		.loc 1 143 10 view .LVU25
+ 125 000e 0020     		movs	r0, #0
+ 126              	.LVL14:
+ 144:../../../shields/IIM423xx/src/Iim423xxTransport.c **** }
+ 127              		.loc 1 144 1 view .LVU26
+ 128 0010 7047     		bx	lr
+ 129              		.cfi_endproc
+ 130              	.LFE127:
+ 132              		.section	.text.inv_iim423xx_init_transport,"ax",%progbits
+ 133              		.align	1
+ 134              		.global	inv_iim423xx_init_transport
+ 135              		.syntax unified
+ 136              		.thumb
+ 137              		.thumb_func
+ 138              		.fpu fpv4-sp-d16
+ 140              	inv_iim423xx_init_transport:
+ 141              	.LVL15:
+ 142              	.LFB123:
+  36:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 	// Registers in cache must be in bank 0
+ 143              		.loc 1 36 1 is_stmt 1 view -0
+ 144              		.cfi_startproc
+ARM GAS  /tmp/ccu8lkIv.s 			page 6
+
+
+ 145              		@ args = 0, pretend = 0, frame = 0
+ 146              		@ frame_needed = 0, uses_anonymous_args = 0
+  36:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 	// Registers in cache must be in bank 0
+ 147              		.loc 1 36 1 is_stmt 0 view .LVU28
+ 148 0000 70B5     		push	{r4, r5, r6, lr}
+ 149              	.LCFI0:
+ 150              		.cfi_def_cfa_offset 16
+ 151              		.cfi_offset 4, -16
+ 152              		.cfi_offset 5, -12
+ 153              		.cfi_offset 6, -8
+ 154              		.cfi_offset 14, -4
+ 155 0002 0446     		mov	r4, r0
+  38:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 	struct inv_iim423xx_transport *t = (struct inv_iim423xx_transport *)s;
+ 156              		.loc 1 38 2 is_stmt 1 view .LVU29
+ 157              	.LVL16:
+  39:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 
+ 158              		.loc 1 39 2 view .LVU30
+  41:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 		status |= t->serif.read_reg(&(t->serif), MPUREG_INTF_CONFIG1,  &(t->register_cache.intf_cfg_1_reg
+ 159              		.loc 1 41 2 view .LVU31
+  41:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 		status |= t->serif.read_reg(&(t->serif), MPUREG_INTF_CONFIG1,  &(t->register_cache.intf_cfg_1_reg
+ 160              		.loc 1 41 6 is_stmt 0 view .LVU32
+ 161 0004 FFF7FEFF 		bl	is_aux_interface
+ 162              	.LVL17:
+  41:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 		status |= t->serif.read_reg(&(t->serif), MPUREG_INTF_CONFIG1,  &(t->register_cache.intf_cfg_1_reg
+ 163              		.loc 1 41 4 view .LVU33
+ 164 0008 40BB     		cbnz	r0, .L14
+  42:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 		status |= t->serif.read_reg(&(t->serif), MPUREG_PWR_MGMT_0,    &(t->register_cache.pwr_mngt_0_reg
+ 165              		.loc 1 42 3 is_stmt 1 view .LVU34
+  42:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 		status |= t->serif.read_reg(&(t->serif), MPUREG_PWR_MGMT_0,    &(t->register_cache.pwr_mngt_0_reg
+ 166              		.loc 1 42 21 is_stmt 0 view .LVU35
+ 167 000a 6568     		ldr	r5, [r4, #4]
+  42:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 		status |= t->serif.read_reg(&(t->serif), MPUREG_PWR_MGMT_0,    &(t->register_cache.pwr_mngt_0_reg
+ 168              		.loc 1 42 13 view .LVU36
+ 169 000c 0123     		movs	r3, #1
+ 170 000e 04F12002 		add	r2, r4, #32
+ 171 0012 4D21     		movs	r1, #77
+ 172 0014 2046     		mov	r0, r4
+ 173 0016 A847     		blx	r5
+ 174              	.LVL18:
+ 175 0018 0546     		mov	r5, r0
+ 176              	.LVL19:
+  43:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 		status |= t->serif.read_reg(&(t->serif), MPUREG_ACCEL_CONFIG0, &(t->register_cache.accel_cfg_0_re
+ 177              		.loc 1 43 3 is_stmt 1 view .LVU37
+  43:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 		status |= t->serif.read_reg(&(t->serif), MPUREG_ACCEL_CONFIG0, &(t->register_cache.accel_cfg_0_re
+ 178              		.loc 1 43 21 is_stmt 0 view .LVU38
+ 179 001a 6668     		ldr	r6, [r4, #4]
+  43:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 		status |= t->serif.read_reg(&(t->serif), MPUREG_ACCEL_CONFIG0, &(t->register_cache.accel_cfg_0_re
+ 180              		.loc 1 43 13 view .LVU39
+ 181 001c 0123     		movs	r3, #1
+ 182 001e 04F12102 		add	r2, r4, #33
+ 183 0022 4E21     		movs	r1, #78
+ 184 0024 2046     		mov	r0, r4
+ 185              	.LVL20:
+  43:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 		status |= t->serif.read_reg(&(t->serif), MPUREG_ACCEL_CONFIG0, &(t->register_cache.accel_cfg_0_re
+ 186              		.loc 1 43 13 view .LVU40
+ 187 0026 B047     		blx	r6
+ 188              	.LVL21:
+ARM GAS  /tmp/ccu8lkIv.s 			page 7
+
+
+  43:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 		status |= t->serif.read_reg(&(t->serif), MPUREG_ACCEL_CONFIG0, &(t->register_cache.accel_cfg_0_re
+ 189              		.loc 1 43 10 view .LVU41
+ 190 0028 0543     		orrs	r5, r5, r0
+ 191              	.LVL22:
+  44:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 		status |= t->serif.read_reg(&(t->serif), MPUREG_TMST_CONFIG,   &(t->register_cache.tmst_cfg_reg),
+ 192              		.loc 1 44 3 is_stmt 1 view .LVU42
+  44:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 		status |= t->serif.read_reg(&(t->serif), MPUREG_TMST_CONFIG,   &(t->register_cache.tmst_cfg_reg),
+ 193              		.loc 1 44 21 is_stmt 0 view .LVU43
+ 194 002a 6668     		ldr	r6, [r4, #4]
+  44:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 		status |= t->serif.read_reg(&(t->serif), MPUREG_TMST_CONFIG,   &(t->register_cache.tmst_cfg_reg),
+ 195              		.loc 1 44 13 view .LVU44
+ 196 002c 0123     		movs	r3, #1
+ 197 002e 04F12202 		add	r2, r4, #34
+ 198 0032 5021     		movs	r1, #80
+ 199 0034 2046     		mov	r0, r4
+ 200 0036 B047     		blx	r6
+ 201              	.LVL23:
+  44:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 		status |= t->serif.read_reg(&(t->serif), MPUREG_TMST_CONFIG,   &(t->register_cache.tmst_cfg_reg),
+ 202              		.loc 1 44 10 view .LVU45
+ 203 0038 0543     		orrs	r5, r5, r0
+ 204              	.LVL24:
+  45:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 	}
+ 205              		.loc 1 45 3 is_stmt 1 view .LVU46
+  45:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 	}
+ 206              		.loc 1 45 21 is_stmt 0 view .LVU47
+ 207 003a 6668     		ldr	r6, [r4, #4]
+  45:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 	}
+ 208              		.loc 1 45 13 view .LVU48
+ 209 003c 0123     		movs	r3, #1
+ 210 003e 04F12302 		add	r2, r4, #35
+ 211 0042 5421     		movs	r1, #84
+ 212 0044 2046     		mov	r0, r4
+ 213 0046 B047     		blx	r6
+ 214              	.LVL25:
+  45:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 	}
+ 215              		.loc 1 45 10 view .LVU49
+ 216 0048 0543     		orrs	r5, r5, r0
+ 217              	.LVL26:
+ 218              	.L13:
+  48:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 
+ 219              		.loc 1 48 2 is_stmt 1 view .LVU50
+  48:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 
+ 220              		.loc 1 48 20 is_stmt 0 view .LVU51
+ 221 004a 6668     		ldr	r6, [r4, #4]
+  48:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 
+ 222              		.loc 1 48 12 view .LVU52
+ 223 004c 0123     		movs	r3, #1
+ 224 004e 04F12402 		add	r2, r4, #36
+ 225 0052 7621     		movs	r1, #118
+ 226 0054 2046     		mov	r0, r4
+ 227 0056 B047     		blx	r6
+ 228              	.LVL27:
+  50:../../../shields/IIM423xx/src/Iim423xxTransport.c **** }
+ 229              		.loc 1 50 2 is_stmt 1 view .LVU53
+  51:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 
+ 230              		.loc 1 51 1 is_stmt 0 view .LVU54
+ 231 0058 2843     		orrs	r0, r0, r5
+ARM GAS  /tmp/ccu8lkIv.s 			page 8
+
+
+ 232              	.LVL28:
+  51:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 
+ 233              		.loc 1 51 1 view .LVU55
+ 234 005a 70BD     		pop	{r4, r5, r6, pc}
+ 235              	.LVL29:
+ 236              	.L14:
+  38:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 	struct inv_iim423xx_transport *t = (struct inv_iim423xx_transport *)s;
+ 237              		.loc 1 38 6 view .LVU56
+ 238 005c 0025     		movs	r5, #0
+ 239 005e F4E7     		b	.L13
+ 240              		.cfi_endproc
+ 241              	.LFE123:
+ 243              		.section	.text.inv_iim423xx_read_reg,"ax",%progbits
+ 244              		.align	1
+ 245              		.global	inv_iim423xx_read_reg
+ 246              		.syntax unified
+ 247              		.thumb
+ 248              		.thumb_func
+ 249              		.fpu fpv4-sp-d16
+ 251              	inv_iim423xx_read_reg:
+ 252              	.LVL30:
+ 253              	.LFB124:
+  54:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 	// First field of struct inv_iim423xx is assumed to be a struct inv_iim423xx_transport object.
+ 254              		.loc 1 54 1 is_stmt 1 view -0
+ 255              		.cfi_startproc
+ 256              		@ args = 0, pretend = 0, frame = 0
+ 257              		@ frame_needed = 0, uses_anonymous_args = 0
+  54:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 	// First field of struct inv_iim423xx is assumed to be a struct inv_iim423xx_transport object.
+ 258              		.loc 1 54 1 is_stmt 0 view .LVU58
+ 259 0000 2DE9F041 		push	{r4, r5, r6, r7, r8, lr}
+ 260              	.LCFI1:
+ 261              		.cfi_def_cfa_offset 24
+ 262              		.cfi_offset 4, -24
+ 263              		.cfi_offset 5, -20
+ 264              		.cfi_offset 6, -16
+ 265              		.cfi_offset 7, -12
+ 266              		.cfi_offset 8, -8
+ 267              		.cfi_offset 14, -4
+ 268 0004 0546     		mov	r5, r0
+ 269 0006 0F46     		mov	r7, r1
+ 270 0008 1646     		mov	r6, r2
+ 271 000a 9846     		mov	r8, r3
+  57:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 	uint32_t i=0;
+ 272              		.loc 1 57 2 is_stmt 1 view .LVU59
+ 273              	.LVL31:
+  58:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 	
+ 274              		.loc 1 58 2 view .LVU60
+  63:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 		for(i=0; i<len ; i++) {
+ 275              		.loc 1 63 2 view .LVU61
+  63:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 		for(i=0; i<len ; i++) {
+ 276              		.loc 1 63 23 is_stmt 0 view .LVU62
+ 277 000c 90F82430 		ldrb	r3, [r0, #36]	@ zero_extendqisi2
+ 278              	.LVL32:
+  63:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 		for(i=0; i<len ; i++) {
+ 279              		.loc 1 63 4 view .LVU63
+ 280 0010 B3B9     		cbnz	r3, .L22
+  63:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 		for(i=0; i<len ; i++) {
+ARM GAS  /tmp/ccu8lkIv.s 			page 9
+
+
+ 281              		.loc 1 63 47 discriminator 1 view .LVU64
+ 282 0012 FFF7FEFF 		bl	is_aux_interface
+ 283              	.LVL33:
+  63:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 		for(i=0; i<len ; i++) {
+ 284              		.loc 1 63 43 discriminator 1 view .LVU65
+ 285 0016 08B1     		cbz	r0, .L23
+  58:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 	
+ 286              		.loc 1 58 11 view .LVU66
+ 287 0018 0024     		movs	r4, #0
+ 288 001a 12E0     		b	.L17
+ 289              	.L23:
+  64:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 			uint8_t * cache_addr  = get_register_cache_addr(s, reg+i);
+ 290              		.loc 1 64 8 view .LVU67
+ 291 001c 0024     		movs	r4, #0
+ 292              	.LVL34:
+ 293              	.L18:
+  64:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 			uint8_t * cache_addr  = get_register_cache_addr(s, reg+i);
+ 294              		.loc 1 64 12 is_stmt 1 discriminator 1 view .LVU68
+  64:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 			uint8_t * cache_addr  = get_register_cache_addr(s, reg+i);
+ 295              		.loc 1 64 3 is_stmt 0 discriminator 1 view .LVU69
+ 296 001e B442     		cmp	r4, r6
+ 297 0020 0AD2     		bcs	.L19
+ 298              	.LBB2:
+  65:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 			if(cache_addr)
+ 299              		.loc 1 65 4 is_stmt 1 view .LVU70
+  65:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 			if(cache_addr)
+ 300              		.loc 1 65 28 is_stmt 0 view .LVU71
+ 301 0022 3919     		adds	r1, r7, r4
+ 302 0024 C9B2     		uxtb	r1, r1
+ 303 0026 2846     		mov	r0, r5
+ 304 0028 FFF7FEFF 		bl	get_register_cache_addr
+ 305              	.LVL35:
+  66:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 				buf[i] = *cache_addr;
+ 306              		.loc 1 66 4 is_stmt 1 view .LVU72
+  66:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 				buf[i] = *cache_addr;
+ 307              		.loc 1 66 6 is_stmt 0 view .LVU73
+ 308 002c 20B1     		cbz	r0, .L19
+  67:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 			else
+ 309              		.loc 1 67 5 is_stmt 1 discriminator 2 view .LVU74
+  67:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 			else
+ 310              		.loc 1 67 14 is_stmt 0 discriminator 2 view .LVU75
+ 311 002e 0378     		ldrb	r3, [r0]	@ zero_extendqisi2
+  67:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 			else
+ 312              		.loc 1 67 12 discriminator 2 view .LVU76
+ 313 0030 08F80430 		strb	r3, [r8, r4]
+ 314              	.LBE2:
+  64:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 			uint8_t * cache_addr  = get_register_cache_addr(s, reg+i);
+ 315              		.loc 1 64 20 is_stmt 1 discriminator 2 view .LVU77
+  64:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 			uint8_t * cache_addr  = get_register_cache_addr(s, reg+i);
+ 316              		.loc 1 64 21 is_stmt 0 discriminator 2 view .LVU78
+ 317 0034 0134     		adds	r4, r4, #1
+ 318              	.LVL36:
+  64:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 			uint8_t * cache_addr  = get_register_cache_addr(s, reg+i);
+ 319              		.loc 1 64 21 discriminator 2 view .LVU79
+ 320 0036 F2E7     		b	.L18
+ 321              	.LVL37:
+ 322              	.L19:
+ARM GAS  /tmp/ccu8lkIv.s 			page 10
+
+
+  72:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 			return 0;
+ 323              		.loc 1 72 3 is_stmt 1 view .LVU80
+  72:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 			return 0;
+ 324              		.loc 1 72 5 is_stmt 0 view .LVU81
+ 325 0038 B442     		cmp	r4, r6
+ 326 003a 02D1     		bne	.L17
+  73:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 	}
+ 327              		.loc 1 73 11 view .LVU82
+ 328 003c 0020     		movs	r0, #0
+ 329 003e 0CE0     		b	.L16
+ 330              	.LVL38:
+ 331              	.L22:
+  58:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 	
+ 332              		.loc 1 58 11 view .LVU83
+ 333 0040 0024     		movs	r4, #0
+ 334              	.LVL39:
+ 335              	.L17:
+  77:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 		return INV_ERROR_SIZE;
+ 336              		.loc 1 77 2 is_stmt 1 view .LVU84
+  77:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 		return INV_ERROR_SIZE;
+ 337              		.loc 1 77 9 is_stmt 0 view .LVU85
+ 338 0042 331B     		subs	r3, r6, r4
+  77:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 		return INV_ERROR_SIZE;
+ 339              		.loc 1 77 23 view .LVU86
+ 340 0044 2A69     		ldr	r2, [r5, #16]
+  77:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 		return INV_ERROR_SIZE;
+ 341              		.loc 1 77 4 view .LVU87
+ 342 0046 9342     		cmp	r3, r2
+ 343 0048 09D8     		bhi	.L25
+  79:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 		return INV_ERROR_TRANSPORT;
+ 344              		.loc 1 79 2 is_stmt 1 view .LVU88
+  79:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 		return INV_ERROR_TRANSPORT;
+ 345              		.loc 1 79 13 is_stmt 0 view .LVU89
+ 346 004a 6E68     		ldr	r6, [r5, #4]
+ 347              	.LVL40:
+  79:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 		return INV_ERROR_TRANSPORT;
+ 348              		.loc 1 79 5 view .LVU90
+ 349 004c 3919     		adds	r1, r7, r4
+ 350 004e 08EB0402 		add	r2, r8, r4
+ 351 0052 C9B2     		uxtb	r1, r1
+ 352 0054 2846     		mov	r0, r5
+ 353 0056 B047     		blx	r6
+ 354              	.LVL41:
+  79:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 		return INV_ERROR_TRANSPORT;
+ 355              		.loc 1 79 4 view .LVU91
+ 356 0058 20B9     		cbnz	r0, .L28
+ 357              	.L16:
+  83:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 
+ 358              		.loc 1 83 1 view .LVU92
+ 359 005a BDE8F081 		pop	{r4, r5, r6, r7, r8, pc}
+ 360              	.LVL42:
+ 361              	.L25:
+  78:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 	if(t->serif.read_reg(&(t->serif), reg+i, &buf[i], len-i) != 0)
+ 362              		.loc 1 78 10 view .LVU93
+ 363 005e 6FF00400 		mvn	r0, #4
+ 364 0062 FAE7     		b	.L16
+ 365              	.LVL43:
+ARM GAS  /tmp/ccu8lkIv.s 			page 11
+
+
+ 366              	.L28:
+  80:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 	
+ 367              		.loc 1 80 10 view .LVU94
+ 368 0064 6FF00200 		mvn	r0, #2
+ 369 0068 F7E7     		b	.L16
+ 370              		.cfi_endproc
+ 371              	.LFE124:
+ 373              		.section	.text.inv_iim423xx_write_reg,"ax",%progbits
+ 374              		.align	1
+ 375              		.global	inv_iim423xx_write_reg
+ 376              		.syntax unified
+ 377              		.thumb
+ 378              		.thumb_func
+ 379              		.fpu fpv4-sp-d16
+ 381              	inv_iim423xx_write_reg:
+ 382              	.LVL44:
+ 383              	.LFB125:
+  86:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 	// First field of struct inv_iim423xx is assumed to be a struct inv_iim423xx_transport object.
+ 384              		.loc 1 86 1 is_stmt 1 view -0
+ 385              		.cfi_startproc
+ 386              		@ args = 0, pretend = 0, frame = 0
+ 387              		@ frame_needed = 0, uses_anonymous_args = 0
+  86:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 	// First field of struct inv_iim423xx is assumed to be a struct inv_iim423xx_transport object.
+ 388              		.loc 1 86 1 is_stmt 0 view .LVU96
+ 389 0000 2DE9F843 		push	{r3, r4, r5, r6, r7, r8, r9, lr}
+ 390              	.LCFI2:
+ 391              		.cfi_def_cfa_offset 32
+ 392              		.cfi_offset 3, -32
+ 393              		.cfi_offset 4, -28
+ 394              		.cfi_offset 5, -24
+ 395              		.cfi_offset 6, -20
+ 396              		.cfi_offset 7, -16
+ 397              		.cfi_offset 8, -12
+ 398              		.cfi_offset 9, -8
+ 399              		.cfi_offset 14, -4
+ 400 0004 9846     		mov	r8, r3
+  89:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 	uint32_t i;
+ 401              		.loc 1 89 2 is_stmt 1 view .LVU97
+ 402              	.LVL45:
+  90:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 	
+ 403              		.loc 1 90 2 view .LVU98
+  92:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 		return INV_ERROR_SIZE;
+ 404              		.loc 1 92 2 view .LVU99
+  92:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 		return INV_ERROR_SIZE;
+ 405              		.loc 1 92 19 is_stmt 0 view .LVU100
+ 406 0006 4369     		ldr	r3, [r0, #20]
+ 407              	.LVL46:
+  92:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 		return INV_ERROR_SIZE;
+ 408              		.loc 1 92 4 view .LVU101
+ 409 0008 9342     		cmp	r3, r2
+ 410 000a 2DD3     		bcc	.L35
+ 411 000c 0546     		mov	r5, r0
+ 412 000e 0E46     		mov	r6, r1
+ 413 0010 1746     		mov	r7, r2
+  96:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 		// Update bank_sel_reg in the cache
+ 414              		.loc 1 96 7 view .LVU102
+ 415 0012 0024     		movs	r4, #0
+ARM GAS  /tmp/ccu8lkIv.s 			page 12
+
+
+ 416 0014 04E0     		b	.L31
+ 417              	.LVL47:
+ 418              	.L40:
+  99:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 		}
+ 419              		.loc 1 99 4 is_stmt 1 view .LVU103
+  99:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 		}
+ 420              		.loc 1 99 40 is_stmt 0 view .LVU104
+ 421 0016 18F80430 		ldrb	r3, [r8, r4]	@ zero_extendqisi2
+  99:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 		}
+ 422              		.loc 1 99 35 view .LVU105
+ 423 001a 85F82430 		strb	r3, [r5, #36]
+ 424              	.L33:
+  96:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 		// Update bank_sel_reg in the cache
+ 425              		.loc 1 96 18 is_stmt 1 discriminator 2 view .LVU106
+  96:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 		// Update bank_sel_reg in the cache
+ 426              		.loc 1 96 19 is_stmt 0 discriminator 2 view .LVU107
+ 427 001e 0134     		adds	r4, r4, #1
+ 428              	.LVL48:
+ 429              	.L31:
+  96:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 		// Update bank_sel_reg in the cache
+ 430              		.loc 1 96 11 is_stmt 1 discriminator 1 view .LVU108
+  96:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 		// Update bank_sel_reg in the cache
+ 431              		.loc 1 96 2 is_stmt 0 discriminator 1 view .LVU109
+ 432 0020 BC42     		cmp	r4, r7
+ 433 0022 18D2     		bcs	.L39
+  98:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 			t->register_cache.bank_sel_reg = buf[i];
+ 434              		.loc 1 98 3 is_stmt 1 view .LVU110
+  98:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 			t->register_cache.bank_sel_reg = buf[i];
+ 435              		.loc 1 98 10 is_stmt 0 view .LVU111
+ 436 0024 3019     		adds	r0, r6, r4
+  98:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 			t->register_cache.bank_sel_reg = buf[i];
+ 437              		.loc 1 98 5 view .LVU112
+ 438 0026 7628     		cmp	r0, #118
+ 439 0028 F5D0     		beq	.L40
+ 440              	.LBB3:
+ 102:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 			if(cache_addr){
+ 441              		.loc 1 102 4 is_stmt 1 view .LVU113
+ 102:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 			if(cache_addr){
+ 442              		.loc 1 102 28 is_stmt 0 view .LVU114
+ 443 002a 3119     		adds	r1, r6, r4
+ 444 002c C9B2     		uxtb	r1, r1
+ 445 002e 2846     		mov	r0, r5
+ 446 0030 FFF7FEFF 		bl	get_register_cache_addr
+ 447              	.LVL49:
+ 103:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 				if (t->register_cache.bank_sel_reg == 0){
+ 448              		.loc 1 103 4 is_stmt 1 view .LVU115
+ 103:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 				if (t->register_cache.bank_sel_reg == 0){
+ 449              		.loc 1 103 6 is_stmt 0 view .LVU116
+ 450 0034 8146     		mov	r9, r0
+ 451 0036 0028     		cmp	r0, #0
+ 452 0038 F1D0     		beq	.L33
+ 104:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 					if(is_aux_interface(t) == 1)
+ 453              		.loc 1 104 5 is_stmt 1 view .LVU117
+ 104:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 					if(is_aux_interface(t) == 1)
+ 454              		.loc 1 104 26 is_stmt 0 view .LVU118
+ 455 003a 95F82430 		ldrb	r3, [r5, #36]	@ zero_extendqisi2
+ 104:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 					if(is_aux_interface(t) == 1)
+ARM GAS  /tmp/ccu8lkIv.s 			page 13
+
+
+ 456              		.loc 1 104 8 view .LVU119
+ 457 003e 002B     		cmp	r3, #0
+ 458 0040 EDD1     		bne	.L33
+ 105:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 						return INV_ERROR_BAD_ARG; // Cached registers must not be written from AUX interface
+ 459              		.loc 1 105 6 is_stmt 1 view .LVU120
+ 105:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 						return INV_ERROR_BAD_ARG; // Cached registers must not be written from AUX interface
+ 460              		.loc 1 105 9 is_stmt 0 view .LVU121
+ 461 0042 2846     		mov	r0, r5
+ 462              	.LVL50:
+ 105:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 						return INV_ERROR_BAD_ARG; // Cached registers must not be written from AUX interface
+ 463              		.loc 1 105 9 view .LVU122
+ 464 0044 FFF7FEFF 		bl	is_aux_interface
+ 465              	.LVL51:
+ 105:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 						return INV_ERROR_BAD_ARG; // Cached registers must not be written from AUX interface
+ 466              		.loc 1 105 8 view .LVU123
+ 467 0048 0128     		cmp	r0, #1
+ 468 004a 10D0     		beq	.L36
+ 108:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 				}
+ 469              		.loc 1 108 7 is_stmt 1 view .LVU124
+ 108:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 				}
+ 470              		.loc 1 108 24 is_stmt 0 view .LVU125
+ 471 004c 18F80430 		ldrb	r3, [r8, r4]	@ zero_extendqisi2
+ 108:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 				}
+ 472              		.loc 1 108 19 view .LVU126
+ 473 0050 89F80030 		strb	r3, [r9]
+ 474 0054 E3E7     		b	.L33
+ 475              	.LVL52:
+ 476              	.L39:
+ 108:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 				}
+ 477              		.loc 1 108 19 view .LVU127
+ 478              	.LBE3:
+ 115:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 		return INV_ERROR_TRANSPORT;
+ 479              		.loc 1 115 2 is_stmt 1 view .LVU128
+ 115:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 		return INV_ERROR_TRANSPORT;
+ 480              		.loc 1 115 13 is_stmt 0 view .LVU129
+ 481 0056 AC68     		ldr	r4, [r5, #8]
+ 482              	.LVL53:
+ 115:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 		return INV_ERROR_TRANSPORT;
+ 483              		.loc 1 115 5 view .LVU130
+ 484 0058 3B46     		mov	r3, r7
+ 485 005a 4246     		mov	r2, r8
+ 486 005c 3146     		mov	r1, r6
+ 487 005e 2846     		mov	r0, r5
+ 488 0060 A047     		blx	r4
+ 489              	.LVL54:
+ 115:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 		return INV_ERROR_TRANSPORT;
+ 490              		.loc 1 115 4 view .LVU131
+ 491 0062 38B9     		cbnz	r0, .L41
+ 492              	.LVL55:
+ 493              	.L29:
+ 119:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 
+ 494              		.loc 1 119 1 view .LVU132
+ 495 0064 BDE8F883 		pop	{r3, r4, r5, r6, r7, r8, r9, pc}
+ 496              	.LVL56:
+ 497              	.L35:
+  93:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 	
+ 498              		.loc 1 93 10 view .LVU133
+ARM GAS  /tmp/ccu8lkIv.s 			page 14
+
+
+ 499 0068 6FF00400 		mvn	r0, #4
+ 500              	.LVL57:
+  93:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 	
+ 501              		.loc 1 93 10 view .LVU134
+ 502 006c FAE7     		b	.L29
+ 503              	.LVL58:
+ 504              	.L36:
+ 505              	.LBB4:
+ 106:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 					else
+ 506              		.loc 1 106 14 view .LVU135
+ 507 006e 6FF00A00 		mvn	r0, #10
+ 508 0072 F7E7     		b	.L29
+ 509              	.LVL59:
+ 510              	.L41:
+ 106:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 					else
+ 511              		.loc 1 106 14 view .LVU136
+ 512              	.LBE4:
+ 116:../../../shields/IIM423xx/src/Iim423xxTransport.c **** 
+ 513              		.loc 1 116 10 view .LVU137
+ 514 0074 6FF00200 		mvn	r0, #2
+ 515 0078 F4E7     		b	.L29
+ 516              		.cfi_endproc
+ 517              	.LFE125:
+ 519              		.text
+ 520              	.Letext0:
+ 521              		.file 2 "/usr/arm-none-eabi/include/machine/_default_types.h"
+ 522              		.file 3 "/usr/arm-none-eabi/include/sys/_stdint.h"
+ 523              		.file 4 "../../../core/ST/CMSIS/Include/core_cm4.h"
+ 524              		.file 5 "../../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/system_stm32l4xx.h"
+ 525              		.file 6 "../../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/stm32l496xx.h"
+ 526              		.file 7 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h"
+ 527              		.file 8 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_dma.h"
+ 528              		.file 9 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_i2c.h"
+ 529              		.file 10 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h"
+ 530              		.file 11 "../../../shields/IIM423xx/inc/Iim423xxTransport.h"
+ 531              		.file 12 "../../../shields/IIM423xx/inc/InvError.h"
+ARM GAS  /tmp/ccu8lkIv.s 			page 15
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 Iim423xxTransport.c
+     /tmp/ccu8lkIv.s:18     .text.get_register_cache_addr:0000000000000000 $t
+     /tmp/ccu8lkIv.s:25     .text.get_register_cache_addr:0000000000000000 get_register_cache_addr
+     /tmp/ccu8lkIv.s:43     .text.get_register_cache_addr:000000000000000a $d
+     /tmp/ccu8lkIv.s:51     .text.get_register_cache_addr:0000000000000012 $t
+     /tmp/ccu8lkIv.s:94     .text.is_aux_interface:0000000000000000 $t
+     /tmp/ccu8lkIv.s:100    .text.is_aux_interface:0000000000000000 is_aux_interface
+     /tmp/ccu8lkIv.s:133    .text.inv_iim423xx_init_transport:0000000000000000 $t
+     /tmp/ccu8lkIv.s:140    .text.inv_iim423xx_init_transport:0000000000000000 inv_iim423xx_init_transport
+     /tmp/ccu8lkIv.s:244    .text.inv_iim423xx_read_reg:0000000000000000 $t
+     /tmp/ccu8lkIv.s:251    .text.inv_iim423xx_read_reg:0000000000000000 inv_iim423xx_read_reg
+     /tmp/ccu8lkIv.s:374    .text.inv_iim423xx_write_reg:0000000000000000 $t
+     /tmp/ccu8lkIv.s:381    .text.inv_iim423xx_write_reg:0000000000000000 inv_iim423xx_write_reg
+
+NO UNDEFINED SYMBOLS

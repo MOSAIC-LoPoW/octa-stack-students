@@ -1,0 +1,377 @@
+ARM GAS  /tmp/cca4th0b.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 28, 1
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.file	"iim423xx-example.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.text.iim423xx_measurement,"ax",%progbits
+  18              		.align	1
+  19              		.global	iim423xx_measurement
+  20              		.arch armv7e-m
+  21              		.syntax unified
+  22              		.thumb
+  23              		.thumb_func
+  24              		.fpu fpv4-sp-d16
+  26              	iim423xx_measurement:
+  27              	.LFB133:
+  28              		.file 1 "../../../applications/examples/iim423xx-example/src/iim423xx-example.c"
+   1:../../../applications/examples/iim423xx-example/src/iim423xx-example.c **** #include "iim423xx-example.h"
+   2:../../../applications/examples/iim423xx-example/src/iim423xx-example.c **** #include "iim423xx.h"
+   3:../../../applications/examples/iim423xx-example/src/iim423xx-example.c **** 
+   4:../../../applications/examples/iim423xx-example/src/iim423xx-example.c **** #define accelerometer_timer    5
+   5:../../../applications/examples/iim423xx-example/src/iim423xx-example.c **** 
+   6:../../../applications/examples/iim423xx-example/src/iim423xx-example.c **** osTimerId accelerometer_tim_id;
+   7:../../../applications/examples/iim423xx-example/src/iim423xx-example.c **** float co2_ppm, temperature, relative_humidity;
+   8:../../../applications/examples/iim423xx-example/src/iim423xx-example.c **** 
+   9:../../../applications/examples/iim423xx-example/src/iim423xx-example.c **** int main(void)
+  10:../../../applications/examples/iim423xx-example/src/iim423xx-example.c **** {
+  11:../../../applications/examples/iim423xx-example/src/iim423xx-example.c ****   Initialize_Platform();
+  12:../../../applications/examples/iim423xx-example/src/iim423xx-example.c **** 
+  13:../../../applications/examples/iim423xx-example/src/iim423xx-example.c ****   //feed IWDG every 5 seconds
+  14:../../../applications/examples/iim423xx-example/src/iim423xx-example.c ****   IWDG_feed(NULL);
+  15:../../../applications/examples/iim423xx-example/src/iim423xx-example.c ****   osTimerDef(iwdgTim, IWDG_feed);
+  16:../../../applications/examples/iim423xx-example/src/iim423xx-example.c ****   iwdgTimId = osTimerCreate(osTimer(iwdgTim), osTimerPeriodic, NULL);
+  17:../../../applications/examples/iim423xx-example/src/iim423xx-example.c ****   osTimerStart(iwdgTimId, 5 * 1000);
+  18:../../../applications/examples/iim423xx-example/src/iim423xx-example.c **** 
+  19:../../../applications/examples/iim423xx-example/src/iim423xx-example.c ****   osTimerDef(accelerometer_tim, iim423xx_measurement);
+  20:../../../applications/examples/iim423xx-example/src/iim423xx-example.c ****   accelerometer_tim_id = osTimerCreate(osTimer(accelerometer_tim), osTimerPeriodic, NULL);
+  21:../../../applications/examples/iim423xx-example/src/iim423xx-example.c ****   osTimerStart(accelerometer_tim_id, accelerometer_timer * 1000);
+  22:../../../applications/examples/iim423xx-example/src/iim423xx-example.c **** 
+  23:../../../applications/examples/iim423xx-example/src/iim423xx-example.c ****   IIM423xx_Initialize();
+  24:../../../applications/examples/iim423xx-example/src/iim423xx-example.c **** 
+  25:../../../applications/examples/iim423xx-example/src/iim423xx-example.c ****   IIM423xx_setup();
+  26:../../../applications/examples/iim423xx-example/src/iim423xx-example.c **** 
+  27:../../../applications/examples/iim423xx-example/src/iim423xx-example.c ****   osKernelStart();
+  28:../../../applications/examples/iim423xx-example/src/iim423xx-example.c **** 
+  29:../../../applications/examples/iim423xx-example/src/iim423xx-example.c ****   while (1)
+  30:../../../applications/examples/iim423xx-example/src/iim423xx-example.c ****   {
+ARM GAS  /tmp/cca4th0b.s 			page 2
+
+
+  31:../../../applications/examples/iim423xx-example/src/iim423xx-example.c ****   }
+  32:../../../applications/examples/iim423xx-example/src/iim423xx-example.c **** }
+  33:../../../applications/examples/iim423xx-example/src/iim423xx-example.c **** 
+  34:../../../applications/examples/iim423xx-example/src/iim423xx-example.c **** void iim423xx_measurement(void)
+  35:../../../applications/examples/iim423xx-example/src/iim423xx-example.c **** {
+  29              		.loc 1 35 1 view -0
+  30              		.cfi_startproc
+  31              		@ args = 0, pretend = 0, frame = 0
+  32              		@ frame_needed = 0, uses_anonymous_args = 0
+  33 0000 08B5     		push	{r3, lr}
+  34              	.LCFI0:
+  35              		.cfi_def_cfa_offset 8
+  36              		.cfi_offset 3, -8
+  37              		.cfi_offset 14, -4
+  36:../../../applications/examples/iim423xx-example/src/iim423xx-example.c ****     GetDataFromInvDevice();
+  38              		.loc 1 36 5 view .LVU1
+  39 0002 FFF7FEFF 		bl	GetDataFromInvDevice
+  40              	.LVL0:
+  37:../../../applications/examples/iim423xx-example/src/iim423xx-example.c **** }
+  41              		.loc 1 37 1 is_stmt 0 view .LVU2
+  42 0006 08BD     		pop	{r3, pc}
+  43              		.cfi_endproc
+  44              	.LFE133:
+  46              		.section	.text.main,"ax",%progbits
+  47              		.align	1
+  48              		.global	main
+  49              		.syntax unified
+  50              		.thumb
+  51              		.thumb_func
+  52              		.fpu fpv4-sp-d16
+  54              	main:
+  55              	.LFB132:
+  10:../../../applications/examples/iim423xx-example/src/iim423xx-example.c ****   Initialize_Platform();
+  56              		.loc 1 10 1 is_stmt 1 view -0
+  57              		.cfi_startproc
+  58              		@ Volatile: function does not return.
+  59              		@ args = 0, pretend = 0, frame = 8
+  60              		@ frame_needed = 0, uses_anonymous_args = 0
+  61 0000 00B5     		push	{lr}
+  62              	.LCFI1:
+  63              		.cfi_def_cfa_offset 4
+  64              		.cfi_offset 14, -4
+  65 0002 83B0     		sub	sp, sp, #12
+  66              	.LCFI2:
+  67              		.cfi_def_cfa_offset 16
+  11:../../../applications/examples/iim423xx-example/src/iim423xx-example.c **** 
+  68              		.loc 1 11 3 view .LVU4
+  69 0004 FFF7FEFF 		bl	Initialize_Platform
+  70              	.LVL1:
+  14:../../../applications/examples/iim423xx-example/src/iim423xx-example.c ****   osTimerDef(iwdgTim, IWDG_feed);
+  71              		.loc 1 14 3 view .LVU5
+  72 0008 0020     		movs	r0, #0
+  73 000a FFF7FEFF 		bl	IWDG_feed
+  74              	.LVL2:
+  15:../../../applications/examples/iim423xx-example/src/iim423xx-example.c ****   iwdgTimId = osTimerCreate(osTimer(iwdgTim), osTimerPeriodic, NULL);
+  75              		.loc 1 15 3 view .LVU6
+  76 000e 104B     		ldr	r3, .L6
+ARM GAS  /tmp/cca4th0b.s 			page 3
+
+
+  77 0010 0193     		str	r3, [sp, #4]
+  16:../../../applications/examples/iim423xx-example/src/iim423xx-example.c ****   osTimerStart(iwdgTimId, 5 * 1000);
+  78              		.loc 1 16 3 view .LVU7
+  16:../../../applications/examples/iim423xx-example/src/iim423xx-example.c ****   osTimerStart(iwdgTimId, 5 * 1000);
+  79              		.loc 1 16 15 is_stmt 0 view .LVU8
+  80 0012 0022     		movs	r2, #0
+  81 0014 0121     		movs	r1, #1
+  82 0016 01A8     		add	r0, sp, #4
+  83 0018 FFF7FEFF 		bl	osTimerCreate
+  84              	.LVL3:
+  16:../../../applications/examples/iim423xx-example/src/iim423xx-example.c ****   osTimerStart(iwdgTimId, 5 * 1000);
+  85              		.loc 1 16 13 view .LVU9
+  86 001c 0D4B     		ldr	r3, .L6+4
+  87 001e 1860     		str	r0, [r3]
+  17:../../../applications/examples/iim423xx-example/src/iim423xx-example.c **** 
+  88              		.loc 1 17 3 is_stmt 1 view .LVU10
+  89 0020 41F28831 		movw	r1, #5000
+  90 0024 FFF7FEFF 		bl	osTimerStart
+  91              	.LVL4:
+  19:../../../applications/examples/iim423xx-example/src/iim423xx-example.c ****   accelerometer_tim_id = osTimerCreate(osTimer(accelerometer_tim), osTimerPeriodic, NULL);
+  92              		.loc 1 19 3 view .LVU11
+  93 0028 0B4B     		ldr	r3, .L6+8
+  94 002a 0093     		str	r3, [sp]
+  20:../../../applications/examples/iim423xx-example/src/iim423xx-example.c ****   osTimerStart(accelerometer_tim_id, accelerometer_timer * 1000);
+  95              		.loc 1 20 3 view .LVU12
+  20:../../../applications/examples/iim423xx-example/src/iim423xx-example.c ****   osTimerStart(accelerometer_tim_id, accelerometer_timer * 1000);
+  96              		.loc 1 20 26 is_stmt 0 view .LVU13
+  97 002c 0022     		movs	r2, #0
+  98 002e 0121     		movs	r1, #1
+  99 0030 6846     		mov	r0, sp
+ 100 0032 FFF7FEFF 		bl	osTimerCreate
+ 101              	.LVL5:
+  20:../../../applications/examples/iim423xx-example/src/iim423xx-example.c ****   osTimerStart(accelerometer_tim_id, accelerometer_timer * 1000);
+ 102              		.loc 1 20 24 view .LVU14
+ 103 0036 094B     		ldr	r3, .L6+12
+ 104 0038 1860     		str	r0, [r3]
+  21:../../../applications/examples/iim423xx-example/src/iim423xx-example.c **** 
+ 105              		.loc 1 21 3 is_stmt 1 view .LVU15
+ 106 003a 41F28831 		movw	r1, #5000
+ 107 003e FFF7FEFF 		bl	osTimerStart
+ 108              	.LVL6:
+  23:../../../applications/examples/iim423xx-example/src/iim423xx-example.c **** 
+ 109              		.loc 1 23 3 view .LVU16
+ 110 0042 FFF7FEFF 		bl	IIM423xx_Initialize
+ 111              	.LVL7:
+  25:../../../applications/examples/iim423xx-example/src/iim423xx-example.c **** 
+ 112              		.loc 1 25 3 view .LVU17
+ 113 0046 FFF7FEFF 		bl	IIM423xx_setup
+ 114              	.LVL8:
+  27:../../../applications/examples/iim423xx-example/src/iim423xx-example.c **** 
+ 115              		.loc 1 27 3 view .LVU18
+ 116 004a FFF7FEFF 		bl	osKernelStart
+ 117              	.LVL9:
+ 118              	.L4:
+  29:../../../applications/examples/iim423xx-example/src/iim423xx-example.c ****   {
+ 119              		.loc 1 29 3 discriminator 1 view .LVU19
+  31:../../../applications/examples/iim423xx-example/src/iim423xx-example.c **** }
+ARM GAS  /tmp/cca4th0b.s 			page 4
+
+
+ 120              		.loc 1 31 3 discriminator 1 view .LVU20
+  29:../../../applications/examples/iim423xx-example/src/iim423xx-example.c ****   {
+ 121              		.loc 1 29 9 discriminator 1 view .LVU21
+ 122 004e FEE7     		b	.L4
+ 123              	.L7:
+ 124              		.align	2
+ 125              	.L6:
+ 126 0050 00000000 		.word	IWDG_feed
+ 127 0054 00000000 		.word	iwdgTimId
+ 128 0058 00000000 		.word	iim423xx_measurement
+ 129 005c 00000000 		.word	accelerometer_tim_id
+ 130              		.cfi_endproc
+ 131              	.LFE132:
+ 133              		.comm	relative_humidity,4,4
+ 134              		.comm	temperature,4,4
+ 135              		.comm	co2_ppm,4,4
+ 136              		.comm	accelerometer_tim_id,4,4
+ 137              		.comm	iwdgTimId,4,4
+ 138              		.comm	P3_header,44,4
+ 139              		.comm	P2_header,44,4
+ 140              		.comm	P1_header,44,4
+ 141              		.comm	stackversion_patch,1,1
+ 142              		.comm	stackversion_minor,1,1
+ 143              		.comm	stackversion_major,1,1
+ 144              		.comm	appversion_patch,1,1
+ 145              		.comm	appversion_minor,1,1
+ 146              		.comm	appversion_major,1,1
+ 147              		.comm	short_UID,8,8
+ 148              		.comm	hard_reset,1,1
+ 149              		.comm	wd_reset,1,1
+ 150              		.comm	octa_uid,8,8
+ 151              		.comm	float_union,4,4
+ 152              		.comm	uint16LittleEndian,2,4
+ 153              		.comm	int16LittleEndian,2,4
+ 154              		.comm	uint32LittleEndian,4,4
+ 155              		.comm	int32LittleEndian,4,4
+ 156              		.comm	rtosprintHandle,4,4
+ 157              		.comm	hrtc,36,4
+ 158              		.comm	FLASH_SPI,100,4
+ 159              		.comm	P3_SPI,100,4
+ 160              		.comm	P2_SPI,100,4
+ 161              		.comm	P1_SPI,100,4
+ 162              		.comm	P3_I2C,76,4
+ 163              		.comm	P2_I2C,76,4
+ 164              		.comm	P1_I2C,76,4
+ 165              		.comm	common_I2C,76,4
+ 166              		.comm	P3_UART,120,4
+ 167              		.comm	P2_UART,120,4
+ 168              		.comm	P1_UART,120,4
+ 169              		.comm	FTDI_UART,120,4
+ 170              		.comm	BLE_UART,120,4
+ 171              		.comm	USB_UART,120,4
+ 172              		.comm	hiwdg,16,4
+ 173              		.comm	P3_DIO6,8,4
+ 174              		.comm	P3_DIO5,8,4
+ 175              		.comm	P3_DIO4,8,4
+ 176              		.comm	P3_DIO3,8,4
+ARM GAS  /tmp/cca4th0b.s 			page 5
+
+
+ 177              		.comm	P3_DIO2,8,4
+ 178              		.comm	P3_DIO1,8,4
+ 179              		.comm	P2_DIO6,8,4
+ 180              		.comm	P2_DIO5,8,4
+ 181              		.comm	P2_DIO4,8,4
+ 182              		.comm	P2_DIO3,8,4
+ 183              		.comm	P2_DIO2,8,4
+ 184              		.comm	P2_DIO1,8,4
+ 185              		.comm	P1_DIO6,8,4
+ 186              		.comm	P1_DIO5,8,4
+ 187              		.comm	P1_DIO4,8,4
+ 188              		.comm	P1_DIO3,8,4
+ 189              		.comm	P1_DIO2,8,4
+ 190              		.comm	P1_DIO1,8,4
+ 191              		.comm	htim6,64,4
+ 192              		.comm	htim1,64,4
+ 193              		.text
+ 194              	.Letext0:
+ 195              		.file 2 "/usr/arm-none-eabi/include/machine/_default_types.h"
+ 196              		.file 3 "/usr/arm-none-eabi/include/sys/_stdint.h"
+ 197              		.file 4 "../../../core/ST/CMSIS/Include/core_cm4.h"
+ 198              		.file 5 "../../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/system_stm32l4xx.h"
+ 199              		.file 6 "../../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/stm32l496xx.h"
+ 200              		.file 7 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h"
+ 201              		.file 8 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_dma.h"
+ 202              		.file 9 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_i2c.h"
+ 203              		.file 10 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_iwdg.h"
+ 204              		.file 11 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rtc.h"
+ 205              		.file 12 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_spi.h"
+ 206              		.file 13 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_tim.h"
+ 207              		.file 14 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h"
+ 208              		.file 15 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h"
+ 209              		.file 16 "../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/include/task.h"
+ 210              		.file 17 "../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/include/timers.h"
+ 211              		.file 18 "../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h"
+ 212              		.file 19 "../../../core/platform/octa/inc/sysclock.h"
+ 213              		.file 20 "../../../core/platform/octa/inc/gpio.h"
+ 214              		.file 21 "../../../core/platform/octa/inc/iwdg.h"
+ 215              		.file 22 "../../../core/platform/octa/inc/uart.h"
+ 216              		.file 23 "../../../core/platform/octa/inc/i2c.h"
+ 217              		.file 24 "../../../core/platform/octa/inc/spi.h"
+ 218              		.file 25 "../../../core/platform/octa/inc/rtc.h"
+ 219              		.file 26 "../../../core/platform/octa/inc/rtosincludes.h"
+ 220              		.file 27 "/usr/arm-none-eabi/include/sys/lock.h"
+ 221              		.file 28 "/usr/arm-none-eabi/include/sys/_types.h"
+ 222              		.file 29 "/usr/lib/gcc/arm-none-eabi/9.2.1/include/stddef.h"
+ 223              		.file 30 "/usr/arm-none-eabi/include/sys/reent.h"
+ 224              		.file 31 "../../../core/platform/common/inc/datatypes.h"
+ 225              		.file 32 "../../../core/platform/octa/inc/platform.h"
+ 226              		.file 33 "../../../applications/examples/iim423xx-example/inc/iim423xx-example.h"
+ 227              		.file 34 "../../../shields/IIM423xx/inc/iim423xx.h"
+ARM GAS  /tmp/cca4th0b.s 			page 6
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 iim423xx-example.c
+     /tmp/cca4th0b.s:18     .text.iim423xx_measurement:0000000000000000 $t
+     /tmp/cca4th0b.s:26     .text.iim423xx_measurement:0000000000000000 iim423xx_measurement
+     /tmp/cca4th0b.s:47     .text.main:0000000000000000 $t
+     /tmp/cca4th0b.s:54     .text.main:0000000000000000 main
+     /tmp/cca4th0b.s:126    .text.main:0000000000000050 $d
+                            *COM*:0000000000000004 iwdgTimId
+                            *COM*:0000000000000004 accelerometer_tim_id
+                            *COM*:0000000000000004 relative_humidity
+                            *COM*:0000000000000004 temperature
+                            *COM*:0000000000000004 co2_ppm
+                            *COM*:000000000000002c P3_header
+                            *COM*:000000000000002c P2_header
+                            *COM*:000000000000002c P1_header
+                            *COM*:0000000000000001 stackversion_patch
+                            *COM*:0000000000000001 stackversion_minor
+                            *COM*:0000000000000001 stackversion_major
+                            *COM*:0000000000000001 appversion_patch
+                            *COM*:0000000000000001 appversion_minor
+                            *COM*:0000000000000001 appversion_major
+                            *COM*:0000000000000008 short_UID
+                            *COM*:0000000000000001 hard_reset
+                            *COM*:0000000000000001 wd_reset
+                            *COM*:0000000000000008 octa_uid
+                            *COM*:0000000000000004 float_union
+                            *COM*:0000000000000002 uint16LittleEndian
+                            *COM*:0000000000000002 int16LittleEndian
+                            *COM*:0000000000000004 uint32LittleEndian
+                            *COM*:0000000000000004 int32LittleEndian
+                            *COM*:0000000000000004 rtosprintHandle
+                            *COM*:0000000000000024 hrtc
+                            *COM*:0000000000000064 FLASH_SPI
+                            *COM*:0000000000000064 P3_SPI
+                            *COM*:0000000000000064 P2_SPI
+                            *COM*:0000000000000064 P1_SPI
+                            *COM*:000000000000004c P3_I2C
+                            *COM*:000000000000004c P2_I2C
+                            *COM*:000000000000004c P1_I2C
+                            *COM*:000000000000004c common_I2C
+                            *COM*:0000000000000078 P3_UART
+                            *COM*:0000000000000078 P2_UART
+                            *COM*:0000000000000078 P1_UART
+                            *COM*:0000000000000078 FTDI_UART
+                            *COM*:0000000000000078 BLE_UART
+                            *COM*:0000000000000078 USB_UART
+                            *COM*:0000000000000010 hiwdg
+                            *COM*:0000000000000008 P3_DIO6
+                            *COM*:0000000000000008 P3_DIO5
+                            *COM*:0000000000000008 P3_DIO4
+                            *COM*:0000000000000008 P3_DIO3
+                            *COM*:0000000000000008 P3_DIO2
+                            *COM*:0000000000000008 P3_DIO1
+                            *COM*:0000000000000008 P2_DIO6
+                            *COM*:0000000000000008 P2_DIO5
+                            *COM*:0000000000000008 P2_DIO4
+                            *COM*:0000000000000008 P2_DIO3
+ARM GAS  /tmp/cca4th0b.s 			page 7
+
+
+                            *COM*:0000000000000008 P2_DIO2
+                            *COM*:0000000000000008 P2_DIO1
+                            *COM*:0000000000000008 P1_DIO6
+                            *COM*:0000000000000008 P1_DIO5
+                            *COM*:0000000000000008 P1_DIO4
+                            *COM*:0000000000000008 P1_DIO3
+                            *COM*:0000000000000008 P1_DIO2
+                            *COM*:0000000000000008 P1_DIO1
+                            *COM*:0000000000000040 htim6
+                            *COM*:0000000000000040 htim1
+
+UNDEFINED SYMBOLS
+GetDataFromInvDevice
+Initialize_Platform
+IWDG_feed
+osTimerCreate
+osTimerStart
+IIM423xx_Initialize
+IIM423xx_setup
+osKernelStart

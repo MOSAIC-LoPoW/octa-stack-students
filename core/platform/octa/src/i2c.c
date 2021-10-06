@@ -80,7 +80,7 @@ void P2_I2C_Init(void)
 void P3_I2C_Init(void)
 {
   P3_I2C.Instance = I2C4;
-  P3_I2C.Init.Timing = 0x00101A26;
+  P3_I2C.Init.Timing = 0x00101A26;//0x00505B89;//0x00201D2B;//0x00302334;//0x00200B28;
   P3_I2C.Init.OwnAddress1 = 0;
   P3_I2C.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
   P3_I2C.Init.DualAddressMode = I2C_DUALADDRESS_DISABLE;

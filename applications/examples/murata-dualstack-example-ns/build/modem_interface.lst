@@ -1,0 +1,1806 @@
+ARM GAS  /tmp/ccPEbffl.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 28, 1
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.file	"modem_interface.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.text.verify_payload,"ax",%progbits
+  18              		.align	1
+  19              		.arch armv7e-m
+  20              		.syntax unified
+  21              		.thumb
+  22              		.thumb_func
+  23              		.fpu fpv4-sp-d16
+  25              	verify_payload:
+  26              	.LVL0:
+  27              	.LFB129:
+  28              		.file 1 "../../shields/Murata-dualstack/src/modem_interface.c"
+   1:../../shields/Murata-dualstack/src/modem_interface.c **** #include <string.h>
+   2:../../shields/Murata-dualstack/src/modem_interface.c **** 
+   3:../../shields/Murata-dualstack/src/modem_interface.c **** #include "uart.h"
+   4:../../shields/Murata-dualstack/src/modem_interface.c **** #include "fifo.h"
+   5:../../shields/Murata-dualstack/src/modem_interface.c **** #include "modem_interface.h"
+   6:../../shields/Murata-dualstack/src/modem_interface.c **** #include "errors.h"
+   7:../../shields/Murata-dualstack/src/modem_interface.c **** #include "crc.h"
+   8:../../shields/Murata-dualstack/src/modem_interface.c **** 
+   9:../../shields/Murata-dualstack/src/modem_interface.c **** #define RX_BUFFER_SIZE 256
+  10:../../shields/Murata-dualstack/src/modem_interface.c **** 
+  11:../../shields/Murata-dualstack/src/modem_interface.c **** #define PLATFORM_USE_MODEM_INTERRUPT_LINES 0
+  12:../../shields/Murata-dualstack/src/modem_interface.c **** 
+  13:../../shields/Murata-dualstack/src/modem_interface.c **** 
+  14:../../shields/Murata-dualstack/src/modem_interface.c **** #define TX_FIFO_FLUSH_CHUNK_SIZE 10 // at a baudrate of 115200 this ensures completion within 1 ms
+  15:../../shields/Murata-dualstack/src/modem_interface.c ****                                     // TODO baudrate dependent
+  16:../../shields/Murata-dualstack/src/modem_interface.c **** 
+  17:../../shields/Murata-dualstack/src/modem_interface.c **** UART_HandleTypeDef* uart;
+  18:../../shields/Murata-dualstack/src/modem_interface.c **** 
+  19:../../shields/Murata-dualstack/src/modem_interface.c **** uint8_t rxData[1];
+  20:../../shields/Murata-dualstack/src/modem_interface.c **** static uint8_t rx_buffer[RX_BUFFER_SIZE];
+  21:../../shields/Murata-dualstack/src/modem_interface.c **** fifo_t rx_fifo;
+  22:../../shields/Murata-dualstack/src/modem_interface.c **** 
+  23:../../shields/Murata-dualstack/src/modem_interface.c **** #if defined(FRAMEWORK_LOG_ENABLED) && defined(FRAMEWORK_MODEM_INTERFACE_LOG_ENABLED)
+  24:../../shields/Murata-dualstack/src/modem_interface.c ****   #define DPRINT(...) log_print_string(__VA_ARGS__)
+  25:../../shields/Murata-dualstack/src/modem_interface.c ****   #define DPRINT_DATA(...) log_print_data(__VA_ARGS__)
+  26:../../shields/Murata-dualstack/src/modem_interface.c **** #else
+  27:../../shields/Murata-dualstack/src/modem_interface.c ****   #define DPRINT(...)
+  28:../../shields/Murata-dualstack/src/modem_interface.c ****   #define DPRINT_DATA(...)
+  29:../../shields/Murata-dualstack/src/modem_interface.c **** #endif
+  30:../../shields/Murata-dualstack/src/modem_interface.c **** 
+ARM GAS  /tmp/ccPEbffl.s 			page 2
+
+
+  31:../../shields/Murata-dualstack/src/modem_interface.c **** 
+  32:../../shields/Murata-dualstack/src/modem_interface.c **** #define SERIAL_FRAME_SYNC_BYTE 0xC0
+  33:../../shields/Murata-dualstack/src/modem_interface.c **** #define SERIAL_FRAME_VERSION   0x00
+  34:../../shields/Murata-dualstack/src/modem_interface.c **** #define SERIAL_FRAME_HEADER_SIZE 7
+  35:../../shields/Murata-dualstack/src/modem_interface.c **** #define SERIAL_FRAME_SIZE 4
+  36:../../shields/Murata-dualstack/src/modem_interface.c **** #define SERIAL_FRAME_COUNTER 2
+  37:../../shields/Murata-dualstack/src/modem_interface.c **** #define SERIAL_FRAME_TYPE 3
+  38:../../shields/Murata-dualstack/src/modem_interface.c **** #define SERIAL_FRAME_CRC1   5
+  39:../../shields/Murata-dualstack/src/modem_interface.c **** #define SERIAL_FRAME_CRC2   6
+  40:../../shields/Murata-dualstack/src/modem_interface.c **** 
+  41:../../shields/Murata-dualstack/src/modem_interface.c **** #define MODEM_INTERFACE_TX_FIFO_SIZE 255
+  42:../../shields/Murata-dualstack/src/modem_interface.c **** static uint8_t modem_interface_tx_buffer[MODEM_INTERFACE_TX_FIFO_SIZE];
+  43:../../shields/Murata-dualstack/src/modem_interface.c **** static fifo_t modem_interface_tx_fifo;
+  44:../../shields/Murata-dualstack/src/modem_interface.c **** static bool request_pending = false;
+  45:../../shields/Murata-dualstack/src/modem_interface.c **** 
+  46:../../shields/Murata-dualstack/src/modem_interface.c **** uint8_t header[SERIAL_FRAME_HEADER_SIZE];
+  47:../../shields/Murata-dualstack/src/modem_interface.c **** static uint8_t payload_len = 0;
+  48:../../shields/Murata-dualstack/src/modem_interface.c **** static uint8_t packet_up_counter = 0;
+  49:../../shields/Murata-dualstack/src/modem_interface.c **** static uint8_t packet_down_counter = 0;
+  50:../../shields/Murata-dualstack/src/modem_interface.c **** // static pin_id_t uart_state_pin;
+  51:../../shields/Murata-dualstack/src/modem_interface.c **** // static pin_id_t target_uart_state_pin;
+  52:../../shields/Murata-dualstack/src/modem_interface.c **** 
+  53:../../shields/Murata-dualstack/src/modem_interface.c **** static bool modem_listen_uart_inited = false;
+  54:../../shields/Murata-dualstack/src/modem_interface.c **** static bool parsed_header = false;
+  55:../../shields/Murata-dualstack/src/modem_interface.c **** 
+  56:../../shields/Murata-dualstack/src/modem_interface.c **** static cmd_handler_t alp_handler;
+  57:../../shields/Murata-dualstack/src/modem_interface.c **** static cmd_handler_t ping_response_handler;
+  58:../../shields/Murata-dualstack/src/modem_interface.c **** static cmd_handler_t logging_handler;
+  59:../../shields/Murata-dualstack/src/modem_interface.c **** static target_rebooted_callback_t target_rebooted_cb;
+  60:../../shields/Murata-dualstack/src/modem_interface.c **** 
+  61:../../shields/Murata-dualstack/src/modem_interface.c **** typedef enum {
+  62:../../shields/Murata-dualstack/src/modem_interface.c ****   STATE_IDLE,
+  63:../../shields/Murata-dualstack/src/modem_interface.c ****   STATE_REQ_START,
+  64:../../shields/Murata-dualstack/src/modem_interface.c ****   STATE_REQ_WAIT,
+  65:../../shields/Murata-dualstack/src/modem_interface.c ****   STATE_REQ_BUSY,
+  66:../../shields/Murata-dualstack/src/modem_interface.c ****   STATE_RESP,
+  67:../../shields/Murata-dualstack/src/modem_interface.c ****   STATE_RESP_PENDING_REQ
+  68:../../shields/Murata-dualstack/src/modem_interface.c **** } state_t;
+  69:../../shields/Murata-dualstack/src/modem_interface.c **** 
+  70:../../shields/Murata-dualstack/src/modem_interface.c **** static state_t state = STATE_IDLE;
+  71:../../shields/Murata-dualstack/src/modem_interface.c **** 
+  72:../../shields/Murata-dualstack/src/modem_interface.c **** #define SWITCH_STATE(s) do { \
+  73:../../shields/Murata-dualstack/src/modem_interface.c ****   state = s; \
+  74:../../shields/Murata-dualstack/src/modem_interface.c ****   DPRINT("switch to %s\n", #s); \
+  75:../../shields/Murata-dualstack/src/modem_interface.c **** } while(0)
+  76:../../shields/Murata-dualstack/src/modem_interface.c **** 
+  77:../../shields/Murata-dualstack/src/modem_interface.c **** bool process_rx_fifo(void *arg);
+  78:../../shields/Murata-dualstack/src/modem_interface.c **** static void execute_state_machine();
+  79:../../shields/Murata-dualstack/src/modem_interface.c **** 
+  80:../../shields/Murata-dualstack/src/modem_interface.c **** 
+  81:../../shields/Murata-dualstack/src/modem_interface.c **** /** @Brief Enable UART interface and UART interrupt
+  82:../../shields/Murata-dualstack/src/modem_interface.c ****  *  @return void
+  83:../../shields/Murata-dualstack/src/modem_interface.c ****  */
+  84:../../shields/Murata-dualstack/src/modem_interface.c **** static void modem_interface_enable(void) 
+  85:../../shields/Murata-dualstack/src/modem_interface.c **** {
+  86:../../shields/Murata-dualstack/src/modem_interface.c ****   modem_listen_uart_inited = true;
+  87:../../shields/Murata-dualstack/src/modem_interface.c **** }
+ARM GAS  /tmp/ccPEbffl.s 			page 3
+
+
+  88:../../shields/Murata-dualstack/src/modem_interface.c **** 
+  89:../../shields/Murata-dualstack/src/modem_interface.c **** /** @Brief disables UART interface
+  90:../../shields/Murata-dualstack/src/modem_interface.c ****  *  @return void
+  91:../../shields/Murata-dualstack/src/modem_interface.c ****  */
+  92:../../shields/Murata-dualstack/src/modem_interface.c **** static void modem_interface_disable(void) 
+  93:../../shields/Murata-dualstack/src/modem_interface.c **** {
+  94:../../shields/Murata-dualstack/src/modem_interface.c ****   modem_listen_uart_inited = false;
+  95:../../shields/Murata-dualstack/src/modem_interface.c **** }
+  96:../../shields/Murata-dualstack/src/modem_interface.c **** 
+  97:../../shields/Murata-dualstack/src/modem_interface.c **** /** @brief Lets receiver know that 
+  98:../../shields/Murata-dualstack/src/modem_interface.c ****  *  all the data has been transfered
+  99:../../shields/Murata-dualstack/src/modem_interface.c ****  *  @return void
+ 100:../../shields/Murata-dualstack/src/modem_interface.c ****  */
+ 101:../../shields/Murata-dualstack/src/modem_interface.c **** static void release_receiver()
+ 102:../../shields/Murata-dualstack/src/modem_interface.c **** {
+ 103:../../shields/Murata-dualstack/src/modem_interface.c **** #if PLATFORM_USE_MODEM_INTERRUPT_LINES
+ 104:../../shields/Murata-dualstack/src/modem_interface.c ****   DPRINT("release receiver\n");
+ 105:../../shields/Murata-dualstack/src/modem_interface.c ****   modem_interface_disable();
+ 106:../../shields/Murata-dualstack/src/modem_interface.c ****   murata_release();
+ 107:../../shields/Murata-dualstack/src/modem_interface.c **** #endif
+ 108:../../shields/Murata-dualstack/src/modem_interface.c **** }
+ 109:../../shields/Murata-dualstack/src/modem_interface.c **** 
+ 110:../../shields/Murata-dualstack/src/modem_interface.c **** /** @brief transmit data in fifo to UART
+ 111:../../shields/Murata-dualstack/src/modem_interface.c ****  *  @return void
+ 112:../../shields/Murata-dualstack/src/modem_interface.c ****  */
+ 113:../../shields/Murata-dualstack/src/modem_interface.c **** static void flush_modem_interface_tx_fifo(void *arg) 
+ 114:../../shields/Murata-dualstack/src/modem_interface.c **** {
+ 115:../../shields/Murata-dualstack/src/modem_interface.c ****   uint8_t len = fifo_get_size(&modem_interface_tx_fifo);
+ 116:../../shields/Murata-dualstack/src/modem_interface.c **** 
+ 117:../../shields/Murata-dualstack/src/modem_interface.c **** #ifdef HAL_UART_USE_DMA_TX
+ 118:../../shields/Murata-dualstack/src/modem_interface.c ****   // when using DMA we transmit the whole FIFO at once
+ 119:../../shields/Murata-dualstack/src/modem_interface.c ****   uint8_t buffer[MODEM_INTERFACE_TX_FIFO_SIZE];
+ 120:../../shields/Murata-dualstack/src/modem_interface.c ****   fifo_pop(&modem_interface_tx_fifo, buffer, len);
+ 121:../../shields/Murata-dualstack/src/modem_interface.c ****   HAL_UART_Transmit(uart_handle, buffer, len, 1000);
+ 122:../../shields/Murata-dualstack/src/modem_interface.c **** #else
+ 123:../../shields/Murata-dualstack/src/modem_interface.c ****   // only send small chunks over uart each invocation, to make sure
+ 124:../../shields/Murata-dualstack/src/modem_interface.c ****   // we don't interfer with critical stack timings.
+ 125:../../shields/Murata-dualstack/src/modem_interface.c ****   // When there is still data left in the fifo this will be rescheduled
+ 126:../../shields/Murata-dualstack/src/modem_interface.c ****   // with lowest prio
+ 127:../../shields/Murata-dualstack/src/modem_interface.c ****   uint8_t chunk[TX_FIFO_FLUSH_CHUNK_SIZE];
+ 128:../../shields/Murata-dualstack/src/modem_interface.c ****   if(len <= TX_FIFO_FLUSH_CHUNK_SIZE)
+ 129:../../shields/Murata-dualstack/src/modem_interface.c ****   {
+ 130:../../shields/Murata-dualstack/src/modem_interface.c ****     fifo_pop(&modem_interface_tx_fifo, chunk, len);
+ 131:../../shields/Murata-dualstack/src/modem_interface.c ****     HAL_UART_Transmit(uart, chunk, len, 1000);
+ 132:../../shields/Murata-dualstack/src/modem_interface.c ****     request_pending = false;
+ 133:../../shields/Murata-dualstack/src/modem_interface.c ****     release_receiver();
+ 134:../../shields/Murata-dualstack/src/modem_interface.c **** #if PLATFORM_USE_MODEM_INTERRUPT_LINES
+ 135:../../shields/Murata-dualstack/src/modem_interface.c ****     execute_state_machine());
+ 136:../../shields/Murata-dualstack/src/modem_interface.c **** #endif
+ 137:../../shields/Murata-dualstack/src/modem_interface.c ****   } 
+ 138:../../shields/Murata-dualstack/src/modem_interface.c ****   else 
+ 139:../../shields/Murata-dualstack/src/modem_interface.c ****   {
+ 140:../../shields/Murata-dualstack/src/modem_interface.c ****     fifo_pop(&modem_interface_tx_fifo, chunk, TX_FIFO_FLUSH_CHUNK_SIZE);
+ 141:../../shields/Murata-dualstack/src/modem_interface.c ****     HAL_UART_Transmit(uart, chunk, TX_FIFO_FLUSH_CHUNK_SIZE, 1000);
+ 142:../../shields/Murata-dualstack/src/modem_interface.c ****     flush_modem_interface_tx_fifo(NULL);
+ 143:../../shields/Murata-dualstack/src/modem_interface.c ****   }
+ 144:../../shields/Murata-dualstack/src/modem_interface.c **** #endif
+ARM GAS  /tmp/ccPEbffl.s 			page 4
+
+
+ 145:../../shields/Murata-dualstack/src/modem_interface.c **** }
+ 146:../../shields/Murata-dualstack/src/modem_interface.c **** 
+ 147:../../shields/Murata-dualstack/src/modem_interface.c **** /** @Brief Keeps µC awake while receiving UART data
+ 148:../../shields/Murata-dualstack/src/modem_interface.c ****  *  @return void
+ 149:../../shields/Murata-dualstack/src/modem_interface.c ****  */
+ 150:../../shields/Murata-dualstack/src/modem_interface.c **** static void modem_listen(void* arg)
+ 151:../../shields/Murata-dualstack/src/modem_interface.c **** {
+ 152:../../shields/Murata-dualstack/src/modem_interface.c ****   if(!modem_listen_uart_inited)
+ 153:../../shields/Murata-dualstack/src/modem_interface.c ****   {
+ 154:../../shields/Murata-dualstack/src/modem_interface.c ****     modem_interface_enable();
+ 155:../../shields/Murata-dualstack/src/modem_interface.c ****     murata_wakeup(); //set interrupt gpio to indicate ready for data
+ 156:../../shields/Murata-dualstack/src/modem_interface.c ****   }
+ 157:../../shields/Murata-dualstack/src/modem_interface.c **** 
+ 158:../../shields/Murata-dualstack/src/modem_interface.c ****   // prevent the MCU to go back to stop mode by scheduling ourself again until pin goes low,
+ 159:../../shields/Murata-dualstack/src/modem_interface.c ****   // to keep UART RX enabled ?
+ 160:../../shields/Murata-dualstack/src/modem_interface.c ****   while(HAL_GPIO_ReadPin(GPIOF, GPIO_PIN_5));
+ 161:../../shields/Murata-dualstack/src/modem_interface.c **** }
+ 162:../../shields/Murata-dualstack/src/modem_interface.c **** 
+ 163:../../shields/Murata-dualstack/src/modem_interface.c **** 
+ 164:../../shields/Murata-dualstack/src/modem_interface.c **** /** @Brief Schedules flush tx fifo when receiver is ready
+ 165:../../shields/Murata-dualstack/src/modem_interface.c ****  *  @return void
+ 166:../../shields/Murata-dualstack/src/modem_interface.c ****  */
+ 167:../../shields/Murata-dualstack/src/modem_interface.c **** static void execute_state_machine()
+ 168:../../shields/Murata-dualstack/src/modem_interface.c **** {
+ 169:../../shields/Murata-dualstack/src/modem_interface.c **** #if PLATFORM_USE_MODEM_INTERRUPT_LINES
+ 170:../../shields/Murata-dualstack/src/modem_interface.c ****   switch(state) {
+ 171:../../shields/Murata-dualstack/src/modem_interface.c ****     case STATE_RESP:
+ 172:../../shields/Murata-dualstack/src/modem_interface.c ****       // response period completed, process the request
+ 173:../../shields/Murata-dualstack/src/modem_interface.c ****       assert(!hw_gpio_get_in(target_uart_state_pin));
+ 174:../../shields/Murata-dualstack/src/modem_interface.c ****       sched_post_task(&process_rx_fifo);
+ 175:../../shields/Murata-dualstack/src/modem_interface.c ****       if(request_pending) {
+ 176:../../shields/Murata-dualstack/src/modem_interface.c ****         SWITCH_STATE(STATE_RESP_PENDING_REQ);
+ 177:../../shields/Murata-dualstack/src/modem_interface.c ****         sched_post_task(&execute_state_machine);
+ 178:../../shields/Murata-dualstack/src/modem_interface.c ****       } else {
+ 179:../../shields/Murata-dualstack/src/modem_interface.c ****         SWITCH_STATE(STATE_IDLE);
+ 180:../../shields/Murata-dualstack/src/modem_interface.c ****         hw_gpio_clr(uart_state_pin);
+ 181:../../shields/Murata-dualstack/src/modem_interface.c ****         sched_cancel_task(&modem_listen);
+ 182:../../shields/Murata-dualstack/src/modem_interface.c ****         modem_interface_disable();
+ 183:../../shields/Murata-dualstack/src/modem_interface.c ****       }
+ 184:../../shields/Murata-dualstack/src/modem_interface.c ****       break;
+ 185:../../shields/Murata-dualstack/src/modem_interface.c ****     case STATE_IDLE:
+ 186:../../shields/Murata-dualstack/src/modem_interface.c ****       if(hw_gpio_get_in(target_uart_state_pin)) {
+ 187:../../shields/Murata-dualstack/src/modem_interface.c ****         // wake-up requested
+ 188:../../shields/Murata-dualstack/src/modem_interface.c ****         SWITCH_STATE(STATE_RESP);
+ 189:../../shields/Murata-dualstack/src/modem_interface.c ****         modem_listen(NULL);
+ 190:../../shields/Murata-dualstack/src/modem_interface.c ****         break;
+ 191:../../shields/Murata-dualstack/src/modem_interface.c ****       } else if(request_pending) { //check if we are really requesting a start
+ 192:../../shields/Murata-dualstack/src/modem_interface.c ****         SWITCH_STATE(STATE_REQ_START);
+ 193:../../shields/Murata-dualstack/src/modem_interface.c ****         // fall-through to STATE_REQ_START!
+ 194:../../shields/Murata-dualstack/src/modem_interface.c ****       } else
+ 195:../../shields/Murata-dualstack/src/modem_interface.c ****       {
+ 196:../../shields/Murata-dualstack/src/modem_interface.c ****         break;
+ 197:../../shields/Murata-dualstack/src/modem_interface.c ****       }
+ 198:../../shields/Murata-dualstack/src/modem_interface.c ****     case STATE_REQ_START:
+ 199:../../shields/Murata-dualstack/src/modem_interface.c ****       // TODO timeout
+ 200:../../shields/Murata-dualstack/src/modem_interface.c ****       sched_cancel_task(&modem_listen);
+ 201:../../shields/Murata-dualstack/src/modem_interface.c ****       SWITCH_STATE(STATE_REQ_WAIT);
+ARM GAS  /tmp/ccPEbffl.s 			page 5
+
+
+ 202:../../shields/Murata-dualstack/src/modem_interface.c ****       hw_gpio_set(uart_state_pin); // wake-up receiver
+ 203:../../shields/Murata-dualstack/src/modem_interface.c ****       DPRINT("wake-up receiver\n");
+ 204:../../shields/Murata-dualstack/src/modem_interface.c ****       sched_post_task(&execute_state_machine); // reschedule again to prevent sleeoping
+ 205:../../shields/Murata-dualstack/src/modem_interface.c ****       // in principle we could go to sleep but this will cause pin to float, this can be improved l
+ 206:../../shields/Murata-dualstack/src/modem_interface.c ****       break;
+ 207:../../shields/Murata-dualstack/src/modem_interface.c ****     case STATE_REQ_WAIT:
+ 208:../../shields/Murata-dualstack/src/modem_interface.c ****       if(hw_gpio_get_in(target_uart_state_pin)) {
+ 209:../../shields/Murata-dualstack/src/modem_interface.c ****         // receiver active
+ 210:../../shields/Murata-dualstack/src/modem_interface.c ****         SWITCH_STATE(STATE_REQ_BUSY);
+ 211:../../shields/Murata-dualstack/src/modem_interface.c ****         // fall-through to STATE_REQ_BUSY!
+ 212:../../shields/Murata-dualstack/src/modem_interface.c ****       } else {
+ 213:../../shields/Murata-dualstack/src/modem_interface.c ****         // TODO timeout
+ 214:../../shields/Murata-dualstack/src/modem_interface.c ****         sched_post_task(&execute_state_machine); // reschedule again to prevent sleeoping
+ 215:../../shields/Murata-dualstack/src/modem_interface.c ****         // in principle we could go to sleep but this will cause pin to float, this can be improved
+ 216:../../shields/Murata-dualstack/src/modem_interface.c ****         break;
+ 217:../../shields/Murata-dualstack/src/modem_interface.c ****       }
+ 218:../../shields/Murata-dualstack/src/modem_interface.c ****     case STATE_REQ_BUSY:
+ 219:../../shields/Murata-dualstack/src/modem_interface.c ****       if(request_pending) {
+ 220:../../shields/Murata-dualstack/src/modem_interface.c ****         modem_interface_enable();
+ 221:../../shields/Murata-dualstack/src/modem_interface.c ****         sched_post_task_prio(&flush_modem_interface_tx_fifo, MIN_PRIORITY, NULL);
+ 222:../../shields/Murata-dualstack/src/modem_interface.c ****       } else if (!hw_gpio_get_in(target_uart_state_pin)){
+ 223:../../shields/Murata-dualstack/src/modem_interface.c ****         SWITCH_STATE(STATE_IDLE);
+ 224:../../shields/Murata-dualstack/src/modem_interface.c ****       } else
+ 225:../../shields/Murata-dualstack/src/modem_interface.c ****         sched_post_task(&execute_state_machine); 
+ 226:../../shields/Murata-dualstack/src/modem_interface.c ****         //keep active until target reacts
+ 227:../../shields/Murata-dualstack/src/modem_interface.c ****       break;
+ 228:../../shields/Murata-dualstack/src/modem_interface.c ****     case STATE_RESP_PENDING_REQ:
+ 229:../../shields/Murata-dualstack/src/modem_interface.c ****       assert(request_pending);
+ 230:../../shields/Murata-dualstack/src/modem_interface.c ****       // response period completed, initiate pending request by switching to REQ_START
+ 231:../../shields/Murata-dualstack/src/modem_interface.c ****       assert(!hw_gpio_get_in(target_uart_state_pin));
+ 232:../../shields/Murata-dualstack/src/modem_interface.c ****       hw_gpio_clr(uart_state_pin);
+ 233:../../shields/Murata-dualstack/src/modem_interface.c ****       SWITCH_STATE(STATE_REQ_START);
+ 234:../../shields/Murata-dualstack/src/modem_interface.c ****       sched_post_task(&execute_state_machine);
+ 235:../../shields/Murata-dualstack/src/modem_interface.c ****       break;
+ 236:../../shields/Murata-dualstack/src/modem_interface.c ****     default:
+ 237:../../shields/Murata-dualstack/src/modem_interface.c ****       DPRINT("unexpected state %i\n", state);
+ 238:../../shields/Murata-dualstack/src/modem_interface.c ****       assert(false);
+ 239:../../shields/Murata-dualstack/src/modem_interface.c ****   }
+ 240:../../shields/Murata-dualstack/src/modem_interface.c **** #endif
+ 241:../../shields/Murata-dualstack/src/modem_interface.c **** }
+ 242:../../shields/Murata-dualstack/src/modem_interface.c **** 
+ 243:../../shields/Murata-dualstack/src/modem_interface.c **** /** @Brief Check package counter and crc
+ 244:../../shields/Murata-dualstack/src/modem_interface.c ****  *  @return void
+ 245:../../shields/Murata-dualstack/src/modem_interface.c ****  */
+ 246:../../shields/Murata-dualstack/src/modem_interface.c **** static bool verify_payload(fifo_t* bytes, uint8_t* header)
+ 247:../../shields/Murata-dualstack/src/modem_interface.c **** {
+  29              		.loc 1 247 1 view -0
+  30              		.cfi_startproc
+  31              		@ args = 0, pretend = 0, frame = 0
+  32              		@ frame_needed = 0, uses_anonymous_args = 0
+  33              		.loc 1 247 1 is_stmt 0 view .LVU1
+  34 0000 10B5     		push	{r4, lr}
+  35              	.LCFI0:
+  36              		.cfi_def_cfa_offset 8
+  37              		.cfi_offset 4, -8
+  38              		.cfi_offset 14, -4
+  39 0002 0C46     		mov	r4, r1
+ARM GAS  /tmp/ccPEbffl.s 			page 6
+
+
+ 248:../../shields/Murata-dualstack/src/modem_interface.c ****   static uint8_t payload[RX_BUFFER_SIZE - SERIAL_FRAME_HEADER_SIZE]; // statically allocated so thi
+  40              		.loc 1 248 3 is_stmt 1 view .LVU2
+ 249:../../shields/Murata-dualstack/src/modem_interface.c ****   fifo_peek(bytes, (uint8_t*) &payload, 0, header[SERIAL_FRAME_SIZE]);
+  41              		.loc 1 249 3 view .LVU3
+  42 0004 0B79     		ldrb	r3, [r1, #4]	@ zero_extendqisi2
+  43 0006 0022     		movs	r2, #0
+  44 0008 0F49     		ldr	r1, .L7
+  45              	.LVL1:
+  46              		.loc 1 249 3 is_stmt 0 view .LVU4
+  47 000a FFF7FEFF 		bl	fifo_peek
+  48              	.LVL2:
+ 250:../../shields/Murata-dualstack/src/modem_interface.c **** 
+ 251:../../shields/Murata-dualstack/src/modem_interface.c ****   //check for missing packages
+ 252:../../shields/Murata-dualstack/src/modem_interface.c ****   packet_down_counter++;
+  49              		.loc 1 252 3 is_stmt 1 view .LVU5
+  50              		.loc 1 252 22 is_stmt 0 view .LVU6
+  51 000e 0F4A     		ldr	r2, .L7+4
+  52 0010 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+  53 0012 0133     		adds	r3, r3, #1
+  54 0014 DBB2     		uxtb	r3, r3
+  55 0016 1370     		strb	r3, [r2]
+ 253:../../shields/Murata-dualstack/src/modem_interface.c ****   if(header[SERIAL_FRAME_COUNTER]!=packet_down_counter)
+  56              		.loc 1 253 3 is_stmt 1 view .LVU7
+  57              		.loc 1 253 12 is_stmt 0 view .LVU8
+  58 0018 A278     		ldrb	r2, [r4, #2]	@ zero_extendqisi2
+  59              		.loc 1 253 5 view .LVU9
+  60 001a 9342     		cmp	r3, r2
+  61 001c 01D0     		beq	.L2
+ 254:../../shields/Murata-dualstack/src/modem_interface.c ****   {
+ 255:../../shields/Murata-dualstack/src/modem_interface.c ****     //TODO consequence? (save total missing packages?)
+ 256:../../shields/Murata-dualstack/src/modem_interface.c ****     //log_print_string("!!! missed packages: %i",(header[SERIAL_FRAME_COUNTER]-packet_down_counter)
+ 257:../../shields/Murata-dualstack/src/modem_interface.c ****     packet_down_counter=header[SERIAL_FRAME_COUNTER]; //reset package counter
+  62              		.loc 1 257 5 is_stmt 1 view .LVU10
+  63              		.loc 1 257 24 is_stmt 0 view .LVU11
+  64 001e 0B4B     		ldr	r3, .L7+4
+  65 0020 1A70     		strb	r2, [r3]
+  66              	.L2:
+ 258:../../shields/Murata-dualstack/src/modem_interface.c ****   }
+ 259:../../shields/Murata-dualstack/src/modem_interface.c **** 
+ 260:../../shields/Murata-dualstack/src/modem_interface.c ****   DPRINT("RX HEADER: ");
+  67              		.loc 1 260 24 is_stmt 1 view .LVU12
+ 261:../../shields/Murata-dualstack/src/modem_interface.c ****   DPRINT_DATA(header, SERIAL_FRAME_HEADER_SIZE);
+  68              		.loc 1 261 48 view .LVU13
+ 262:../../shields/Murata-dualstack/src/modem_interface.c ****   DPRINT("RX PAYLOAD: ");
+  69              		.loc 1 262 25 view .LVU14
+ 263:../../shields/Murata-dualstack/src/modem_interface.c ****   DPRINT_DATA(payload, header[SERIAL_FRAME_SIZE]);
+  70              		.loc 1 263 50 view .LVU15
+ 264:../../shields/Murata-dualstack/src/modem_interface.c **** 
+ 265:../../shields/Murata-dualstack/src/modem_interface.c ****   uint16_t calculated_crc = crc_calculate(payload, header[SERIAL_FRAME_SIZE]);
+  71              		.loc 1 265 3 view .LVU16
+  72              		.loc 1 265 29 is_stmt 0 view .LVU17
+  73 0022 2179     		ldrb	r1, [r4, #4]	@ zero_extendqisi2
+  74 0024 0848     		ldr	r0, .L7
+  75 0026 FFF7FEFF 		bl	crc_calculate
+  76              	.LVL3:
+ 266:../../shields/Murata-dualstack/src/modem_interface.c ****  
+ 267:../../shields/Murata-dualstack/src/modem_interface.c ****   if(header[SERIAL_FRAME_CRC1]!=((calculated_crc >> 8) & 0x00FF) || header[SERIAL_FRAME_CRC2]!=(cal
+ARM GAS  /tmp/ccPEbffl.s 			page 7
+
+
+  77              		.loc 1 267 3 is_stmt 1 view .LVU18
+  78              		.loc 1 267 12 is_stmt 0 view .LVU19
+  79 002a 6279     		ldrb	r2, [r4, #5]	@ zero_extendqisi2
+  80              		.loc 1 267 56 view .LVU20
+  81 002c C0F30F23 		ubfx	r3, r0, #8, #16
+  82              		.loc 1 267 5 view .LVU21
+  83 0030 9A42     		cmp	r2, r3
+  84 0032 05D1     		bne	.L4
+  85              		.loc 1 267 75 discriminator 1 view .LVU22
+  86 0034 A379     		ldrb	r3, [r4, #6]	@ zero_extendqisi2
+  87              		.loc 1 267 112 discriminator 1 view .LVU23
+  88 0036 C0B2     		uxtb	r0, r0
+  89              	.LVL4:
+  90              		.loc 1 267 66 discriminator 1 view .LVU24
+  91 0038 8342     		cmp	r3, r0
+  92 003a 03D0     		beq	.L5
+ 268:../../shields/Murata-dualstack/src/modem_interface.c ****   {
+ 269:../../shields/Murata-dualstack/src/modem_interface.c ****     //TODO consequence? (request repeat?)
+ 270:../../shields/Murata-dualstack/src/modem_interface.c ****     //log_print_string("CRC incorrect!");
+ 271:../../shields/Murata-dualstack/src/modem_interface.c ****     return false;
+  93              		.loc 1 271 12 view .LVU25
+  94 003c 0020     		movs	r0, #0
+  95 003e 00E0     		b	.L3
+  96              	.LVL5:
+  97              	.L4:
+  98              		.loc 1 271 12 view .LVU26
+  99 0040 0020     		movs	r0, #0
+ 100              	.LVL6:
+ 101              	.L3:
+ 272:../../shields/Murata-dualstack/src/modem_interface.c ****   }
+ 273:../../shields/Murata-dualstack/src/modem_interface.c ****   else
+ 274:../../shields/Murata-dualstack/src/modem_interface.c ****     return true;
+ 275:../../shields/Murata-dualstack/src/modem_interface.c **** }
+ 102              		.loc 1 275 1 view .LVU27
+ 103 0042 10BD     		pop	{r4, pc}
+ 104              	.LVL7:
+ 105              	.L5:
+ 274:../../shields/Murata-dualstack/src/modem_interface.c **** }
+ 106              		.loc 1 274 12 view .LVU28
+ 107 0044 0120     		movs	r0, #1
+ 108 0046 FCE7     		b	.L3
+ 109              	.L8:
+ 110              		.align	2
+ 111              	.L7:
+ 112 0048 00000000 		.word	.LANCHOR0
+ 113 004c 00000000 		.word	.LANCHOR1
+ 114              		.cfi_endproc
+ 115              	.LFE129:
+ 117              		.section	.text.flush_modem_interface_tx_fifo,"ax",%progbits
+ 118              		.align	1
+ 119              		.syntax unified
+ 120              		.thumb
+ 121              		.thumb_func
+ 122              		.fpu fpv4-sp-d16
+ 124              	flush_modem_interface_tx_fifo:
+ 125              	.LVL8:
+ 126              	.LFB126:
+ARM GAS  /tmp/ccPEbffl.s 			page 8
+
+
+ 114:../../shields/Murata-dualstack/src/modem_interface.c ****   uint8_t len = fifo_get_size(&modem_interface_tx_fifo);
+ 127              		.loc 1 114 1 is_stmt 1 view -0
+ 128              		.cfi_startproc
+ 129              		@ args = 0, pretend = 0, frame = 16
+ 130              		@ frame_needed = 0, uses_anonymous_args = 0
+ 114:../../shields/Murata-dualstack/src/modem_interface.c ****   uint8_t len = fifo_get_size(&modem_interface_tx_fifo);
+ 131              		.loc 1 114 1 is_stmt 0 view .LVU30
+ 132 0000 10B5     		push	{r4, lr}
+ 133              	.LCFI1:
+ 134              		.cfi_def_cfa_offset 8
+ 135              		.cfi_offset 4, -8
+ 136              		.cfi_offset 14, -4
+ 137 0002 84B0     		sub	sp, sp, #16
+ 138              	.LCFI2:
+ 139              		.cfi_def_cfa_offset 24
+ 115:../../shields/Murata-dualstack/src/modem_interface.c **** 
+ 140              		.loc 1 115 3 is_stmt 1 view .LVU31
+ 115:../../shields/Murata-dualstack/src/modem_interface.c **** 
+ 141              		.loc 1 115 17 is_stmt 0 view .LVU32
+ 142 0004 1348     		ldr	r0, .L13
+ 143              	.LVL9:
+ 115:../../shields/Murata-dualstack/src/modem_interface.c **** 
+ 144              		.loc 1 115 17 view .LVU33
+ 145 0006 FFF7FEFF 		bl	fifo_get_size
+ 146              	.LVL10:
+ 115:../../shields/Murata-dualstack/src/modem_interface.c **** 
+ 147              		.loc 1 115 11 view .LVU34
+ 148 000a C3B2     		uxtb	r3, r0
+ 149              	.LVL11:
+ 127:../../shields/Murata-dualstack/src/modem_interface.c ****   if(len <= TX_FIFO_FLUSH_CHUNK_SIZE)
+ 150              		.loc 1 127 3 is_stmt 1 view .LVU35
+ 128:../../shields/Murata-dualstack/src/modem_interface.c ****   {
+ 151              		.loc 1 128 3 view .LVU36
+ 128:../../shields/Murata-dualstack/src/modem_interface.c ****   {
+ 152              		.loc 1 128 5 is_stmt 0 view .LVU37
+ 153 000c 0A2B     		cmp	r3, #10
+ 154 000e 0FD8     		bhi	.L10
+ 130:../../shields/Murata-dualstack/src/modem_interface.c ****     HAL_UART_Transmit(uart, chunk, len, 1000);
+ 155              		.loc 1 130 5 is_stmt 1 view .LVU38
+ 156 0010 1C46     		mov	r4, r3
+ 157 0012 1A46     		mov	r2, r3
+ 158 0014 01A9     		add	r1, sp, #4
+ 159 0016 0F48     		ldr	r0, .L13
+ 160 0018 FFF7FEFF 		bl	fifo_pop
+ 161              	.LVL12:
+ 131:../../shields/Murata-dualstack/src/modem_interface.c ****     request_pending = false;
+ 162              		.loc 1 131 5 view .LVU39
+ 163 001c 4FF47A73 		mov	r3, #1000
+ 164 0020 2246     		mov	r2, r4
+ 165 0022 01A9     		add	r1, sp, #4
+ 166 0024 0C48     		ldr	r0, .L13+4
+ 167 0026 0068     		ldr	r0, [r0]
+ 168 0028 FFF7FEFF 		bl	HAL_UART_Transmit
+ 169              	.LVL13:
+ 132:../../shields/Murata-dualstack/src/modem_interface.c ****     release_receiver();
+ 170              		.loc 1 132 5 view .LVU40
+ 133:../../shields/Murata-dualstack/src/modem_interface.c **** #if PLATFORM_USE_MODEM_INTERRUPT_LINES
+ARM GAS  /tmp/ccPEbffl.s 			page 9
+
+
+ 171              		.loc 1 133 5 view .LVU41
+ 172              	.L9:
+ 145:../../shields/Murata-dualstack/src/modem_interface.c **** 
+ 173              		.loc 1 145 1 is_stmt 0 view .LVU42
+ 174 002c 04B0     		add	sp, sp, #16
+ 175              	.LCFI3:
+ 176              		.cfi_remember_state
+ 177              		.cfi_def_cfa_offset 8
+ 178              		@ sp needed
+ 179 002e 10BD     		pop	{r4, pc}
+ 180              	.LVL14:
+ 181              	.L10:
+ 182              	.LCFI4:
+ 183              		.cfi_restore_state
+ 140:../../shields/Murata-dualstack/src/modem_interface.c ****     HAL_UART_Transmit(uart, chunk, TX_FIFO_FLUSH_CHUNK_SIZE, 1000);
+ 184              		.loc 1 140 5 is_stmt 1 view .LVU43
+ 185 0030 0A22     		movs	r2, #10
+ 186 0032 01A9     		add	r1, sp, #4
+ 187 0034 0748     		ldr	r0, .L13
+ 188 0036 FFF7FEFF 		bl	fifo_pop
+ 189              	.LVL15:
+ 141:../../shields/Murata-dualstack/src/modem_interface.c ****     flush_modem_interface_tx_fifo(NULL);
+ 190              		.loc 1 141 5 view .LVU44
+ 191 003a 4FF47A73 		mov	r3, #1000
+ 192 003e 0A22     		movs	r2, #10
+ 193 0040 01A9     		add	r1, sp, #4
+ 194 0042 0548     		ldr	r0, .L13+4
+ 195 0044 0068     		ldr	r0, [r0]
+ 196 0046 FFF7FEFF 		bl	HAL_UART_Transmit
+ 197              	.LVL16:
+ 142:../../shields/Murata-dualstack/src/modem_interface.c ****   }
+ 198              		.loc 1 142 5 view .LVU45
+ 199 004a 0020     		movs	r0, #0
+ 200 004c FFF7D8FF 		bl	flush_modem_interface_tx_fifo
+ 201              	.LVL17:
+ 145:../../shields/Murata-dualstack/src/modem_interface.c **** 
+ 202              		.loc 1 145 1 is_stmt 0 view .LVU46
+ 203 0050 ECE7     		b	.L9
+ 204              	.L14:
+ 205 0052 00BF     		.align	2
+ 206              	.L13:
+ 207 0054 00000000 		.word	.LANCHOR2
+ 208 0058 00000000 		.word	uart
+ 209              		.cfi_endproc
+ 210              	.LFE126:
+ 212              		.section	.text.uart_rx_cb,"ax",%progbits
+ 213              		.align	1
+ 214              		.global	uart_rx_cb
+ 215              		.syntax unified
+ 216              		.thumb
+ 217              		.thumb_func
+ 218              		.fpu fpv4-sp-d16
+ 220              	uart_rx_cb:
+ 221              	.LFB131:
+ 276:../../shields/Murata-dualstack/src/modem_interface.c **** 
+ 277:../../shields/Murata-dualstack/src/modem_interface.c **** /** @Brief Processes received uart data
+ 278:../../shields/Murata-dualstack/src/modem_interface.c ****  * 1) Search for sync bytes (always)
+ARM GAS  /tmp/ccPEbffl.s 			page 10
+
+
+ 279:../../shields/Murata-dualstack/src/modem_interface.c ****  * 2) get header size and parse header
+ 280:../../shields/Murata-dualstack/src/modem_interface.c ****  * 3) Wait for correct # of bytes (length present in header)
+ 281:../../shields/Murata-dualstack/src/modem_interface.c ****  * 4) Execute crc check and check message counter
+ 282:../../shields/Murata-dualstack/src/modem_interface.c ****  * 5) send to corresponding service (alp, ping service, log service)
+ 283:../../shields/Murata-dualstack/src/modem_interface.c ****  *  @return void
+ 284:../../shields/Murata-dualstack/src/modem_interface.c ****  */
+ 285:../../shields/Murata-dualstack/src/modem_interface.c **** bool process_rx_fifo(void *arg) 
+ 286:../../shields/Murata-dualstack/src/modem_interface.c **** {
+ 287:../../shields/Murata-dualstack/src/modem_interface.c ****   if(!parsed_header) 
+ 288:../../shields/Murata-dualstack/src/modem_interface.c ****   {
+ 289:../../shields/Murata-dualstack/src/modem_interface.c ****     if(fifo_get_size(&rx_fifo) > SERIAL_FRAME_HEADER_SIZE) 
+ 290:../../shields/Murata-dualstack/src/modem_interface.c ****     {
+ 291:../../shields/Murata-dualstack/src/modem_interface.c ****         fifo_peek(&rx_fifo, header, 0, SERIAL_FRAME_HEADER_SIZE);
+ 292:../../shields/Murata-dualstack/src/modem_interface.c **** 
+ 293:../../shields/Murata-dualstack/src/modem_interface.c ****         if(header[0] != SERIAL_FRAME_SYNC_BYTE || header[1] != SERIAL_FRAME_VERSION) 
+ 294:../../shields/Murata-dualstack/src/modem_interface.c ****         {
+ 295:../../shields/Murata-dualstack/src/modem_interface.c ****           fifo_skip(&rx_fifo, 1);
+ 296:../../shields/Murata-dualstack/src/modem_interface.c ****           //printf("skip\r\n");
+ 297:../../shields/Murata-dualstack/src/modem_interface.c ****           parsed_header = false;
+ 298:../../shields/Murata-dualstack/src/modem_interface.c ****           payload_len = 0;
+ 299:../../shields/Murata-dualstack/src/modem_interface.c ****           if(fifo_get_size(&rx_fifo) > SERIAL_FRAME_HEADER_SIZE)
+ 300:../../shields/Murata-dualstack/src/modem_interface.c ****             return false;
+ 301:../../shields/Murata-dualstack/src/modem_interface.c ****           return false;
+ 302:../../shields/Murata-dualstack/src/modem_interface.c ****         }
+ 303:../../shields/Murata-dualstack/src/modem_interface.c ****         parsed_header = true;
+ 304:../../shields/Murata-dualstack/src/modem_interface.c ****         fifo_skip(&rx_fifo, SERIAL_FRAME_HEADER_SIZE);
+ 305:../../shields/Murata-dualstack/src/modem_interface.c ****         payload_len = header[SERIAL_FRAME_SIZE];
+ 306:../../shields/Murata-dualstack/src/modem_interface.c ****         printf("UART RX, payload size = %i\r\n", payload_len);
+ 307:../../shields/Murata-dualstack/src/modem_interface.c ****         return false;
+ 308:../../shields/Murata-dualstack/src/modem_interface.c ****     }
+ 309:../../shields/Murata-dualstack/src/modem_interface.c ****   }
+ 310:../../shields/Murata-dualstack/src/modem_interface.c ****   else 
+ 311:../../shields/Murata-dualstack/src/modem_interface.c ****   {
+ 312:../../shields/Murata-dualstack/src/modem_interface.c ****     if(fifo_get_size(&rx_fifo) < payload_len) {
+ 313:../../shields/Murata-dualstack/src/modem_interface.c ****       printf("payload not complete\r\n");
+ 314:../../shields/Murata-dualstack/src/modem_interface.c ****       return false;
+ 315:../../shields/Murata-dualstack/src/modem_interface.c ****     }
+ 316:../../shields/Murata-dualstack/src/modem_interface.c ****     // payload complete, start parsing
+ 317:../../shields/Murata-dualstack/src/modem_interface.c ****     // rx_fifo can be bigger than the current serial packet, init a subview fifo
+ 318:../../shields/Murata-dualstack/src/modem_interface.c ****     // which is restricted to payload_len so we can't parse past this packet.
+ 319:../../shields/Murata-dualstack/src/modem_interface.c ****     fifo_t payload_fifo;
+ 320:../../shields/Murata-dualstack/src/modem_interface.c ****     fifo_init_subview(&payload_fifo, &rx_fifo, 0, payload_len);
+ 321:../../shields/Murata-dualstack/src/modem_interface.c ****   
+ 322:../../shields/Murata-dualstack/src/modem_interface.c ****     if(verify_payload(&payload_fifo,(uint8_t *)&header))
+ 323:../../shields/Murata-dualstack/src/modem_interface.c ****     {
+ 324:../../shields/Murata-dualstack/src/modem_interface.c ****       if(header[SERIAL_FRAME_TYPE]==SERIAL_MESSAGE_TYPE_ALP_DATA && alp_handler != NULL)
+ 325:../../shields/Murata-dualstack/src/modem_interface.c ****         alp_handler(&payload_fifo);
+ 326:../../shields/Murata-dualstack/src/modem_interface.c ****       else if (header[SERIAL_FRAME_TYPE]==SERIAL_MESSAGE_TYPE_PING_RESPONSE  && ping_response_handl
+ 327:../../shields/Murata-dualstack/src/modem_interface.c ****         ping_response_handler(&payload_fifo);
+ 328:../../shields/Murata-dualstack/src/modem_interface.c ****       else if (header[SERIAL_FRAME_TYPE]==SERIAL_MESSAGE_TYPE_LOGGING && logging_handler != NULL)
+ 329:../../shields/Murata-dualstack/src/modem_interface.c ****         logging_handler(&payload_fifo);
+ 330:../../shields/Murata-dualstack/src/modem_interface.c ****       else if (header[SERIAL_FRAME_TYPE]==SERIAL_MESSAGE_TYPE_PING_REQUEST)
+ 331:../../shields/Murata-dualstack/src/modem_interface.c ****       {
+ 332:../../shields/Murata-dualstack/src/modem_interface.c ****         uint8_t ping_reply[1]={0x02};
+ 333:../../shields/Murata-dualstack/src/modem_interface.c ****         fifo_skip(&payload_fifo,1);
+ 334:../../shields/Murata-dualstack/src/modem_interface.c ****         modem_interface_transfer_bytes((uint8_t*) &ping_reply,1,SERIAL_MESSAGE_TYPE_PING_RESPONSE);
+ 335:../../shields/Murata-dualstack/src/modem_interface.c ****       }
+ARM GAS  /tmp/ccPEbffl.s 			page 11
+
+
+ 336:../../shields/Murata-dualstack/src/modem_interface.c ****       else if(header[SERIAL_FRAME_TYPE]==SERIAL_MESSAGE_TYPE_REBOOTED)
+ 337:../../shields/Murata-dualstack/src/modem_interface.c ****       {
+ 338:../../shields/Murata-dualstack/src/modem_interface.c ****         uint8_t reboot_reason;
+ 339:../../shields/Murata-dualstack/src/modem_interface.c ****         fifo_pop(&payload_fifo, &reboot_reason, 1);
+ 340:../../shields/Murata-dualstack/src/modem_interface.c ****         printf("target rebooted, reason=%i\n\r\n", reboot_reason);
+ 341:../../shields/Murata-dualstack/src/modem_interface.c ****         if(target_rebooted_cb)
+ 342:../../shields/Murata-dualstack/src/modem_interface.c ****           target_rebooted_cb(reboot_reason);
+ 343:../../shields/Murata-dualstack/src/modem_interface.c ****       }
+ 344:../../shields/Murata-dualstack/src/modem_interface.c ****       else
+ 345:../../shields/Murata-dualstack/src/modem_interface.c ****       {
+ 346:../../shields/Murata-dualstack/src/modem_interface.c ****         fifo_skip(&payload_fifo, payload_len);
+ 347:../../shields/Murata-dualstack/src/modem_interface.c ****         printf("!!!FRAME TYPE NOT IMPLEMENTED\r\n");
+ 348:../../shields/Murata-dualstack/src/modem_interface.c ****       }
+ 349:../../shields/Murata-dualstack/src/modem_interface.c ****       fifo_skip(&rx_fifo, payload_len - fifo_get_size(&payload_fifo)); // pop parsed bytes from ori
+ 350:../../shields/Murata-dualstack/src/modem_interface.c ****     }
+ 351:../../shields/Murata-dualstack/src/modem_interface.c ****     else
+ 352:../../shields/Murata-dualstack/src/modem_interface.c ****       printf("!!!PAYLOAD DATA INCORRECT\r\n");
+ 353:../../shields/Murata-dualstack/src/modem_interface.c ****     payload_len = 0;
+ 354:../../shields/Murata-dualstack/src/modem_interface.c ****     parsed_header = false;
+ 355:../../shields/Murata-dualstack/src/modem_interface.c ****     if(fifo_get_size(&rx_fifo) > SERIAL_FRAME_HEADER_SIZE)
+ 356:../../shields/Murata-dualstack/src/modem_interface.c ****       return false;  
+ 357:../../shields/Murata-dualstack/src/modem_interface.c ****     return true;
+ 358:../../shields/Murata-dualstack/src/modem_interface.c ****   }
+ 359:../../shields/Murata-dualstack/src/modem_interface.c ****   //return false;
+ 360:../../shields/Murata-dualstack/src/modem_interface.c **** }
+ 361:../../shields/Murata-dualstack/src/modem_interface.c **** /** @Brief put received UART data in fifo
+ 362:../../shields/Murata-dualstack/src/modem_interface.c ****  *  @return void
+ 363:../../shields/Murata-dualstack/src/modem_interface.c ****  */
+ 364:../../shields/Murata-dualstack/src/modem_interface.c **** void uart_rx_cb()
+ 365:../../shields/Murata-dualstack/src/modem_interface.c **** {
+ 222              		.loc 1 365 1 is_stmt 1 view -0
+ 223              		.cfi_startproc
+ 224              		@ args = 0, pretend = 0, frame = 0
+ 225              		@ frame_needed = 0, uses_anonymous_args = 0
+ 226 0000 10B5     		push	{r4, lr}
+ 227              	.LCFI5:
+ 228              		.cfi_def_cfa_offset 8
+ 229              		.cfi_offset 4, -8
+ 230              		.cfi_offset 14, -4
+ 366:../../shields/Murata-dualstack/src/modem_interface.c ****     HAL_UART_Receive_IT(uart, rxData, 1);
+ 231              		.loc 1 366 5 view .LVU48
+ 232 0002 064C     		ldr	r4, .L17
+ 233 0004 0122     		movs	r2, #1
+ 234 0006 2146     		mov	r1, r4
+ 235 0008 054B     		ldr	r3, .L17+4
+ 236 000a 1868     		ldr	r0, [r3]
+ 237 000c FFF7FEFF 		bl	HAL_UART_Receive_IT
+ 238              	.LVL18:
+ 367:../../shields/Murata-dualstack/src/modem_interface.c ****     error_t err;
+ 239              		.loc 1 367 5 view .LVU49
+ 368:../../shields/Murata-dualstack/src/modem_interface.c ****     //start_atomic();
+ 369:../../shields/Murata-dualstack/src/modem_interface.c ****         err = fifo_put(&rx_fifo, rxData, 1); //assert(err == SUCCESS);
+ 240              		.loc 1 369 9 view .LVU50
+ 241              		.loc 1 369 15 is_stmt 0 view .LVU51
+ 242 0010 0122     		movs	r2, #1
+ 243 0012 2146     		mov	r1, r4
+ 244 0014 0348     		ldr	r0, .L17+8
+ARM GAS  /tmp/ccPEbffl.s 			page 12
+
+
+ 245 0016 FFF7FEFF 		bl	fifo_put
+ 246              	.LVL19:
+ 370:../../shields/Murata-dualstack/src/modem_interface.c ****     //end_atomic();
+ 371:../../shields/Murata-dualstack/src/modem_interface.c ****     
+ 372:../../shields/Murata-dualstack/src/modem_interface.c **** #ifndef PLATFORM_USE_MODEM_INTERRUPT_LINES
+ 373:../../shields/Murata-dualstack/src/modem_interface.c ****     //sched_post_task(&process_rx_fifo);
+ 374:../../shields/Murata-dualstack/src/modem_interface.c ****     process_rx_fifo(NULL);
+ 375:../../shields/Murata-dualstack/src/modem_interface.c **** #endif
+ 376:../../shields/Murata-dualstack/src/modem_interface.c **** }
+ 247              		.loc 1 376 1 view .LVU52
+ 248 001a 10BD     		pop	{r4, pc}
+ 249              	.L18:
+ 250              		.align	2
+ 251              	.L17:
+ 252 001c 00000000 		.word	rxData
+ 253 0020 00000000 		.word	uart
+ 254 0024 00000000 		.word	rx_fifo
+ 255              		.cfi_endproc
+ 256              	.LFE131:
+ 258              		.section	.text.modem_interface_transfer_bytes,"ax",%progbits
+ 259              		.align	1
+ 260              		.global	modem_interface_transfer_bytes
+ 261              		.syntax unified
+ 262              		.thumb
+ 263              		.thumb_func
+ 264              		.fpu fpv4-sp-d16
+ 266              	modem_interface_transfer_bytes:
+ 267              	.LVL20:
+ 268              	.LFB133:
+ 377:../../shields/Murata-dualstack/src/modem_interface.c **** 
+ 378:../../shields/Murata-dualstack/src/modem_interface.c **** // /** @Brief Processes events on UART interrupt line
+ 379:../../shields/Murata-dualstack/src/modem_interface.c **** //  *  @return void
+ 380:../../shields/Murata-dualstack/src/modem_interface.c **** //  */
+ 381:../../shields/Murata-dualstack/src/modem_interface.c **** // static void uart_int_cb(void *arg)
+ 382:../../shields/Murata-dualstack/src/modem_interface.c **** // {
+ 383:../../shields/Murata-dualstack/src/modem_interface.c **** //   // do not read GPIO level here in interrupt context (GPIO clock might not be enabled yet), exe
+ 384:../../shields/Murata-dualstack/src/modem_interface.c **** //   sched_post_task(&execute_state_machine);
+ 385:../../shields/Murata-dualstack/src/modem_interface.c **** // }
+ 386:../../shields/Murata-dualstack/src/modem_interface.c **** 
+ 387:../../shields/Murata-dualstack/src/modem_interface.c **** // static void modem_interface_set_rx_interrupt_callback(uart_rx_inthandler_t uart_rx_cb) {
+ 388:../../shields/Murata-dualstack/src/modem_interface.c **** // #ifdef PLATFORM_USE_USB_CDC
+ 389:../../shields/Murata-dualstack/src/modem_interface.c **** // 	cdc_set_rx_interrupt_callback(uart_rx_cb);
+ 390:../../shields/Murata-dualstack/src/modem_interface.c **** // #else
+ 391:../../shields/Murata-dualstack/src/modem_interface.c **** //   uart_set_rx_interrupt_callback(uart, uart_rx_cb);
+ 392:../../shields/Murata-dualstack/src/modem_interface.c **** // #endif
+ 393:../../shields/Murata-dualstack/src/modem_interface.c **** // }
+ 394:../../shields/Murata-dualstack/src/modem_interface.c **** 
+ 395:../../shields/Murata-dualstack/src/modem_interface.c **** void modem_interface_init(UART_HandleTypeDef* uart_handle) 
+ 396:../../shields/Murata-dualstack/src/modem_interface.c **** {
+ 397:../../shields/Murata-dualstack/src/modem_interface.c ****   uart = uart_handle;
+ 398:../../shields/Murata-dualstack/src/modem_interface.c ****   fifo_init(&modem_interface_tx_fifo, modem_interface_tx_buffer, MODEM_INTERFACE_TX_FIFO_SIZE);
+ 399:../../shields/Murata-dualstack/src/modem_interface.c ****   flush_modem_interface_tx_fifo(NULL);
+ 400:../../shields/Murata-dualstack/src/modem_interface.c ****   execute_state_machine();
+ 401:../../shields/Murata-dualstack/src/modem_interface.c ****   process_rx_fifo(NULL);
+ 402:../../shields/Murata-dualstack/src/modem_interface.c ****   state = STATE_IDLE;
+ 403:../../shields/Murata-dualstack/src/modem_interface.c ****   
+ 404:../../shields/Murata-dualstack/src/modem_interface.c ****   // uart_state_pin=uart_state_int_pin;
+ARM GAS  /tmp/ccPEbffl.s 			page 13
+
+
+ 405:../../shields/Murata-dualstack/src/modem_interface.c ****   // target_uart_state_pin=target_uart_state_int_pin;
+ 406:../../shields/Murata-dualstack/src/modem_interface.c ****   
+ 407:../../shields/Murata-dualstack/src/modem_interface.c ****   fifo_init(&rx_fifo, rx_buffer, sizeof(rx_buffer));
+ 408:../../shields/Murata-dualstack/src/modem_interface.c ****   HAL_UART_Receive_IT(uart, rxData, 1);
+ 409:../../shields/Murata-dualstack/src/modem_interface.c **** 
+ 410:../../shields/Murata-dualstack/src/modem_interface.c **** // When not using interrupt lines we keep uart enabled so we can use RX IRQ.
+ 411:../../shields/Murata-dualstack/src/modem_interface.c **** // If the platform has interrupt lines the UART should be re-enabled when handling the modem interr
+ 412:../../shields/Murata-dualstack/src/modem_interface.c **** #ifndef PLATFORM_USE_MODEM_INTERRUPT_LINES
+ 413:../../shields/Murata-dualstack/src/modem_interface.c ****   modem_interface_enable();
+ 414:../../shields/Murata-dualstack/src/modem_interface.c **** #endif
+ 415:../../shields/Murata-dualstack/src/modem_interface.c **** 
+ 416:../../shields/Murata-dualstack/src/modem_interface.c ****   modem_interface_transfer_bytes(1, 1, SERIAL_MESSAGE_TYPE_REBOOTED);
+ 417:../../shields/Murata-dualstack/src/modem_interface.c **** }
+ 418:../../shields/Murata-dualstack/src/modem_interface.c **** 
+ 419:../../shields/Murata-dualstack/src/modem_interface.c **** void modem_interface_transfer_bytes(uint8_t* bytes, uint8_t length, serial_message_type_t type) 
+ 420:../../shields/Murata-dualstack/src/modem_interface.c **** {
+ 269              		.loc 1 420 1 is_stmt 1 view -0
+ 270              		.cfi_startproc
+ 271              		@ args = 0, pretend = 0, frame = 8
+ 272              		@ frame_needed = 0, uses_anonymous_args = 0
+ 273              		.loc 1 420 1 is_stmt 0 view .LVU54
+ 274 0000 F0B5     		push	{r4, r5, r6, r7, lr}
+ 275              	.LCFI6:
+ 276              		.cfi_def_cfa_offset 20
+ 277              		.cfi_offset 4, -20
+ 278              		.cfi_offset 5, -16
+ 279              		.cfi_offset 6, -12
+ 280              		.cfi_offset 7, -8
+ 281              		.cfi_offset 14, -4
+ 282 0002 83B0     		sub	sp, sp, #12
+ 283              	.LCFI7:
+ 284              		.cfi_def_cfa_offset 32
+ 285 0004 0546     		mov	r5, r0
+ 286 0006 0C46     		mov	r4, r1
+ 287 0008 1646     		mov	r6, r2
+ 421:../../shields/Murata-dualstack/src/modem_interface.c ****   uint8_t header[SERIAL_FRAME_HEADER_SIZE];
+ 288              		.loc 1 421 3 is_stmt 1 view .LVU55
+ 422:../../shields/Murata-dualstack/src/modem_interface.c ****   uint16_t crc=crc_calculate(bytes,length);
+ 289              		.loc 1 422 3 view .LVU56
+ 290              		.loc 1 422 16 is_stmt 0 view .LVU57
+ 291 000a FFF7FEFF 		bl	crc_calculate
+ 292              	.LVL21:
+ 423:../../shields/Murata-dualstack/src/modem_interface.c **** 
+ 424:../../shields/Murata-dualstack/src/modem_interface.c ****   packet_up_counter++;
+ 293              		.loc 1 424 3 is_stmt 1 view .LVU58
+ 294              		.loc 1 424 20 is_stmt 0 view .LVU59
+ 295 000e 134A     		ldr	r2, .L21
+ 296 0010 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 297 0012 0133     		adds	r3, r3, #1
+ 298 0014 DBB2     		uxtb	r3, r3
+ 299 0016 1370     		strb	r3, [r2]
+ 425:../../shields/Murata-dualstack/src/modem_interface.c ****   header[0] = SERIAL_FRAME_SYNC_BYTE;
+ 300              		.loc 1 425 3 is_stmt 1 view .LVU60
+ 301              		.loc 1 425 13 is_stmt 0 view .LVU61
+ 302 0018 C022     		movs	r2, #192
+ 303 001a 8DF80020 		strb	r2, [sp]
+ 426:../../shields/Murata-dualstack/src/modem_interface.c ****   header[1] = SERIAL_FRAME_VERSION;
+ARM GAS  /tmp/ccPEbffl.s 			page 14
+
+
+ 304              		.loc 1 426 3 is_stmt 1 view .LVU62
+ 305              		.loc 1 426 13 is_stmt 0 view .LVU63
+ 306 001e 0027     		movs	r7, #0
+ 307 0020 8DF80170 		strb	r7, [sp, #1]
+ 427:../../shields/Murata-dualstack/src/modem_interface.c **** 
+ 428:../../shields/Murata-dualstack/src/modem_interface.c ****   header[SERIAL_FRAME_COUNTER] = packet_up_counter;
+ 308              		.loc 1 428 3 is_stmt 1 view .LVU64
+ 309              		.loc 1 428 32 is_stmt 0 view .LVU65
+ 310 0024 8DF80230 		strb	r3, [sp, #2]
+ 429:../../shields/Murata-dualstack/src/modem_interface.c ****   header[SERIAL_FRAME_TYPE] = type;
+ 311              		.loc 1 429 3 is_stmt 1 view .LVU66
+ 312              		.loc 1 429 29 is_stmt 0 view .LVU67
+ 313 0028 8DF80360 		strb	r6, [sp, #3]
+ 430:../../shields/Murata-dualstack/src/modem_interface.c ****   header[SERIAL_FRAME_SIZE] = length;
+ 314              		.loc 1 430 3 is_stmt 1 view .LVU68
+ 315              		.loc 1 430 29 is_stmt 0 view .LVU69
+ 316 002c 8DF80440 		strb	r4, [sp, #4]
+ 431:../../shields/Murata-dualstack/src/modem_interface.c ****   header[SERIAL_FRAME_CRC1] = (crc >> 8) & 0x00FF;
+ 317              		.loc 1 431 3 is_stmt 1 view .LVU70
+ 318              		.loc 1 431 29 is_stmt 0 view .LVU71
+ 319 0030 030A     		lsrs	r3, r0, #8
+ 320 0032 8DF80530 		strb	r3, [sp, #5]
+ 432:../../shields/Murata-dualstack/src/modem_interface.c ****   header[SERIAL_FRAME_CRC2] = crc & 0x00FF;
+ 321              		.loc 1 432 3 is_stmt 1 view .LVU72
+ 322              		.loc 1 432 29 is_stmt 0 view .LVU73
+ 323 0036 8DF80600 		strb	r0, [sp, #6]
+ 433:../../shields/Murata-dualstack/src/modem_interface.c **** 
+ 434:../../shields/Murata-dualstack/src/modem_interface.c ****   DPRINT("TX HEADER:");
+ 324              		.loc 1 434 23 is_stmt 1 view .LVU74
+ 435:../../shields/Murata-dualstack/src/modem_interface.c ****   DPRINT_DATA(header, SERIAL_FRAME_HEADER_SIZE);
+ 325              		.loc 1 435 48 view .LVU75
+ 436:../../shields/Murata-dualstack/src/modem_interface.c ****   DPRINT("TX PAYLOAD:");
+ 326              		.loc 1 436 24 view .LVU76
+ 437:../../shields/Murata-dualstack/src/modem_interface.c ****   DPRINT_DATA(bytes, length);
+ 327              		.loc 1 437 29 view .LVU77
+ 438:../../shields/Murata-dualstack/src/modem_interface.c ****    
+ 439:../../shields/Murata-dualstack/src/modem_interface.c ****   //start_atomic();
+ 440:../../shields/Murata-dualstack/src/modem_interface.c ****   request_pending = true;
+ 328              		.loc 1 440 3 view .LVU78
+ 441:../../shields/Murata-dualstack/src/modem_interface.c ****   fifo_put(&modem_interface_tx_fifo, (uint8_t*) &header, SERIAL_FRAME_HEADER_SIZE);
+ 329              		.loc 1 441 3 view .LVU79
+ 330 003a 094E     		ldr	r6, .L21+4
+ 331 003c 0722     		movs	r2, #7
+ 332 003e 6946     		mov	r1, sp
+ 333 0040 3046     		mov	r0, r6
+ 334              	.LVL22:
+ 335              		.loc 1 441 3 is_stmt 0 view .LVU80
+ 336 0042 FFF7FEFF 		bl	fifo_put
+ 337              	.LVL23:
+ 442:../../shields/Murata-dualstack/src/modem_interface.c ****   fifo_put(&modem_interface_tx_fifo, bytes, length);
+ 338              		.loc 1 442 3 is_stmt 1 view .LVU81
+ 339 0046 2246     		mov	r2, r4
+ 340 0048 2946     		mov	r1, r5
+ 341 004a 3046     		mov	r0, r6
+ 342 004c FFF7FEFF 		bl	fifo_put
+ 343              	.LVL24:
+ 443:../../shields/Murata-dualstack/src/modem_interface.c ****   //end_atomic();
+ARM GAS  /tmp/ccPEbffl.s 			page 15
+
+
+ 444:../../shields/Murata-dualstack/src/modem_interface.c **** 
+ 445:../../shields/Murata-dualstack/src/modem_interface.c **** #if PLATFORM_USE_MODEM_INTERRUPT_LINES
+ 446:../../shields/Murata-dualstack/src/modem_interface.c ****   execute_state_machine();
+ 447:../../shields/Murata-dualstack/src/modem_interface.c **** #else
+ 448:../../shields/Murata-dualstack/src/modem_interface.c ****   flush_modem_interface_tx_fifo(NULL); // state machine is not used when not using interrupt lines
+ 344              		.loc 1 448 3 view .LVU82
+ 345 0050 3846     		mov	r0, r7
+ 346 0052 FFF7FEFF 		bl	flush_modem_interface_tx_fifo
+ 347              	.LVL25:
+ 449:../../shields/Murata-dualstack/src/modem_interface.c **** #endif  
+ 450:../../shields/Murata-dualstack/src/modem_interface.c **** }
+ 348              		.loc 1 450 1 is_stmt 0 view .LVU83
+ 349 0056 03B0     		add	sp, sp, #12
+ 350              	.LCFI8:
+ 351              		.cfi_def_cfa_offset 20
+ 352              		@ sp needed
+ 353 0058 F0BD     		pop	{r4, r5, r6, r7, pc}
+ 354              	.LVL26:
+ 355              	.L22:
+ 356              		.loc 1 450 1 view .LVU84
+ 357 005a 00BF     		.align	2
+ 358              	.L21:
+ 359 005c 00000000 		.word	.LANCHOR3
+ 360 0060 00000000 		.word	.LANCHOR2
+ 361              		.cfi_endproc
+ 362              	.LFE133:
+ 364              		.section	.rodata.process_rx_fifo.str1.4,"aMS",%progbits,1
+ 365              		.align	2
+ 366              	.LC0:
+ 367 0000 55415254 		.ascii	"UART RX, payload size = %i\015\012\000"
+ 367      2052582C 
+ 367      20706179 
+ 367      6C6F6164 
+ 367      2073697A 
+ 368 001d 000000   		.align	2
+ 369              	.LC1:
+ 370 0020 7061796C 		.ascii	"payload not complete\015\000"
+ 370      6F616420 
+ 370      6E6F7420 
+ 370      636F6D70 
+ 370      6C657465 
+ 371 0036 0000     		.align	2
+ 372              	.LC2:
+ 373 0038 74617267 		.ascii	"target rebooted, reason=%i\012\015\012\000"
+ 373      65742072 
+ 373      65626F6F 
+ 373      7465642C 
+ 373      20726561 
+ 374 0056 0000     		.align	2
+ 375              	.LC3:
+ 376 0058 21212146 		.ascii	"!!!FRAME TYPE NOT IMPLEMENTED\015\000"
+ 376      52414D45 
+ 376      20545950 
+ 376      45204E4F 
+ 376      5420494D 
+ 377 0077 00       		.align	2
+ 378              	.LC4:
+ARM GAS  /tmp/ccPEbffl.s 			page 16
+
+
+ 379 0078 21212150 		.ascii	"!!!PAYLOAD DATA INCORRECT\015\000"
+ 379      41594C4F 
+ 379      41442044 
+ 379      41544120 
+ 379      494E434F 
+ 380              		.section	.text.process_rx_fifo,"ax",%progbits
+ 381              		.align	1
+ 382              		.global	process_rx_fifo
+ 383              		.syntax unified
+ 384              		.thumb
+ 385              		.thumb_func
+ 386              		.fpu fpv4-sp-d16
+ 388              	process_rx_fifo:
+ 389              	.LVL27:
+ 390              	.LFB130:
+ 286:../../shields/Murata-dualstack/src/modem_interface.c ****   if(!parsed_header) 
+ 391              		.loc 1 286 1 is_stmt 1 view -0
+ 392              		.cfi_startproc
+ 393              		@ args = 0, pretend = 0, frame = 24
+ 394              		@ frame_needed = 0, uses_anonymous_args = 0
+ 286:../../shields/Murata-dualstack/src/modem_interface.c ****   if(!parsed_header) 
+ 395              		.loc 1 286 1 is_stmt 0 view .LVU86
+ 396 0000 30B5     		push	{r4, r5, lr}
+ 397              	.LCFI9:
+ 398              		.cfi_def_cfa_offset 12
+ 399              		.cfi_offset 4, -12
+ 400              		.cfi_offset 5, -8
+ 401              		.cfi_offset 14, -4
+ 402 0002 87B0     		sub	sp, sp, #28
+ 403              	.LCFI10:
+ 404              		.cfi_def_cfa_offset 40
+ 287:../../shields/Murata-dualstack/src/modem_interface.c ****   {
+ 405              		.loc 1 287 3 is_stmt 1 view .LVU87
+ 287:../../shields/Murata-dualstack/src/modem_interface.c ****   {
+ 406              		.loc 1 287 6 is_stmt 0 view .LVU88
+ 407 0004 554B     		ldr	r3, .L48
+ 408 0006 1C78     		ldrb	r4, [r3]	@ zero_extendqisi2
+ 287:../../shields/Murata-dualstack/src/modem_interface.c ****   {
+ 409              		.loc 1 287 5 view .LVU89
+ 410 0008 84BB     		cbnz	r4, .L24
+ 289:../../shields/Murata-dualstack/src/modem_interface.c ****     {
+ 411              		.loc 1 289 5 is_stmt 1 view .LVU90
+ 289:../../shields/Murata-dualstack/src/modem_interface.c ****     {
+ 412              		.loc 1 289 8 is_stmt 0 view .LVU91
+ 413 000a 5548     		ldr	r0, .L48+4
+ 414              	.LVL28:
+ 289:../../shields/Murata-dualstack/src/modem_interface.c ****     {
+ 415              		.loc 1 289 8 view .LVU92
+ 416 000c FFF7FEFF 		bl	fifo_get_size
+ 417              	.LVL29:
+ 289:../../shields/Murata-dualstack/src/modem_interface.c ****     {
+ 418              		.loc 1 289 7 view .LVU93
+ 419 0010 0728     		cmp	r0, #7
+ 420 0012 02D8     		bhi	.L41
+ 421              	.L23:
+ 360:../../shields/Murata-dualstack/src/modem_interface.c **** /** @Brief put received UART data in fifo
+ 422              		.loc 1 360 1 view .LVU94
+ARM GAS  /tmp/ccPEbffl.s 			page 17
+
+
+ 423 0014 2046     		mov	r0, r4
+ 424 0016 07B0     		add	sp, sp, #28
+ 425              	.LCFI11:
+ 426              		.cfi_remember_state
+ 427              		.cfi_def_cfa_offset 12
+ 428              		@ sp needed
+ 429 0018 30BD     		pop	{r4, r5, pc}
+ 430              	.L41:
+ 431              	.LCFI12:
+ 432              		.cfi_restore_state
+ 433              	.LBB2:
+ 291:../../shields/Murata-dualstack/src/modem_interface.c **** 
+ 434              		.loc 1 291 9 is_stmt 1 view .LVU95
+ 435 001a 524D     		ldr	r5, .L48+8
+ 436 001c 0723     		movs	r3, #7
+ 437 001e 0022     		movs	r2, #0
+ 438 0020 2946     		mov	r1, r5
+ 439 0022 4F48     		ldr	r0, .L48+4
+ 440 0024 FFF7FEFF 		bl	fifo_peek
+ 441              	.LVL30:
+ 293:../../shields/Murata-dualstack/src/modem_interface.c ****         {
+ 442              		.loc 1 293 9 view .LVU96
+ 293:../../shields/Murata-dualstack/src/modem_interface.c ****         {
+ 443              		.loc 1 293 18 is_stmt 0 view .LVU97
+ 444 0028 2B78     		ldrb	r3, [r5]	@ zero_extendqisi2
+ 293:../../shields/Murata-dualstack/src/modem_interface.c ****         {
+ 445              		.loc 1 293 11 view .LVU98
+ 446 002a C02B     		cmp	r3, #192
+ 447 002c 01D1     		bne	.L26
+ 293:../../shields/Murata-dualstack/src/modem_interface.c ****         {
+ 448              		.loc 1 293 57 discriminator 1 view .LVU99
+ 449 002e 6B78     		ldrb	r3, [r5, #1]	@ zero_extendqisi2
+ 293:../../shields/Murata-dualstack/src/modem_interface.c ****         {
+ 450              		.loc 1 293 48 discriminator 1 view .LVU100
+ 451 0030 6BB1     		cbz	r3, .L27
+ 452              	.L26:
+ 295:../../shields/Murata-dualstack/src/modem_interface.c ****           //printf("skip\r\n");
+ 453              		.loc 1 295 11 is_stmt 1 view .LVU101
+ 454 0032 4B4D     		ldr	r5, .L48+4
+ 455 0034 0121     		movs	r1, #1
+ 456 0036 2846     		mov	r0, r5
+ 457 0038 FFF7FEFF 		bl	fifo_skip
+ 458              	.LVL31:
+ 297:../../shields/Murata-dualstack/src/modem_interface.c ****           payload_len = 0;
+ 459              		.loc 1 297 11 view .LVU102
+ 297:../../shields/Murata-dualstack/src/modem_interface.c ****           payload_len = 0;
+ 460              		.loc 1 297 25 is_stmt 0 view .LVU103
+ 461 003c 0023     		movs	r3, #0
+ 462 003e 474A     		ldr	r2, .L48
+ 463 0040 1370     		strb	r3, [r2]
+ 298:../../shields/Murata-dualstack/src/modem_interface.c ****           if(fifo_get_size(&rx_fifo) > SERIAL_FRAME_HEADER_SIZE)
+ 464              		.loc 1 298 11 is_stmt 1 view .LVU104
+ 298:../../shields/Murata-dualstack/src/modem_interface.c ****           if(fifo_get_size(&rx_fifo) > SERIAL_FRAME_HEADER_SIZE)
+ 465              		.loc 1 298 23 is_stmt 0 view .LVU105
+ 466 0042 494A     		ldr	r2, .L48+12
+ 467 0044 1370     		strb	r3, [r2]
+ 299:../../shields/Murata-dualstack/src/modem_interface.c ****             return false;
+ARM GAS  /tmp/ccPEbffl.s 			page 18
+
+
+ 468              		.loc 1 299 11 is_stmt 1 view .LVU106
+ 299:../../shields/Murata-dualstack/src/modem_interface.c ****             return false;
+ 469              		.loc 1 299 14 is_stmt 0 view .LVU107
+ 470 0046 2846     		mov	r0, r5
+ 471 0048 FFF7FEFF 		bl	fifo_get_size
+ 472              	.LVL32:
+ 473 004c E2E7     		b	.L23
+ 474              	.L27:
+ 303:../../shields/Murata-dualstack/src/modem_interface.c ****         fifo_skip(&rx_fifo, SERIAL_FRAME_HEADER_SIZE);
+ 475              		.loc 1 303 9 is_stmt 1 view .LVU108
+ 303:../../shields/Murata-dualstack/src/modem_interface.c ****         fifo_skip(&rx_fifo, SERIAL_FRAME_HEADER_SIZE);
+ 476              		.loc 1 303 23 is_stmt 0 view .LVU109
+ 477 004e 434B     		ldr	r3, .L48
+ 478 0050 0122     		movs	r2, #1
+ 479 0052 1A70     		strb	r2, [r3]
+ 304:../../shields/Murata-dualstack/src/modem_interface.c ****         payload_len = header[SERIAL_FRAME_SIZE];
+ 480              		.loc 1 304 9 is_stmt 1 view .LVU110
+ 481 0054 0721     		movs	r1, #7
+ 482 0056 4248     		ldr	r0, .L48+4
+ 483 0058 FFF7FEFF 		bl	fifo_skip
+ 484              	.LVL33:
+ 305:../../shields/Murata-dualstack/src/modem_interface.c ****         printf("UART RX, payload size = %i\r\n", payload_len);
+ 485              		.loc 1 305 9 view .LVU111
+ 305:../../shields/Murata-dualstack/src/modem_interface.c ****         printf("UART RX, payload size = %i\r\n", payload_len);
+ 486              		.loc 1 305 29 is_stmt 0 view .LVU112
+ 487 005c 414B     		ldr	r3, .L48+8
+ 488 005e 1979     		ldrb	r1, [r3, #4]	@ zero_extendqisi2
+ 305:../../shields/Murata-dualstack/src/modem_interface.c ****         printf("UART RX, payload size = %i\r\n", payload_len);
+ 489              		.loc 1 305 21 view .LVU113
+ 490 0060 414B     		ldr	r3, .L48+12
+ 491 0062 1970     		strb	r1, [r3]
+ 306:../../shields/Murata-dualstack/src/modem_interface.c ****         return false;
+ 492              		.loc 1 306 9 is_stmt 1 view .LVU114
+ 493 0064 4148     		ldr	r0, .L48+16
+ 494 0066 FFF7FEFF 		bl	printf
+ 495              	.LVL34:
+ 307:../../shields/Murata-dualstack/src/modem_interface.c ****     }
+ 496              		.loc 1 307 9 view .LVU115
+ 307:../../shields/Murata-dualstack/src/modem_interface.c ****     }
+ 497              		.loc 1 307 16 is_stmt 0 view .LVU116
+ 498 006a D3E7     		b	.L23
+ 499              	.LVL35:
+ 500              	.L24:
+ 307:../../shields/Murata-dualstack/src/modem_interface.c ****     }
+ 501              		.loc 1 307 16 view .LVU117
+ 502              	.LBE2:
+ 503              	.LBB3:
+ 312:../../shields/Murata-dualstack/src/modem_interface.c ****       printf("payload not complete\r\n");
+ 504              		.loc 1 312 5 is_stmt 1 view .LVU118
+ 312:../../shields/Murata-dualstack/src/modem_interface.c ****       printf("payload not complete\r\n");
+ 505              		.loc 1 312 8 is_stmt 0 view .LVU119
+ 506 006c 3C48     		ldr	r0, .L48+4
+ 507              	.LVL36:
+ 312:../../shields/Murata-dualstack/src/modem_interface.c ****       printf("payload not complete\r\n");
+ 508              		.loc 1 312 8 view .LVU120
+ 509 006e FFF7FEFF 		bl	fifo_get_size
+ 510              	.LVL37:
+ARM GAS  /tmp/ccPEbffl.s 			page 19
+
+
+ 312:../../shields/Murata-dualstack/src/modem_interface.c ****       printf("payload not complete\r\n");
+ 511              		.loc 1 312 32 view .LVU121
+ 512 0072 3D4B     		ldr	r3, .L48+12
+ 513 0074 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 312:../../shields/Murata-dualstack/src/modem_interface.c ****       printf("payload not complete\r\n");
+ 514              		.loc 1 312 7 view .LVU122
+ 515 0076 9842     		cmp	r0, r3
+ 516 0078 1FD3     		bcc	.L42
+ 319:../../shields/Murata-dualstack/src/modem_interface.c ****     fifo_init_subview(&payload_fifo, &rx_fifo, 0, payload_len);
+ 517              		.loc 1 319 5 is_stmt 1 view .LVU123
+ 320:../../shields/Murata-dualstack/src/modem_interface.c ****   
+ 518              		.loc 1 320 5 view .LVU124
+ 519 007a 0022     		movs	r2, #0
+ 520 007c 3849     		ldr	r1, .L48+4
+ 521 007e 02A8     		add	r0, sp, #8
+ 522 0080 FFF7FEFF 		bl	fifo_init_subview
+ 523              	.LVL38:
+ 322:../../shields/Murata-dualstack/src/modem_interface.c ****     {
+ 524              		.loc 1 322 5 view .LVU125
+ 322:../../shields/Murata-dualstack/src/modem_interface.c ****     {
+ 525              		.loc 1 322 8 is_stmt 0 view .LVU126
+ 526 0084 3749     		ldr	r1, .L48+8
+ 527 0086 02A8     		add	r0, sp, #8
+ 528 0088 FFF7FEFF 		bl	verify_payload
+ 529              	.LVL39:
+ 322:../../shields/Murata-dualstack/src/modem_interface.c ****     {
+ 530              		.loc 1 322 7 view .LVU127
+ 531 008c 0028     		cmp	r0, #0
+ 532 008e 61D0     		beq	.L31
+ 324:../../shields/Murata-dualstack/src/modem_interface.c ****         alp_handler(&payload_fifo);
+ 533              		.loc 1 324 7 is_stmt 1 view .LVU128
+ 324:../../shields/Murata-dualstack/src/modem_interface.c ****         alp_handler(&payload_fifo);
+ 534              		.loc 1 324 16 is_stmt 0 view .LVU129
+ 535 0090 344B     		ldr	r3, .L48+8
+ 536 0092 DB78     		ldrb	r3, [r3, #3]	@ zero_extendqisi2
+ 324:../../shields/Murata-dualstack/src/modem_interface.c ****         alp_handler(&payload_fifo);
+ 537              		.loc 1 324 9 view .LVU130
+ 538 0094 012B     		cmp	r3, #1
+ 539 0096 15D0     		beq	.L43
+ 540              	.L32:
+ 326:../../shields/Murata-dualstack/src/modem_interface.c ****         ping_response_handler(&payload_fifo);
+ 541              		.loc 1 326 12 is_stmt 1 view .LVU131
+ 326:../../shields/Murata-dualstack/src/modem_interface.c ****         ping_response_handler(&payload_fifo);
+ 542              		.loc 1 326 15 is_stmt 0 view .LVU132
+ 543 0098 032B     		cmp	r3, #3
+ 544 009a 2FD0     		beq	.L44
+ 545              	.L34:
+ 328:../../shields/Murata-dualstack/src/modem_interface.c ****         logging_handler(&payload_fifo);
+ 546              		.loc 1 328 12 is_stmt 1 view .LVU133
+ 328:../../shields/Murata-dualstack/src/modem_interface.c ****         logging_handler(&payload_fifo);
+ 547              		.loc 1 328 15 is_stmt 0 view .LVU134
+ 548 009c 042B     		cmp	r3, #4
+ 549 009e 34D0     		beq	.L45
+ 550              	.L35:
+ 330:../../shields/Murata-dualstack/src/modem_interface.c ****       {
+ 551              		.loc 1 330 12 is_stmt 1 view .LVU135
+ 330:../../shields/Murata-dualstack/src/modem_interface.c ****       {
+ARM GAS  /tmp/ccPEbffl.s 			page 20
+
+
+ 552              		.loc 1 330 15 is_stmt 0 view .LVU136
+ 553 00a0 022B     		cmp	r3, #2
+ 554 00a2 39D0     		beq	.L46
+ 336:../../shields/Murata-dualstack/src/modem_interface.c ****       {
+ 555              		.loc 1 336 12 is_stmt 1 view .LVU137
+ 336:../../shields/Murata-dualstack/src/modem_interface.c ****       {
+ 556              		.loc 1 336 14 is_stmt 0 view .LVU138
+ 557 00a4 052B     		cmp	r3, #5
+ 558 00a6 43D0     		beq	.L47
+ 559              	.LBB4:
+ 346:../../shields/Murata-dualstack/src/modem_interface.c ****         printf("!!!FRAME TYPE NOT IMPLEMENTED\r\n");
+ 560              		.loc 1 346 9 is_stmt 1 view .LVU139
+ 561 00a8 2F4B     		ldr	r3, .L48+12
+ 562 00aa 1978     		ldrb	r1, [r3]	@ zero_extendqisi2
+ 563 00ac 02A8     		add	r0, sp, #8
+ 564 00ae FFF7FEFF 		bl	fifo_skip
+ 565              	.LVL40:
+ 347:../../shields/Murata-dualstack/src/modem_interface.c ****       }
+ 566              		.loc 1 347 9 view .LVU140
+ 567 00b2 2F48     		ldr	r0, .L48+20
+ 568 00b4 FFF7FEFF 		bl	puts
+ 569              	.LVL41:
+ 570 00b8 0AE0     		b	.L33
+ 571              	.L42:
+ 572              	.LBE4:
+ 573              	.LBB5:
+ 313:../../shields/Murata-dualstack/src/modem_interface.c ****       return false;
+ 574              		.loc 1 313 7 view .LVU141
+ 575 00ba 2E48     		ldr	r0, .L48+24
+ 576 00bc FFF7FEFF 		bl	puts
+ 577              	.LVL42:
+ 314:../../shields/Murata-dualstack/src/modem_interface.c ****     }
+ 578              		.loc 1 314 7 view .LVU142
+ 314:../../shields/Murata-dualstack/src/modem_interface.c ****     }
+ 579              		.loc 1 314 14 is_stmt 0 view .LVU143
+ 580 00c0 0024     		movs	r4, #0
+ 581 00c2 A7E7     		b	.L23
+ 582              	.L43:
+ 583              	.LBE5:
+ 324:../../shields/Murata-dualstack/src/modem_interface.c ****         alp_handler(&payload_fifo);
+ 584              		.loc 1 324 81 discriminator 1 view .LVU144
+ 585 00c4 2C4A     		ldr	r2, .L48+28
+ 586 00c6 1268     		ldr	r2, [r2]
+ 324:../../shields/Murata-dualstack/src/modem_interface.c ****         alp_handler(&payload_fifo);
+ 587              		.loc 1 324 66 discriminator 1 view .LVU145
+ 588 00c8 002A     		cmp	r2, #0
+ 589 00ca E5D0     		beq	.L32
+ 325:../../shields/Murata-dualstack/src/modem_interface.c ****       else if (header[SERIAL_FRAME_TYPE]==SERIAL_MESSAGE_TYPE_PING_RESPONSE  && ping_response_handl
+ 590              		.loc 1 325 9 is_stmt 1 view .LVU146
+ 591 00cc 02A8     		add	r0, sp, #8
+ 592 00ce 9047     		blx	r2
+ 593              	.LVL43:
+ 594              	.L33:
+ 349:../../shields/Murata-dualstack/src/modem_interface.c ****     }
+ 595              		.loc 1 349 7 view .LVU147
+ 596 00d0 254B     		ldr	r3, .L48+12
+ 597 00d2 1D78     		ldrb	r5, [r3]	@ zero_extendqisi2
+ARM GAS  /tmp/ccPEbffl.s 			page 21
+
+
+ 349:../../shields/Murata-dualstack/src/modem_interface.c ****     }
+ 598              		.loc 1 349 41 is_stmt 0 view .LVU148
+ 599 00d4 02A8     		add	r0, sp, #8
+ 600 00d6 FFF7FEFF 		bl	fifo_get_size
+ 601              	.LVL44:
+ 349:../../shields/Murata-dualstack/src/modem_interface.c ****     }
+ 602              		.loc 1 349 7 view .LVU149
+ 603 00da 291A     		subs	r1, r5, r0
+ 604 00dc 89B2     		uxth	r1, r1
+ 605 00de 2048     		ldr	r0, .L48+4
+ 606 00e0 FFF7FEFF 		bl	fifo_skip
+ 607              	.LVL45:
+ 608              	.L39:
+ 353:../../shields/Murata-dualstack/src/modem_interface.c ****     parsed_header = false;
+ 609              		.loc 1 353 5 is_stmt 1 view .LVU150
+ 353:../../shields/Murata-dualstack/src/modem_interface.c ****     parsed_header = false;
+ 610              		.loc 1 353 17 is_stmt 0 view .LVU151
+ 611 00e4 0023     		movs	r3, #0
+ 612 00e6 204A     		ldr	r2, .L48+12
+ 613 00e8 1370     		strb	r3, [r2]
+ 354:../../shields/Murata-dualstack/src/modem_interface.c ****     if(fifo_get_size(&rx_fifo) > SERIAL_FRAME_HEADER_SIZE)
+ 614              		.loc 1 354 5 is_stmt 1 view .LVU152
+ 354:../../shields/Murata-dualstack/src/modem_interface.c ****     if(fifo_get_size(&rx_fifo) > SERIAL_FRAME_HEADER_SIZE)
+ 615              		.loc 1 354 19 is_stmt 0 view .LVU153
+ 616 00ea 1C4A     		ldr	r2, .L48
+ 617 00ec 1370     		strb	r3, [r2]
+ 355:../../shields/Murata-dualstack/src/modem_interface.c ****       return false;  
+ 618              		.loc 1 355 5 is_stmt 1 view .LVU154
+ 355:../../shields/Murata-dualstack/src/modem_interface.c ****       return false;  
+ 619              		.loc 1 355 8 is_stmt 0 view .LVU155
+ 620 00ee 1C48     		ldr	r0, .L48+4
+ 621 00f0 FFF7FEFF 		bl	fifo_get_size
+ 622              	.LVL46:
+ 355:../../shields/Murata-dualstack/src/modem_interface.c ****       return false;  
+ 623              		.loc 1 355 7 view .LVU156
+ 624 00f4 0728     		cmp	r0, #7
+ 625 00f6 8DD9     		bls	.L23
+ 356:../../shields/Murata-dualstack/src/modem_interface.c ****     return true;
+ 626              		.loc 1 356 14 view .LVU157
+ 627 00f8 0024     		movs	r4, #0
+ 628 00fa 8BE7     		b	.L23
+ 629              	.L44:
+ 326:../../shields/Murata-dualstack/src/modem_interface.c ****         ping_response_handler(&payload_fifo);
+ 630              		.loc 1 326 103 discriminator 1 view .LVU158
+ 631 00fc 1F4A     		ldr	r2, .L48+32
+ 632 00fe 1268     		ldr	r2, [r2]
+ 326:../../shields/Murata-dualstack/src/modem_interface.c ****         ping_response_handler(&payload_fifo);
+ 633              		.loc 1 326 78 discriminator 1 view .LVU159
+ 634 0100 002A     		cmp	r2, #0
+ 635 0102 CBD0     		beq	.L34
+ 327:../../shields/Murata-dualstack/src/modem_interface.c ****       else if (header[SERIAL_FRAME_TYPE]==SERIAL_MESSAGE_TYPE_LOGGING && logging_handler != NULL)
+ 636              		.loc 1 327 9 is_stmt 1 view .LVU160
+ 637 0104 02A8     		add	r0, sp, #8
+ 638 0106 9047     		blx	r2
+ 639              	.LVL47:
+ 640 0108 E2E7     		b	.L33
+ 641              	.L45:
+ARM GAS  /tmp/ccPEbffl.s 			page 22
+
+
+ 328:../../shields/Murata-dualstack/src/modem_interface.c ****         logging_handler(&payload_fifo);
+ 642              		.loc 1 328 90 is_stmt 0 discriminator 1 view .LVU161
+ 643 010a 1D4A     		ldr	r2, .L48+36
+ 644 010c 1268     		ldr	r2, [r2]
+ 328:../../shields/Murata-dualstack/src/modem_interface.c ****         logging_handler(&payload_fifo);
+ 645              		.loc 1 328 71 discriminator 1 view .LVU162
+ 646 010e 002A     		cmp	r2, #0
+ 647 0110 C6D0     		beq	.L35
+ 329:../../shields/Murata-dualstack/src/modem_interface.c ****       else if (header[SERIAL_FRAME_TYPE]==SERIAL_MESSAGE_TYPE_PING_REQUEST)
+ 648              		.loc 1 329 9 is_stmt 1 view .LVU163
+ 649 0112 02A8     		add	r0, sp, #8
+ 650 0114 9047     		blx	r2
+ 651              	.LVL48:
+ 652 0116 DBE7     		b	.L33
+ 653              	.L46:
+ 654              	.LBB6:
+ 332:../../shields/Murata-dualstack/src/modem_interface.c ****         fifo_skip(&payload_fifo,1);
+ 655              		.loc 1 332 9 view .LVU164
+ 332:../../shields/Murata-dualstack/src/modem_interface.c ****         fifo_skip(&payload_fifo,1);
+ 656              		.loc 1 332 17 is_stmt 0 view .LVU165
+ 657 0118 8DF80430 		strb	r3, [sp, #4]
+ 333:../../shields/Murata-dualstack/src/modem_interface.c ****         modem_interface_transfer_bytes((uint8_t*) &ping_reply,1,SERIAL_MESSAGE_TYPE_PING_RESPONSE);
+ 658              		.loc 1 333 9 is_stmt 1 view .LVU166
+ 659 011c 0121     		movs	r1, #1
+ 660 011e 02A8     		add	r0, sp, #8
+ 661 0120 FFF7FEFF 		bl	fifo_skip
+ 662              	.LVL49:
+ 334:../../shields/Murata-dualstack/src/modem_interface.c ****       }
+ 663              		.loc 1 334 9 view .LVU167
+ 664 0124 0322     		movs	r2, #3
+ 665 0126 0121     		movs	r1, #1
+ 666 0128 01A8     		add	r0, sp, #4
+ 667 012a FFF7FEFF 		bl	modem_interface_transfer_bytes
+ 668              	.LVL50:
+ 669              	.LBE6:
+ 670 012e CFE7     		b	.L33
+ 671              	.L47:
+ 672              	.LBB7:
+ 338:../../shields/Murata-dualstack/src/modem_interface.c ****         fifo_pop(&payload_fifo, &reboot_reason, 1);
+ 673              		.loc 1 338 9 view .LVU168
+ 339:../../shields/Murata-dualstack/src/modem_interface.c ****         printf("target rebooted, reason=%i\n\r\n", reboot_reason);
+ 674              		.loc 1 339 9 view .LVU169
+ 675 0130 0122     		movs	r2, #1
+ 676 0132 01A9     		add	r1, sp, #4
+ 677 0134 02A8     		add	r0, sp, #8
+ 678 0136 FFF7FEFF 		bl	fifo_pop
+ 679              	.LVL51:
+ 340:../../shields/Murata-dualstack/src/modem_interface.c ****         if(target_rebooted_cb)
+ 680              		.loc 1 340 9 view .LVU170
+ 681 013a 9DF80410 		ldrb	r1, [sp, #4]	@ zero_extendqisi2
+ 682 013e 1148     		ldr	r0, .L48+40
+ 683 0140 FFF7FEFF 		bl	printf
+ 684              	.LVL52:
+ 341:../../shields/Murata-dualstack/src/modem_interface.c ****           target_rebooted_cb(reboot_reason);
+ 685              		.loc 1 341 9 view .LVU171
+ 341:../../shields/Murata-dualstack/src/modem_interface.c ****           target_rebooted_cb(reboot_reason);
+ 686              		.loc 1 341 12 is_stmt 0 view .LVU172
+ARM GAS  /tmp/ccPEbffl.s 			page 23
+
+
+ 687 0144 104B     		ldr	r3, .L48+44
+ 688 0146 1B68     		ldr	r3, [r3]
+ 341:../../shields/Murata-dualstack/src/modem_interface.c ****           target_rebooted_cb(reboot_reason);
+ 689              		.loc 1 341 11 view .LVU173
+ 690 0148 002B     		cmp	r3, #0
+ 691 014a C1D0     		beq	.L33
+ 342:../../shields/Murata-dualstack/src/modem_interface.c ****       }
+ 692              		.loc 1 342 11 is_stmt 1 view .LVU174
+ 693 014c 9DF80400 		ldrb	r0, [sp, #4]	@ zero_extendqisi2
+ 694 0150 9847     		blx	r3
+ 695              	.LVL53:
+ 696 0152 BDE7     		b	.L33
+ 697              	.L31:
+ 698              	.LBE7:
+ 699              	.LBB8:
+ 352:../../shields/Murata-dualstack/src/modem_interface.c ****     payload_len = 0;
+ 700              		.loc 1 352 7 view .LVU175
+ 701 0154 0D48     		ldr	r0, .L48+48
+ 702 0156 FFF7FEFF 		bl	puts
+ 703              	.LVL54:
+ 704 015a C3E7     		b	.L39
+ 705              	.L49:
+ 706              		.align	2
+ 707              	.L48:
+ 708 015c 00000000 		.word	.LANCHOR4
+ 709 0160 00000000 		.word	rx_fifo
+ 710 0164 00000000 		.word	header
+ 711 0168 00000000 		.word	.LANCHOR5
+ 712 016c 00000000 		.word	.LC0
+ 713 0170 58000000 		.word	.LC3
+ 714 0174 20000000 		.word	.LC1
+ 715 0178 00000000 		.word	.LANCHOR6
+ 716 017c 00000000 		.word	.LANCHOR7
+ 717 0180 00000000 		.word	.LANCHOR8
+ 718 0184 38000000 		.word	.LC2
+ 719 0188 00000000 		.word	.LANCHOR9
+ 720 018c 78000000 		.word	.LC4
+ 721              	.LBE8:
+ 722              	.LBE3:
+ 723              		.cfi_endproc
+ 724              	.LFE130:
+ 726              		.section	.text.modem_interface_init,"ax",%progbits
+ 727              		.align	1
+ 728              		.global	modem_interface_init
+ 729              		.syntax unified
+ 730              		.thumb
+ 731              		.thumb_func
+ 732              		.fpu fpv4-sp-d16
+ 734              	modem_interface_init:
+ 735              	.LVL55:
+ 736              	.LFB132:
+ 396:../../shields/Murata-dualstack/src/modem_interface.c ****   uart = uart_handle;
+ 737              		.loc 1 396 1 view -0
+ 738              		.cfi_startproc
+ 739              		@ args = 0, pretend = 0, frame = 0
+ 740              		@ frame_needed = 0, uses_anonymous_args = 0
+ 396:../../shields/Murata-dualstack/src/modem_interface.c ****   uart = uart_handle;
+ARM GAS  /tmp/ccPEbffl.s 			page 24
+
+
+ 741              		.loc 1 396 1 is_stmt 0 view .LVU177
+ 742 0000 10B5     		push	{r4, lr}
+ 743              	.LCFI13:
+ 744              		.cfi_def_cfa_offset 8
+ 745              		.cfi_offset 4, -8
+ 746              		.cfi_offset 14, -4
+ 397:../../shields/Murata-dualstack/src/modem_interface.c ****   fifo_init(&modem_interface_tx_fifo, modem_interface_tx_buffer, MODEM_INTERFACE_TX_FIFO_SIZE);
+ 747              		.loc 1 397 3 is_stmt 1 view .LVU178
+ 397:../../shields/Murata-dualstack/src/modem_interface.c ****   fifo_init(&modem_interface_tx_fifo, modem_interface_tx_buffer, MODEM_INTERFACE_TX_FIFO_SIZE);
+ 748              		.loc 1 397 8 is_stmt 0 view .LVU179
+ 749 0002 0F4C     		ldr	r4, .L52
+ 750 0004 2060     		str	r0, [r4]
+ 398:../../shields/Murata-dualstack/src/modem_interface.c ****   flush_modem_interface_tx_fifo(NULL);
+ 751              		.loc 1 398 3 is_stmt 1 view .LVU180
+ 752 0006 FF22     		movs	r2, #255
+ 753 0008 0E49     		ldr	r1, .L52+4
+ 754 000a 0F48     		ldr	r0, .L52+8
+ 755              	.LVL56:
+ 398:../../shields/Murata-dualstack/src/modem_interface.c ****   flush_modem_interface_tx_fifo(NULL);
+ 756              		.loc 1 398 3 is_stmt 0 view .LVU181
+ 757 000c FFF7FEFF 		bl	fifo_init
+ 758              	.LVL57:
+ 399:../../shields/Murata-dualstack/src/modem_interface.c ****   execute_state_machine();
+ 759              		.loc 1 399 3 is_stmt 1 view .LVU182
+ 760 0010 0020     		movs	r0, #0
+ 761 0012 FFF7FEFF 		bl	flush_modem_interface_tx_fifo
+ 762              	.LVL58:
+ 400:../../shields/Murata-dualstack/src/modem_interface.c ****   process_rx_fifo(NULL);
+ 763              		.loc 1 400 3 view .LVU183
+ 401:../../shields/Murata-dualstack/src/modem_interface.c ****   state = STATE_IDLE;
+ 764              		.loc 1 401 3 view .LVU184
+ 765 0016 0020     		movs	r0, #0
+ 766 0018 FFF7FEFF 		bl	process_rx_fifo
+ 767              	.LVL59:
+ 402:../../shields/Murata-dualstack/src/modem_interface.c ****   
+ 768              		.loc 1 402 3 view .LVU185
+ 407:../../shields/Murata-dualstack/src/modem_interface.c ****   HAL_UART_Receive_IT(uart, rxData, 1);
+ 769              		.loc 1 407 3 view .LVU186
+ 770 001c 4FF48072 		mov	r2, #256
+ 771 0020 0A49     		ldr	r1, .L52+12
+ 772 0022 0B48     		ldr	r0, .L52+16
+ 773 0024 FFF7FEFF 		bl	fifo_init
+ 774              	.LVL60:
+ 408:../../shields/Murata-dualstack/src/modem_interface.c **** 
+ 775              		.loc 1 408 3 view .LVU187
+ 776 0028 0122     		movs	r2, #1
+ 777 002a 0A49     		ldr	r1, .L52+20
+ 778 002c 2068     		ldr	r0, [r4]
+ 779 002e FFF7FEFF 		bl	HAL_UART_Receive_IT
+ 780              	.LVL61:
+ 416:../../shields/Murata-dualstack/src/modem_interface.c **** }
+ 781              		.loc 1 416 3 view .LVU188
+ 782 0032 0522     		movs	r2, #5
+ 783 0034 0121     		movs	r1, #1
+ 784 0036 0846     		mov	r0, r1
+ 785 0038 FFF7FEFF 		bl	modem_interface_transfer_bytes
+ 786              	.LVL62:
+ARM GAS  /tmp/ccPEbffl.s 			page 25
+
+
+ 417:../../shields/Murata-dualstack/src/modem_interface.c **** 
+ 787              		.loc 1 417 1 is_stmt 0 view .LVU189
+ 788 003c 10BD     		pop	{r4, pc}
+ 789              	.L53:
+ 790 003e 00BF     		.align	2
+ 791              	.L52:
+ 792 0040 00000000 		.word	uart
+ 793 0044 00000000 		.word	.LANCHOR10
+ 794 0048 00000000 		.word	.LANCHOR2
+ 795 004c 00000000 		.word	.LANCHOR11
+ 796 0050 00000000 		.word	rx_fifo
+ 797 0054 00000000 		.word	rxData
+ 798              		.cfi_endproc
+ 799              	.LFE132:
+ 801              		.section	.text.modem_interface_transfer,"ax",%progbits
+ 802              		.align	1
+ 803              		.global	modem_interface_transfer
+ 804              		.syntax unified
+ 805              		.thumb
+ 806              		.thumb_func
+ 807              		.fpu fpv4-sp-d16
+ 809              	modem_interface_transfer:
+ 810              	.LVL63:
+ 811              	.LFB134:
+ 451:../../shields/Murata-dualstack/src/modem_interface.c **** 
+ 452:../../shields/Murata-dualstack/src/modem_interface.c **** void modem_interface_transfer(char* string) {
+ 812              		.loc 1 452 45 is_stmt 1 view -0
+ 813              		.cfi_startproc
+ 814              		@ args = 0, pretend = 0, frame = 0
+ 815              		@ frame_needed = 0, uses_anonymous_args = 0
+ 816              		.loc 1 452 45 is_stmt 0 view .LVU191
+ 817 0000 10B5     		push	{r4, lr}
+ 818              	.LCFI14:
+ 819              		.cfi_def_cfa_offset 8
+ 820              		.cfi_offset 4, -8
+ 821              		.cfi_offset 14, -4
+ 822 0002 0446     		mov	r4, r0
+ 453:../../shields/Murata-dualstack/src/modem_interface.c ****   modem_interface_transfer_bytes((uint8_t*) string, strnlen(string, 100), SERIAL_MESSAGE_TYPE_LOGGI
+ 823              		.loc 1 453 3 is_stmt 1 view .LVU192
+ 824              		.loc 1 453 53 is_stmt 0 view .LVU193
+ 825 0004 6421     		movs	r1, #100
+ 826 0006 FFF7FEFF 		bl	strnlen
+ 827              	.LVL64:
+ 828              		.loc 1 453 3 view .LVU194
+ 829 000a 0422     		movs	r2, #4
+ 830 000c C1B2     		uxtb	r1, r0
+ 831 000e 2046     		mov	r0, r4
+ 832 0010 FFF7FEFF 		bl	modem_interface_transfer_bytes
+ 833              	.LVL65:
+ 454:../../shields/Murata-dualstack/src/modem_interface.c **** }
+ 834              		.loc 1 454 1 view .LVU195
+ 835 0014 10BD     		pop	{r4, pc}
+ 836              		.loc 1 454 1 view .LVU196
+ 837              		.cfi_endproc
+ 838              	.LFE134:
+ 840              		.section	.text.modem_interface_register_handler,"ax",%progbits
+ 841              		.align	1
+ARM GAS  /tmp/ccPEbffl.s 			page 26
+
+
+ 842              		.global	modem_interface_register_handler
+ 843              		.syntax unified
+ 844              		.thumb
+ 845              		.thumb_func
+ 846              		.fpu fpv4-sp-d16
+ 848              	modem_interface_register_handler:
+ 849              	.LVL66:
+ 850              	.LFB135:
+ 455:../../shields/Murata-dualstack/src/modem_interface.c **** 
+ 456:../../shields/Murata-dualstack/src/modem_interface.c **** 
+ 457:../../shields/Murata-dualstack/src/modem_interface.c **** void modem_interface_register_handler(cmd_handler_t cmd_handler, serial_message_type_t type)
+ 458:../../shields/Murata-dualstack/src/modem_interface.c **** {
+ 851              		.loc 1 458 1 is_stmt 1 view -0
+ 852              		.cfi_startproc
+ 853              		@ args = 0, pretend = 0, frame = 0
+ 854              		@ frame_needed = 0, uses_anonymous_args = 0
+ 855              		@ link register save eliminated.
+ 459:../../shields/Murata-dualstack/src/modem_interface.c ****   if(type == SERIAL_MESSAGE_TYPE_ALP_DATA) 
+ 856              		.loc 1 459 3 view .LVU198
+ 857              		.loc 1 459 5 is_stmt 0 view .LVU199
+ 858 0000 0129     		cmp	r1, #1
+ 859 0002 04D0     		beq	.L60
+ 460:../../shields/Murata-dualstack/src/modem_interface.c ****     alp_handler=cmd_handler;
+ 461:../../shields/Murata-dualstack/src/modem_interface.c ****   else if(type == SERIAL_MESSAGE_TYPE_PING_RESPONSE) 
+ 860              		.loc 1 461 8 is_stmt 1 view .LVU200
+ 861              		.loc 1 461 10 is_stmt 0 view .LVU201
+ 862 0004 0329     		cmp	r1, #3
+ 863 0006 05D0     		beq	.L61
+ 462:../../shields/Murata-dualstack/src/modem_interface.c ****     ping_response_handler=cmd_handler;
+ 463:../../shields/Murata-dualstack/src/modem_interface.c ****   else if(type == SERIAL_MESSAGE_TYPE_LOGGING) 
+ 864              		.loc 1 463 8 is_stmt 1 view .LVU202
+ 865              		.loc 1 463 10 is_stmt 0 view .LVU203
+ 866 0008 0429     		cmp	r1, #4
+ 867 000a 06D0     		beq	.L62
+ 868              	.L56:
+ 464:../../shields/Murata-dualstack/src/modem_interface.c ****     logging_handler=cmd_handler;
+ 465:../../shields/Murata-dualstack/src/modem_interface.c ****   else
+ 466:../../shields/Murata-dualstack/src/modem_interface.c ****     DPRINT("Modem interface callback not implemented");
+ 467:../../shields/Murata-dualstack/src/modem_interface.c **** }
+ 869              		.loc 1 467 1 view .LVU204
+ 870 000c 7047     		bx	lr
+ 871              	.L60:
+ 460:../../shields/Murata-dualstack/src/modem_interface.c ****   else if(type == SERIAL_MESSAGE_TYPE_PING_RESPONSE) 
+ 872              		.loc 1 460 5 is_stmt 1 view .LVU205
+ 460:../../shields/Murata-dualstack/src/modem_interface.c ****   else if(type == SERIAL_MESSAGE_TYPE_PING_RESPONSE) 
+ 873              		.loc 1 460 16 is_stmt 0 view .LVU206
+ 874 000e 044B     		ldr	r3, .L63
+ 875 0010 1860     		str	r0, [r3]
+ 876 0012 7047     		bx	lr
+ 877              	.L61:
+ 462:../../shields/Murata-dualstack/src/modem_interface.c ****     ping_response_handler=cmd_handler;
+ 878              		.loc 1 462 5 is_stmt 1 view .LVU207
+ 462:../../shields/Murata-dualstack/src/modem_interface.c ****     ping_response_handler=cmd_handler;
+ 879              		.loc 1 462 26 is_stmt 0 view .LVU208
+ 880 0014 034B     		ldr	r3, .L63+4
+ 881 0016 1860     		str	r0, [r3]
+ 882 0018 7047     		bx	lr
+ARM GAS  /tmp/ccPEbffl.s 			page 27
+
+
+ 883              	.L62:
+ 464:../../shields/Murata-dualstack/src/modem_interface.c ****     logging_handler=cmd_handler;
+ 884              		.loc 1 464 5 is_stmt 1 view .LVU209
+ 464:../../shields/Murata-dualstack/src/modem_interface.c ****     logging_handler=cmd_handler;
+ 885              		.loc 1 464 20 is_stmt 0 view .LVU210
+ 886 001a 034B     		ldr	r3, .L63+8
+ 887 001c 1860     		str	r0, [r3]
+ 888              		.loc 1 467 1 view .LVU211
+ 889 001e F5E7     		b	.L56
+ 890              	.L64:
+ 891              		.align	2
+ 892              	.L63:
+ 893 0020 00000000 		.word	.LANCHOR6
+ 894 0024 00000000 		.word	.LANCHOR7
+ 895 0028 00000000 		.word	.LANCHOR8
+ 896              		.cfi_endproc
+ 897              	.LFE135:
+ 899              		.section	.text.modem_interface_set_target_rebooted_callback,"ax",%progbits
+ 900              		.align	1
+ 901              		.global	modem_interface_set_target_rebooted_callback
+ 902              		.syntax unified
+ 903              		.thumb
+ 904              		.thumb_func
+ 905              		.fpu fpv4-sp-d16
+ 907              	modem_interface_set_target_rebooted_callback:
+ 908              	.LVL67:
+ 909              	.LFB136:
+ 468:../../shields/Murata-dualstack/src/modem_interface.c **** 
+ 469:../../shields/Murata-dualstack/src/modem_interface.c **** void modem_interface_set_target_rebooted_callback(target_rebooted_callback_t cb)
+ 470:../../shields/Murata-dualstack/src/modem_interface.c **** {
+ 910              		.loc 1 470 1 is_stmt 1 view -0
+ 911              		.cfi_startproc
+ 912              		@ args = 0, pretend = 0, frame = 0
+ 913              		@ frame_needed = 0, uses_anonymous_args = 0
+ 914              		@ link register save eliminated.
+ 471:../../shields/Murata-dualstack/src/modem_interface.c ****   target_rebooted_cb = cb;
+ 915              		.loc 1 471 3 view .LVU213
+ 916              		.loc 1 471 22 is_stmt 0 view .LVU214
+ 917 0000 014B     		ldr	r3, .L66
+ 918 0002 1860     		str	r0, [r3]
+ 472:../../shields/Murata-dualstack/src/modem_interface.c **** }
+ 919              		.loc 1 472 1 view .LVU215
+ 920 0004 7047     		bx	lr
+ 921              	.L67:
+ 922 0006 00BF     		.align	2
+ 923              	.L66:
+ 924 0008 00000000 		.word	.LANCHOR9
+ 925              		.cfi_endproc
+ 926              	.LFE136:
+ 928              		.comm	header,7,4
+ 929              		.comm	rx_fifo,16,4
+ 930              		.comm	rxData,1,4
+ 931              		.comm	uart,4,4
+ 932              		.comm	P3_UART,120,4
+ 933              		.comm	P2_UART,120,4
+ 934              		.comm	P1_UART,120,4
+ 935              		.comm	FTDI_UART,120,4
+ARM GAS  /tmp/ccPEbffl.s 			page 28
+
+
+ 936              		.comm	BLE_UART,120,4
+ 937              		.comm	USB_UART,120,4
+ 938              		.section	.bss.alp_handler,"aw",%nobits
+ 939              		.align	2
+ 940              		.set	.LANCHOR6,. + 0
+ 943              	alp_handler:
+ 944 0000 00000000 		.space	4
+ 945              		.section	.bss.logging_handler,"aw",%nobits
+ 946              		.align	2
+ 947              		.set	.LANCHOR8,. + 0
+ 950              	logging_handler:
+ 951 0000 00000000 		.space	4
+ 952              		.section	.bss.modem_interface_tx_buffer,"aw",%nobits
+ 953              		.align	2
+ 954              		.set	.LANCHOR10,. + 0
+ 957              	modem_interface_tx_buffer:
+ 958 0000 00000000 		.space	255
+ 958      00000000 
+ 958      00000000 
+ 958      00000000 
+ 958      00000000 
+ 959              		.section	.bss.modem_interface_tx_fifo,"aw",%nobits
+ 960              		.align	2
+ 961              		.set	.LANCHOR2,. + 0
+ 964              	modem_interface_tx_fifo:
+ 965 0000 00000000 		.space	16
+ 965      00000000 
+ 965      00000000 
+ 965      00000000 
+ 966              		.section	.bss.packet_down_counter,"aw",%nobits
+ 967              		.set	.LANCHOR1,. + 0
+ 970              	packet_down_counter:
+ 971 0000 00       		.space	1
+ 972              		.section	.bss.packet_up_counter,"aw",%nobits
+ 973              		.set	.LANCHOR3,. + 0
+ 976              	packet_up_counter:
+ 977 0000 00       		.space	1
+ 978              		.section	.bss.parsed_header,"aw",%nobits
+ 979              		.set	.LANCHOR4,. + 0
+ 982              	parsed_header:
+ 983 0000 00       		.space	1
+ 984              		.section	.bss.payload.9991,"aw",%nobits
+ 985              		.align	2
+ 986              		.set	.LANCHOR0,. + 0
+ 989              	payload.9991:
+ 990 0000 00000000 		.space	249
+ 990      00000000 
+ 990      00000000 
+ 990      00000000 
+ 990      00000000 
+ 991              		.section	.bss.payload_len,"aw",%nobits
+ 992              		.set	.LANCHOR5,. + 0
+ 995              	payload_len:
+ 996 0000 00       		.space	1
+ 997              		.section	.bss.ping_response_handler,"aw",%nobits
+ 998              		.align	2
+ 999              		.set	.LANCHOR7,. + 0
+ARM GAS  /tmp/ccPEbffl.s 			page 29
+
+
+ 1002              	ping_response_handler:
+ 1003 0000 00000000 		.space	4
+ 1004              		.section	.bss.rx_buffer,"aw",%nobits
+ 1005              		.align	2
+ 1006              		.set	.LANCHOR11,. + 0
+ 1009              	rx_buffer:
+ 1010 0000 00000000 		.space	256
+ 1010      00000000 
+ 1010      00000000 
+ 1010      00000000 
+ 1010      00000000 
+ 1011              		.section	.bss.target_rebooted_cb,"aw",%nobits
+ 1012              		.align	2
+ 1013              		.set	.LANCHOR9,. + 0
+ 1016              	target_rebooted_cb:
+ 1017 0000 00000000 		.space	4
+ 1018              		.text
+ 1019              	.Letext0:
+ 1020              		.file 2 "/usr/arm-none-eabi/include/machine/_default_types.h"
+ 1021              		.file 3 "/usr/arm-none-eabi/include/sys/lock.h"
+ 1022              		.file 4 "/usr/arm-none-eabi/include/sys/_types.h"
+ 1023              		.file 5 "/usr/lib/gcc/arm-none-eabi/9.2.1/include/stddef.h"
+ 1024              		.file 6 "/usr/arm-none-eabi/include/sys/reent.h"
+ 1025              		.file 7 "/usr/arm-none-eabi/include/sys/_stdint.h"
+ 1026              		.file 8 "../../core/ST/CMSIS/Include/core_cm4.h"
+ 1027              		.file 9 "../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/system_stm32l4xx.h"
+ 1028              		.file 10 "../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/stm32l496xx.h"
+ 1029              		.file 11 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h"
+ 1030              		.file 12 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_dma.h"
+ 1031              		.file 13 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h"
+ 1032              		.file 14 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h"
+ 1033              		.file 15 "../../core/platform/octa/inc/uart.h"
+ 1034              		.file 16 "../../shields/Murata-dualstack/inc/types.h"
+ 1035              		.file 17 "../../shields/Murata-dualstack/inc/fifo.h"
+ 1036              		.file 18 "../../shields/Murata-dualstack/inc/modem_interface.h"
+ 1037              		.file 19 "/usr/arm-none-eabi/include/sys/errno.h"
+ 1038              		.file 20 "<built-in>"
+ 1039              		.file 21 "/usr/arm-none-eabi/include/string.h"
+ 1040              		.file 22 "../../shields/Murata-dualstack/inc/crc.h"
+ARM GAS  /tmp/ccPEbffl.s 			page 30
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 modem_interface.c
+     /tmp/ccPEbffl.s:18     .text.verify_payload:0000000000000000 $t
+     /tmp/ccPEbffl.s:25     .text.verify_payload:0000000000000000 verify_payload
+     /tmp/ccPEbffl.s:112    .text.verify_payload:0000000000000048 $d
+     /tmp/ccPEbffl.s:118    .text.flush_modem_interface_tx_fifo:0000000000000000 $t
+     /tmp/ccPEbffl.s:124    .text.flush_modem_interface_tx_fifo:0000000000000000 flush_modem_interface_tx_fifo
+     /tmp/ccPEbffl.s:207    .text.flush_modem_interface_tx_fifo:0000000000000054 $d
+                            *COM*:0000000000000004 uart
+     /tmp/ccPEbffl.s:213    .text.uart_rx_cb:0000000000000000 $t
+     /tmp/ccPEbffl.s:220    .text.uart_rx_cb:0000000000000000 uart_rx_cb
+     /tmp/ccPEbffl.s:252    .text.uart_rx_cb:000000000000001c $d
+                            *COM*:0000000000000001 rxData
+                            *COM*:0000000000000010 rx_fifo
+     /tmp/ccPEbffl.s:259    .text.modem_interface_transfer_bytes:0000000000000000 $t
+     /tmp/ccPEbffl.s:266    .text.modem_interface_transfer_bytes:0000000000000000 modem_interface_transfer_bytes
+     /tmp/ccPEbffl.s:359    .text.modem_interface_transfer_bytes:000000000000005c $d
+     /tmp/ccPEbffl.s:365    .rodata.process_rx_fifo.str1.4:0000000000000000 $d
+     /tmp/ccPEbffl.s:381    .text.process_rx_fifo:0000000000000000 $t
+     /tmp/ccPEbffl.s:388    .text.process_rx_fifo:0000000000000000 process_rx_fifo
+     /tmp/ccPEbffl.s:708    .text.process_rx_fifo:000000000000015c $d
+                            *COM*:0000000000000007 header
+     /tmp/ccPEbffl.s:727    .text.modem_interface_init:0000000000000000 $t
+     /tmp/ccPEbffl.s:734    .text.modem_interface_init:0000000000000000 modem_interface_init
+     /tmp/ccPEbffl.s:792    .text.modem_interface_init:0000000000000040 $d
+     /tmp/ccPEbffl.s:802    .text.modem_interface_transfer:0000000000000000 $t
+     /tmp/ccPEbffl.s:809    .text.modem_interface_transfer:0000000000000000 modem_interface_transfer
+     /tmp/ccPEbffl.s:841    .text.modem_interface_register_handler:0000000000000000 $t
+     /tmp/ccPEbffl.s:848    .text.modem_interface_register_handler:0000000000000000 modem_interface_register_handler
+     /tmp/ccPEbffl.s:893    .text.modem_interface_register_handler:0000000000000020 $d
+     /tmp/ccPEbffl.s:900    .text.modem_interface_set_target_rebooted_callback:0000000000000000 $t
+     /tmp/ccPEbffl.s:907    .text.modem_interface_set_target_rebooted_callback:0000000000000000 modem_interface_set_target_rebooted_callback
+     /tmp/ccPEbffl.s:924    .text.modem_interface_set_target_rebooted_callback:0000000000000008 $d
+                            *COM*:0000000000000078 P3_UART
+                            *COM*:0000000000000078 P2_UART
+                            *COM*:0000000000000078 P1_UART
+                            *COM*:0000000000000078 FTDI_UART
+                            *COM*:0000000000000078 BLE_UART
+                            *COM*:0000000000000078 USB_UART
+     /tmp/ccPEbffl.s:939    .bss.alp_handler:0000000000000000 $d
+     /tmp/ccPEbffl.s:943    .bss.alp_handler:0000000000000000 alp_handler
+     /tmp/ccPEbffl.s:946    .bss.logging_handler:0000000000000000 $d
+     /tmp/ccPEbffl.s:950    .bss.logging_handler:0000000000000000 logging_handler
+     /tmp/ccPEbffl.s:953    .bss.modem_interface_tx_buffer:0000000000000000 $d
+     /tmp/ccPEbffl.s:957    .bss.modem_interface_tx_buffer:0000000000000000 modem_interface_tx_buffer
+     /tmp/ccPEbffl.s:960    .bss.modem_interface_tx_fifo:0000000000000000 $d
+     /tmp/ccPEbffl.s:964    .bss.modem_interface_tx_fifo:0000000000000000 modem_interface_tx_fifo
+     /tmp/ccPEbffl.s:970    .bss.packet_down_counter:0000000000000000 packet_down_counter
+     /tmp/ccPEbffl.s:971    .bss.packet_down_counter:0000000000000000 $d
+     /tmp/ccPEbffl.s:976    .bss.packet_up_counter:0000000000000000 packet_up_counter
+     /tmp/ccPEbffl.s:977    .bss.packet_up_counter:0000000000000000 $d
+     /tmp/ccPEbffl.s:982    .bss.parsed_header:0000000000000000 parsed_header
+     /tmp/ccPEbffl.s:983    .bss.parsed_header:0000000000000000 $d
+     /tmp/ccPEbffl.s:985    .bss.payload.9991:0000000000000000 $d
+     /tmp/ccPEbffl.s:989    .bss.payload.9991:0000000000000000 payload.9991
+     /tmp/ccPEbffl.s:995    .bss.payload_len:0000000000000000 payload_len
+     /tmp/ccPEbffl.s:996    .bss.payload_len:0000000000000000 $d
+ARM GAS  /tmp/ccPEbffl.s 			page 31
+
+
+     /tmp/ccPEbffl.s:998    .bss.ping_response_handler:0000000000000000 $d
+     /tmp/ccPEbffl.s:1002   .bss.ping_response_handler:0000000000000000 ping_response_handler
+     /tmp/ccPEbffl.s:1005   .bss.rx_buffer:0000000000000000 $d
+     /tmp/ccPEbffl.s:1009   .bss.rx_buffer:0000000000000000 rx_buffer
+     /tmp/ccPEbffl.s:1012   .bss.target_rebooted_cb:0000000000000000 $d
+     /tmp/ccPEbffl.s:1016   .bss.target_rebooted_cb:0000000000000000 target_rebooted_cb
+
+UNDEFINED SYMBOLS
+fifo_peek
+crc_calculate
+fifo_get_size
+fifo_pop
+HAL_UART_Transmit
+HAL_UART_Receive_IT
+fifo_put
+fifo_skip
+printf
+fifo_init_subview
+puts
+fifo_init
+strnlen

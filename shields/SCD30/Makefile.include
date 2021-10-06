@@ -1,0 +1,14 @@
+SCD30_VERSION = 0.1.0
+
+# SCD30 sources
+C_SOURCES += $(wildcard $(SHIELDS_DIR)/SCD30/src/*.c)
+
+# SigFox includes
+C_INCLUDES += -I$(SHIELDS_DIR)/SCD30/inc
+
+ifeq ($(origin SCD30_CONNECTOR), undefined)
+$(error SCD30_CONNECTOR undefined in makefile, please specify a connector in the application makefile)
+endif
+
+SHIELD_DEFINES += -DSCD30_CONNECTOR=$(SCD30_CONNECTOR)
+SHIELD_DEFINES += -DSCD30_VERSION="$(SCD30_VERSION)"

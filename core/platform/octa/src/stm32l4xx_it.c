@@ -205,7 +205,7 @@ void USART2_IRQHandler(void)
   /* USER CODE BEGIN USART2_IRQn 0 */
 
   /* USER CODE END USART2_IRQn 0 */
-  #if USE_BLE
+  #if USE_BOOTLOADER
     HAL_UART_IRQHandler(&BLE_UART);
   #else
     HAL_UART_IRQHandler(&P2_UART);
@@ -298,7 +298,6 @@ void EXTI1_IRQHandler(void)
 void EXTI15_10_IRQHandler(void) 
 {
     HAL_GPIO_EXTI_IRQHandler(B1_Pin);
-    HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_13); // Accelerometer INT1 pin
 }
 
 /**

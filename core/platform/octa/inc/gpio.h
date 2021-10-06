@@ -103,4 +103,4 @@ struct OCTA_GPIO P3_DIO6;
 
 void OCTA_GPIO_Init(void);
 void OCTA_GPIO_DeInit(void);
-void GPIO_SetApplicationCallback(void (*callback), uint16_t pinNumber);
+void GPIO_SetApplicationCallback(void *callback, uint16_t pinNumber);

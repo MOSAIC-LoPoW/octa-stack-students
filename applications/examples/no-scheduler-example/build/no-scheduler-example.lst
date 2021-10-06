@@ -1,0 +1,278 @@
+ARM GAS  /tmp/ccLhGTf5.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 28, 1
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.file	"no-scheduler-example.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.text.main,"ax",%progbits
+  18              		.align	1
+  19              		.global	main
+  20              		.arch armv7e-m
+  21              		.syntax unified
+  22              		.thumb
+  23              		.thumb_func
+  24              		.fpu fpv4-sp-d16
+  26              	main:
+  27              	.LFB131:
+  28              		.file 1 "../../applications/examples/no-scheduler-example/src/no-scheduler-example.c"
+   1:../../applications/examples/no-scheduler-example/src/no-scheduler-example.c **** #include "no-scheduler-example.h"
+   2:../../applications/examples/no-scheduler-example/src/no-scheduler-example.c **** 
+   3:../../applications/examples/no-scheduler-example/src/no-scheduler-example.c **** int main(void)
+   4:../../applications/examples/no-scheduler-example/src/no-scheduler-example.c **** {
+  29              		.loc 1 4 1 view -0
+  30              		.cfi_startproc
+  31              		@ Volatile: function does not return.
+  32              		@ args = 0, pretend = 0, frame = 0
+  33              		@ frame_needed = 0, uses_anonymous_args = 0
+  34 0000 08B5     		push	{r3, lr}
+  35              	.LCFI0:
+  36              		.cfi_def_cfa_offset 8
+  37              		.cfi_offset 3, -8
+  38              		.cfi_offset 14, -4
+   5:../../applications/examples/no-scheduler-example/src/no-scheduler-example.c ****   Initialize_Platform();
+  39              		.loc 1 5 3 view .LVU1
+  40 0002 FFF7FEFF 		bl	Initialize_Platform
+  41              	.LVL0:
+  42              	.L2:
+   6:../../applications/examples/no-scheduler-example/src/no-scheduler-example.c ****   while(1)
+  43              		.loc 1 6 3 discriminator 1 view .LVU2
+   7:../../applications/examples/no-scheduler-example/src/no-scheduler-example.c ****   {
+   8:../../applications/examples/no-scheduler-example/src/no-scheduler-example.c ****     IWDG_feed(NULL);
+  44              		.loc 1 8 5 discriminator 1 view .LVU3
+  45 0006 0020     		movs	r0, #0
+  46 0008 FFF7FEFF 		bl	IWDG_feed
+  47              	.LVL1:
+   9:../../applications/examples/no-scheduler-example/src/no-scheduler-example.c ****     HAL_GPIO_TogglePin(OCTA_RLED_GPIO_Port, OCTA_RLED_Pin);
+  48              		.loc 1 9 5 discriminator 1 view .LVU4
+  49 000c 154C     		ldr	r4, .L4
+ARM GAS  /tmp/ccLhGTf5.s 			page 2
+
+
+  50 000e 4FF48041 		mov	r1, #16384
+  51 0012 2046     		mov	r0, r4
+  52 0014 FFF7FEFF 		bl	HAL_GPIO_TogglePin
+  53              	.LVL2:
+  10:../../applications/examples/no-scheduler-example/src/no-scheduler-example.c ****     HAL_Delay(1000);
+  54              		.loc 1 10 5 discriminator 1 view .LVU5
+  55 0018 4FF47A70 		mov	r0, #1000
+  56 001c FFF7FEFF 		bl	HAL_Delay
+  57              	.LVL3:
+  11:../../applications/examples/no-scheduler-example/src/no-scheduler-example.c ****     HAL_GPIO_TogglePin(OCTA_RLED_GPIO_Port, OCTA_RLED_Pin);
+  58              		.loc 1 11 5 discriminator 1 view .LVU6
+  59 0020 4FF48041 		mov	r1, #16384
+  60 0024 2046     		mov	r0, r4
+  61 0026 FFF7FEFF 		bl	HAL_GPIO_TogglePin
+  62              	.LVL4:
+  12:../../applications/examples/no-scheduler-example/src/no-scheduler-example.c ****     HAL_GPIO_TogglePin(OCTA_GLED_GPIO_Port, OCTA_GLED_Pin);
+  63              		.loc 1 12 5 discriminator 1 view .LVU7
+  64 002a 0F4D     		ldr	r5, .L4+4
+  65 002c 0121     		movs	r1, #1
+  66 002e 2846     		mov	r0, r5
+  67 0030 FFF7FEFF 		bl	HAL_GPIO_TogglePin
+  68              	.LVL5:
+  13:../../applications/examples/no-scheduler-example/src/no-scheduler-example.c ****     HAL_Delay(1000);
+  69              		.loc 1 13 5 discriminator 1 view .LVU8
+  70 0034 4FF47A70 		mov	r0, #1000
+  71 0038 FFF7FEFF 		bl	HAL_Delay
+  72              	.LVL6:
+  14:../../applications/examples/no-scheduler-example/src/no-scheduler-example.c ****     HAL_GPIO_TogglePin(OCTA_GLED_GPIO_Port, OCTA_GLED_Pin);
+  73              		.loc 1 14 5 discriminator 1 view .LVU9
+  74 003c 0121     		movs	r1, #1
+  75 003e 2846     		mov	r0, r5
+  76 0040 FFF7FEFF 		bl	HAL_GPIO_TogglePin
+  77              	.LVL7:
+  15:../../applications/examples/no-scheduler-example/src/no-scheduler-example.c ****     HAL_GPIO_TogglePin(OCTA_BLED_GPIO_Port, OCTA_BLED_Pin);
+  78              		.loc 1 15 5 discriminator 1 view .LVU10
+  79 0044 4FF40041 		mov	r1, #32768
+  80 0048 2046     		mov	r0, r4
+  81 004a FFF7FEFF 		bl	HAL_GPIO_TogglePin
+  82              	.LVL8:
+  16:../../applications/examples/no-scheduler-example/src/no-scheduler-example.c ****     HAL_Delay(1000);
+  83              		.loc 1 16 5 discriminator 1 view .LVU11
+  84 004e 4FF47A70 		mov	r0, #1000
+  85 0052 FFF7FEFF 		bl	HAL_Delay
+  86              	.LVL9:
+  17:../../applications/examples/no-scheduler-example/src/no-scheduler-example.c ****     HAL_GPIO_TogglePin(OCTA_BLED_GPIO_Port, OCTA_BLED_Pin);
+  87              		.loc 1 17 5 discriminator 1 view .LVU12
+  88 0056 4FF40041 		mov	r1, #32768
+  89 005a 2046     		mov	r0, r4
+  90 005c FFF7FEFF 		bl	HAL_GPIO_TogglePin
+  91              	.LVL10:
+   6:../../applications/examples/no-scheduler-example/src/no-scheduler-example.c ****   {
+  92              		.loc 1 6 8 discriminator 1 view .LVU13
+  93 0060 D1E7     		b	.L2
+  94              	.L5:
+  95 0062 00BF     		.align	2
+  96              	.L4:
+  97 0064 000C0048 		.word	1207962624
+ARM GAS  /tmp/ccLhGTf5.s 			page 3
+
+
+  98 0068 00040048 		.word	1207960576
+  99              		.cfi_endproc
+ 100              	.LFE131:
+ 102              		.comm	P3_header,44,4
+ 103              		.comm	P2_header,44,4
+ 104              		.comm	P1_header,44,4
+ 105              		.comm	stackversion_patch,1,1
+ 106              		.comm	stackversion_minor,1,1
+ 107              		.comm	stackversion_major,1,1
+ 108              		.comm	appversion_patch,1,1
+ 109              		.comm	appversion_minor,1,1
+ 110              		.comm	appversion_major,1,1
+ 111              		.comm	short_UID,8,8
+ 112              		.comm	octa_uid,8,8
+ 113              		.comm	float_union,4,4
+ 114              		.comm	int16LittleEndian,2,4
+ 115              		.comm	uint32LittleEndian,4,4
+ 116              		.comm	int32LittleEndian,4,4
+ 117              		.comm	hrtc,36,4
+ 118              		.comm	FLASH_SPI,100,4
+ 119              		.comm	P3_SPI,100,4
+ 120              		.comm	P2_SPI,100,4
+ 121              		.comm	P1_SPI,100,4
+ 122              		.comm	P3_I2C,76,4
+ 123              		.comm	P2_I2C,76,4
+ 124              		.comm	P1_I2C,76,4
+ 125              		.comm	common_I2C,76,4
+ 126              		.comm	P3_UART,120,4
+ 127              		.comm	P2_UART,120,4
+ 128              		.comm	P1_UART,120,4
+ 129              		.comm	FTDI_UART,120,4
+ 130              		.comm	BLE_UART,120,4
+ 131              		.comm	USB_UART,120,4
+ 132              		.comm	hiwdg,16,4
+ 133              		.comm	P3_DIO6,8,4
+ 134              		.comm	P3_DIO5,8,4
+ 135              		.comm	P3_DIO4,8,4
+ 136              		.comm	P3_DIO3,8,4
+ 137              		.comm	P3_DIO2,8,4
+ 138              		.comm	P3_DIO1,8,4
+ 139              		.comm	P2_DIO6,8,4
+ 140              		.comm	P2_DIO5,8,4
+ 141              		.comm	P2_DIO4,8,4
+ 142              		.comm	P2_DIO3,8,4
+ 143              		.comm	P2_DIO2,8,4
+ 144              		.comm	P2_DIO1,8,4
+ 145              		.comm	P1_DIO6,8,4
+ 146              		.comm	P1_DIO5,8,4
+ 147              		.comm	P1_DIO4,8,4
+ 148              		.comm	P1_DIO3,8,4
+ 149              		.comm	P1_DIO2,8,4
+ 150              		.comm	P1_DIO1,8,4
+ 151              		.comm	htim6,64,4
+ 152              		.comm	htim1,64,4
+ 153              		.text
+ 154              	.Letext0:
+ 155              		.file 2 "/usr/arm-none-eabi/include/machine/_default_types.h"
+ARM GAS  /tmp/ccLhGTf5.s 			page 4
+
+
+ 156              		.file 3 "/usr/arm-none-eabi/include/sys/_stdint.h"
+ 157              		.file 4 "../../core/ST/CMSIS/Include/core_cm4.h"
+ 158              		.file 5 "../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/system_stm32l4xx.h"
+ 159              		.file 6 "../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/stm32l496xx.h"
+ 160              		.file 7 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h"
+ 161              		.file 8 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_dma.h"
+ 162              		.file 9 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_i2c.h"
+ 163              		.file 10 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_iwdg.h"
+ 164              		.file 11 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rtc.h"
+ 165              		.file 12 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_spi.h"
+ 166              		.file 13 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_tim.h"
+ 167              		.file 14 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h"
+ 168              		.file 15 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h"
+ 169              		.file 16 "../../core/platform/octa/inc/sysclock.h"
+ 170              		.file 17 "../../core/platform/octa/inc/gpio.h"
+ 171              		.file 18 "../../core/platform/octa/inc/iwdg.h"
+ 172              		.file 19 "../../core/platform/octa/inc/uart.h"
+ 173              		.file 20 "../../core/platform/octa/inc/i2c.h"
+ 174              		.file 21 "../../core/platform/octa/inc/spi.h"
+ 175              		.file 22 "../../core/platform/octa/inc/rtc.h"
+ 176              		.file 23 "/usr/arm-none-eabi/include/sys/lock.h"
+ 177              		.file 24 "/usr/arm-none-eabi/include/sys/_types.h"
+ 178              		.file 25 "/usr/lib/gcc/arm-none-eabi/9.2.1/include/stddef.h"
+ 179              		.file 26 "/usr/arm-none-eabi/include/sys/reent.h"
+ 180              		.file 27 "../../core/platform/common/inc/datatypes.h"
+ 181              		.file 28 "../../core/platform/octa/inc/platform.h"
+ 182              		.file 29 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_gpio.h"
+ARM GAS  /tmp/ccLhGTf5.s 			page 5
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 no-scheduler-example.c
+     /tmp/ccLhGTf5.s:18     .text.main:0000000000000000 $t
+     /tmp/ccLhGTf5.s:26     .text.main:0000000000000000 main
+     /tmp/ccLhGTf5.s:97     .text.main:0000000000000064 $d
+                            *COM*:000000000000002c P3_header
+                            *COM*:000000000000002c P2_header
+                            *COM*:000000000000002c P1_header
+                            *COM*:0000000000000001 stackversion_patch
+                            *COM*:0000000000000001 stackversion_minor
+                            *COM*:0000000000000001 stackversion_major
+                            *COM*:0000000000000001 appversion_patch
+                            *COM*:0000000000000001 appversion_minor
+                            *COM*:0000000000000001 appversion_major
+                            *COM*:0000000000000008 short_UID
+                            *COM*:0000000000000008 octa_uid
+                            *COM*:0000000000000004 float_union
+                            *COM*:0000000000000002 int16LittleEndian
+                            *COM*:0000000000000004 uint32LittleEndian
+                            *COM*:0000000000000004 int32LittleEndian
+                            *COM*:0000000000000024 hrtc
+                            *COM*:0000000000000064 FLASH_SPI
+                            *COM*:0000000000000064 P3_SPI
+                            *COM*:0000000000000064 P2_SPI
+                            *COM*:0000000000000064 P1_SPI
+                            *COM*:000000000000004c P3_I2C
+                            *COM*:000000000000004c P2_I2C
+                            *COM*:000000000000004c P1_I2C
+                            *COM*:000000000000004c common_I2C
+                            *COM*:0000000000000078 P3_UART
+                            *COM*:0000000000000078 P2_UART
+                            *COM*:0000000000000078 P1_UART
+                            *COM*:0000000000000078 FTDI_UART
+                            *COM*:0000000000000078 BLE_UART
+                            *COM*:0000000000000078 USB_UART
+                            *COM*:0000000000000010 hiwdg
+                            *COM*:0000000000000008 P3_DIO6
+                            *COM*:0000000000000008 P3_DIO5
+                            *COM*:0000000000000008 P3_DIO4
+                            *COM*:0000000000000008 P3_DIO3
+                            *COM*:0000000000000008 P3_DIO2
+                            *COM*:0000000000000008 P3_DIO1
+                            *COM*:0000000000000008 P2_DIO6
+                            *COM*:0000000000000008 P2_DIO5
+                            *COM*:0000000000000008 P2_DIO4
+                            *COM*:0000000000000008 P2_DIO3
+                            *COM*:0000000000000008 P2_DIO2
+                            *COM*:0000000000000008 P2_DIO1
+                            *COM*:0000000000000008 P1_DIO6
+                            *COM*:0000000000000008 P1_DIO5
+                            *COM*:0000000000000008 P1_DIO4
+                            *COM*:0000000000000008 P1_DIO3
+                            *COM*:0000000000000008 P1_DIO2
+                            *COM*:0000000000000008 P1_DIO1
+                            *COM*:0000000000000040 htim6
+                            *COM*:0000000000000040 htim1
+
+ARM GAS  /tmp/ccLhGTf5.s 			page 6
+
+
+UNDEFINED SYMBOLS
+Initialize_Platform
+IWDG_feed
+HAL_GPIO_TogglePin
+HAL_Delay

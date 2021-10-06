@@ -1,0 +1,659 @@
+ARM GAS  /tmp/ccWSBDzD.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 28, 1
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.file	"octa-flash-example.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.rodata.main.str1.4,"aMS",%progbits,1
+  18              		.align	2
+  19              	.LC0:
+  20 0000 466C6173 		.ascii	"Flash operation NOK: %d\015\012\000"
+  20      68206F70 
+  20      65726174 
+  20      696F6E20 
+  20      4E4F4B3A 
+  21 001a 0000     		.align	2
+  22              	.LC1:
+  23 001c 73656374 		.ascii	"sector 20: \015\012\000"
+  23      6F722032 
+  23      303A200D 
+  23      0A00
+  24 002a 0000     		.align	2
+  25              	.LC2:
+  26 002c 25642000 		.ascii	"%d \000"
+  27              		.align	2
+  28              	.LC3:
+  29 0030 0D00     		.ascii	"\015\000"
+  30 0032 0000     		.align	2
+  31              	.LC4:
+  32 0034 6F637461 		.ascii	"octa-flash RW test OK\015\012\000"
+  32      2D666C61 
+  32      73682052 
+  32      57207465 
+  32      7374204F 
+  33              		.align	2
+  34              	.LC5:
+  35 004c 6F637461 		.ascii	"octa-flash RW test NOK\015\012\000"
+  35      2D666C61 
+  35      73682052 
+  35      57207465 
+  35      7374204E 
+  36              		.section	.text.main,"ax",%progbits
+  37              		.align	1
+  38              		.global	main
+  39              		.arch armv7e-m
+  40              		.syntax unified
+  41              		.thumb
+  42              		.thumb_func
+ARM GAS  /tmp/ccWSBDzD.s 			page 2
+
+
+  43              		.fpu fpv4-sp-d16
+  45              	main:
+  46              	.LFB131:
+  47              		.file 1 "../../applications/examples/octa-flash-example/src/octa-flash-example.c"
+   1:../../applications/examples/octa-flash-example/src/octa-flash-example.c **** #include "octa-flash-example.h"
+   2:../../applications/examples/octa-flash-example/src/octa-flash-example.c **** #include "octa-flash.h"
+   3:../../applications/examples/octa-flash-example/src/octa-flash-example.c **** 
+   4:../../applications/examples/octa-flash-example/src/octa-flash-example.c **** int main(void)
+   5:../../applications/examples/octa-flash-example/src/octa-flash-example.c **** {
+  48              		.loc 1 5 1 view -0
+  49              		.cfi_startproc
+  50              		@ args = 0, pretend = 0, frame = 512
+  51              		@ frame_needed = 0, uses_anonymous_args = 0
+  52 0000 30B5     		push	{r4, r5, lr}
+  53              	.LCFI0:
+  54              		.cfi_def_cfa_offset 12
+  55              		.cfi_offset 4, -12
+  56              		.cfi_offset 5, -8
+  57              		.cfi_offset 14, -4
+  58 0002 ADF5017D 		sub	sp, sp, #516
+  59              	.LCFI1:
+  60              		.cfi_def_cfa_offset 528
+   6:../../applications/examples/octa-flash-example/src/octa-flash-example.c ****   Initialize_Platform();
+  61              		.loc 1 6 3 view .LVU1
+  62 0006 FFF7FEFF 		bl	Initialize_Platform
+  63              	.LVL0:
+   7:../../applications/examples/octa-flash-example/src/octa-flash-example.c **** 
+   8:../../applications/examples/octa-flash-example/src/octa-flash-example.c ****   #ifdef platform_octa_stm
+   9:../../applications/examples/octa-flash-example/src/octa-flash-example.c ****     HAL_GPIO_WritePin(OCTA_VCC_FLASH_Port, OCTA_VCC_FLASH_Pin, GPIO_PIN_SET);
+  64              		.loc 1 9 5 view .LVU2
+  65 000a 0122     		movs	r2, #1
+  66 000c 4FF48061 		mov	r1, #1024
+  67 0010 5248     		ldr	r0, .L18
+  68 0012 FFF7FEFF 		bl	HAL_GPIO_WritePin
+  69              	.LVL1:
+  10:../../applications/examples/octa-flash-example/src/octa-flash-example.c ****   #endif
+  11:../../applications/examples/octa-flash-example/src/octa-flash-example.c ****   
+  12:../../applications/examples/octa-flash-example/src/octa-flash-example.c ****   OCTA_FLASH_Initialize(&FLASH_SPI);
+  70              		.loc 1 12 3 view .LVU3
+  71 0016 5248     		ldr	r0, .L18+4
+  72 0018 FFF7FEFF 		bl	OCTA_FLASH_Initialize
+  73              	.LVL2:
+  13:../../applications/examples/octa-flash-example/src/octa-flash-example.c ****   
+  14:../../applications/examples/octa-flash-example/src/octa-flash-example.c ****   int retval = 0;
+  74              		.loc 1 14 3 view .LVU4
+  15:../../applications/examples/octa-flash-example/src/octa-flash-example.c ****   retval = OCTA_FLASH_erase4KBSectorFromPage(0);
+  75              		.loc 1 15 3 view .LVU5
+  76              		.loc 1 15 12 is_stmt 0 view .LVU6
+  77 001c 0020     		movs	r0, #0
+  78 001e FFF7FEFF 		bl	OCTA_FLASH_erase4KBSectorFromPage
+  79              	.LVL3:
+  16:../../applications/examples/octa-flash-example/src/octa-flash-example.c ****   if(retval != OCTA_FLASH_OK)
+  80              		.loc 1 16 3 is_stmt 1 view .LVU7
+  81              		.loc 1 16 5 is_stmt 0 view .LVU8
+  82 0022 10BB     		cbnz	r0, .L14
+  83              	.LVL4:
+  84              	.L2:
+ARM GAS  /tmp/ccWSBDzD.s 			page 3
+
+
+  17:../../applications/examples/octa-flash-example/src/octa-flash-example.c ****   {
+  18:../../applications/examples/octa-flash-example/src/octa-flash-example.c ****     printERR("Flash operation NOK: %d\r\n", retval);
+  19:../../applications/examples/octa-flash-example/src/octa-flash-example.c ****   }
+  20:../../applications/examples/octa-flash-example/src/octa-flash-example.c ****   //RW test  
+  21:../../applications/examples/octa-flash-example/src/octa-flash-example.c ****   uint8_t RWsuccess = OCTA_FLASH_TestRW(); 
+  85              		.loc 1 21 3 is_stmt 1 view .LVU9
+  86              		.loc 1 21 23 is_stmt 0 view .LVU10
+  87 0024 FFF7FEFF 		bl	OCTA_FLASH_TestRW
+  88              	.LVL5:
+  22:../../applications/examples/octa-flash-example/src/octa-flash-example.c **** 
+  23:../../applications/examples/octa-flash-example/src/octa-flash-example.c ****   //erase sector from page 7 should erase the entire first user sector, also the first 3 pages used
+  24:../../applications/examples/octa-flash-example/src/octa-flash-example.c ****   retval = OCTA_FLASH_erase4KBSectorFromPage(7);
+  89              		.loc 1 24 3 is_stmt 1 view .LVU11
+  90              		.loc 1 24 12 is_stmt 0 view .LVU12
+  91 0028 0720     		movs	r0, #7
+  92 002a FFF7FEFF 		bl	OCTA_FLASH_erase4KBSectorFromPage
+  93              	.LVL6:
+  25:../../applications/examples/octa-flash-example/src/octa-flash-example.c ****   if(retval != OCTA_FLASH_OK)
+  94              		.loc 1 25 3 is_stmt 1 view .LVU13
+  95              		.loc 1 25 5 is_stmt 0 view .LVU14
+  96 002e 0146     		mov	r1, r0
+  97 0030 00BB     		cbnz	r0, .L15
+  98              	.LVL7:
+  99              	.L3:
+  26:../../applications/examples/octa-flash-example/src/octa-flash-example.c ****   {
+  27:../../applications/examples/octa-flash-example/src/octa-flash-example.c ****     printERR("Flash operation NOK: %d\r\n", retval);
+  28:../../applications/examples/octa-flash-example/src/octa-flash-example.c ****   }
+  29:../../applications/examples/octa-flash-example/src/octa-flash-example.c **** 
+  30:../../applications/examples/octa-flash-example/src/octa-flash-example.c ****   //try again
+  31:../../applications/examples/octa-flash-example/src/octa-flash-example.c ****   RWsuccess = OCTA_FLASH_TestRW();
+ 100              		.loc 1 31 3 is_stmt 1 view .LVU15
+ 101              		.loc 1 31 15 is_stmt 0 view .LVU16
+ 102 0032 FFF7FEFF 		bl	OCTA_FLASH_TestRW
+ 103              	.LVL8:
+  32:../../applications/examples/octa-flash-example/src/octa-flash-example.c **** 
+  33:../../applications/examples/octa-flash-example/src/octa-flash-example.c ****   //write something to page 20 -> part of sector 2
+  34:../../applications/examples/octa-flash-example/src/octa-flash-example.c ****   OCTA_FLASH_open(20);
+ 104              		.loc 1 34 3 is_stmt 1 view .LVU17
+ 105 0036 1420     		movs	r0, #20
+ 106 0038 FFF7FEFF 		bl	OCTA_FLASH_open
+ 107              	.LVL9:
+  35:../../applications/examples/octa-flash-example/src/octa-flash-example.c ****   uint8_t buffer[OCTA_FLASH_PAGE_SIZE];
+ 108              		.loc 1 35 3 view .LVU18
+  36:../../applications/examples/octa-flash-example/src/octa-flash-example.c ****   memset(buffer, 20, 256);
+ 109              		.loc 1 36 3 view .LVU19
+ 110 003c 4FF48072 		mov	r2, #256
+ 111 0040 1421     		movs	r1, #20
+ 112 0042 0DEB0200 		add	r0, sp, r2
+ 113 0046 FFF7FEFF 		bl	memset
+ 114              	.LVL10:
+  37:../../applications/examples/octa-flash-example/src/octa-flash-example.c ****   OCTA_FLASH_write(buffer, OCTA_FLASH_PAGE_SIZE);
+ 115              		.loc 1 37 3 view .LVU20
+ 116 004a 4FF48071 		mov	r1, #256
+ 117 004e 0DEB0100 		add	r0, sp, r1
+ 118 0052 FFF7FEFF 		bl	OCTA_FLASH_write
+ 119              	.LVL11:
+  38:../../applications/examples/octa-flash-example/src/octa-flash-example.c ****   //read to check
+ARM GAS  /tmp/ccWSBDzD.s 			page 4
+
+
+  39:../../applications/examples/octa-flash-example/src/octa-flash-example.c ****   uint8_t rx[OCTA_FLASH_PAGE_SIZE];
+ 120              		.loc 1 39 3 view .LVU21
+  40:../../applications/examples/octa-flash-example/src/octa-flash-example.c ****   OCTA_FLASH_read(rx,OCTA_FLASH_PAGE_SIZE);
+ 121              		.loc 1 40 3 view .LVU22
+ 122 0056 4FF48071 		mov	r1, #256
+ 123 005a 6846     		mov	r0, sp
+ 124 005c FFF7FEFF 		bl	OCTA_FLASH_read
+ 125              	.LVL12:
+  41:../../applications/examples/octa-flash-example/src/octa-flash-example.c ****   printDBG("sector 20: \r\n");
+ 126              		.loc 1 41 3 view .LVU23
+ 127 0060 4048     		ldr	r0, .L18+8
+ 128 0062 FFF7FEFF 		bl	printDBG
+ 129              	.LVL13:
+  42:../../applications/examples/octa-flash-example/src/octa-flash-example.c ****   for(uint16_t i = 0; i<256; i++)
+ 130              		.loc 1 42 3 view .LVU24
+ 131              	.LBB2:
+ 132              		.loc 1 42 7 view .LVU25
+ 133              		.loc 1 42 16 is_stmt 0 view .LVU26
+ 134 0066 0024     		movs	r4, #0
+ 135              		.loc 1 42 3 view .LVU27
+ 136 0068 0FE0     		b	.L4
+ 137              	.LVL14:
+ 138              	.L14:
+ 139              		.loc 1 42 3 view .LVU28
+ 140 006a 0146     		mov	r1, r0
+ 141              	.LBE2:
+  18:../../applications/examples/octa-flash-example/src/octa-flash-example.c ****   }
+ 142              		.loc 1 18 5 is_stmt 1 view .LVU29
+ 143 006c 3E48     		ldr	r0, .L18+12
+ 144              	.LVL15:
+  18:../../applications/examples/octa-flash-example/src/octa-flash-example.c ****   }
+ 145              		.loc 1 18 5 is_stmt 0 view .LVU30
+ 146 006e FFF7FEFF 		bl	printERR
+ 147              	.LVL16:
+  18:../../applications/examples/octa-flash-example/src/octa-flash-example.c ****   }
+ 148              		.loc 1 18 5 view .LVU31
+ 149 0072 D7E7     		b	.L2
+ 150              	.LVL17:
+ 151              	.L15:
+  27:../../applications/examples/octa-flash-example/src/octa-flash-example.c ****   }
+ 152              		.loc 1 27 5 is_stmt 1 view .LVU32
+ 153 0074 3C48     		ldr	r0, .L18+12
+ 154              	.LVL18:
+  27:../../applications/examples/octa-flash-example/src/octa-flash-example.c ****   }
+ 155              		.loc 1 27 5 is_stmt 0 view .LVU33
+ 156 0076 FFF7FEFF 		bl	printERR
+ 157              	.LVL19:
+  27:../../applications/examples/octa-flash-example/src/octa-flash-example.c ****   }
+ 158              		.loc 1 27 5 view .LVU34
+ 159 007a DAE7     		b	.L3
+ 160              	.LVL20:
+ 161              	.L5:
+ 162              	.LBB3:
+  43:../../applications/examples/octa-flash-example/src/octa-flash-example.c ****       printf("%d ", rx[i]); 
+ 163              		.loc 1 43 7 is_stmt 1 discriminator 3 view .LVU35
+ 164 007c 1DF80410 		ldrb	r1, [sp, r4]	@ zero_extendqisi2
+ 165 0080 3A48     		ldr	r0, .L18+16
+ARM GAS  /tmp/ccWSBDzD.s 			page 5
+
+
+ 166 0082 FFF7FEFF 		bl	printf
+ 167              	.LVL21:
+  42:../../applications/examples/octa-flash-example/src/octa-flash-example.c ****       printf("%d ", rx[i]); 
+ 168              		.loc 1 42 30 discriminator 3 view .LVU36
+  42:../../applications/examples/octa-flash-example/src/octa-flash-example.c ****       printf("%d ", rx[i]); 
+ 169              		.loc 1 42 31 is_stmt 0 discriminator 3 view .LVU37
+ 170 0086 0134     		adds	r4, r4, #1
+ 171              	.LVL22:
+  42:../../applications/examples/octa-flash-example/src/octa-flash-example.c ****       printf("%d ", rx[i]); 
+ 172              		.loc 1 42 31 discriminator 3 view .LVU38
+ 173 0088 A4B2     		uxth	r4, r4
+ 174              	.LVL23:
+ 175              	.L4:
+  42:../../applications/examples/octa-flash-example/src/octa-flash-example.c ****       printf("%d ", rx[i]); 
+ 176              		.loc 1 42 23 is_stmt 1 discriminator 1 view .LVU39
+  42:../../applications/examples/octa-flash-example/src/octa-flash-example.c ****       printf("%d ", rx[i]); 
+ 177              		.loc 1 42 3 is_stmt 0 discriminator 1 view .LVU40
+ 178 008a FF2C     		cmp	r4, #255
+ 179 008c F6D9     		bls	.L5
+ 180              	.LBE3:
+  44:../../applications/examples/octa-flash-example/src/octa-flash-example.c ****   printf("\r\n");
+ 181              		.loc 1 44 3 is_stmt 1 view .LVU41
+ 182 008e 3848     		ldr	r0, .L18+20
+ 183 0090 FFF7FEFF 		bl	puts
+ 184              	.LVL24:
+  45:../../applications/examples/octa-flash-example/src/octa-flash-example.c **** 
+  46:../../applications/examples/octa-flash-example/src/octa-flash-example.c ****   //erase starting from page 16, should not affect RWtest when running again (==sector 2)
+  47:../../applications/examples/octa-flash-example/src/octa-flash-example.c ****   retval = OCTA_FLASH_erase4KBSectorFromPage(16);
+ 185              		.loc 1 47 3 view .LVU42
+ 186              		.loc 1 47 12 is_stmt 0 view .LVU43
+ 187 0094 1020     		movs	r0, #16
+ 188 0096 FFF7FEFF 		bl	OCTA_FLASH_erase4KBSectorFromPage
+ 189              	.LVL25:
+  48:../../applications/examples/octa-flash-example/src/octa-flash-example.c ****   if(retval != OCTA_FLASH_OK)
+ 190              		.loc 1 48 3 is_stmt 1 view .LVU44
+ 191              		.loc 1 48 5 is_stmt 0 view .LVU45
+ 192 009a 0146     		mov	r1, r0
+ 193 009c 78B9     		cbnz	r0, .L16
+ 194              	.LVL26:
+ 195              	.L6:
+  49:../../applications/examples/octa-flash-example/src/octa-flash-example.c ****   {
+  50:../../applications/examples/octa-flash-example/src/octa-flash-example.c ****     printERR("Flash operation NOK: %d\r\n", retval);
+  51:../../applications/examples/octa-flash-example/src/octa-flash-example.c ****   }
+  52:../../applications/examples/octa-flash-example/src/octa-flash-example.c **** 
+  53:../../applications/examples/octa-flash-example/src/octa-flash-example.c ****   //This should work again
+  54:../../applications/examples/octa-flash-example/src/octa-flash-example.c ****   RWsuccess = OCTA_FLASH_TestRW();
+ 196              		.loc 1 54 3 is_stmt 1 view .LVU46
+ 197              		.loc 1 54 15 is_stmt 0 view .LVU47
+ 198 009e FFF7FEFF 		bl	OCTA_FLASH_TestRW
+ 199              	.LVL27:
+ 200 00a2 0546     		mov	r5, r0
+ 201              	.LVL28:
+  55:../../applications/examples/octa-flash-example/src/octa-flash-example.c **** 
+  56:../../applications/examples/octa-flash-example/src/octa-flash-example.c ****   //This should be 255 now, sector 2 is erased
+  57:../../applications/examples/octa-flash-example/src/octa-flash-example.c ****   OCTA_FLASH_open(20);
+ 202              		.loc 1 57 3 is_stmt 1 view .LVU48
+ 203 00a4 1420     		movs	r0, #20
+ARM GAS  /tmp/ccWSBDzD.s 			page 6
+
+
+ 204 00a6 FFF7FEFF 		bl	OCTA_FLASH_open
+ 205              	.LVL29:
+  58:../../applications/examples/octa-flash-example/src/octa-flash-example.c ****   OCTA_FLASH_read(rx,OCTA_FLASH_PAGE_SIZE);
+ 206              		.loc 1 58 3 view .LVU49
+ 207 00aa 4FF48071 		mov	r1, #256
+ 208 00ae 6846     		mov	r0, sp
+ 209 00b0 FFF7FEFF 		bl	OCTA_FLASH_read
+ 210              	.LVL30:
+  59:../../applications/examples/octa-flash-example/src/octa-flash-example.c ****   printDBG("sector 20: \r\n");
+ 211              		.loc 1 59 3 view .LVU50
+ 212 00b4 2B48     		ldr	r0, .L18+8
+ 213 00b6 FFF7FEFF 		bl	printDBG
+ 214              	.LVL31:
+  60:../../applications/examples/octa-flash-example/src/octa-flash-example.c ****   for(uint16_t i = 0; i<256; i++)
+ 215              		.loc 1 60 3 view .LVU51
+ 216              	.LBB4:
+ 217              		.loc 1 60 7 view .LVU52
+ 218              		.loc 1 60 16 is_stmt 0 view .LVU53
+ 219 00ba 0024     		movs	r4, #0
+ 220              	.LVL32:
+ 221              		.loc 1 60 3 view .LVU54
+ 222 00bc 0AE0     		b	.L7
+ 223              	.LVL33:
+ 224              	.L16:
+ 225              		.loc 1 60 3 view .LVU55
+ 226              	.LBE4:
+  50:../../applications/examples/octa-flash-example/src/octa-flash-example.c ****   }
+ 227              		.loc 1 50 5 is_stmt 1 view .LVU56
+ 228 00be 2A48     		ldr	r0, .L18+12
+ 229              	.LVL34:
+  50:../../applications/examples/octa-flash-example/src/octa-flash-example.c ****   }
+ 230              		.loc 1 50 5 is_stmt 0 view .LVU57
+ 231 00c0 FFF7FEFF 		bl	printERR
+ 232              	.LVL35:
+  50:../../applications/examples/octa-flash-example/src/octa-flash-example.c ****   }
+ 233              		.loc 1 50 5 view .LVU58
+ 234 00c4 EBE7     		b	.L6
+ 235              	.LVL36:
+ 236              	.L8:
+ 237              	.LBB5:
+  61:../../applications/examples/octa-flash-example/src/octa-flash-example.c ****       printf("%d ", rx[i]); 
+ 238              		.loc 1 61 7 is_stmt 1 discriminator 3 view .LVU59
+ 239 00c6 1DF80410 		ldrb	r1, [sp, r4]	@ zero_extendqisi2
+ 240 00ca 2848     		ldr	r0, .L18+16
+ 241 00cc FFF7FEFF 		bl	printf
+ 242              	.LVL37:
+  60:../../applications/examples/octa-flash-example/src/octa-flash-example.c ****   for(uint16_t i = 0; i<256; i++)
+ 243              		.loc 1 60 30 discriminator 3 view .LVU60
+  60:../../applications/examples/octa-flash-example/src/octa-flash-example.c ****   for(uint16_t i = 0; i<256; i++)
+ 244              		.loc 1 60 31 is_stmt 0 discriminator 3 view .LVU61
+ 245 00d0 0134     		adds	r4, r4, #1
+ 246              	.LVL38:
+  60:../../applications/examples/octa-flash-example/src/octa-flash-example.c ****   for(uint16_t i = 0; i<256; i++)
+ 247              		.loc 1 60 31 discriminator 3 view .LVU62
+ 248 00d2 A4B2     		uxth	r4, r4
+ 249              	.LVL39:
+ 250              	.L7:
+ARM GAS  /tmp/ccWSBDzD.s 			page 7
+
+
+  60:../../applications/examples/octa-flash-example/src/octa-flash-example.c ****   for(uint16_t i = 0; i<256; i++)
+ 251              		.loc 1 60 23 is_stmt 1 discriminator 1 view .LVU63
+  60:../../applications/examples/octa-flash-example/src/octa-flash-example.c ****   for(uint16_t i = 0; i<256; i++)
+ 252              		.loc 1 60 3 is_stmt 0 discriminator 1 view .LVU64
+ 253 00d4 FF2C     		cmp	r4, #255
+ 254 00d6 F6D9     		bls	.L8
+ 255              	.LBE5:
+  62:../../applications/examples/octa-flash-example/src/octa-flash-example.c ****   printf("\r\n");
+ 256              		.loc 1 62 3 is_stmt 1 view .LVU65
+ 257 00d8 2548     		ldr	r0, .L18+20
+ 258 00da FFF7FEFF 		bl	puts
+ 259              	.LVL40:
+  63:../../applications/examples/octa-flash-example/src/octa-flash-example.c **** 
+  64:../../applications/examples/octa-flash-example/src/octa-flash-example.c ****   if(RWsuccess)
+ 260              		.loc 1 64 3 view .LVU66
+ 261              		.loc 1 64 5 is_stmt 0 view .LVU67
+ 262 00de 1DB1     		cbz	r5, .L9
+  65:../../applications/examples/octa-flash-example/src/octa-flash-example.c ****       printINF("octa-flash RW test OK\r\n");
+ 263              		.loc 1 65 7 is_stmt 1 view .LVU68
+ 264 00e0 2448     		ldr	r0, .L18+24
+ 265 00e2 FFF7FEFF 		bl	printINF
+ 266              	.LVL41:
+ 267 00e6 1FE0     		b	.L11
+ 268              	.L9:
+  66:../../applications/examples/octa-flash-example/src/octa-flash-example.c ****   else
+  67:../../applications/examples/octa-flash-example/src/octa-flash-example.c ****       printINF("octa-flash RW test NOK\r\n");
+ 269              		.loc 1 67 7 view .LVU69
+ 270 00e8 2348     		ldr	r0, .L18+28
+ 271 00ea FFF7FEFF 		bl	printINF
+ 272              	.LVL42:
+ 273 00ee 1BE0     		b	.L11
+ 274              	.LVL43:
+ 275              	.L17:
+  68:../../applications/examples/octa-flash-example/src/octa-flash-example.c ****   while (1)
+  69:../../applications/examples/octa-flash-example/src/octa-flash-example.c ****   {
+  70:../../applications/examples/octa-flash-example/src/octa-flash-example.c ****     IWDG_feed(NULL);
+  71:../../applications/examples/octa-flash-example/src/octa-flash-example.c ****     HAL_Delay(1000);
+  72:../../applications/examples/octa-flash-example/src/octa-flash-example.c ****     HAL_GPIO_TogglePin(OCTA_RLED_GPIO_Port, OCTA_RLED_Pin);
+  73:../../applications/examples/octa-flash-example/src/octa-flash-example.c ****     HAL_Delay(1000);
+  74:../../applications/examples/octa-flash-example/src/octa-flash-example.c ****     HAL_GPIO_TogglePin(OCTA_RLED_GPIO_Port, OCTA_RLED_Pin);
+  75:../../applications/examples/octa-flash-example/src/octa-flash-example.c ****     if(RWsuccess)
+  76:../../applications/examples/octa-flash-example/src/octa-flash-example.c ****     {
+  77:../../applications/examples/octa-flash-example/src/octa-flash-example.c ****       HAL_GPIO_TogglePin(OCTA_GLED_GPIO_Port, OCTA_GLED_Pin);
+ 276              		.loc 1 77 7 view .LVU70
+ 277 00f0 4FF48041 		mov	r1, #16384
+ 278 00f4 2046     		mov	r0, r4
+ 279 00f6 FFF7FEFF 		bl	HAL_GPIO_TogglePin
+ 280              	.LVL44:
+  78:../../applications/examples/octa-flash-example/src/octa-flash-example.c ****       HAL_Delay(1000);
+ 281              		.loc 1 78 7 view .LVU71
+ 282 00fa 4FF47A70 		mov	r0, #1000
+ 283 00fe FFF7FEFF 		bl	HAL_Delay
+ 284              	.LVL45:
+  79:../../applications/examples/octa-flash-example/src/octa-flash-example.c ****       HAL_GPIO_TogglePin(OCTA_GLED_GPIO_Port, OCTA_GLED_Pin);
+ 285              		.loc 1 79 7 view .LVU72
+ 286 0102 4FF48041 		mov	r1, #16384
+ 287 0106 2046     		mov	r0, r4
+ARM GAS  /tmp/ccWSBDzD.s 			page 8
+
+
+ 288 0108 FFF7FEFF 		bl	HAL_GPIO_TogglePin
+ 289              	.LVL46:
+  80:../../applications/examples/octa-flash-example/src/octa-flash-example.c ****       HAL_GPIO_TogglePin(OCTA_BLED_GPIO_Port, OCTA_BLED_Pin);
+ 290              		.loc 1 80 7 view .LVU73
+ 291 010c 4FF40051 		mov	r1, #8192
+ 292 0110 2046     		mov	r0, r4
+ 293 0112 FFF7FEFF 		bl	HAL_GPIO_TogglePin
+ 294              	.LVL47:
+  81:../../applications/examples/octa-flash-example/src/octa-flash-example.c ****       HAL_Delay(1000);
+ 295              		.loc 1 81 7 view .LVU74
+ 296 0116 4FF47A70 		mov	r0, #1000
+ 297 011a FFF7FEFF 		bl	HAL_Delay
+ 298              	.LVL48:
+  82:../../applications/examples/octa-flash-example/src/octa-flash-example.c ****       HAL_GPIO_TogglePin(OCTA_BLED_GPIO_Port, OCTA_BLED_Pin);
+ 299              		.loc 1 82 7 view .LVU75
+ 300 011e 4FF40051 		mov	r1, #8192
+ 301 0122 2046     		mov	r0, r4
+ 302 0124 FFF7FEFF 		bl	HAL_GPIO_TogglePin
+ 303              	.LVL49:
+ 304              	.L11:
+  68:../../applications/examples/octa-flash-example/src/octa-flash-example.c ****   {
+ 305              		.loc 1 68 3 view .LVU76
+  70:../../applications/examples/octa-flash-example/src/octa-flash-example.c ****     HAL_Delay(1000);
+ 306              		.loc 1 70 5 view .LVU77
+ 307 0128 0020     		movs	r0, #0
+ 308 012a FFF7FEFF 		bl	IWDG_feed
+ 309              	.LVL50:
+  71:../../applications/examples/octa-flash-example/src/octa-flash-example.c ****     HAL_GPIO_TogglePin(OCTA_RLED_GPIO_Port, OCTA_RLED_Pin);
+ 310              		.loc 1 71 5 view .LVU78
+ 311 012e 4FF47A70 		mov	r0, #1000
+ 312 0132 FFF7FEFF 		bl	HAL_Delay
+ 313              	.LVL51:
+  72:../../applications/examples/octa-flash-example/src/octa-flash-example.c ****     HAL_Delay(1000);
+ 314              		.loc 1 72 5 view .LVU79
+ 315 0136 114C     		ldr	r4, .L18+32
+ 316 0138 4FF40061 		mov	r1, #2048
+ 317 013c 2046     		mov	r0, r4
+ 318 013e FFF7FEFF 		bl	HAL_GPIO_TogglePin
+ 319              	.LVL52:
+  73:../../applications/examples/octa-flash-example/src/octa-flash-example.c ****     HAL_GPIO_TogglePin(OCTA_RLED_GPIO_Port, OCTA_RLED_Pin);
+ 320              		.loc 1 73 5 view .LVU80
+ 321 0142 4FF47A70 		mov	r0, #1000
+ 322 0146 FFF7FEFF 		bl	HAL_Delay
+ 323              	.LVL53:
+  74:../../applications/examples/octa-flash-example/src/octa-flash-example.c ****     if(RWsuccess)
+ 324              		.loc 1 74 5 view .LVU81
+ 325 014a 4FF40061 		mov	r1, #2048
+ 326 014e 2046     		mov	r0, r4
+ 327 0150 FFF7FEFF 		bl	HAL_GPIO_TogglePin
+ 328              	.LVL54:
+  75:../../applications/examples/octa-flash-example/src/octa-flash-example.c ****     {
+ 329              		.loc 1 75 5 view .LVU82
+  75:../../applications/examples/octa-flash-example/src/octa-flash-example.c ****     {
+ 330              		.loc 1 75 7 is_stmt 0 view .LVU83
+ 331 0154 002D     		cmp	r5, #0
+ 332 0156 E7D0     		beq	.L11
+ 333 0158 CAE7     		b	.L17
+ARM GAS  /tmp/ccWSBDzD.s 			page 9
+
+
+ 334              	.L19:
+ 335 015a 00BF     		.align	2
+ 336              	.L18:
+ 337 015c 000C0048 		.word	1207962624
+ 338 0160 00000000 		.word	FLASH_SPI
+ 339 0164 1C000000 		.word	.LC1
+ 340 0168 00000000 		.word	.LC0
+ 341 016c 2C000000 		.word	.LC2
+ 342 0170 30000000 		.word	.LC3
+ 343 0174 34000000 		.word	.LC4
+ 344 0178 4C000000 		.word	.LC5
+ 345 017c 00100048 		.word	1207963648
+ 346              		.cfi_endproc
+ 347              	.LFE131:
+ 349              		.comm	P3_header,44,4
+ 350              		.comm	P2_header,44,4
+ 351              		.comm	P1_header,44,4
+ 352              		.comm	stackversion_patch,1,1
+ 353              		.comm	stackversion_minor,1,1
+ 354              		.comm	stackversion_major,1,1
+ 355              		.comm	appversion_patch,1,1
+ 356              		.comm	appversion_minor,1,1
+ 357              		.comm	appversion_major,1,1
+ 358              		.comm	short_UID,8,8
+ 359              		.comm	octa_uid,8,8
+ 360              		.comm	float_union,4,4
+ 361              		.comm	uint16LittleEndian,2,4
+ 362              		.comm	int16LittleEndian,2,4
+ 363              		.comm	uint32LittleEndian,4,4
+ 364              		.comm	int32LittleEndian,4,4
+ 365              		.comm	rtosprintHandle,4,4
+ 366              		.comm	hrtc,36,4
+ 367              		.comm	FLASH_SPI,100,4
+ 368              		.comm	P2_SPI,100,4
+ 369              		.comm	P1_SPI,100,4
+ 370              		.comm	P2_I2C,76,4
+ 371              		.comm	P1_I2C,76,4
+ 372              		.comm	common_I2C,76,4
+ 373              		.comm	P2_UART,120,4
+ 374              		.comm	P1_UART,120,4
+ 375              		.comm	RS232_UART,120,4
+ 376              		.comm	NBIOT_UART,120,4
+ 377              		.comm	USB_UART,120,4
+ 378              		.comm	hiwdg,16,4
+ 379              		.comm	NBIOT_Reset,8,4
+ 380              		.comm	P2_DIO6,8,4
+ 381              		.comm	P2_DIO5,8,4
+ 382              		.comm	P2_DIO4,8,4
+ 383              		.comm	P2_DIO3,8,4
+ 384              		.comm	P2_DIO2,8,4
+ 385              		.comm	P2_DIO1,8,4
+ 386              		.comm	P1_DIO6,8,4
+ 387              		.comm	P1_DIO5,8,4
+ 388              		.comm	P1_DIO4,8,4
+ 389              		.comm	P1_DIO3,8,4
+ 390              		.comm	P1_DIO2,8,4
+ 391              		.comm	P1_DIO1,8,4
+ARM GAS  /tmp/ccWSBDzD.s 			page 10
+
+
+ 392              		.comm	htim6,64,4
+ 393              		.comm	htim1,64,4
+ 394              		.text
+ 395              	.Letext0:
+ 396              		.file 2 "/usr/arm-none-eabi/include/machine/_default_types.h"
+ 397              		.file 3 "/usr/arm-none-eabi/include/sys/_stdint.h"
+ 398              		.file 4 "../../core/ST/CMSIS/Include/core_cm4.h"
+ 399              		.file 5 "../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/system_stm32l4xx.h"
+ 400              		.file 6 "../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/stm32l496xx.h"
+ 401              		.file 7 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h"
+ 402              		.file 8 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_gpio.h"
+ 403              		.file 9 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_dma.h"
+ 404              		.file 10 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_i2c.h"
+ 405              		.file 11 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_iwdg.h"
+ 406              		.file 12 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rtc.h"
+ 407              		.file 13 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_spi.h"
+ 408              		.file 14 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_tim.h"
+ 409              		.file 15 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h"
+ 410              		.file 16 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h"
+ 411              		.file 17 "../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/include/task.h"
+ 412              		.file 18 "../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h"
+ 413              		.file 19 "../../core/platform/octa_stm/inc/sysclock.h"
+ 414              		.file 20 "../../core/platform/octa_stm/inc/gpio.h"
+ 415              		.file 21 "../../core/platform/octa_stm/inc/iwdg.h"
+ 416              		.file 22 "../../core/platform/octa_stm/inc/uart.h"
+ 417              		.file 23 "../../core/platform/octa_stm/inc/i2c.h"
+ 418              		.file 24 "../../core/platform/octa_stm/inc/spi.h"
+ 419              		.file 25 "../../core/platform/octa_stm/inc/rtc.h"
+ 420              		.file 26 "../../core/platform/octa_stm/inc/rtosincludes.h"
+ 421              		.file 27 "/usr/arm-none-eabi/include/sys/lock.h"
+ 422              		.file 28 "/usr/arm-none-eabi/include/sys/_types.h"
+ 423              		.file 29 "/usr/lib/gcc/arm-none-eabi/9.2.1/include/stddef.h"
+ 424              		.file 30 "/usr/arm-none-eabi/include/sys/reent.h"
+ 425              		.file 31 "../../core/platform/common/inc/datatypes.h"
+ 426              		.file 32 "../../core/platform/octa_stm/inc/platform.h"
+ 427              		.file 33 "/usr/arm-none-eabi/include/stdio.h"
+ 428              		.file 34 "../../core/drivers/octa-flash/inc/octa-flash.h"
+ 429              		.file 35 "/usr/arm-none-eabi/include/string.h"
+ 430              		.file 36 "../../core/platform/common/inc/print.h"
+ 431              		.file 37 "<built-in>"
+ARM GAS  /tmp/ccWSBDzD.s 			page 11
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 octa-flash-example.c
+     /tmp/ccWSBDzD.s:18     .rodata.main.str1.4:0000000000000000 $d
+     /tmp/ccWSBDzD.s:37     .text.main:0000000000000000 $t
+     /tmp/ccWSBDzD.s:45     .text.main:0000000000000000 main
+     /tmp/ccWSBDzD.s:337    .text.main:000000000000015c $d
+                            *COM*:0000000000000064 FLASH_SPI
+                            *COM*:000000000000002c P3_header
+                            *COM*:000000000000002c P2_header
+                            *COM*:000000000000002c P1_header
+                            *COM*:0000000000000001 stackversion_patch
+                            *COM*:0000000000000001 stackversion_minor
+                            *COM*:0000000000000001 stackversion_major
+                            *COM*:0000000000000001 appversion_patch
+                            *COM*:0000000000000001 appversion_minor
+                            *COM*:0000000000000001 appversion_major
+                            *COM*:0000000000000008 short_UID
+                            *COM*:0000000000000008 octa_uid
+                            *COM*:0000000000000004 float_union
+                            *COM*:0000000000000002 uint16LittleEndian
+                            *COM*:0000000000000002 int16LittleEndian
+                            *COM*:0000000000000004 uint32LittleEndian
+                            *COM*:0000000000000004 int32LittleEndian
+                            *COM*:0000000000000004 rtosprintHandle
+                            *COM*:0000000000000024 hrtc
+                            *COM*:0000000000000064 P2_SPI
+                            *COM*:0000000000000064 P1_SPI
+                            *COM*:000000000000004c P2_I2C
+                            *COM*:000000000000004c P1_I2C
+                            *COM*:000000000000004c common_I2C
+                            *COM*:0000000000000078 P2_UART
+                            *COM*:0000000000000078 P1_UART
+                            *COM*:0000000000000078 RS232_UART
+                            *COM*:0000000000000078 NBIOT_UART
+                            *COM*:0000000000000078 USB_UART
+                            *COM*:0000000000000010 hiwdg
+                            *COM*:0000000000000008 NBIOT_Reset
+                            *COM*:0000000000000008 P2_DIO6
+                            *COM*:0000000000000008 P2_DIO5
+                            *COM*:0000000000000008 P2_DIO4
+                            *COM*:0000000000000008 P2_DIO3
+                            *COM*:0000000000000008 P2_DIO2
+                            *COM*:0000000000000008 P2_DIO1
+                            *COM*:0000000000000008 P1_DIO6
+                            *COM*:0000000000000008 P1_DIO5
+                            *COM*:0000000000000008 P1_DIO4
+                            *COM*:0000000000000008 P1_DIO3
+                            *COM*:0000000000000008 P1_DIO2
+                            *COM*:0000000000000008 P1_DIO1
+                            *COM*:0000000000000040 htim6
+                            *COM*:0000000000000040 htim1
+
+UNDEFINED SYMBOLS
+Initialize_Platform
+HAL_GPIO_WritePin
+OCTA_FLASH_Initialize
+OCTA_FLASH_erase4KBSectorFromPage
+ARM GAS  /tmp/ccWSBDzD.s 			page 12
+
+
+OCTA_FLASH_TestRW
+OCTA_FLASH_open
+memset
+OCTA_FLASH_write
+OCTA_FLASH_read
+printDBG
+printERR
+printf
+puts
+printINF
+HAL_GPIO_TogglePin
+HAL_Delay
+IWDG_feed

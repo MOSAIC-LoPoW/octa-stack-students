@@ -1,0 +1,736 @@
+ARM GAS  /tmp/ccnKjlBf.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 28, 1
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.file	"i2c.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.text.common_I2C_Init,"ax",%progbits
+  18              		.align	1
+  19              		.global	common_I2C_Init
+  20              		.arch armv7e-m
+  21              		.syntax unified
+  22              		.thumb
+  23              		.thumb_func
+  24              		.fpu fpv4-sp-d16
+  26              	common_I2C_Init:
+  27              	.LFB131:
+  28              		.file 1 "../../core/platform/octa/src/i2c.c"
+   1:../../core/platform/octa/src/i2c.c **** #include "i2c.h"
+   2:../../core/platform/octa/src/i2c.c **** #include "platform.h"
+   3:../../core/platform/octa/src/i2c.c **** 
+   4:../../core/platform/octa/src/i2c.c **** void common_I2C_Init(void)
+   5:../../core/platform/octa/src/i2c.c **** {
+  29              		.loc 1 5 1 view -0
+  30              		.cfi_startproc
+  31              		@ args = 0, pretend = 0, frame = 0
+  32              		@ frame_needed = 0, uses_anonymous_args = 0
+  33 0000 08B5     		push	{r3, lr}
+  34              	.LCFI0:
+  35              		.cfi_def_cfa_offset 8
+  36              		.cfi_offset 3, -8
+  37              		.cfi_offset 14, -4
+   6:../../core/platform/octa/src/i2c.c ****   common_I2C.Instance = I2C1;
+  38              		.loc 1 6 3 view .LVU1
+  39              		.loc 1 6 23 is_stmt 0 view .LVU2
+  40 0002 1248     		ldr	r0, .L9
+  41 0004 124B     		ldr	r3, .L9+4
+  42 0006 0360     		str	r3, [r0]
+   7:../../core/platform/octa/src/i2c.c ****   common_I2C.Init.Timing = 0x00101A26;
+  43              		.loc 1 7 3 is_stmt 1 view .LVU3
+  44              		.loc 1 7 26 is_stmt 0 view .LVU4
+  45 0008 124B     		ldr	r3, .L9+8
+  46 000a 4360     		str	r3, [r0, #4]
+   8:../../core/platform/octa/src/i2c.c ****   common_I2C.Init.OwnAddress1 = 0;
+  47              		.loc 1 8 3 is_stmt 1 view .LVU5
+  48              		.loc 1 8 31 is_stmt 0 view .LVU6
+  49 000c 0023     		movs	r3, #0
+  50 000e 8360     		str	r3, [r0, #8]
+ARM GAS  /tmp/ccnKjlBf.s 			page 2
+
+
+   9:../../core/platform/octa/src/i2c.c ****   common_I2C.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
+  51              		.loc 1 9 3 is_stmt 1 view .LVU7
+  52              		.loc 1 9 34 is_stmt 0 view .LVU8
+  53 0010 0122     		movs	r2, #1
+  54 0012 C260     		str	r2, [r0, #12]
+  10:../../core/platform/octa/src/i2c.c ****   common_I2C.Init.DualAddressMode = I2C_DUALADDRESS_DISABLE;
+  55              		.loc 1 10 3 is_stmt 1 view .LVU9
+  56              		.loc 1 10 35 is_stmt 0 view .LVU10
+  57 0014 0361     		str	r3, [r0, #16]
+  11:../../core/platform/octa/src/i2c.c ****   common_I2C.Init.OwnAddress2 = 0;
+  58              		.loc 1 11 3 is_stmt 1 view .LVU11
+  59              		.loc 1 11 31 is_stmt 0 view .LVU12
+  60 0016 4361     		str	r3, [r0, #20]
+  12:../../core/platform/octa/src/i2c.c ****   common_I2C.Init.OwnAddress2Masks = I2C_OA2_NOMASK;
+  61              		.loc 1 12 3 is_stmt 1 view .LVU13
+  62              		.loc 1 12 36 is_stmt 0 view .LVU14
+  63 0018 8361     		str	r3, [r0, #24]
+  13:../../core/platform/octa/src/i2c.c ****   common_I2C.Init.GeneralCallMode = I2C_GENERALCALL_DISABLE;
+  64              		.loc 1 13 3 is_stmt 1 view .LVU15
+  65              		.loc 1 13 35 is_stmt 0 view .LVU16
+  66 001a C361     		str	r3, [r0, #28]
+  14:../../core/platform/octa/src/i2c.c ****   common_I2C.Init.NoStretchMode = I2C_NOSTRETCH_DISABLE;
+  67              		.loc 1 14 3 is_stmt 1 view .LVU17
+  68              		.loc 1 14 33 is_stmt 0 view .LVU18
+  69 001c 0362     		str	r3, [r0, #32]
+  15:../../core/platform/octa/src/i2c.c ****   if (HAL_I2C_Init(&common_I2C) != HAL_OK)
+  70              		.loc 1 15 3 is_stmt 1 view .LVU19
+  71              		.loc 1 15 7 is_stmt 0 view .LVU20
+  72 001e FFF7FEFF 		bl	HAL_I2C_Init
+  73              	.LVL0:
+  74              		.loc 1 15 6 view .LVU21
+  75 0022 50B9     		cbnz	r0, .L6
+  76              	.L2:
+  16:../../core/platform/octa/src/i2c.c ****   {
+  17:../../core/platform/octa/src/i2c.c ****     Error_Handler();
+  18:../../core/platform/octa/src/i2c.c ****   }
+  19:../../core/platform/octa/src/i2c.c **** 
+  20:../../core/platform/octa/src/i2c.c ****   if (HAL_I2CEx_ConfigAnalogFilter(&common_I2C, I2C_ANALOGFILTER_ENABLE) != HAL_OK)
+  77              		.loc 1 20 3 is_stmt 1 view .LVU22
+  78              		.loc 1 20 7 is_stmt 0 view .LVU23
+  79 0024 0021     		movs	r1, #0
+  80 0026 0948     		ldr	r0, .L9
+  81 0028 FFF7FEFF 		bl	HAL_I2CEx_ConfigAnalogFilter
+  82              	.LVL1:
+  83              		.loc 1 20 6 view .LVU24
+  84 002c 40B9     		cbnz	r0, .L7
+  85              	.L3:
+  21:../../core/platform/octa/src/i2c.c ****   {
+  22:../../core/platform/octa/src/i2c.c ****     Error_Handler();
+  23:../../core/platform/octa/src/i2c.c ****   }
+  24:../../core/platform/octa/src/i2c.c ****   if (HAL_I2CEx_ConfigDigitalFilter(&common_I2C, 0) != HAL_OK)
+  86              		.loc 1 24 3 is_stmt 1 view .LVU25
+  87              		.loc 1 24 7 is_stmt 0 view .LVU26
+  88 002e 0021     		movs	r1, #0
+  89 0030 0648     		ldr	r0, .L9
+  90 0032 FFF7FEFF 		bl	HAL_I2CEx_ConfigDigitalFilter
+  91              	.LVL2:
+ARM GAS  /tmp/ccnKjlBf.s 			page 3
+
+
+  92              		.loc 1 24 6 view .LVU27
+  93 0036 30B9     		cbnz	r0, .L8
+  94              	.L1:
+  25:../../core/platform/octa/src/i2c.c ****   {
+  26:../../core/platform/octa/src/i2c.c ****     Error_Handler();
+  27:../../core/platform/octa/src/i2c.c ****   }
+  28:../../core/platform/octa/src/i2c.c **** }
+  95              		.loc 1 28 1 view .LVU28
+  96 0038 08BD     		pop	{r3, pc}
+  97              	.L6:
+  17:../../core/platform/octa/src/i2c.c ****   }
+  98              		.loc 1 17 5 is_stmt 1 view .LVU29
+  99 003a FFF7FEFF 		bl	Error_Handler
+ 100              	.LVL3:
+ 101 003e F1E7     		b	.L2
+ 102              	.L7:
+  22:../../core/platform/octa/src/i2c.c ****   }
+ 103              		.loc 1 22 5 view .LVU30
+ 104 0040 FFF7FEFF 		bl	Error_Handler
+ 105              	.LVL4:
+ 106 0044 F3E7     		b	.L3
+ 107              	.L8:
+  26:../../core/platform/octa/src/i2c.c ****   }
+ 108              		.loc 1 26 5 view .LVU31
+ 109 0046 FFF7FEFF 		bl	Error_Handler
+ 110              	.LVL5:
+ 111              		.loc 1 28 1 is_stmt 0 view .LVU32
+ 112 004a F5E7     		b	.L1
+ 113              	.L10:
+ 114              		.align	2
+ 115              	.L9:
+ 116 004c 00000000 		.word	common_I2C
+ 117 0050 00540040 		.word	1073763328
+ 118 0054 261A1000 		.word	1055270
+ 119              		.cfi_endproc
+ 120              	.LFE131:
+ 122              		.section	.text.P1_I2C_Init,"ax",%progbits
+ 123              		.align	1
+ 124              		.global	P1_I2C_Init
+ 125              		.syntax unified
+ 126              		.thumb
+ 127              		.thumb_func
+ 128              		.fpu fpv4-sp-d16
+ 130              	P1_I2C_Init:
+ 131              	.LFB132:
+  29:../../core/platform/octa/src/i2c.c **** 
+  30:../../core/platform/octa/src/i2c.c **** void P1_I2C_Init(void)
+  31:../../core/platform/octa/src/i2c.c **** {
+ 132              		.loc 1 31 1 is_stmt 1 view -0
+ 133              		.cfi_startproc
+ 134              		@ args = 0, pretend = 0, frame = 0
+ 135              		@ frame_needed = 0, uses_anonymous_args = 0
+ 136 0000 08B5     		push	{r3, lr}
+ 137              	.LCFI1:
+ 138              		.cfi_def_cfa_offset 8
+ 139              		.cfi_offset 3, -8
+ 140              		.cfi_offset 14, -4
+ARM GAS  /tmp/ccnKjlBf.s 			page 4
+
+
+  32:../../core/platform/octa/src/i2c.c ****   P1_I2C.Instance = I2C3;
+ 141              		.loc 1 32 3 view .LVU34
+ 142              		.loc 1 32 19 is_stmt 0 view .LVU35
+ 143 0002 1248     		ldr	r0, .L19
+ 144 0004 124B     		ldr	r3, .L19+4
+ 145 0006 0360     		str	r3, [r0]
+  33:../../core/platform/octa/src/i2c.c ****   P1_I2C.Init.Timing = 0x00101A26;
+ 146              		.loc 1 33 3 is_stmt 1 view .LVU36
+ 147              		.loc 1 33 22 is_stmt 0 view .LVU37
+ 148 0008 124B     		ldr	r3, .L19+8
+ 149 000a 4360     		str	r3, [r0, #4]
+  34:../../core/platform/octa/src/i2c.c ****   P1_I2C.Init.OwnAddress1 = 0;
+ 150              		.loc 1 34 3 is_stmt 1 view .LVU38
+ 151              		.loc 1 34 27 is_stmt 0 view .LVU39
+ 152 000c 0023     		movs	r3, #0
+ 153 000e 8360     		str	r3, [r0, #8]
+  35:../../core/platform/octa/src/i2c.c ****   P1_I2C.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
+ 154              		.loc 1 35 3 is_stmt 1 view .LVU40
+ 155              		.loc 1 35 30 is_stmt 0 view .LVU41
+ 156 0010 0122     		movs	r2, #1
+ 157 0012 C260     		str	r2, [r0, #12]
+  36:../../core/platform/octa/src/i2c.c ****   P1_I2C.Init.DualAddressMode = I2C_DUALADDRESS_DISABLE;
+ 158              		.loc 1 36 3 is_stmt 1 view .LVU42
+ 159              		.loc 1 36 31 is_stmt 0 view .LVU43
+ 160 0014 0361     		str	r3, [r0, #16]
+  37:../../core/platform/octa/src/i2c.c ****   P1_I2C.Init.OwnAddress2 = 0;
+ 161              		.loc 1 37 3 is_stmt 1 view .LVU44
+ 162              		.loc 1 37 27 is_stmt 0 view .LVU45
+ 163 0016 4361     		str	r3, [r0, #20]
+  38:../../core/platform/octa/src/i2c.c ****   P1_I2C.Init.OwnAddress2Masks = I2C_OA2_NOMASK;
+ 164              		.loc 1 38 3 is_stmt 1 view .LVU46
+ 165              		.loc 1 38 32 is_stmt 0 view .LVU47
+ 166 0018 8361     		str	r3, [r0, #24]
+  39:../../core/platform/octa/src/i2c.c ****   P1_I2C.Init.GeneralCallMode = I2C_GENERALCALL_DISABLE;
+ 167              		.loc 1 39 3 is_stmt 1 view .LVU48
+ 168              		.loc 1 39 31 is_stmt 0 view .LVU49
+ 169 001a C361     		str	r3, [r0, #28]
+  40:../../core/platform/octa/src/i2c.c ****   P1_I2C.Init.NoStretchMode = I2C_NOSTRETCH_DISABLE;
+ 170              		.loc 1 40 3 is_stmt 1 view .LVU50
+ 171              		.loc 1 40 29 is_stmt 0 view .LVU51
+ 172 001c 0362     		str	r3, [r0, #32]
+  41:../../core/platform/octa/src/i2c.c ****   if (HAL_I2C_Init(&P1_I2C) != HAL_OK)
+ 173              		.loc 1 41 3 is_stmt 1 view .LVU52
+ 174              		.loc 1 41 7 is_stmt 0 view .LVU53
+ 175 001e FFF7FEFF 		bl	HAL_I2C_Init
+ 176              	.LVL6:
+ 177              		.loc 1 41 6 view .LVU54
+ 178 0022 50B9     		cbnz	r0, .L16
+ 179              	.L12:
+  42:../../core/platform/octa/src/i2c.c ****   {
+  43:../../core/platform/octa/src/i2c.c ****     Error_Handler();
+  44:../../core/platform/octa/src/i2c.c ****   }
+  45:../../core/platform/octa/src/i2c.c ****   if (HAL_I2CEx_ConfigAnalogFilter(&P1_I2C, I2C_ANALOGFILTER_ENABLE) != HAL_OK)
+ 180              		.loc 1 45 3 is_stmt 1 view .LVU55
+ 181              		.loc 1 45 7 is_stmt 0 view .LVU56
+ 182 0024 0021     		movs	r1, #0
+ 183 0026 0948     		ldr	r0, .L19
+ARM GAS  /tmp/ccnKjlBf.s 			page 5
+
+
+ 184 0028 FFF7FEFF 		bl	HAL_I2CEx_ConfigAnalogFilter
+ 185              	.LVL7:
+ 186              		.loc 1 45 6 view .LVU57
+ 187 002c 40B9     		cbnz	r0, .L17
+ 188              	.L13:
+  46:../../core/platform/octa/src/i2c.c ****   {
+  47:../../core/platform/octa/src/i2c.c ****     Error_Handler();
+  48:../../core/platform/octa/src/i2c.c ****   }
+  49:../../core/platform/octa/src/i2c.c ****   if (HAL_I2CEx_ConfigDigitalFilter(&P1_I2C, 0) != HAL_OK)
+ 189              		.loc 1 49 3 is_stmt 1 view .LVU58
+ 190              		.loc 1 49 7 is_stmt 0 view .LVU59
+ 191 002e 0021     		movs	r1, #0
+ 192 0030 0648     		ldr	r0, .L19
+ 193 0032 FFF7FEFF 		bl	HAL_I2CEx_ConfigDigitalFilter
+ 194              	.LVL8:
+ 195              		.loc 1 49 6 view .LVU60
+ 196 0036 30B9     		cbnz	r0, .L18
+ 197              	.L11:
+  50:../../core/platform/octa/src/i2c.c ****   {
+  51:../../core/platform/octa/src/i2c.c ****     Error_Handler();
+  52:../../core/platform/octa/src/i2c.c ****   }
+  53:../../core/platform/octa/src/i2c.c **** }
+ 198              		.loc 1 53 1 view .LVU61
+ 199 0038 08BD     		pop	{r3, pc}
+ 200              	.L16:
+  43:../../core/platform/octa/src/i2c.c ****   }
+ 201              		.loc 1 43 5 is_stmt 1 view .LVU62
+ 202 003a FFF7FEFF 		bl	Error_Handler
+ 203              	.LVL9:
+ 204 003e F1E7     		b	.L12
+ 205              	.L17:
+  47:../../core/platform/octa/src/i2c.c ****   }
+ 206              		.loc 1 47 5 view .LVU63
+ 207 0040 FFF7FEFF 		bl	Error_Handler
+ 208              	.LVL10:
+ 209 0044 F3E7     		b	.L13
+ 210              	.L18:
+  51:../../core/platform/octa/src/i2c.c ****   }
+ 211              		.loc 1 51 5 view .LVU64
+ 212 0046 FFF7FEFF 		bl	Error_Handler
+ 213              	.LVL11:
+ 214              		.loc 1 53 1 is_stmt 0 view .LVU65
+ 215 004a F5E7     		b	.L11
+ 216              	.L20:
+ 217              		.align	2
+ 218              	.L19:
+ 219 004c 00000000 		.word	P1_I2C
+ 220 0050 005C0040 		.word	1073765376
+ 221 0054 261A1000 		.word	1055270
+ 222              		.cfi_endproc
+ 223              	.LFE132:
+ 225              		.section	.text.P2_I2C_Init,"ax",%progbits
+ 226              		.align	1
+ 227              		.global	P2_I2C_Init
+ 228              		.syntax unified
+ 229              		.thumb
+ 230              		.thumb_func
+ARM GAS  /tmp/ccnKjlBf.s 			page 6
+
+
+ 231              		.fpu fpv4-sp-d16
+ 233              	P2_I2C_Init:
+ 234              	.LFB133:
+  54:../../core/platform/octa/src/i2c.c **** 
+  55:../../core/platform/octa/src/i2c.c **** void P2_I2C_Init(void)
+  56:../../core/platform/octa/src/i2c.c **** {
+ 235              		.loc 1 56 1 is_stmt 1 view -0
+ 236              		.cfi_startproc
+ 237              		@ args = 0, pretend = 0, frame = 0
+ 238              		@ frame_needed = 0, uses_anonymous_args = 0
+ 239 0000 08B5     		push	{r3, lr}
+ 240              	.LCFI2:
+ 241              		.cfi_def_cfa_offset 8
+ 242              		.cfi_offset 3, -8
+ 243              		.cfi_offset 14, -4
+  57:../../core/platform/octa/src/i2c.c ****   P2_I2C.Instance = I2C2;
+ 244              		.loc 1 57 3 view .LVU67
+ 245              		.loc 1 57 19 is_stmt 0 view .LVU68
+ 246 0002 1248     		ldr	r0, .L29
+ 247 0004 124B     		ldr	r3, .L29+4
+ 248 0006 0360     		str	r3, [r0]
+  58:../../core/platform/octa/src/i2c.c ****   P2_I2C.Init.Timing = 0x00101A26;
+ 249              		.loc 1 58 3 is_stmt 1 view .LVU69
+ 250              		.loc 1 58 22 is_stmt 0 view .LVU70
+ 251 0008 124B     		ldr	r3, .L29+8
+ 252 000a 4360     		str	r3, [r0, #4]
+  59:../../core/platform/octa/src/i2c.c ****   P2_I2C.Init.OwnAddress1 = 0;
+ 253              		.loc 1 59 3 is_stmt 1 view .LVU71
+ 254              		.loc 1 59 27 is_stmt 0 view .LVU72
+ 255 000c 0023     		movs	r3, #0
+ 256 000e 8360     		str	r3, [r0, #8]
+  60:../../core/platform/octa/src/i2c.c ****   P2_I2C.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
+ 257              		.loc 1 60 3 is_stmt 1 view .LVU73
+ 258              		.loc 1 60 30 is_stmt 0 view .LVU74
+ 259 0010 0122     		movs	r2, #1
+ 260 0012 C260     		str	r2, [r0, #12]
+  61:../../core/platform/octa/src/i2c.c ****   P2_I2C.Init.DualAddressMode = I2C_DUALADDRESS_DISABLE;
+ 261              		.loc 1 61 3 is_stmt 1 view .LVU75
+ 262              		.loc 1 61 31 is_stmt 0 view .LVU76
+ 263 0014 0361     		str	r3, [r0, #16]
+  62:../../core/platform/octa/src/i2c.c ****   P2_I2C.Init.OwnAddress2 = 0;
+ 264              		.loc 1 62 3 is_stmt 1 view .LVU77
+ 265              		.loc 1 62 27 is_stmt 0 view .LVU78
+ 266 0016 4361     		str	r3, [r0, #20]
+  63:../../core/platform/octa/src/i2c.c ****   P2_I2C.Init.OwnAddress2Masks = I2C_OA2_NOMASK;
+ 267              		.loc 1 63 3 is_stmt 1 view .LVU79
+ 268              		.loc 1 63 32 is_stmt 0 view .LVU80
+ 269 0018 8361     		str	r3, [r0, #24]
+  64:../../core/platform/octa/src/i2c.c ****   P2_I2C.Init.GeneralCallMode = I2C_GENERALCALL_DISABLE;
+ 270              		.loc 1 64 3 is_stmt 1 view .LVU81
+ 271              		.loc 1 64 31 is_stmt 0 view .LVU82
+ 272 001a C361     		str	r3, [r0, #28]
+  65:../../core/platform/octa/src/i2c.c ****   P2_I2C.Init.NoStretchMode = I2C_NOSTRETCH_DISABLE;
+ 273              		.loc 1 65 3 is_stmt 1 view .LVU83
+ 274              		.loc 1 65 29 is_stmt 0 view .LVU84
+ 275 001c 0362     		str	r3, [r0, #32]
+  66:../../core/platform/octa/src/i2c.c ****   if (HAL_I2C_Init(&P2_I2C) != HAL_OK)
+ARM GAS  /tmp/ccnKjlBf.s 			page 7
+
+
+ 276              		.loc 1 66 3 is_stmt 1 view .LVU85
+ 277              		.loc 1 66 7 is_stmt 0 view .LVU86
+ 278 001e FFF7FEFF 		bl	HAL_I2C_Init
+ 279              	.LVL12:
+ 280              		.loc 1 66 6 view .LVU87
+ 281 0022 50B9     		cbnz	r0, .L26
+ 282              	.L22:
+  67:../../core/platform/octa/src/i2c.c ****   {
+  68:../../core/platform/octa/src/i2c.c ****     Error_Handler();
+  69:../../core/platform/octa/src/i2c.c ****   }
+  70:../../core/platform/octa/src/i2c.c ****   if (HAL_I2CEx_ConfigAnalogFilter(&P2_I2C, I2C_ANALOGFILTER_ENABLE) != HAL_OK)
+ 283              		.loc 1 70 3 is_stmt 1 view .LVU88
+ 284              		.loc 1 70 7 is_stmt 0 view .LVU89
+ 285 0024 0021     		movs	r1, #0
+ 286 0026 0948     		ldr	r0, .L29
+ 287 0028 FFF7FEFF 		bl	HAL_I2CEx_ConfigAnalogFilter
+ 288              	.LVL13:
+ 289              		.loc 1 70 6 view .LVU90
+ 290 002c 40B9     		cbnz	r0, .L27
+ 291              	.L23:
+  71:../../core/platform/octa/src/i2c.c ****   {
+  72:../../core/platform/octa/src/i2c.c ****     Error_Handler();
+  73:../../core/platform/octa/src/i2c.c ****   }
+  74:../../core/platform/octa/src/i2c.c ****   if (HAL_I2CEx_ConfigDigitalFilter(&P2_I2C, 0) != HAL_OK)
+ 292              		.loc 1 74 3 is_stmt 1 view .LVU91
+ 293              		.loc 1 74 7 is_stmt 0 view .LVU92
+ 294 002e 0021     		movs	r1, #0
+ 295 0030 0648     		ldr	r0, .L29
+ 296 0032 FFF7FEFF 		bl	HAL_I2CEx_ConfigDigitalFilter
+ 297              	.LVL14:
+ 298              		.loc 1 74 6 view .LVU93
+ 299 0036 30B9     		cbnz	r0, .L28
+ 300              	.L21:
+  75:../../core/platform/octa/src/i2c.c ****   {
+  76:../../core/platform/octa/src/i2c.c ****     Error_Handler();
+  77:../../core/platform/octa/src/i2c.c ****   }
+  78:../../core/platform/octa/src/i2c.c **** }
+ 301              		.loc 1 78 1 view .LVU94
+ 302 0038 08BD     		pop	{r3, pc}
+ 303              	.L26:
+  68:../../core/platform/octa/src/i2c.c ****   }
+ 304              		.loc 1 68 5 is_stmt 1 view .LVU95
+ 305 003a FFF7FEFF 		bl	Error_Handler
+ 306              	.LVL15:
+ 307 003e F1E7     		b	.L22
+ 308              	.L27:
+  72:../../core/platform/octa/src/i2c.c ****   }
+ 309              		.loc 1 72 5 view .LVU96
+ 310 0040 FFF7FEFF 		bl	Error_Handler
+ 311              	.LVL16:
+ 312 0044 F3E7     		b	.L23
+ 313              	.L28:
+  76:../../core/platform/octa/src/i2c.c ****   }
+ 314              		.loc 1 76 5 view .LVU97
+ 315 0046 FFF7FEFF 		bl	Error_Handler
+ 316              	.LVL17:
+ 317              		.loc 1 78 1 is_stmt 0 view .LVU98
+ARM GAS  /tmp/ccnKjlBf.s 			page 8
+
+
+ 318 004a F5E7     		b	.L21
+ 319              	.L30:
+ 320              		.align	2
+ 321              	.L29:
+ 322 004c 00000000 		.word	P2_I2C
+ 323 0050 00580040 		.word	1073764352
+ 324 0054 261A1000 		.word	1055270
+ 325              		.cfi_endproc
+ 326              	.LFE133:
+ 328              		.section	.text.P3_I2C_Init,"ax",%progbits
+ 329              		.align	1
+ 330              		.global	P3_I2C_Init
+ 331              		.syntax unified
+ 332              		.thumb
+ 333              		.thumb_func
+ 334              		.fpu fpv4-sp-d16
+ 336              	P3_I2C_Init:
+ 337              	.LFB134:
+  79:../../core/platform/octa/src/i2c.c **** 
+  80:../../core/platform/octa/src/i2c.c **** void P3_I2C_Init(void)
+  81:../../core/platform/octa/src/i2c.c **** {
+ 338              		.loc 1 81 1 is_stmt 1 view -0
+ 339              		.cfi_startproc
+ 340              		@ args = 0, pretend = 0, frame = 0
+ 341              		@ frame_needed = 0, uses_anonymous_args = 0
+ 342 0000 08B5     		push	{r3, lr}
+ 343              	.LCFI3:
+ 344              		.cfi_def_cfa_offset 8
+ 345              		.cfi_offset 3, -8
+ 346              		.cfi_offset 14, -4
+  82:../../core/platform/octa/src/i2c.c ****   P3_I2C.Instance = I2C4;
+ 347              		.loc 1 82 3 view .LVU100
+ 348              		.loc 1 82 19 is_stmt 0 view .LVU101
+ 349 0002 1248     		ldr	r0, .L39
+ 350 0004 124B     		ldr	r3, .L39+4
+ 351 0006 0360     		str	r3, [r0]
+  83:../../core/platform/octa/src/i2c.c ****   P3_I2C.Init.Timing = 0x00101A26;
+ 352              		.loc 1 83 3 is_stmt 1 view .LVU102
+ 353              		.loc 1 83 22 is_stmt 0 view .LVU103
+ 354 0008 124B     		ldr	r3, .L39+8
+ 355 000a 4360     		str	r3, [r0, #4]
+  84:../../core/platform/octa/src/i2c.c ****   P3_I2C.Init.OwnAddress1 = 0;
+ 356              		.loc 1 84 3 is_stmt 1 view .LVU104
+ 357              		.loc 1 84 27 is_stmt 0 view .LVU105
+ 358 000c 0023     		movs	r3, #0
+ 359 000e 8360     		str	r3, [r0, #8]
+  85:../../core/platform/octa/src/i2c.c ****   P3_I2C.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
+ 360              		.loc 1 85 3 is_stmt 1 view .LVU106
+ 361              		.loc 1 85 30 is_stmt 0 view .LVU107
+ 362 0010 0122     		movs	r2, #1
+ 363 0012 C260     		str	r2, [r0, #12]
+  86:../../core/platform/octa/src/i2c.c ****   P3_I2C.Init.DualAddressMode = I2C_DUALADDRESS_DISABLE;
+ 364              		.loc 1 86 3 is_stmt 1 view .LVU108
+ 365              		.loc 1 86 31 is_stmt 0 view .LVU109
+ 366 0014 0361     		str	r3, [r0, #16]
+  87:../../core/platform/octa/src/i2c.c ****   P3_I2C.Init.OwnAddress2 = 0;
+ 367              		.loc 1 87 3 is_stmt 1 view .LVU110
+ARM GAS  /tmp/ccnKjlBf.s 			page 9
+
+
+ 368              		.loc 1 87 27 is_stmt 0 view .LVU111
+ 369 0016 4361     		str	r3, [r0, #20]
+  88:../../core/platform/octa/src/i2c.c ****   P3_I2C.Init.OwnAddress2Masks = I2C_OA2_NOMASK;
+ 370              		.loc 1 88 3 is_stmt 1 view .LVU112
+ 371              		.loc 1 88 32 is_stmt 0 view .LVU113
+ 372 0018 8361     		str	r3, [r0, #24]
+  89:../../core/platform/octa/src/i2c.c ****   P3_I2C.Init.GeneralCallMode = I2C_GENERALCALL_DISABLE;
+ 373              		.loc 1 89 3 is_stmt 1 view .LVU114
+ 374              		.loc 1 89 31 is_stmt 0 view .LVU115
+ 375 001a C361     		str	r3, [r0, #28]
+  90:../../core/platform/octa/src/i2c.c ****   P3_I2C.Init.NoStretchMode = I2C_NOSTRETCH_DISABLE;
+ 376              		.loc 1 90 3 is_stmt 1 view .LVU116
+ 377              		.loc 1 90 29 is_stmt 0 view .LVU117
+ 378 001c 0362     		str	r3, [r0, #32]
+  91:../../core/platform/octa/src/i2c.c ****   if (HAL_I2C_Init(&P3_I2C) != HAL_OK)
+ 379              		.loc 1 91 3 is_stmt 1 view .LVU118
+ 380              		.loc 1 91 7 is_stmt 0 view .LVU119
+ 381 001e FFF7FEFF 		bl	HAL_I2C_Init
+ 382              	.LVL18:
+ 383              		.loc 1 91 6 view .LVU120
+ 384 0022 50B9     		cbnz	r0, .L36
+ 385              	.L32:
+  92:../../core/platform/octa/src/i2c.c ****   {
+  93:../../core/platform/octa/src/i2c.c ****     Error_Handler();
+  94:../../core/platform/octa/src/i2c.c ****   }
+  95:../../core/platform/octa/src/i2c.c ****   if (HAL_I2CEx_ConfigAnalogFilter(&P3_I2C, I2C_ANALOGFILTER_ENABLE) != HAL_OK)
+ 386              		.loc 1 95 3 is_stmt 1 view .LVU121
+ 387              		.loc 1 95 7 is_stmt 0 view .LVU122
+ 388 0024 0021     		movs	r1, #0
+ 389 0026 0948     		ldr	r0, .L39
+ 390 0028 FFF7FEFF 		bl	HAL_I2CEx_ConfigAnalogFilter
+ 391              	.LVL19:
+ 392              		.loc 1 95 6 view .LVU123
+ 393 002c 40B9     		cbnz	r0, .L37
+ 394              	.L33:
+  96:../../core/platform/octa/src/i2c.c ****   {
+  97:../../core/platform/octa/src/i2c.c ****     Error_Handler();
+  98:../../core/platform/octa/src/i2c.c ****   }
+  99:../../core/platform/octa/src/i2c.c ****   if (HAL_I2CEx_ConfigDigitalFilter(&P3_I2C, 0) != HAL_OK)
+ 395              		.loc 1 99 3 is_stmt 1 view .LVU124
+ 396              		.loc 1 99 7 is_stmt 0 view .LVU125
+ 397 002e 0021     		movs	r1, #0
+ 398 0030 0648     		ldr	r0, .L39
+ 399 0032 FFF7FEFF 		bl	HAL_I2CEx_ConfigDigitalFilter
+ 400              	.LVL20:
+ 401              		.loc 1 99 6 view .LVU126
+ 402 0036 30B9     		cbnz	r0, .L38
+ 403              	.L31:
+ 100:../../core/platform/octa/src/i2c.c ****   {
+ 101:../../core/platform/octa/src/i2c.c ****     Error_Handler();
+ 102:../../core/platform/octa/src/i2c.c ****   }
+ 103:../../core/platform/octa/src/i2c.c **** }...
+ 404              		.loc 1 103 1 view .LVU127
+ 405 0038 08BD     		pop	{r3, pc}
+ 406              	.L36:
+  93:../../core/platform/octa/src/i2c.c ****     Error_Handler();
+ 407              		.loc 1 93 5 is_stmt 1 view .LVU128
+ARM GAS  /tmp/ccnKjlBf.s 			page 10
+
+
+ 408 003a FFF7FEFF 		bl	Error_Handler
+ 409              	.LVL21:
+ 410 003e F1E7     		b	.L32
+ 411              	.L37:
+  97:../../core/platform/octa/src/i2c.c ****     Error_Handler();
+ 412              		.loc 1 97 5 view .LVU129
+ 413 0040 FFF7FEFF 		bl	Error_Handler
+ 414              	.LVL22:
+ 415 0044 F3E7     		b	.L33
+ 416              	.L38:
+ 101:../../core/platform/octa/src/i2c.c ****     Error_Handler();
+ 417              		.loc 1 101 5 view .LVU130
+ 418 0046 FFF7FEFF 		bl	Error_Handler
+ 419              	.LVL23:
+ 420              		.loc 1 103 1 is_stmt 0 view .LVU131
+ 421 004a F5E7     		b	.L31
+ 422              	.L40:
+ 423              		.align	2
+ 424              	.L39:
+ 425 004c 00000000 		.word	P3_I2C
+ 426 0050 00840040 		.word	1073775616
+ 427 0054 261A1000 		.word	1055270
+ 428              		.cfi_endproc
+ 429              	.LFE134:
+ 431              		.comm	P3_header,44,4
+ 432              		.comm	P2_header,44,4
+ 433              		.comm	P1_header,44,4
+ 434              		.comm	stackversion_patch,1,1
+ 435              		.comm	stackversion_minor,1,1
+ 436              		.comm	stackversion_major,1,1
+ 437              		.comm	appversion_patch,1,1
+ 438              		.comm	appversion_minor,1,1
+ 439              		.comm	appversion_major,1,1
+ 440              		.comm	short_UID,8,8
+ 441              		.comm	octa_uid,8,8
+ 442              		.comm	float_union,4,4
+ 443              		.comm	uint16LittleEndian,2,4
+ 444              		.comm	int16LittleEndian,2,4
+ 445              		.comm	uint32LittleEndian,4,4
+ 446              		.comm	int32LittleEndian,4,4
+ 447              		.comm	rtosprintHandle,4,4
+ 448              		.comm	hrtc,36,4
+ 449              		.comm	FLASH_SPI,100,4
+ 450              		.comm	P3_SPI,100,4
+ 451              		.comm	P2_SPI,100,4
+ 452              		.comm	P1_SPI,100,4
+ 453              		.comm	P3_UART,120,4
+ 454              		.comm	P2_UART,120,4
+ 455              		.comm	P1_UART,120,4
+ 456              		.comm	FTDI_UART,120,4
+ 457              		.comm	BLE_UART,120,4
+ 458              		.comm	USB_UART,120,4
+ 459              		.comm	hiwdg,16,4
+ 460              		.comm	P3_DIO6,8,4
+ 461              		.comm	P3_DIO5,8,4
+ 462              		.comm	P3_DIO4,8,4
+ 463              		.comm	P3_DIO3,8,4
+ARM GAS  /tmp/ccnKjlBf.s 			page 11
+
+
+ 464              		.comm	P3_DIO2,8,4
+ 465              		.comm	P3_DIO1,8,4
+ 466              		.comm	P2_DIO6,8,4
+ 467              		.comm	P2_DIO5,8,4
+ 468              		.comm	P2_DIO4,8,4
+ 469              		.comm	P2_DIO3,8,4
+ 470              		.comm	P2_DIO2,8,4
+ 471              		.comm	P2_DIO1,8,4
+ 472              		.comm	P1_DIO6,8,4
+ 473              		.comm	P1_DIO5,8,4
+ 474              		.comm	P1_DIO4,8,4
+ 475              		.comm	P1_DIO3,8,4
+ 476              		.comm	P1_DIO2,8,4
+ 477              		.comm	P1_DIO1,8,4
+ 478              		.comm	htim6,64,4
+ 479              		.comm	htim1,64,4
+ 480              		.comm	P3_I2C,76,4
+ 481              		.comm	P2_I2C,76,4
+ 482              		.comm	P1_I2C,76,4
+ 483              		.comm	common_I2C,76,4
+ 484              		.text
+ 485              	.Letext0:
+ 486              		.file 2 "/usr/arm-none-eabi/include/machine/_default_types.h"
+ 487              		.file 3 "/usr/arm-none-eabi/include/sys/_stdint.h"
+ 488              		.file 4 "../../core/ST/CMSIS/Include/core_cm4.h"
+ 489              		.file 5 "../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/system_stm32l4xx.h"
+ 490              		.file 6 "../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/stm32l496xx.h"
+ 491              		.file 7 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h"
+ 492              		.file 8 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_dma.h"
+ 493              		.file 9 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_i2c.h"
+ 494              		.file 10 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_iwdg.h"
+ 495              		.file 11 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rtc.h"
+ 496              		.file 12 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_spi.h"
+ 497              		.file 13 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_tim.h"
+ 498              		.file 14 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h"
+ 499              		.file 15 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h"
+ 500              		.file 16 "../../core/platform/octa/inc/i2c.h"
+ 501              		.file 17 "../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/include/task.h"
+ 502              		.file 18 "../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h"
+ 503              		.file 19 "../../core/platform/octa/inc/sysclock.h"
+ 504              		.file 20 "../../core/platform/octa/inc/gpio.h"
+ 505              		.file 21 "../../core/platform/octa/inc/iwdg.h"
+ 506              		.file 22 "../../core/platform/octa/inc/uart.h"
+ 507              		.file 23 "../../core/platform/octa/inc/spi.h"
+ 508              		.file 24 "../../core/platform/octa/inc/rtc.h"
+ 509              		.file 25 "../../core/platform/octa/inc/rtosincludes.h"
+ 510              		.file 26 "/usr/arm-none-eabi/include/sys/lock.h"
+ 511              		.file 27 "/usr/arm-none-eabi/include/sys/_types.h"
+ 512              		.file 28 "/usr/lib/gcc/arm-none-eabi/9.2.1/include/stddef.h"
+ 513              		.file 29 "/usr/arm-none-eabi/include/sys/reent.h"
+ 514              		.file 30 "../../core/platform/common/inc/datatypes.h"
+ 515              		.file 31 "../../core/platform/octa/inc/platform.h"
+ 516              		.file 32 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_i2c_ex.h"
+ 517              		.file 33 "../../core/platform/common/inc/error.h"
+ARM GAS  /tmp/ccnKjlBf.s 			page 12
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 i2c.c
+     /tmp/ccnKjlBf.s:18     .text.common_I2C_Init:0000000000000000 $t
+     /tmp/ccnKjlBf.s:26     .text.common_I2C_Init:0000000000000000 common_I2C_Init
+     /tmp/ccnKjlBf.s:116    .text.common_I2C_Init:000000000000004c $d
+                            *COM*:000000000000004c common_I2C
+     /tmp/ccnKjlBf.s:123    .text.P1_I2C_Init:0000000000000000 $t
+     /tmp/ccnKjlBf.s:130    .text.P1_I2C_Init:0000000000000000 P1_I2C_Init
+     /tmp/ccnKjlBf.s:219    .text.P1_I2C_Init:000000000000004c $d
+                            *COM*:000000000000004c P1_I2C
+     /tmp/ccnKjlBf.s:226    .text.P2_I2C_Init:0000000000000000 $t
+     /tmp/ccnKjlBf.s:233    .text.P2_I2C_Init:0000000000000000 P2_I2C_Init
+     /tmp/ccnKjlBf.s:322    .text.P2_I2C_Init:000000000000004c $d
+                            *COM*:000000000000004c P2_I2C
+     /tmp/ccnKjlBf.s:329    .text.P3_I2C_Init:0000000000000000 $t
+     /tmp/ccnKjlBf.s:336    .text.P3_I2C_Init:0000000000000000 P3_I2C_Init
+     /tmp/ccnKjlBf.s:425    .text.P3_I2C_Init:000000000000004c $d
+                            *COM*:000000000000004c P3_I2C
+                            *COM*:000000000000002c P3_header
+                            *COM*:000000000000002c P2_header
+                            *COM*:000000000000002c P1_header
+                            *COM*:0000000000000001 stackversion_patch
+                            *COM*:0000000000000001 stackversion_minor
+                            *COM*:0000000000000001 stackversion_major
+                            *COM*:0000000000000001 appversion_patch
+                            *COM*:0000000000000001 appversion_minor
+                            *COM*:0000000000000001 appversion_major
+                            *COM*:0000000000000008 short_UID
+                            *COM*:0000000000000008 octa_uid
+                            *COM*:0000000000000004 float_union
+                            *COM*:0000000000000002 uint16LittleEndian
+                            *COM*:0000000000000002 int16LittleEndian
+                            *COM*:0000000000000004 uint32LittleEndian
+                            *COM*:0000000000000004 int32LittleEndian
+                            *COM*:0000000000000004 rtosprintHandle
+                            *COM*:0000000000000024 hrtc
+                            *COM*:0000000000000064 FLASH_SPI
+                            *COM*:0000000000000064 P3_SPI
+                            *COM*:0000000000000064 P2_SPI
+                            *COM*:0000000000000064 P1_SPI
+                            *COM*:0000000000000078 P3_UART
+                            *COM*:0000000000000078 P2_UART
+                            *COM*:0000000000000078 P1_UART
+                            *COM*:0000000000000078 FTDI_UART
+                            *COM*:0000000000000078 BLE_UART
+                            *COM*:0000000000000078 USB_UART
+                            *COM*:0000000000000010 hiwdg
+                            *COM*:0000000000000008 P3_DIO6
+                            *COM*:0000000000000008 P3_DIO5
+                            *COM*:0000000000000008 P3_DIO4
+                            *COM*:0000000000000008 P3_DIO3
+                            *COM*:0000000000000008 P3_DIO2
+                            *COM*:0000000000000008 P3_DIO1
+                            *COM*:0000000000000008 P2_DIO6
+                            *COM*:0000000000000008 P2_DIO5
+                            *COM*:0000000000000008 P2_DIO4
+                            *COM*:0000000000000008 P2_DIO3
+ARM GAS  /tmp/ccnKjlBf.s 			page 13
+
+
+                            *COM*:0000000000000008 P2_DIO2
+                            *COM*:0000000000000008 P2_DIO1
+                            *COM*:0000000000000008 P1_DIO6
+                            *COM*:0000000000000008 P1_DIO5
+                            *COM*:0000000000000008 P1_DIO4
+                            *COM*:0000000000000008 P1_DIO3
+                            *COM*:0000000000000008 P1_DIO2
+                            *COM*:0000000000000008 P1_DIO1
+                            *COM*:0000000000000040 htim6
+                            *COM*:0000000000000040 htim1
+
+UNDEFINED SYMBOLS
+HAL_I2C_Init
+HAL_I2CEx_ConfigAnalogFilter
+HAL_I2CEx_ConfigDigitalFilter
+Error_Handler

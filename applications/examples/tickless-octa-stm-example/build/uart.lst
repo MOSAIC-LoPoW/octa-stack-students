@@ -1,0 +1,1379 @@
+ARM GAS  /tmp/cc03LU3l.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 28, 1
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.file	"uart.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.text.USB_UART_Init,"ax",%progbits
+  18              		.align	1
+  19              		.global	USB_UART_Init
+  20              		.arch armv7e-m
+  21              		.syntax unified
+  22              		.thumb
+  23              		.thumb_func
+  24              		.fpu fpv4-sp-d16
+  26              	USB_UART_Init:
+  27              	.LVL0:
+  28              	.LFB131:
+  29              		.file 1 "../../core/platform/octa_stm/src/uart.c"
+   1:../../core/platform/octa_stm/src/uart.c **** #include "platform.h"
+   2:../../core/platform/octa_stm/src/uart.c **** 
+   3:../../core/platform/octa_stm/src/uart.c **** static void (*P1_Shield_UART_RX_Callback)(void) = 0;
+   4:../../core/platform/octa_stm/src/uart.c **** static void (*P1_Application_UART_RX_Callback)(void) = 0;
+   5:../../core/platform/octa_stm/src/uart.c **** static void (*P2_Shield_UART_RX_Callback)(void) = 0;
+   6:../../core/platform/octa_stm/src/uart.c **** static void (*P2_Application_UART_RX_Callback)(void) = 0;
+   7:../../core/platform/octa_stm/src/uart.c **** static void (*USB_UART_RX_Callback)(void) = 0;
+   8:../../core/platform/octa_stm/src/uart.c **** static void (*NBIOT_UART_RX_Callback)(void) = 0;
+   9:../../core/platform/octa_stm/src/uart.c **** 
+  10:../../core/platform/octa_stm/src/uart.c **** void USB_UART_Init(uint32_t aBaudRate)
+  11:../../core/platform/octa_stm/src/uart.c **** {
+  30              		.loc 1 11 1 view -0
+  31              		.cfi_startproc
+  32              		@ args = 0, pretend = 0, frame = 0
+  33              		@ frame_needed = 0, uses_anonymous_args = 0
+  34              		.loc 1 11 1 is_stmt 0 view .LVU1
+  35 0000 08B5     		push	{r3, lr}
+  36              	.LCFI0:
+  37              		.cfi_def_cfa_offset 8
+  38              		.cfi_offset 3, -8
+  39              		.cfi_offset 14, -4
+  12:../../core/platform/octa_stm/src/uart.c ****   USB_UART.Instance = USART2;
+  40              		.loc 1 12 3 is_stmt 1 view .LVU2
+  41              		.loc 1 12 21 is_stmt 0 view .LVU3
+  42 0002 0E4B     		ldr	r3, .L5
+  43 0004 0E4A     		ldr	r2, .L5+4
+  44 0006 1A60     		str	r2, [r3]
+  13:../../core/platform/octa_stm/src/uart.c ****   USB_UART.Init.BaudRate = aBaudRate;
+  45              		.loc 1 13 3 is_stmt 1 view .LVU4
+ARM GAS  /tmp/cc03LU3l.s 			page 2
+
+
+  46              		.loc 1 13 26 is_stmt 0 view .LVU5
+  47 0008 5860     		str	r0, [r3, #4]
+  14:../../core/platform/octa_stm/src/uart.c ****   USB_UART.Init.WordLength = UART_WORDLENGTH_8B;
+  48              		.loc 1 14 3 is_stmt 1 view .LVU6
+  49              		.loc 1 14 28 is_stmt 0 view .LVU7
+  50 000a 0022     		movs	r2, #0
+  51 000c 9A60     		str	r2, [r3, #8]
+  15:../../core/platform/octa_stm/src/uart.c ****   USB_UART.Init.StopBits = UART_STOPBITS_1;
+  52              		.loc 1 15 3 is_stmt 1 view .LVU8
+  53              		.loc 1 15 26 is_stmt 0 view .LVU9
+  54 000e DA60     		str	r2, [r3, #12]
+  16:../../core/platform/octa_stm/src/uart.c ****   USB_UART.Init.Parity = UART_PARITY_NONE;
+  55              		.loc 1 16 3 is_stmt 1 view .LVU10
+  56              		.loc 1 16 24 is_stmt 0 view .LVU11
+  57 0010 1A61     		str	r2, [r3, #16]
+  17:../../core/platform/octa_stm/src/uart.c ****   USB_UART.Init.Mode = UART_MODE_TX_RX;
+  58              		.loc 1 17 3 is_stmt 1 view .LVU12
+  59              		.loc 1 17 22 is_stmt 0 view .LVU13
+  60 0012 0C21     		movs	r1, #12
+  61 0014 5961     		str	r1, [r3, #20]
+  18:../../core/platform/octa_stm/src/uart.c ****   USB_UART.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+  62              		.loc 1 18 3 is_stmt 1 view .LVU14
+  63              		.loc 1 18 27 is_stmt 0 view .LVU15
+  64 0016 9A61     		str	r2, [r3, #24]
+  19:../../core/platform/octa_stm/src/uart.c ****   USB_UART.Init.OneBitSampling = UART_ONE_BIT_SAMPLE_DISABLE;
+  65              		.loc 1 19 3 is_stmt 1 view .LVU16
+  66              		.loc 1 19 32 is_stmt 0 view .LVU17
+  67 0018 1A62     		str	r2, [r3, #32]
+  20:../../core/platform/octa_stm/src/uart.c ****   USB_UART.AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_NO_INIT;
+  68              		.loc 1 20 3 is_stmt 1 view .LVU18
+  69              		.loc 1 20 40 is_stmt 0 view .LVU19
+  70 001a 5A62     		str	r2, [r3, #36]
+  21:../../core/platform/octa_stm/src/uart.c ****   if (HAL_UART_Init(&USB_UART) != HAL_OK)
+  71              		.loc 1 21 3 is_stmt 1 view .LVU20
+  72              		.loc 1 21 7 is_stmt 0 view .LVU21
+  73 001c 1846     		mov	r0, r3
+  74              	.LVL1:
+  75              		.loc 1 21 7 view .LVU22
+  76 001e FFF7FEFF 		bl	HAL_UART_Init
+  77              	.LVL2:
+  78              		.loc 1 21 6 view .LVU23
+  79 0022 40B9     		cbnz	r0, .L4
+  80              	.L2:
+  22:../../core/platform/octa_stm/src/uart.c ****   {
+  23:../../core/platform/octa_stm/src/uart.c ****     Error_Handler();
+  24:../../core/platform/octa_stm/src/uart.c ****   }
+  25:../../core/platform/octa_stm/src/uart.c **** 
+  26:../../core/platform/octa_stm/src/uart.c ****   HAL_NVIC_SetPriority(USART2_IRQn, 7, 0);
+  81              		.loc 1 26 3 is_stmt 1 view .LVU24
+  82 0024 0022     		movs	r2, #0
+  83 0026 0721     		movs	r1, #7
+  84 0028 2620     		movs	r0, #38
+  85 002a FFF7FEFF 		bl	HAL_NVIC_SetPriority
+  86              	.LVL3:
+  27:../../core/platform/octa_stm/src/uart.c ****   HAL_NVIC_EnableIRQ(USART2_IRQn);
+  87              		.loc 1 27 3 view .LVU25
+  88 002e 2620     		movs	r0, #38
+ARM GAS  /tmp/cc03LU3l.s 			page 3
+
+
+  89 0030 FFF7FEFF 		bl	HAL_NVIC_EnableIRQ
+  90              	.LVL4:
+  28:../../core/platform/octa_stm/src/uart.c **** }
+  91              		.loc 1 28 1 is_stmt 0 view .LVU26
+  92 0034 08BD     		pop	{r3, pc}
+  93              	.L4:
+  23:../../core/platform/octa_stm/src/uart.c ****   }
+  94              		.loc 1 23 5 is_stmt 1 view .LVU27
+  95 0036 FFF7FEFF 		bl	Error_Handler
+  96              	.LVL5:
+  97 003a F3E7     		b	.L2
+  98              	.L6:
+  99              		.align	2
+ 100              	.L5:
+ 101 003c 00000000 		.word	USB_UART
+ 102 0040 00440040 		.word	1073759232
+ 103              		.cfi_endproc
+ 104              	.LFE131:
+ 106              		.section	.text.NBIOT_UART_Init,"ax",%progbits
+ 107              		.align	1
+ 108              		.global	NBIOT_UART_Init
+ 109              		.syntax unified
+ 110              		.thumb
+ 111              		.thumb_func
+ 112              		.fpu fpv4-sp-d16
+ 114              	NBIOT_UART_Init:
+ 115              	.LVL6:
+ 116              	.LFB132:
+  29:../../core/platform/octa_stm/src/uart.c **** 
+  30:../../core/platform/octa_stm/src/uart.c **** void NBIOT_UART_Init(uint32_t aBaudRate)
+  31:../../core/platform/octa_stm/src/uart.c **** {
+ 117              		.loc 1 31 1 view -0
+ 118              		.cfi_startproc
+ 119              		@ args = 0, pretend = 0, frame = 0
+ 120              		@ frame_needed = 0, uses_anonymous_args = 0
+ 121              		.loc 1 31 1 is_stmt 0 view .LVU29
+ 122 0000 08B5     		push	{r3, lr}
+ 123              	.LCFI1:
+ 124              		.cfi_def_cfa_offset 8
+ 125              		.cfi_offset 3, -8
+ 126              		.cfi_offset 14, -4
+  32:../../core/platform/octa_stm/src/uart.c ****   NBIOT_UART.Instance = LPUART1;
+ 127              		.loc 1 32 3 is_stmt 1 view .LVU30
+ 128              		.loc 1 32 23 is_stmt 0 view .LVU31
+ 129 0002 0E4B     		ldr	r3, .L11
+ 130 0004 0E4A     		ldr	r2, .L11+4
+ 131 0006 1A60     		str	r2, [r3]
+  33:../../core/platform/octa_stm/src/uart.c ****   NBIOT_UART.Init.BaudRate = aBaudRate;
+ 132              		.loc 1 33 3 is_stmt 1 view .LVU32
+ 133              		.loc 1 33 28 is_stmt 0 view .LVU33
+ 134 0008 5860     		str	r0, [r3, #4]
+  34:../../core/platform/octa_stm/src/uart.c ****   NBIOT_UART.Init.WordLength = UART_WORDLENGTH_8B;
+ 135              		.loc 1 34 3 is_stmt 1 view .LVU34
+ 136              		.loc 1 34 30 is_stmt 0 view .LVU35
+ 137 000a 0022     		movs	r2, #0
+ 138 000c 9A60     		str	r2, [r3, #8]
+  35:../../core/platform/octa_stm/src/uart.c ****   NBIOT_UART.Init.StopBits = UART_STOPBITS_1;
+ARM GAS  /tmp/cc03LU3l.s 			page 4
+
+
+ 139              		.loc 1 35 3 is_stmt 1 view .LVU36
+ 140              		.loc 1 35 28 is_stmt 0 view .LVU37
+ 141 000e DA60     		str	r2, [r3, #12]
+  36:../../core/platform/octa_stm/src/uart.c ****   NBIOT_UART.Init.Parity = UART_PARITY_NONE;
+ 142              		.loc 1 36 3 is_stmt 1 view .LVU38
+ 143              		.loc 1 36 26 is_stmt 0 view .LVU39
+ 144 0010 1A61     		str	r2, [r3, #16]
+  37:../../core/platform/octa_stm/src/uart.c ****   NBIOT_UART.Init.Mode = UART_MODE_TX_RX;
+ 145              		.loc 1 37 3 is_stmt 1 view .LVU40
+ 146              		.loc 1 37 24 is_stmt 0 view .LVU41
+ 147 0012 0C21     		movs	r1, #12
+ 148 0014 5961     		str	r1, [r3, #20]
+  38:../../core/platform/octa_stm/src/uart.c ****   NBIOT_UART.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+ 149              		.loc 1 38 3 is_stmt 1 view .LVU42
+ 150              		.loc 1 38 29 is_stmt 0 view .LVU43
+ 151 0016 9A61     		str	r2, [r3, #24]
+  39:../../core/platform/octa_stm/src/uart.c ****   NBIOT_UART.Init.OneBitSampling = UART_ONE_BIT_SAMPLE_DISABLE;
+ 152              		.loc 1 39 3 is_stmt 1 view .LVU44
+ 153              		.loc 1 39 34 is_stmt 0 view .LVU45
+ 154 0018 1A62     		str	r2, [r3, #32]
+  40:../../core/platform/octa_stm/src/uart.c ****   NBIOT_UART.AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_NO_INIT;
+ 155              		.loc 1 40 3 is_stmt 1 view .LVU46
+ 156              		.loc 1 40 42 is_stmt 0 view .LVU47
+ 157 001a 5A62     		str	r2, [r3, #36]
+  41:../../core/platform/octa_stm/src/uart.c ****   if (HAL_UART_Init(&NBIOT_UART) != HAL_OK)
+ 158              		.loc 1 41 3 is_stmt 1 view .LVU48
+ 159              		.loc 1 41 7 is_stmt 0 view .LVU49
+ 160 001c 1846     		mov	r0, r3
+ 161              	.LVL7:
+ 162              		.loc 1 41 7 view .LVU50
+ 163 001e FFF7FEFF 		bl	HAL_UART_Init
+ 164              	.LVL8:
+ 165              		.loc 1 41 6 view .LVU51
+ 166 0022 40B9     		cbnz	r0, .L10
+ 167              	.L8:
+  42:../../core/platform/octa_stm/src/uart.c ****   {
+  43:../../core/platform/octa_stm/src/uart.c ****     Error_Handler();
+  44:../../core/platform/octa_stm/src/uart.c ****   }
+  45:../../core/platform/octa_stm/src/uart.c ****   HAL_NVIC_SetPriority(LPUART1_IRQn, 7, 0);
+ 168              		.loc 1 45 3 is_stmt 1 view .LVU52
+ 169 0024 0022     		movs	r2, #0
+ 170 0026 0721     		movs	r1, #7
+ 171 0028 4620     		movs	r0, #70
+ 172 002a FFF7FEFF 		bl	HAL_NVIC_SetPriority
+ 173              	.LVL9:
+  46:../../core/platform/octa_stm/src/uart.c ****   HAL_NVIC_EnableIRQ(LPUART1_IRQn);
+ 174              		.loc 1 46 3 view .LVU53
+ 175 002e 4620     		movs	r0, #70
+ 176 0030 FFF7FEFF 		bl	HAL_NVIC_EnableIRQ
+ 177              	.LVL10:
+  47:../../core/platform/octa_stm/src/uart.c **** }
+ 178              		.loc 1 47 1 is_stmt 0 view .LVU54
+ 179 0034 08BD     		pop	{r3, pc}
+ 180              	.L10:
+  43:../../core/platform/octa_stm/src/uart.c ****   }
+ 181              		.loc 1 43 5 is_stmt 1 view .LVU55
+ 182 0036 FFF7FEFF 		bl	Error_Handler
+ARM GAS  /tmp/cc03LU3l.s 			page 5
+
+
+ 183              	.LVL11:
+ 184 003a F3E7     		b	.L8
+ 185              	.L12:
+ 186              		.align	2
+ 187              	.L11:
+ 188 003c 00000000 		.word	NBIOT_UART
+ 189 0040 00800040 		.word	1073774592
+ 190              		.cfi_endproc
+ 191              	.LFE132:
+ 193              		.section	.text.RS232_UART_Init,"ax",%progbits
+ 194              		.align	1
+ 195              		.global	RS232_UART_Init
+ 196              		.syntax unified
+ 197              		.thumb
+ 198              		.thumb_func
+ 199              		.fpu fpv4-sp-d16
+ 201              	RS232_UART_Init:
+ 202              	.LVL12:
+ 203              	.LFB133:
+  48:../../core/platform/octa_stm/src/uart.c **** 
+  49:../../core/platform/octa_stm/src/uart.c **** void RS232_UART_Init(uint32_t aBaudRate)
+  50:../../core/platform/octa_stm/src/uart.c **** {
+ 204              		.loc 1 50 1 view -0
+ 205              		.cfi_startproc
+ 206              		@ args = 0, pretend = 0, frame = 0
+ 207              		@ frame_needed = 0, uses_anonymous_args = 0
+ 208              		.loc 1 50 1 is_stmt 0 view .LVU57
+ 209 0000 08B5     		push	{r3, lr}
+ 210              	.LCFI2:
+ 211              		.cfi_def_cfa_offset 8
+ 212              		.cfi_offset 3, -8
+ 213              		.cfi_offset 14, -4
+  51:../../core/platform/octa_stm/src/uart.c ****   RS232_UART.Instance = UART4;
+ 214              		.loc 1 51 3 is_stmt 1 view .LVU58
+ 215              		.loc 1 51 23 is_stmt 0 view .LVU59
+ 216 0002 0B4B     		ldr	r3, .L17
+ 217 0004 0B4A     		ldr	r2, .L17+4
+ 218 0006 1A60     		str	r2, [r3]
+  52:../../core/platform/octa_stm/src/uart.c ****   RS232_UART.Init.BaudRate = aBaudRate;
+ 219              		.loc 1 52 3 is_stmt 1 view .LVU60
+ 220              		.loc 1 52 28 is_stmt 0 view .LVU61
+ 221 0008 5860     		str	r0, [r3, #4]
+  53:../../core/platform/octa_stm/src/uart.c ****   RS232_UART.Init.WordLength = UART_WORDLENGTH_8B;
+ 222              		.loc 1 53 3 is_stmt 1 view .LVU62
+ 223              		.loc 1 53 30 is_stmt 0 view .LVU63
+ 224 000a 0022     		movs	r2, #0
+ 225 000c 9A60     		str	r2, [r3, #8]
+  54:../../core/platform/octa_stm/src/uart.c ****   RS232_UART.Init.StopBits = UART_STOPBITS_1;
+ 226              		.loc 1 54 3 is_stmt 1 view .LVU64
+ 227              		.loc 1 54 28 is_stmt 0 view .LVU65
+ 228 000e DA60     		str	r2, [r3, #12]
+  55:../../core/platform/octa_stm/src/uart.c ****   RS232_UART.Init.Parity = UART_PARITY_NONE;
+ 229              		.loc 1 55 3 is_stmt 1 view .LVU66
+ 230              		.loc 1 55 26 is_stmt 0 view .LVU67
+ 231 0010 1A61     		str	r2, [r3, #16]
+  56:../../core/platform/octa_stm/src/uart.c ****   RS232_UART.Init.Mode = UART_MODE_TX_RX;
+ 232              		.loc 1 56 3 is_stmt 1 view .LVU68
+ARM GAS  /tmp/cc03LU3l.s 			page 6
+
+
+ 233              		.loc 1 56 24 is_stmt 0 view .LVU69
+ 234 0012 0C21     		movs	r1, #12
+ 235 0014 5961     		str	r1, [r3, #20]
+  57:../../core/platform/octa_stm/src/uart.c ****   RS232_UART.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+ 236              		.loc 1 57 3 is_stmt 1 view .LVU70
+ 237              		.loc 1 57 29 is_stmt 0 view .LVU71
+ 238 0016 9A61     		str	r2, [r3, #24]
+  58:../../core/platform/octa_stm/src/uart.c ****   RS232_UART.Init.OverSampling = UART_OVERSAMPLING_16;
+ 239              		.loc 1 58 3 is_stmt 1 view .LVU72
+ 240              		.loc 1 58 32 is_stmt 0 view .LVU73
+ 241 0018 DA61     		str	r2, [r3, #28]
+  59:../../core/platform/octa_stm/src/uart.c ****   RS232_UART.Init.OneBitSampling = UART_ONE_BIT_SAMPLE_DISABLE;
+ 242              		.loc 1 59 3 is_stmt 1 view .LVU74
+ 243              		.loc 1 59 34 is_stmt 0 view .LVU75
+ 244 001a 1A62     		str	r2, [r3, #32]
+  60:../../core/platform/octa_stm/src/uart.c ****   RS232_UART.AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_NO_INIT;
+ 245              		.loc 1 60 3 is_stmt 1 view .LVU76
+ 246              		.loc 1 60 42 is_stmt 0 view .LVU77
+ 247 001c 5A62     		str	r2, [r3, #36]
+  61:../../core/platform/octa_stm/src/uart.c ****   if (HAL_UART_Init(&RS232_UART) != HAL_OK)
+ 248              		.loc 1 61 3 is_stmt 1 view .LVU78
+ 249              		.loc 1 61 7 is_stmt 0 view .LVU79
+ 250 001e 1846     		mov	r0, r3
+ 251              	.LVL13:
+ 252              		.loc 1 61 7 view .LVU80
+ 253 0020 FFF7FEFF 		bl	HAL_UART_Init
+ 254              	.LVL14:
+ 255              		.loc 1 61 6 view .LVU81
+ 256 0024 00B9     		cbnz	r0, .L16
+ 257              	.L13:
+  62:../../core/platform/octa_stm/src/uart.c ****   {
+  63:../../core/platform/octa_stm/src/uart.c ****     Error_Handler();
+  64:../../core/platform/octa_stm/src/uart.c ****   }
+  65:../../core/platform/octa_stm/src/uart.c **** }
+ 258              		.loc 1 65 1 view .LVU82
+ 259 0026 08BD     		pop	{r3, pc}
+ 260              	.L16:
+  63:../../core/platform/octa_stm/src/uart.c ****   }
+ 261              		.loc 1 63 5 is_stmt 1 view .LVU83
+ 262 0028 FFF7FEFF 		bl	Error_Handler
+ 263              	.LVL15:
+ 264              		.loc 1 65 1 is_stmt 0 view .LVU84
+ 265 002c FBE7     		b	.L13
+ 266              	.L18:
+ 267 002e 00BF     		.align	2
+ 268              	.L17:
+ 269 0030 00000000 		.word	RS232_UART
+ 270 0034 004C0040 		.word	1073761280
+ 271              		.cfi_endproc
+ 272              	.LFE133:
+ 274              		.section	.text.P1_UART_Init,"ax",%progbits
+ 275              		.align	1
+ 276              		.global	P1_UART_Init
+ 277              		.syntax unified
+ 278              		.thumb
+ 279              		.thumb_func
+ 280              		.fpu fpv4-sp-d16
+ARM GAS  /tmp/cc03LU3l.s 			page 7
+
+
+ 282              	P1_UART_Init:
+ 283              	.LVL16:
+ 284              	.LFB134:
+  66:../../core/platform/octa_stm/src/uart.c **** 
+  67:../../core/platform/octa_stm/src/uart.c **** void P1_UART_Init(uint32_t aBaudRate)
+  68:../../core/platform/octa_stm/src/uart.c **** {
+ 285              		.loc 1 68 1 is_stmt 1 view -0
+ 286              		.cfi_startproc
+ 287              		@ args = 0, pretend = 0, frame = 0
+ 288              		@ frame_needed = 0, uses_anonymous_args = 0
+ 289              		.loc 1 68 1 is_stmt 0 view .LVU86
+ 290 0000 08B5     		push	{r3, lr}
+ 291              	.LCFI3:
+ 292              		.cfi_def_cfa_offset 8
+ 293              		.cfi_offset 3, -8
+ 294              		.cfi_offset 14, -4
+  69:../../core/platform/octa_stm/src/uart.c ****   P1_UART.Instance = USART3;
+ 295              		.loc 1 69 3 is_stmt 1 view .LVU87
+ 296              		.loc 1 69 20 is_stmt 0 view .LVU88
+ 297 0002 0F4B     		ldr	r3, .L23
+ 298 0004 0F4A     		ldr	r2, .L23+4
+ 299 0006 1A60     		str	r2, [r3]
+  70:../../core/platform/octa_stm/src/uart.c ****   P1_UART.Init.BaudRate = aBaudRate;
+ 300              		.loc 1 70 3 is_stmt 1 view .LVU89
+ 301              		.loc 1 70 25 is_stmt 0 view .LVU90
+ 302 0008 5860     		str	r0, [r3, #4]
+  71:../../core/platform/octa_stm/src/uart.c ****   P1_UART.Init.WordLength = UART_WORDLENGTH_8B;
+ 303              		.loc 1 71 3 is_stmt 1 view .LVU91
+ 304              		.loc 1 71 27 is_stmt 0 view .LVU92
+ 305 000a 0022     		movs	r2, #0
+ 306 000c 9A60     		str	r2, [r3, #8]
+  72:../../core/platform/octa_stm/src/uart.c ****   P1_UART.Init.StopBits = UART_STOPBITS_1;
+ 307              		.loc 1 72 3 is_stmt 1 view .LVU93
+ 308              		.loc 1 72 25 is_stmt 0 view .LVU94
+ 309 000e DA60     		str	r2, [r3, #12]
+  73:../../core/platform/octa_stm/src/uart.c ****   P1_UART.Init.Parity = UART_PARITY_NONE;
+ 310              		.loc 1 73 3 is_stmt 1 view .LVU95
+ 311              		.loc 1 73 23 is_stmt 0 view .LVU96
+ 312 0010 1A61     		str	r2, [r3, #16]
+  74:../../core/platform/octa_stm/src/uart.c ****   P1_UART.Init.Mode = UART_MODE_TX_RX;
+ 313              		.loc 1 74 3 is_stmt 1 view .LVU97
+ 314              		.loc 1 74 21 is_stmt 0 view .LVU98
+ 315 0012 0C21     		movs	r1, #12
+ 316 0014 5961     		str	r1, [r3, #20]
+  75:../../core/platform/octa_stm/src/uart.c ****   P1_UART.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+ 317              		.loc 1 75 3 is_stmt 1 view .LVU99
+ 318              		.loc 1 75 26 is_stmt 0 view .LVU100
+ 319 0016 9A61     		str	r2, [r3, #24]
+  76:../../core/platform/octa_stm/src/uart.c ****   P1_UART.Init.OverSampling = UART_OVERSAMPLING_16;
+ 320              		.loc 1 76 3 is_stmt 1 view .LVU101
+ 321              		.loc 1 76 29 is_stmt 0 view .LVU102
+ 322 0018 DA61     		str	r2, [r3, #28]
+  77:../../core/platform/octa_stm/src/uart.c ****   P1_UART.Init.OneBitSampling = UART_ONE_BIT_SAMPLE_DISABLE;
+ 323              		.loc 1 77 3 is_stmt 1 view .LVU103
+ 324              		.loc 1 77 31 is_stmt 0 view .LVU104
+ 325 001a 1A62     		str	r2, [r3, #32]
+  78:../../core/platform/octa_stm/src/uart.c ****   P1_UART.AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_NO_INIT;
+ARM GAS  /tmp/cc03LU3l.s 			page 8
+
+
+ 326              		.loc 1 78 3 is_stmt 1 view .LVU105
+ 327              		.loc 1 78 39 is_stmt 0 view .LVU106
+ 328 001c 5A62     		str	r2, [r3, #36]
+  79:../../core/platform/octa_stm/src/uart.c ****   if (HAL_UART_Init(&P1_UART) != HAL_OK)
+ 329              		.loc 1 79 3 is_stmt 1 view .LVU107
+ 330              		.loc 1 79 7 is_stmt 0 view .LVU108
+ 331 001e 1846     		mov	r0, r3
+ 332              	.LVL17:
+ 333              		.loc 1 79 7 view .LVU109
+ 334 0020 FFF7FEFF 		bl	HAL_UART_Init
+ 335              	.LVL18:
+ 336              		.loc 1 79 6 view .LVU110
+ 337 0024 40B9     		cbnz	r0, .L22
+ 338              	.L20:
+  80:../../core/platform/octa_stm/src/uart.c ****   {
+  81:../../core/platform/octa_stm/src/uart.c ****     Error_Handler();
+  82:../../core/platform/octa_stm/src/uart.c ****   }
+  83:../../core/platform/octa_stm/src/uart.c ****   HAL_NVIC_SetPriority(USART3_IRQn, 7, 0);
+ 339              		.loc 1 83 3 is_stmt 1 view .LVU111
+ 340 0026 0022     		movs	r2, #0
+ 341 0028 0721     		movs	r1, #7
+ 342 002a 2720     		movs	r0, #39
+ 343 002c FFF7FEFF 		bl	HAL_NVIC_SetPriority
+ 344              	.LVL19:
+  84:../../core/platform/octa_stm/src/uart.c ****   HAL_NVIC_EnableIRQ(USART3_IRQn);
+ 345              		.loc 1 84 3 view .LVU112
+ 346 0030 2720     		movs	r0, #39
+ 347 0032 FFF7FEFF 		bl	HAL_NVIC_EnableIRQ
+ 348              	.LVL20:
+  85:../../core/platform/octa_stm/src/uart.c **** }
+ 349              		.loc 1 85 1 is_stmt 0 view .LVU113
+ 350 0036 08BD     		pop	{r3, pc}
+ 351              	.L22:
+  81:../../core/platform/octa_stm/src/uart.c ****   }
+ 352              		.loc 1 81 5 is_stmt 1 view .LVU114
+ 353 0038 FFF7FEFF 		bl	Error_Handler
+ 354              	.LVL21:
+ 355 003c F3E7     		b	.L20
+ 356              	.L24:
+ 357 003e 00BF     		.align	2
+ 358              	.L23:
+ 359 0040 00000000 		.word	P1_UART
+ 360 0044 00480040 		.word	1073760256
+ 361              		.cfi_endproc
+ 362              	.LFE134:
+ 364              		.section	.text.P2_UART_Init,"ax",%progbits
+ 365              		.align	1
+ 366              		.global	P2_UART_Init
+ 367              		.syntax unified
+ 368              		.thumb
+ 369              		.thumb_func
+ 370              		.fpu fpv4-sp-d16
+ 372              	P2_UART_Init:
+ 373              	.LVL22:
+ 374              	.LFB135:
+  86:../../core/platform/octa_stm/src/uart.c **** 
+  87:../../core/platform/octa_stm/src/uart.c **** void P2_UART_Init(uint32_t aBaudRate)
+ARM GAS  /tmp/cc03LU3l.s 			page 9
+
+
+  88:../../core/platform/octa_stm/src/uart.c **** {
+ 375              		.loc 1 88 1 view -0
+ 376              		.cfi_startproc
+ 377              		@ args = 0, pretend = 0, frame = 0
+ 378              		@ frame_needed = 0, uses_anonymous_args = 0
+ 379              		.loc 1 88 1 is_stmt 0 view .LVU116
+ 380 0000 08B5     		push	{r3, lr}
+ 381              	.LCFI4:
+ 382              		.cfi_def_cfa_offset 8
+ 383              		.cfi_offset 3, -8
+ 384              		.cfi_offset 14, -4
+  89:../../core/platform/octa_stm/src/uart.c ****   P2_UART.Instance = USART1;
+ 385              		.loc 1 89 3 is_stmt 1 view .LVU117
+ 386              		.loc 1 89 20 is_stmt 0 view .LVU118
+ 387 0002 0F4B     		ldr	r3, .L29
+ 388 0004 0F4A     		ldr	r2, .L29+4
+ 389 0006 1A60     		str	r2, [r3]
+  90:../../core/platform/octa_stm/src/uart.c ****   P2_UART.Init.BaudRate = aBaudRate;
+ 390              		.loc 1 90 3 is_stmt 1 view .LVU119
+ 391              		.loc 1 90 25 is_stmt 0 view .LVU120
+ 392 0008 5860     		str	r0, [r3, #4]
+  91:../../core/platform/octa_stm/src/uart.c ****   P2_UART.Init.WordLength = UART_WORDLENGTH_8B;
+ 393              		.loc 1 91 3 is_stmt 1 view .LVU121
+ 394              		.loc 1 91 27 is_stmt 0 view .LVU122
+ 395 000a 0022     		movs	r2, #0
+ 396 000c 9A60     		str	r2, [r3, #8]
+  92:../../core/platform/octa_stm/src/uart.c ****   P2_UART.Init.StopBits = UART_STOPBITS_1;
+ 397              		.loc 1 92 3 is_stmt 1 view .LVU123
+ 398              		.loc 1 92 25 is_stmt 0 view .LVU124
+ 399 000e DA60     		str	r2, [r3, #12]
+  93:../../core/platform/octa_stm/src/uart.c ****   P2_UART.Init.Parity = UART_PARITY_NONE;
+ 400              		.loc 1 93 3 is_stmt 1 view .LVU125
+ 401              		.loc 1 93 23 is_stmt 0 view .LVU126
+ 402 0010 1A61     		str	r2, [r3, #16]
+  94:../../core/platform/octa_stm/src/uart.c ****   P2_UART.Init.Mode = UART_MODE_TX_RX;
+ 403              		.loc 1 94 3 is_stmt 1 view .LVU127
+ 404              		.loc 1 94 21 is_stmt 0 view .LVU128
+ 405 0012 0C21     		movs	r1, #12
+ 406 0014 5961     		str	r1, [r3, #20]
+  95:../../core/platform/octa_stm/src/uart.c ****   P2_UART.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+ 407              		.loc 1 95 3 is_stmt 1 view .LVU129
+ 408              		.loc 1 95 26 is_stmt 0 view .LVU130
+ 409 0016 9A61     		str	r2, [r3, #24]
+  96:../../core/platform/octa_stm/src/uart.c ****   P2_UART.Init.OverSampling = UART_OVERSAMPLING_16;
+ 410              		.loc 1 96 3 is_stmt 1 view .LVU131
+ 411              		.loc 1 96 29 is_stmt 0 view .LVU132
+ 412 0018 DA61     		str	r2, [r3, #28]
+  97:../../core/platform/octa_stm/src/uart.c ****   P2_UART.Init.OneBitSampling = UART_ONE_BIT_SAMPLE_DISABLE;
+ 413              		.loc 1 97 3 is_stmt 1 view .LVU133
+ 414              		.loc 1 97 31 is_stmt 0 view .LVU134
+ 415 001a 1A62     		str	r2, [r3, #32]
+  98:../../core/platform/octa_stm/src/uart.c ****   P2_UART.AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_NO_INIT;
+ 416              		.loc 1 98 3 is_stmt 1 view .LVU135
+ 417              		.loc 1 98 39 is_stmt 0 view .LVU136
+ 418 001c 5A62     		str	r2, [r3, #36]
+  99:../../core/platform/octa_stm/src/uart.c ****   if (HAL_UART_Init(&P2_UART) != HAL_OK)
+ 419              		.loc 1 99 3 is_stmt 1 view .LVU137
+ARM GAS  /tmp/cc03LU3l.s 			page 10
+
+
+ 420              		.loc 1 99 7 is_stmt 0 view .LVU138
+ 421 001e 1846     		mov	r0, r3
+ 422              	.LVL23:
+ 423              		.loc 1 99 7 view .LVU139
+ 424 0020 FFF7FEFF 		bl	HAL_UART_Init
+ 425              	.LVL24:
+ 426              		.loc 1 99 6 view .LVU140
+ 427 0024 40B9     		cbnz	r0, .L28
+ 428              	.L26:
+ 100:../../core/platform/octa_stm/src/uart.c ****   {
+ 101:../../core/platform/octa_stm/src/uart.c ****     Error_Handler();
+ 102:../../core/platform/octa_stm/src/uart.c ****   }
+ 103:../../core/platform/octa_stm/src/uart.c ****   HAL_NVIC_SetPriority(USART1_IRQn, 7, 0);
+ 429              		.loc 1 103 3 is_stmt 1 view .LVU141
+ 430 0026 0022     		movs	r2, #0
+ 431 0028 0721     		movs	r1, #7
+ 432 002a 2520     		movs	r0, #37
+ 433 002c FFF7FEFF 		bl	HAL_NVIC_SetPriority
+ 434              	.LVL25:
+ 104:../../core/platform/octa_stm/src/uart.c ****   HAL_NVIC_EnableIRQ(USART1_IRQn);
+ 435              		.loc 1 104 3 view .LVU142
+ 436 0030 2520     		movs	r0, #37
+ 437 0032 FFF7FEFF 		bl	HAL_NVIC_EnableIRQ
+ 438              	.LVL26:
+ 105:../../core/platform/octa_stm/src/uart.c **** }
+ 439              		.loc 1 105 1 is_stmt 0 view .LVU143
+ 440 0036 08BD     		pop	{r3, pc}
+ 441              	.L28:
+ 101:../../core/platform/octa_stm/src/uart.c ****   }
+ 442              		.loc 1 101 5 is_stmt 1 view .LVU144
+ 443 0038 FFF7FEFF 		bl	Error_Handler
+ 444              	.LVL27:
+ 445 003c F3E7     		b	.L26
+ 446              	.L30:
+ 447 003e 00BF     		.align	2
+ 448              	.L29:
+ 449 0040 00000000 		.word	P2_UART
+ 450 0044 00380140 		.word	1073821696
+ 451              		.cfi_endproc
+ 452              	.LFE135:
+ 454              		.section	.rodata.HAL_UART_RxCpltCallback.str1.4,"aMS",%progbits,1
+ 455              		.align	2
+ 456              	.LC0:
+ 457 0000 55415254 		.ascii	"UART Handle unknown\015\012\000"
+ 457      2048616E 
+ 457      646C6520 
+ 457      756E6B6E 
+ 457      6F776E0D 
+ 458              		.section	.text.HAL_UART_RxCpltCallback,"ax",%progbits
+ 459              		.align	1
+ 460              		.global	HAL_UART_RxCpltCallback
+ 461              		.syntax unified
+ 462              		.thumb
+ 463              		.thumb_func
+ 464              		.fpu fpv4-sp-d16
+ 466              	HAL_UART_RxCpltCallback:
+ 467              	.LVL28:
+ARM GAS  /tmp/cc03LU3l.s 			page 11
+
+
+ 468              	.LFB136:
+ 106:../../core/platform/octa_stm/src/uart.c **** 
+ 107:../../core/platform/octa_stm/src/uart.c **** // UART RX CALLBACK
+ 108:../../core/platform/octa_stm/src/uart.c **** void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+ 109:../../core/platform/octa_stm/src/uart.c **** {
+ 469              		.loc 1 109 1 view -0
+ 470              		.cfi_startproc
+ 471              		@ args = 0, pretend = 0, frame = 0
+ 472              		@ frame_needed = 0, uses_anonymous_args = 0
+ 473              		.loc 1 109 1 is_stmt 0 view .LVU146
+ 474 0000 08B5     		push	{r3, lr}
+ 475              	.LCFI5:
+ 476              		.cfi_def_cfa_offset 8
+ 477              		.cfi_offset 3, -8
+ 478              		.cfi_offset 14, -4
+ 110:../../core/platform/octa_stm/src/uart.c ****   if (huart == &P1_UART)
+ 479              		.loc 1 110 3 is_stmt 1 view .LVU147
+ 480              		.loc 1 110 6 is_stmt 0 view .LVU148
+ 481 0002 184B     		ldr	r3, .L44
+ 482 0004 9842     		cmp	r0, r3
+ 483 0006 0ED0     		beq	.L40
+ 111:../../core/platform/octa_stm/src/uart.c ****   {
+ 112:../../core/platform/octa_stm/src/uart.c ****     if(P1_Shield_UART_RX_Callback)
+ 113:../../core/platform/octa_stm/src/uart.c ****       P1_Shield_UART_RX_Callback();
+ 114:../../core/platform/octa_stm/src/uart.c ****     if(P1_Application_UART_RX_Callback)
+ 115:../../core/platform/octa_stm/src/uart.c ****       P1_Application_UART_RX_Callback();
+ 116:../../core/platform/octa_stm/src/uart.c ****   }
+ 117:../../core/platform/octa_stm/src/uart.c ****   else if (huart == &P2_UART)
+ 484              		.loc 1 117 8 is_stmt 1 view .LVU149
+ 485              		.loc 1 117 11 is_stmt 0 view .LVU150
+ 486 0008 174B     		ldr	r3, .L44+4
+ 487 000a 9842     		cmp	r0, r3
+ 488 000c 14D0     		beq	.L41
+ 118:../../core/platform/octa_stm/src/uart.c ****   {
+ 119:../../core/platform/octa_stm/src/uart.c ****     if(P2_Shield_UART_RX_Callback)
+ 120:../../core/platform/octa_stm/src/uart.c ****       P2_Shield_UART_RX_Callback();
+ 121:../../core/platform/octa_stm/src/uart.c ****     if(P2_Application_UART_RX_Callback)
+ 122:../../core/platform/octa_stm/src/uart.c ****       P2_Application_UART_RX_Callback();
+ 123:../../core/platform/octa_stm/src/uart.c ****   }
+ 124:../../core/platform/octa_stm/src/uart.c ****   else if (huart == &USB_UART)
+ 489              		.loc 1 124 8 is_stmt 1 view .LVU151
+ 490              		.loc 1 124 11 is_stmt 0 view .LVU152
+ 491 000e 174B     		ldr	r3, .L44+8
+ 492 0010 9842     		cmp	r0, r3
+ 493 0012 1BD0     		beq	.L42
+ 125:../../core/platform/octa_stm/src/uart.c ****   {
+ 126:../../core/platform/octa_stm/src/uart.c ****     if(USB_UART_RX_Callback)
+ 127:../../core/platform/octa_stm/src/uart.c ****       USB_UART_RX_Callback();
+ 128:../../core/platform/octa_stm/src/uart.c ****   }
+ 129:../../core/platform/octa_stm/src/uart.c ****   else if (huart == &NBIOT_UART)
+ 494              		.loc 1 129 8 is_stmt 1 view .LVU153
+ 495              		.loc 1 129 11 is_stmt 0 view .LVU154
+ 496 0014 164B     		ldr	r3, .L44+12
+ 497 0016 9842     		cmp	r0, r3
+ 498 0018 1ED0     		beq	.L43
+ 130:../../core/platform/octa_stm/src/uart.c ****   {
+ 131:../../core/platform/octa_stm/src/uart.c ****     if(NBIOT_UART_RX_Callback)
+ARM GAS  /tmp/cc03LU3l.s 			page 12
+
+
+ 132:../../core/platform/octa_stm/src/uart.c ****       NBIOT_UART_RX_Callback();
+ 133:../../core/platform/octa_stm/src/uart.c ****   }
+ 134:../../core/platform/octa_stm/src/uart.c ****   else 
+ 135:../../core/platform/octa_stm/src/uart.c ****   {
+ 136:../../core/platform/octa_stm/src/uart.c ****     printERR("UART Handle unknown\r\n");
+ 499              		.loc 1 136 5 is_stmt 1 view .LVU155
+ 500 001a 1648     		ldr	r0, .L44+16
+ 501              	.LVL29:
+ 502              		.loc 1 136 5 is_stmt 0 view .LVU156
+ 503 001c FFF7FEFF 		bl	printERR
+ 504              	.LVL30:
+ 137:../../core/platform/octa_stm/src/uart.c ****     Error_Handler();
+ 505              		.loc 1 137 5 is_stmt 1 view .LVU157
+ 506 0020 FFF7FEFF 		bl	Error_Handler
+ 507              	.LVL31:
+ 138:../../core/platform/octa_stm/src/uart.c ****   }
+ 139:../../core/platform/octa_stm/src/uart.c **** }
+ 508              		.loc 1 139 1 is_stmt 0 view .LVU158
+ 509 0024 07E0     		b	.L31
+ 510              	.LVL32:
+ 511              	.L40:
+ 112:../../core/platform/octa_stm/src/uart.c ****       P1_Shield_UART_RX_Callback();
+ 512              		.loc 1 112 5 is_stmt 1 view .LVU159
+ 112:../../core/platform/octa_stm/src/uart.c ****       P1_Shield_UART_RX_Callback();
+ 513              		.loc 1 112 8 is_stmt 0 view .LVU160
+ 514 0026 144B     		ldr	r3, .L44+20
+ 515 0028 1B68     		ldr	r3, [r3]
+ 112:../../core/platform/octa_stm/src/uart.c ****       P1_Shield_UART_RX_Callback();
+ 516              		.loc 1 112 7 view .LVU161
+ 517 002a 03B1     		cbz	r3, .L33
+ 113:../../core/platform/octa_stm/src/uart.c ****     if(P1_Application_UART_RX_Callback)
+ 518              		.loc 1 113 7 is_stmt 1 view .LVU162
+ 519 002c 9847     		blx	r3
+ 520              	.LVL33:
+ 521              	.L33:
+ 114:../../core/platform/octa_stm/src/uart.c ****       P1_Application_UART_RX_Callback();
+ 522              		.loc 1 114 5 view .LVU163
+ 114:../../core/platform/octa_stm/src/uart.c ****       P1_Application_UART_RX_Callback();
+ 523              		.loc 1 114 8 is_stmt 0 view .LVU164
+ 524 002e 134B     		ldr	r3, .L44+24
+ 525 0030 1B68     		ldr	r3, [r3]
+ 114:../../core/platform/octa_stm/src/uart.c ****       P1_Application_UART_RX_Callback();
+ 526              		.loc 1 114 7 view .LVU165
+ 527 0032 03B1     		cbz	r3, .L31
+ 115:../../core/platform/octa_stm/src/uart.c ****   }
+ 528              		.loc 1 115 7 is_stmt 1 view .LVU166
+ 529 0034 9847     		blx	r3
+ 530              	.LVL34:
+ 531              	.L31:
+ 532              		.loc 1 139 1 is_stmt 0 view .LVU167
+ 533 0036 08BD     		pop	{r3, pc}
+ 534              	.LVL35:
+ 535              	.L41:
+ 119:../../core/platform/octa_stm/src/uart.c ****       P2_Shield_UART_RX_Callback();
+ 536              		.loc 1 119 5 is_stmt 1 view .LVU168
+ 119:../../core/platform/octa_stm/src/uart.c ****       P2_Shield_UART_RX_Callback();
+ 537              		.loc 1 119 8 is_stmt 0 view .LVU169
+ARM GAS  /tmp/cc03LU3l.s 			page 13
+
+
+ 538 0038 114B     		ldr	r3, .L44+28
+ 539 003a 1B68     		ldr	r3, [r3]
+ 119:../../core/platform/octa_stm/src/uart.c ****       P2_Shield_UART_RX_Callback();
+ 540              		.loc 1 119 7 view .LVU170
+ 541 003c 03B1     		cbz	r3, .L36
+ 120:../../core/platform/octa_stm/src/uart.c ****     if(P2_Application_UART_RX_Callback)
+ 542              		.loc 1 120 7 is_stmt 1 view .LVU171
+ 543 003e 9847     		blx	r3
+ 544              	.LVL36:
+ 545              	.L36:
+ 121:../../core/platform/octa_stm/src/uart.c ****       P2_Application_UART_RX_Callback();
+ 546              		.loc 1 121 5 view .LVU172
+ 121:../../core/platform/octa_stm/src/uart.c ****       P2_Application_UART_RX_Callback();
+ 547              		.loc 1 121 8 is_stmt 0 view .LVU173
+ 548 0040 104B     		ldr	r3, .L44+32
+ 549 0042 1B68     		ldr	r3, [r3]
+ 121:../../core/platform/octa_stm/src/uart.c ****       P2_Application_UART_RX_Callback();
+ 550              		.loc 1 121 7 view .LVU174
+ 551 0044 002B     		cmp	r3, #0
+ 552 0046 F6D0     		beq	.L31
+ 122:../../core/platform/octa_stm/src/uart.c ****   }
+ 553              		.loc 1 122 7 is_stmt 1 view .LVU175
+ 554 0048 9847     		blx	r3
+ 555              	.LVL37:
+ 556 004a F4E7     		b	.L31
+ 557              	.LVL38:
+ 558              	.L42:
+ 126:../../core/platform/octa_stm/src/uart.c ****       USB_UART_RX_Callback();
+ 559              		.loc 1 126 5 view .LVU176
+ 126:../../core/platform/octa_stm/src/uart.c ****       USB_UART_RX_Callback();
+ 560              		.loc 1 126 8 is_stmt 0 view .LVU177
+ 561 004c 0E4B     		ldr	r3, .L44+36
+ 562 004e 1B68     		ldr	r3, [r3]
+ 126:../../core/platform/octa_stm/src/uart.c ****       USB_UART_RX_Callback();
+ 563              		.loc 1 126 7 view .LVU178
+ 564 0050 002B     		cmp	r3, #0
+ 565 0052 F0D0     		beq	.L31
+ 127:../../core/platform/octa_stm/src/uart.c ****   }
+ 566              		.loc 1 127 7 is_stmt 1 view .LVU179
+ 567 0054 9847     		blx	r3
+ 568              	.LVL39:
+ 127:../../core/platform/octa_stm/src/uart.c ****   }
+ 569              		.loc 1 127 7 is_stmt 0 view .LVU180
+ 570 0056 EEE7     		b	.L31
+ 571              	.LVL40:
+ 572              	.L43:
+ 131:../../core/platform/octa_stm/src/uart.c ****       NBIOT_UART_RX_Callback();
+ 573              		.loc 1 131 5 is_stmt 1 view .LVU181
+ 131:../../core/platform/octa_stm/src/uart.c ****       NBIOT_UART_RX_Callback();
+ 574              		.loc 1 131 8 is_stmt 0 view .LVU182
+ 575 0058 0C4B     		ldr	r3, .L44+40
+ 576 005a 1B68     		ldr	r3, [r3]
+ 131:../../core/platform/octa_stm/src/uart.c ****       NBIOT_UART_RX_Callback();
+ 577              		.loc 1 131 7 view .LVU183
+ 578 005c 002B     		cmp	r3, #0
+ 579 005e EAD0     		beq	.L31
+ 132:../../core/platform/octa_stm/src/uart.c ****   }
+ARM GAS  /tmp/cc03LU3l.s 			page 14
+
+
+ 580              		.loc 1 132 7 is_stmt 1 view .LVU184
+ 581 0060 9847     		blx	r3
+ 582              	.LVL41:
+ 132:../../core/platform/octa_stm/src/uart.c ****   }
+ 583              		.loc 1 132 7 is_stmt 0 view .LVU185
+ 584 0062 E8E7     		b	.L31
+ 585              	.L45:
+ 586              		.align	2
+ 587              	.L44:
+ 588 0064 00000000 		.word	P1_UART
+ 589 0068 00000000 		.word	P2_UART
+ 590 006c 00000000 		.word	USB_UART
+ 591 0070 00000000 		.word	NBIOT_UART
+ 592 0074 00000000 		.word	.LC0
+ 593 0078 00000000 		.word	.LANCHOR0
+ 594 007c 00000000 		.word	.LANCHOR1
+ 595 0080 00000000 		.word	.LANCHOR2
+ 596 0084 00000000 		.word	.LANCHOR3
+ 597 0088 00000000 		.word	.LANCHOR4
+ 598 008c 00000000 		.word	.LANCHOR5
+ 599              		.cfi_endproc
+ 600              	.LFE136:
+ 602              		.section	.text.UART_SetApplicationCallback,"ax",%progbits
+ 603              		.align	1
+ 604              		.global	UART_SetApplicationCallback
+ 605              		.syntax unified
+ 606              		.thumb
+ 607              		.thumb_func
+ 608              		.fpu fpv4-sp-d16
+ 610              	UART_SetApplicationCallback:
+ 611              	.LVL42:
+ 612              	.LFB137:
+ 140:../../core/platform/octa_stm/src/uart.c **** 
+ 141:../../core/platform/octa_stm/src/uart.c **** void UART_SetApplicationCallback(void (*appcallback), uint8_t connector)
+ 142:../../core/platform/octa_stm/src/uart.c **** {
+ 613              		.loc 1 142 1 is_stmt 1 view -0
+ 614              		.cfi_startproc
+ 615              		@ args = 0, pretend = 0, frame = 0
+ 616              		@ frame_needed = 0, uses_anonymous_args = 0
+ 617              		@ link register save eliminated.
+ 143:../../core/platform/octa_stm/src/uart.c ****   switch(connector)
+ 618              		.loc 1 143 3 view .LVU187
+ 619 0000 0129     		cmp	r1, #1
+ 620 0002 02D0     		beq	.L47
+ 621 0004 0229     		cmp	r1, #2
+ 622 0006 03D0     		beq	.L48
+ 623 0008 7047     		bx	lr
+ 624              	.L47:
+ 144:../../core/platform/octa_stm/src/uart.c ****   {
+ 145:../../core/platform/octa_stm/src/uart.c ****     case 1:
+ 146:../../core/platform/octa_stm/src/uart.c ****       P1_Application_UART_RX_Callback = appcallback;
+ 625              		.loc 1 146 7 view .LVU188
+ 626              		.loc 1 146 39 is_stmt 0 view .LVU189
+ 627 000a 034B     		ldr	r3, .L50
+ 628 000c 1860     		str	r0, [r3]
+ 147:../../core/platform/octa_stm/src/uart.c ****       break;
+ 629              		.loc 1 147 7 is_stmt 1 view .LVU190
+ARM GAS  /tmp/cc03LU3l.s 			page 15
+
+
+ 630 000e 7047     		bx	lr
+ 631              	.L48:
+ 148:../../core/platform/octa_stm/src/uart.c ****     case 2:
+ 149:../../core/platform/octa_stm/src/uart.c ****       P2_Application_UART_RX_Callback = appcallback;
+ 632              		.loc 1 149 7 view .LVU191
+ 633              		.loc 1 149 39 is_stmt 0 view .LVU192
+ 634 0010 024B     		ldr	r3, .L50+4
+ 635 0012 1860     		str	r0, [r3]
+ 150:../../core/platform/octa_stm/src/uart.c ****       break;
+ 636              		.loc 1 150 7 is_stmt 1 view .LVU193
+ 151:../../core/platform/octa_stm/src/uart.c ****     default:
+ 152:../../core/platform/octa_stm/src/uart.c ****       break;
+ 153:../../core/platform/octa_stm/src/uart.c ****   }
+ 154:../../core/platform/octa_stm/src/uart.c **** }
+ 637              		.loc 1 154 1 is_stmt 0 view .LVU194
+ 638 0014 7047     		bx	lr
+ 639              	.L51:
+ 640 0016 00BF     		.align	2
+ 641              	.L50:
+ 642 0018 00000000 		.word	.LANCHOR1
+ 643 001c 00000000 		.word	.LANCHOR3
+ 644              		.cfi_endproc
+ 645              	.LFE137:
+ 647              		.section	.text.UART_SetShieldCallback,"ax",%progbits
+ 648              		.align	1
+ 649              		.global	UART_SetShieldCallback
+ 650              		.syntax unified
+ 651              		.thumb
+ 652              		.thumb_func
+ 653              		.fpu fpv4-sp-d16
+ 655              	UART_SetShieldCallback:
+ 656              	.LVL43:
+ 657              	.LFB138:
+ 155:../../core/platform/octa_stm/src/uart.c **** 
+ 156:../../core/platform/octa_stm/src/uart.c **** void UART_SetShieldCallback(void (*shieldcallback), uint8_t connector)
+ 157:../../core/platform/octa_stm/src/uart.c **** {
+ 658              		.loc 1 157 1 is_stmt 1 view -0
+ 659              		.cfi_startproc
+ 660              		@ args = 0, pretend = 0, frame = 0
+ 661              		@ frame_needed = 0, uses_anonymous_args = 0
+ 662              		@ link register save eliminated.
+ 158:../../core/platform/octa_stm/src/uart.c ****   switch(connector)
+ 663              		.loc 1 158 3 view .LVU196
+ 664 0000 0129     		cmp	r1, #1
+ 665 0002 02D0     		beq	.L53
+ 666 0004 0229     		cmp	r1, #2
+ 667 0006 03D0     		beq	.L54
+ 668 0008 7047     		bx	lr
+ 669              	.L53:
+ 159:../../core/platform/octa_stm/src/uart.c ****   {
+ 160:../../core/platform/octa_stm/src/uart.c ****     case 1:
+ 161:../../core/platform/octa_stm/src/uart.c ****       P1_Shield_UART_RX_Callback = shieldcallback;
+ 670              		.loc 1 161 7 view .LVU197
+ 671              		.loc 1 161 34 is_stmt 0 view .LVU198
+ 672 000a 034B     		ldr	r3, .L56
+ 673 000c 1860     		str	r0, [r3]
+ 162:../../core/platform/octa_stm/src/uart.c ****       break;
+ARM GAS  /tmp/cc03LU3l.s 			page 16
+
+
+ 674              		.loc 1 162 7 is_stmt 1 view .LVU199
+ 675 000e 7047     		bx	lr
+ 676              	.L54:
+ 163:../../core/platform/octa_stm/src/uart.c ****     case 2:
+ 164:../../core/platform/octa_stm/src/uart.c ****       P2_Shield_UART_RX_Callback = shieldcallback;
+ 677              		.loc 1 164 7 view .LVU200
+ 678              		.loc 1 164 34 is_stmt 0 view .LVU201
+ 679 0010 024B     		ldr	r3, .L56+4
+ 680 0012 1860     		str	r0, [r3]
+ 165:../../core/platform/octa_stm/src/uart.c ****       break;
+ 681              		.loc 1 165 7 is_stmt 1 view .LVU202
+ 166:../../core/platform/octa_stm/src/uart.c ****     default:
+ 167:../../core/platform/octa_stm/src/uart.c ****       break;
+ 168:../../core/platform/octa_stm/src/uart.c ****   }
+ 169:../../core/platform/octa_stm/src/uart.c **** }
+ 682              		.loc 1 169 1 is_stmt 0 view .LVU203
+ 683 0014 7047     		bx	lr
+ 684              	.L57:
+ 685 0016 00BF     		.align	2
+ 686              	.L56:
+ 687 0018 00000000 		.word	.LANCHOR0
+ 688 001c 00000000 		.word	.LANCHOR2
+ 689              		.cfi_endproc
+ 690              	.LFE138:
+ 692              		.section	.text.UART_USB_SetRxCallback,"ax",%progbits
+ 693              		.align	1
+ 694              		.global	UART_USB_SetRxCallback
+ 695              		.syntax unified
+ 696              		.thumb
+ 697              		.thumb_func
+ 698              		.fpu fpv4-sp-d16
+ 700              	UART_USB_SetRxCallback:
+ 701              	.LVL44:
+ 702              	.LFB139:
+ 170:../../core/platform/octa_stm/src/uart.c **** 
+ 171:../../core/platform/octa_stm/src/uart.c **** void UART_USB_SetRxCallback(void (*rxcallback))
+ 172:../../core/platform/octa_stm/src/uart.c **** {
+ 703              		.loc 1 172 1 is_stmt 1 view -0
+ 704              		.cfi_startproc
+ 705              		@ args = 0, pretend = 0, frame = 0
+ 706              		@ frame_needed = 0, uses_anonymous_args = 0
+ 707              		@ link register save eliminated.
+ 173:../../core/platform/octa_stm/src/uart.c ****   USB_UART_RX_Callback = rxcallback;
+ 708              		.loc 1 173 3 view .LVU205
+ 709              		.loc 1 173 24 is_stmt 0 view .LVU206
+ 710 0000 014B     		ldr	r3, .L59
+ 711 0002 1860     		str	r0, [r3]
+ 174:../../core/platform/octa_stm/src/uart.c **** }
+ 712              		.loc 1 174 1 view .LVU207
+ 713 0004 7047     		bx	lr
+ 714              	.L60:
+ 715 0006 00BF     		.align	2
+ 716              	.L59:
+ 717 0008 00000000 		.word	.LANCHOR4
+ 718              		.cfi_endproc
+ 719              	.LFE139:
+ 721              		.section	.text.UART_NBIOT_SetRxCallback,"ax",%progbits
+ARM GAS  /tmp/cc03LU3l.s 			page 17
+
+
+ 722              		.align	1
+ 723              		.global	UART_NBIOT_SetRxCallback
+ 724              		.syntax unified
+ 725              		.thumb
+ 726              		.thumb_func
+ 727              		.fpu fpv4-sp-d16
+ 729              	UART_NBIOT_SetRxCallback:
+ 730              	.LVL45:
+ 731              	.LFB140:
+ 175:../../core/platform/octa_stm/src/uart.c **** 
+ 176:../../core/platform/octa_stm/src/uart.c **** void UART_NBIOT_SetRxCallback(void (*rxcallback))
+ 177:../../core/platform/octa_stm/src/uart.c **** {
+ 732              		.loc 1 177 1 is_stmt 1 view -0
+ 733              		.cfi_startproc
+ 734              		@ args = 0, pretend = 0, frame = 0
+ 735              		@ frame_needed = 0, uses_anonymous_args = 0
+ 736              		@ link register save eliminated.
+ 178:../../core/platform/octa_stm/src/uart.c ****   NBIOT_UART_RX_Callback = rxcallback;
+ 737              		.loc 1 178 3 view .LVU209
+ 738              		.loc 1 178 26 is_stmt 0 view .LVU210
+ 739 0000 014B     		ldr	r3, .L62
+ 740 0002 1860     		str	r0, [r3]
+ 179:../../core/platform/octa_stm/src/uart.c **** }
+ 741              		.loc 1 179 1 view .LVU211
+ 742 0004 7047     		bx	lr
+ 743              	.L63:
+ 744 0006 00BF     		.align	2
+ 745              	.L62:
+ 746 0008 00000000 		.word	.LANCHOR5
+ 747              		.cfi_endproc
+ 748              	.LFE140:
+ 750              		.section	.text.__io_putchar,"ax",%progbits
+ 751              		.align	1
+ 752              		.global	__io_putchar
+ 753              		.syntax unified
+ 754              		.thumb
+ 755              		.thumb_func
+ 756              		.fpu fpv4-sp-d16
+ 758              	__io_putchar:
+ 759              	.LVL46:
+ 760              	.LFB142:
+ 180:../../core/platform/octa_stm/src/uart.c **** 
+ 181:../../core/platform/octa_stm/src/uart.c **** /*******************************************
+ 182:../../core/platform/octa_stm/src/uart.c **** PRINTF TO SERIAL REDIRECT FUNCTION PROTOTYPE 
+ 183:../../core/platform/octa_stm/src/uart.c **** ********************************************/
+ 184:../../core/platform/octa_stm/src/uart.c **** #ifdef __GNUC__
+ 185:../../core/platform/octa_stm/src/uart.c **** #define PUTCHAR_PROTOTYPE int __io_putchar(int ch)
+ 186:../../core/platform/octa_stm/src/uart.c **** #else
+ 187:../../core/platform/octa_stm/src/uart.c **** #define PUTCHAR_PROTOTYPE int fputc(int ch, FILE *f)
+ 188:../../core/platform/octa_stm/src/uart.c **** #endif
+ 189:../../core/platform/octa_stm/src/uart.c **** 
+ 190:../../core/platform/octa_stm/src/uart.c **** /* required for printf to work */
+ 191:../../core/platform/octa_stm/src/uart.c **** int _write(int file, char *ptr, int len)
+ 192:../../core/platform/octa_stm/src/uart.c **** {
+ 193:../../core/platform/octa_stm/src/uart.c ****   int DataIdx;
+ 194:../../core/platform/octa_stm/src/uart.c **** 
+ 195:../../core/platform/octa_stm/src/uart.c ****   for (DataIdx = 0; DataIdx < len; DataIdx++)
+ARM GAS  /tmp/cc03LU3l.s 			page 18
+
+
+ 196:../../core/platform/octa_stm/src/uart.c ****   {
+ 197:../../core/platform/octa_stm/src/uart.c ****     __io_putchar(*ptr++);
+ 198:../../core/platform/octa_stm/src/uart.c ****   }
+ 199:../../core/platform/octa_stm/src/uart.c ****   return len;
+ 200:../../core/platform/octa_stm/src/uart.c **** }
+ 201:../../core/platform/octa_stm/src/uart.c **** 
+ 202:../../core/platform/octa_stm/src/uart.c **** /**
+ 203:../../core/platform/octa_stm/src/uart.c ****   * @brief  Retargets the C library printf function to the USART.
+ 204:../../core/platform/octa_stm/src/uart.c ****   * @param  None
+ 205:../../core/platform/octa_stm/src/uart.c ****   * @retval None
+ 206:../../core/platform/octa_stm/src/uart.c ****   */
+ 207:../../core/platform/octa_stm/src/uart.c **** PUTCHAR_PROTOTYPE
+ 208:../../core/platform/octa_stm/src/uart.c **** {
+ 761              		.loc 1 208 1 is_stmt 1 view -0
+ 762              		.cfi_startproc
+ 763              		@ args = 0, pretend = 0, frame = 8
+ 764              		@ frame_needed = 0, uses_anonymous_args = 0
+ 765              		.loc 1 208 1 is_stmt 0 view .LVU213
+ 766 0000 00B5     		push	{lr}
+ 767              	.LCFI6:
+ 768              		.cfi_def_cfa_offset 4
+ 769              		.cfi_offset 14, -4
+ 770 0002 83B0     		sub	sp, sp, #12
+ 771              	.LCFI7:
+ 772              		.cfi_def_cfa_offset 16
+ 773 0004 0190     		str	r0, [sp, #4]
+ 209:../../core/platform/octa_stm/src/uart.c ****   HAL_UART_Transmit(&USB_UART, (uint8_t *)&ch, 1, 500);
+ 774              		.loc 1 209 3 is_stmt 1 view .LVU214
+ 775 0006 4FF4FA73 		mov	r3, #500
+ 776 000a 0122     		movs	r2, #1
+ 777 000c 01A9     		add	r1, sp, #4
+ 778 000e 0348     		ldr	r0, .L66
+ 779              	.LVL47:
+ 780              		.loc 1 209 3 is_stmt 0 view .LVU215
+ 781 0010 FFF7FEFF 		bl	HAL_UART_Transmit
+ 782              	.LVL48:
+ 210:../../core/platform/octa_stm/src/uart.c ****   return ch;
+ 783              		.loc 1 210 3 is_stmt 1 view .LVU216
+ 211:../../core/platform/octa_stm/src/uart.c **** }...
+ 784              		.loc 1 211 1 is_stmt 0 view .LVU217
+ 785 0014 0198     		ldr	r0, [sp, #4]
+ 786 0016 03B0     		add	sp, sp, #12
+ 787              	.LCFI8:
+ 788              		.cfi_def_cfa_offset 4
+ 789              		@ sp needed
+ 790 0018 5DF804FB 		ldr	pc, [sp], #4
+ 791              	.L67:
+ 792              		.align	2
+ 793              	.L66:
+ 794 001c 00000000 		.word	USB_UART
+ 795              		.cfi_endproc
+ 796              	.LFE142:
+ 798              		.section	.text._write,"ax",%progbits
+ 799              		.align	1
+ 800              		.global	_write
+ 801              		.syntax unified
+ 802              		.thumb
+ARM GAS  /tmp/cc03LU3l.s 			page 19
+
+
+ 803              		.thumb_func
+ 804              		.fpu fpv4-sp-d16
+ 806              	_write:
+ 807              	.LVL49:
+ 808              	.LFB141:
+ 192:../../core/platform/octa_stm/src/uart.c **** {
+ 809              		.loc 1 192 1 is_stmt 1 view -0
+ 810              		.cfi_startproc
+ 811              		@ args = 0, pretend = 0, frame = 0
+ 812              		@ frame_needed = 0, uses_anonymous_args = 0
+ 192:../../core/platform/octa_stm/src/uart.c **** {
+ 813              		.loc 1 192 1 is_stmt 0 view .LVU219
+ 814 0000 70B5     		push	{r4, r5, r6, lr}
+ 815              	.LCFI9:
+ 816              		.cfi_def_cfa_offset 16
+ 817              		.cfi_offset 4, -16
+ 818              		.cfi_offset 5, -12
+ 819              		.cfi_offset 6, -8
+ 820              		.cfi_offset 14, -4
+ 821 0002 0C46     		mov	r4, r1
+ 822 0004 1646     		mov	r6, r2
+ 193:../../core/platform/octa_stm/src/uart.c ****   int DataIdx;
+ 823              		.loc 1 193 3 is_stmt 1 view .LVU220
+ 195:../../core/platform/octa_stm/src/uart.c ****   for (DataIdx = 0; DataIdx < len; DataIdx++)
+ 824              		.loc 1 195 3 view .LVU221
+ 825              	.LVL50:
+ 195:../../core/platform/octa_stm/src/uart.c ****   for (DataIdx = 0; DataIdx < len; DataIdx++)
+ 826              		.loc 1 195 16 is_stmt 0 view .LVU222
+ 827 0006 0025     		movs	r5, #0
+ 828              	.LVL51:
+ 829              	.L69:
+ 195:../../core/platform/octa_stm/src/uart.c ****   for (DataIdx = 0; DataIdx < len; DataIdx++)
+ 830              		.loc 1 195 21 is_stmt 1 discriminator 1 view .LVU223
+ 195:../../core/platform/octa_stm/src/uart.c ****   for (DataIdx = 0; DataIdx < len; DataIdx++)
+ 831              		.loc 1 195 3 is_stmt 0 discriminator 1 view .LVU224
+ 832 0008 B542     		cmp	r5, r6
+ 833 000a 05DA     		bge	.L72
+ 197:../../core/platform/octa_stm/src/uart.c ****     __io_putchar(*ptr++);
+ 834              		.loc 1 197 5 is_stmt 1 discriminator 3 view .LVU225
+ 835              	.LVL52:
+ 197:../../core/platform/octa_stm/src/uart.c ****     __io_putchar(*ptr++);
+ 836              		.loc 1 197 5 is_stmt 0 discriminator 3 view .LVU226
+ 837 000c 14F8010B 		ldrb	r0, [r4], #1	@ zero_extendqisi2
+ 838              	.LVL53:
+ 197:../../core/platform/octa_stm/src/uart.c ****     __io_putchar(*ptr++);
+ 839              		.loc 1 197 5 discriminator 3 view .LVU227
+ 840 0010 FFF7FEFF 		bl	__io_putchar
+ 841              	.LVL54:
+ 195:../../core/platform/octa_stm/src/uart.c ****   for (DataIdx = 0; DataIdx < len; DataIdx++)
+ 842              		.loc 1 195 36 is_stmt 1 discriminator 3 view .LVU228
+ 195:../../core/platform/octa_stm/src/uart.c ****   for (DataIdx = 0; DataIdx < len; DataIdx++)
+ 843              		.loc 1 195 43 is_stmt 0 discriminator 3 view .LVU229
+ 844 0014 0135     		adds	r5, r5, #1
+ 845              	.LVL55:
+ 195:../../core/platform/octa_stm/src/uart.c ****   for (DataIdx = 0; DataIdx < len; DataIdx++)
+ 846              		.loc 1 195 43 discriminator 3 view .LVU230
+ 847 0016 F7E7     		b	.L69
+ARM GAS  /tmp/cc03LU3l.s 			page 20
+
+
+ 848              	.L72:
+ 199:../../core/platform/octa_stm/src/uart.c ****   return len;
+ 849              		.loc 1 199 3 is_stmt 1 view .LVU231
+ 200:../../core/platform/octa_stm/src/uart.c **** }
+ 850              		.loc 1 200 1 is_stmt 0 view .LVU232
+ 851 0018 3046     		mov	r0, r6
+ 852 001a 70BD     		pop	{r4, r5, r6, pc}
+ 200:../../core/platform/octa_stm/src/uart.c **** }
+ 853              		.loc 1 200 1 view .LVU233
+ 854              		.cfi_endproc
+ 855              	.LFE141:
+ 857              		.comm	P3_header,44,4
+ 858              		.comm	P2_header,44,4
+ 859              		.comm	P1_header,44,4
+ 860              		.comm	stackversion_patch,1,1
+ 861              		.comm	stackversion_minor,1,1
+ 862              		.comm	stackversion_major,1,1
+ 863              		.comm	appversion_patch,1,1
+ 864              		.comm	appversion_minor,1,1
+ 865              		.comm	appversion_major,1,1
+ 866              		.comm	short_UID,8,8
+ 867              		.comm	octa_uid,8,8
+ 868              		.comm	float_union,4,4
+ 869              		.comm	uint16LittleEndian,2,4
+ 870              		.comm	int16LittleEndian,2,4
+ 871              		.comm	uint32LittleEndian,4,4
+ 872              		.comm	int32LittleEndian,4,4
+ 873              		.comm	rtosprintHandle,4,4
+ 874              		.comm	hrtc,36,4
+ 875              		.comm	FLASH_SPI,100,4
+ 876              		.comm	P2_SPI,100,4
+ 877              		.comm	P1_SPI,100,4
+ 878              		.comm	P2_I2C,76,4
+ 879              		.comm	P1_I2C,76,4
+ 880              		.comm	common_I2C,76,4
+ 881              		.comm	P2_UART,120,4
+ 882              		.comm	P1_UART,120,4
+ 883              		.comm	RS232_UART,120,4
+ 884              		.comm	NBIOT_UART,120,4
+ 885              		.comm	USB_UART,120,4
+ 886              		.comm	hiwdg,16,4
+ 887              		.comm	NBIOT_Reset,8,4
+ 888              		.comm	P2_DIO6,8,4
+ 889              		.comm	P2_DIO5,8,4
+ 890              		.comm	P2_DIO4,8,4
+ 891              		.comm	P2_DIO3,8,4
+ 892              		.comm	P2_DIO2,8,4
+ 893              		.comm	P2_DIO1,8,4
+ 894              		.comm	P1_DIO6,8,4
+ 895              		.comm	P1_DIO5,8,4
+ 896              		.comm	P1_DIO4,8,4
+ 897              		.comm	P1_DIO3,8,4
+ 898              		.comm	P1_DIO2,8,4
+ 899              		.comm	P1_DIO1,8,4
+ 900              		.comm	htim6,64,4
+ 901              		.comm	htim1,64,4
+ 902              		.section	.bss.NBIOT_UART_RX_Callback,"aw",%nobits
+ARM GAS  /tmp/cc03LU3l.s 			page 21
+
+
+ 903              		.align	2
+ 904              		.set	.LANCHOR5,. + 0
+ 907              	NBIOT_UART_RX_Callback:
+ 908 0000 00000000 		.space	4
+ 909              		.section	.bss.P1_Application_UART_RX_Callback,"aw",%nobits
+ 910              		.align	2
+ 911              		.set	.LANCHOR1,. + 0
+ 914              	P1_Application_UART_RX_Callback:
+ 915 0000 00000000 		.space	4
+ 916              		.section	.bss.P1_Shield_UART_RX_Callback,"aw",%nobits
+ 917              		.align	2
+ 918              		.set	.LANCHOR0,. + 0
+ 921              	P1_Shield_UART_RX_Callback:
+ 922 0000 00000000 		.space	4
+ 923              		.section	.bss.P2_Application_UART_RX_Callback,"aw",%nobits
+ 924              		.align	2
+ 925              		.set	.LANCHOR3,. + 0
+ 928              	P2_Application_UART_RX_Callback:
+ 929 0000 00000000 		.space	4
+ 930              		.section	.bss.P2_Shield_UART_RX_Callback,"aw",%nobits
+ 931              		.align	2
+ 932              		.set	.LANCHOR2,. + 0
+ 935              	P2_Shield_UART_RX_Callback:
+ 936 0000 00000000 		.space	4
+ 937              		.section	.bss.USB_UART_RX_Callback,"aw",%nobits
+ 938              		.align	2
+ 939              		.set	.LANCHOR4,. + 0
+ 942              	USB_UART_RX_Callback:
+ 943 0000 00000000 		.space	4
+ 944              		.text
+ 945              	.Letext0:
+ 946              		.file 2 "/usr/arm-none-eabi/include/machine/_default_types.h"
+ 947              		.file 3 "/usr/arm-none-eabi/include/sys/_stdint.h"
+ 948              		.file 4 "../../core/ST/CMSIS/Include/core_cm4.h"
+ 949              		.file 5 "../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/system_stm32l4xx.h"
+ 950              		.file 6 "../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/stm32l496xx.h"
+ 951              		.file 7 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h"
+ 952              		.file 8 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_dma.h"
+ 953              		.file 9 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_i2c.h"
+ 954              		.file 10 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_iwdg.h"
+ 955              		.file 11 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rtc.h"
+ 956              		.file 12 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_spi.h"
+ 957              		.file 13 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_tim.h"
+ 958              		.file 14 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h"
+ 959              		.file 15 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h"
+ 960              		.file 16 "../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/include/task.h"
+ 961              		.file 17 "../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h"
+ 962              		.file 18 "../../core/platform/octa_stm/inc/sysclock.h"
+ 963              		.file 19 "../../core/platform/octa_stm/inc/gpio.h"
+ 964              		.file 20 "../../core/platform/octa_stm/inc/iwdg.h"
+ 965              		.file 21 "../../core/platform/octa_stm/inc/uart.h"
+ 966              		.file 22 "../../core/platform/octa_stm/inc/i2c.h"
+ 967              		.file 23 "../../core/platform/octa_stm/inc/spi.h"
+ 968              		.file 24 "../../core/platform/octa_stm/inc/rtc.h"
+ 969              		.file 25 "../../core/platform/octa_stm/inc/rtosincludes.h"
+ 970              		.file 26 "/usr/arm-none-eabi/include/sys/lock.h"
+ 971              		.file 27 "/usr/arm-none-eabi/include/sys/_types.h"
+ARM GAS  /tmp/cc03LU3l.s 			page 22
+
+
+ 972              		.file 28 "/usr/lib/gcc/arm-none-eabi/9.2.1/include/stddef.h"
+ 973              		.file 29 "/usr/arm-none-eabi/include/sys/reent.h"
+ 974              		.file 30 "../../core/platform/common/inc/datatypes.h"
+ 975              		.file 31 "../../core/platform/octa_stm/inc/platform.h"
+ 976              		.file 32 "../../core/platform/common/inc/print.h"
+ 977              		.file 33 "../../core/platform/common/inc/error.h"
+ 978              		.file 34 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_cortex.h"
+ARM GAS  /tmp/cc03LU3l.s 			page 23
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 uart.c
+     /tmp/cc03LU3l.s:18     .text.USB_UART_Init:0000000000000000 $t
+     /tmp/cc03LU3l.s:26     .text.USB_UART_Init:0000000000000000 USB_UART_Init
+     /tmp/cc03LU3l.s:101    .text.USB_UART_Init:000000000000003c $d
+                            *COM*:0000000000000078 USB_UART
+     /tmp/cc03LU3l.s:107    .text.NBIOT_UART_Init:0000000000000000 $t
+     /tmp/cc03LU3l.s:114    .text.NBIOT_UART_Init:0000000000000000 NBIOT_UART_Init
+     /tmp/cc03LU3l.s:188    .text.NBIOT_UART_Init:000000000000003c $d
+                            *COM*:0000000000000078 NBIOT_UART
+     /tmp/cc03LU3l.s:194    .text.RS232_UART_Init:0000000000000000 $t
+     /tmp/cc03LU3l.s:201    .text.RS232_UART_Init:0000000000000000 RS232_UART_Init
+     /tmp/cc03LU3l.s:269    .text.RS232_UART_Init:0000000000000030 $d
+                            *COM*:0000000000000078 RS232_UART
+     /tmp/cc03LU3l.s:275    .text.P1_UART_Init:0000000000000000 $t
+     /tmp/cc03LU3l.s:282    .text.P1_UART_Init:0000000000000000 P1_UART_Init
+     /tmp/cc03LU3l.s:359    .text.P1_UART_Init:0000000000000040 $d
+                            *COM*:0000000000000078 P1_UART
+     /tmp/cc03LU3l.s:365    .text.P2_UART_Init:0000000000000000 $t
+     /tmp/cc03LU3l.s:372    .text.P2_UART_Init:0000000000000000 P2_UART_Init
+     /tmp/cc03LU3l.s:449    .text.P2_UART_Init:0000000000000040 $d
+                            *COM*:0000000000000078 P2_UART
+     /tmp/cc03LU3l.s:455    .rodata.HAL_UART_RxCpltCallback.str1.4:0000000000000000 $d
+     /tmp/cc03LU3l.s:459    .text.HAL_UART_RxCpltCallback:0000000000000000 $t
+     /tmp/cc03LU3l.s:466    .text.HAL_UART_RxCpltCallback:0000000000000000 HAL_UART_RxCpltCallback
+     /tmp/cc03LU3l.s:588    .text.HAL_UART_RxCpltCallback:0000000000000064 $d
+     /tmp/cc03LU3l.s:603    .text.UART_SetApplicationCallback:0000000000000000 $t
+     /tmp/cc03LU3l.s:610    .text.UART_SetApplicationCallback:0000000000000000 UART_SetApplicationCallback
+     /tmp/cc03LU3l.s:642    .text.UART_SetApplicationCallback:0000000000000018 $d
+     /tmp/cc03LU3l.s:648    .text.UART_SetShieldCallback:0000000000000000 $t
+     /tmp/cc03LU3l.s:655    .text.UART_SetShieldCallback:0000000000000000 UART_SetShieldCallback
+     /tmp/cc03LU3l.s:687    .text.UART_SetShieldCallback:0000000000000018 $d
+     /tmp/cc03LU3l.s:693    .text.UART_USB_SetRxCallback:0000000000000000 $t
+     /tmp/cc03LU3l.s:700    .text.UART_USB_SetRxCallback:0000000000000000 UART_USB_SetRxCallback
+     /tmp/cc03LU3l.s:717    .text.UART_USB_SetRxCallback:0000000000000008 $d
+     /tmp/cc03LU3l.s:722    .text.UART_NBIOT_SetRxCallback:0000000000000000 $t
+     /tmp/cc03LU3l.s:729    .text.UART_NBIOT_SetRxCallback:0000000000000000 UART_NBIOT_SetRxCallback
+     /tmp/cc03LU3l.s:746    .text.UART_NBIOT_SetRxCallback:0000000000000008 $d
+     /tmp/cc03LU3l.s:751    .text.__io_putchar:0000000000000000 $t
+     /tmp/cc03LU3l.s:758    .text.__io_putchar:0000000000000000 __io_putchar
+     /tmp/cc03LU3l.s:794    .text.__io_putchar:000000000000001c $d
+     /tmp/cc03LU3l.s:799    .text._write:0000000000000000 $t
+     /tmp/cc03LU3l.s:806    .text._write:0000000000000000 _write
+                            *COM*:000000000000002c P3_header
+                            *COM*:000000000000002c P2_header
+                            *COM*:000000000000002c P1_header
+                            *COM*:0000000000000001 stackversion_patch
+                            *COM*:0000000000000001 stackversion_minor
+                            *COM*:0000000000000001 stackversion_major
+                            *COM*:0000000000000001 appversion_patch
+                            *COM*:0000000000000001 appversion_minor
+                            *COM*:0000000000000001 appversion_major
+                            *COM*:0000000000000008 short_UID
+                            *COM*:0000000000000008 octa_uid
+                            *COM*:0000000000000004 float_union
+                            *COM*:0000000000000002 uint16LittleEndian
+                            *COM*:0000000000000002 int16LittleEndian
+ARM GAS  /tmp/cc03LU3l.s 			page 24
+
+
+                            *COM*:0000000000000004 uint32LittleEndian
+                            *COM*:0000000000000004 int32LittleEndian
+                            *COM*:0000000000000004 rtosprintHandle
+                            *COM*:0000000000000024 hrtc
+                            *COM*:0000000000000064 FLASH_SPI
+                            *COM*:0000000000000064 P2_SPI
+                            *COM*:0000000000000064 P1_SPI
+                            *COM*:000000000000004c P2_I2C
+                            *COM*:000000000000004c P1_I2C
+                            *COM*:000000000000004c common_I2C
+                            *COM*:0000000000000010 hiwdg
+                            *COM*:0000000000000008 NBIOT_Reset
+                            *COM*:0000000000000008 P2_DIO6
+                            *COM*:0000000000000008 P2_DIO5
+                            *COM*:0000000000000008 P2_DIO4
+                            *COM*:0000000000000008 P2_DIO3
+                            *COM*:0000000000000008 P2_DIO2
+                            *COM*:0000000000000008 P2_DIO1
+                            *COM*:0000000000000008 P1_DIO6
+                            *COM*:0000000000000008 P1_DIO5
+                            *COM*:0000000000000008 P1_DIO4
+                            *COM*:0000000000000008 P1_DIO3
+                            *COM*:0000000000000008 P1_DIO2
+                            *COM*:0000000000000008 P1_DIO1
+                            *COM*:0000000000000040 htim6
+                            *COM*:0000000000000040 htim1
+     /tmp/cc03LU3l.s:903    .bss.NBIOT_UART_RX_Callback:0000000000000000 $d
+     /tmp/cc03LU3l.s:907    .bss.NBIOT_UART_RX_Callback:0000000000000000 NBIOT_UART_RX_Callback
+     /tmp/cc03LU3l.s:910    .bss.P1_Application_UART_RX_Callback:0000000000000000 $d
+     /tmp/cc03LU3l.s:914    .bss.P1_Application_UART_RX_Callback:0000000000000000 P1_Application_UART_RX_Callback
+     /tmp/cc03LU3l.s:917    .bss.P1_Shield_UART_RX_Callback:0000000000000000 $d
+     /tmp/cc03LU3l.s:921    .bss.P1_Shield_UART_RX_Callback:0000000000000000 P1_Shield_UART_RX_Callback
+     /tmp/cc03LU3l.s:924    .bss.P2_Application_UART_RX_Callback:0000000000000000 $d
+     /tmp/cc03LU3l.s:928    .bss.P2_Application_UART_RX_Callback:0000000000000000 P2_Application_UART_RX_Callback
+     /tmp/cc03LU3l.s:931    .bss.P2_Shield_UART_RX_Callback:0000000000000000 $d
+     /tmp/cc03LU3l.s:935    .bss.P2_Shield_UART_RX_Callback:0000000000000000 P2_Shield_UART_RX_Callback
+     /tmp/cc03LU3l.s:938    .bss.USB_UART_RX_Callback:0000000000000000 $d
+     /tmp/cc03LU3l.s:942    .bss.USB_UART_RX_Callback:0000000000000000 USB_UART_RX_Callback
+
+UNDEFINED SYMBOLS
+HAL_UART_Init
+HAL_NVIC_SetPriority
+HAL_NVIC_EnableIRQ
+Error_Handler
+printERR
+HAL_UART_Transmit

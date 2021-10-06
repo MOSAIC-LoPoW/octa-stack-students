@@ -33,8 +33,8 @@ void OCTA_Initialize_Common_Peripherals(void)
     #if USE_FTDI_LOGGING
         FTDI_UART_Init(115200);
     #endif
-    #if USE_BLE
-        printINF("\r\nusing BLE, initializing BLE UART\r\n");
+    #if USE_BOOTLOADER
+        printINF("\r\nusing bootloader, initializing BLE UART\r\n");
         BLE_UART_Init(115200); 
         bootloader_initialize(&BLE_UART);
         UART_BLE_SetRxCallback(bootloader_parse_data);   
@@ -46,6 +46,20 @@ void OCTA_Initialize_Common_Peripherals(void)
 
     // Print Welcome Message
     printWelcome();
+
+    wd_reset = 0;
+    hard_reset = 0;
+    if(__HAL_RCC_GET_FLAG(RCC_FLAG_IWDGRST)) 
+    {
+        __HAL_RCC_CLEAR_RESET_FLAGS();
+        printINF("Startup after IWDG timeout\r\n\r\n");
+        wd_reset = 1;
+    }
+    else  
+    {
+        printINF("Startup from power cycle\r\n\r\n");
+        hard_reset = 1;
+    }
 }
 
 void OCTA_ReInitialize_Common_Peripherals(void)
@@ -65,8 +79,8 @@ void OCTA_ReInitialize_Common_Peripherals(void)
     #if USE_FTDI_LOGGING
         FTDI_UART_Init(115200);
     #endif
-    #if USE_BLE
-        printINF("\r\nusing BLE, initializing BLE UART\r\n");
+    #if USE_BOOTLOADER
+        printINF("\r\nusing bootloader, initializing BLE UART\r\n");
         BLE_UART_Init(115200); 
         bootloader_initialize(&BLE_UART);
         UART_BLE_SetRxCallback(bootloader_parse_data);   
@@ -101,8 +115,8 @@ void OCTA_Initialize_P1_Peripherals(void)
 void OCTA_Initialize_P2_Peripherals(void)
 {
     P2_header.number = 2;
-    #if USE_BLE
-        printINF("\r\nusing BLE, P2 UART unavailable\r\n");
+    #if USE_BOOTLOADER
+        printINF("\r\nusing bootloader, P2 UART unavailable\r\n");
         P2_header.uartHandle = NULL;
     #else
         P2_header.uartHandle = &P2_UART;
@@ -265,9 +279,6 @@ __weak void printWelcome(void)
     #if USE_BOOTLOADER
         printf(", bootlader");
     #endif
-    #if USE_BLE
-        printf(", bootlader");
-    #endif
     #if DEBUG
         printf(", debug");
     #endif
@@ -318,9 +329,9 @@ __weak void printWelcome(void)
     #endif
     #ifdef NB_IOT_CHIP_NORDIC
         #ifdef NB_IOT_CONNECTOR
-            printf("*   Nordic NB-IoT at connector P%d using provider %s, v%s\r\n", NB_IOT_CONNECTOR, STR(NB_IOT_PROVIDERNAME), STR(NB_IOT_VERSION));
+            printf("*   Nordic NB-IoT at connector P%d using automatic provider, v%s\r\n", NB_IOT_CONNECTOR, STR(NB_IOT_VERSION));
         #else
-            printf("*   Nordic NB-IoT (onboard) using provider %s, v%s\r\n", STR(NB_IOT_PROVIDERNAME), STR(NB_IOT_VERSION));
+            printf("*   Nordic NB-IoT (onboard) using using automatic provider %s, v%s\r\n", STR(NB_IOT_VERSION));
         #endif
         #ifdef NORDIC9160_Params_Exists
             printf("        -NORDIC9160_Params file found\r\n");

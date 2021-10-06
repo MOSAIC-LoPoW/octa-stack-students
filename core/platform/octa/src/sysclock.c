@@ -36,9 +36,10 @@ __weak void SystemClock_Config(void)
   #else 
     /**Initializes the CPU, AHB and APB busses clocks 
     */
-    RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_LSI|RCC_OSCILLATORTYPE_MSI;
+    RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_LSI|RCC_OSCILLATORTYPE_MSI|RCC_OSCILLATORTYPE_LSE;
     RCC_OscInitStruct.LSIState = RCC_LSI_ON;
     RCC_OscInitStruct.MSIState = RCC_MSI_ON;
+    RCC_OscInitStruct.LSEState = RCC_LSE_ON;
     RCC_OscInitStruct.MSICalibrationValue = 0;
     RCC_OscInitStruct.MSIClockRange = RCC_MSIRANGE_9;
     RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
@@ -78,7 +79,7 @@ __weak void SystemClock_Config(void)
   PeriphClkInit.I2c2ClockSelection = RCC_I2C2CLKSOURCE_PCLK1;
   PeriphClkInit.I2c3ClockSelection = RCC_I2C3CLKSOURCE_PCLK1;
   PeriphClkInit.I2c4ClockSelection = RCC_I2C4CLKSOURCE_PCLK1;
-  PeriphClkInit.RTCClockSelection =  RCC_RTCCLKSOURCE_LSI;
+  PeriphClkInit.RTCClockSelection =  RCC_RTCCLKSOURCE_LSE;
   if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)
   {
     Error_Handler();

@@ -489,13 +489,13 @@ float  roundTowardsZero( const float value ){
 }
 
 void turnOnLED(){
-    #ifndef platform_octa_stm
+    #ifdef platform_octa
         HAL_GPIO_WritePin(OCTA_LIGHTSENSORLED_Port, OCTA_LIGHTSENSORLED_Pin, 1);
     #endif
 }
 
 void turnOffLED(){
-    #ifndef platform_octa_stm
+    #ifdef platform_octa
         HAL_GPIO_WritePin(OCTA_LIGHTSENSORLED_Port, OCTA_LIGHTSENSORLED_Pin, 0);
     #endif
 }

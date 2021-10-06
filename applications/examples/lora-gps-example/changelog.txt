@@ -1,0 +1,4 @@
+lora-gps-example
+0.1.0: initial version
+0.2.0: added GPS coordinate to flash feature
+0.2.1: changed some flash logic

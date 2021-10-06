@@ -1,0 +1,1879 @@
+ARM GAS  /tmp/ccJAEQTO.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 28, 1
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.file	"iim423xx.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.rodata.inv_io_hal_read_reg.str1.4,"aMS",%progbits,1
+  18              		.align	2
+  19              	.LC0:
+  20 0000 49324320 		.ascii	"I2C read status NOK, status %d\015\012\000"
+  20      72656164 
+  20      20737461 
+  20      74757320 
+  20      4E4F4B2C 
+  21              		.section	.text.inv_io_hal_read_reg,"ax",%progbits
+  22              		.align	1
+  23              		.global	inv_io_hal_read_reg
+  24              		.arch armv7e-m
+  25              		.syntax unified
+  26              		.thumb
+  27              		.thumb_func
+  28              		.fpu fpv4-sp-d16
+  30              	inv_io_hal_read_reg:
+  31              	.LVL0:
+  32              	.LFB137:
+  33              		.file 1 "../../../shields/IIM423xx/src/iim423xx.c"
+   1:../../../shields/IIM423xx/src/iim423xx.c **** #include "platform.h"
+   2:../../../shields/IIM423xx/src/iim423xx.c **** #include "iim423xx.h"
+   3:../../../shields/IIM423xx/src/iim423xx.c **** 
+   4:../../../shields/IIM423xx/src/iim423xx.c **** struct OCTA_header IIM423xxHeader;
+   5:../../../shields/IIM423xx/src/iim423xx.c **** I2C_HandleTypeDef *i2cHandle;
+   6:../../../shields/IIM423xx/src/iim423xx.c **** uint8_t IIM423xx_initialised = 0;
+   7:../../../shields/IIM423xx/src/iim423xx.c **** static struct inv_iim423xx icm_driver;
+   8:../../../shields/IIM423xx/src/iim423xx.c **** struct inv_iim423xx_serif icm_serif;
+   9:../../../shields/IIM423xx/src/iim423xx.c **** /* Buffer to keep track of the timestamp when iim423xx data ready interrupt fires. */
+  10:../../../shields/IIM423xx/src/iim423xx.c **** RINGBUFFER(timestamp_buffer, 64, uint64_t);
+  11:../../../shields/IIM423xx/src/iim423xx.c **** static int32_t icm_mounting_matrix[9] = { (1<<30),     0,           0,
+  12:../../../shields/IIM423xx/src/iim423xx.c ****                                            0,         (1<<30),      0,
+  13:../../../shields/IIM423xx/src/iim423xx.c ****                                            0,          0,          (1<<30) };
+  14:../../../shields/IIM423xx/src/iim423xx.c **** 
+  15:../../../shields/IIM423xx/src/iim423xx.c **** 
+  16:../../../shields/IIM423xx/src/iim423xx.c **** uint8_t IIM423xx_Initialize(void) 
+  17:../../../shields/IIM423xx/src/iim423xx.c **** {
+  18:../../../shields/IIM423xx/src/iim423xx.c **** 
+  19:../../../shields/IIM423xx/src/iim423xx.c ****   	if(IIM423xx_initialised) {
+  20:../../../shields/IIM423xx/src/iim423xx.c ****     	return 0;
+  21:../../../shields/IIM423xx/src/iim423xx.c ****   	}
+ARM GAS  /tmp/ccJAEQTO.s 			page 2
+
+
+  22:../../../shields/IIM423xx/src/iim423xx.c **** 
+  23:../../../shields/IIM423xx/src/iim423xx.c ****   	printINF("***Initializing IIM423xx accelerometer driver***\r\n");
+  24:../../../shields/IIM423xx/src/iim423xx.c **** 
+  25:../../../shields/IIM423xx/src/iim423xx.c **** 	#ifdef pplatform_octa_stm_mini
+  26:../../../shields/IIM423xx/src/iim423xx.c **** 		printINF("Using onboard i2c\r\n"); 
+  27:../../../shields/IIM423xx/src/iim423xx.c **** 		i2cHandle = common_I2C;   
+  28:../../../shields/IIM423xx/src/iim423xx.c **** 	#else
+  29:../../../shields/IIM423xx/src/iim423xx.c **** 		#ifndef IIM423xx_CONNECTOR
+  30:../../../shields/IIM423xx/src/iim423xx.c **** 			printERR("No IIM423xx_CONNECTOR provided in Makefile\r\n");
+  31:../../../shields/IIM423xx/src/iim423xx.c **** 			return 0;
+  32:../../../shields/IIM423xx/src/iim423xx.c **** 		#else
+  33:../../../shields/IIM423xx/src/iim423xx.c **** 			IIM423xxHeader = platform_getHeader((uint8_t)IIM423xx_CONNECTOR);
+  34:../../../shields/IIM423xx/src/iim423xx.c **** 			if(!IIM423xxHeader.active)
+  35:../../../shields/IIM423xx/src/iim423xx.c **** 			{
+  36:../../../shields/IIM423xx/src/iim423xx.c **** 				printERR("Invalid IIM423xx_CONNECTOR provided in Makefile\r\n");
+  37:../../../shields/IIM423xx/src/iim423xx.c **** 				return 0;  
+  38:../../../shields/IIM423xx/src/iim423xx.c **** 			}
+  39:../../../shields/IIM423xx/src/iim423xx.c **** 			else   
+  40:../../../shields/IIM423xx/src/iim423xx.c **** 				printINF("IIM423xx on P%d, initializing I2C\r\n", (uint8_t)IIM423xx_CONNECTOR); 
+  41:../../../shields/IIM423xx/src/iim423xx.c **** 				// Initialize I2C peripheral with driver baudrate
+  42:../../../shields/IIM423xx/src/iim423xx.c **** 				platform_initialize_I2C(IIM423xxHeader);
+  43:../../../shields/IIM423xx/src/iim423xx.c **** 
+  44:../../../shields/IIM423xx/src/iim423xx.c **** 				i2cHandle = IIM423xxHeader.i2cHandle;                   
+  45:../../../shields/IIM423xx/src/iim423xx.c **** 		#endif
+  46:../../../shields/IIM423xx/src/iim423xx.c **** 	#endif
+  47:../../../shields/IIM423xx/src/iim423xx.c **** 
+  48:../../../shields/IIM423xx/src/iim423xx.c **** 	icm_serif.i2cHandle = i2cHandle;  
+  49:../../../shields/IIM423xx/src/iim423xx.c **** 	icm_serif.context   = 0;        /* no need */
+  50:../../../shields/IIM423xx/src/iim423xx.c **** 	icm_serif.read_reg  = inv_io_hal_read_reg;
+  51:../../../shields/IIM423xx/src/iim423xx.c **** 	icm_serif.write_reg = inv_io_hal_write_reg;
+  52:../../../shields/IIM423xx/src/iim423xx.c **** 	icm_serif.max_read  = 255;  /* maximum number of bytes allowed per serial read */
+  53:../../../shields/IIM423xx/src/iim423xx.c **** 	icm_serif.max_write = 255;  /* maximum number of bytes allowed per serial write */
+  54:../../../shields/IIM423xx/src/iim423xx.c **** 	icm_serif.serif_type = IIM423XX_UI_I2C; 
+  55:../../../shields/IIM423xx/src/iim423xx.c **** 
+  56:../../../shields/IIM423xx/src/iim423xx.c ****   	IIM423xx_initialised = 1;
+  57:../../../shields/IIM423xx/src/iim423xx.c ****   	return IIM423xx_initialised;
+  58:../../../shields/IIM423xx/src/iim423xx.c **** }
+  59:../../../shields/IIM423xx/src/iim423xx.c **** 
+  60:../../../shields/IIM423xx/src/iim423xx.c **** int IIM423xx_setup()
+  61:../../../shields/IIM423xx/src/iim423xx.c **** {
+  62:../../../shields/IIM423xx/src/iim423xx.c **** 	volatile int rc = 0;
+  63:../../../shields/IIM423xx/src/iim423xx.c **** 	uint8_t who_am_i;
+  64:../../../shields/IIM423xx/src/iim423xx.c **** 
+  65:../../../shields/IIM423xx/src/iim423xx.c **** 	/* Initialize device */
+  66:../../../shields/IIM423xx/src/iim423xx.c **** 	printINF("Initialize Iim423xx sensor\r\n");
+  67:../../../shields/IIM423xx/src/iim423xx.c **** 
+  68:../../../shields/IIM423xx/src/iim423xx.c ****  	rc = inv_iim423xx_init(&icm_driver, &icm_serif, HandleInvDeviceDataRegisters);
+  69:../../../shields/IIM423xx/src/iim423xx.c ****  	/* Disable fifo usage, data will be read from sensors registers*/
+  70:../../../shields/IIM423xx/src/iim423xx.c ****     IWDG_feed(NULL);
+  71:../../../shields/IIM423xx/src/iim423xx.c **** 	rc |= inv_iim423xx_configure_fifo(&icm_driver, INV_IIM423XX_FIFO_DISABLED);
+  72:../../../shields/IIM423xx/src/iim423xx.c **** 	if(rc != INV_ERROR_SUCCESS) {
+  73:../../../shields/IIM423xx/src/iim423xx.c **** 	  printERR("!!! ERROR : failed to initialize Iim423xx.\r\n");
+  74:../../../shields/IIM423xx/src/iim423xx.c **** 	  return rc;
+  75:../../../shields/IIM423xx/src/iim423xx.c **** 	}	
+  76:../../../shields/IIM423xx/src/iim423xx.c **** 	
+  77:../../../shields/IIM423xx/src/iim423xx.c ****   	IWDG_feed(NULL);
+  78:../../../shields/IIM423xx/src/iim423xx.c **** 	/* Check WHOAMI */
+ARM GAS  /tmp/ccJAEQTO.s 			page 3
+
+
+  79:../../../shields/IIM423xx/src/iim423xx.c **** 	printINF("Check Iim423xx whoami value\r\n");
+  80:../../../shields/IIM423xx/src/iim423xx.c **** 	
+  81:../../../shields/IIM423xx/src/iim423xx.c **** 	rc = inv_iim423xx_get_who_am_i(&icm_driver, &who_am_i);
+  82:../../../shields/IIM423xx/src/iim423xx.c **** 	if(rc != INV_ERROR_SUCCESS) {
+  83:../../../shields/IIM423xx/src/iim423xx.c **** 		printERR("!!! ERROR : failed to read Iim423xx whoami value.\r\n");
+  84:../../../shields/IIM423xx/src/iim423xx.c **** 		return rc;
+  85:../../../shields/IIM423xx/src/iim423xx.c **** 	}
+  86:../../../shields/IIM423xx/src/iim423xx.c **** 	
+  87:../../../shields/IIM423xx/src/iim423xx.c **** 	if(who_am_i != ICM_WHOAMI) {
+  88:../../../shields/IIM423xx/src/iim423xx.c **** 		printERR("!!! ERROR :  bad WHOAMI value. Got 0x%02x (expected: 0x%02x)\r\n", who_am_i, ICM_WHOAMI
+  89:../../../shields/IIM423xx/src/iim423xx.c **** 		return INV_ERROR;
+  90:../../../shields/IIM423xx/src/iim423xx.c **** 	}
+  91:../../../shields/IIM423xx/src/iim423xx.c **** 	else
+  92:../../../shields/IIM423xx/src/iim423xx.c **** 	{
+  93:../../../shields/IIM423xx/src/iim423xx.c **** 		printINF("WHOAMI OK\r\n");
+  94:../../../shields/IIM423xx/src/iim423xx.c **** 	}
+  95:../../../shields/IIM423xx/src/iim423xx.c **** 
+  96:../../../shields/IIM423xx/src/iim423xx.c **** 	rc = ConfigureInvDevice((uint8_t )1,
+  97:../../../shields/IIM423xx/src/iim423xx.c **** 									IIM423XX_ACCEL_CONFIG0_FS_SEL_4g,
+  98:../../../shields/IIM423xx/src/iim423xx.c **** 									IIM423XX_ACCEL_CONFIG0_ODR_1_KHZ,
+  99:../../../shields/IIM423xx/src/iim423xx.c **** 							(uint8_t )0);
+ 100:../../../shields/IIM423xx/src/iim423xx.c **** 
+ 101:../../../shields/IIM423xx/src/iim423xx.c **** 	if(rc != INV_ERROR_SUCCESS) {
+ 102:../../../shields/IIM423xx/src/iim423xx.c **** 		printERR("error while configuring INV device");
+ 103:../../../shields/IIM423xx/src/iim423xx.c **** 		return rc;
+ 104:../../../shields/IIM423xx/src/iim423xx.c **** 	}		
+ 105:../../../shields/IIM423xx/src/iim423xx.c **** 	else
+ 106:../../../shields/IIM423xx/src/iim423xx.c **** 		printINF("Init, whoami and configuration OK\r\n");
+ 107:../../../shields/IIM423xx/src/iim423xx.c **** 	
+ 108:../../../shields/IIM423xx/src/iim423xx.c **** 	
+ 109:../../../shields/IIM423xx/src/iim423xx.c **** 
+ 110:../../../shields/IIM423xx/src/iim423xx.c **** 	RINGBUFFER_CLEAR(&timestamp_buffer);
+ 111:../../../shields/IIM423xx/src/iim423xx.c **** 	return rc;
+ 112:../../../shields/IIM423xx/src/iim423xx.c **** }
+ 113:../../../shields/IIM423xx/src/iim423xx.c **** 
+ 114:../../../shields/IIM423xx/src/iim423xx.c **** int ConfigureInvDevice(uint8_t is_low_noise_mode,
+ 115:../../../shields/IIM423xx/src/iim423xx.c **** 		IIM423XX_ACCEL_CONFIG0_FS_SEL_t acc_fsr_g,
+ 116:../../../shields/IIM423xx/src/iim423xx.c **** 		IIM423XX_ACCEL_CONFIG0_ODR_t acc_freq,
+ 117:../../../shields/IIM423xx/src/iim423xx.c **** 		uint8_t is_rtc_mode)					   
+ 118:../../../shields/IIM423xx/src/iim423xx.c **** {
+ 119:../../../shields/IIM423xx/src/iim423xx.c **** 	int rc = 0;
+ 120:../../../shields/IIM423xx/src/iim423xx.c **** 
+ 121:../../../shields/IIM423xx/src/iim423xx.c **** 
+ 122:../../../shields/IIM423xx/src/iim423xx.c **** 	
+ 123:../../../shields/IIM423xx/src/iim423xx.c **** 	rc |= inv_iim423xx_enable_clkin_rtc(&icm_driver, is_rtc_mode);
+ 124:../../../shields/IIM423xx/src/iim423xx.c **** 
+ 125:../../../shields/IIM423xx/src/iim423xx.c **** 	rc |= inv_iim423xx_set_accel_fsr(&icm_driver, acc_fsr_g);
+ 126:../../../shields/IIM423xx/src/iim423xx.c **** 
+ 127:../../../shields/IIM423xx/src/iim423xx.c **** 	
+ 128:../../../shields/IIM423xx/src/iim423xx.c **** 	rc |= inv_iim423xx_set_accel_frequency(&icm_driver, acc_freq);
+ 129:../../../shields/IIM423xx/src/iim423xx.c **** 
+ 130:../../../shields/IIM423xx/src/iim423xx.c **** #if 1
+ 131:../../../shields/IIM423xx/src/iim423xx.c **** {
+ 132:../../../shields/IIM423xx/src/iim423xx.c **** 	uint8_t data;
+ 133:../../../shields/IIM423xx/src/iim423xx.c **** 
+ 134:../../../shields/IIM423xx/src/iim423xx.c **** 	//For  vibration sensing applications
+ 135:../../../shields/IIM423xx/src/iim423xx.c **** 	//set the IIM-423xx Accel filter values: ACCEL_AAF_DIS=0; ACCEL_AAF_DELT:63; ACCEL_AAF_DELTSQR: 39
+ARM GAS  /tmp/ccJAEQTO.s 			page 4
+
+
+ 136:../../../shields/IIM423xx/src/iim423xx.c **** 	rc |= inv_iim423xx_set_reg_bank(&icm_driver, 2);
+ 137:../../../shields/IIM423xx/src/iim423xx.c **** 	data = 0x7E;
+ 138:../../../shields/IIM423xx/src/iim423xx.c **** 	rc |= inv_iim423xx_write_reg(&icm_driver, MPUREG_ACCEL_CONFIG_STATIC2_B2, 1, &data);
+ 139:../../../shields/IIM423xx/src/iim423xx.c **** 
+ 140:../../../shields/IIM423xx/src/iim423xx.c **** 	data = 0x80;
+ 141:../../../shields/IIM423xx/src/iim423xx.c **** 	rc |= inv_iim423xx_write_reg(&icm_driver, MPUREG_ACCEL_CONFIG_STATIC3_B2, 1, &data);
+ 142:../../../shields/IIM423xx/src/iim423xx.c **** 
+ 143:../../../shields/IIM423xx/src/iim423xx.c **** 	data = 0x3F;
+ 144:../../../shields/IIM423xx/src/iim423xx.c **** 	rc |= inv_iim423xx_write_reg(&icm_driver, MPUREG_ACCEL_CONFIG_STATIC4_B2, 1, &data);
+ 145:../../../shields/IIM423xx/src/iim423xx.c **** 
+ 146:../../../shields/IIM423xx/src/iim423xx.c **** 	rc |= inv_iim423xx_set_reg_bank(&icm_driver, 0); /* Set memory bank 0 */
+ 147:../../../shields/IIM423xx/src/iim423xx.c **** }
+ 148:../../../shields/IIM423xx/src/iim423xx.c **** #endif
+ 149:../../../shields/IIM423xx/src/iim423xx.c **** 	
+ 150:../../../shields/IIM423xx/src/iim423xx.c **** 	if (is_low_noise_mode)
+ 151:../../../shields/IIM423xx/src/iim423xx.c **** 		rc |= inv_iim423xx_enable_accel_low_noise_mode(&icm_driver);
+ 152:../../../shields/IIM423xx/src/iim423xx.c **** 	else
+ 153:../../../shields/IIM423xx/src/iim423xx.c **** 		rc |= inv_iim423xx_enable_accel_low_power_mode(&icm_driver);
+ 154:../../../shields/IIM423xx/src/iim423xx.c **** 	
+ 155:../../../shields/IIM423xx/src/iim423xx.c **** 	IWDG_feed(NULL);
+ 156:../../../shields/IIM423xx/src/iim423xx.c **** 	/* Wait IIM423XX_ACC_STARTUP_TIME_US*/
+ 157:../../../shields/IIM423xx/src/iim423xx.c **** 	HAL_Delay(2000);
+ 158:../../../shields/IIM423xx/src/iim423xx.c **** 	
+ 159:../../../shields/IIM423xx/src/iim423xx.c **** 	return rc;
+ 160:../../../shields/IIM423xx/src/iim423xx.c **** }
+ 161:../../../shields/IIM423xx/src/iim423xx.c **** 
+ 162:../../../shields/IIM423xx/src/iim423xx.c **** int GetDataFromInvDevice(void)
+ 163:../../../shields/IIM423xx/src/iim423xx.c **** {
+ 164:../../../shields/IIM423xx/src/iim423xx.c **** 	/*
+ 165:../../../shields/IIM423xx/src/iim423xx.c **** 	 * Read data from registers. Callback defined at init time (i.e. 
+ 166:../../../shields/IIM423xx/src/iim423xx.c **** 	 * HandleInvDeviceDataRegisters) will be called for each valid packet extracted from 
+ 167:../../../shields/IIM423xx/src/iim423xx.c **** 	 * FIFO.
+ 168:../../../shields/IIM423xx/src/iim423xx.c **** 	 */
+ 169:../../../shields/IIM423xx/src/iim423xx.c **** 	return inv_iim423xx_get_data_from_registers(&icm_driver);
+ 170:../../../shields/IIM423xx/src/iim423xx.c **** }
+ 171:../../../shields/IIM423xx/src/iim423xx.c **** 
+ 172:../../../shields/IIM423xx/src/iim423xx.c **** void HandleInvDeviceDataRegisters(inv_iim423xx_sensor_event_t * event)
+ 173:../../../shields/IIM423xx/src/iim423xx.c **** {
+ 174:../../../shields/IIM423xx/src/iim423xx.c **** 	uint64_t irq_timestamp = 0;	
+ 175:../../../shields/IIM423xx/src/iim423xx.c **** 
+ 176:../../../shields/IIM423xx/src/iim423xx.c **** 	/*
+ 177:../../../shields/IIM423xx/src/iim423xx.c **** 	 * Extract the timestamp that was buffered when current packet IRQ fired. See 
+ 178:../../../shields/IIM423xx/src/iim423xx.c **** 	 * ext_interrupt_cb() in main.c for more details.
+ 179:../../../shields/IIM423xx/src/iim423xx.c **** 	 * As timestamp buffer is filled in interrupt handler, we should pop it with
+ 180:../../../shields/IIM423xx/src/iim423xx.c **** 	 * interrupts disabled to avoid any concurrent access.
+ 181:../../../shields/IIM423xx/src/iim423xx.c **** 	 */
+ 182:../../../shields/IIM423xx/src/iim423xx.c **** 	//inv_disable_irq();
+ 183:../../../shields/IIM423xx/src/iim423xx.c **** 	if (!RINGBUFFER_EMPTY(&timestamp_buffer))
+ 184:../../../shields/IIM423xx/src/iim423xx.c **** 		RINGBUFFER_POP(&timestamp_buffer, &irq_timestamp);
+ 185:../../../shields/IIM423xx/src/iim423xx.c **** 	//inv_enable_irq();
+ 186:../../../shields/IIM423xx/src/iim423xx.c **** 	
+ 187:../../../shields/IIM423xx/src/iim423xx.c **** 	apply_mounting_matrix(icm_mounting_matrix, event->accel);
+ 188:../../../shields/IIM423xx/src/iim423xx.c **** 
+ 189:../../../shields/IIM423xx/src/iim423xx.c **** 
+ 190:../../../shields/IIM423xx/src/iim423xx.c **** 	/*
+ 191:../../../shields/IIM423xx/src/iim423xx.c **** 	 * Output data on UART link
+ 192:../../../shields/IIM423xx/src/iim423xx.c **** 	 */
+ARM GAS  /tmp/ccJAEQTO.s 			page 5
+
+
+ 193:../../../shields/IIM423xx/src/iim423xx.c **** 
+ 194:../../../shields/IIM423xx/src/iim423xx.c **** 	if (event->accel[0] != INVALID_VALUE_FIFO)
+ 195:../../../shields/IIM423xx/src/iim423xx.c **** 			printINF("tim %u: accel0 %d, accel1 %d, accel2 %d, temp %d \r\n", (uint32_t)irq_timestamp,
+ 196:../../../shields/IIM423xx/src/iim423xx.c **** 			event->accel[0], event->accel[1], event->accel[2],
+ 197:../../../shields/IIM423xx/src/iim423xx.c **** 			event->temperature);			
+ 198:../../../shields/IIM423xx/src/iim423xx.c **** }
+ 199:../../../shields/IIM423xx/src/iim423xx.c **** 
+ 200:../../../shields/IIM423xx/src/iim423xx.c **** int inv_io_hal_read_reg(struct inv_iim423xx_serif * serif, uint8_t reg, uint8_t * rbuffer, uint32_t
+ 201:../../../shields/IIM423xx/src/iim423xx.c **** {
+  34              		.loc 1 201 1 view -0
+  35              		.cfi_startproc
+  36              		@ args = 0, pretend = 0, frame = 0
+  37              		@ frame_needed = 0, uses_anonymous_args = 0
+  38              		.loc 1 201 1 is_stmt 0 view .LVU1
+  39 0000 10B5     		push	{r4, lr}
+  40              	.LCFI0:
+  41              		.cfi_def_cfa_offset 8
+  42              		.cfi_offset 4, -8
+  43              		.cfi_offset 14, -4
+  44 0002 84B0     		sub	sp, sp, #16
+  45              	.LCFI1:
+  46              		.cfi_def_cfa_offset 24
+ 202:../../../shields/IIM423xx/src/iim423xx.c ****   uint8_t status = 0;
+  47              		.loc 1 202 3 is_stmt 1 view .LVU2
+  48              	.LVL1:
+ 203:../../../shields/IIM423xx/src/iim423xx.c **** 	switch (serif->serif_type) {
+  49              		.loc 1 203 2 view .LVU3
+  50              		.loc 1 203 15 is_stmt 0 view .LVU4
+  51 0004 047E     		ldrb	r4, [r0, #24]	@ zero_extendqisi2
+  52              		.loc 1 203 2 view .LVU5
+  53 0006 012C     		cmp	r4, #1
+  54 0008 03D9     		bls	.L2
+  55 000a 033C     		subs	r4, r4, #3
+  56 000c E4B2     		uxtb	r4, r4
+  57 000e 022C     		cmp	r4, #2
+  58 0010 15D8     		bhi	.L4
+  59              	.L2:
+ 204:../../../shields/IIM423xx/src/iim423xx.c **** 		case IIM423XX_AUX1_SPI3:
+ 205:../../../shields/IIM423xx/src/iim423xx.c **** 		case IIM423XX_AUX1_SPI4:
+ 206:../../../shields/IIM423xx/src/iim423xx.c **** 		case IIM423XX_AUX2_SPI3:
+ 207:../../../shields/IIM423xx/src/iim423xx.c **** 		case IIM423XX_UI_SPI4:
+ 208:../../../shields/IIM423xx/src/iim423xx.c **** 		case IIM423XX_UI_I2C:
+ 209:../../../shields/IIM423xx/src/iim423xx.c **** 		//HAL_Delay(10);
+ 210:../../../shields/IIM423xx/src/iim423xx.c **** 		status = HAL_I2C_Mem_Read(serif->i2cHandle, IIM423xx_SLAVE_ADDRESS << 1, reg, I2C_MEMADD_SIZE_8BI
+  60              		.loc 1 210 3 is_stmt 1 view .LVU6
+  61              		.loc 1 210 12 is_stmt 0 view .LVU7
+  62 0012 4FF47A74 		mov	r4, #1000
+  63 0016 0294     		str	r4, [sp, #8]
+  64 0018 9BB2     		uxth	r3, r3
+  65              	.LVL2:
+  66              		.loc 1 210 12 view .LVU8
+  67 001a 0193     		str	r3, [sp, #4]
+  68 001c 0092     		str	r2, [sp]
+  69 001e 0123     		movs	r3, #1
+  70 0020 0A46     		mov	r2, r1
+  71              	.LVL3:
+  72              		.loc 1 210 12 view .LVU9
+ARM GAS  /tmp/ccJAEQTO.s 			page 6
+
+
+  73 0022 D021     		movs	r1, #208
+  74              	.LVL4:
+  75              		.loc 1 210 12 view .LVU10
+  76 0024 C069     		ldr	r0, [r0, #28]
+  77              	.LVL5:
+  78              		.loc 1 210 12 view .LVU11
+  79 0026 FFF7FEFF 		bl	HAL_I2C_Mem_Read
+  80              	.LVL6:
+ 211:../../../shields/IIM423xx/src/iim423xx.c **** 		if(status != HAL_OK)
+  81              		.loc 1 211 3 is_stmt 1 view .LVU12
+  82              		.loc 1 211 5 is_stmt 0 view .LVU13
+  83 002a 0146     		mov	r1, r0
+  84 002c 10B9     		cbnz	r0, .L7
+ 212:../../../shields/IIM423xx/src/iim423xx.c **** 			printERR("I2C read status NOK, status %d\r\n", status);
+ 213:../../../shields/IIM423xx/src/iim423xx.c **** 		// else
+ 214:../../../shields/IIM423xx/src/iim423xx.c **** 		// 	printINF("I2C read OK\r\n");
+ 215:../../../shields/IIM423xx/src/iim423xx.c ****       //   inv_i2c_master_read_register(ICM_I2C_ADDR, reg, rlen, rbuffer)) {
+ 216:../../../shields/IIM423xx/src/iim423xx.c **** 			// 	inv_delay_us(32000); // Loop in case of I2C timeout
+ 217:../../../shields/IIM423xx/src/iim423xx.c **** 			// }
+ 218:../../../shields/IIM423xx/src/iim423xx.c **** 			return 0;
+  85              		.loc 1 218 11 view .LVU14
+  86 002e 0020     		movs	r0, #0
+  87              	.LVL7:
+  88              	.L1:
+ 219:../../../shields/IIM423xx/src/iim423xx.c **** 		default:
+ 220:../../../shields/IIM423xx/src/iim423xx.c **** 			return -1;
+ 221:../../../shields/IIM423xx/src/iim423xx.c **** 	}
+ 222:../../../shields/IIM423xx/src/iim423xx.c **** }
+  89              		.loc 1 222 1 view .LVU15
+  90 0030 04B0     		add	sp, sp, #16
+  91              	.LCFI2:
+  92              		.cfi_remember_state
+  93              		.cfi_def_cfa_offset 8
+  94              		@ sp needed
+  95 0032 10BD     		pop	{r4, pc}
+  96              	.LVL8:
+  97              	.L7:
+  98              	.LCFI3:
+  99              		.cfi_restore_state
+ 212:../../../shields/IIM423xx/src/iim423xx.c **** 			printERR("I2C read status NOK, status %d\r\n", status);
+ 100              		.loc 1 212 4 is_stmt 1 view .LVU16
+ 101 0034 0348     		ldr	r0, .L8
+ 102              	.LVL9:
+ 212:../../../shields/IIM423xx/src/iim423xx.c **** 			printERR("I2C read status NOK, status %d\r\n", status);
+ 103              		.loc 1 212 4 is_stmt 0 view .LVU17
+ 104 0036 FFF7FEFF 		bl	printERR
+ 105              	.LVL10:
+ 218:../../../shields/IIM423xx/src/iim423xx.c **** 		default:
+ 106              		.loc 1 218 11 view .LVU18
+ 107 003a 0020     		movs	r0, #0
+ 108 003c F8E7     		b	.L1
+ 109              	.LVL11:
+ 110              	.L4:
+ 203:../../../shields/IIM423xx/src/iim423xx.c **** 		case IIM423XX_AUX1_SPI3:
+ 111              		.loc 1 203 2 view .LVU19
+ 112 003e 4FF0FF30 		mov	r0, #-1
+ 113              	.LVL12:
+ARM GAS  /tmp/ccJAEQTO.s 			page 7
+
+
+ 203:../../../shields/IIM423xx/src/iim423xx.c **** 		case IIM423XX_AUX1_SPI3:
+ 114              		.loc 1 203 2 view .LVU20
+ 115 0042 F5E7     		b	.L1
+ 116              	.L9:
+ 117              		.align	2
+ 118              	.L8:
+ 119 0044 00000000 		.word	.LC0
+ 120              		.cfi_endproc
+ 121              	.LFE137:
+ 123              		.section	.rodata.inv_io_hal_write_reg.str1.4,"aMS",%progbits,1
+ 124              		.align	2
+ 125              	.LC1:
+ 126 0000 49324320 		.ascii	"I2C write status NOK, status %d\015\012\000"
+ 126      77726974 
+ 126      65207374 
+ 126      61747573 
+ 126      204E4F4B 
+ 127              		.section	.text.inv_io_hal_write_reg,"ax",%progbits
+ 128              		.align	1
+ 129              		.global	inv_io_hal_write_reg
+ 130              		.syntax unified
+ 131              		.thumb
+ 132              		.thumb_func
+ 133              		.fpu fpv4-sp-d16
+ 135              	inv_io_hal_write_reg:
+ 136              	.LVL13:
+ 137              	.LFB138:
+ 223:../../../shields/IIM423xx/src/iim423xx.c **** 
+ 224:../../../shields/IIM423xx/src/iim423xx.c **** int inv_io_hal_write_reg(struct inv_iim423xx_serif * serif, uint8_t reg, const uint8_t * wbuffer, u
+ 225:../../../shields/IIM423xx/src/iim423xx.c **** {
+ 138              		.loc 1 225 1 is_stmt 1 view -0
+ 139              		.cfi_startproc
+ 140              		@ args = 0, pretend = 0, frame = 0
+ 141              		@ frame_needed = 0, uses_anonymous_args = 0
+ 142              		.loc 1 225 1 is_stmt 0 view .LVU22
+ 143 0000 10B5     		push	{r4, lr}
+ 144              	.LCFI4:
+ 145              		.cfi_def_cfa_offset 8
+ 146              		.cfi_offset 4, -8
+ 147              		.cfi_offset 14, -4
+ 148 0002 84B0     		sub	sp, sp, #16
+ 149              	.LCFI5:
+ 150              		.cfi_def_cfa_offset 24
+ 226:../../../shields/IIM423xx/src/iim423xx.c **** 	int rc;
+ 151              		.loc 1 226 2 is_stmt 1 view .LVU23
+ 227:../../../shields/IIM423xx/src/iim423xx.c ****   uint8_t status = 0;
+ 152              		.loc 1 227 3 view .LVU24
+ 153              	.LVL14:
+ 228:../../../shields/IIM423xx/src/iim423xx.c **** 	switch (serif->serif_type) {
+ 154              		.loc 1 228 2 view .LVU25
+ 155              		.loc 1 228 15 is_stmt 0 view .LVU26
+ 156 0004 047E     		ldrb	r4, [r0, #24]	@ zero_extendqisi2
+ 157              		.loc 1 228 2 view .LVU27
+ 158 0006 012C     		cmp	r4, #1
+ 159 0008 03D9     		bls	.L11
+ 160 000a 033C     		subs	r4, r4, #3
+ 161 000c E4B2     		uxtb	r4, r4
+ARM GAS  /tmp/ccJAEQTO.s 			page 8
+
+
+ 162 000e 022C     		cmp	r4, #2
+ 163 0010 15D8     		bhi	.L13
+ 164              	.L11:
+ 229:../../../shields/IIM423xx/src/iim423xx.c **** 		case IIM423XX_AUX1_SPI3:
+ 230:../../../shields/IIM423xx/src/iim423xx.c **** 		case IIM423XX_AUX1_SPI4:
+ 231:../../../shields/IIM423xx/src/iim423xx.c **** 		case IIM423XX_AUX2_SPI3:
+ 232:../../../shields/IIM423xx/src/iim423xx.c **** 		case IIM423XX_UI_SPI4:
+ 233:../../../shields/IIM423xx/src/iim423xx.c **** 		case IIM423XX_UI_I2C:
+ 234:../../../shields/IIM423xx/src/iim423xx.c **** 		//HAL_Delay(10);
+ 235:../../../shields/IIM423xx/src/iim423xx.c ****       	status = HAL_I2C_Mem_Write(serif->i2cHandle, IIM423xx_SLAVE_ADDRESS << 1, reg, I2C_MEMADD_SI
+ 165              		.loc 1 235 8 is_stmt 1 view .LVU28
+ 166              		.loc 1 235 17 is_stmt 0 view .LVU29
+ 167 0012 4FF47A74 		mov	r4, #1000
+ 168 0016 0294     		str	r4, [sp, #8]
+ 169 0018 9BB2     		uxth	r3, r3
+ 170              	.LVL15:
+ 171              		.loc 1 235 17 view .LVU30
+ 172 001a 0193     		str	r3, [sp, #4]
+ 173 001c 0092     		str	r2, [sp]
+ 174 001e 0123     		movs	r3, #1
+ 175 0020 0A46     		mov	r2, r1
+ 176              	.LVL16:
+ 177              		.loc 1 235 17 view .LVU31
+ 178 0022 D021     		movs	r1, #208
+ 179              	.LVL17:
+ 180              		.loc 1 235 17 view .LVU32
+ 181 0024 C069     		ldr	r0, [r0, #28]
+ 182              	.LVL18:
+ 183              		.loc 1 235 17 view .LVU33
+ 184 0026 FFF7FEFF 		bl	HAL_I2C_Mem_Write
+ 185              	.LVL19:
+ 236:../../../shields/IIM423xx/src/iim423xx.c **** 			if(status != HAL_OK)
+ 186              		.loc 1 236 4 is_stmt 1 view .LVU34
+ 187              		.loc 1 236 6 is_stmt 0 view .LVU35
+ 188 002a 0146     		mov	r1, r0
+ 189 002c 10B9     		cbnz	r0, .L16
+ 237:../../../shields/IIM423xx/src/iim423xx.c ****         		printERR("I2C write status NOK, status %d\r\n", status);
+ 238:../../../shields/IIM423xx/src/iim423xx.c ****       		// else
+ 239:../../../shields/IIM423xx/src/iim423xx.c ****         	// 	printINF("I2C write OK\r\n");
+ 240:../../../shields/IIM423xx/src/iim423xx.c ****       // while(inv_i2c_master_write_register(ICM_I2C_ADDR, reg, wlen, wbuffer)) {
+ 241:../../../shields/IIM423xx/src/iim423xx.c **** 			// 	inv_delay_us(32000); // Loop in case of I2C timeout
+ 242:../../../shields/IIM423xx/src/iim423xx.c **** 			// }
+ 243:../../../shields/IIM423xx/src/iim423xx.c **** 			return 0;
+ 190              		.loc 1 243 11 view .LVU36
+ 191 002e 0020     		movs	r0, #0
+ 192              	.LVL20:
+ 193              	.L10:
+ 244:../../../shields/IIM423xx/src/iim423xx.c **** 		default:
+ 245:../../../shields/IIM423xx/src/iim423xx.c **** 			return -1;
+ 246:../../../shields/IIM423xx/src/iim423xx.c **** 	}
+ 247:../../../shields/IIM423xx/src/iim423xx.c **** }
+ 194              		.loc 1 247 1 view .LVU37
+ 195 0030 04B0     		add	sp, sp, #16
+ 196              	.LCFI6:
+ 197              		.cfi_remember_state
+ 198              		.cfi_def_cfa_offset 8
+ 199              		@ sp needed
+ARM GAS  /tmp/ccJAEQTO.s 			page 9
+
+
+ 200 0032 10BD     		pop	{r4, pc}
+ 201              	.LVL21:
+ 202              	.L16:
+ 203              	.LCFI7:
+ 204              		.cfi_restore_state
+ 237:../../../shields/IIM423xx/src/iim423xx.c ****         		printERR("I2C write status NOK, status %d\r\n", status);
+ 205              		.loc 1 237 11 is_stmt 1 view .LVU38
+ 206 0034 0348     		ldr	r0, .L17
+ 207              	.LVL22:
+ 237:../../../shields/IIM423xx/src/iim423xx.c ****         		printERR("I2C write status NOK, status %d\r\n", status);
+ 208              		.loc 1 237 11 is_stmt 0 view .LVU39
+ 209 0036 FFF7FEFF 		bl	printERR
+ 210              	.LVL23:
+ 243:../../../shields/IIM423xx/src/iim423xx.c **** 		default:
+ 211              		.loc 1 243 11 view .LVU40
+ 212 003a 0020     		movs	r0, #0
+ 213 003c F8E7     		b	.L10
+ 214              	.LVL24:
+ 215              	.L13:
+ 228:../../../shields/IIM423xx/src/iim423xx.c **** 		case IIM423XX_AUX1_SPI3:
+ 216              		.loc 1 228 2 view .LVU41
+ 217 003e 4FF0FF30 		mov	r0, #-1
+ 218              	.LVL25:
+ 228:../../../shields/IIM423xx/src/iim423xx.c **** 		case IIM423XX_AUX1_SPI3:
+ 219              		.loc 1 228 2 view .LVU42
+ 220 0042 F5E7     		b	.L10
+ 221              	.L18:
+ 222              		.align	2
+ 223              	.L17:
+ 224 0044 00000000 		.word	.LC1
+ 225              		.cfi_endproc
+ 226              	.LFE138:
+ 228              		.section	.rodata.IIM423xx_Initialize.str1.4,"aMS",%progbits,1
+ 229              		.align	2
+ 230              	.LC2:
+ 231 0000 2A2A2A49 		.ascii	"***Initializing IIM423xx accelerometer driver***\015"
+ 231      6E697469 
+ 231      616C697A 
+ 231      696E6720 
+ 231      49494D34 
+ 232 0031 0A00     		.ascii	"\012\000"
+ 233 0033 00       		.align	2
+ 234              	.LC3:
+ 235 0034 496E7661 		.ascii	"Invalid IIM423xx_CONNECTOR provided in Makefile\015"
+ 235      6C696420 
+ 235      49494D34 
+ 235      32337878 
+ 235      5F434F4E 
+ 236 0064 0A00     		.ascii	"\012\000"
+ 237 0066 0000     		.align	2
+ 238              	.LC4:
+ 239 0068 49494D34 		.ascii	"IIM423xx on P%d, initializing I2C\015\012\000"
+ 239      32337878 
+ 239      206F6E20 
+ 239      5025642C 
+ 239      20696E69 
+ 240              		.section	.text.IIM423xx_Initialize,"ax",%progbits
+ARM GAS  /tmp/ccJAEQTO.s 			page 10
+
+
+ 241              		.align	1
+ 242              		.global	IIM423xx_Initialize
+ 243              		.syntax unified
+ 244              		.thumb
+ 245              		.thumb_func
+ 246              		.fpu fpv4-sp-d16
+ 248              	IIM423xx_Initialize:
+ 249              	.LFB132:
+  17:../../../shields/IIM423xx/src/iim423xx.c **** 
+ 250              		.loc 1 17 1 is_stmt 1 view -0
+ 251              		.cfi_startproc
+ 252              		@ args = 0, pretend = 0, frame = 48
+ 253              		@ frame_needed = 0, uses_anonymous_args = 0
+ 254 0000 70B5     		push	{r4, r5, r6, lr}
+ 255              	.LCFI8:
+ 256              		.cfi_def_cfa_offset 16
+ 257              		.cfi_offset 4, -16
+ 258              		.cfi_offset 5, -12
+ 259              		.cfi_offset 6, -8
+ 260              		.cfi_offset 14, -4
+ 261 0002 94B0     		sub	sp, sp, #80
+ 262              	.LCFI9:
+ 263              		.cfi_def_cfa_offset 96
+  19:../../../shields/IIM423xx/src/iim423xx.c ****     	return 0;
+ 264              		.loc 1 19 4 view .LVU44
+  19:../../../shields/IIM423xx/src/iim423xx.c ****     	return 0;
+ 265              		.loc 1 19 7 is_stmt 0 view .LVU45
+ 266 0004 224B     		ldr	r3, .L26
+ 267 0006 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+  19:../../../shields/IIM423xx/src/iim423xx.c ****     	return 0;
+ 268              		.loc 1 19 6 view .LVU46
+ 269 0008 1BB1     		cbz	r3, .L24
+  20:../../../shields/IIM423xx/src/iim423xx.c ****   	}
+ 270              		.loc 1 20 13 view .LVU47
+ 271 000a 0024     		movs	r4, #0
+ 272              	.L20:
+  58:../../../shields/IIM423xx/src/iim423xx.c **** 
+ 273              		.loc 1 58 1 view .LVU48
+ 274 000c 2046     		mov	r0, r4
+ 275 000e 14B0     		add	sp, sp, #80
+ 276              	.LCFI10:
+ 277              		.cfi_remember_state
+ 278              		.cfi_def_cfa_offset 16
+ 279              		@ sp needed
+ 280 0010 70BD     		pop	{r4, r5, r6, pc}
+ 281              	.L24:
+ 282              	.LCFI11:
+ 283              		.cfi_restore_state
+  23:../../../shields/IIM423xx/src/iim423xx.c **** 
+ 284              		.loc 1 23 4 is_stmt 1 view .LVU49
+ 285 0012 2048     		ldr	r0, .L26+4
+ 286 0014 FFF7FEFF 		bl	printINF
+ 287              	.LVL26:
+  33:../../../shields/IIM423xx/src/iim423xx.c **** 			if(!IIM423xxHeader.active)
+ 288              		.loc 1 33 4 view .LVU50
+  33:../../../shields/IIM423xx/src/iim423xx.c **** 			if(!IIM423xxHeader.active)
+ 289              		.loc 1 33 21 is_stmt 0 view .LVU51
+ARM GAS  /tmp/ccJAEQTO.s 			page 11
+
+
+ 290 0018 1F4E     		ldr	r6, .L26+8
+ 291 001a 0221     		movs	r1, #2
+ 292 001c 08A8     		add	r0, sp, #32
+ 293 001e FFF7FEFF 		bl	platform_getHeader
+ 294              	.LVL27:
+ 295 0022 3546     		mov	r5, r6
+ 296 0024 08AC     		add	r4, sp, #32
+ 297 0026 0FCC     		ldmia	r4!, {r0, r1, r2, r3}
+ 298 0028 0FC5     		stmia	r5!, {r0, r1, r2, r3}
+ 299 002a 0FCC     		ldmia	r4!, {r0, r1, r2, r3}
+ 300 002c 0FC5     		stmia	r5!, {r0, r1, r2, r3}
+ 301 002e 94E80700 		ldm	r4, {r0, r1, r2}
+ 302 0032 85E80700 		stm	r5, {r0, r1, r2}
+  34:../../../shields/IIM423xx/src/iim423xx.c **** 			{
+ 303              		.loc 1 34 4 is_stmt 1 view .LVU52
+  34:../../../shields/IIM423xx/src/iim423xx.c **** 			{
+ 304              		.loc 1 34 22 is_stmt 0 view .LVU53
+ 305 0036 96F82840 		ldrb	r4, [r6, #40]	@ zero_extendqisi2
+  34:../../../shields/IIM423xx/src/iim423xx.c **** 			{
+ 306              		.loc 1 34 6 view .LVU54
+ 307 003a 24B3     		cbz	r4, .L25
+  40:../../../shields/IIM423xx/src/iim423xx.c **** 				// Initialize I2C peripheral with driver baudrate
+ 308              		.loc 1 40 5 is_stmt 1 view .LVU55
+ 309 003c 0221     		movs	r1, #2
+ 310 003e 1748     		ldr	r0, .L26+12
+ 311 0040 FFF7FEFF 		bl	printINF
+ 312              	.LVL28:
+  42:../../../shields/IIM423xx/src/iim423xx.c **** 
+ 313              		.loc 1 42 5 view .LVU56
+ 314 0044 144E     		ldr	r6, .L26+8
+ 315 0046 6C46     		mov	r4, sp
+ 316 0048 06F11005 		add	r5, r6, #16
+ 317 004c 0FCD     		ldmia	r5!, {r0, r1, r2, r3}
+ 318 004e 0FC4     		stmia	r4!, {r0, r1, r2, r3}
+ 319 0050 95E80700 		ldm	r5, {r0, r1, r2}
+ 320 0054 84E80700 		stm	r4, {r0, r1, r2}
+ 321 0058 96E80F00 		ldm	r6, {r0, r1, r2, r3}
+ 322 005c FFF7FEFF 		bl	platform_initialize_I2C
+ 323              	.LVL29:
+  44:../../../shields/IIM423xx/src/iim423xx.c **** 		#endif
+ 324              		.loc 1 44 5 view .LVU57
+  44:../../../shields/IIM423xx/src/iim423xx.c **** 		#endif
+ 325              		.loc 1 44 31 is_stmt 0 view .LVU58
+ 326 0060 B268     		ldr	r2, [r6, #8]
+  44:../../../shields/IIM423xx/src/iim423xx.c **** 		#endif
+ 327              		.loc 1 44 15 view .LVU59
+ 328 0062 0F4B     		ldr	r3, .L26+16
+ 329 0064 1A60     		str	r2, [r3]
+  48:../../../shields/IIM423xx/src/iim423xx.c **** 	icm_serif.context   = 0;        /* no need */
+ 330              		.loc 1 48 2 is_stmt 1 view .LVU60
+  48:../../../shields/IIM423xx/src/iim423xx.c **** 	icm_serif.context   = 0;        /* no need */
+ 331              		.loc 1 48 22 is_stmt 0 view .LVU61
+ 332 0066 0F4B     		ldr	r3, .L26+20
+ 333 0068 DA61     		str	r2, [r3, #28]
+  49:../../../shields/IIM423xx/src/iim423xx.c **** 	icm_serif.read_reg  = inv_io_hal_read_reg;
+ 334              		.loc 1 49 2 is_stmt 1 view .LVU62
+  49:../../../shields/IIM423xx/src/iim423xx.c **** 	icm_serif.read_reg  = inv_io_hal_read_reg;
+ARM GAS  /tmp/ccJAEQTO.s 			page 12
+
+
+ 335              		.loc 1 49 22 is_stmt 0 view .LVU63
+ 336 006a 0022     		movs	r2, #0
+ 337 006c 1A60     		str	r2, [r3]
+  50:../../../shields/IIM423xx/src/iim423xx.c **** 	icm_serif.write_reg = inv_io_hal_write_reg;
+ 338              		.loc 1 50 2 is_stmt 1 view .LVU64
+  50:../../../shields/IIM423xx/src/iim423xx.c **** 	icm_serif.write_reg = inv_io_hal_write_reg;
+ 339              		.loc 1 50 22 is_stmt 0 view .LVU65
+ 340 006e 0E49     		ldr	r1, .L26+24
+ 341 0070 5960     		str	r1, [r3, #4]
+  51:../../../shields/IIM423xx/src/iim423xx.c **** 	icm_serif.max_read  = 255;  /* maximum number of bytes allowed per serial read */
+ 342              		.loc 1 51 2 is_stmt 1 view .LVU66
+  51:../../../shields/IIM423xx/src/iim423xx.c **** 	icm_serif.max_read  = 255;  /* maximum number of bytes allowed per serial read */
+ 343              		.loc 1 51 22 is_stmt 0 view .LVU67
+ 344 0072 0E49     		ldr	r1, .L26+28
+ 345 0074 9960     		str	r1, [r3, #8]
+  52:../../../shields/IIM423xx/src/iim423xx.c **** 	icm_serif.max_write = 255;  /* maximum number of bytes allowed per serial write */
+ 346              		.loc 1 52 2 is_stmt 1 view .LVU68
+  52:../../../shields/IIM423xx/src/iim423xx.c **** 	icm_serif.max_write = 255;  /* maximum number of bytes allowed per serial write */
+ 347              		.loc 1 52 22 is_stmt 0 view .LVU69
+ 348 0076 FF21     		movs	r1, #255
+ 349 0078 1961     		str	r1, [r3, #16]
+  53:../../../shields/IIM423xx/src/iim423xx.c **** 	icm_serif.serif_type = IIM423XX_UI_I2C; 
+ 350              		.loc 1 53 2 is_stmt 1 view .LVU70
+  53:../../../shields/IIM423xx/src/iim423xx.c **** 	icm_serif.serif_type = IIM423XX_UI_I2C; 
+ 351              		.loc 1 53 22 is_stmt 0 view .LVU71
+ 352 007a 5961     		str	r1, [r3, #20]
+  54:../../../shields/IIM423xx/src/iim423xx.c **** 
+ 353              		.loc 1 54 2 is_stmt 1 view .LVU72
+  54:../../../shields/IIM423xx/src/iim423xx.c **** 
+ 354              		.loc 1 54 23 is_stmt 0 view .LVU73
+ 355 007c 1A76     		strb	r2, [r3, #24]
+  56:../../../shields/IIM423xx/src/iim423xx.c ****   	return IIM423xx_initialised;
+ 356              		.loc 1 56 4 is_stmt 1 view .LVU74
+  56:../../../shields/IIM423xx/src/iim423xx.c ****   	return IIM423xx_initialised;
+ 357              		.loc 1 56 25 is_stmt 0 view .LVU75
+ 358 007e 0124     		movs	r4, #1
+ 359 0080 034B     		ldr	r3, .L26
+ 360 0082 1C70     		strb	r4, [r3]
+  57:../../../shields/IIM423xx/src/iim423xx.c **** }
+ 361              		.loc 1 57 4 is_stmt 1 view .LVU76
+  57:../../../shields/IIM423xx/src/iim423xx.c **** }
+ 362              		.loc 1 57 11 is_stmt 0 view .LVU77
+ 363 0084 C2E7     		b	.L20
+ 364              	.L25:
+  36:../../../shields/IIM423xx/src/iim423xx.c **** 				return 0;  
+ 365              		.loc 1 36 5 is_stmt 1 view .LVU78
+ 366 0086 0A48     		ldr	r0, .L26+32
+ 367 0088 FFF7FEFF 		bl	printERR
+ 368              	.LVL30:
+  37:../../../shields/IIM423xx/src/iim423xx.c **** 			}
+ 369              		.loc 1 37 5 view .LVU79
+  37:../../../shields/IIM423xx/src/iim423xx.c **** 			}
+ 370              		.loc 1 37 12 is_stmt 0 view .LVU80
+ 371 008c BEE7     		b	.L20
+ 372              	.L27:
+ 373 008e 00BF     		.align	2
+ 374              	.L26:
+ARM GAS  /tmp/ccJAEQTO.s 			page 13
+
+
+ 375 0090 00000000 		.word	.LANCHOR0
+ 376 0094 00000000 		.word	.LC2
+ 377 0098 00000000 		.word	IIM423xxHeader
+ 378 009c 68000000 		.word	.LC4
+ 379 00a0 00000000 		.word	i2cHandle
+ 380 00a4 00000000 		.word	icm_serif
+ 381 00a8 00000000 		.word	inv_io_hal_read_reg
+ 382 00ac 00000000 		.word	inv_io_hal_write_reg
+ 383 00b0 34000000 		.word	.LC3
+ 384              		.cfi_endproc
+ 385              	.LFE132:
+ 387              		.section	.text.ConfigureInvDevice,"ax",%progbits
+ 388              		.align	1
+ 389              		.global	ConfigureInvDevice
+ 390              		.syntax unified
+ 391              		.thumb
+ 392              		.thumb_func
+ 393              		.fpu fpv4-sp-d16
+ 395              	ConfigureInvDevice:
+ 396              	.LVL31:
+ 397              	.LFB134:
+ 118:../../../shields/IIM423xx/src/iim423xx.c **** 	int rc = 0;
+ 398              		.loc 1 118 1 is_stmt 1 view -0
+ 399              		.cfi_startproc
+ 400              		@ args = 0, pretend = 0, frame = 8
+ 401              		@ frame_needed = 0, uses_anonymous_args = 0
+ 118:../../../shields/IIM423xx/src/iim423xx.c **** 	int rc = 0;
+ 402              		.loc 1 118 1 is_stmt 0 view .LVU82
+ 403 0000 2DE9F041 		push	{r4, r5, r6, r7, r8, lr}
+ 404              	.LCFI12:
+ 405              		.cfi_def_cfa_offset 24
+ 406              		.cfi_offset 4, -24
+ 407              		.cfi_offset 5, -20
+ 408              		.cfi_offset 6, -16
+ 409              		.cfi_offset 7, -12
+ 410              		.cfi_offset 8, -8
+ 411              		.cfi_offset 14, -4
+ 412 0004 82B0     		sub	sp, sp, #8
+ 413              	.LCFI13:
+ 414              		.cfi_def_cfa_offset 32
+ 415 0006 0546     		mov	r5, r0
+ 416 0008 8846     		mov	r8, r1
+ 417 000a 1746     		mov	r7, r2
+ 119:../../../shields/IIM423xx/src/iim423xx.c **** 
+ 418              		.loc 1 119 2 is_stmt 1 view .LVU83
+ 419              	.LVL32:
+ 123:../../../shields/IIM423xx/src/iim423xx.c **** 
+ 420              		.loc 1 123 2 view .LVU84
+ 123:../../../shields/IIM423xx/src/iim423xx.c **** 
+ 421              		.loc 1 123 8 is_stmt 0 view .LVU85
+ 422 000c 274E     		ldr	r6, .L32
+ 423 000e 1946     		mov	r1, r3
+ 424              	.LVL33:
+ 123:../../../shields/IIM423xx/src/iim423xx.c **** 
+ 425              		.loc 1 123 8 view .LVU86
+ 426 0010 3046     		mov	r0, r6
+ 427              	.LVL34:
+ARM GAS  /tmp/ccJAEQTO.s 			page 14
+
+
+ 123:../../../shields/IIM423xx/src/iim423xx.c **** 
+ 428              		.loc 1 123 8 view .LVU87
+ 429 0012 FFF7FEFF 		bl	inv_iim423xx_enable_clkin_rtc
+ 430              	.LVL35:
+ 123:../../../shields/IIM423xx/src/iim423xx.c **** 
+ 431              		.loc 1 123 8 view .LVU88
+ 432 0016 0446     		mov	r4, r0
+ 433              	.LVL36:
+ 125:../../../shields/IIM423xx/src/iim423xx.c **** 
+ 434              		.loc 1 125 2 is_stmt 1 view .LVU89
+ 125:../../../shields/IIM423xx/src/iim423xx.c **** 
+ 435              		.loc 1 125 8 is_stmt 0 view .LVU90
+ 436 0018 4146     		mov	r1, r8
+ 437 001a 3046     		mov	r0, r6
+ 438              	.LVL37:
+ 125:../../../shields/IIM423xx/src/iim423xx.c **** 
+ 439              		.loc 1 125 8 view .LVU91
+ 440 001c FFF7FEFF 		bl	inv_iim423xx_set_accel_fsr
+ 441              	.LVL38:
+ 125:../../../shields/IIM423xx/src/iim423xx.c **** 
+ 442              		.loc 1 125 5 view .LVU92
+ 443 0020 0443     		orrs	r4, r4, r0
+ 444              	.LVL39:
+ 128:../../../shields/IIM423xx/src/iim423xx.c **** 
+ 445              		.loc 1 128 2 is_stmt 1 view .LVU93
+ 128:../../../shields/IIM423xx/src/iim423xx.c **** 
+ 446              		.loc 1 128 8 is_stmt 0 view .LVU94
+ 447 0022 3946     		mov	r1, r7
+ 448 0024 3046     		mov	r0, r6
+ 449 0026 FFF7FEFF 		bl	inv_iim423xx_set_accel_frequency
+ 450              	.LVL40:
+ 128:../../../shields/IIM423xx/src/iim423xx.c **** 
+ 451              		.loc 1 128 5 view .LVU95
+ 452 002a 0443     		orrs	r4, r4, r0
+ 453              	.LVL41:
+ 454              	.LBB2:
+ 132:../../../shields/IIM423xx/src/iim423xx.c **** 
+ 455              		.loc 1 132 2 is_stmt 1 view .LVU96
+ 136:../../../shields/IIM423xx/src/iim423xx.c **** 	data = 0x7E;
+ 456              		.loc 1 136 2 view .LVU97
+ 136:../../../shields/IIM423xx/src/iim423xx.c **** 	data = 0x7E;
+ 457              		.loc 1 136 8 is_stmt 0 view .LVU98
+ 458 002c 0221     		movs	r1, #2
+ 459 002e 3046     		mov	r0, r6
+ 460 0030 FFF7FEFF 		bl	inv_iim423xx_set_reg_bank
+ 461              	.LVL42:
+ 136:../../../shields/IIM423xx/src/iim423xx.c **** 	data = 0x7E;
+ 462              		.loc 1 136 5 view .LVU99
+ 463 0034 0443     		orrs	r4, r4, r0
+ 464              	.LVL43:
+ 137:../../../shields/IIM423xx/src/iim423xx.c **** 	rc |= inv_iim423xx_write_reg(&icm_driver, MPUREG_ACCEL_CONFIG_STATIC2_B2, 1, &data);
+ 465              		.loc 1 137 2 is_stmt 1 view .LVU100
+ 137:../../../shields/IIM423xx/src/iim423xx.c **** 	rc |= inv_iim423xx_write_reg(&icm_driver, MPUREG_ACCEL_CONFIG_STATIC2_B2, 1, &data);
+ 466              		.loc 1 137 7 is_stmt 0 view .LVU101
+ 467 0036 7E23     		movs	r3, #126
+ 468 0038 8DF80730 		strb	r3, [sp, #7]
+ 138:../../../shields/IIM423xx/src/iim423xx.c **** 
+ARM GAS  /tmp/ccJAEQTO.s 			page 15
+
+
+ 469              		.loc 1 138 2 is_stmt 1 view .LVU102
+ 138:../../../shields/IIM423xx/src/iim423xx.c **** 
+ 470              		.loc 1 138 8 is_stmt 0 view .LVU103
+ 471 003c 0DF10703 		add	r3, sp, #7
+ 472 0040 0122     		movs	r2, #1
+ 473 0042 0321     		movs	r1, #3
+ 474 0044 3046     		mov	r0, r6
+ 475 0046 FFF7FEFF 		bl	inv_iim423xx_write_reg
+ 476              	.LVL44:
+ 138:../../../shields/IIM423xx/src/iim423xx.c **** 
+ 477              		.loc 1 138 5 view .LVU104
+ 478 004a 0443     		orrs	r4, r4, r0
+ 479              	.LVL45:
+ 140:../../../shields/IIM423xx/src/iim423xx.c **** 	rc |= inv_iim423xx_write_reg(&icm_driver, MPUREG_ACCEL_CONFIG_STATIC3_B2, 1, &data);
+ 480              		.loc 1 140 2 is_stmt 1 view .LVU105
+ 140:../../../shields/IIM423xx/src/iim423xx.c **** 	rc |= inv_iim423xx_write_reg(&icm_driver, MPUREG_ACCEL_CONFIG_STATIC3_B2, 1, &data);
+ 481              		.loc 1 140 7 is_stmt 0 view .LVU106
+ 482 004c 8023     		movs	r3, #128
+ 483 004e 8DF80730 		strb	r3, [sp, #7]
+ 141:../../../shields/IIM423xx/src/iim423xx.c **** 
+ 484              		.loc 1 141 2 is_stmt 1 view .LVU107
+ 141:../../../shields/IIM423xx/src/iim423xx.c **** 
+ 485              		.loc 1 141 8 is_stmt 0 view .LVU108
+ 486 0052 0DF10703 		add	r3, sp, #7
+ 487 0056 0122     		movs	r2, #1
+ 488 0058 0421     		movs	r1, #4
+ 489 005a 3046     		mov	r0, r6
+ 490 005c FFF7FEFF 		bl	inv_iim423xx_write_reg
+ 491              	.LVL46:
+ 141:../../../shields/IIM423xx/src/iim423xx.c **** 
+ 492              		.loc 1 141 5 view .LVU109
+ 493 0060 0443     		orrs	r4, r4, r0
+ 494              	.LVL47:
+ 143:../../../shields/IIM423xx/src/iim423xx.c **** 	rc |= inv_iim423xx_write_reg(&icm_driver, MPUREG_ACCEL_CONFIG_STATIC4_B2, 1, &data);
+ 495              		.loc 1 143 2 is_stmt 1 view .LVU110
+ 143:../../../shields/IIM423xx/src/iim423xx.c **** 	rc |= inv_iim423xx_write_reg(&icm_driver, MPUREG_ACCEL_CONFIG_STATIC4_B2, 1, &data);
+ 496              		.loc 1 143 7 is_stmt 0 view .LVU111
+ 497 0062 3F23     		movs	r3, #63
+ 498 0064 8DF80730 		strb	r3, [sp, #7]
+ 144:../../../shields/IIM423xx/src/iim423xx.c **** 
+ 499              		.loc 1 144 2 is_stmt 1 view .LVU112
+ 144:../../../shields/IIM423xx/src/iim423xx.c **** 
+ 500              		.loc 1 144 8 is_stmt 0 view .LVU113
+ 501 0068 0DF10703 		add	r3, sp, #7
+ 502 006c 0122     		movs	r2, #1
+ 503 006e 0521     		movs	r1, #5
+ 504 0070 3046     		mov	r0, r6
+ 505 0072 FFF7FEFF 		bl	inv_iim423xx_write_reg
+ 506              	.LVL48:
+ 144:../../../shields/IIM423xx/src/iim423xx.c **** 
+ 507              		.loc 1 144 5 view .LVU114
+ 508 0076 0443     		orrs	r4, r4, r0
+ 509              	.LVL49:
+ 146:../../../shields/IIM423xx/src/iim423xx.c **** }
+ 510              		.loc 1 146 2 is_stmt 1 view .LVU115
+ 146:../../../shields/IIM423xx/src/iim423xx.c **** }
+ 511              		.loc 1 146 8 is_stmt 0 view .LVU116
+ARM GAS  /tmp/ccJAEQTO.s 			page 16
+
+
+ 512 0078 0021     		movs	r1, #0
+ 513 007a 3046     		mov	r0, r6
+ 514 007c FFF7FEFF 		bl	inv_iim423xx_set_reg_bank
+ 515              	.LVL50:
+ 146:../../../shields/IIM423xx/src/iim423xx.c **** }
+ 516              		.loc 1 146 5 view .LVU117
+ 517 0080 0443     		orrs	r4, r4, r0
+ 518              	.LVL51:
+ 146:../../../shields/IIM423xx/src/iim423xx.c **** }
+ 519              		.loc 1 146 5 view .LVU118
+ 520              	.LBE2:
+ 150:../../../shields/IIM423xx/src/iim423xx.c **** 		rc |= inv_iim423xx_enable_accel_low_noise_mode(&icm_driver);
+ 521              		.loc 1 150 2 is_stmt 1 view .LVU119
+ 150:../../../shields/IIM423xx/src/iim423xx.c **** 		rc |= inv_iim423xx_enable_accel_low_noise_mode(&icm_driver);
+ 522              		.loc 1 150 5 is_stmt 0 view .LVU120
+ 523 0082 75B1     		cbz	r5, .L29
+ 151:../../../shields/IIM423xx/src/iim423xx.c **** 	else
+ 524              		.loc 1 151 3 is_stmt 1 view .LVU121
+ 151:../../../shields/IIM423xx/src/iim423xx.c **** 	else
+ 525              		.loc 1 151 9 is_stmt 0 view .LVU122
+ 526 0084 3046     		mov	r0, r6
+ 527 0086 FFF7FEFF 		bl	inv_iim423xx_enable_accel_low_noise_mode
+ 528              	.LVL52:
+ 151:../../../shields/IIM423xx/src/iim423xx.c **** 	else
+ 529              		.loc 1 151 6 view .LVU123
+ 530 008a 0443     		orrs	r4, r4, r0
+ 531              	.LVL53:
+ 532              	.L30:
+ 155:../../../shields/IIM423xx/src/iim423xx.c **** 	/* Wait IIM423XX_ACC_STARTUP_TIME_US*/
+ 533              		.loc 1 155 2 is_stmt 1 view .LVU124
+ 534 008c 0020     		movs	r0, #0
+ 535 008e FFF7FEFF 		bl	IWDG_feed
+ 536              	.LVL54:
+ 157:../../../shields/IIM423xx/src/iim423xx.c **** 	
+ 537              		.loc 1 157 2 view .LVU125
+ 538 0092 4FF4FA60 		mov	r0, #2000
+ 539 0096 FFF7FEFF 		bl	HAL_Delay
+ 540              	.LVL55:
+ 159:../../../shields/IIM423xx/src/iim423xx.c **** }
+ 541              		.loc 1 159 2 view .LVU126
+ 160:../../../shields/IIM423xx/src/iim423xx.c **** 
+ 542              		.loc 1 160 1 is_stmt 0 view .LVU127
+ 543 009a 2046     		mov	r0, r4
+ 544 009c 02B0     		add	sp, sp, #8
+ 545              	.LCFI14:
+ 546              		.cfi_remember_state
+ 547              		.cfi_def_cfa_offset 24
+ 548              		@ sp needed
+ 549 009e BDE8F081 		pop	{r4, r5, r6, r7, r8, pc}
+ 550              	.LVL56:
+ 551              	.L29:
+ 552              	.LCFI15:
+ 553              		.cfi_restore_state
+ 153:../../../shields/IIM423xx/src/iim423xx.c **** 	
+ 554              		.loc 1 153 3 is_stmt 1 view .LVU128
+ 153:../../../shields/IIM423xx/src/iim423xx.c **** 	
+ 555              		.loc 1 153 9 is_stmt 0 view .LVU129
+ARM GAS  /tmp/ccJAEQTO.s 			page 17
+
+
+ 556 00a2 0248     		ldr	r0, .L32
+ 557 00a4 FFF7FEFF 		bl	inv_iim423xx_enable_accel_low_power_mode
+ 558              	.LVL57:
+ 153:../../../shields/IIM423xx/src/iim423xx.c **** 	
+ 559              		.loc 1 153 6 view .LVU130
+ 560 00a8 0443     		orrs	r4, r4, r0
+ 561              	.LVL58:
+ 153:../../../shields/IIM423xx/src/iim423xx.c **** 	
+ 562              		.loc 1 153 6 view .LVU131
+ 563 00aa EFE7     		b	.L30
+ 564              	.L33:
+ 565              		.align	2
+ 566              	.L32:
+ 567 00ac 00000000 		.word	.LANCHOR1
+ 568              		.cfi_endproc
+ 569              	.LFE134:
+ 571              		.section	.rodata.IIM423xx_setup.str1.4,"aMS",%progbits,1
+ 572              		.align	2
+ 573              	.LC5:
+ 574 0000 496E6974 		.ascii	"Initialize Iim423xx sensor\015\012\000"
+ 574      69616C69 
+ 574      7A652049 
+ 574      696D3432 
+ 574      33787820 
+ 575 001d 000000   		.align	2
+ 576              	.LC6:
+ 577 0020 21212120 		.ascii	"!!! ERROR : failed to initialize Iim423xx.\015\012\000"
+ 577      4552524F 
+ 577      52203A20 
+ 577      6661696C 
+ 577      65642074 
+ 578 004d 000000   		.align	2
+ 579              	.LC7:
+ 580 0050 43686563 		.ascii	"Check Iim423xx whoami value\015\012\000"
+ 580      6B204969 
+ 580      6D343233 
+ 580      78782077 
+ 580      686F616D 
+ 581 006e 0000     		.align	2
+ 582              	.LC8:
+ 583 0070 21212120 		.ascii	"!!! ERROR : failed to read Iim423xx whoami value.\015"
+ 583      4552524F 
+ 583      52203A20 
+ 583      6661696C 
+ 583      65642074 
+ 584 00a2 0A00     		.ascii	"\012\000"
+ 585              		.align	2
+ 586              	.LC9:
+ 587 00a4 21212120 		.ascii	"!!! ERROR :  bad WHOAMI value. Got 0x%02x (expected"
+ 587      4552524F 
+ 587      52203A20 
+ 587      20626164 
+ 587      2057484F 
+ 588 00d7 3A203078 		.ascii	": 0x%02x)\015\012\000"
+ 588      25303278 
+ 588      290D0A00 
+ 589 00e3 00       		.align	2
+ARM GAS  /tmp/ccJAEQTO.s 			page 18
+
+
+ 590              	.LC10:
+ 591 00e4 57484F41 		.ascii	"WHOAMI OK\015\012\000"
+ 591      4D49204F 
+ 591      4B0D0A00 
+ 592              		.align	2
+ 593              	.LC11:
+ 594 00f0 6572726F 		.ascii	"error while configuring INV device\000"
+ 594      72207768 
+ 594      696C6520 
+ 594      636F6E66 
+ 594      69677572 
+ 595 0113 00       		.align	2
+ 596              	.LC12:
+ 597 0114 496E6974 		.ascii	"Init, whoami and configuration OK\015\012\000"
+ 597      2C207768 
+ 597      6F616D69 
+ 597      20616E64 
+ 597      20636F6E 
+ 598              		.section	.text.IIM423xx_setup,"ax",%progbits
+ 599              		.align	1
+ 600              		.global	IIM423xx_setup
+ 601              		.syntax unified
+ 602              		.thumb
+ 603              		.thumb_func
+ 604              		.fpu fpv4-sp-d16
+ 606              	IIM423xx_setup:
+ 607              	.LFB133:
+  61:../../../shields/IIM423xx/src/iim423xx.c **** 	volatile int rc = 0;
+ 608              		.loc 1 61 1 is_stmt 1 view -0
+ 609              		.cfi_startproc
+ 610              		@ args = 0, pretend = 0, frame = 8
+ 611              		@ frame_needed = 0, uses_anonymous_args = 0
+ 612 0000 30B5     		push	{r4, r5, lr}
+ 613              	.LCFI16:
+ 614              		.cfi_def_cfa_offset 12
+ 615              		.cfi_offset 4, -12
+ 616              		.cfi_offset 5, -8
+ 617              		.cfi_offset 14, -4
+ 618 0002 83B0     		sub	sp, sp, #12
+ 619              	.LCFI17:
+ 620              		.cfi_def_cfa_offset 24
+  62:../../../shields/IIM423xx/src/iim423xx.c **** 	uint8_t who_am_i;
+ 621              		.loc 1 62 2 view .LVU133
+  62:../../../shields/IIM423xx/src/iim423xx.c **** 	uint8_t who_am_i;
+ 622              		.loc 1 62 15 is_stmt 0 view .LVU134
+ 623 0004 0024     		movs	r4, #0
+ 624 0006 0194     		str	r4, [sp, #4]
+  63:../../../shields/IIM423xx/src/iim423xx.c **** 
+ 625              		.loc 1 63 2 is_stmt 1 view .LVU135
+  66:../../../shields/IIM423xx/src/iim423xx.c **** 
+ 626              		.loc 1 66 2 view .LVU136
+ 627 0008 2948     		ldr	r0, .L45
+ 628 000a FFF7FEFF 		bl	printINF
+ 629              	.LVL59:
+  68:../../../shields/IIM423xx/src/iim423xx.c ****  	/* Disable fifo usage, data will be read from sensors registers*/
+ 630              		.loc 1 68 3 view .LVU137
+  68:../../../shields/IIM423xx/src/iim423xx.c ****  	/* Disable fifo usage, data will be read from sensors registers*/
+ARM GAS  /tmp/ccJAEQTO.s 			page 19
+
+
+ 631              		.loc 1 68 8 is_stmt 0 view .LVU138
+ 632 000e 294D     		ldr	r5, .L45+4
+ 633 0010 294A     		ldr	r2, .L45+8
+ 634 0012 2A49     		ldr	r1, .L45+12
+ 635 0014 2846     		mov	r0, r5
+ 636 0016 FFF7FEFF 		bl	inv_iim423xx_init
+ 637              	.LVL60:
+  68:../../../shields/IIM423xx/src/iim423xx.c ****  	/* Disable fifo usage, data will be read from sensors registers*/
+ 638              		.loc 1 68 6 view .LVU139
+ 639 001a 0190     		str	r0, [sp, #4]
+  70:../../../shields/IIM423xx/src/iim423xx.c **** 	rc |= inv_iim423xx_configure_fifo(&icm_driver, INV_IIM423XX_FIFO_DISABLED);
+ 640              		.loc 1 70 5 is_stmt 1 view .LVU140
+ 641 001c 2046     		mov	r0, r4
+ 642 001e FFF7FEFF 		bl	IWDG_feed
+ 643              	.LVL61:
+  71:../../../shields/IIM423xx/src/iim423xx.c **** 	if(rc != INV_ERROR_SUCCESS) {
+ 644              		.loc 1 71 2 view .LVU141
+  71:../../../shields/IIM423xx/src/iim423xx.c **** 	if(rc != INV_ERROR_SUCCESS) {
+ 645              		.loc 1 71 8 is_stmt 0 view .LVU142
+ 646 0022 2146     		mov	r1, r4
+ 647 0024 2846     		mov	r0, r5
+ 648 0026 FFF7FEFF 		bl	inv_iim423xx_configure_fifo
+ 649              	.LVL62:
+  71:../../../shields/IIM423xx/src/iim423xx.c **** 	if(rc != INV_ERROR_SUCCESS) {
+ 650              		.loc 1 71 5 view .LVU143
+ 651 002a 019B     		ldr	r3, [sp, #4]
+ 652 002c 0343     		orrs	r3, r3, r0
+ 653 002e 0193     		str	r3, [sp, #4]
+  72:../../../shields/IIM423xx/src/iim423xx.c **** 	  printERR("!!! ERROR : failed to initialize Iim423xx.\r\n");
+ 654              		.loc 1 72 2 is_stmt 1 view .LVU144
+  72:../../../shields/IIM423xx/src/iim423xx.c **** 	  printERR("!!! ERROR : failed to initialize Iim423xx.\r\n");
+ 655              		.loc 1 72 8 is_stmt 0 view .LVU145
+ 656 0030 019B     		ldr	r3, [sp, #4]
+  72:../../../shields/IIM423xx/src/iim423xx.c **** 	  printERR("!!! ERROR : failed to initialize Iim423xx.\r\n");
+ 657              		.loc 1 72 4 view .LVU146
+ 658 0032 3BBB     		cbnz	r3, .L41
+  77:../../../shields/IIM423xx/src/iim423xx.c **** 	/* Check WHOAMI */
+ 659              		.loc 1 77 4 is_stmt 1 view .LVU147
+ 660 0034 0020     		movs	r0, #0
+ 661 0036 FFF7FEFF 		bl	IWDG_feed
+ 662              	.LVL63:
+  79:../../../shields/IIM423xx/src/iim423xx.c **** 	
+ 663              		.loc 1 79 2 view .LVU148
+ 664 003a 2148     		ldr	r0, .L45+16
+ 665 003c FFF7FEFF 		bl	printINF
+ 666              	.LVL64:
+  81:../../../shields/IIM423xx/src/iim423xx.c **** 	if(rc != INV_ERROR_SUCCESS) {
+ 667              		.loc 1 81 2 view .LVU149
+  81:../../../shields/IIM423xx/src/iim423xx.c **** 	if(rc != INV_ERROR_SUCCESS) {
+ 668              		.loc 1 81 7 is_stmt 0 view .LVU150
+ 669 0040 0DF10301 		add	r1, sp, #3
+ 670 0044 1B48     		ldr	r0, .L45+4
+ 671 0046 FFF7FEFF 		bl	inv_iim423xx_get_who_am_i
+ 672              	.LVL65:
+  81:../../../shields/IIM423xx/src/iim423xx.c **** 	if(rc != INV_ERROR_SUCCESS) {
+ 673              		.loc 1 81 5 view .LVU151
+ 674 004a 0190     		str	r0, [sp, #4]
+ARM GAS  /tmp/ccJAEQTO.s 			page 20
+
+
+  82:../../../shields/IIM423xx/src/iim423xx.c **** 		printERR("!!! ERROR : failed to read Iim423xx whoami value.\r\n");
+ 675              		.loc 1 82 2 is_stmt 1 view .LVU152
+  82:../../../shields/IIM423xx/src/iim423xx.c **** 		printERR("!!! ERROR : failed to read Iim423xx whoami value.\r\n");
+ 676              		.loc 1 82 8 is_stmt 0 view .LVU153
+ 677 004c 019B     		ldr	r3, [sp, #4]
+  82:../../../shields/IIM423xx/src/iim423xx.c **** 		printERR("!!! ERROR : failed to read Iim423xx whoami value.\r\n");
+ 678              		.loc 1 82 4 view .LVU154
+ 679 004e F3B9     		cbnz	r3, .L42
+  87:../../../shields/IIM423xx/src/iim423xx.c **** 		printERR("!!! ERROR :  bad WHOAMI value. Got 0x%02x (expected: 0x%02x)\r\n", who_am_i, ICM_WHOAMI
+ 680              		.loc 1 87 2 is_stmt 1 view .LVU155
+  87:../../../shields/IIM423xx/src/iim423xx.c **** 		printERR("!!! ERROR :  bad WHOAMI value. Got 0x%02x (expected: 0x%02x)\r\n", who_am_i, ICM_WHOAMI
+ 681              		.loc 1 87 14 is_stmt 0 view .LVU156
+ 682 0050 9DF80310 		ldrb	r1, [sp, #3]	@ zero_extendqisi2
+  87:../../../shields/IIM423xx/src/iim423xx.c **** 		printERR("!!! ERROR :  bad WHOAMI value. Got 0x%02x (expected: 0x%02x)\r\n", who_am_i, ICM_WHOAMI
+ 683              		.loc 1 87 4 view .LVU157
+ 684 0054 6D29     		cmp	r1, #109
+ 685 0056 1FD1     		bne	.L43
+  93:../../../shields/IIM423xx/src/iim423xx.c **** 	}
+ 686              		.loc 1 93 3 is_stmt 1 view .LVU158
+ 687 0058 1A48     		ldr	r0, .L45+20
+ 688 005a FFF7FEFF 		bl	printINF
+ 689              	.LVL66:
+  96:../../../shields/IIM423xx/src/iim423xx.c **** 									IIM423XX_ACCEL_CONFIG0_FS_SEL_4g,
+ 690              		.loc 1 96 2 view .LVU159
+  96:../../../shields/IIM423xx/src/iim423xx.c **** 									IIM423XX_ACCEL_CONFIG0_FS_SEL_4g,
+ 691              		.loc 1 96 7 is_stmt 0 view .LVU160
+ 692 005e 0023     		movs	r3, #0
+ 693 0060 0622     		movs	r2, #6
+ 694 0062 4021     		movs	r1, #64
+ 695 0064 0120     		movs	r0, #1
+ 696 0066 FFF7FEFF 		bl	ConfigureInvDevice
+ 697              	.LVL67:
+  96:../../../shields/IIM423xx/src/iim423xx.c **** 									IIM423XX_ACCEL_CONFIG0_FS_SEL_4g,
+ 698              		.loc 1 96 5 view .LVU161
+ 699 006a 0190     		str	r0, [sp, #4]
+ 101:../../../shields/IIM423xx/src/iim423xx.c **** 		printERR("error while configuring INV device");
+ 700              		.loc 1 101 2 is_stmt 1 view .LVU162
+ 101:../../../shields/IIM423xx/src/iim423xx.c **** 		printERR("error while configuring INV device");
+ 701              		.loc 1 101 8 is_stmt 0 view .LVU163
+ 702 006c 019B     		ldr	r3, [sp, #4]
+ 101:../../../shields/IIM423xx/src/iim423xx.c **** 		printERR("error while configuring INV device");
+ 703              		.loc 1 101 4 view .LVU164
+ 704 006e D3B9     		cbnz	r3, .L44
+ 106:../../../shields/IIM423xx/src/iim423xx.c **** 	
+ 705              		.loc 1 106 3 is_stmt 1 view .LVU165
+ 706 0070 1548     		ldr	r0, .L45+24
+ 707 0072 FFF7FEFF 		bl	printINF
+ 708              	.LVL68:
+ 110:../../../shields/IIM423xx/src/iim423xx.c **** 	return rc;
+ 709              		.loc 1 110 2 view .LVU166
+ 110:../../../shields/IIM423xx/src/iim423xx.c **** 	return rc;
+ 710              		.loc 1 110 2 view .LVU167
+ 711 0076 154B     		ldr	r3, .L45+28
+ 712 0078 0022     		movs	r2, #0
+ 713 007a 1A80     		strh	r2, [r3]	@ movhi
+ 714 007c 5A80     		strh	r2, [r3, #2]	@ movhi
+ 110:../../../shields/IIM423xx/src/iim423xx.c **** 	return rc;
+ARM GAS  /tmp/ccJAEQTO.s 			page 21
+
+
+ 715              		.loc 1 110 2 view .LVU168
+ 111:../../../shields/IIM423xx/src/iim423xx.c **** }
+ 716              		.loc 1 111 2 view .LVU169
+ 111:../../../shields/IIM423xx/src/iim423xx.c **** }
+ 717              		.loc 1 111 9 is_stmt 0 view .LVU170
+ 718 007e 0198     		ldr	r0, [sp, #4]
+ 719              	.L34:
+ 112:../../../shields/IIM423xx/src/iim423xx.c **** 
+ 720              		.loc 1 112 1 view .LVU171
+ 721 0080 03B0     		add	sp, sp, #12
+ 722              	.LCFI18:
+ 723              		.cfi_remember_state
+ 724              		.cfi_def_cfa_offset 12
+ 725              		@ sp needed
+ 726 0082 30BD     		pop	{r4, r5, pc}
+ 727              	.L41:
+ 728              	.LCFI19:
+ 729              		.cfi_restore_state
+  73:../../../shields/IIM423xx/src/iim423xx.c **** 	  return rc;
+ 730              		.loc 1 73 4 is_stmt 1 view .LVU172
+ 731 0084 1248     		ldr	r0, .L45+32
+ 732 0086 FFF7FEFF 		bl	printERR
+ 733              	.LVL69:
+  74:../../../shields/IIM423xx/src/iim423xx.c **** 	}	
+ 734              		.loc 1 74 4 view .LVU173
+  74:../../../shields/IIM423xx/src/iim423xx.c **** 	}	
+ 735              		.loc 1 74 11 is_stmt 0 view .LVU174
+ 736 008a 0198     		ldr	r0, [sp, #4]
+ 737 008c F8E7     		b	.L34
+ 738              	.L42:
+  83:../../../shields/IIM423xx/src/iim423xx.c **** 		return rc;
+ 739              		.loc 1 83 3 is_stmt 1 view .LVU175
+ 740 008e 1148     		ldr	r0, .L45+36
+ 741 0090 FFF7FEFF 		bl	printERR
+ 742              	.LVL70:
+  84:../../../shields/IIM423xx/src/iim423xx.c **** 	}
+ 743              		.loc 1 84 3 view .LVU176
+  84:../../../shields/IIM423xx/src/iim423xx.c **** 	}
+ 744              		.loc 1 84 10 is_stmt 0 view .LVU177
+ 745 0094 0198     		ldr	r0, [sp, #4]
+ 746 0096 F3E7     		b	.L34
+ 747              	.L43:
+  88:../../../shields/IIM423xx/src/iim423xx.c **** 		return INV_ERROR;
+ 748              		.loc 1 88 3 is_stmt 1 view .LVU178
+ 749 0098 6D22     		movs	r2, #109
+ 750 009a 0F48     		ldr	r0, .L45+40
+ 751 009c FFF7FEFF 		bl	printERR
+ 752              	.LVL71:
+  89:../../../shields/IIM423xx/src/iim423xx.c **** 	}
+ 753              		.loc 1 89 3 view .LVU179
+  89:../../../shields/IIM423xx/src/iim423xx.c **** 	}
+ 754              		.loc 1 89 10 is_stmt 0 view .LVU180
+ 755 00a0 4FF0FF30 		mov	r0, #-1
+ 756 00a4 ECE7     		b	.L34
+ 757              	.L44:
+ 102:../../../shields/IIM423xx/src/iim423xx.c **** 		return rc;
+ 758              		.loc 1 102 3 is_stmt 1 view .LVU181
+ARM GAS  /tmp/ccJAEQTO.s 			page 22
+
+
+ 759 00a6 0D48     		ldr	r0, .L45+44
+ 760 00a8 FFF7FEFF 		bl	printERR
+ 761              	.LVL72:
+ 103:../../../shields/IIM423xx/src/iim423xx.c **** 	}		
+ 762              		.loc 1 103 3 view .LVU182
+ 103:../../../shields/IIM423xx/src/iim423xx.c **** 	}		
+ 763              		.loc 1 103 10 is_stmt 0 view .LVU183
+ 764 00ac 0198     		ldr	r0, [sp, #4]
+ 765 00ae E7E7     		b	.L34
+ 766              	.L46:
+ 767              		.align	2
+ 768              	.L45:
+ 769 00b0 00000000 		.word	.LC5
+ 770 00b4 00000000 		.word	.LANCHOR1
+ 771 00b8 00000000 		.word	HandleInvDeviceDataRegisters
+ 772 00bc 00000000 		.word	icm_serif
+ 773 00c0 50000000 		.word	.LC7
+ 774 00c4 E4000000 		.word	.LC10
+ 775 00c8 14010000 		.word	.LC12
+ 776 00cc 00000000 		.word	timestamp_buffer
+ 777 00d0 20000000 		.word	.LC6
+ 778 00d4 70000000 		.word	.LC8
+ 779 00d8 A4000000 		.word	.LC9
+ 780 00dc F0000000 		.word	.LC11
+ 781              		.cfi_endproc
+ 782              	.LFE133:
+ 784              		.section	.text.GetDataFromInvDevice,"ax",%progbits
+ 785              		.align	1
+ 786              		.global	GetDataFromInvDevice
+ 787              		.syntax unified
+ 788              		.thumb
+ 789              		.thumb_func
+ 790              		.fpu fpv4-sp-d16
+ 792              	GetDataFromInvDevice:
+ 793              	.LFB135:
+ 163:../../../shields/IIM423xx/src/iim423xx.c **** 	/*
+ 794              		.loc 1 163 1 is_stmt 1 view -0
+ 795              		.cfi_startproc
+ 796              		@ args = 0, pretend = 0, frame = 0
+ 797              		@ frame_needed = 0, uses_anonymous_args = 0
+ 798 0000 08B5     		push	{r3, lr}
+ 799              	.LCFI20:
+ 800              		.cfi_def_cfa_offset 8
+ 801              		.cfi_offset 3, -8
+ 802              		.cfi_offset 14, -4
+ 169:../../../shields/IIM423xx/src/iim423xx.c **** }
+ 803              		.loc 1 169 2 view .LVU185
+ 169:../../../shields/IIM423xx/src/iim423xx.c **** }
+ 804              		.loc 1 169 9 is_stmt 0 view .LVU186
+ 805 0002 0248     		ldr	r0, .L49
+ 806 0004 FFF7FEFF 		bl	inv_iim423xx_get_data_from_registers
+ 807              	.LVL73:
+ 170:../../../shields/IIM423xx/src/iim423xx.c **** 
+ 808              		.loc 1 170 1 view .LVU187
+ 809 0008 08BD     		pop	{r3, pc}
+ 810              	.L50:
+ 811 000a 00BF     		.align	2
+ARM GAS  /tmp/ccJAEQTO.s 			page 23
+
+
+ 812              	.L49:
+ 813 000c 00000000 		.word	.LANCHOR1
+ 814              		.cfi_endproc
+ 815              	.LFE135:
+ 817              		.section	.text.apply_mounting_matrix,"ax",%progbits
+ 818              		.align	1
+ 819              		.global	apply_mounting_matrix
+ 820              		.syntax unified
+ 821              		.thumb
+ 822              		.thumb_func
+ 823              		.fpu fpv4-sp-d16
+ 825              	apply_mounting_matrix:
+ 826              	.LVL74:
+ 827              	.LFB139:
+ 248:../../../shields/IIM423xx/src/iim423xx.c **** 
+ 249:../../../shields/IIM423xx/src/iim423xx.c **** void apply_mounting_matrix(const int32_t matrix[9], int16_t raw[3])
+ 250:../../../shields/IIM423xx/src/iim423xx.c **** {
+ 828              		.loc 1 250 1 is_stmt 1 view -0
+ 829              		.cfi_startproc
+ 830              		@ args = 0, pretend = 0, frame = 24
+ 831              		@ frame_needed = 0, uses_anonymous_args = 0
+ 832              		.loc 1 250 1 is_stmt 0 view .LVU189
+ 833 0000 2DE9F043 		push	{r4, r5, r6, r7, r8, r9, lr}
+ 834              	.LCFI21:
+ 835              		.cfi_def_cfa_offset 28
+ 836              		.cfi_offset 4, -28
+ 837              		.cfi_offset 5, -24
+ 838              		.cfi_offset 6, -20
+ 839              		.cfi_offset 7, -16
+ 840              		.cfi_offset 8, -12
+ 841              		.cfi_offset 9, -8
+ 842              		.cfi_offset 14, -4
+ 843 0004 87B0     		sub	sp, sp, #28
+ 844              	.LCFI22:
+ 845              		.cfi_def_cfa_offset 56
+ 251:../../../shields/IIM423xx/src/iim423xx.c **** 	unsigned i;
+ 846              		.loc 1 251 2 is_stmt 1 view .LVU190
+ 252:../../../shields/IIM423xx/src/iim423xx.c **** 	int64_t data_q30[3];
+ 847              		.loc 1 252 2 view .LVU191
+ 253:../../../shields/IIM423xx/src/iim423xx.c **** 	
+ 254:../../../shields/IIM423xx/src/iim423xx.c **** 	for(i = 0; i < 3; i++) {
+ 848              		.loc 1 254 2 view .LVU192
+ 849              	.LVL75:
+ 850              		.loc 1 254 8 is_stmt 0 view .LVU193
+ 851 0006 0027     		movs	r7, #0
+ 852              		.loc 1 254 2 view .LVU194
+ 853 0008 3CE0     		b	.L52
+ 854              	.LVL76:
+ 855              	.L53:
+ 255:../../../shields/IIM423xx/src/iim423xx.c **** 		data_q30[i] =  ((int64_t)matrix[3*i+0] * raw[0]);
+ 856              		.loc 1 255 3 is_stmt 1 discriminator 3 view .LVU195
+ 857              		.loc 1 255 34 is_stmt 0 discriminator 3 view .LVU196
+ 858 000a 07EB4706 		add	r6, r7, r7, lsl #1
+ 859 000e B600     		lsls	r6, r6, #2
+ 860 0010 50F806C0 		ldr	ip, [r0, r6]
+ 861              		.loc 1 255 19 discriminator 3 view .LVU197
+ 862 0014 4FEAEC79 		asr	r9, ip, #31
+ARM GAS  /tmp/ccJAEQTO.s 			page 24
+
+
+ 863              		.loc 1 255 47 discriminator 3 view .LVU198
+ 864 0018 B1F90020 		ldrsh	r2, [r1]
+ 865 001c D317     		asrs	r3, r2, #31
+ 866              		.loc 1 255 42 discriminator 3 view .LVU199
+ 867 001e 0CFB03F4 		mul	r4, ip, r3
+ 868 0022 02FB0944 		mla	r4, r2, r9, r4
+ 869 0026 ACFB0223 		umull	r2, r3, ip, r2
+ 870 002a 2344     		add	r3, r3, r4
+ 256:../../../shields/IIM423xx/src/iim423xx.c **** 		data_q30[i] += ((int64_t)matrix[3*i+1] * raw[1]);
+ 871              		.loc 1 256 3 is_stmt 1 discriminator 3 view .LVU200
+ 872              		.loc 1 256 34 is_stmt 0 discriminator 3 view .LVU201
+ 873 002c 0644     		add	r6, r6, r0
+ 874 002e D6F804E0 		ldr	lr, [r6, #4]
+ 875              		.loc 1 256 19 discriminator 3 view .LVU202
+ 876 0032 4FEAEE79 		asr	r9, lr, #31
+ 877              		.loc 1 256 47 discriminator 3 view .LVU203
+ 878 0036 B1F90240 		ldrsh	r4, [r1, #2]
+ 879 003a E517     		asrs	r5, r4, #31
+ 880              		.loc 1 256 42 discriminator 3 view .LVU204
+ 881 003c 0EFB05FC 		mul	ip, lr, r5
+ 882 0040 04FB09CC 		mla	ip, r4, r9, ip
+ 883 0044 AEFB0489 		umull	r8, r9, lr, r4
+ 884 0048 E144     		add	r9, r9, ip
+ 885              		.loc 1 256 15 discriminator 3 view .LVU205
+ 886 004a 12EB0804 		adds	r4, r2, r8
+ 887 004e 43EB0905 		adc	r5, r3, r9
+ 257:../../../shields/IIM423xx/src/iim423xx.c **** 		data_q30[i] += ((int64_t)matrix[3*i+2] * raw[2]);
+ 888              		.loc 1 257 3 is_stmt 1 discriminator 3 view .LVU206
+ 889              		.loc 1 257 34 is_stmt 0 discriminator 3 view .LVU207
+ 890 0052 D6F808C0 		ldr	ip, [r6, #8]
+ 891              		.loc 1 257 19 discriminator 3 view .LVU208
+ 892 0056 4FEAEC79 		asr	r9, ip, #31
+ 893              		.loc 1 257 47 discriminator 3 view .LVU209
+ 894 005a B1F90420 		ldrsh	r2, [r1, #4]
+ 895 005e D317     		asrs	r3, r2, #31
+ 896              		.loc 1 257 42 discriminator 3 view .LVU210
+ 897 0060 0CFB03F6 		mul	r6, ip, r3
+ 898 0064 02FB0966 		mla	r6, r2, r9, r6
+ 899 0068 ACFB0223 		umull	r2, r3, ip, r2
+ 900 006c 3344     		add	r3, r3, r6
+ 901              		.loc 1 257 15 discriminator 3 view .LVU211
+ 902 006e 06AE     		add	r6, sp, #24
+ 903 0070 06EBC706 		add	r6, r6, r7, lsl #3
+ 904 0074 A418     		adds	r4, r4, r2
+ 905 0076 43EB0505 		adc	r5, r3, r5
+ 906 007a 46F8184C 		str	r4, [r6, #-24]
+ 907 007e 46F8145C 		str	r5, [r6, #-20]
+ 254:../../../shields/IIM423xx/src/iim423xx.c **** 		data_q30[i] =  ((int64_t)matrix[3*i+0] * raw[0]);
+ 908              		.loc 1 254 20 is_stmt 1 discriminator 3 view .LVU212
+ 254:../../../shields/IIM423xx/src/iim423xx.c **** 		data_q30[i] =  ((int64_t)matrix[3*i+0] * raw[0]);
+ 909              		.loc 1 254 21 is_stmt 0 discriminator 3 view .LVU213
+ 910 0082 0137     		adds	r7, r7, #1
+ 911              	.LVL77:
+ 912              	.L52:
+ 254:../../../shields/IIM423xx/src/iim423xx.c **** 		data_q30[i] =  ((int64_t)matrix[3*i+0] * raw[0]);
+ 913              		.loc 1 254 13 is_stmt 1 discriminator 1 view .LVU214
+ 254:../../../shields/IIM423xx/src/iim423xx.c **** 		data_q30[i] =  ((int64_t)matrix[3*i+0] * raw[0]);
+ARM GAS  /tmp/ccJAEQTO.s 			page 25
+
+
+ 914              		.loc 1 254 2 is_stmt 0 discriminator 1 view .LVU215
+ 915 0084 022F     		cmp	r7, #2
+ 916 0086 C0D9     		bls	.L53
+ 258:../../../shields/IIM423xx/src/iim423xx.c **** 	}
+ 259:../../../shields/IIM423xx/src/iim423xx.c **** 	raw[0] = (int16_t)(data_q30[0]>>30);
+ 917              		.loc 1 259 2 is_stmt 1 view .LVU216
+ 918              		.loc 1 259 32 is_stmt 0 view .LVU217
+ 919 0088 009B     		ldr	r3, [sp]
+ 920 008a 9B0F     		lsrs	r3, r3, #30
+ 921 008c 019A     		ldr	r2, [sp, #4]
+ 922 008e 43EA8203 		orr	r3, r3, r2, lsl #2
+ 923              		.loc 1 259 9 view .LVU218
+ 924 0092 0B80     		strh	r3, [r1]	@ movhi
+ 260:../../../shields/IIM423xx/src/iim423xx.c **** 	raw[1] = (int16_t)(data_q30[1]>>30);
+ 925              		.loc 1 260 2 is_stmt 1 view .LVU219
+ 926              		.loc 1 260 32 is_stmt 0 view .LVU220
+ 927 0094 029B     		ldr	r3, [sp, #8]
+ 928 0096 9B0F     		lsrs	r3, r3, #30
+ 929 0098 039A     		ldr	r2, [sp, #12]
+ 930 009a 43EA8203 		orr	r3, r3, r2, lsl #2
+ 931              		.loc 1 260 9 view .LVU221
+ 932 009e 4B80     		strh	r3, [r1, #2]	@ movhi
+ 261:../../../shields/IIM423xx/src/iim423xx.c **** 	raw[2] = (int16_t)(data_q30[2]>>30);
+ 933              		.loc 1 261 2 is_stmt 1 view .LVU222
+ 934              		.loc 1 261 32 is_stmt 0 view .LVU223
+ 935 00a0 049B     		ldr	r3, [sp, #16]
+ 936 00a2 9B0F     		lsrs	r3, r3, #30
+ 937 00a4 059A     		ldr	r2, [sp, #20]
+ 938 00a6 43EA8203 		orr	r3, r3, r2, lsl #2
+ 939              		.loc 1 261 9 view .LVU224
+ 940 00aa 8B80     		strh	r3, [r1, #4]	@ movhi
+ 262:../../../shields/IIM423xx/src/iim423xx.c **** }...
+ 941              		.loc 1 262 1 view .LVU225
+ 942 00ac 07B0     		add	sp, sp, #28
+ 943              	.LCFI23:
+ 944              		.cfi_def_cfa_offset 28
+ 945              		@ sp needed
+ 946 00ae BDE8F083 		pop	{r4, r5, r6, r7, r8, r9, pc}
+ 947              		.loc 1 262 1 view .LVU226
+ 948              		.cfi_endproc
+ 949              	.LFE139:
+ 951              		.section	.rodata.HandleInvDeviceDataRegisters.str1.4,"aMS",%progbits,1
+ 952              		.align	2
+ 953              	.LC13:
+ 954 0000 74696D20 		.ascii	"tim %u: accel0 %d, accel1 %d, accel2 %d, temp %d \015"
+ 954      25753A20 
+ 954      61636365 
+ 954      6C302025 
+ 954      642C2061 
+ 955 0032 0A00     		.ascii	"\012\000"
+ 956              		.section	.text.HandleInvDeviceDataRegisters,"ax",%progbits
+ 957              		.align	1
+ 958              		.global	HandleInvDeviceDataRegisters
+ 959              		.syntax unified
+ 960              		.thumb
+ 961              		.thumb_func
+ 962              		.fpu fpv4-sp-d16
+ARM GAS  /tmp/ccJAEQTO.s 			page 26
+
+
+ 964              	HandleInvDeviceDataRegisters:
+ 965              	.LVL78:
+ 966              	.LFB136:
+ 173:../../../shields/IIM423xx/src/iim423xx.c **** {
+ 967              		.loc 1 173 1 is_stmt 1 view -0
+ 968              		.cfi_startproc
+ 969              		@ args = 0, pretend = 0, frame = 0
+ 970              		@ frame_needed = 0, uses_anonymous_args = 0
+ 173:../../../shields/IIM423xx/src/iim423xx.c **** {
+ 971              		.loc 1 173 1 is_stmt 0 view .LVU228
+ 972 0000 30B5     		push	{r4, r5, lr}
+ 973              	.LCFI24:
+ 974              		.cfi_def_cfa_offset 12
+ 975              		.cfi_offset 4, -12
+ 976              		.cfi_offset 5, -8
+ 977              		.cfi_offset 14, -4
+ 978 0002 83B0     		sub	sp, sp, #12
+ 979              	.LCFI25:
+ 980              		.cfi_def_cfa_offset 24
+ 981 0004 0446     		mov	r4, r0
+ 174:../../../shields/IIM423xx/src/iim423xx.c **** 	uint64_t irq_timestamp = 0;	
+ 982              		.loc 1 174 2 is_stmt 1 view .LVU229
+ 983              	.LVL79:
+ 183:../../../shields/IIM423xx/src/iim423xx.c **** 	if (!RINGBUFFER_EMPTY(&timestamp_buffer))
+ 984              		.loc 1 183 2 view .LVU230
+ 183:../../../shields/IIM423xx/src/iim423xx.c **** 	if (!RINGBUFFER_EMPTY(&timestamp_buffer))
+ 985              		.loc 1 183 7 is_stmt 0 view .LVU231
+ 986 0006 134B     		ldr	r3, .L61
+ 987 0008 5A88     		ldrh	r2, [r3, #2]
+ 988 000a 1B88     		ldrh	r3, [r3]
+ 183:../../../shields/IIM423xx/src/iim423xx.c **** 	if (!RINGBUFFER_EMPTY(&timestamp_buffer))
+ 989              		.loc 1 183 5 view .LVU232
+ 990 000c 9A42     		cmp	r2, r3
+ 991 000e 12D0     		beq	.L58
+ 184:../../../shields/IIM423xx/src/iim423xx.c **** 		RINGBUFFER_POP(&timestamp_buffer, &irq_timestamp);
+ 992              		.loc 1 184 3 is_stmt 1 view .LVU233
+ 184:../../../shields/IIM423xx/src/iim423xx.c **** 		RINGBUFFER_POP(&timestamp_buffer, &irq_timestamp);
+ 993              		.loc 1 184 3 view .LVU234
+ 994 0010 03F03F02 		and	r2, r3, #63
+ 995 0014 0F49     		ldr	r1, .L61
+ 996 0016 0132     		adds	r2, r2, #1
+ 997 0018 51F83250 		ldr	r5, [r1, r2, lsl #3]
+ 998              	.LVL80:
+ 184:../../../shields/IIM423xx/src/iim423xx.c **** 		RINGBUFFER_POP(&timestamp_buffer, &irq_timestamp);
+ 999              		.loc 1 184 3 view .LVU235
+ 1000 001c 0133     		adds	r3, r3, #1
+ 1001 001e 0B80     		strh	r3, [r1]	@ movhi
+ 1002              	.LVL81:
+ 1003              	.L56:
+ 184:../../../shields/IIM423xx/src/iim423xx.c **** 		RINGBUFFER_POP(&timestamp_buffer, &irq_timestamp);
+ 1004              		.loc 1 184 3 discriminator 1 view .LVU236
+ 187:../../../shields/IIM423xx/src/iim423xx.c **** 	apply_mounting_matrix(icm_mounting_matrix, event->accel);
+ 1005              		.loc 1 187 2 discriminator 1 view .LVU237
+ 1006 0020 A11D     		adds	r1, r4, #6
+ 1007 0022 0D48     		ldr	r0, .L61+4
+ 1008              	.LVL82:
+ 187:../../../shields/IIM423xx/src/iim423xx.c **** 	apply_mounting_matrix(icm_mounting_matrix, event->accel);
+ARM GAS  /tmp/ccJAEQTO.s 			page 27
+
+
+ 1009              		.loc 1 187 2 is_stmt 0 discriminator 1 view .LVU238
+ 1010 0024 FFF7FEFF 		bl	apply_mounting_matrix
+ 1011              	.LVL83:
+ 194:../../../shields/IIM423xx/src/iim423xx.c **** 	if (event->accel[0] != INVALID_VALUE_FIFO)
+ 1012              		.loc 1 194 2 is_stmt 1 discriminator 1 view .LVU239
+ 194:../../../shields/IIM423xx/src/iim423xx.c **** 	if (event->accel[0] != INVALID_VALUE_FIFO)
+ 1013              		.loc 1 194 18 is_stmt 0 discriminator 1 view .LVU240
+ 1014 0028 B4F90620 		ldrsh	r2, [r4, #6]
+ 194:../../../shields/IIM423xx/src/iim423xx.c **** 	if (event->accel[0] != INVALID_VALUE_FIFO)
+ 1015              		.loc 1 194 5 discriminator 1 view .LVU241
+ 1016 002c 12F5004F 		cmn	r2, #32768
+ 1017 0030 03D1     		bne	.L60
+ 1018              	.L55:
+ 198:../../../shields/IIM423xx/src/iim423xx.c **** }
+ 1019              		.loc 1 198 1 view .LVU242
+ 1020 0032 03B0     		add	sp, sp, #12
+ 1021              	.LCFI26:
+ 1022              		.cfi_remember_state
+ 1023              		.cfi_def_cfa_offset 12
+ 1024              		@ sp needed
+ 1025 0034 30BD     		pop	{r4, r5, pc}
+ 1026              	.LVL84:
+ 1027              	.L58:
+ 1028              	.LCFI27:
+ 1029              		.cfi_restore_state
+ 174:../../../shields/IIM423xx/src/iim423xx.c **** 	uint64_t irq_timestamp = 0;	
+ 1030              		.loc 1 174 11 view .LVU243
+ 1031 0036 0025     		movs	r5, #0
+ 1032 0038 F2E7     		b	.L56
+ 1033              	.LVL85:
+ 1034              	.L60:
+ 195:../../../shields/IIM423xx/src/iim423xx.c **** 			printINF("tim %u: accel0 %d, accel1 %d, accel2 %d, temp %d \r\n", (uint32_t)irq_timestamp,
+ 1035              		.loc 1 195 4 is_stmt 1 view .LVU244
+ 196:../../../shields/IIM423xx/src/iim423xx.c **** 			event->accel[0], event->accel[1], event->accel[2],
+ 1036              		.loc 1 196 50 is_stmt 0 view .LVU245
+ 1037 003a B4F90A30 		ldrsh	r3, [r4, #10]
+ 197:../../../shields/IIM423xx/src/iim423xx.c **** 			event->temperature);			
+ 1038              		.loc 1 197 9 view .LVU246
+ 1039 003e B4F90C10 		ldrsh	r1, [r4, #12]
+ 195:../../../shields/IIM423xx/src/iim423xx.c **** 			printINF("tim %u: accel0 %d, accel1 %d, accel2 %d, temp %d \r\n", (uint32_t)irq_timestamp,
+ 1040              		.loc 1 195 4 view .LVU247
+ 1041 0042 0191     		str	r1, [sp, #4]
+ 1042 0044 0093     		str	r3, [sp]
+ 1043 0046 B4F90830 		ldrsh	r3, [r4, #8]
+ 1044 004a 2946     		mov	r1, r5
+ 1045 004c 0348     		ldr	r0, .L61+8
+ 1046 004e FFF7FEFF 		bl	printINF
+ 1047              	.LVL86:
+ 198:../../../shields/IIM423xx/src/iim423xx.c **** }
+ 1048              		.loc 1 198 1 view .LVU248
+ 1049 0052 EEE7     		b	.L55
+ 1050              	.L62:
+ 1051              		.align	2
+ 1052              	.L61:
+ 1053 0054 00000000 		.word	timestamp_buffer
+ 1054 0058 00000000 		.word	.LANCHOR2
+ 1055 005c 00000000 		.word	.LC13
+ARM GAS  /tmp/ccJAEQTO.s 			page 28
+
+
+ 1056              		.cfi_endproc
+ 1057              	.LFE136:
+ 1059              		.comm	timestamp_buffer,520,8
+ 1060              		.comm	icm_serif,32,4
+ 1061              		.global	IIM423xx_initialised
+ 1062              		.comm	i2cHandle,4,4
+ 1063              		.comm	IIM423xxHeader,44,4
+ 1064              		.comm	P3_header,44,4
+ 1065              		.comm	P2_header,44,4
+ 1066              		.comm	P1_header,44,4
+ 1067              		.comm	stackversion_patch,1,1
+ 1068              		.comm	stackversion_minor,1,1
+ 1069              		.comm	stackversion_major,1,1
+ 1070              		.comm	appversion_patch,1,1
+ 1071              		.comm	appversion_minor,1,1
+ 1072              		.comm	appversion_major,1,1
+ 1073              		.comm	short_UID,8,8
+ 1074              		.comm	hard_reset,1,1
+ 1075              		.comm	wd_reset,1,1
+ 1076              		.comm	octa_uid,8,8
+ 1077              		.comm	float_union,4,4
+ 1078              		.comm	uint16LittleEndian,2,4
+ 1079              		.comm	int16LittleEndian,2,4
+ 1080              		.comm	uint32LittleEndian,4,4
+ 1081              		.comm	int32LittleEndian,4,4
+ 1082              		.comm	rtosprintHandle,4,4
+ 1083              		.comm	hrtc,36,4
+ 1084              		.comm	FLASH_SPI,100,4
+ 1085              		.comm	P3_SPI,100,4
+ 1086              		.comm	P2_SPI,100,4
+ 1087              		.comm	P1_SPI,100,4
+ 1088              		.comm	P3_I2C,76,4
+ 1089              		.comm	P2_I2C,76,4
+ 1090              		.comm	P1_I2C,76,4
+ 1091              		.comm	common_I2C,76,4
+ 1092              		.comm	P3_UART,120,4
+ 1093              		.comm	P2_UART,120,4
+ 1094              		.comm	P1_UART,120,4
+ 1095              		.comm	FTDI_UART,120,4
+ 1096              		.comm	BLE_UART,120,4
+ 1097              		.comm	USB_UART,120,4
+ 1098              		.comm	hiwdg,16,4
+ 1099              		.comm	P3_DIO6,8,4
+ 1100              		.comm	P3_DIO5,8,4
+ 1101              		.comm	P3_DIO4,8,4
+ 1102              		.comm	P3_DIO3,8,4
+ 1103              		.comm	P3_DIO2,8,4
+ 1104              		.comm	P3_DIO1,8,4
+ 1105              		.comm	P2_DIO6,8,4
+ 1106              		.comm	P2_DIO5,8,4
+ 1107              		.comm	P2_DIO4,8,4
+ 1108              		.comm	P2_DIO3,8,4
+ 1109              		.comm	P2_DIO2,8,4
+ 1110              		.comm	P2_DIO1,8,4
+ 1111              		.comm	P1_DIO6,8,4
+ 1112              		.comm	P1_DIO5,8,4
+ 1113              		.comm	P1_DIO4,8,4
+ARM GAS  /tmp/ccJAEQTO.s 			page 29
+
+
+ 1114              		.comm	P1_DIO3,8,4
+ 1115              		.comm	P1_DIO2,8,4
+ 1116              		.comm	P1_DIO1,8,4
+ 1117              		.comm	htim6,64,4
+ 1118              		.comm	htim1,64,4
+ 1119              		.section	.bss.IIM423xx_initialised,"aw",%nobits
+ 1120              		.set	.LANCHOR0,. + 0
+ 1123              	IIM423xx_initialised:
+ 1124 0000 00       		.space	1
+ 1125              		.section	.bss.icm_driver,"aw",%nobits
+ 1126              		.align	3
+ 1127              		.set	.LANCHOR1,. + 0
+ 1130              	icm_driver:
+ 1131 0000 00000000 		.space	2152
+ 1131      00000000 
+ 1131      00000000 
+ 1131      00000000 
+ 1131      00000000 
+ 1132              		.section	.data.icm_mounting_matrix,"aw"
+ 1133              		.align	2
+ 1134              		.set	.LANCHOR2,. + 0
+ 1137              	icm_mounting_matrix:
+ 1138 0000 00000040 		.word	1073741824
+ 1139 0004 00000000 		.word	0
+ 1140 0008 00000000 		.word	0
+ 1141 000c 00000000 		.word	0
+ 1142 0010 00000040 		.word	1073741824
+ 1143 0014 00000000 		.word	0
+ 1144 0018 00000000 		.word	0
+ 1145 001c 00000000 		.word	0
+ 1146 0020 00000040 		.word	1073741824
+ 1147              		.text
+ 1148              	.Letext0:
+ 1149              		.file 2 "/usr/arm-none-eabi/include/machine/_default_types.h"
+ 1150              		.file 3 "/usr/arm-none-eabi/include/sys/_stdint.h"
+ 1151              		.file 4 "../../../core/ST/CMSIS/Include/core_cm4.h"
+ 1152              		.file 5 "../../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/system_stm32l4xx.h"
+ 1153              		.file 6 "../../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/stm32l496xx.h"
+ 1154              		.file 7 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h"
+ 1155              		.file 8 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_dma.h"
+ 1156              		.file 9 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_i2c.h"
+ 1157              		.file 10 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_iwdg.h"
+ 1158              		.file 11 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rtc.h"
+ 1159              		.file 12 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_spi.h"
+ 1160              		.file 13 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_tim.h"
+ 1161              		.file 14 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h"
+ 1162              		.file 15 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h"
+ 1163              		.file 16 "../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/include/task.h"
+ 1164              		.file 17 "../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h"
+ 1165              		.file 18 "../../../core/platform/octa/inc/sysclock.h"
+ 1166              		.file 19 "../../../core/platform/octa/inc/gpio.h"
+ 1167              		.file 20 "../../../core/platform/octa/inc/iwdg.h"
+ 1168              		.file 21 "../../../core/platform/octa/inc/uart.h"
+ 1169              		.file 22 "../../../core/platform/octa/inc/i2c.h"
+ 1170              		.file 23 "../../../core/platform/octa/inc/spi.h"
+ 1171              		.file 24 "../../../core/platform/octa/inc/rtc.h"
+ 1172              		.file 25 "../../../core/platform/octa/inc/rtosincludes.h"
+ARM GAS  /tmp/ccJAEQTO.s 			page 30
+
+
+ 1173              		.file 26 "/usr/arm-none-eabi/include/sys/lock.h"
+ 1174              		.file 27 "/usr/arm-none-eabi/include/sys/_types.h"
+ 1175              		.file 28 "/usr/lib/gcc/arm-none-eabi/9.2.1/include/stddef.h"
+ 1176              		.file 29 "/usr/arm-none-eabi/include/sys/reent.h"
+ 1177              		.file 30 "../../../core/platform/common/inc/datatypes.h"
+ 1178              		.file 31 "../../../core/platform/octa/inc/platform.h"
+ 1179              		.file 32 "../../../shields/IIM423xx/inc/Iim423xxDefs.h"
+ 1180              		.file 33 "../../../shields/IIM423xx/inc/Iim423xxTransport.h"
+ 1181              		.file 34 "../../../shields/IIM423xx/inc/Iim423xxDriver_HL.h"
+ 1182              		.file 35 "../../../core/platform/common/inc/print.h"
+ 1183              		.file 36 "../../../shields/IIM423xx/inc/InvError.h"
+ARM GAS  /tmp/ccJAEQTO.s 			page 31
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 iim423xx.c
+     /tmp/ccJAEQTO.s:18     .rodata.inv_io_hal_read_reg.str1.4:0000000000000000 $d
+     /tmp/ccJAEQTO.s:22     .text.inv_io_hal_read_reg:0000000000000000 $t
+     /tmp/ccJAEQTO.s:30     .text.inv_io_hal_read_reg:0000000000000000 inv_io_hal_read_reg
+     /tmp/ccJAEQTO.s:119    .text.inv_io_hal_read_reg:0000000000000044 $d
+     /tmp/ccJAEQTO.s:124    .rodata.inv_io_hal_write_reg.str1.4:0000000000000000 $d
+     /tmp/ccJAEQTO.s:128    .text.inv_io_hal_write_reg:0000000000000000 $t
+     /tmp/ccJAEQTO.s:135    .text.inv_io_hal_write_reg:0000000000000000 inv_io_hal_write_reg
+     /tmp/ccJAEQTO.s:224    .text.inv_io_hal_write_reg:0000000000000044 $d
+     /tmp/ccJAEQTO.s:229    .rodata.IIM423xx_Initialize.str1.4:0000000000000000 $d
+     /tmp/ccJAEQTO.s:241    .text.IIM423xx_Initialize:0000000000000000 $t
+     /tmp/ccJAEQTO.s:248    .text.IIM423xx_Initialize:0000000000000000 IIM423xx_Initialize
+     /tmp/ccJAEQTO.s:375    .text.IIM423xx_Initialize:0000000000000090 $d
+                            *COM*:000000000000002c IIM423xxHeader
+                            *COM*:0000000000000004 i2cHandle
+                            *COM*:0000000000000020 icm_serif
+     /tmp/ccJAEQTO.s:388    .text.ConfigureInvDevice:0000000000000000 $t
+     /tmp/ccJAEQTO.s:395    .text.ConfigureInvDevice:0000000000000000 ConfigureInvDevice
+     /tmp/ccJAEQTO.s:567    .text.ConfigureInvDevice:00000000000000ac $d
+     /tmp/ccJAEQTO.s:572    .rodata.IIM423xx_setup.str1.4:0000000000000000 $d
+     /tmp/ccJAEQTO.s:599    .text.IIM423xx_setup:0000000000000000 $t
+     /tmp/ccJAEQTO.s:606    .text.IIM423xx_setup:0000000000000000 IIM423xx_setup
+     /tmp/ccJAEQTO.s:769    .text.IIM423xx_setup:00000000000000b0 $d
+     /tmp/ccJAEQTO.s:964    .text.HandleInvDeviceDataRegisters:0000000000000000 HandleInvDeviceDataRegisters
+                            *COM*:0000000000000208 timestamp_buffer
+     /tmp/ccJAEQTO.s:785    .text.GetDataFromInvDevice:0000000000000000 $t
+     /tmp/ccJAEQTO.s:792    .text.GetDataFromInvDevice:0000000000000000 GetDataFromInvDevice
+     /tmp/ccJAEQTO.s:813    .text.GetDataFromInvDevice:000000000000000c $d
+     /tmp/ccJAEQTO.s:818    .text.apply_mounting_matrix:0000000000000000 $t
+     /tmp/ccJAEQTO.s:825    .text.apply_mounting_matrix:0000000000000000 apply_mounting_matrix
+     /tmp/ccJAEQTO.s:952    .rodata.HandleInvDeviceDataRegisters.str1.4:0000000000000000 $d
+     /tmp/ccJAEQTO.s:957    .text.HandleInvDeviceDataRegisters:0000000000000000 $t
+     /tmp/ccJAEQTO.s:1053   .text.HandleInvDeviceDataRegisters:0000000000000054 $d
+     /tmp/ccJAEQTO.s:1123   .bss.IIM423xx_initialised:0000000000000000 IIM423xx_initialised
+                            *COM*:000000000000002c P3_header
+                            *COM*:000000000000002c P2_header
+                            *COM*:000000000000002c P1_header
+                            *COM*:0000000000000001 stackversion_patch
+                            *COM*:0000000000000001 stackversion_minor
+                            *COM*:0000000000000001 stackversion_major
+                            *COM*:0000000000000001 appversion_patch
+                            *COM*:0000000000000001 appversion_minor
+                            *COM*:0000000000000001 appversion_major
+                            *COM*:0000000000000008 short_UID
+                            *COM*:0000000000000001 hard_reset
+                            *COM*:0000000000000001 wd_reset
+                            *COM*:0000000000000008 octa_uid
+                            *COM*:0000000000000004 float_union
+                            *COM*:0000000000000002 uint16LittleEndian
+                            *COM*:0000000000000002 int16LittleEndian
+                            *COM*:0000000000000004 uint32LittleEndian
+                            *COM*:0000000000000004 int32LittleEndian
+                            *COM*:0000000000000004 rtosprintHandle
+                            *COM*:0000000000000024 hrtc
+                            *COM*:0000000000000064 FLASH_SPI
+                            *COM*:0000000000000064 P3_SPI
+ARM GAS  /tmp/ccJAEQTO.s 			page 32
+
+
+                            *COM*:0000000000000064 P2_SPI
+                            *COM*:0000000000000064 P1_SPI
+                            *COM*:000000000000004c P3_I2C
+                            *COM*:000000000000004c P2_I2C
+                            *COM*:000000000000004c P1_I2C
+                            *COM*:000000000000004c common_I2C
+                            *COM*:0000000000000078 P3_UART
+                            *COM*:0000000000000078 P2_UART
+                            *COM*:0000000000000078 P1_UART
+                            *COM*:0000000000000078 FTDI_UART
+                            *COM*:0000000000000078 BLE_UART
+                            *COM*:0000000000000078 USB_UART
+                            *COM*:0000000000000010 hiwdg
+                            *COM*:0000000000000008 P3_DIO6
+                            *COM*:0000000000000008 P3_DIO5
+                            *COM*:0000000000000008 P3_DIO4
+                            *COM*:0000000000000008 P3_DIO3
+                            *COM*:0000000000000008 P3_DIO2
+                            *COM*:0000000000000008 P3_DIO1
+                            *COM*:0000000000000008 P2_DIO6
+                            *COM*:0000000000000008 P2_DIO5
+                            *COM*:0000000000000008 P2_DIO4
+                            *COM*:0000000000000008 P2_DIO3
+                            *COM*:0000000000000008 P2_DIO2
+                            *COM*:0000000000000008 P2_DIO1
+                            *COM*:0000000000000008 P1_DIO6
+                            *COM*:0000000000000008 P1_DIO5
+                            *COM*:0000000000000008 P1_DIO4
+                            *COM*:0000000000000008 P1_DIO3
+                            *COM*:0000000000000008 P1_DIO2
+                            *COM*:0000000000000008 P1_DIO1
+                            *COM*:0000000000000040 htim6
+                            *COM*:0000000000000040 htim1
+     /tmp/ccJAEQTO.s:1124   .bss.IIM423xx_initialised:0000000000000000 $d
+     /tmp/ccJAEQTO.s:1126   .bss.icm_driver:0000000000000000 $d
+     /tmp/ccJAEQTO.s:1130   .bss.icm_driver:0000000000000000 icm_driver
+     /tmp/ccJAEQTO.s:1133   .data.icm_mounting_matrix:0000000000000000 $d
+     /tmp/ccJAEQTO.s:1137   .data.icm_mounting_matrix:0000000000000000 icm_mounting_matrix
+
+UNDEFINED SYMBOLS
+HAL_I2C_Mem_Read
+printERR
+HAL_I2C_Mem_Write
+printINF
+platform_getHeader
+platform_initialize_I2C
+inv_iim423xx_enable_clkin_rtc
+inv_iim423xx_set_accel_fsr
+inv_iim423xx_set_accel_frequency
+inv_iim423xx_set_reg_bank
+inv_iim423xx_write_reg
+inv_iim423xx_enable_accel_low_noise_mode
+IWDG_feed
+HAL_Delay
+inv_iim423xx_enable_accel_low_power_mode
+inv_iim423xx_init
+inv_iim423xx_configure_fifo
+ARM GAS  /tmp/ccJAEQTO.s 			page 33
+
+
+inv_iim423xx_get_who_am_i
+inv_iim423xx_get_data_from_registers

@@ -1,0 +1,764 @@
+ARM GAS  /tmp/cctgceem.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 28, 1
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.file	"dns-example.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.rodata.NB_IoT_send.str1.4,"aMS",%progbits,1
+  18              		.align	2
+  19              	.LC0:
+  20 0000 6F72616E 		.ascii	"orange-udp.idlab.uantwerpen.be\000"
+  20      67652D75 
+  20      64702E69 
+  20      646C6162 
+  20      2E75616E 
+  21 001f 00       		.align	2
+  22              	.LC1:
+  23 0020 53656E64 		.ascii	"Sending DNS request for %s.\015\012\000"
+  23      696E6720 
+  23      444E5320 
+  23      72657175 
+  23      65737420 
+  24 003e 0000     		.align	2
+  25              	.LC2:
+  26 0040 6E622D69 		.ascii	"nb-iot not initialized, not sending.\015\012\000"
+  26      6F74206E 
+  26      6F742069 
+  26      6E697469 
+  26      616C697A 
+  27              		.section	.text.NB_IoT_send,"ax",%progbits
+  28              		.align	1
+  29              		.global	NB_IoT_send
+  30              		.arch armv7e-m
+  31              		.syntax unified
+  32              		.thumb
+  33              		.thumb_func
+  34              		.fpu fpv4-sp-d16
+  36              	NB_IoT_send:
+  37              	.LVL0:
+  38              	.LFB132:
+  39              		.file 1 "../../../applications/examples/dns-example/src/dns-example.c"
+   1:../../../applications/examples/dns-example/src/dns-example.c **** 
+   2:../../../applications/examples/dns-example/src/dns-example.c **** #include "dns-example.h"
+   3:../../../applications/examples/dns-example/src/dns-example.c **** #include "SARAN21X.h"
+   4:../../../applications/examples/dns-example/src/dns-example.c **** #include "stc3115.h"
+   5:../../../applications/examples/dns-example/src/dns-example.c **** #include "dns.h"
+   6:../../../applications/examples/dns-example/src/dns-example.c ****  
+   7:../../../applications/examples/dns-example/src/dns-example.c **** #define IWDG_INTERVAL             5     //seconds
+ARM GAS  /tmp/cctgceem.s 			page 2
+
+
+   8:../../../applications/examples/dns-example/src/dns-example.c **** #define NBIOT_INTERVAL            30    //seconds
+   9:../../../applications/examples/dns-example/src/dns-example.c **** 
+  10:../../../applications/examples/dns-example/src/dns-example.c **** uint8_t nb_iot_init = 0;
+  11:../../../applications/examples/dns-example/src/dns-example.c **** STC3115_ConfigData_TypeDef STC3115_ConfigData;
+  12:../../../applications/examples/dns-example/src/dns-example.c **** uint64_t short_UID;
+  13:../../../applications/examples/dns-example/src/dns-example.c **** char* nb_iot_address;
+  14:../../../applications/examples/dns-example/src/dns-example.c **** 
+  15:../../../applications/examples/dns-example/src/dns-example.c **** int main(void)
+  16:../../../applications/examples/dns-example/src/dns-example.c **** {
+  17:../../../applications/examples/dns-example/src/dns-example.c ****   Initialize_Platform();
+  18:../../../applications/examples/dns-example/src/dns-example.c **** 
+  19:../../../applications/examples/dns-example/src/dns-example.c ****   // NB-IoT
+  20:../../../applications/examples/dns-example/src/dns-example.c ****   nb_iot_init = SARAN21X_Initialize();
+  21:../../../applications/examples/dns-example/src/dns-example.c ****   // Init the module's radio and network settings
+  22:../../../applications/examples/dns-example/src/dns-example.c ****   nb_iot_init = nb_iot_init && SARAN21X_init_module((const char *)NB_IOT_DNS_SERVER, 53);
+  23:../../../applications/examples/dns-example/src/dns-example.c **** 
+  24:../../../applications/examples/dns-example/src/dns-example.c ****   if (nb_iot_init)
+  25:../../../applications/examples/dns-example/src/dns-example.c ****   {
+  26:../../../applications/examples/dns-example/src/dns-example.c ****     SARAN21X_setApplicationRxCallback(&nb_iot_callback);
+  27:../../../applications/examples/dns-example/src/dns-example.c ****     printINF("NB-IoT module init OK\r\n\r\n");
+  28:../../../applications/examples/dns-example/src/dns-example.c ****   }
+  29:../../../applications/examples/dns-example/src/dns-example.c **** 
+  30:../../../applications/examples/dns-example/src/dns-example.c ****   //feed IWDG every 5 seconds
+  31:../../../applications/examples/dns-example/src/dns-example.c ****   IWDG_feed(NULL);
+  32:../../../applications/examples/dns-example/src/dns-example.c ****   osTimerDef(iwdgTim, IWDG_feed);
+  33:../../../applications/examples/dns-example/src/dns-example.c ****   iwdgTimId = osTimerCreate(osTimer(iwdgTim), osTimerPeriodic, NULL);
+  34:../../../applications/examples/dns-example/src/dns-example.c ****   osTimerStart(iwdgTimId, IWDG_INTERVAL * 1000);
+  35:../../../applications/examples/dns-example/src/dns-example.c ****   
+  36:../../../applications/examples/dns-example/src/dns-example.c ****   osTimerDef(nbIotTim, NB_IoT_send);
+  37:../../../applications/examples/dns-example/src/dns-example.c ****   nbIotTimId = osTimerCreate(osTimer(nbIotTim), osTimerPeriodic, NULL);
+  38:../../../applications/examples/dns-example/src/dns-example.c ****   osTimerStart(nbIotTimId, NBIOT_INTERVAL * 1000);
+  39:../../../applications/examples/dns-example/src/dns-example.c **** 
+  40:../../../applications/examples/dns-example/src/dns-example.c ****   osKernelStart();
+  41:../../../applications/examples/dns-example/src/dns-example.c **** 
+  42:../../../applications/examples/dns-example/src/dns-example.c ****   while (1)
+  43:../../../applications/examples/dns-example/src/dns-example.c ****   {
+  44:../../../applications/examples/dns-example/src/dns-example.c ****   }
+  45:../../../applications/examples/dns-example/src/dns-example.c **** }
+  46:../../../applications/examples/dns-example/src/dns-example.c **** 
+  47:../../../applications/examples/dns-example/src/dns-example.c **** void NB_IoT_send(void const *argument)
+  48:../../../applications/examples/dns-example/src/dns-example.c **** {
+  40              		.loc 1 48 1 view -0
+  41              		.cfi_startproc
+  42              		@ args = 0, pretend = 0, frame = 8
+  43              		@ frame_needed = 0, uses_anonymous_args = 0
+  44              		.loc 1 48 1 is_stmt 0 view .LVU1
+  45 0000 30B5     		push	{r4, r5, lr}
+  46              	.LCFI0:
+  47              		.cfi_def_cfa_offset 12
+  48              		.cfi_offset 4, -12
+  49              		.cfi_offset 5, -8
+  50              		.cfi_offset 14, -4
+  51 0002 83B0     		sub	sp, sp, #12
+  52              	.LCFI1:
+  53              		.cfi_def_cfa_offset 24
+  49:../../../applications/examples/dns-example/src/dns-example.c ****   if (nb_iot_init)
+  54              		.loc 1 49 3 is_stmt 1 view .LVU2
+ARM GAS  /tmp/cctgceem.s 			page 3
+
+
+  55              		.loc 1 49 7 is_stmt 0 view .LVU3
+  56 0004 0D4B     		ldr	r3, .L5
+  57 0006 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+  58              		.loc 1 49 6 view .LVU4
+  59 0008 9BB1     		cbz	r3, .L2
+  60              	.LBB2:
+  50:../../../applications/examples/dns-example/src/dns-example.c ****   {
+  51:../../../applications/examples/dns-example/src/dns-example.c ****     uint16_t length;
+  61              		.loc 1 51 5 is_stmt 1 view .LVU5
+  52:../../../applications/examples/dns-example/src/dns-example.c ****     uint8_t* nbIotMessage = generateRequest(NB_IOT_SERVER_NAME, &length);
+  62              		.loc 1 52 5 view .LVU6
+  63              		.loc 1 52 29 is_stmt 0 view .LVU7
+  64 000a 0D4D     		ldr	r5, .L5+4
+  65 000c 0DF10601 		add	r1, sp, #6
+  66 0010 2846     		mov	r0, r5
+  67              	.LVL1:
+  68              		.loc 1 52 29 view .LVU8
+  69 0012 FFF7FEFF 		bl	generateRequest
+  70              	.LVL2:
+  71 0016 0446     		mov	r4, r0
+  72              	.LVL3:
+  53:../../../applications/examples/dns-example/src/dns-example.c ****     printINF("Sending DNS request for %s.\r\n", NB_IOT_SERVER_NAME);
+  73              		.loc 1 53 5 is_stmt 1 view .LVU9
+  74 0018 2946     		mov	r1, r5
+  75 001a 0A48     		ldr	r0, .L5+8
+  76              	.LVL4:
+  77              		.loc 1 53 5 is_stmt 0 view .LVU10
+  78 001c FFF7FEFF 		bl	printINF
+  79              	.LVL5:
+  54:../../../applications/examples/dns-example/src/dns-example.c ****     nb_iot_init = SARAN21X_send(nbIotMessage, length);
+  80              		.loc 1 54 5 is_stmt 1 view .LVU11
+  81              		.loc 1 54 19 is_stmt 0 view .LVU12
+  82 0020 BDF80610 		ldrh	r1, [sp, #6]
+  83 0024 2046     		mov	r0, r4
+  84 0026 FFF7FEFF 		bl	SARAN21X_send
+  85              	.LVL6:
+  86              		.loc 1 54 17 view .LVU13
+  87 002a 044B     		ldr	r3, .L5
+  88 002c 1870     		strb	r0, [r3]
+  89              	.LVL7:
+  90              	.L1:
+  91              		.loc 1 54 17 view .LVU14
+  92              	.LBE2:
+  55:../../../applications/examples/dns-example/src/dns-example.c ****   }
+  56:../../../applications/examples/dns-example/src/dns-example.c ****   else{
+  57:../../../applications/examples/dns-example/src/dns-example.c ****     printINF("nb-iot not initialized, not sending.\r\n");
+  58:../../../applications/examples/dns-example/src/dns-example.c ****   }
+  59:../../../applications/examples/dns-example/src/dns-example.c **** }
+  93              		.loc 1 59 1 view .LVU15
+  94 002e 03B0     		add	sp, sp, #12
+  95              	.LCFI2:
+  96              		.cfi_remember_state
+  97              		.cfi_def_cfa_offset 12
+  98              		@ sp needed
+  99 0030 30BD     		pop	{r4, r5, pc}
+ 100              	.LVL8:
+ 101              	.L2:
+ARM GAS  /tmp/cctgceem.s 			page 4
+
+
+ 102              	.LCFI3:
+ 103              		.cfi_restore_state
+  57:../../../applications/examples/dns-example/src/dns-example.c ****   }
+ 104              		.loc 1 57 5 is_stmt 1 view .LVU16
+ 105 0032 0548     		ldr	r0, .L5+12
+ 106              	.LVL9:
+  57:../../../applications/examples/dns-example/src/dns-example.c ****   }
+ 107              		.loc 1 57 5 is_stmt 0 view .LVU17
+ 108 0034 FFF7FEFF 		bl	printINF
+ 109              	.LVL10:
+ 110              		.loc 1 59 1 view .LVU18
+ 111 0038 F9E7     		b	.L1
+ 112              	.L6:
+ 113 003a 00BF     		.align	2
+ 114              	.L5:
+ 115 003c 00000000 		.word	.LANCHOR0
+ 116 0040 00000000 		.word	.LC0
+ 117 0044 20000000 		.word	.LC1
+ 118 0048 40000000 		.word	.LC2
+ 119              		.cfi_endproc
+ 120              	.LFE132:
+ 122              		.section	.rodata.nb_iot_callback.str1.4,"aMS",%progbits,1
+ 123              		.align	2
+ 124              	.LC3:
+ 125 0000 0D0A00   		.ascii	"\015\012\000"
+ 126 0003 00       		.align	2
+ 127              	.LC4:
+ 128 0004 25303278 		.ascii	"%02x\000"
+ 128      00
+ 129 0009 000000   		.align	2
+ 130              	.LC5:
+ 131 000c 0D00     		.ascii	"\015\000"
+ 132 000e 0000     		.align	2
+ 133              	.LC6:
+ 134 0010 5265706C 		.ascii	"Reply received from DNS server. Address received: %"
+ 134      79207265 
+ 134      63656976 
+ 134      65642066 
+ 134      726F6D20 
+ 135 0043 730D0A00 		.ascii	"s\015\012\000"
+ 136 0047 00       		.align	2
+ 137              	.LC7:
+ 138 0048 444E5320 		.ascii	"DNS reply received. reply did not contain a valid I"
+ 138      7265706C 
+ 138      79207265 
+ 138      63656976 
+ 138      65642E20 
+ 139 007b 50206164 		.ascii	"P address\015\012\000"
+ 139      64726573 
+ 139      730D0A00 
+ 140              		.section	.text.nb_iot_callback,"ax",%progbits
+ 141              		.align	1
+ 142              		.global	nb_iot_callback
+ 143              		.syntax unified
+ 144              		.thumb
+ 145              		.thumb_func
+ 146              		.fpu fpv4-sp-d16
+ARM GAS  /tmp/cctgceem.s 			page 5
+
+
+ 148              	nb_iot_callback:
+ 149              	.LVL11:
+ 150              	.LFB133:
+  60:../../../applications/examples/dns-example/src/dns-example.c **** 
+  61:../../../applications/examples/dns-example/src/dns-example.c **** void nb_iot_callback (uint8_t *buffer, uint16_t len) 
+  62:../../../applications/examples/dns-example/src/dns-example.c **** {
+ 151              		.loc 1 62 1 is_stmt 1 view -0
+ 152              		.cfi_startproc
+ 153              		@ args = 0, pretend = 0, frame = 0
+ 154              		@ frame_needed = 0, uses_anonymous_args = 0
+ 155              		.loc 1 62 1 is_stmt 0 view .LVU20
+ 156 0000 70B5     		push	{r4, r5, r6, lr}
+ 157              	.LCFI4:
+ 158              		.cfi_def_cfa_offset 16
+ 159              		.cfi_offset 4, -16
+ 160              		.cfi_offset 5, -12
+ 161              		.cfi_offset 6, -8
+ 162              		.cfi_offset 14, -4
+ 163 0002 0646     		mov	r6, r0
+ 164 0004 0D46     		mov	r5, r1
+  63:../../../applications/examples/dns-example/src/dns-example.c ****   printDBG("\r\n");
+ 165              		.loc 1 63 3 is_stmt 1 view .LVU21
+ 166 0006 0F48     		ldr	r0, .L14
+ 167              	.LVL12:
+ 168              		.loc 1 63 3 is_stmt 0 view .LVU22
+ 169 0008 FFF7FEFF 		bl	printDBG
+ 170              	.LVL13:
+  64:../../../applications/examples/dns-example/src/dns-example.c ****   #if DEBUG
+  65:../../../applications/examples/dns-example/src/dns-example.c ****     for (int i = 0; i < len; ++i) {
+ 171              		.loc 1 65 5 is_stmt 1 view .LVU23
+ 172              	.LBB3:
+ 173              		.loc 1 65 10 view .LVU24
+ 174              		.loc 1 65 14 is_stmt 0 view .LVU25
+ 175 000c 0024     		movs	r4, #0
+ 176              	.LVL14:
+ 177              	.L8:
+ 178              		.loc 1 65 21 is_stmt 1 discriminator 1 view .LVU26
+ 179              		.loc 1 65 5 is_stmt 0 discriminator 1 view .LVU27
+ 180 000e A542     		cmp	r5, r4
+ 181 0010 05DD     		ble	.L13
+  66:../../../applications/examples/dns-example/src/dns-example.c ****       printf("%02x", buffer[i]);
+ 182              		.loc 1 66 7 is_stmt 1 discriminator 3 view .LVU28
+ 183 0012 315D     		ldrb	r1, [r6, r4]	@ zero_extendqisi2
+ 184 0014 0C48     		ldr	r0, .L14+4
+ 185 0016 FFF7FEFF 		bl	printf
+ 186              	.LVL15:
+  65:../../../applications/examples/dns-example/src/dns-example.c ****       printf("%02x", buffer[i]);
+ 187              		.loc 1 65 30 discriminator 3 view .LVU29
+ 188 001a 0134     		adds	r4, r4, #1
+ 189              	.LVL16:
+  65:../../../applications/examples/dns-example/src/dns-example.c ****       printf("%02x", buffer[i]);
+ 190              		.loc 1 65 30 is_stmt 0 discriminator 3 view .LVU30
+ 191 001c F7E7     		b	.L8
+ 192              	.L13:
+  65:../../../applications/examples/dns-example/src/dns-example.c ****       printf("%02x", buffer[i]);
+ 193              		.loc 1 65 30 discriminator 3 view .LVU31
+ 194              	.LBE3:
+ARM GAS  /tmp/cctgceem.s 			page 6
+
+
+  67:../../../applications/examples/dns-example/src/dns-example.c ****     }
+  68:../../../applications/examples/dns-example/src/dns-example.c ****     printf("\r\n");
+ 195              		.loc 1 68 5 is_stmt 1 view .LVU32
+ 196 001e 0B48     		ldr	r0, .L14+8
+ 197 0020 FFF7FEFF 		bl	puts
+ 198              	.LVL17:
+  69:../../../applications/examples/dns-example/src/dns-example.c ****   #endif
+  70:../../../applications/examples/dns-example/src/dns-example.c **** 
+  71:../../../applications/examples/dns-example/src/dns-example.c ****   nb_iot_address = parseReply(buffer, len);
+ 199              		.loc 1 71 3 view .LVU33
+ 200              		.loc 1 71 20 is_stmt 0 view .LVU34
+ 201 0024 2946     		mov	r1, r5
+ 202 0026 3046     		mov	r0, r6
+ 203 0028 FFF7FEFF 		bl	parseReply
+ 204              	.LVL18:
+ 205 002c 0146     		mov	r1, r0
+ 206              		.loc 1 71 18 view .LVU35
+ 207 002e 084B     		ldr	r3, .L14+12
+ 208 0030 1860     		str	r0, [r3]
+  72:../../../applications/examples/dns-example/src/dns-example.c **** 
+  73:../../../applications/examples/dns-example/src/dns-example.c ****   if (nb_iot_address) {
+ 209              		.loc 1 73 3 is_stmt 1 view .LVU36
+ 210              		.loc 1 73 6 is_stmt 0 view .LVU37
+ 211 0032 18B1     		cbz	r0, .L10
+  74:../../../applications/examples/dns-example/src/dns-example.c ****     printINF("Reply received from DNS server. Address received: %s\r\n", nb_iot_address);
+ 212              		.loc 1 74 5 is_stmt 1 view .LVU38
+ 213 0034 0748     		ldr	r0, .L14+16
+ 214 0036 FFF7FEFF 		bl	printINF
+ 215              	.LVL19:
+ 216              	.L7:
+  75:../../../applications/examples/dns-example/src/dns-example.c ****   } else {
+  76:../../../applications/examples/dns-example/src/dns-example.c ****     printINF("DNS reply received. reply did not contain a valid IP address\r\n");
+  77:../../../applications/examples/dns-example/src/dns-example.c ****   }
+  78:../../../applications/examples/dns-example/src/dns-example.c **** }...
+ 217              		.loc 1 78 1 is_stmt 0 view .LVU39
+ 218 003a 70BD     		pop	{r4, r5, r6, pc}
+ 219              	.LVL20:
+ 220              	.L10:
+  76:../../../applications/examples/dns-example/src/dns-example.c ****     printINF("DNS reply received. reply did not contain a valid IP address\r\n");
+ 221              		.loc 1 76 5 is_stmt 1 view .LVU40
+ 222 003c 0648     		ldr	r0, .L14+20
+ 223 003e FFF7FEFF 		bl	printINF
+ 224              	.LVL21:
+ 225              		.loc 1 78 1 is_stmt 0 view .LVU41
+ 226 0042 FAE7     		b	.L7
+ 227              	.L15:
+ 228              		.align	2
+ 229              	.L14:
+ 230 0044 00000000 		.word	.LC3
+ 231 0048 04000000 		.word	.LC4
+ 232 004c 0C000000 		.word	.LC5
+ 233 0050 00000000 		.word	nb_iot_address
+ 234 0054 10000000 		.word	.LC6
+ 235 0058 48000000 		.word	.LC7
+ 236              		.cfi_endproc
+ 237              	.LFE133:
+ 239              		.section	.rodata.main.str1.4,"aMS",%progbits,1
+ARM GAS  /tmp/cctgceem.s 			page 7
+
+
+ 240              		.align	2
+ 241              	.LC8:
+ 242 0000 382E382E 		.ascii	"8.8.8.8\000"
+ 242      382E3800 
+ 243              		.align	2
+ 244              	.LC9:
+ 245 0008 4E422D49 		.ascii	"NB-IoT module init OK\015\012\015\012\000"
+ 245      6F54206D 
+ 245      6F64756C 
+ 245      6520696E 
+ 245      6974204F 
+ 246              		.section	.text.main,"ax",%progbits
+ 247              		.align	1
+ 248              		.global	main
+ 249              		.syntax unified
+ 250              		.thumb
+ 251              		.thumb_func
+ 252              		.fpu fpv4-sp-d16
+ 254              	main:
+ 255              	.LFB131:
+  16:../../../applications/examples/dns-example/src/dns-example.c **** {
+ 256              		.loc 1 16 1 is_stmt 1 view -0
+ 257              		.cfi_startproc
+ 258              		@ Volatile: function does not return.
+ 259              		@ args = 0, pretend = 0, frame = 8
+ 260              		@ frame_needed = 0, uses_anonymous_args = 0
+ 261 0000 00B5     		push	{lr}
+ 262              	.LCFI5:
+ 263              		.cfi_def_cfa_offset 4
+ 264              		.cfi_offset 14, -4
+ 265 0002 83B0     		sub	sp, sp, #12
+ 266              	.LCFI6:
+ 267              		.cfi_def_cfa_offset 16
+  17:../../../applications/examples/dns-example/src/dns-example.c ****   Initialize_Platform();
+ 268              		.loc 1 17 3 view .LVU43
+ 269 0004 FFF7FEFF 		bl	Initialize_Platform
+ 270              	.LVL22:
+  20:../../../applications/examples/dns-example/src/dns-example.c ****   nb_iot_init = SARAN21X_Initialize();
+ 271              		.loc 1 20 3 view .LVU44
+  20:../../../applications/examples/dns-example/src/dns-example.c ****   nb_iot_init = SARAN21X_Initialize();
+ 272              		.loc 1 20 17 is_stmt 0 view .LVU45
+ 273 0008 FFF7FEFF 		bl	SARAN21X_Initialize
+ 274              	.LVL23:
+  20:../../../applications/examples/dns-example/src/dns-example.c ****   nb_iot_init = SARAN21X_Initialize();
+ 275              		.loc 1 20 15 view .LVU46
+ 276 000c 1B4A     		ldr	r2, .L25
+ 277 000e 1070     		strb	r0, [r2]
+  22:../../../applications/examples/dns-example/src/dns-example.c ****   nb_iot_init = nb_iot_init && SARAN21X_init_module((const char *)NB_IOT_DNS_SERVER, 53);
+ 278              		.loc 1 22 3 is_stmt 1 view .LVU47
+  22:../../../applications/examples/dns-example/src/dns-example.c ****   nb_iot_init = nb_iot_init && SARAN21X_init_module((const char *)NB_IOT_DNS_SERVER, 53);
+ 279              		.loc 1 22 29 is_stmt 0 view .LVU48
+ 280 0010 20BB     		cbnz	r0, .L23
+ 281 0012 0023     		movs	r3, #0
+ 282              	.L17:
+  22:../../../applications/examples/dns-example/src/dns-example.c ****   nb_iot_init = nb_iot_init && SARAN21X_init_module((const char *)NB_IOT_DNS_SERVER, 53);
+ 283              		.loc 1 22 15 discriminator 6 view .LVU49
+ 284 0014 DBB2     		uxtb	r3, r3
+ARM GAS  /tmp/cctgceem.s 			page 8
+
+
+ 285 0016 194A     		ldr	r2, .L25
+ 286 0018 1370     		strb	r3, [r2]
+  24:../../../applications/examples/dns-example/src/dns-example.c ****   if (nb_iot_init)
+ 287              		.loc 1 24 3 is_stmt 1 discriminator 6 view .LVU50
+  24:../../../applications/examples/dns-example/src/dns-example.c ****   if (nb_iot_init)
+ 288              		.loc 1 24 6 is_stmt 0 discriminator 6 view .LVU51
+ 289 001a 43BB     		cbnz	r3, .L24
+ 290              	.L18:
+  31:../../../applications/examples/dns-example/src/dns-example.c ****   IWDG_feed(NULL);
+ 291              		.loc 1 31 3 is_stmt 1 view .LVU52
+ 292 001c 0020     		movs	r0, #0
+ 293 001e FFF7FEFF 		bl	IWDG_feed
+ 294              	.LVL24:
+  32:../../../applications/examples/dns-example/src/dns-example.c ****   osTimerDef(iwdgTim, IWDG_feed);
+ 295              		.loc 1 32 3 view .LVU53
+ 296 0022 174B     		ldr	r3, .L25+4
+ 297 0024 0193     		str	r3, [sp, #4]
+  33:../../../applications/examples/dns-example/src/dns-example.c ****   iwdgTimId = osTimerCreate(osTimer(iwdgTim), osTimerPeriodic, NULL);
+ 298              		.loc 1 33 3 view .LVU54
+  33:../../../applications/examples/dns-example/src/dns-example.c ****   iwdgTimId = osTimerCreate(osTimer(iwdgTim), osTimerPeriodic, NULL);
+ 299              		.loc 1 33 15 is_stmt 0 view .LVU55
+ 300 0026 0022     		movs	r2, #0
+ 301 0028 0121     		movs	r1, #1
+ 302 002a 01A8     		add	r0, sp, #4
+ 303 002c FFF7FEFF 		bl	osTimerCreate
+ 304              	.LVL25:
+  33:../../../applications/examples/dns-example/src/dns-example.c ****   iwdgTimId = osTimerCreate(osTimer(iwdgTim), osTimerPeriodic, NULL);
+ 305              		.loc 1 33 13 view .LVU56
+ 306 0030 144B     		ldr	r3, .L25+8
+ 307 0032 1860     		str	r0, [r3]
+  34:../../../applications/examples/dns-example/src/dns-example.c ****   osTimerStart(iwdgTimId, IWDG_INTERVAL * 1000);
+ 308              		.loc 1 34 3 is_stmt 1 view .LVU57
+ 309 0034 41F28831 		movw	r1, #5000
+ 310 0038 FFF7FEFF 		bl	osTimerStart
+ 311              	.LVL26:
+  36:../../../applications/examples/dns-example/src/dns-example.c ****   osTimerDef(nbIotTim, NB_IoT_send);
+ 312              		.loc 1 36 3 view .LVU58
+ 313 003c 124B     		ldr	r3, .L25+12
+ 314 003e 0093     		str	r3, [sp]
+  37:../../../applications/examples/dns-example/src/dns-example.c ****   nbIotTimId = osTimerCreate(osTimer(nbIotTim), osTimerPeriodic, NULL);
+ 315              		.loc 1 37 3 view .LVU59
+  37:../../../applications/examples/dns-example/src/dns-example.c ****   nbIotTimId = osTimerCreate(osTimer(nbIotTim), osTimerPeriodic, NULL);
+ 316              		.loc 1 37 16 is_stmt 0 view .LVU60
+ 317 0040 0022     		movs	r2, #0
+ 318 0042 0121     		movs	r1, #1
+ 319 0044 6846     		mov	r0, sp
+ 320 0046 FFF7FEFF 		bl	osTimerCreate
+ 321              	.LVL27:
+  37:../../../applications/examples/dns-example/src/dns-example.c ****   nbIotTimId = osTimerCreate(osTimer(nbIotTim), osTimerPeriodic, NULL);
+ 322              		.loc 1 37 14 view .LVU61
+ 323 004a 104B     		ldr	r3, .L25+16
+ 324 004c 1860     		str	r0, [r3]
+  38:../../../applications/examples/dns-example/src/dns-example.c ****   osTimerStart(nbIotTimId, NBIOT_INTERVAL * 1000);
+ 325              		.loc 1 38 3 is_stmt 1 view .LVU62
+ 326 004e 47F23051 		movw	r1, #30000
+ 327 0052 FFF7FEFF 		bl	osTimerStart
+ 328              	.LVL28:
+ARM GAS  /tmp/cctgceem.s 			page 9
+
+
+  40:../../../applications/examples/dns-example/src/dns-example.c ****   osKernelStart();
+ 329              		.loc 1 40 3 view .LVU63
+ 330 0056 FFF7FEFF 		bl	osKernelStart
+ 331              	.LVL29:
+ 332              	.L19:
+  42:../../../applications/examples/dns-example/src/dns-example.c ****   while (1)
+ 333              		.loc 1 42 3 discriminator 1 view .LVU64
+  44:../../../applications/examples/dns-example/src/dns-example.c ****   }
+ 334              		.loc 1 44 3 discriminator 1 view .LVU65
+  42:../../../applications/examples/dns-example/src/dns-example.c ****   while (1)
+ 335              		.loc 1 42 9 discriminator 1 view .LVU66
+ 336 005a FEE7     		b	.L19
+ 337              	.L23:
+  22:../../../applications/examples/dns-example/src/dns-example.c ****   nb_iot_init = nb_iot_init && SARAN21X_init_module((const char *)NB_IOT_DNS_SERVER, 53);
+ 338              		.loc 1 22 32 is_stmt 0 discriminator 1 view .LVU67
+ 339 005c 3521     		movs	r1, #53
+ 340 005e 0C48     		ldr	r0, .L25+20
+ 341 0060 FFF7FEFF 		bl	SARAN21X_init_module
+ 342              	.LVL30:
+  22:../../../applications/examples/dns-example/src/dns-example.c ****   nb_iot_init = nb_iot_init && SARAN21X_init_module((const char *)NB_IOT_DNS_SERVER, 53);
+ 343              		.loc 1 22 29 discriminator 1 view .LVU68
+ 344 0064 08B1     		cbz	r0, .L21
+  22:../../../applications/examples/dns-example/src/dns-example.c ****   nb_iot_init = nb_iot_init && SARAN21X_init_module((const char *)NB_IOT_DNS_SERVER, 53);
+ 345              		.loc 1 22 29 view .LVU69
+ 346 0066 0123     		movs	r3, #1
+ 347 0068 D4E7     		b	.L17
+ 348              	.L21:
+ 349 006a 0023     		movs	r3, #0
+ 350 006c D2E7     		b	.L17
+ 351              	.L24:
+  26:../../../applications/examples/dns-example/src/dns-example.c ****     SARAN21X_setApplicationRxCallback(&nb_iot_callback);
+ 352              		.loc 1 26 5 is_stmt 1 view .LVU70
+ 353 006e 0948     		ldr	r0, .L25+24
+ 354 0070 FFF7FEFF 		bl	SARAN21X_setApplicationRxCallback
+ 355              	.LVL31:
+  27:../../../applications/examples/dns-example/src/dns-example.c ****     printINF("NB-IoT module init OK\r\n\r\n");
+ 356              		.loc 1 27 5 view .LVU71
+ 357 0074 0848     		ldr	r0, .L25+28
+ 358 0076 FFF7FEFF 		bl	printINF
+ 359              	.LVL32:
+ 360 007a CFE7     		b	.L18
+ 361              	.L26:
+ 362              		.align	2
+ 363              	.L25:
+ 364 007c 00000000 		.word	.LANCHOR0
+ 365 0080 00000000 		.word	IWDG_feed
+ 366 0084 00000000 		.word	iwdgTimId
+ 367 0088 00000000 		.word	NB_IoT_send
+ 368 008c 00000000 		.word	nbIotTimId
+ 369 0090 00000000 		.word	.LC8
+ 370 0094 00000000 		.word	nb_iot_callback
+ 371 0098 08000000 		.word	.LC9
+ 372              		.cfi_endproc
+ 373              	.LFE131:
+ 375              		.comm	nb_iot_address,4,4
+ 376              		.comm	STC3115_ConfigData,48,4
+ 377              		.global	nb_iot_init
+ARM GAS  /tmp/cctgceem.s 			page 10
+
+
+ 378              		.comm	tx_power_struct,4,4
+ 379              		.comm	cell_id_struct,4,4
+ 380              		.comm	imsi_number,8,8
+ 381              		.comm	nb_iot_reset_pin,4,4
+ 382              		.comm	txMutexId,4,4
+ 383              		.comm	moduleCheckTimId,4,4
+ 384              		.comm	nbIotTimId,4,4
+ 385              		.comm	iwdgTimId,4,4
+ 386              		.comm	murata_rx_processing_handle,4,4
+ 387              		.comm	defaultTaskHandle,4,4
+ 388              		.comm	P3_header,44,4
+ 389              		.comm	P2_header,44,4
+ 390              		.comm	P1_header,44,4
+ 391              		.comm	stackversion_patch,1,1
+ 392              		.comm	stackversion_minor,1,1
+ 393              		.comm	stackversion_major,1,1
+ 394              		.comm	appversion_patch,1,1
+ 395              		.comm	appversion_minor,1,1
+ 396              		.comm	appversion_major,1,1
+ 397              		.comm	short_UID,8,8
+ 398              		.comm	hard_reset,1,1
+ 399              		.comm	wd_reset,1,1
+ 400              		.comm	octa_uid,8,8
+ 401              		.comm	float_union,4,4
+ 402              		.comm	uint16LittleEndian,2,4
+ 403              		.comm	int16LittleEndian,2,4
+ 404              		.comm	uint32LittleEndian,4,4
+ 405              		.comm	int32LittleEndian,4,4
+ 406              		.comm	rtosprintHandle,4,4
+ 407              		.comm	hrtc,36,4
+ 408              		.comm	FLASH_SPI,100,4
+ 409              		.comm	P3_SPI,100,4
+ 410              		.comm	P2_SPI,100,4
+ 411              		.comm	P1_SPI,100,4
+ 412              		.comm	P3_I2C,76,4
+ 413              		.comm	P2_I2C,76,4
+ 414              		.comm	P1_I2C,76,4
+ 415              		.comm	common_I2C,76,4
+ 416              		.comm	P3_UART,120,4
+ 417              		.comm	P2_UART,120,4
+ 418              		.comm	P1_UART,120,4
+ 419              		.comm	FTDI_UART,120,4
+ 420              		.comm	BLE_UART,120,4
+ 421              		.comm	USB_UART,120,4
+ 422              		.comm	hiwdg,16,4
+ 423              		.comm	P3_DIO6,8,4
+ 424              		.comm	P3_DIO5,8,4
+ 425              		.comm	P3_DIO4,8,4
+ 426              		.comm	P3_DIO3,8,4
+ 427              		.comm	P3_DIO2,8,4
+ 428              		.comm	P3_DIO1,8,4
+ 429              		.comm	P2_DIO6,8,4
+ 430              		.comm	P2_DIO5,8,4
+ 431              		.comm	P2_DIO4,8,4
+ 432              		.comm	P2_DIO3,8,4
+ 433              		.comm	P2_DIO2,8,4
+ 434              		.comm	P2_DIO1,8,4
+ARM GAS  /tmp/cctgceem.s 			page 11
+
+
+ 435              		.comm	P1_DIO6,8,4
+ 436              		.comm	P1_DIO5,8,4
+ 437              		.comm	P1_DIO4,8,4
+ 438              		.comm	P1_DIO3,8,4
+ 439              		.comm	P1_DIO2,8,4
+ 440              		.comm	P1_DIO1,8,4
+ 441              		.comm	htim6,64,4
+ 442              		.comm	htim1,64,4
+ 443              		.section	.bss.nb_iot_init,"aw",%nobits
+ 444              		.set	.LANCHOR0,. + 0
+ 447              	nb_iot_init:
+ 448 0000 00       		.space	1
+ 449              		.text
+ 450              	.Letext0:
+ 451              		.file 2 "/usr/arm-none-eabi/include/machine/_default_types.h"
+ 452              		.file 3 "/usr/arm-none-eabi/include/sys/_stdint.h"
+ 453              		.file 4 "../../../core/ST/CMSIS/Include/core_cm4.h"
+ 454              		.file 5 "../../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/system_stm32l4xx.h"
+ 455              		.file 6 "../../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/stm32l496xx.h"
+ 456              		.file 7 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h"
+ 457              		.file 8 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_dma.h"
+ 458              		.file 9 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_i2c.h"
+ 459              		.file 10 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_iwdg.h"
+ 460              		.file 11 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rtc.h"
+ 461              		.file 12 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_spi.h"
+ 462              		.file 13 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_tim.h"
+ 463              		.file 14 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h"
+ 464              		.file 15 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h"
+ 465              		.file 16 "../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/include/task.h"
+ 466              		.file 17 "../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/include/timers.h"
+ 467              		.file 18 "../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/include/queue.h"
+ 468              		.file 19 "../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/include/semphr.h"
+ 469              		.file 20 "../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h"
+ 470              		.file 21 "../../../core/platform/octa/inc/sysclock.h"
+ 471              		.file 22 "../../../core/platform/octa/inc/gpio.h"
+ 472              		.file 23 "../../../core/platform/octa/inc/iwdg.h"
+ 473              		.file 24 "../../../core/platform/octa/inc/uart.h"
+ 474              		.file 25 "../../../core/platform/octa/inc/i2c.h"
+ 475              		.file 26 "../../../core/platform/octa/inc/spi.h"
+ 476              		.file 27 "../../../core/platform/octa/inc/rtc.h"
+ 477              		.file 28 "../../../core/platform/octa/inc/rtosincludes.h"
+ 478              		.file 29 "/usr/arm-none-eabi/include/sys/lock.h"
+ 479              		.file 30 "/usr/arm-none-eabi/include/sys/_types.h"
+ 480              		.file 31 "/usr/lib/gcc/arm-none-eabi/9.2.1/include/stddef.h"
+ 481              		.file 32 "/usr/arm-none-eabi/include/sys/reent.h"
+ 482              		.file 33 "../../../core/platform/common/inc/datatypes.h"
+ 483              		.file 34 "../../../core/platform/octa/inc/platform.h"
+ 484              		.file 35 "../../../applications/examples/dns-example/inc/dns-example.h"
+ 485              		.file 36 "/usr/arm-none-eabi/include/stdlib.h"
+ 486              		.file 37 "../../../shields/NB-IoT/inc/SARAN21X.h"
+ 487              		.file 38 "../../../core/platform/octa/drivers/STC3115/inc/stc3115.h"
+ 488              		.file 39 "/usr/arm-none-eabi/include/stdio.h"
+ 489              		.file 40 "../../../core/platform/common/inc/print.h"
+ 490              		.file 41 "../../../core/drivers/DNS/inc/dns.h"
+ 491              		.file 42 "<built-in>"
+ARM GAS  /tmp/cctgceem.s 			page 12
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 dns-example.c
+     /tmp/cctgceem.s:18     .rodata.NB_IoT_send.str1.4:0000000000000000 $d
+     /tmp/cctgceem.s:28     .text.NB_IoT_send:0000000000000000 $t
+     /tmp/cctgceem.s:36     .text.NB_IoT_send:0000000000000000 NB_IoT_send
+     /tmp/cctgceem.s:115    .text.NB_IoT_send:000000000000003c $d
+     /tmp/cctgceem.s:123    .rodata.nb_iot_callback.str1.4:0000000000000000 $d
+     /tmp/cctgceem.s:141    .text.nb_iot_callback:0000000000000000 $t
+     /tmp/cctgceem.s:148    .text.nb_iot_callback:0000000000000000 nb_iot_callback
+     /tmp/cctgceem.s:230    .text.nb_iot_callback:0000000000000044 $d
+                            *COM*:0000000000000004 nb_iot_address
+     /tmp/cctgceem.s:240    .rodata.main.str1.4:0000000000000000 $d
+     /tmp/cctgceem.s:247    .text.main:0000000000000000 $t
+     /tmp/cctgceem.s:254    .text.main:0000000000000000 main
+     /tmp/cctgceem.s:364    .text.main:000000000000007c $d
+                            *COM*:0000000000000004 iwdgTimId
+                            *COM*:0000000000000004 nbIotTimId
+                            *COM*:0000000000000030 STC3115_ConfigData
+     /tmp/cctgceem.s:447    .bss.nb_iot_init:0000000000000000 nb_iot_init
+                            *COM*:0000000000000004 tx_power_struct
+                            *COM*:0000000000000004 cell_id_struct
+                            *COM*:0000000000000008 imsi_number
+                            *COM*:0000000000000004 nb_iot_reset_pin
+                            *COM*:0000000000000004 txMutexId
+                            *COM*:0000000000000004 moduleCheckTimId
+                            *COM*:0000000000000004 murata_rx_processing_handle
+                            *COM*:0000000000000004 defaultTaskHandle
+                            *COM*:000000000000002c P3_header
+                            *COM*:000000000000002c P2_header
+                            *COM*:000000000000002c P1_header
+                            *COM*:0000000000000001 stackversion_patch
+                            *COM*:0000000000000001 stackversion_minor
+                            *COM*:0000000000000001 stackversion_major
+                            *COM*:0000000000000001 appversion_patch
+                            *COM*:0000000000000001 appversion_minor
+                            *COM*:0000000000000001 appversion_major
+                            *COM*:0000000000000008 short_UID
+                            *COM*:0000000000000001 hard_reset
+                            *COM*:0000000000000001 wd_reset
+                            *COM*:0000000000000008 octa_uid
+                            *COM*:0000000000000004 float_union
+                            *COM*:0000000000000002 uint16LittleEndian
+                            *COM*:0000000000000002 int16LittleEndian
+                            *COM*:0000000000000004 uint32LittleEndian
+                            *COM*:0000000000000004 int32LittleEndian
+                            *COM*:0000000000000004 rtosprintHandle
+                            *COM*:0000000000000024 hrtc
+                            *COM*:0000000000000064 FLASH_SPI
+                            *COM*:0000000000000064 P3_SPI
+                            *COM*:0000000000000064 P2_SPI
+                            *COM*:0000000000000064 P1_SPI
+                            *COM*:000000000000004c P3_I2C
+                            *COM*:000000000000004c P2_I2C
+                            *COM*:000000000000004c P1_I2C
+                            *COM*:000000000000004c common_I2C
+                            *COM*:0000000000000078 P3_UART
+                            *COM*:0000000000000078 P2_UART
+ARM GAS  /tmp/cctgceem.s 			page 13
+
+
+                            *COM*:0000000000000078 P1_UART
+                            *COM*:0000000000000078 FTDI_UART
+                            *COM*:0000000000000078 BLE_UART
+                            *COM*:0000000000000078 USB_UART
+                            *COM*:0000000000000010 hiwdg
+                            *COM*:0000000000000008 P3_DIO6
+                            *COM*:0000000000000008 P3_DIO5
+                            *COM*:0000000000000008 P3_DIO4
+                            *COM*:0000000000000008 P3_DIO3
+                            *COM*:0000000000000008 P3_DIO2
+                            *COM*:0000000000000008 P3_DIO1
+                            *COM*:0000000000000008 P2_DIO6
+                            *COM*:0000000000000008 P2_DIO5
+                            *COM*:0000000000000008 P2_DIO4
+                            *COM*:0000000000000008 P2_DIO3
+                            *COM*:0000000000000008 P2_DIO2
+                            *COM*:0000000000000008 P2_DIO1
+                            *COM*:0000000000000008 P1_DIO6
+                            *COM*:0000000000000008 P1_DIO5
+                            *COM*:0000000000000008 P1_DIO4
+                            *COM*:0000000000000008 P1_DIO3
+                            *COM*:0000000000000008 P1_DIO2
+                            *COM*:0000000000000008 P1_DIO1
+                            *COM*:0000000000000040 htim6
+                            *COM*:0000000000000040 htim1
+     /tmp/cctgceem.s:448    .bss.nb_iot_init:0000000000000000 $d
+
+UNDEFINED SYMBOLS
+generateRequest
+printINF
+SARAN21X_send
+printDBG
+printf
+puts
+parseReply
+Initialize_Platform
+SARAN21X_Initialize
+IWDG_feed
+osTimerCreate
+osTimerStart
+osKernelStart
+SARAN21X_init_module
+SARAN21X_setApplicationRxCallback

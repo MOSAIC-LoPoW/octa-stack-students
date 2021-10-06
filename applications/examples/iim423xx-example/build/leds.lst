@@ -1,0 +1,758 @@
+ARM GAS  /tmp/ccYFR9v7.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 28, 1
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.file	"leds.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.text.OCTA_LED_set_rgb,"ax",%progbits
+  18              		.align	1
+  19              		.global	OCTA_LED_set_rgb
+  20              		.arch armv7e-m
+  21              		.syntax unified
+  22              		.thumb
+  23              		.thumb_func
+  24              		.fpu fpv4-sp-d16
+  26              	OCTA_LED_set_rgb:
+  27              	.LVL0:
+  28              	.LFB124:
+  29              		.file 1 "../../../core/platform/octa/src/leds.c"
+   1:../../../core/platform/octa/src/leds.c **** #include "leds.h"
+   2:../../../core/platform/octa/src/leds.c **** 
+   3:../../../core/platform/octa/src/leds.c **** TIM_HandleTypeDef htim3;
+   4:../../../core/platform/octa/src/leds.c **** TIM_HandleTypeDef htim4;
+   5:../../../core/platform/octa/src/leds.c **** 
+   6:../../../core/platform/octa/src/leds.c **** void OCTA_LED_PWM_Init(void)
+   7:../../../core/platform/octa/src/leds.c **** {
+   8:../../../core/platform/octa/src/leds.c ****     MX_TIM3_Init();
+   9:../../../core/platform/octa/src/leds.c ****     MX_TIM4_Init();
+  10:../../../core/platform/octa/src/leds.c ****     /* USER CODE BEGIN 2 */
+  11:../../../core/platform/octa/src/leds.c **** 
+  12:../../../core/platform/octa/src/leds.c ****     HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_3);
+  13:../../../core/platform/octa/src/leds.c ****     HAL_TIM_PWM_Start(&htim4, TIM_CHANNEL_3);
+  14:../../../core/platform/octa/src/leds.c ****     HAL_TIM_PWM_Start(&htim4, TIM_CHANNEL_4);
+  15:../../../core/platform/octa/src/leds.c ****     OCTA_LED_set_rgb(0, 0, 0);
+  16:../../../core/platform/octa/src/leds.c **** }
+  17:../../../core/platform/octa/src/leds.c **** 
+  18:../../../core/platform/octa/src/leds.c **** void OCTA_LED_set_rgb(uint8_t red, uint8_t green, uint8_t blue)
+  19:../../../core/platform/octa/src/leds.c **** {
+  30              		.loc 1 19 1 view -0
+  31              		.cfi_startproc
+  32              		@ args = 0, pretend = 0, frame = 0
+  33              		@ frame_needed = 0, uses_anonymous_args = 0
+  34              		@ link register save eliminated.
+  35              		.loc 1 19 1 is_stmt 0 view .LVU1
+  36 0000 10B4     		push	{r4}
+  37              	.LCFI0:
+  38              		.cfi_def_cfa_offset 4
+  39              		.cfi_offset 4, -4
+ARM GAS  /tmp/ccYFR9v7.s 			page 2
+
+
+  20:../../../core/platform/octa/src/leds.c ****   htim4.Instance->CCR3 = 65535 - red*256;
+  40              		.loc 1 20 3 is_stmt 1 view .LVU2
+  41              		.loc 1 20 8 is_stmt 0 view .LVU3
+  42 0002 094B     		ldr	r3, .L3
+  43 0004 1C68     		ldr	r4, [r3]
+  44              		.loc 1 20 32 view .LVU4
+  45 0006 4FF6FF73 		movw	r3, #65535
+  46 000a A3EB0020 		sub	r0, r3, r0, lsl #8
+  47              	.LVL1:
+  48              		.loc 1 20 24 view .LVU5
+  49 000e E063     		str	r0, [r4, #60]
+  21:../../../core/platform/octa/src/leds.c ****   htim3.Instance->CCR3 = 65535 - green*256;
+  50              		.loc 1 21 3 is_stmt 1 view .LVU6
+  51              		.loc 1 21 8 is_stmt 0 view .LVU7
+  52 0010 0648     		ldr	r0, .L3+4
+  53 0012 0068     		ldr	r0, [r0]
+  54              		.loc 1 21 32 view .LVU8
+  55 0014 A3EB0121 		sub	r1, r3, r1, lsl #8
+  56              	.LVL2:
+  57              		.loc 1 21 24 view .LVU9
+  58 0018 C163     		str	r1, [r0, #60]
+  22:../../../core/platform/octa/src/leds.c ****   htim4.Instance->CCR4 = 65535 - blue*256;
+  59              		.loc 1 22 3 is_stmt 1 view .LVU10
+  60              		.loc 1 22 32 is_stmt 0 view .LVU11
+  61 001a A3EB0223 		sub	r3, r3, r2, lsl #8
+  62              		.loc 1 22 24 view .LVU12
+  63 001e 2364     		str	r3, [r4, #64]
+  23:../../../core/platform/octa/src/leds.c **** }
+  64              		.loc 1 23 1 view .LVU13
+  65 0020 5DF8044B 		ldr	r4, [sp], #4
+  66              	.LCFI1:
+  67              		.cfi_restore 4
+  68              		.cfi_def_cfa_offset 0
+  69 0024 7047     		bx	lr
+  70              	.L4:
+  71 0026 00BF     		.align	2
+  72              	.L3:
+  73 0028 00000000 		.word	htim4
+  74 002c 00000000 		.word	htim3
+  75              		.cfi_endproc
+  76              	.LFE124:
+  78              		.section	.text.MX_TIM3_Init,"ax",%progbits
+  79              		.align	1
+  80              		.global	MX_TIM3_Init
+  81              		.syntax unified
+  82              		.thumb
+  83              		.thumb_func
+  84              		.fpu fpv4-sp-d16
+  86              	MX_TIM3_Init:
+  87              	.LFB125:
+  24:../../../core/platform/octa/src/leds.c **** 
+  25:../../../core/platform/octa/src/leds.c **** void MX_TIM3_Init(void)
+  26:../../../core/platform/octa/src/leds.c **** {
+  88              		.loc 1 26 1 is_stmt 1 view -0
+  89              		.cfi_startproc
+  90              		@ args = 0, pretend = 0, frame = 56
+  91              		@ frame_needed = 0, uses_anonymous_args = 0
+ARM GAS  /tmp/ccYFR9v7.s 			page 3
+
+
+  92 0000 00B5     		push	{lr}
+  93              	.LCFI2:
+  94              		.cfi_def_cfa_offset 4
+  95              		.cfi_offset 14, -4
+  96 0002 8FB0     		sub	sp, sp, #60
+  97              	.LCFI3:
+  98              		.cfi_def_cfa_offset 64
+  27:../../../core/platform/octa/src/leds.c **** 
+  28:../../../core/platform/octa/src/leds.c ****   /* USER CODE BEGIN TIM3_Init 0 */
+  29:../../../core/platform/octa/src/leds.c **** 
+  30:../../../core/platform/octa/src/leds.c ****   /* USER CODE END TIM3_Init 0 */
+  31:../../../core/platform/octa/src/leds.c **** 
+  32:../../../core/platform/octa/src/leds.c ****   TIM_ClockConfigTypeDef sClockSourceConfig = {0};
+  99              		.loc 1 32 3 view .LVU15
+ 100              		.loc 1 32 26 is_stmt 0 view .LVU16
+ 101 0004 0023     		movs	r3, #0
+ 102 0006 0A93     		str	r3, [sp, #40]
+ 103 0008 0B93     		str	r3, [sp, #44]
+ 104 000a 0C93     		str	r3, [sp, #48]
+ 105 000c 0D93     		str	r3, [sp, #52]
+  33:../../../core/platform/octa/src/leds.c ****   TIM_MasterConfigTypeDef sMasterConfig = {0};
+ 106              		.loc 1 33 3 is_stmt 1 view .LVU17
+ 107              		.loc 1 33 27 is_stmt 0 view .LVU18
+ 108 000e 0793     		str	r3, [sp, #28]
+ 109 0010 0893     		str	r3, [sp, #32]
+ 110 0012 0993     		str	r3, [sp, #36]
+  34:../../../core/platform/octa/src/leds.c ****   TIM_OC_InitTypeDef sConfigOC = {0};
+ 111              		.loc 1 34 3 is_stmt 1 view .LVU19
+ 112              		.loc 1 34 22 is_stmt 0 view .LVU20
+ 113 0014 0093     		str	r3, [sp]
+ 114 0016 0193     		str	r3, [sp, #4]
+ 115 0018 0293     		str	r3, [sp, #8]
+ 116 001a 0393     		str	r3, [sp, #12]
+ 117 001c 0493     		str	r3, [sp, #16]
+ 118 001e 0593     		str	r3, [sp, #20]
+ 119 0020 0693     		str	r3, [sp, #24]
+  35:../../../core/platform/octa/src/leds.c **** 
+  36:../../../core/platform/octa/src/leds.c ****   /* USER CODE BEGIN TIM3_Init 1 */
+  37:../../../core/platform/octa/src/leds.c **** 
+  38:../../../core/platform/octa/src/leds.c ****   /* USER CODE END TIM3_Init 1 */
+  39:../../../core/platform/octa/src/leds.c ****   htim3.Instance = TIM3;
+ 120              		.loc 1 39 3 is_stmt 1 view .LVU21
+ 121              		.loc 1 39 18 is_stmt 0 view .LVU22
+ 122 0022 2148     		ldr	r0, .L17
+ 123 0024 214A     		ldr	r2, .L17+4
+ 124 0026 0260     		str	r2, [r0]
+  40:../../../core/platform/octa/src/leds.c ****   htim3.Init.Prescaler = 0;
+ 125              		.loc 1 40 3 is_stmt 1 view .LVU23
+ 126              		.loc 1 40 24 is_stmt 0 view .LVU24
+ 127 0028 4360     		str	r3, [r0, #4]
+  41:../../../core/platform/octa/src/leds.c ****   htim3.Init.CounterMode = TIM_COUNTERMODE_UP;
+ 128              		.loc 1 41 3 is_stmt 1 view .LVU25
+ 129              		.loc 1 41 26 is_stmt 0 view .LVU26
+ 130 002a 8360     		str	r3, [r0, #8]
+  42:../../../core/platform/octa/src/leds.c ****   htim3.Init.Period = 65535;
+ 131              		.loc 1 42 3 is_stmt 1 view .LVU27
+ 132              		.loc 1 42 21 is_stmt 0 view .LVU28
+ARM GAS  /tmp/ccYFR9v7.s 			page 4
+
+
+ 133 002c 4FF6FF72 		movw	r2, #65535
+ 134 0030 C260     		str	r2, [r0, #12]
+  43:../../../core/platform/octa/src/leds.c ****   htim3.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+ 135              		.loc 1 43 3 is_stmt 1 view .LVU29
+ 136              		.loc 1 43 28 is_stmt 0 view .LVU30
+ 137 0032 0361     		str	r3, [r0, #16]
+  44:../../../core/platform/octa/src/leds.c ****   htim3.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+ 138              		.loc 1 44 3 is_stmt 1 view .LVU31
+ 139              		.loc 1 44 32 is_stmt 0 view .LVU32
+ 140 0034 8361     		str	r3, [r0, #24]
+  45:../../../core/platform/octa/src/leds.c ****   if (HAL_TIM_Base_Init(&htim3) != HAL_OK)
+ 141              		.loc 1 45 3 is_stmt 1 view .LVU33
+ 142              		.loc 1 45 7 is_stmt 0 view .LVU34
+ 143 0036 FFF7FEFF 		bl	HAL_TIM_Base_Init
+ 144              	.LVL3:
+ 145              		.loc 1 45 6 view .LVU35
+ 146 003a 28BB     		cbnz	r0, .L12
+ 147              	.L6:
+  46:../../../core/platform/octa/src/leds.c ****   {
+  47:../../../core/platform/octa/src/leds.c ****     Error_Handler();
+  48:../../../core/platform/octa/src/leds.c ****   }
+  49:../../../core/platform/octa/src/leds.c ****   sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
+ 148              		.loc 1 49 3 is_stmt 1 view .LVU36
+ 149              		.loc 1 49 34 is_stmt 0 view .LVU37
+ 150 003c 4FF48053 		mov	r3, #4096
+ 151 0040 0A93     		str	r3, [sp, #40]
+  50:../../../core/platform/octa/src/leds.c ****   if (HAL_TIM_ConfigClockSource(&htim3, &sClockSourceConfig) != HAL_OK)
+ 152              		.loc 1 50 3 is_stmt 1 view .LVU38
+ 153              		.loc 1 50 7 is_stmt 0 view .LVU39
+ 154 0042 0AA9     		add	r1, sp, #40
+ 155 0044 1848     		ldr	r0, .L17
+ 156 0046 FFF7FEFF 		bl	HAL_TIM_ConfigClockSource
+ 157              	.LVL4:
+ 158              		.loc 1 50 6 view .LVU40
+ 159 004a 00BB     		cbnz	r0, .L13
+ 160              	.L7:
+  51:../../../core/platform/octa/src/leds.c ****   {
+  52:../../../core/platform/octa/src/leds.c ****     Error_Handler();
+  53:../../../core/platform/octa/src/leds.c ****   }
+  54:../../../core/platform/octa/src/leds.c ****   if (HAL_TIM_PWM_Init(&htim3) != HAL_OK)
+ 161              		.loc 1 54 3 is_stmt 1 view .LVU41
+ 162              		.loc 1 54 7 is_stmt 0 view .LVU42
+ 163 004c 1648     		ldr	r0, .L17
+ 164 004e FFF7FEFF 		bl	HAL_TIM_PWM_Init
+ 165              	.LVL5:
+ 166              		.loc 1 54 6 view .LVU43
+ 167 0052 F8B9     		cbnz	r0, .L14
+ 168              	.L8:
+  55:../../../core/platform/octa/src/leds.c ****   {
+  56:../../../core/platform/octa/src/leds.c ****     Error_Handler();
+  57:../../../core/platform/octa/src/leds.c ****   }
+  58:../../../core/platform/octa/src/leds.c ****   sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
+ 169              		.loc 1 58 3 is_stmt 1 view .LVU44
+ 170              		.loc 1 58 37 is_stmt 0 view .LVU45
+ 171 0054 0023     		movs	r3, #0
+ 172 0056 0793     		str	r3, [sp, #28]
+  59:../../../core/platform/octa/src/leds.c ****   sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+ARM GAS  /tmp/ccYFR9v7.s 			page 5
+
+
+ 173              		.loc 1 59 3 is_stmt 1 view .LVU46
+ 174              		.loc 1 59 33 is_stmt 0 view .LVU47
+ 175 0058 0993     		str	r3, [sp, #36]
+  60:../../../core/platform/octa/src/leds.c ****   if (HAL_TIMEx_MasterConfigSynchronization(&htim3, &sMasterConfig) != HAL_OK)
+ 176              		.loc 1 60 3 is_stmt 1 view .LVU48
+ 177              		.loc 1 60 7 is_stmt 0 view .LVU49
+ 178 005a 07A9     		add	r1, sp, #28
+ 179 005c 1248     		ldr	r0, .L17
+ 180 005e FFF7FEFF 		bl	HAL_TIMEx_MasterConfigSynchronization
+ 181              	.LVL6:
+ 182              		.loc 1 60 6 view .LVU50
+ 183 0062 D0B9     		cbnz	r0, .L15
+ 184              	.L9:
+  61:../../../core/platform/octa/src/leds.c ****   {
+  62:../../../core/platform/octa/src/leds.c ****     Error_Handler();
+  63:../../../core/platform/octa/src/leds.c ****   }
+  64:../../../core/platform/octa/src/leds.c ****   sConfigOC.OCMode = TIM_OCMODE_PWM1;
+ 185              		.loc 1 64 3 is_stmt 1 view .LVU51
+ 186              		.loc 1 64 20 is_stmt 0 view .LVU52
+ 187 0064 6023     		movs	r3, #96
+ 188 0066 0093     		str	r3, [sp]
+  65:../../../core/platform/octa/src/leds.c ****   sConfigOC.Pulse = 0;
+ 189              		.loc 1 65 3 is_stmt 1 view .LVU53
+ 190              		.loc 1 65 19 is_stmt 0 view .LVU54
+ 191 0068 0023     		movs	r3, #0
+ 192 006a 0193     		str	r3, [sp, #4]
+  66:../../../core/platform/octa/src/leds.c ****   sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
+ 193              		.loc 1 66 3 is_stmt 1 view .LVU55
+ 194              		.loc 1 66 24 is_stmt 0 view .LVU56
+ 195 006c 0293     		str	r3, [sp, #8]
+  67:../../../core/platform/octa/src/leds.c ****   sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
+ 196              		.loc 1 67 3 is_stmt 1 view .LVU57
+ 197              		.loc 1 67 24 is_stmt 0 view .LVU58
+ 198 006e 0493     		str	r3, [sp, #16]
+  68:../../../core/platform/octa/src/leds.c ****   if (HAL_TIM_PWM_ConfigChannel(&htim3, &sConfigOC, TIM_CHANNEL_3) != HAL_OK)
+ 199              		.loc 1 68 3 is_stmt 1 view .LVU59
+ 200              		.loc 1 68 7 is_stmt 0 view .LVU60
+ 201 0070 0822     		movs	r2, #8
+ 202 0072 6946     		mov	r1, sp
+ 203 0074 0C48     		ldr	r0, .L17
+ 204 0076 FFF7FEFF 		bl	HAL_TIM_PWM_ConfigChannel
+ 205              	.LVL7:
+ 206              		.loc 1 68 6 view .LVU61
+ 207 007a 88B9     		cbnz	r0, .L16
+ 208              	.L10:
+  69:../../../core/platform/octa/src/leds.c ****   {
+  70:../../../core/platform/octa/src/leds.c ****     Error_Handler();
+  71:../../../core/platform/octa/src/leds.c ****   }
+  72:../../../core/platform/octa/src/leds.c ****   /* USER CODE BEGIN TIM3_Init 2 */
+  73:../../../core/platform/octa/src/leds.c **** 
+  74:../../../core/platform/octa/src/leds.c ****   /* USER CODE END TIM3_Init 2 */
+  75:../../../core/platform/octa/src/leds.c ****   HAL_TIM_MspPostInit(&htim3);
+ 209              		.loc 1 75 3 is_stmt 1 view .LVU62
+ 210 007c 0A48     		ldr	r0, .L17
+ 211 007e FFF7FEFF 		bl	HAL_TIM_MspPostInit
+ 212              	.LVL8:
+  76:../../../core/platform/octa/src/leds.c **** 
+ARM GAS  /tmp/ccYFR9v7.s 			page 6
+
+
+  77:../../../core/platform/octa/src/leds.c **** }
+ 213              		.loc 1 77 1 is_stmt 0 view .LVU63
+ 214 0082 0FB0     		add	sp, sp, #60
+ 215              	.LCFI4:
+ 216              		.cfi_remember_state
+ 217              		.cfi_def_cfa_offset 4
+ 218              		@ sp needed
+ 219 0084 5DF804FB 		ldr	pc, [sp], #4
+ 220              	.L12:
+ 221              	.LCFI5:
+ 222              		.cfi_restore_state
+ 223              	.LBB2:
+  47:../../../core/platform/octa/src/leds.c ****   }
+ 224              		.loc 1 47 5 is_stmt 1 view .LVU64
+ 225 0088 FFF7FEFF 		bl	Error_Handler
+ 226              	.LVL9:
+ 227 008c D6E7     		b	.L6
+ 228              	.L13:
+ 229              	.LBE2:
+ 230              	.LBB3:
+  52:../../../core/platform/octa/src/leds.c ****   }
+ 231              		.loc 1 52 5 view .LVU65
+ 232 008e FFF7FEFF 		bl	Error_Handler
+ 233              	.LVL10:
+ 234 0092 DBE7     		b	.L7
+ 235              	.L14:
+ 236              	.LBE3:
+ 237              	.LBB4:
+  56:../../../core/platform/octa/src/leds.c ****   }
+ 238              		.loc 1 56 5 view .LVU66
+ 239 0094 FFF7FEFF 		bl	Error_Handler
+ 240              	.LVL11:
+ 241 0098 DCE7     		b	.L8
+ 242              	.L15:
+ 243              	.LBE4:
+ 244              	.LBB5:
+  62:../../../core/platform/octa/src/leds.c ****   }
+ 245              		.loc 1 62 5 view .LVU67
+ 246 009a FFF7FEFF 		bl	Error_Handler
+ 247              	.LVL12:
+ 248 009e E1E7     		b	.L9
+ 249              	.L16:
+ 250              	.LBE5:
+ 251              	.LBB6:
+  70:../../../core/platform/octa/src/leds.c ****   }
+ 252              		.loc 1 70 5 view .LVU68
+ 253 00a0 FFF7FEFF 		bl	Error_Handler
+ 254              	.LVL13:
+ 255 00a4 EAE7     		b	.L10
+ 256              	.L18:
+ 257 00a6 00BF     		.align	2
+ 258              	.L17:
+ 259 00a8 00000000 		.word	htim3
+ 260 00ac 00040040 		.word	1073742848
+ 261              	.LBE6:
+ 262              		.cfi_endproc
+ 263              	.LFE125:
+ARM GAS  /tmp/ccYFR9v7.s 			page 7
+
+
+ 265              		.section	.text.MX_TIM4_Init,"ax",%progbits
+ 266              		.align	1
+ 267              		.global	MX_TIM4_Init
+ 268              		.syntax unified
+ 269              		.thumb
+ 270              		.thumb_func
+ 271              		.fpu fpv4-sp-d16
+ 273              	MX_TIM4_Init:
+ 274              	.LFB126:
+  78:../../../core/platform/octa/src/leds.c **** 
+  79:../../../core/platform/octa/src/leds.c **** /**
+  80:../../../core/platform/octa/src/leds.c ****   * @brief TIM4 Initialization Function
+  81:../../../core/platform/octa/src/leds.c ****   * @param None
+  82:../../../core/platform/octa/src/leds.c ****   * @retval None
+  83:../../../core/platform/octa/src/leds.c ****   */
+  84:../../../core/platform/octa/src/leds.c **** void MX_TIM4_Init(void)
+  85:../../../core/platform/octa/src/leds.c **** {
+ 275              		.loc 1 85 1 view -0
+ 276              		.cfi_startproc
+ 277              		@ args = 0, pretend = 0, frame = 56
+ 278              		@ frame_needed = 0, uses_anonymous_args = 0
+ 279 0000 00B5     		push	{lr}
+ 280              	.LCFI6:
+ 281              		.cfi_def_cfa_offset 4
+ 282              		.cfi_offset 14, -4
+ 283 0002 8FB0     		sub	sp, sp, #60
+ 284              	.LCFI7:
+ 285              		.cfi_def_cfa_offset 64
+  86:../../../core/platform/octa/src/leds.c **** 
+  87:../../../core/platform/octa/src/leds.c ****   /* USER CODE BEGIN TIM4_Init 0 */
+  88:../../../core/platform/octa/src/leds.c **** 
+  89:../../../core/platform/octa/src/leds.c ****   /* USER CODE END TIM4_Init 0 */
+  90:../../../core/platform/octa/src/leds.c **** 
+  91:../../../core/platform/octa/src/leds.c ****   TIM_ClockConfigTypeDef sClockSourceConfig = {0};
+ 286              		.loc 1 91 3 view .LVU70
+ 287              		.loc 1 91 26 is_stmt 0 view .LVU71
+ 288 0004 0023     		movs	r3, #0
+ 289 0006 0A93     		str	r3, [sp, #40]
+ 290 0008 0B93     		str	r3, [sp, #44]
+ 291 000a 0C93     		str	r3, [sp, #48]
+ 292 000c 0D93     		str	r3, [sp, #52]
+  92:../../../core/platform/octa/src/leds.c ****   TIM_MasterConfigTypeDef sMasterConfig = {0};
+ 293              		.loc 1 92 3 is_stmt 1 view .LVU72
+ 294              		.loc 1 92 27 is_stmt 0 view .LVU73
+ 295 000e 0793     		str	r3, [sp, #28]
+ 296 0010 0893     		str	r3, [sp, #32]
+ 297 0012 0993     		str	r3, [sp, #36]
+  93:../../../core/platform/octa/src/leds.c ****   TIM_OC_InitTypeDef sConfigOC = {0};
+ 298              		.loc 1 93 3 is_stmt 1 view .LVU74
+ 299              		.loc 1 93 22 is_stmt 0 view .LVU75
+ 300 0014 0093     		str	r3, [sp]
+ 301 0016 0193     		str	r3, [sp, #4]
+ 302 0018 0293     		str	r3, [sp, #8]
+ 303 001a 0393     		str	r3, [sp, #12]
+ 304 001c 0493     		str	r3, [sp, #16]
+ 305 001e 0593     		str	r3, [sp, #20]
+ 306 0020 0693     		str	r3, [sp, #24]
+ARM GAS  /tmp/ccYFR9v7.s 			page 8
+
+
+  94:../../../core/platform/octa/src/leds.c **** 
+  95:../../../core/platform/octa/src/leds.c ****   /* USER CODE BEGIN TIM4_Init 1 */
+  96:../../../core/platform/octa/src/leds.c **** 
+  97:../../../core/platform/octa/src/leds.c ****   /* USER CODE END TIM4_Init 1 */
+  98:../../../core/platform/octa/src/leds.c ****   htim4.Instance = TIM4;
+ 307              		.loc 1 98 3 is_stmt 1 view .LVU76
+ 308              		.loc 1 98 18 is_stmt 0 view .LVU77
+ 309 0022 2548     		ldr	r0, .L33
+ 310 0024 254A     		ldr	r2, .L33+4
+ 311 0026 0260     		str	r2, [r0]
+  99:../../../core/platform/octa/src/leds.c ****   htim4.Init.Prescaler = 0;
+ 312              		.loc 1 99 3 is_stmt 1 view .LVU78
+ 313              		.loc 1 99 24 is_stmt 0 view .LVU79
+ 314 0028 4360     		str	r3, [r0, #4]
+ 100:../../../core/platform/octa/src/leds.c ****   htim4.Init.CounterMode = TIM_COUNTERMODE_UP;
+ 315              		.loc 1 100 3 is_stmt 1 view .LVU80
+ 316              		.loc 1 100 26 is_stmt 0 view .LVU81
+ 317 002a 8360     		str	r3, [r0, #8]
+ 101:../../../core/platform/octa/src/leds.c ****   htim4.Init.Period = 65535;
+ 318              		.loc 1 101 3 is_stmt 1 view .LVU82
+ 319              		.loc 1 101 21 is_stmt 0 view .LVU83
+ 320 002c 4FF6FF72 		movw	r2, #65535
+ 321 0030 C260     		str	r2, [r0, #12]
+ 102:../../../core/platform/octa/src/leds.c ****   htim4.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+ 322              		.loc 1 102 3 is_stmt 1 view .LVU84
+ 323              		.loc 1 102 28 is_stmt 0 view .LVU85
+ 324 0032 0361     		str	r3, [r0, #16]
+ 103:../../../core/platform/octa/src/leds.c ****   htim4.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+ 325              		.loc 1 103 3 is_stmt 1 view .LVU86
+ 326              		.loc 1 103 32 is_stmt 0 view .LVU87
+ 327 0034 8361     		str	r3, [r0, #24]
+ 104:../../../core/platform/octa/src/leds.c ****   if (HAL_TIM_Base_Init(&htim4) != HAL_OK)
+ 328              		.loc 1 104 3 is_stmt 1 view .LVU88
+ 329              		.loc 1 104 7 is_stmt 0 view .LVU89
+ 330 0036 FFF7FEFF 		bl	HAL_TIM_Base_Init
+ 331              	.LVL14:
+ 332              		.loc 1 104 6 view .LVU90
+ 333 003a 58BB     		cbnz	r0, .L27
+ 334              	.L20:
+ 105:../../../core/platform/octa/src/leds.c ****   {
+ 106:../../../core/platform/octa/src/leds.c ****     Error_Handler();
+ 107:../../../core/platform/octa/src/leds.c ****   }
+ 108:../../../core/platform/octa/src/leds.c ****   sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
+ 335              		.loc 1 108 3 is_stmt 1 view .LVU91
+ 336              		.loc 1 108 34 is_stmt 0 view .LVU92
+ 337 003c 4FF48053 		mov	r3, #4096
+ 338 0040 0A93     		str	r3, [sp, #40]
+ 109:../../../core/platform/octa/src/leds.c ****   if (HAL_TIM_ConfigClockSource(&htim4, &sClockSourceConfig) != HAL_OK)
+ 339              		.loc 1 109 3 is_stmt 1 view .LVU93
+ 340              		.loc 1 109 7 is_stmt 0 view .LVU94
+ 341 0042 0AA9     		add	r1, sp, #40
+ 342 0044 1C48     		ldr	r0, .L33
+ 343 0046 FFF7FEFF 		bl	HAL_TIM_ConfigClockSource
+ 344              	.LVL15:
+ 345              		.loc 1 109 6 view .LVU95
+ 346 004a 30BB     		cbnz	r0, .L28
+ 347              	.L21:
+ARM GAS  /tmp/ccYFR9v7.s 			page 9
+
+
+ 110:../../../core/platform/octa/src/leds.c ****   {
+ 111:../../../core/platform/octa/src/leds.c ****     Error_Handler();
+ 112:../../../core/platform/octa/src/leds.c ****   }
+ 113:../../../core/platform/octa/src/leds.c ****   if (HAL_TIM_PWM_Init(&htim4) != HAL_OK)
+ 348              		.loc 1 113 3 is_stmt 1 view .LVU96
+ 349              		.loc 1 113 7 is_stmt 0 view .LVU97
+ 350 004c 1A48     		ldr	r0, .L33
+ 351 004e FFF7FEFF 		bl	HAL_TIM_PWM_Init
+ 352              	.LVL16:
+ 353              		.loc 1 113 6 view .LVU98
+ 354 0052 28BB     		cbnz	r0, .L29
+ 355              	.L22:
+ 114:../../../core/platform/octa/src/leds.c ****   {
+ 115:../../../core/platform/octa/src/leds.c ****     Error_Handler();
+ 116:../../../core/platform/octa/src/leds.c ****   }
+ 117:../../../core/platform/octa/src/leds.c ****   sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
+ 356              		.loc 1 117 3 is_stmt 1 view .LVU99
+ 357              		.loc 1 117 37 is_stmt 0 view .LVU100
+ 358 0054 0023     		movs	r3, #0
+ 359 0056 0793     		str	r3, [sp, #28]
+ 118:../../../core/platform/octa/src/leds.c ****   sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+ 360              		.loc 1 118 3 is_stmt 1 view .LVU101
+ 361              		.loc 1 118 33 is_stmt 0 view .LVU102
+ 362 0058 0993     		str	r3, [sp, #36]
+ 119:../../../core/platform/octa/src/leds.c ****   if (HAL_TIMEx_MasterConfigSynchronization(&htim4, &sMasterConfig) != HAL_OK)
+ 363              		.loc 1 119 3 is_stmt 1 view .LVU103
+ 364              		.loc 1 119 7 is_stmt 0 view .LVU104
+ 365 005a 07A9     		add	r1, sp, #28
+ 366 005c 1648     		ldr	r0, .L33
+ 367 005e FFF7FEFF 		bl	HAL_TIMEx_MasterConfigSynchronization
+ 368              	.LVL17:
+ 369              		.loc 1 119 6 view .LVU105
+ 370 0062 00BB     		cbnz	r0, .L30
+ 371              	.L23:
+ 120:../../../core/platform/octa/src/leds.c ****   {
+ 121:../../../core/platform/octa/src/leds.c ****     Error_Handler();
+ 122:../../../core/platform/octa/src/leds.c ****   }
+ 123:../../../core/platform/octa/src/leds.c ****   sConfigOC.OCMode = TIM_OCMODE_PWM1;
+ 372              		.loc 1 123 3 is_stmt 1 view .LVU106
+ 373              		.loc 1 123 20 is_stmt 0 view .LVU107
+ 374 0064 6023     		movs	r3, #96
+ 375 0066 0093     		str	r3, [sp]
+ 124:../../../core/platform/octa/src/leds.c ****   sConfigOC.Pulse = 0;
+ 376              		.loc 1 124 3 is_stmt 1 view .LVU108
+ 377              		.loc 1 124 19 is_stmt 0 view .LVU109
+ 378 0068 0023     		movs	r3, #0
+ 379 006a 0193     		str	r3, [sp, #4]
+ 125:../../../core/platform/octa/src/leds.c ****   sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
+ 380              		.loc 1 125 3 is_stmt 1 view .LVU110
+ 381              		.loc 1 125 24 is_stmt 0 view .LVU111
+ 382 006c 0293     		str	r3, [sp, #8]
+ 126:../../../core/platform/octa/src/leds.c ****   sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
+ 383              		.loc 1 126 3 is_stmt 1 view .LVU112
+ 384              		.loc 1 126 24 is_stmt 0 view .LVU113
+ 385 006e 0493     		str	r3, [sp, #16]
+ 127:../../../core/platform/octa/src/leds.c ****   if (HAL_TIM_PWM_ConfigChannel(&htim4, &sConfigOC, TIM_CHANNEL_3) != HAL_OK)
+ 386              		.loc 1 127 3 is_stmt 1 view .LVU114
+ARM GAS  /tmp/ccYFR9v7.s 			page 10
+
+
+ 387              		.loc 1 127 7 is_stmt 0 view .LVU115
+ 388 0070 0822     		movs	r2, #8
+ 389 0072 6946     		mov	r1, sp
+ 390 0074 1048     		ldr	r0, .L33
+ 391 0076 FFF7FEFF 		bl	HAL_TIM_PWM_ConfigChannel
+ 392              	.LVL18:
+ 393              		.loc 1 127 6 view .LVU116
+ 394 007a B8B9     		cbnz	r0, .L31
+ 395              	.L24:
+ 128:../../../core/platform/octa/src/leds.c ****   {
+ 129:../../../core/platform/octa/src/leds.c ****     Error_Handler();
+ 130:../../../core/platform/octa/src/leds.c ****   }
+ 131:../../../core/platform/octa/src/leds.c ****   if (HAL_TIM_PWM_ConfigChannel(&htim4, &sConfigOC, TIM_CHANNEL_4) != HAL_OK)
+ 396              		.loc 1 131 3 is_stmt 1 view .LVU117
+ 397              		.loc 1 131 7 is_stmt 0 view .LVU118
+ 398 007c 0C22     		movs	r2, #12
+ 399 007e 6946     		mov	r1, sp
+ 400 0080 0D48     		ldr	r0, .L33
+ 401 0082 FFF7FEFF 		bl	HAL_TIM_PWM_ConfigChannel
+ 402              	.LVL19:
+ 403              		.loc 1 131 6 view .LVU119
+ 404 0086 A0B9     		cbnz	r0, .L32
+ 405              	.L25:
+ 132:../../../core/platform/octa/src/leds.c ****   {
+ 133:../../../core/platform/octa/src/leds.c ****     Error_Handler();
+ 134:../../../core/platform/octa/src/leds.c ****   }
+ 135:../../../core/platform/octa/src/leds.c ****   /* USER CODE BEGIN TIM4_Init 2 */
+ 136:../../../core/platform/octa/src/leds.c **** 
+ 137:../../../core/platform/octa/src/leds.c ****   /* USER CODE END TIM4_Init 2 */
+ 138:../../../core/platform/octa/src/leds.c ****   HAL_TIM_MspPostInit(&htim4);
+ 406              		.loc 1 138 3 is_stmt 1 view .LVU120
+ 407 0088 0B48     		ldr	r0, .L33
+ 408 008a FFF7FEFF 		bl	HAL_TIM_MspPostInit
+ 409              	.LVL20:
+ 139:../../../core/platform/octa/src/leds.c **** 
+ 140:../../../core/platform/octa/src/leds.c **** }...
+ 410              		.loc 1 140 1 is_stmt 0 view .LVU121
+ 411 008e 0FB0     		add	sp, sp, #60
+ 412              	.LCFI8:
+ 413              		.cfi_remember_state
+ 414              		.cfi_def_cfa_offset 4
+ 415              		@ sp needed
+ 416 0090 5DF804FB 		ldr	pc, [sp], #4
+ 417              	.L27:
+ 418              	.LCFI9:
+ 419              		.cfi_restore_state
+ 420              	.LBB7:
+ 106:../../../core/platform/octa/src/leds.c ****     Error_Handler();
+ 421              		.loc 1 106 5 is_stmt 1 view .LVU122
+ 422 0094 FFF7FEFF 		bl	Error_Handler
+ 423              	.LVL21:
+ 424 0098 D0E7     		b	.L20
+ 425              	.L28:
+ 426              	.LBE7:
+ 427              	.LBB8:
+ 111:../../../core/platform/octa/src/leds.c ****     Error_Handler();
+ 428              		.loc 1 111 5 view .LVU123
+ARM GAS  /tmp/ccYFR9v7.s 			page 11
+
+
+ 429 009a FFF7FEFF 		bl	Error_Handler
+ 430              	.LVL22:
+ 431 009e D5E7     		b	.L21
+ 432              	.L29:
+ 433              	.LBE8:
+ 434              	.LBB9:
+ 115:../../../core/platform/octa/src/leds.c ****     Error_Handler();
+ 435              		.loc 1 115 5 view .LVU124
+ 436 00a0 FFF7FEFF 		bl	Error_Handler
+ 437              	.LVL23:
+ 438 00a4 D6E7     		b	.L22
+ 439              	.L30:
+ 440              	.LBE9:
+ 441              	.LBB10:
+ 121:../../../core/platform/octa/src/leds.c ****     Error_Handler();
+ 442              		.loc 1 121 5 view .LVU125
+ 443 00a6 FFF7FEFF 		bl	Error_Handler
+ 444              	.LVL24:
+ 445 00aa DBE7     		b	.L23
+ 446              	.L31:
+ 447              	.LBE10:
+ 448              	.LBB11:
+ 129:../../../core/platform/octa/src/leds.c ****     Error_Handler();
+ 449              		.loc 1 129 5 view .LVU126
+ 450 00ac FFF7FEFF 		bl	Error_Handler
+ 451              	.LVL25:
+ 452 00b0 E4E7     		b	.L24
+ 453              	.L32:
+ 454              	.LBE11:
+ 455              	.LBB12:
+ 133:../../../core/platform/octa/src/leds.c ****     Error_Handler();
+ 456              		.loc 1 133 5 view .LVU127
+ 457 00b2 FFF7FEFF 		bl	Error_Handler
+ 458              	.LVL26:
+ 459 00b6 E7E7     		b	.L25
+ 460              	.L34:
+ 461              		.align	2
+ 462              	.L33:
+ 463 00b8 00000000 		.word	htim4
+ 464 00bc 00080040 		.word	1073743872
+ 465              	.LBE12:
+ 466              		.cfi_endproc
+ 467              	.LFE126:
+ 469              		.section	.text.OCTA_LED_PWM_Init,"ax",%progbits
+ 470              		.align	1
+ 471              		.global	OCTA_LED_PWM_Init
+ 472              		.syntax unified
+ 473              		.thumb
+ 474              		.thumb_func
+ 475              		.fpu fpv4-sp-d16
+ 477              	OCTA_LED_PWM_Init:
+ 478              	.LFB123:
+   7:../../../core/platform/octa/src/leds.c **** {
+ 479              		.loc 1 7 1 view -0
+ 480              		.cfi_startproc
+ 481              		@ args = 0, pretend = 0, frame = 0
+ 482              		@ frame_needed = 0, uses_anonymous_args = 0
+ARM GAS  /tmp/ccYFR9v7.s 			page 12
+
+
+ 483 0000 10B5     		push	{r4, lr}
+ 484              	.LCFI10:
+ 485              		.cfi_def_cfa_offset 8
+ 486              		.cfi_offset 4, -8
+ 487              		.cfi_offset 14, -4
+   8:../../../core/platform/octa/src/leds.c ****     MX_TIM3_Init();
+ 488              		.loc 1 8 5 view .LVU129
+ 489 0002 FFF7FEFF 		bl	MX_TIM3_Init
+ 490              	.LVL27:
+   9:../../../core/platform/octa/src/leds.c ****     MX_TIM4_Init();
+ 491              		.loc 1 9 5 view .LVU130
+ 492 0006 FFF7FEFF 		bl	MX_TIM4_Init
+ 493              	.LVL28:
+  12:../../../core/platform/octa/src/leds.c ****     HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_3);
+ 494              		.loc 1 12 5 view .LVU131
+ 495 000a 0821     		movs	r1, #8
+ 496 000c 0848     		ldr	r0, .L37
+ 497 000e FFF7FEFF 		bl	HAL_TIM_PWM_Start
+ 498              	.LVL29:
+  13:../../../core/platform/octa/src/leds.c ****     HAL_TIM_PWM_Start(&htim4, TIM_CHANNEL_3);
+ 499              		.loc 1 13 5 view .LVU132
+ 500 0012 084C     		ldr	r4, .L37+4
+ 501 0014 0821     		movs	r1, #8
+ 502 0016 2046     		mov	r0, r4
+ 503 0018 FFF7FEFF 		bl	HAL_TIM_PWM_Start
+ 504              	.LVL30:
+  14:../../../core/platform/octa/src/leds.c ****     HAL_TIM_PWM_Start(&htim4, TIM_CHANNEL_4);
+ 505              		.loc 1 14 5 view .LVU133
+ 506 001c 0C21     		movs	r1, #12
+ 507 001e 2046     		mov	r0, r4
+ 508 0020 FFF7FEFF 		bl	HAL_TIM_PWM_Start
+ 509              	.LVL31:
+  15:../../../core/platform/octa/src/leds.c ****     OCTA_LED_set_rgb(0, 0, 0);
+ 510              		.loc 1 15 5 view .LVU134
+ 511 0024 0022     		movs	r2, #0
+ 512 0026 1146     		mov	r1, r2
+ 513 0028 1046     		mov	r0, r2
+ 514 002a FFF7FEFF 		bl	OCTA_LED_set_rgb
+ 515              	.LVL32:
+  16:../../../core/platform/octa/src/leds.c **** }
+ 516              		.loc 1 16 1 is_stmt 0 view .LVU135
+ 517 002e 10BD     		pop	{r4, pc}
+ 518              	.L38:
+ 519              		.align	2
+ 520              	.L37:
+ 521 0030 00000000 		.word	htim3
+ 522 0034 00000000 		.word	htim4
+ 523              		.cfi_endproc
+ 524              	.LFE123:
+ 526              		.comm	htim4,64,4
+ 527              		.comm	htim3,64,4
+ 528              		.text
+ 529              	.Letext0:
+ 530              		.file 2 "/usr/arm-none-eabi/include/machine/_default_types.h"
+ 531              		.file 3 "/usr/arm-none-eabi/include/sys/_stdint.h"
+ 532              		.file 4 "../../../core/ST/CMSIS/Include/core_cm4.h"
+ 533              		.file 5 "../../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/system_stm32l4xx.h"
+ARM GAS  /tmp/ccYFR9v7.s 			page 13
+
+
+ 534              		.file 6 "../../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/stm32l496xx.h"
+ 535              		.file 7 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h"
+ 536              		.file 8 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_dma.h"
+ 537              		.file 9 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_tim.h"
+ 538              		.file 10 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h"
+ 539              		.file 11 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_tim_ex.h"
+ARM GAS  /tmp/ccYFR9v7.s 			page 14
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 leds.c
+     /tmp/ccYFR9v7.s:18     .text.OCTA_LED_set_rgb:0000000000000000 $t
+     /tmp/ccYFR9v7.s:26     .text.OCTA_LED_set_rgb:0000000000000000 OCTA_LED_set_rgb
+     /tmp/ccYFR9v7.s:73     .text.OCTA_LED_set_rgb:0000000000000028 $d
+                            *COM*:0000000000000040 htim4
+                            *COM*:0000000000000040 htim3
+     /tmp/ccYFR9v7.s:79     .text.MX_TIM3_Init:0000000000000000 $t
+     /tmp/ccYFR9v7.s:86     .text.MX_TIM3_Init:0000000000000000 MX_TIM3_Init
+     /tmp/ccYFR9v7.s:259    .text.MX_TIM3_Init:00000000000000a8 $d
+     /tmp/ccYFR9v7.s:266    .text.MX_TIM4_Init:0000000000000000 $t
+     /tmp/ccYFR9v7.s:273    .text.MX_TIM4_Init:0000000000000000 MX_TIM4_Init
+     /tmp/ccYFR9v7.s:463    .text.MX_TIM4_Init:00000000000000b8 $d
+     /tmp/ccYFR9v7.s:470    .text.OCTA_LED_PWM_Init:0000000000000000 $t
+     /tmp/ccYFR9v7.s:477    .text.OCTA_LED_PWM_Init:0000000000000000 OCTA_LED_PWM_Init
+     /tmp/ccYFR9v7.s:521    .text.OCTA_LED_PWM_Init:0000000000000030 $d
+
+UNDEFINED SYMBOLS
+HAL_TIM_Base_Init
+HAL_TIM_ConfigClockSource
+HAL_TIM_PWM_Init
+HAL_TIMEx_MasterConfigSynchronization
+HAL_TIM_PWM_ConfigChannel
+HAL_TIM_MspPostInit
+Error_Handler
+HAL_TIM_PWM_Start

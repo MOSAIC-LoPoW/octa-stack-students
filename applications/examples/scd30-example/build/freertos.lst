@@ -1,0 +1,784 @@
+ARM GAS  /tmp/ccd4suLK.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 28, 1
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.file	"freertos.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.rodata.vApplicationStackOverflowHook.str1.4,"aMS",%progbits,1
+  18              		.align	2
+  19              	.LC0:
+  20 0000 2A2A2A2A 		.ascii	"*****FreeRTOS stack overflow*****\015\012\000"
+  20      2A467265 
+  20      6552544F 
+  20      53207374 
+  20      61636B20 
+  21              		.section	.text.vApplicationStackOverflowHook,"ax",%progbits
+  22              		.align	1
+  23              		.global	vApplicationStackOverflowHook
+  24              		.arch armv7e-m
+  25              		.syntax unified
+  26              		.thumb
+  27              		.thumb_func
+  28              		.fpu fpv4-sp-d16
+  30              	vApplicationStackOverflowHook:
+  31              	.LVL0:
+  32              	.LFB131:
+  33              		.file 1 "../../core/platform/octa/src/freertos.c"
+   1:../../core/platform/octa/src/freertos.c **** #include "FreeRTOS.h"
+   2:../../core/platform/octa/src/freertos.c **** #include "task.h"
+   3:../../core/platform/octa/src/freertos.c **** #include "rtosincludes.h"
+   4:../../core/platform/octa/src/freertos.c **** #include "platform.h"
+   5:../../core/platform/octa/src/freertos.c **** 
+   6:../../core/platform/octa/src/freertos.c **** void vApplicationStackOverflowHook(xTaskHandle xTask, signed char pcTaskName)
+   7:../../core/platform/octa/src/freertos.c **** {
+  34              		.loc 1 7 1 view -0
+  35              		.cfi_startproc
+  36              		@ args = 0, pretend = 0, frame = 0
+  37              		@ frame_needed = 0, uses_anonymous_args = 0
+  38              		.loc 1 7 1 is_stmt 0 view .LVU1
+  39 0000 08B5     		push	{r3, lr}
+  40              	.LCFI0:
+  41              		.cfi_def_cfa_offset 8
+  42              		.cfi_offset 3, -8
+  43              		.cfi_offset 14, -4
+   8:../../core/platform/octa/src/freertos.c ****    /* Run time stack overflow checking is performed if
+   9:../../core/platform/octa/src/freertos.c ****    configCHECKFORSTACK_OVERFLOW is defined to 1 or 2. This hook function is
+  10:../../core/platform/octa/src/freertos.c ****    called if a stack overflow is detected. */
+  11:../../core/platform/octa/src/freertos.c ****   printERR("*****FreeRTOS stack overflow*****\r\n");
+ARM GAS  /tmp/ccd4suLK.s 			page 2
+
+
+  44              		.loc 1 11 3 is_stmt 1 view .LVU2
+  45 0002 0248     		ldr	r0, .L3
+  46              	.LVL1:
+  47              		.loc 1 11 3 is_stmt 0 view .LVU3
+  48 0004 FFF7FEFF 		bl	printERR
+  49              	.LVL2:
+  12:../../core/platform/octa/src/freertos.c ****   asm("bkpt 255");
+  50              		.loc 1 12 3 is_stmt 1 view .LVU4
+  51              		.syntax unified
+  52              	@ 12 "../../core/platform/octa/src/freertos.c" 1
+  53 0008 FFBE     		bkpt 255
+  54              	@ 0 "" 2
+  13:../../core/platform/octa/src/freertos.c **** }
+  55              		.loc 1 13 1 is_stmt 0 view .LVU5
+  56              		.thumb
+  57              		.syntax unified
+  58 000a 08BD     		pop	{r3, pc}
+  59              	.L4:
+  60              		.align	2
+  61              	.L3:
+  62 000c 00000000 		.word	.LC0
+  63              		.cfi_endproc
+  64              	.LFE131:
+  66              		.section	.rodata.RTOS_Send_Notification.str1.4,"aMS",%progbits,1
+  67              		.align	2
+  68              	.LC1:
+  69 0000 2E2E2F2E 		.ascii	"../../core/platform/octa/src/freertos.c\000"
+  69      2E2F636F 
+  69      72652F70 
+  69      6C617466 
+  69      6F726D2F 
+  70              		.section	.text.RTOS_Send_Notification,"ax",%progbits
+  71              		.align	1
+  72              		.global	RTOS_Send_Notification
+  73              		.syntax unified
+  74              		.thumb
+  75              		.thumb_func
+  76              		.fpu fpv4-sp-d16
+  78              	RTOS_Send_Notification:
+  79              	.LVL3:
+  80              	.LFB133:
+  14:../../core/platform/octa/src/freertos.c **** 
+  15:../../core/platform/octa/src/freertos.c **** void RTOS_Print_Stats_Thread(void const *argument)
+  16:../../core/platform/octa/src/freertos.c **** {
+  17:../../core/platform/octa/src/freertos.c ****   for (;;)
+  18:../../core/platform/octa/src/freertos.c ****   {
+  19:../../core/platform/octa/src/freertos.c ****     RTOS_print_stats();
+  20:../../core/platform/octa/src/freertos.c ****     osThreadSuspend(NULL);
+  21:../../core/platform/octa/src/freertos.c ****   }
+  22:../../core/platform/octa/src/freertos.c **** }
+  23:../../core/platform/octa/src/freertos.c **** 
+  24:../../core/platform/octa/src/freertos.c **** 
+  25:../../core/platform/octa/src/freertos.c **** void RTOS_Send_Notification(osThreadId threadid)
+  26:../../core/platform/octa/src/freertos.c **** {
+  81              		.loc 1 26 1 is_stmt 1 view -0
+  82              		.cfi_startproc
+  83              		@ args = 0, pretend = 0, frame = 8
+ARM GAS  /tmp/ccd4suLK.s 			page 3
+
+
+  84              		@ frame_needed = 0, uses_anonymous_args = 0
+  85              		.loc 1 26 1 is_stmt 0 view .LVU7
+  86 0000 10B5     		push	{r4, lr}
+  87              	.LCFI1:
+  88              		.cfi_def_cfa_offset 8
+  89              		.cfi_offset 4, -8
+  90              		.cfi_offset 14, -4
+  91 0002 82B0     		sub	sp, sp, #8
+  92              	.LCFI2:
+  93              		.cfi_def_cfa_offset 16
+  27:../../core/platform/octa/src/freertos.c ****     BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+  94              		.loc 1 27 5 is_stmt 1 view .LVU8
+  95              		.loc 1 27 16 is_stmt 0 view .LVU9
+  96 0004 0023     		movs	r3, #0
+  97 0006 0193     		str	r3, [sp, #4]
+  28:../../core/platform/octa/src/freertos.c ****     TaskHandle_t xTaskToNotify = threadid;
+  98              		.loc 1 28 5 is_stmt 1 view .LVU10
+  99              	.LVL4:
+  29:../../core/platform/octa/src/freertos.c ****     /* At this point xTaskToNotify should not be NULL as a transmission was
+  30:../../core/platform/octa/src/freertos.c ****         in progress. */
+  31:../../core/platform/octa/src/freertos.c ****     configASSERT(xTaskToNotify != NULL);
+ 100              		.loc 1 31 5 view .LVU11
+ 101 0008 0446     		mov	r4, r0
+ 102 000a 78B1     		cbz	r0, .L9
+ 103              	.LVL5:
+ 104              	.L6:
+  32:../../core/platform/octa/src/freertos.c **** 
+  33:../../core/platform/octa/src/freertos.c ****     /* Notify the task that the transmission is complete. */
+  34:../../core/platform/octa/src/freertos.c ****     vTaskNotifyGiveFromISR(xTaskToNotify, &xHigherPriorityTaskWoken);
+ 105              		.loc 1 34 5 view .LVU12
+ 106 000c 01A9     		add	r1, sp, #4
+ 107 000e 2046     		mov	r0, r4
+ 108 0010 FFF7FEFF 		bl	vTaskNotifyGiveFromISR
+ 109              	.LVL6:
+  35:../../core/platform/octa/src/freertos.c **** 
+  36:../../core/platform/octa/src/freertos.c ****     /* There are no transmissions in progress, so no tasks to notify. */
+  37:../../core/platform/octa/src/freertos.c ****     xTaskToNotify = NULL;
+ 110              		.loc 1 37 5 view .LVU13
+  38:../../core/platform/octa/src/freertos.c **** 
+  39:../../core/platform/octa/src/freertos.c ****     /* If xHigherPriorityTaskWoken is now set to pdTRUE then a context switch
+  40:../../core/platform/octa/src/freertos.c ****         should be performed to ensure the interrupt returns directly to the highest
+  41:../../core/platform/octa/src/freertos.c ****         priority task.  The macro used for this purpose is dependent on the port in
+  42:../../core/platform/octa/src/freertos.c ****         use and may be called portEND_SWITCHING_ISR(). */
+  43:../../core/platform/octa/src/freertos.c ****     portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
+ 111              		.loc 1 43 5 view .LVU14
+ 112 0014 019B     		ldr	r3, [sp, #4]
+ 113 0016 3BB1     		cbz	r3, .L5
+ 114              		.loc 1 43 5 discriminator 1 view .LVU15
+ 115 0018 074B     		ldr	r3, .L10
+ 116 001a 4FF08052 		mov	r2, #268435456
+ 117 001e 1A60     		str	r2, [r3]
+ 118              		.loc 1 43 5 discriminator 1 view .LVU16
+ 119              		.syntax unified
+ 120              	@ 43 "../../core/platform/octa/src/freertos.c" 1
+ 121 0020 BFF34F8F 		dsb
+ 122              	@ 0 "" 2
+ 123              		.loc 1 43 5 discriminator 1 view .LVU17
+ARM GAS  /tmp/ccd4suLK.s 			page 4
+
+
+ 124              	@ 43 "../../core/platform/octa/src/freertos.c" 1
+ 125 0024 BFF36F8F 		isb
+ 126              	@ 0 "" 2
+ 127              		.loc 1 43 49 discriminator 1 view .LVU18
+ 128              		.thumb
+ 129              		.syntax unified
+ 130              	.L5:
+  44:../../core/platform/octa/src/freertos.c **** }
+ 131              		.loc 1 44 1 is_stmt 0 view .LVU19
+ 132 0028 02B0     		add	sp, sp, #8
+ 133              	.LCFI3:
+ 134              		.cfi_remember_state
+ 135              		.cfi_def_cfa_offset 8
+ 136              		@ sp needed
+ 137 002a 10BD     		pop	{r4, pc}
+ 138              	.LVL7:
+ 139              	.L9:
+ 140              	.LCFI4:
+ 141              		.cfi_restore_state
+  31:../../core/platform/octa/src/freertos.c **** 
+ 142              		.loc 1 31 5 is_stmt 1 discriminator 1 view .LVU20
+ 143 002c 1F21     		movs	r1, #31
+ 144 002e 0348     		ldr	r0, .L10+4
+ 145              	.LVL8:
+  31:../../core/platform/octa/src/freertos.c **** 
+ 146              		.loc 1 31 5 is_stmt 0 discriminator 1 view .LVU21
+ 147 0030 FFF7FEFF 		bl	assert_failed
+ 148              	.LVL9:
+ 149 0034 EAE7     		b	.L6
+ 150              	.L11:
+ 151 0036 00BF     		.align	2
+ 152              	.L10:
+ 153 0038 04ED00E0 		.word	-536810236
+ 154 003c 00000000 		.word	.LC1
+ 155              		.cfi_endproc
+ 156              	.LFE133:
+ 158              		.section	.rodata.pcConvertThreadState.str1.4,"aMS",%progbits,1
+ 159              		.align	2
+ 160              	.LC2:
+ 161 0000 554E4B4E 		.ascii	"UNKNOWN\000"
+ 161      4F574E00 
+ 162              		.align	2
+ 163              	.LC3:
+ 164 0008 424C4F43 		.ascii	"BLOCKED\000"
+ 164      4B454400 
+ 165              		.align	2
+ 166              	.LC4:
+ 167 0010 53555350 		.ascii	"SUSPENDED\000"
+ 167      454E4445 
+ 167      4400
+ 168 001a 0000     		.align	2
+ 169              	.LC5:
+ 170 001c 44454C45 		.ascii	"DELETED\000"
+ 170      54454400 
+ 171              		.align	2
+ 172              	.LC6:
+ 173 0024 52454144 		.ascii	"READY\000"
+ARM GAS  /tmp/ccd4suLK.s 			page 5
+
+
+ 173      5900
+ 174              		.section	.text.pcConvertThreadState,"ax",%progbits
+ 175              		.align	1
+ 176              		.global	pcConvertThreadState
+ 177              		.syntax unified
+ 178              		.thumb
+ 179              		.thumb_func
+ 180              		.fpu fpv4-sp-d16
+ 182              	pcConvertThreadState:
+ 183              	.LVL10:
+ 184              	.LFB134:
+  45:../../core/platform/octa/src/freertos.c **** 
+  46:../../core/platform/octa/src/freertos.c **** #if USE_RTOS_SCHEDULER && DEBUG
+  47:../../core/platform/octa/src/freertos.c ****     char *pcConvertThreadState(eTaskState state) {
+ 185              		.loc 1 47 50 is_stmt 1 view -0
+ 186              		.cfi_startproc
+ 187              		@ args = 0, pretend = 0, frame = 0
+ 188              		@ frame_needed = 0, uses_anonymous_args = 0
+ 189              		@ link register save eliminated.
+  48:../../core/platform/octa/src/freertos.c ****         switch (state) {
+ 190              		.loc 1 48 9 view .LVU23
+ 191 0000 0138     		subs	r0, r0, #1
+ 192              	.LVL11:
+ 193              		.loc 1 48 9 is_stmt 0 view .LVU24
+ 194 0002 0328     		cmp	r0, #3
+ 195 0004 09D8     		bhi	.L13
+ 196 0006 DFE800F0 		tbb	[pc, r0]
+ 197              	.L15:
+ 198 000a 02       		.byte	(.L18-.L15)/2
+ 199 000b 0A       		.byte	(.L19-.L15)/2
+ 200 000c 04       		.byte	(.L16-.L15)/2
+ 201 000d 06       		.byte	(.L14-.L15)/2
+ 202              		.p2align 1
+ 203              	.L18:
+  49:../../core/platform/octa/src/freertos.c ****             case eReady:
+  50:../../core/platform/octa/src/freertos.c ****                 return "READY";
+  51:../../core/platform/octa/src/freertos.c ****             case eBlocked:
+  52:../../core/platform/octa/src/freertos.c ****                 return "BLOCKED";
+  53:../../core/platform/octa/src/freertos.c ****             case eSuspended:
+  54:../../core/platform/octa/src/freertos.c ****                 return "SUSPENDED";
+  55:../../core/platform/octa/src/freertos.c ****             case eDeleted:
+  56:../../core/platform/octa/src/freertos.c ****                 return "DELETED";
+ 204              		.loc 1 56 24 view .LVU25
+ 205 000e 0548     		ldr	r0, .L20
+ 206 0010 7047     		bx	lr
+ 207              	.L16:
+  54:../../core/platform/octa/src/freertos.c ****             case eDeleted:
+ 208              		.loc 1 54 17 is_stmt 1 view .LVU26
+  54:../../core/platform/octa/src/freertos.c ****             case eDeleted:
+ 209              		.loc 1 54 24 is_stmt 0 view .LVU27
+ 210 0012 0548     		ldr	r0, .L20+4
+ 211 0014 7047     		bx	lr
+ 212              	.L14:
+ 213              		.loc 1 56 17 is_stmt 1 view .LVU28
+ 214              		.loc 1 56 24 is_stmt 0 view .LVU29
+ 215 0016 0548     		ldr	r0, .L20+8
+ 216 0018 7047     		bx	lr
+ARM GAS  /tmp/ccd4suLK.s 			page 6
+
+
+ 217              	.L13:
+  57:../../core/platform/octa/src/freertos.c **** 
+  58:../../core/platform/octa/src/freertos.c ****             default: /* Should not get here, but it is included
+  59:../../core/platform/octa/src/freertos.c ****                         to prevent static checking errors. */
+  60:../../core/platform/octa/src/freertos.c ****                 return "UNKNOWN";
+ 218              		.loc 1 60 17 is_stmt 1 view .LVU30
+ 219              		.loc 1 60 24 is_stmt 0 view .LVU31
+ 220 001a 0548     		ldr	r0, .L20+12
+ 221 001c 7047     		bx	lr
+ 222              	.L19:
+  52:../../core/platform/octa/src/freertos.c ****             case eSuspended:
+ 223              		.loc 1 52 24 view .LVU32
+ 224 001e 0548     		ldr	r0, .L20+16
+  61:../../core/platform/octa/src/freertos.c ****         }
+  62:../../core/platform/octa/src/freertos.c ****     }
+ 225              		.loc 1 62 5 view .LVU33
+ 226 0020 7047     		bx	lr
+ 227              	.L21:
+ 228 0022 00BF     		.align	2
+ 229              	.L20:
+ 230 0024 24000000 		.word	.LC6
+ 231 0028 10000000 		.word	.LC4
+ 232 002c 1C000000 		.word	.LC5
+ 233 0030 00000000 		.word	.LC2
+ 234 0034 08000000 		.word	.LC3
+ 235              		.cfi_endproc
+ 236              	.LFE134:
+ 238              		.section	.rodata.RTOS_print_stats.str1.4,"aMS",%progbits,1
+ 239              		.align	2
+ 240              	.LC7:
+ 241 0000 20202020 		.ascii	"         LIST OF RUNNING THREADS         \015\012--"
+ 241      20202020 
+ 241      204C4953 
+ 241      54204F46 
+ 241      2052554E 
+ 242 002d 2D2D2D2D 		.ascii	"---------------------------------------\015\012\000"
+ 242      2D2D2D2D 
+ 242      2D2D2D2D 
+ 242      2D2D2D2D 
+ 242      2D2D2D2D 
+ 243 0057 00       		.align	2
+ 244              	.LC8:
+ 245 0058 54687265 		.ascii	"Thread: %s\015\012\000"
+ 245      61643A20 
+ 245      25730D0A 
+ 245      00
+ 246 0065 000000   		.align	2
+ 247              	.LC9:
+ 248 0068 54687265 		.ascii	"Thread ID: %lu\015\012\000"
+ 248      61642049 
+ 248      443A2025 
+ 248      6C750D0A 
+ 248      00
+ 249 0079 000000   		.align	2
+ 250              	.LC10:
+ 251 007c 09537461 		.ascii	"\011Status: %s\015\012\000"
+ 251      7475733A 
+ARM GAS  /tmp/ccd4suLK.s 			page 7
+
+
+ 251      2025730D 
+ 251      0A00
+ 252 008a 0000     		.align	2
+ 253              	.LC11:
+ 254 008c 09537461 		.ascii	"\011Stack watermark number: %d\015\012\000"
+ 254      636B2077 
+ 254      61746572 
+ 254      6D61726B 
+ 254      206E756D 
+ 255 00aa 0000     		.align	2
+ 256              	.LC12:
+ 257 00ac 09507269 		.ascii	"\011Priority: %lu\015\012\000"
+ 257      6F726974 
+ 257      793A2025 
+ 257      6C750D0A 
+ 257      00
+ 258              		.section	.text.RTOS_print_stats,"ax",%progbits
+ 259              		.align	1
+ 260              		.global	RTOS_print_stats
+ 261              		.syntax unified
+ 262              		.thumb
+ 263              		.thumb_func
+ 264              		.fpu fpv4-sp-d16
+ 266              	RTOS_print_stats:
+ 267              	.LFB135:
+  63:../../core/platform/octa/src/freertos.c ****     void RTOS_print_stats(void)
+  64:../../core/platform/octa/src/freertos.c ****     {
+ 268              		.loc 1 64 5 is_stmt 1 view -0
+ 269              		.cfi_startproc
+ 270              		@ args = 0, pretend = 0, frame = 8
+ 271              		@ frame_needed = 0, uses_anonymous_args = 0
+ 272 0000 70B5     		push	{r4, r5, r6, lr}
+ 273              	.LCFI5:
+ 274              		.cfi_def_cfa_offset 16
+ 275              		.cfi_offset 4, -16
+ 276              		.cfi_offset 5, -12
+ 277              		.cfi_offset 6, -8
+ 278              		.cfi_offset 14, -4
+ 279 0002 82B0     		sub	sp, sp, #8
+ 280              	.LCFI6:
+ 281              		.cfi_def_cfa_offset 24
+  65:../../core/platform/octa/src/freertos.c ****         TaskStatus_t *pxTaskStatusArray = NULL;
+ 282              		.loc 1 65 9 view .LVU35
+ 283              	.LVL12:
+  66:../../core/platform/octa/src/freertos.c ****         uint32_t ulTotalRuntime;
+ 284              		.loc 1 66 9 view .LVU36
+  67:../../core/platform/octa/src/freertos.c ****       
+  68:../../core/platform/octa/src/freertos.c ****       /* Allocate an array index for each task. */
+  69:../../core/platform/octa/src/freertos.c ****       pxTaskStatusArray = pvPortMalloc( uxTaskGetNumberOfTasks() * sizeof( TaskStatus_t ) );
+ 285              		.loc 1 69 7 view .LVU37
+ 286              		.loc 1 69 41 is_stmt 0 view .LVU38
+ 287 0004 FFF7FEFF 		bl	uxTaskGetNumberOfTasks
+ 288              	.LVL13:
+ 289              		.loc 1 69 66 view .LVU39
+ 290 0008 00EBC000 		add	r0, r0, r0, lsl #3
+ 291              		.loc 1 69 27 view .LVU40
+ 292 000c 8000     		lsls	r0, r0, #2
+ARM GAS  /tmp/ccd4suLK.s 			page 8
+
+
+ 293 000e FFF7FEFF 		bl	pvPortMalloc
+ 294              	.LVL14:
+  70:../../core/platform/octa/src/freertos.c ****       
+  71:../../core/platform/octa/src/freertos.c **** 
+  72:../../core/platform/octa/src/freertos.c ****       if(pxTaskStatusArray != NULL ) {
+ 295              		.loc 1 72 7 is_stmt 1 view .LVU41
+ 296              		.loc 1 72 9 is_stmt 0 view .LVU42
+ 297 0012 80B3     		cbz	r0, .L22
+ 298 0014 0646     		mov	r6, r0
+  73:../../core/platform/octa/src/freertos.c ****         /* Generate the (binary) data. */
+  74:../../core/platform/octa/src/freertos.c ****         uxTaskGetSystemState( pxTaskStatusArray, uxTaskGetNumberOfTasks(), &ulTotalRuntime );
+ 299              		.loc 1 74 9 is_stmt 1 view .LVU43
+ 300 0016 FFF7FEFF 		bl	uxTaskGetNumberOfTasks
+ 301              	.LVL15:
+ 302              		.loc 1 74 9 is_stmt 0 view .LVU44
+ 303 001a 0146     		mov	r1, r0
+ 304 001c 01AA     		add	r2, sp, #4
+ 305 001e 3046     		mov	r0, r6
+ 306 0020 FFF7FEFF 		bl	uxTaskGetSystemState
+ 307              	.LVL16:
+  75:../../core/platform/octa/src/freertos.c **** 
+  76:../../core/platform/octa/src/freertos.c ****         printDBG("         LIST OF RUNNING THREADS         \r\n------------------------------------
+ 308              		.loc 1 76 9 is_stmt 1 view .LVU45
+ 309 0024 1548     		ldr	r0, .L27
+ 310 0026 FFF7FEFF 		bl	printDBG
+ 311              	.LVL17:
+  77:../../core/platform/octa/src/freertos.c **** 
+  78:../../core/platform/octa/src/freertos.c ****         for(uint16_t i = 0; i < uxTaskGetNumberOfTasks(); i++ ) {
+ 312              		.loc 1 78 9 view .LVU46
+ 313              	.LBB2:
+ 314              		.loc 1 78 13 view .LVU47
+ 315              		.loc 1 78 22 is_stmt 0 view .LVU48
+ 316 002a 0025     		movs	r5, #0
+ 317              		.loc 1 78 9 view .LVU49
+ 318 002c 1CE0     		b	.L24
+ 319              	.LVL18:
+ 320              	.L25:
+  79:../../core/platform/octa/src/freertos.c ****           printDBG("Thread: %s\r\n", pxTaskStatusArray[i].pcTaskName);
+ 321              		.loc 1 79 11 is_stmt 1 discriminator 3 view .LVU50
+ 322              		.loc 1 79 55 is_stmt 0 discriminator 3 view .LVU51
+ 323 002e 05EBC504 		add	r4, r5, r5, lsl #3
+ 324 0032 06EB8404 		add	r4, r6, r4, lsl #2
+ 325              		.loc 1 79 11 discriminator 3 view .LVU52
+ 326 0036 6168     		ldr	r1, [r4, #4]
+ 327 0038 1148     		ldr	r0, .L27+4
+ 328 003a FFF7FEFF 		bl	printDBG
+ 329              	.LVL19:
+  80:../../core/platform/octa/src/freertos.c **** 
+  81:../../core/platform/octa/src/freertos.c ****           printDBG("Thread ID: %lu\r\n", pxTaskStatusArray[i].xTaskNumber);
+ 330              		.loc 1 81 11 is_stmt 1 discriminator 3 view .LVU53
+ 331 003e A168     		ldr	r1, [r4, #8]
+ 332 0040 1048     		ldr	r0, .L27+8
+ 333 0042 FFF7FEFF 		bl	printDBG
+ 334              	.LVL20:
+  82:../../core/platform/octa/src/freertos.c **** 
+  83:../../core/platform/octa/src/freertos.c ****           printDBG("\tStatus: %s\r\n", pcConvertThreadState(pxTaskStatusArray[i].eCurrentState));
+ 335              		.loc 1 83 11 discriminator 3 view .LVU54
+ARM GAS  /tmp/ccd4suLK.s 			page 9
+
+
+ 336 0046 207B     		ldrb	r0, [r4, #12]	@ zero_extendqisi2
+ 337 0048 FFF7FEFF 		bl	pcConvertThreadState
+ 338              	.LVL21:
+ 339 004c 0146     		mov	r1, r0
+ 340 004e 0E48     		ldr	r0, .L27+12
+ 341 0050 FFF7FEFF 		bl	printDBG
+ 342              	.LVL22:
+  84:../../core/platform/octa/src/freertos.c **** 
+  85:../../core/platform/octa/src/freertos.c ****           printDBG("\tStack watermark number: %d\r\n", pxTaskStatusArray[i].usStackHighWaterMark);
+ 343              		.loc 1 85 11 discriminator 3 view .LVU55
+ 344 0054 218C     		ldrh	r1, [r4, #32]
+ 345 0056 0D48     		ldr	r0, .L27+16
+ 346 0058 FFF7FEFF 		bl	printDBG
+ 347              	.LVL23:
+  86:../../core/platform/octa/src/freertos.c **** 
+  87:../../core/platform/octa/src/freertos.c ****           printDBG("\tPriority: %lu\r\n", pxTaskStatusArray[i].uxCurrentPriority);
+ 348              		.loc 1 87 11 discriminator 3 view .LVU56
+ 349 005c 2169     		ldr	r1, [r4, #16]
+ 350 005e 0C48     		ldr	r0, .L27+20
+ 351 0060 FFF7FEFF 		bl	printDBG
+ 352              	.LVL24:
+  78:../../core/platform/octa/src/freertos.c ****           printDBG("Thread: %s\r\n", pxTaskStatusArray[i].pcTaskName);
+ 353              		.loc 1 78 59 discriminator 3 view .LVU57
+  78:../../core/platform/octa/src/freertos.c ****           printDBG("Thread: %s\r\n", pxTaskStatusArray[i].pcTaskName);
+ 354              		.loc 1 78 60 is_stmt 0 discriminator 3 view .LVU58
+ 355 0064 0135     		adds	r5, r5, #1
+ 356              	.LVL25:
+  78:../../core/platform/octa/src/freertos.c ****           printDBG("Thread: %s\r\n", pxTaskStatusArray[i].pcTaskName);
+ 357              		.loc 1 78 60 discriminator 3 view .LVU59
+ 358 0066 ADB2     		uxth	r5, r5
+ 359              	.LVL26:
+ 360              	.L24:
+  78:../../core/platform/octa/src/freertos.c ****           printDBG("Thread: %s\r\n", pxTaskStatusArray[i].pcTaskName);
+ 361              		.loc 1 78 29 is_stmt 1 discriminator 1 view .LVU60
+  78:../../core/platform/octa/src/freertos.c ****           printDBG("Thread: %s\r\n", pxTaskStatusArray[i].pcTaskName);
+ 362              		.loc 1 78 33 is_stmt 0 discriminator 1 view .LVU61
+ 363 0068 FFF7FEFF 		bl	uxTaskGetNumberOfTasks
+ 364              	.LVL27:
+  78:../../core/platform/octa/src/freertos.c ****           printDBG("Thread: %s\r\n", pxTaskStatusArray[i].pcTaskName);
+ 365              		.loc 1 78 9 discriminator 1 view .LVU62
+ 366 006c 8542     		cmp	r5, r0
+ 367 006e DED3     		bcc	.L25
+ 368              	.LBE2:
+  88:../../core/platform/octa/src/freertos.c ****         }
+  89:../../core/platform/octa/src/freertos.c ****         vPortFree(pxTaskStatusArray);
+ 369              		.loc 1 89 9 is_stmt 1 view .LVU63
+ 370 0070 3046     		mov	r0, r6
+ 371 0072 FFF7FEFF 		bl	vPortFree
+ 372              	.LVL28:
+ 373              	.L22:
+  90:../../core/platform/octa/src/freertos.c ****         }
+  91:../../core/platform/octa/src/freertos.c ****     }
+ 374              		.loc 1 91 5 is_stmt 0 view .LVU64
+ 375 0076 02B0     		add	sp, sp, #8
+ 376              	.LCFI7:
+ 377              		.cfi_def_cfa_offset 16
+ 378              		@ sp needed
+ARM GAS  /tmp/ccd4suLK.s 			page 10
+
+
+ 379 0078 70BD     		pop	{r4, r5, r6, pc}
+ 380              	.L28:
+ 381 007a 00BF     		.align	2
+ 382              	.L27:
+ 383 007c 00000000 		.word	.LC7
+ 384 0080 58000000 		.word	.LC8
+ 385 0084 68000000 		.word	.LC9
+ 386 0088 7C000000 		.word	.LC10
+ 387 008c 8C000000 		.word	.LC11
+ 388 0090 AC000000 		.word	.LC12
+ 389              		.cfi_endproc
+ 390              	.LFE135:
+ 392              		.section	.text.RTOS_Print_Stats_Thread,"ax",%progbits
+ 393              		.align	1
+ 394              		.global	RTOS_Print_Stats_Thread
+ 395              		.syntax unified
+ 396              		.thumb
+ 397              		.thumb_func
+ 398              		.fpu fpv4-sp-d16
+ 400              	RTOS_Print_Stats_Thread:
+ 401              	.LFB132:
+  16:../../core/platform/octa/src/freertos.c ****   for (;;)
+ 402              		.loc 1 16 1 is_stmt 1 view -0
+ 403              		.cfi_startproc
+ 404              		@ Volatile: function does not return.
+ 405              		@ args = 0, pretend = 0, frame = 0
+ 406              		@ frame_needed = 0, uses_anonymous_args = 0
+ 407              	.LVL29:
+  16:../../core/platform/octa/src/freertos.c ****   for (;;)
+ 408              		.loc 1 16 1 is_stmt 0 view .LVU66
+ 409 0000 08B5     		push	{r3, lr}
+ 410              	.LCFI8:
+ 411              		.cfi_def_cfa_offset 8
+ 412              		.cfi_offset 3, -8
+ 413              		.cfi_offset 14, -4
+ 414              	.LVL30:
+ 415              	.L30:
+  17:../../core/platform/octa/src/freertos.c ****   {
+ 416              		.loc 1 17 3 is_stmt 1 discriminator 1 view .LVU67
+  19:../../core/platform/octa/src/freertos.c ****     osThreadSuspend(NULL);
+ 417              		.loc 1 19 5 discriminator 1 view .LVU68
+ 418 0002 FFF7FEFF 		bl	RTOS_print_stats
+ 419              	.LVL31:
+  20:../../core/platform/octa/src/freertos.c ****   }
+ 420              		.loc 1 20 5 discriminator 1 view .LVU69
+ 421 0006 0020     		movs	r0, #0
+ 422 0008 FFF7FEFF 		bl	osThreadSuspend
+ 423              	.LVL32:
+  17:../../core/platform/octa/src/freertos.c ****   {
+ 424              		.loc 1 17 9 discriminator 1 view .LVU70
+ 425 000c F9E7     		b	.L30
+ 426              		.cfi_endproc
+ 427              	.LFE132:
+ 429              		.comm	P3_header,44,4
+ 430              		.comm	P2_header,44,4
+ 431              		.comm	P1_header,44,4
+ 432              		.comm	stackversion_patch,1,1
+ARM GAS  /tmp/ccd4suLK.s 			page 11
+
+
+ 433              		.comm	stackversion_minor,1,1
+ 434              		.comm	stackversion_major,1,1
+ 435              		.comm	appversion_patch,1,1
+ 436              		.comm	appversion_minor,1,1
+ 437              		.comm	appversion_major,1,1
+ 438              		.comm	short_UID,8,8
+ 439              		.comm	octa_uid,8,8
+ 440              		.comm	float_union,4,4
+ 441              		.comm	uint16LittleEndian,2,4
+ 442              		.comm	int16LittleEndian,2,4
+ 443              		.comm	uint32LittleEndian,4,4
+ 444              		.comm	int32LittleEndian,4,4
+ 445              		.comm	hrtc,36,4
+ 446              		.comm	FLASH_SPI,100,4
+ 447              		.comm	P3_SPI,100,4
+ 448              		.comm	P2_SPI,100,4
+ 449              		.comm	P1_SPI,100,4
+ 450              		.comm	P3_I2C,76,4
+ 451              		.comm	P2_I2C,76,4
+ 452              		.comm	P1_I2C,76,4
+ 453              		.comm	common_I2C,76,4
+ 454              		.comm	P3_UART,120,4
+ 455              		.comm	P2_UART,120,4
+ 456              		.comm	P1_UART,120,4
+ 457              		.comm	FTDI_UART,120,4
+ 458              		.comm	BLE_UART,120,4
+ 459              		.comm	USB_UART,120,4
+ 460              		.comm	hiwdg,16,4
+ 461              		.comm	P3_DIO6,8,4
+ 462              		.comm	P3_DIO5,8,4
+ 463              		.comm	P3_DIO4,8,4
+ 464              		.comm	P3_DIO3,8,4
+ 465              		.comm	P3_DIO2,8,4
+ 466              		.comm	P3_DIO1,8,4
+ 467              		.comm	P2_DIO6,8,4
+ 468              		.comm	P2_DIO5,8,4
+ 469              		.comm	P2_DIO4,8,4
+ 470              		.comm	P2_DIO3,8,4
+ 471              		.comm	P2_DIO2,8,4
+ 472              		.comm	P2_DIO1,8,4
+ 473              		.comm	P1_DIO6,8,4
+ 474              		.comm	P1_DIO5,8,4
+ 475              		.comm	P1_DIO4,8,4
+ 476              		.comm	P1_DIO3,8,4
+ 477              		.comm	P1_DIO2,8,4
+ 478              		.comm	P1_DIO1,8,4
+ 479              		.comm	htim6,64,4
+ 480              		.comm	htim1,64,4
+ 481              		.comm	rtosprintHandle,4,4
+ 482              		.text
+ 483              	.Letext0:
+ 484              		.file 2 "/usr/arm-none-eabi/include/machine/_default_types.h"
+ 485              		.file 3 "/usr/arm-none-eabi/include/sys/_stdint.h"
+ 486              		.file 4 "../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/portmacro.h"
+ 487              		.file 5 "../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/include/task.h"
+ 488              		.file 6 "../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h"
+ 489              		.file 7 "../../core/platform/octa/inc/FreeRTOSConfig.h"
+ARM GAS  /tmp/ccd4suLK.s 			page 12
+
+
+ 490              		.file 8 "../../core/platform/octa/inc/rtosincludes.h"
+ 491              		.file 9 "../../core/ST/CMSIS/Include/core_cm4.h"
+ 492              		.file 10 "../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/system_stm32l4xx.h"
+ 493              		.file 11 "../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/stm32l496xx.h"
+ 494              		.file 12 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h"
+ 495              		.file 13 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_dma.h"
+ 496              		.file 14 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_i2c.h"
+ 497              		.file 15 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_iwdg.h"
+ 498              		.file 16 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rtc.h"
+ 499              		.file 17 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_spi.h"
+ 500              		.file 18 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_tim.h"
+ 501              		.file 19 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h"
+ 502              		.file 20 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h"
+ 503              		.file 21 "../../core/platform/octa/inc/sysclock.h"
+ 504              		.file 22 "../../core/platform/octa/inc/gpio.h"
+ 505              		.file 23 "../../core/platform/octa/inc/iwdg.h"
+ 506              		.file 24 "../../core/platform/octa/inc/uart.h"
+ 507              		.file 25 "../../core/platform/octa/inc/i2c.h"
+ 508              		.file 26 "../../core/platform/octa/inc/spi.h"
+ 509              		.file 27 "../../core/platform/octa/inc/rtc.h"
+ 510              		.file 28 "/usr/arm-none-eabi/include/sys/lock.h"
+ 511              		.file 29 "/usr/arm-none-eabi/include/sys/_types.h"
+ 512              		.file 30 "/usr/lib/gcc/arm-none-eabi/9.2.1/include/stddef.h"
+ 513              		.file 31 "/usr/arm-none-eabi/include/sys/reent.h"
+ 514              		.file 32 "../../core/platform/common/inc/datatypes.h"
+ 515              		.file 33 "../../core/platform/octa/inc/platform.h"
+ 516              		.file 34 "../../core/platform/common/inc/print.h"
+ 517              		.file 35 "../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/include/portable.h"
+ 518              		.file 36 "../../core/platform/common/inc/assert.h"
+ARM GAS  /tmp/ccd4suLK.s 			page 13
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 freertos.c
+     /tmp/ccd4suLK.s:18     .rodata.vApplicationStackOverflowHook.str1.4:0000000000000000 $d
+     /tmp/ccd4suLK.s:22     .text.vApplicationStackOverflowHook:0000000000000000 $t
+     /tmp/ccd4suLK.s:30     .text.vApplicationStackOverflowHook:0000000000000000 vApplicationStackOverflowHook
+     /tmp/ccd4suLK.s:62     .text.vApplicationStackOverflowHook:000000000000000c $d
+     /tmp/ccd4suLK.s:67     .rodata.RTOS_Send_Notification.str1.4:0000000000000000 $d
+     /tmp/ccd4suLK.s:71     .text.RTOS_Send_Notification:0000000000000000 $t
+     /tmp/ccd4suLK.s:78     .text.RTOS_Send_Notification:0000000000000000 RTOS_Send_Notification
+     /tmp/ccd4suLK.s:153    .text.RTOS_Send_Notification:0000000000000038 $d
+     /tmp/ccd4suLK.s:159    .rodata.pcConvertThreadState.str1.4:0000000000000000 $d
+     /tmp/ccd4suLK.s:175    .text.pcConvertThreadState:0000000000000000 $t
+     /tmp/ccd4suLK.s:182    .text.pcConvertThreadState:0000000000000000 pcConvertThreadState
+     /tmp/ccd4suLK.s:198    .text.pcConvertThreadState:000000000000000a $d
+     /tmp/ccd4suLK.s:202    .text.pcConvertThreadState:000000000000000e $t
+     /tmp/ccd4suLK.s:230    .text.pcConvertThreadState:0000000000000024 $d
+     /tmp/ccd4suLK.s:239    .rodata.RTOS_print_stats.str1.4:0000000000000000 $d
+     /tmp/ccd4suLK.s:259    .text.RTOS_print_stats:0000000000000000 $t
+     /tmp/ccd4suLK.s:266    .text.RTOS_print_stats:0000000000000000 RTOS_print_stats
+     /tmp/ccd4suLK.s:383    .text.RTOS_print_stats:000000000000007c $d
+     /tmp/ccd4suLK.s:393    .text.RTOS_Print_Stats_Thread:0000000000000000 $t
+     /tmp/ccd4suLK.s:400    .text.RTOS_Print_Stats_Thread:0000000000000000 RTOS_Print_Stats_Thread
+                            *COM*:000000000000002c P3_header
+                            *COM*:000000000000002c P2_header
+                            *COM*:000000000000002c P1_header
+                            *COM*:0000000000000001 stackversion_patch
+                            *COM*:0000000000000001 stackversion_minor
+                            *COM*:0000000000000001 stackversion_major
+                            *COM*:0000000000000001 appversion_patch
+                            *COM*:0000000000000001 appversion_minor
+                            *COM*:0000000000000001 appversion_major
+                            *COM*:0000000000000008 short_UID
+                            *COM*:0000000000000008 octa_uid
+                            *COM*:0000000000000004 float_union
+                            *COM*:0000000000000002 uint16LittleEndian
+                            *COM*:0000000000000002 int16LittleEndian
+                            *COM*:0000000000000004 uint32LittleEndian
+                            *COM*:0000000000000004 int32LittleEndian
+                            *COM*:0000000000000024 hrtc
+                            *COM*:0000000000000064 FLASH_SPI
+                            *COM*:0000000000000064 P3_SPI
+                            *COM*:0000000000000064 P2_SPI
+                            *COM*:0000000000000064 P1_SPI
+                            *COM*:000000000000004c P3_I2C
+                            *COM*:000000000000004c P2_I2C
+                            *COM*:000000000000004c P1_I2C
+                            *COM*:000000000000004c common_I2C
+                            *COM*:0000000000000078 P3_UART
+                            *COM*:0000000000000078 P2_UART
+                            *COM*:0000000000000078 P1_UART
+                            *COM*:0000000000000078 FTDI_UART
+                            *COM*:0000000000000078 BLE_UART
+                            *COM*:0000000000000078 USB_UART
+                            *COM*:0000000000000010 hiwdg
+                            *COM*:0000000000000008 P3_DIO6
+                            *COM*:0000000000000008 P3_DIO5
+                            *COM*:0000000000000008 P3_DIO4
+ARM GAS  /tmp/ccd4suLK.s 			page 14
+
+
+                            *COM*:0000000000000008 P3_DIO3
+                            *COM*:0000000000000008 P3_DIO2
+                            *COM*:0000000000000008 P3_DIO1
+                            *COM*:0000000000000008 P2_DIO6
+                            *COM*:0000000000000008 P2_DIO5
+                            *COM*:0000000000000008 P2_DIO4
+                            *COM*:0000000000000008 P2_DIO3
+                            *COM*:0000000000000008 P2_DIO2
+                            *COM*:0000000000000008 P2_DIO1
+                            *COM*:0000000000000008 P1_DIO6
+                            *COM*:0000000000000008 P1_DIO5
+                            *COM*:0000000000000008 P1_DIO4
+                            *COM*:0000000000000008 P1_DIO3
+                            *COM*:0000000000000008 P1_DIO2
+                            *COM*:0000000000000008 P1_DIO1
+                            *COM*:0000000000000040 htim6
+                            *COM*:0000000000000040 htim1
+                            *COM*:0000000000000004 rtosprintHandle
+
+UNDEFINED SYMBOLS
+printERR
+vTaskNotifyGiveFromISR
+assert_failed
+uxTaskGetNumberOfTasks
+pvPortMalloc
+uxTaskGetSystemState
+printDBG
+vPortFree
+osThreadSuspend

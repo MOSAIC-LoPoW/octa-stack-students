@@ -31,3 +31,17 @@ octa-stack versions
 0.3.7:  - printing octa_UID in dec as well as u64 le hex string
 0.4.0: changed from specific flash drivers per platform to generic octa-flash driver
 0.4.1: changed printwelcome to print chip specific nb-iot info
+0.4.2: changes RTOS_STATS to be 0 by default, less console spam this way
+0.4.3:  - updated flash driver, now correctly sets 4B addressing mode for octa-stm
+        - decreased the delays in the BQ35100 batterylevel sensor init function
+0.4.4: moved hard_reset and wd_reset to platform init code, now every app can use it
+0.4.5: added new octa-protocol header and payload types to octa-protocol-types.h
+0.5.0: changed application folder to have subfolders as this was getting to much
+0.5.1: added BTN_MAG to octa-stm gpio, also added interrupt callback support for it
+0.5.2: added last_known_timestamp to octa_config struct, used for rough initial sense of time
+0.5.3: changed make release command, no creates .hex, .bin and .elf in release folder
+0.5.4:  - changed last_msg_acked from int32_t to uint32_t, making it more in line with flash_index
+        - added octa-protocol-downlink-parser to payloadparser, updated unit tests
+0.5.5: added PWM leds to octa platform, see leds.c/h files
+0.5.6: added octa-stm-mini platform to stack
+0.5.7: removed NB_IOT_PROVIDER from every app makefile using nordic9160, nonw using auto provider selection

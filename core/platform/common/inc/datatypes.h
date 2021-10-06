@@ -39,7 +39,8 @@ union {
 struct octa_configuration{
     uint32_t flash_index;
     uint8_t dns_id;
-    int32_t last_msg_acked;
+    uint32_t last_msg_acked;
     uint8_t interval;
     uint8_t multiplier;
+    uint32_t last_known_timestamp;
 };

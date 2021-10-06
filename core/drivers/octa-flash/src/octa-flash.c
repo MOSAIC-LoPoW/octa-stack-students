@@ -13,6 +13,8 @@
 #define SPI_SE256KB_CMD 0xDC //Sector erase
 #define SPI_SE4KB_CMD 0x20
 
+#define SPI_EN4B_CMD 0xB7
+
 #define WRITE_IN_PROGRESS_MASK 0x01 //Bit 0 of RDSR is "Write in Progress"
 
 #define SPI_WAIT 10
@@ -54,14 +56,56 @@ uint8_t OCTA_FLASH_Initialize(SPI_HandleTypeDef *hspi)
 
     #ifdef platform_octa_stm
         printINF("MX25L512: 512Mb (64MB) Flash, first 4kB sector reserved for configuration\r\n");
+        printDBG("Entering 4B mode\r\n");
+        if(OCTA_FLASH_Enter_4B_Mode()!= OCTA_FLASH_OK)
+            printERR("enter 4B mode NOK\r\n");
     #else
         printINF("S25FL256: 256Mb (32MB) Flash, first 4kB sector reserved for configuration\r\n");
     #endif
-    printDBG("Max page number: %d, page size: %d, start adr: %d, last adr: %d, pages/4kbsector: %d\r\n", MAX_PAGE_NUMBER, OCTA_FLASH_PAGE_SIZE, FIRST_FLASH_ADDRESS, LAST_FLASH_ADDRESS, PAGES_PER_4KBSECTOR);
+    #ifdef platform_octa_stm_mini
+        if(OCTA_FLASH_Enter_4B_Mode()!= OCTA_FLASH_OK)
+            printERR("enter 4B mode NOK\r\n");
+    #endif
+    printINF("Max page number: %d, page size: %d, start adr: %d, last adr: %d, pages/4kbsector: %d\r\n", MAX_PAGE_NUMBER, OCTA_FLASH_PAGE_SIZE, FIRST_FLASH_ADDRESS, LAST_FLASH_ADDRESS, PAGES_PER_4KBSECTOR);
 
     _initialised = 1;
 
     return _initialised;
+}
+
+void OCTA_FLASH_ReInitialize(void)
+{    
+    //set CS pin to High (== disable flash, will be enabled when needed)
+    OCTA_FLASH_Disable();
+
+    //disable WP and HOLD
+    HAL_GPIO_WritePin(OCTA_FLASH_WP_Port, OCTA_FLASH_WP_Pin, GPIO_PIN_SET);
+    HAL_GPIO_WritePin(OCTA_FLASH_HOLD_Port, OCTA_FLASH_HOLD_Pin, GPIO_PIN_SET);
+
+    #ifdef platform_octa_stm
+        printDBG("Entering 4B mode\r\n");
+        if(OCTA_FLASH_Enter_4B_Mode()!= OCTA_FLASH_OK)
+            printERR("enter 4B mode NOK\r\n");
+    #endif
+}
+
+void OCTA_FLASH_Enter_4B_Mode(void)
+{
+    HAL_Delay(SPI_WAIT);
+
+    if (OCTA_FLASH_isWriteInProgress())
+    {
+        return E_WRITE_IN_PROGRESS;        
+    }
+
+    //Enable 4B mode
+    if (OCTA_FLASH_sendCommand(SPI_EN4B_CMD) == E_SPI_ERROR)
+    {
+        return E_SPI_ERROR;
+    }
+
+    return OCTA_FLASH_OK;
+
 }
 
 /**
@@ -551,14 +595,14 @@ int OCTA_FLASH_send4BCommand(const uint8_t command, const uint32_t address)
         return E_SPI_ERROR;
     }
 
-    return 0;
+    return OCTA_FLASH_OK;
 }
 
 /* Manually toggle enable pin, due to it not being a default SPI pin */
 void OCTA_FLASH_Enable(void)
 {
     //set CS pin to low
-   HAL_GPIO_WritePin(OCTA_FLASH_CS_Port, OCTA_FLASH_CS_Pin, GPIO_PIN_RESET);
+    HAL_GPIO_WritePin(OCTA_FLASH_CS_Port, OCTA_FLASH_CS_Pin, GPIO_PIN_RESET);
 }
 
 /* Manually toggle enable pin, due to it not being a default SPI pin */

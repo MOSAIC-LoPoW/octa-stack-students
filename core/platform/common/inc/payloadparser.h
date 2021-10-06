@@ -7,6 +7,8 @@
 #define PARSER_INVALID_VALUE    4
 
 // Configuration has a fixed size (in flash) because it has a fixed structure
-#define CONFIG_BUFFER_SIZE        15
+#define CONFIG_BUFFER_SIZE        20
 
 uint8_t parse_octa_configuration(struct octa_configuration* current_octa_configuration, uint8_t* buffer, uint16_t len);
+uint8_t parse_octa_protocol_downlink(struct octa_configuration* current_octa_configuration, uint8_t* buffer, uint16_t len);
+uint32_t parse_timestamp(uint8_t* buffer);

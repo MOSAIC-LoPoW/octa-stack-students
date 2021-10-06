@@ -1,0 +1,812 @@
+ARM GAS  /tmp/ccTqM1ah.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 28, 1
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.file	"lightsensor.c"
+  14              		.section	.rodata.str1.4,"aMS",%progbits,1
+  15              		.align	2
+  16              	.LC0:
+  17 0000 64656661 		.ascii	"defaultTask\000"
+  17      756C7454 
+  17      61736B00 
+  18              		.text
+  19              	.Ltext0:
+  20              		.cfi_sections	.debug_frame
+  21              		.section	.text.StartDefaultTask,"ax",%progbits
+  22              		.align	1
+  23              		.global	StartDefaultTask
+  24              		.arch armv7e-m
+  25              		.syntax unified
+  26              		.thumb
+  27              		.thumb_func
+  28              		.fpu fpv4-sp-d16
+  30              	StartDefaultTask:
+  31              	.LFB136:
+  32              		.file 1 "../../../applications/examples/lightsensor-example/src/lightsensor.c"
+   1:../../../applications/examples/lightsensor-example/src/lightsensor.c **** #include "lightsensor.h"
+   2:../../../applications/examples/lightsensor-example/src/lightsensor.c **** #include "TCS3472.h"
+   3:../../../applications/examples/lightsensor-example/src/lightsensor.c **** 
+   4:../../../applications/examples/lightsensor-example/src/lightsensor.c **** #define lightsensor_timer    3
+   5:../../../applications/examples/lightsensor-example/src/lightsensor.c **** #define colorsensor_timer    3
+   6:../../../applications/examples/lightsensor-example/src/lightsensor.c **** 
+   7:../../../applications/examples/lightsensor-example/src/lightsensor.c **** osTimerId lightsensor_timer_id;
+   8:../../../applications/examples/lightsensor-example/src/lightsensor.c **** osTimerId colorsensor_timer_id;
+   9:../../../applications/examples/lightsensor-example/src/lightsensor.c **** 
+  10:../../../applications/examples/lightsensor-example/src/lightsensor.c **** int main(void)
+  11:../../../applications/examples/lightsensor-example/src/lightsensor.c **** {
+  12:../../../applications/examples/lightsensor-example/src/lightsensor.c ****   Initialize_Platform();
+  13:../../../applications/examples/lightsensor-example/src/lightsensor.c **** 
+  14:../../../applications/examples/lightsensor-example/src/lightsensor.c ****   osMutexDef(txMutex);
+  15:../../../applications/examples/lightsensor-example/src/lightsensor.c ****   i2cMutexId = osMutexCreate(osMutex(txMutex));
+  16:../../../applications/examples/lightsensor-example/src/lightsensor.c **** 
+  17:../../../applications/examples/lightsensor-example/src/lightsensor.c ****   /* USER CODE BEGIN 2 */
+  18:../../../applications/examples/lightsensor-example/src/lightsensor.c ****   TC3472_init(&common_I2C);
+  19:../../../applications/examples/lightsensor-example/src/lightsensor.c ****   
+  20:../../../applications/examples/lightsensor-example/src/lightsensor.c ****   osThreadDef(defaultTask, StartDefaultTask, osPriorityLow, 0, 128);
+  21:../../../applications/examples/lightsensor-example/src/lightsensor.c ****   defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
+  22:../../../applications/examples/lightsensor-example/src/lightsensor.c **** 
+  23:../../../applications/examples/lightsensor-example/src/lightsensor.c ****   //feed IWDG every 5 seconds
+  24:../../../applications/examples/lightsensor-example/src/lightsensor.c ****   IWDG_feed(NULL);
+ARM GAS  /tmp/ccTqM1ah.s 			page 2
+
+
+  25:../../../applications/examples/lightsensor-example/src/lightsensor.c ****   osTimerDef(iwdgTim, IWDG_feed);
+  26:../../../applications/examples/lightsensor-example/src/lightsensor.c ****   iwdgTimId = osTimerCreate(osTimer(iwdgTim), osTimerPeriodic, NULL);
+  27:../../../applications/examples/lightsensor-example/src/lightsensor.c ****   osTimerStart(iwdgTimId, 5 * 1000);
+  28:../../../applications/examples/lightsensor-example/src/lightsensor.c **** 
+  29:../../../applications/examples/lightsensor-example/src/lightsensor.c ****   /* USER CODE END RTOS_TIMERS */
+  30:../../../applications/examples/lightsensor-example/src/lightsensor.c ****   osTimerDef(lightsensor_Tim, lightsensor_measurement);
+  31:../../../applications/examples/lightsensor-example/src/lightsensor.c ****   lightsensor_timer_id = osTimerCreate(osTimer(lightsensor_Tim), osTimerPeriodic, NULL);
+  32:../../../applications/examples/lightsensor-example/src/lightsensor.c ****   osTimerStart(lightsensor_timer_id, lightsensor_timer * 1000);
+  33:../../../applications/examples/lightsensor-example/src/lightsensor.c **** 
+  34:../../../applications/examples/lightsensor-example/src/lightsensor.c ****   osTimerDef(colorsensor_Tim, RGBsensor_measurement);
+  35:../../../applications/examples/lightsensor-example/src/lightsensor.c ****   colorsensor_timer_id = osTimerCreate(osTimer(colorsensor_Tim), osTimerPeriodic, NULL);
+  36:../../../applications/examples/lightsensor-example/src/lightsensor.c ****   osTimerStart(colorsensor_timer_id, colorsensor_timer * 1000);
+  37:../../../applications/examples/lightsensor-example/src/lightsensor.c **** 
+  38:../../../applications/examples/lightsensor-example/src/lightsensor.c ****   osKernelStart();
+  39:../../../applications/examples/lightsensor-example/src/lightsensor.c **** 
+  40:../../../applications/examples/lightsensor-example/src/lightsensor.c ****   while (1)
+  41:../../../applications/examples/lightsensor-example/src/lightsensor.c ****   {
+  42:../../../applications/examples/lightsensor-example/src/lightsensor.c ****   }
+  43:../../../applications/examples/lightsensor-example/src/lightsensor.c **** }
+  44:../../../applications/examples/lightsensor-example/src/lightsensor.c **** 
+  45:../../../applications/examples/lightsensor-example/src/lightsensor.c **** void lightsensor_measurement(void){
+  46:../../../applications/examples/lightsensor-example/src/lightsensor.c ****   osMutexWait(i2cMutexId, osWaitForever);
+  47:../../../applications/examples/lightsensor-example/src/lightsensor.c ****   int clear_light = getClearData();
+  48:../../../applications/examples/lightsensor-example/src/lightsensor.c ****   osMutexRelease(i2cMutexId);
+  49:../../../applications/examples/lightsensor-example/src/lightsensor.c ****   print_light_intensity(clear_light);
+  50:../../../applications/examples/lightsensor-example/src/lightsensor.c **** }
+  51:../../../applications/examples/lightsensor-example/src/lightsensor.c **** 
+  52:../../../applications/examples/lightsensor-example/src/lightsensor.c **** void RGBsensor_measurement(void){
+  53:../../../applications/examples/lightsensor-example/src/lightsensor.c ****   struct RGBvalues RGB = {0,0,0};
+  54:../../../applications/examples/lightsensor-example/src/lightsensor.c ****   turnOnLED();
+  55:../../../applications/examples/lightsensor-example/src/lightsensor.c ****   HAL_Delay(250);
+  56:../../../applications/examples/lightsensor-example/src/lightsensor.c ****   osMutexWait(i2cMutexId, osWaitForever);
+  57:../../../applications/examples/lightsensor-example/src/lightsensor.c ****   RGB.red = getRedData();
+  58:../../../applications/examples/lightsensor-example/src/lightsensor.c ****   RGB.green = getGreenData();
+  59:../../../applications/examples/lightsensor-example/src/lightsensor.c ****   RGB.blue = getBlueData();
+  60:../../../applications/examples/lightsensor-example/src/lightsensor.c ****   osMutexRelease(i2cMutexId);
+  61:../../../applications/examples/lightsensor-example/src/lightsensor.c ****   turnOffLED();
+  62:../../../applications/examples/lightsensor-example/src/lightsensor.c ****   print_color(RGB);
+  63:../../../applications/examples/lightsensor-example/src/lightsensor.c **** }
+  64:../../../applications/examples/lightsensor-example/src/lightsensor.c **** 
+  65:../../../applications/examples/lightsensor-example/src/lightsensor.c **** void print_light_intensity(int data){
+  66:../../../applications/examples/lightsensor-example/src/lightsensor.c ****   printINF("Light intensity: %d  lux \r\n", data);
+  67:../../../applications/examples/lightsensor-example/src/lightsensor.c **** }
+  68:../../../applications/examples/lightsensor-example/src/lightsensor.c **** void print_color(struct RGBvalues values){
+  69:../../../applications/examples/lightsensor-example/src/lightsensor.c ****   printINF("color red: %d , color green: %d, color blue: %d \r\n", values.red, values.green, values
+  70:../../../applications/examples/lightsensor-example/src/lightsensor.c **** }
+  71:../../../applications/examples/lightsensor-example/src/lightsensor.c **** 
+  72:../../../applications/examples/lightsensor-example/src/lightsensor.c **** void StartDefaultTask(void const *argument)
+  73:../../../applications/examples/lightsensor-example/src/lightsensor.c **** {
+  33              		.loc 1 73 1 view -0
+  34              		.cfi_startproc
+  35              		@ Volatile: function does not return.
+  36              		@ args = 0, pretend = 0, frame = 0
+  37              		@ frame_needed = 0, uses_anonymous_args = 0
+  38              	.LVL0:
+  39              		.loc 1 73 1 is_stmt 0 view .LVU1
+  40 0000 08B5     		push	{r3, lr}
+ARM GAS  /tmp/ccTqM1ah.s 			page 3
+
+
+  41              	.LCFI0:
+  42              		.cfi_def_cfa_offset 8
+  43              		.cfi_offset 3, -8
+  44              		.cfi_offset 14, -4
+  45              	.LVL1:
+  46              	.L2:
+  74:../../../applications/examples/lightsensor-example/src/lightsensor.c ****   for (;;)
+  47              		.loc 1 74 3 is_stmt 1 discriminator 1 view .LVU2
+  75:../../../applications/examples/lightsensor-example/src/lightsensor.c ****   {
+  76:../../../applications/examples/lightsensor-example/src/lightsensor.c ****     osDelay(1);
+  48              		.loc 1 76 5 discriminator 1 view .LVU3
+  49 0002 0120     		movs	r0, #1
+  50 0004 FFF7FEFF 		bl	osDelay
+  51              	.LVL2:
+  74:../../../applications/examples/lightsensor-example/src/lightsensor.c ****   for (;;)
+  52              		.loc 1 74 9 discriminator 1 view .LVU4
+  53 0008 FBE7     		b	.L2
+  54              		.cfi_endproc
+  55              	.LFE136:
+  57              		.section	.text.main,"ax",%progbits
+  58              		.align	1
+  59              		.global	main
+  60              		.syntax unified
+  61              		.thumb
+  62              		.thumb_func
+  63              		.fpu fpv4-sp-d16
+  65              	main:
+  66              	.LFB131:
+  11:../../../applications/examples/lightsensor-example/src/lightsensor.c ****   Initialize_Platform();
+  67              		.loc 1 11 1 view -0
+  68              		.cfi_startproc
+  69              		@ Volatile: function does not return.
+  70              		@ args = 0, pretend = 0, frame = 40
+  71              		@ frame_needed = 0, uses_anonymous_args = 0
+  72 0000 00B5     		push	{lr}
+  73              	.LCFI1:
+  74              		.cfi_def_cfa_offset 4
+  75              		.cfi_offset 14, -4
+  76 0002 8BB0     		sub	sp, sp, #44
+  77              	.LCFI2:
+  78              		.cfi_def_cfa_offset 48
+  12:../../../applications/examples/lightsensor-example/src/lightsensor.c **** 
+  79              		.loc 1 12 3 view .LVU6
+  80 0004 FFF7FEFF 		bl	Initialize_Platform
+  81              	.LVL3:
+  14:../../../applications/examples/lightsensor-example/src/lightsensor.c ****   i2cMutexId = osMutexCreate(osMutex(txMutex));
+  82              		.loc 1 14 3 view .LVU7
+  83 0008 0026     		movs	r6, #0
+  84 000a 0996     		str	r6, [sp, #36]
+  15:../../../applications/examples/lightsensor-example/src/lightsensor.c **** 
+  85              		.loc 1 15 3 view .LVU8
+  15:../../../applications/examples/lightsensor-example/src/lightsensor.c **** 
+  86              		.loc 1 15 16 is_stmt 0 view .LVU9
+  87 000c 09A8     		add	r0, sp, #36
+  88 000e FFF7FEFF 		bl	osMutexCreate
+  89              	.LVL4:
+  15:../../../applications/examples/lightsensor-example/src/lightsensor.c **** 
+ARM GAS  /tmp/ccTqM1ah.s 			page 4
+
+
+  90              		.loc 1 15 14 view .LVU10
+  91 0012 1F4B     		ldr	r3, .L7
+  92 0014 1860     		str	r0, [r3]
+  18:../../../applications/examples/lightsensor-example/src/lightsensor.c ****   
+  93              		.loc 1 18 3 is_stmt 1 view .LVU11
+  94 0016 1F48     		ldr	r0, .L7+4
+  95 0018 FFF7FEFF 		bl	TC3472_init
+  96              	.LVL5:
+  20:../../../applications/examples/lightsensor-example/src/lightsensor.c ****   defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
+  97              		.loc 1 20 3 view .LVU12
+  98 001c 04AC     		add	r4, sp, #16
+  99 001e 1E4D     		ldr	r5, .L7+8
+ 100 0020 0FCD     		ldmia	r5!, {r0, r1, r2, r3}
+ 101 0022 0FC4     		stmia	r4!, {r0, r1, r2, r3}
+ 102 0024 2B68     		ldr	r3, [r5]
+ 103 0026 2360     		str	r3, [r4]
+  21:../../../applications/examples/lightsensor-example/src/lightsensor.c **** 
+ 104              		.loc 1 21 3 view .LVU13
+  21:../../../applications/examples/lightsensor-example/src/lightsensor.c **** 
+ 105              		.loc 1 21 23 is_stmt 0 view .LVU14
+ 106 0028 3146     		mov	r1, r6
+ 107 002a 04A8     		add	r0, sp, #16
+ 108 002c FFF7FEFF 		bl	osThreadCreate
+ 109              	.LVL6:
+  21:../../../applications/examples/lightsensor-example/src/lightsensor.c **** 
+ 110              		.loc 1 21 21 view .LVU15
+ 111 0030 1A4B     		ldr	r3, .L7+12
+ 112 0032 1860     		str	r0, [r3]
+  24:../../../applications/examples/lightsensor-example/src/lightsensor.c ****   osTimerDef(iwdgTim, IWDG_feed);
+ 113              		.loc 1 24 3 is_stmt 1 view .LVU16
+ 114 0034 3046     		mov	r0, r6
+ 115 0036 FFF7FEFF 		bl	IWDG_feed
+ 116              	.LVL7:
+  25:../../../applications/examples/lightsensor-example/src/lightsensor.c ****   iwdgTimId = osTimerCreate(osTimer(iwdgTim), osTimerPeriodic, NULL);
+ 117              		.loc 1 25 3 view .LVU17
+ 118 003a 194B     		ldr	r3, .L7+16
+ 119 003c 0393     		str	r3, [sp, #12]
+  26:../../../applications/examples/lightsensor-example/src/lightsensor.c ****   osTimerStart(iwdgTimId, 5 * 1000);
+ 120              		.loc 1 26 3 view .LVU18
+  26:../../../applications/examples/lightsensor-example/src/lightsensor.c ****   osTimerStart(iwdgTimId, 5 * 1000);
+ 121              		.loc 1 26 15 is_stmt 0 view .LVU19
+ 122 003e 3246     		mov	r2, r6
+ 123 0040 0121     		movs	r1, #1
+ 124 0042 03A8     		add	r0, sp, #12
+ 125 0044 FFF7FEFF 		bl	osTimerCreate
+ 126              	.LVL8:
+  26:../../../applications/examples/lightsensor-example/src/lightsensor.c ****   osTimerStart(iwdgTimId, 5 * 1000);
+ 127              		.loc 1 26 13 view .LVU20
+ 128 0048 164B     		ldr	r3, .L7+20
+ 129 004a 1860     		str	r0, [r3]
+  27:../../../applications/examples/lightsensor-example/src/lightsensor.c **** 
+ 130              		.loc 1 27 3 is_stmt 1 view .LVU21
+ 131 004c 41F28831 		movw	r1, #5000
+ 132 0050 FFF7FEFF 		bl	osTimerStart
+ 133              	.LVL9:
+  30:../../../applications/examples/lightsensor-example/src/lightsensor.c ****   lightsensor_timer_id = osTimerCreate(osTimer(lightsensor_Tim), osTimerPeriodic, NULL);
+ 134              		.loc 1 30 3 view .LVU22
+ARM GAS  /tmp/ccTqM1ah.s 			page 5
+
+
+ 135 0054 144B     		ldr	r3, .L7+24
+ 136 0056 0293     		str	r3, [sp, #8]
+  31:../../../applications/examples/lightsensor-example/src/lightsensor.c ****   osTimerStart(lightsensor_timer_id, lightsensor_timer * 1000);
+ 137              		.loc 1 31 3 view .LVU23
+  31:../../../applications/examples/lightsensor-example/src/lightsensor.c ****   osTimerStart(lightsensor_timer_id, lightsensor_timer * 1000);
+ 138              		.loc 1 31 26 is_stmt 0 view .LVU24
+ 139 0058 3246     		mov	r2, r6
+ 140 005a 0121     		movs	r1, #1
+ 141 005c 02A8     		add	r0, sp, #8
+ 142 005e FFF7FEFF 		bl	osTimerCreate
+ 143              	.LVL10:
+  31:../../../applications/examples/lightsensor-example/src/lightsensor.c ****   osTimerStart(lightsensor_timer_id, lightsensor_timer * 1000);
+ 144              		.loc 1 31 24 view .LVU25
+ 145 0062 124B     		ldr	r3, .L7+28
+ 146 0064 1860     		str	r0, [r3]
+  32:../../../applications/examples/lightsensor-example/src/lightsensor.c **** 
+ 147              		.loc 1 32 3 is_stmt 1 view .LVU26
+ 148 0066 40F6B831 		movw	r1, #3000
+ 149 006a FFF7FEFF 		bl	osTimerStart
+ 150              	.LVL11:
+  34:../../../applications/examples/lightsensor-example/src/lightsensor.c ****   colorsensor_timer_id = osTimerCreate(osTimer(colorsensor_Tim), osTimerPeriodic, NULL);
+ 151              		.loc 1 34 3 view .LVU27
+ 152 006e 104B     		ldr	r3, .L7+32
+ 153 0070 0193     		str	r3, [sp, #4]
+  35:../../../applications/examples/lightsensor-example/src/lightsensor.c ****   osTimerStart(colorsensor_timer_id, colorsensor_timer * 1000);
+ 154              		.loc 1 35 3 view .LVU28
+  35:../../../applications/examples/lightsensor-example/src/lightsensor.c ****   osTimerStart(colorsensor_timer_id, colorsensor_timer * 1000);
+ 155              		.loc 1 35 26 is_stmt 0 view .LVU29
+ 156 0072 3246     		mov	r2, r6
+ 157 0074 0121     		movs	r1, #1
+ 158 0076 01A8     		add	r0, sp, #4
+ 159 0078 FFF7FEFF 		bl	osTimerCreate
+ 160              	.LVL12:
+  35:../../../applications/examples/lightsensor-example/src/lightsensor.c ****   osTimerStart(colorsensor_timer_id, colorsensor_timer * 1000);
+ 161              		.loc 1 35 24 view .LVU30
+ 162 007c 0D4B     		ldr	r3, .L7+36
+ 163 007e 1860     		str	r0, [r3]
+  36:../../../applications/examples/lightsensor-example/src/lightsensor.c **** 
+ 164              		.loc 1 36 3 is_stmt 1 view .LVU31
+ 165 0080 40F6B831 		movw	r1, #3000
+ 166 0084 FFF7FEFF 		bl	osTimerStart
+ 167              	.LVL13:
+  38:../../../applications/examples/lightsensor-example/src/lightsensor.c **** 
+ 168              		.loc 1 38 3 view .LVU32
+ 169 0088 FFF7FEFF 		bl	osKernelStart
+ 170              	.LVL14:
+ 171              	.L5:
+  40:../../../applications/examples/lightsensor-example/src/lightsensor.c ****   {
+ 172              		.loc 1 40 3 discriminator 1 view .LVU33
+  42:../../../applications/examples/lightsensor-example/src/lightsensor.c **** }
+ 173              		.loc 1 42 3 discriminator 1 view .LVU34
+  40:../../../applications/examples/lightsensor-example/src/lightsensor.c ****   {
+ 174              		.loc 1 40 9 discriminator 1 view .LVU35
+ 175 008c FEE7     		b	.L5
+ 176              	.L8:
+ 177 008e 00BF     		.align	2
+ 178              	.L7:
+ARM GAS  /tmp/ccTqM1ah.s 			page 6
+
+
+ 179 0090 00000000 		.word	i2cMutexId
+ 180 0094 00000000 		.word	common_I2C
+ 181 0098 00000000 		.word	.LANCHOR0
+ 182 009c 00000000 		.word	defaultTaskHandle
+ 183 00a0 00000000 		.word	IWDG_feed
+ 184 00a4 00000000 		.word	iwdgTimId
+ 185 00a8 00000000 		.word	lightsensor_measurement
+ 186 00ac 00000000 		.word	lightsensor_timer_id
+ 187 00b0 00000000 		.word	RGBsensor_measurement
+ 188 00b4 00000000 		.word	colorsensor_timer_id
+ 189              		.cfi_endproc
+ 190              	.LFE131:
+ 192              		.section	.rodata.print_light_intensity.str1.4,"aMS",%progbits,1
+ 193              		.align	2
+ 194              	.LC3:
+ 195 0000 4C696768 		.ascii	"Light intensity: %d  lux \015\012\000"
+ 195      7420696E 
+ 195      74656E73 
+ 195      6974793A 
+ 195      20256420 
+ 196              		.section	.text.print_light_intensity,"ax",%progbits
+ 197              		.align	1
+ 198              		.global	print_light_intensity
+ 199              		.syntax unified
+ 200              		.thumb
+ 201              		.thumb_func
+ 202              		.fpu fpv4-sp-d16
+ 204              	print_light_intensity:
+ 205              	.LVL15:
+ 206              	.LFB134:
+  65:../../../applications/examples/lightsensor-example/src/lightsensor.c ****   printINF("Light intensity: %d  lux \r\n", data);
+ 207              		.loc 1 65 37 view -0
+ 208              		.cfi_startproc
+ 209              		@ args = 0, pretend = 0, frame = 0
+ 210              		@ frame_needed = 0, uses_anonymous_args = 0
+  65:../../../applications/examples/lightsensor-example/src/lightsensor.c ****   printINF("Light intensity: %d  lux \r\n", data);
+ 211              		.loc 1 65 37 is_stmt 0 view .LVU37
+ 212 0000 08B5     		push	{r3, lr}
+ 213              	.LCFI3:
+ 214              		.cfi_def_cfa_offset 8
+ 215              		.cfi_offset 3, -8
+ 216              		.cfi_offset 14, -4
+ 217 0002 0146     		mov	r1, r0
+  66:../../../applications/examples/lightsensor-example/src/lightsensor.c **** }
+ 218              		.loc 1 66 3 is_stmt 1 view .LVU38
+ 219 0004 0148     		ldr	r0, .L11
+ 220              	.LVL16:
+  66:../../../applications/examples/lightsensor-example/src/lightsensor.c **** }
+ 221              		.loc 1 66 3 is_stmt 0 view .LVU39
+ 222 0006 FFF7FEFF 		bl	printINF
+ 223              	.LVL17:
+  67:../../../applications/examples/lightsensor-example/src/lightsensor.c **** void print_color(struct RGBvalues values){
+ 224              		.loc 1 67 1 view .LVU40
+ 225 000a 08BD     		pop	{r3, pc}
+ 226              	.L12:
+ 227              		.align	2
+ 228              	.L11:
+ARM GAS  /tmp/ccTqM1ah.s 			page 7
+
+
+ 229 000c 00000000 		.word	.LC3
+ 230              		.cfi_endproc
+ 231              	.LFE134:
+ 233              		.section	.text.lightsensor_measurement,"ax",%progbits
+ 234              		.align	1
+ 235              		.global	lightsensor_measurement
+ 236              		.syntax unified
+ 237              		.thumb
+ 238              		.thumb_func
+ 239              		.fpu fpv4-sp-d16
+ 241              	lightsensor_measurement:
+ 242              	.LFB132:
+  45:../../../applications/examples/lightsensor-example/src/lightsensor.c ****   osMutexWait(i2cMutexId, osWaitForever);
+ 243              		.loc 1 45 35 is_stmt 1 view -0
+ 244              		.cfi_startproc
+ 245              		@ args = 0, pretend = 0, frame = 0
+ 246              		@ frame_needed = 0, uses_anonymous_args = 0
+ 247 0000 38B5     		push	{r3, r4, r5, lr}
+ 248              	.LCFI4:
+ 249              		.cfi_def_cfa_offset 16
+ 250              		.cfi_offset 3, -16
+ 251              		.cfi_offset 4, -12
+ 252              		.cfi_offset 5, -8
+ 253              		.cfi_offset 14, -4
+  46:../../../applications/examples/lightsensor-example/src/lightsensor.c ****   int clear_light = getClearData();
+ 254              		.loc 1 46 3 view .LVU42
+ 255 0002 084D     		ldr	r5, .L15
+ 256 0004 4FF0FF31 		mov	r1, #-1
+ 257 0008 2868     		ldr	r0, [r5]
+ 258 000a FFF7FEFF 		bl	osMutexWait
+ 259              	.LVL18:
+  47:../../../applications/examples/lightsensor-example/src/lightsensor.c ****   osMutexRelease(i2cMutexId);
+ 260              		.loc 1 47 3 view .LVU43
+  47:../../../applications/examples/lightsensor-example/src/lightsensor.c ****   osMutexRelease(i2cMutexId);
+ 261              		.loc 1 47 21 is_stmt 0 view .LVU44
+ 262 000e FFF7FEFF 		bl	getClearData
+ 263              	.LVL19:
+ 264 0012 0446     		mov	r4, r0
+ 265              	.LVL20:
+  48:../../../applications/examples/lightsensor-example/src/lightsensor.c ****   print_light_intensity(clear_light);
+ 266              		.loc 1 48 3 is_stmt 1 view .LVU45
+ 267 0014 2868     		ldr	r0, [r5]
+ 268              	.LVL21:
+  48:../../../applications/examples/lightsensor-example/src/lightsensor.c ****   print_light_intensity(clear_light);
+ 269              		.loc 1 48 3 is_stmt 0 view .LVU46
+ 270 0016 FFF7FEFF 		bl	osMutexRelease
+ 271              	.LVL22:
+  49:../../../applications/examples/lightsensor-example/src/lightsensor.c **** }
+ 272              		.loc 1 49 3 is_stmt 1 view .LVU47
+ 273 001a 2046     		mov	r0, r4
+ 274 001c FFF7FEFF 		bl	print_light_intensity
+ 275              	.LVL23:
+  50:../../../applications/examples/lightsensor-example/src/lightsensor.c **** 
+ 276              		.loc 1 50 1 is_stmt 0 view .LVU48
+ 277 0020 38BD     		pop	{r3, r4, r5, pc}
+ 278              	.LVL24:
+ 279              	.L16:
+ARM GAS  /tmp/ccTqM1ah.s 			page 8
+
+
+  50:../../../applications/examples/lightsensor-example/src/lightsensor.c **** 
+ 280              		.loc 1 50 1 view .LVU49
+ 281 0022 00BF     		.align	2
+ 282              	.L15:
+ 283 0024 00000000 		.word	i2cMutexId
+ 284              		.cfi_endproc
+ 285              	.LFE132:
+ 287              		.section	.rodata.print_color.str1.4,"aMS",%progbits,1
+ 288              		.align	2
+ 289              	.LC4:
+ 290 0000 636F6C6F 		.ascii	"color red: %d , color green: %d, color blue: %d \015"
+ 290      72207265 
+ 290      643A2025 
+ 290      64202C20 
+ 290      636F6C6F 
+ 291 0031 0A00     		.ascii	"\012\000"
+ 292              		.section	.text.print_color,"ax",%progbits
+ 293              		.align	1
+ 294              		.global	print_color
+ 295              		.syntax unified
+ 296              		.thumb
+ 297              		.thumb_func
+ 298              		.fpu fpv4-sp-d16
+ 300              	print_color:
+ 301              	.LFB135:
+  68:../../../applications/examples/lightsensor-example/src/lightsensor.c ****   printINF("color red: %d , color green: %d, color blue: %d \r\n", values.red, values.green, values
+ 302              		.loc 1 68 42 is_stmt 1 view -0
+ 303              		.cfi_startproc
+ 304              		@ args = 0, pretend = 0, frame = 16
+ 305              		@ frame_needed = 0, uses_anonymous_args = 0
+ 306 0000 00B5     		push	{lr}
+ 307              	.LCFI5:
+ 308              		.cfi_def_cfa_offset 4
+ 309              		.cfi_offset 14, -4
+ 310 0002 85B0     		sub	sp, sp, #20
+ 311              	.LCFI6:
+ 312              		.cfi_def_cfa_offset 24
+ 313 0004 04AB     		add	r3, sp, #16
+ 314 0006 03E90700 		stmdb	r3, {r0, r1, r2}
+  69:../../../applications/examples/lightsensor-example/src/lightsensor.c **** }
+ 315              		.loc 1 69 3 view .LVU51
+ 316 000a 039B     		ldr	r3, [sp, #12]
+ 317 000c 029A     		ldr	r2, [sp, #8]
+ 318 000e 0199     		ldr	r1, [sp, #4]
+ 319 0010 0248     		ldr	r0, .L19
+ 320 0012 FFF7FEFF 		bl	printINF
+ 321              	.LVL25:
+  70:../../../applications/examples/lightsensor-example/src/lightsensor.c **** 
+ 322              		.loc 1 70 1 is_stmt 0 view .LVU52
+ 323 0016 05B0     		add	sp, sp, #20
+ 324              	.LCFI7:
+ 325              		.cfi_def_cfa_offset 4
+ 326              		@ sp needed
+ 327 0018 5DF804FB 		ldr	pc, [sp], #4
+ 328              	.L20:
+ 329              		.align	2
+ 330              	.L19:
+ARM GAS  /tmp/ccTqM1ah.s 			page 9
+
+
+ 331 001c 00000000 		.word	.LC4
+ 332              		.cfi_endproc
+ 333              	.LFE135:
+ 335              		.section	.text.RGBsensor_measurement,"ax",%progbits
+ 336              		.align	1
+ 337              		.global	RGBsensor_measurement
+ 338              		.syntax unified
+ 339              		.thumb
+ 340              		.thumb_func
+ 341              		.fpu fpv4-sp-d16
+ 343              	RGBsensor_measurement:
+ 344              	.LFB133:
+  52:../../../applications/examples/lightsensor-example/src/lightsensor.c ****   struct RGBvalues RGB = {0,0,0};
+ 345              		.loc 1 52 33 is_stmt 1 view -0
+ 346              		.cfi_startproc
+ 347              		@ args = 0, pretend = 0, frame = 16
+ 348              		@ frame_needed = 0, uses_anonymous_args = 0
+ 349 0000 10B5     		push	{r4, lr}
+ 350              	.LCFI8:
+ 351              		.cfi_def_cfa_offset 8
+ 352              		.cfi_offset 4, -8
+ 353              		.cfi_offset 14, -4
+ 354 0002 84B0     		sub	sp, sp, #16
+ 355              	.LCFI9:
+ 356              		.cfi_def_cfa_offset 24
+  53:../../../applications/examples/lightsensor-example/src/lightsensor.c ****   turnOnLED();
+ 357              		.loc 1 53 3 view .LVU54
+  54:../../../applications/examples/lightsensor-example/src/lightsensor.c ****   HAL_Delay(250);
+ 358              		.loc 1 54 3 view .LVU55
+ 359 0004 FFF7FEFF 		bl	turnOnLED
+ 360              	.LVL26:
+  55:../../../applications/examples/lightsensor-example/src/lightsensor.c ****   osMutexWait(i2cMutexId, osWaitForever);
+ 361              		.loc 1 55 3 view .LVU56
+ 362 0008 FA20     		movs	r0, #250
+ 363 000a FFF7FEFF 		bl	HAL_Delay
+ 364              	.LVL27:
+  56:../../../applications/examples/lightsensor-example/src/lightsensor.c ****   RGB.red = getRedData();
+ 365              		.loc 1 56 3 view .LVU57
+ 366 000e 0D4C     		ldr	r4, .L23
+ 367 0010 4FF0FF31 		mov	r1, #-1
+ 368 0014 2068     		ldr	r0, [r4]
+ 369 0016 FFF7FEFF 		bl	osMutexWait
+ 370              	.LVL28:
+  57:../../../applications/examples/lightsensor-example/src/lightsensor.c ****   RGB.green = getGreenData();
+ 371              		.loc 1 57 3 view .LVU58
+  57:../../../applications/examples/lightsensor-example/src/lightsensor.c ****   RGB.green = getGreenData();
+ 372              		.loc 1 57 13 is_stmt 0 view .LVU59
+ 373 001a FFF7FEFF 		bl	getRedData
+ 374              	.LVL29:
+  57:../../../applications/examples/lightsensor-example/src/lightsensor.c ****   RGB.green = getGreenData();
+ 375              		.loc 1 57 11 view .LVU60
+ 376 001e 0190     		str	r0, [sp, #4]
+  58:../../../applications/examples/lightsensor-example/src/lightsensor.c ****   RGB.blue = getBlueData();
+ 377              		.loc 1 58 3 is_stmt 1 view .LVU61
+  58:../../../applications/examples/lightsensor-example/src/lightsensor.c ****   RGB.blue = getBlueData();
+ 378              		.loc 1 58 15 is_stmt 0 view .LVU62
+ 379 0020 FFF7FEFF 		bl	getGreenData
+ARM GAS  /tmp/ccTqM1ah.s 			page 10
+
+
+ 380              	.LVL30:
+  58:../../../applications/examples/lightsensor-example/src/lightsensor.c ****   RGB.blue = getBlueData();
+ 381              		.loc 1 58 13 view .LVU63
+ 382 0024 0290     		str	r0, [sp, #8]
+  59:../../../applications/examples/lightsensor-example/src/lightsensor.c ****   osMutexRelease(i2cMutexId);
+ 383              		.loc 1 59 3 is_stmt 1 view .LVU64
+  59:../../../applications/examples/lightsensor-example/src/lightsensor.c ****   osMutexRelease(i2cMutexId);
+ 384              		.loc 1 59 14 is_stmt 0 view .LVU65
+ 385 0026 FFF7FEFF 		bl	getBlueData
+ 386              	.LVL31:
+  59:../../../applications/examples/lightsensor-example/src/lightsensor.c ****   osMutexRelease(i2cMutexId);
+ 387              		.loc 1 59 12 view .LVU66
+ 388 002a 0390     		str	r0, [sp, #12]
+  60:../../../applications/examples/lightsensor-example/src/lightsensor.c ****   turnOffLED();
+ 389              		.loc 1 60 3 is_stmt 1 view .LVU67
+ 390 002c 2068     		ldr	r0, [r4]
+ 391 002e FFF7FEFF 		bl	osMutexRelease
+ 392              	.LVL32:
+  61:../../../applications/examples/lightsensor-example/src/lightsensor.c ****   print_color(RGB);
+ 393              		.loc 1 61 3 view .LVU68
+ 394 0032 FFF7FEFF 		bl	turnOffLED
+ 395              	.LVL33:
+  62:../../../applications/examples/lightsensor-example/src/lightsensor.c **** }
+ 396              		.loc 1 62 3 view .LVU69
+ 397 0036 04AB     		add	r3, sp, #16
+ 398 0038 13E90700 		ldmdb	r3, {r0, r1, r2}
+ 399 003c FFF7FEFF 		bl	print_color
+ 400              	.LVL34:
+  63:../../../applications/examples/lightsensor-example/src/lightsensor.c **** 
+ 401              		.loc 1 63 1 is_stmt 0 view .LVU70
+ 402 0040 04B0     		add	sp, sp, #16
+ 403              	.LCFI10:
+ 404              		.cfi_def_cfa_offset 8
+ 405              		@ sp needed
+ 406 0042 10BD     		pop	{r4, pc}
+ 407              	.L24:
+ 408              		.align	2
+ 409              	.L23:
+ 410 0044 00000000 		.word	i2cMutexId
+ 411              		.cfi_endproc
+ 412              	.LFE133:
+ 414              		.comm	colorsensor_timer_id,4,4
+ 415              		.comm	lightsensor_timer_id,4,4
+ 416              		.comm	hi2cLib,4,4
+ 417              		.comm	i2cMutexId,4,4
+ 418              		.comm	iwdgTimId,4,4
+ 419              		.comm	defaultTaskHandle,4,4
+ 420              		.comm	P3_header,44,4
+ 421              		.comm	P2_header,44,4
+ 422              		.comm	P1_header,44,4
+ 423              		.comm	stackversion_patch,1,1
+ 424              		.comm	stackversion_minor,1,1
+ 425              		.comm	stackversion_major,1,1
+ 426              		.comm	appversion_patch,1,1
+ 427              		.comm	appversion_minor,1,1
+ 428              		.comm	appversion_major,1,1
+ 429              		.comm	short_UID,8,8
+ARM GAS  /tmp/ccTqM1ah.s 			page 11
+
+
+ 430              		.comm	hard_reset,1,1
+ 431              		.comm	wd_reset,1,1
+ 432              		.comm	octa_uid,8,8
+ 433              		.comm	float_union,4,4
+ 434              		.comm	uint16LittleEndian,2,4
+ 435              		.comm	int16LittleEndian,2,4
+ 436              		.comm	uint32LittleEndian,4,4
+ 437              		.comm	int32LittleEndian,4,4
+ 438              		.comm	rtosprintHandle,4,4
+ 439              		.comm	hrtc,36,4
+ 440              		.comm	FLASH_SPI,100,4
+ 441              		.comm	P3_SPI,100,4
+ 442              		.comm	P2_SPI,100,4
+ 443              		.comm	P1_SPI,100,4
+ 444              		.comm	P3_I2C,76,4
+ 445              		.comm	P2_I2C,76,4
+ 446              		.comm	P1_I2C,76,4
+ 447              		.comm	common_I2C,76,4
+ 448              		.comm	P3_UART,120,4
+ 449              		.comm	P2_UART,120,4
+ 450              		.comm	P1_UART,120,4
+ 451              		.comm	FTDI_UART,120,4
+ 452              		.comm	BLE_UART,120,4
+ 453              		.comm	USB_UART,120,4
+ 454              		.comm	hiwdg,16,4
+ 455              		.comm	P3_DIO6,8,4
+ 456              		.comm	P3_DIO5,8,4
+ 457              		.comm	P3_DIO4,8,4
+ 458              		.comm	P3_DIO3,8,4
+ 459              		.comm	P3_DIO2,8,4
+ 460              		.comm	P3_DIO1,8,4
+ 461              		.comm	P2_DIO6,8,4
+ 462              		.comm	P2_DIO5,8,4
+ 463              		.comm	P2_DIO4,8,4
+ 464              		.comm	P2_DIO3,8,4
+ 465              		.comm	P2_DIO2,8,4
+ 466              		.comm	P2_DIO1,8,4
+ 467              		.comm	P1_DIO6,8,4
+ 468              		.comm	P1_DIO5,8,4
+ 469              		.comm	P1_DIO4,8,4
+ 470              		.comm	P1_DIO3,8,4
+ 471              		.comm	P1_DIO2,8,4
+ 472              		.comm	P1_DIO1,8,4
+ 473              		.comm	htim6,64,4
+ 474              		.comm	htim1,64,4
+ 475              		.section	.rodata
+ 476              		.align	2
+ 477              		.set	.LANCHOR0,. + 0
+ 478              	.LC2:
+ 479 0000 00000000 		.word	.LC0
+ 480 0004 00000000 		.word	StartDefaultTask
+ 481 0008 FEFF     		.short	-2
+ 482 000a 0000     		.space	2
+ 483 000c 00000000 		.word	0
+ 484 0010 80000000 		.word	128
+ 485              		.text
+ 486              	.Letext0:
+ARM GAS  /tmp/ccTqM1ah.s 			page 12
+
+
+ 487              		.file 2 "/usr/arm-none-eabi/include/machine/_default_types.h"
+ 488              		.file 3 "/usr/arm-none-eabi/include/sys/_stdint.h"
+ 489              		.file 4 "../../../core/ST/CMSIS/Include/core_cm4.h"
+ 490              		.file 5 "../../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/system_stm32l4xx.h"
+ 491              		.file 6 "../../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/stm32l496xx.h"
+ 492              		.file 7 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h"
+ 493              		.file 8 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_dma.h"
+ 494              		.file 9 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_i2c.h"
+ 495              		.file 10 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_iwdg.h"
+ 496              		.file 11 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rtc.h"
+ 497              		.file 12 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_spi.h"
+ 498              		.file 13 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_tim.h"
+ 499              		.file 14 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h"
+ 500              		.file 15 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h"
+ 501              		.file 16 "../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/include/task.h"
+ 502              		.file 17 "../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/include/timers.h"
+ 503              		.file 18 "../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/include/queue.h"
+ 504              		.file 19 "../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/include/semphr.h"
+ 505              		.file 20 "../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h"
+ 506              		.file 21 "../../../core/platform/octa/inc/sysclock.h"
+ 507              		.file 22 "../../../core/platform/octa/inc/gpio.h"
+ 508              		.file 23 "../../../core/platform/octa/inc/iwdg.h"
+ 509              		.file 24 "../../../core/platform/octa/inc/uart.h"
+ 510              		.file 25 "../../../core/platform/octa/inc/i2c.h"
+ 511              		.file 26 "../../../core/platform/octa/inc/spi.h"
+ 512              		.file 27 "../../../core/platform/octa/inc/rtc.h"
+ 513              		.file 28 "../../../core/platform/octa/inc/rtosincludes.h"
+ 514              		.file 29 "/usr/arm-none-eabi/include/sys/lock.h"
+ 515              		.file 30 "/usr/arm-none-eabi/include/sys/_types.h"
+ 516              		.file 31 "/usr/lib/gcc/arm-none-eabi/9.2.1/include/stddef.h"
+ 517              		.file 32 "/usr/arm-none-eabi/include/sys/reent.h"
+ 518              		.file 33 "../../../core/platform/common/inc/datatypes.h"
+ 519              		.file 34 "../../../core/platform/octa/inc/platform.h"
+ 520              		.file 35 "../../../applications/examples/lightsensor-example/inc/lightsensor.h"
+ 521              		.file 36 "/usr/arm-none-eabi/include/stdlib.h"
+ 522              		.file 37 "/usr/arm-none-eabi/include/math.h"
+ 523              		.file 38 "../../../core/drivers/TCS3472/inc/TCS3472.h"
+ 524              		.file 39 "../../../core/platform/common/inc/print.h"
+ARM GAS  /tmp/ccTqM1ah.s 			page 13
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 lightsensor.c
+     /tmp/ccTqM1ah.s:15     .rodata.str1.4:0000000000000000 $d
+     /tmp/ccTqM1ah.s:22     .text.StartDefaultTask:0000000000000000 $t
+     /tmp/ccTqM1ah.s:30     .text.StartDefaultTask:0000000000000000 StartDefaultTask
+     /tmp/ccTqM1ah.s:58     .text.main:0000000000000000 $t
+     /tmp/ccTqM1ah.s:65     .text.main:0000000000000000 main
+     /tmp/ccTqM1ah.s:179    .text.main:0000000000000090 $d
+                            *COM*:0000000000000004 i2cMutexId
+                            *COM*:000000000000004c common_I2C
+                            *COM*:0000000000000004 defaultTaskHandle
+                            *COM*:0000000000000004 iwdgTimId
+     /tmp/ccTqM1ah.s:241    .text.lightsensor_measurement:0000000000000000 lightsensor_measurement
+                            *COM*:0000000000000004 lightsensor_timer_id
+     /tmp/ccTqM1ah.s:343    .text.RGBsensor_measurement:0000000000000000 RGBsensor_measurement
+                            *COM*:0000000000000004 colorsensor_timer_id
+     /tmp/ccTqM1ah.s:193    .rodata.print_light_intensity.str1.4:0000000000000000 $d
+     /tmp/ccTqM1ah.s:197    .text.print_light_intensity:0000000000000000 $t
+     /tmp/ccTqM1ah.s:204    .text.print_light_intensity:0000000000000000 print_light_intensity
+     /tmp/ccTqM1ah.s:229    .text.print_light_intensity:000000000000000c $d
+     /tmp/ccTqM1ah.s:234    .text.lightsensor_measurement:0000000000000000 $t
+     /tmp/ccTqM1ah.s:283    .text.lightsensor_measurement:0000000000000024 $d
+     /tmp/ccTqM1ah.s:288    .rodata.print_color.str1.4:0000000000000000 $d
+     /tmp/ccTqM1ah.s:293    .text.print_color:0000000000000000 $t
+     /tmp/ccTqM1ah.s:300    .text.print_color:0000000000000000 print_color
+     /tmp/ccTqM1ah.s:331    .text.print_color:000000000000001c $d
+     /tmp/ccTqM1ah.s:336    .text.RGBsensor_measurement:0000000000000000 $t
+     /tmp/ccTqM1ah.s:410    .text.RGBsensor_measurement:0000000000000044 $d
+                            *COM*:0000000000000004 hi2cLib
+                            *COM*:000000000000002c P3_header
+                            *COM*:000000000000002c P2_header
+                            *COM*:000000000000002c P1_header
+                            *COM*:0000000000000001 stackversion_patch
+                            *COM*:0000000000000001 stackversion_minor
+                            *COM*:0000000000000001 stackversion_major
+                            *COM*:0000000000000001 appversion_patch
+                            *COM*:0000000000000001 appversion_minor
+                            *COM*:0000000000000001 appversion_major
+                            *COM*:0000000000000008 short_UID
+                            *COM*:0000000000000001 hard_reset
+                            *COM*:0000000000000001 wd_reset
+                            *COM*:0000000000000008 octa_uid
+                            *COM*:0000000000000004 float_union
+                            *COM*:0000000000000002 uint16LittleEndian
+                            *COM*:0000000000000002 int16LittleEndian
+                            *COM*:0000000000000004 uint32LittleEndian
+                            *COM*:0000000000000004 int32LittleEndian
+                            *COM*:0000000000000004 rtosprintHandle
+                            *COM*:0000000000000024 hrtc
+                            *COM*:0000000000000064 FLASH_SPI
+                            *COM*:0000000000000064 P3_SPI
+                            *COM*:0000000000000064 P2_SPI
+                            *COM*:0000000000000064 P1_SPI
+                            *COM*:000000000000004c P3_I2C
+                            *COM*:000000000000004c P2_I2C
+                            *COM*:000000000000004c P1_I2C
+                            *COM*:0000000000000078 P3_UART
+ARM GAS  /tmp/ccTqM1ah.s 			page 14
+
+
+                            *COM*:0000000000000078 P2_UART
+                            *COM*:0000000000000078 P1_UART
+                            *COM*:0000000000000078 FTDI_UART
+                            *COM*:0000000000000078 BLE_UART
+                            *COM*:0000000000000078 USB_UART
+                            *COM*:0000000000000010 hiwdg
+                            *COM*:0000000000000008 P3_DIO6
+                            *COM*:0000000000000008 P3_DIO5
+                            *COM*:0000000000000008 P3_DIO4
+                            *COM*:0000000000000008 P3_DIO3
+                            *COM*:0000000000000008 P3_DIO2
+                            *COM*:0000000000000008 P3_DIO1
+                            *COM*:0000000000000008 P2_DIO6
+                            *COM*:0000000000000008 P2_DIO5
+                            *COM*:0000000000000008 P2_DIO4
+                            *COM*:0000000000000008 P2_DIO3
+                            *COM*:0000000000000008 P2_DIO2
+                            *COM*:0000000000000008 P2_DIO1
+                            *COM*:0000000000000008 P1_DIO6
+                            *COM*:0000000000000008 P1_DIO5
+                            *COM*:0000000000000008 P1_DIO4
+                            *COM*:0000000000000008 P1_DIO3
+                            *COM*:0000000000000008 P1_DIO2
+                            *COM*:0000000000000008 P1_DIO1
+                            *COM*:0000000000000040 htim6
+                            *COM*:0000000000000040 htim1
+     /tmp/ccTqM1ah.s:476    .rodata:0000000000000000 $d
+
+UNDEFINED SYMBOLS
+osDelay
+Initialize_Platform
+osMutexCreate
+TC3472_init
+osThreadCreate
+IWDG_feed
+osTimerCreate
+osTimerStart
+osKernelStart
+printINF
+osMutexWait
+getClearData
+osMutexRelease
+turnOnLED
+HAL_Delay
+getRedData
+getGreenData
+getBlueData
+turnOffLED

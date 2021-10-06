@@ -1,6 +1,7 @@
 #include "payloadformat.h"
 #include "octa-flash.h"
 #include "datatypes.h"
+#include "payloadparser.h"
 #include "flash_config.h"
 
 /*
@@ -11,6 +12,7 @@
 * last msg acked
 * dns id
 * current flash index (page?)
+* last known timestamp
 */
 uint8_t update_flash_configuration(struct octa_configuration* toFlash)
 {
@@ -30,7 +32,7 @@ uint8_t update_flash_configuration(struct octa_configuration* toFlash)
   }
   printDBG("Current flash configuration:\r\n");
   #if DEBUG
-    for (uint16_t i = 0; i < OCTA_FLASH_PAGE_SIZE; ++i) {
+    for (uint16_t i = 0; i < CONFIG_BUFFER_SIZE; ++i) {
       printf("%02x", flashBuffer[i]);
     }
     printf("\r\n");
@@ -44,11 +46,11 @@ uint8_t update_flash_configuration(struct octa_configuration* toFlash)
 
   // last acked msg
   flashBuffer[index++] = (uint8_t)TYPE_DOWNLINK_ACK;
-  int32LittleEndian.integer = toFlash->last_msg_acked;
-  flashBuffer[index++] = int32LittleEndian.byte[0];
-  flashBuffer[index++] = int32LittleEndian.byte[1];
-  flashBuffer[index++] = int32LittleEndian.byte[2];
-  flashBuffer[index++] = int32LittleEndian.byte[3];
+  uint32LittleEndian.integer = toFlash->last_msg_acked;
+  flashBuffer[index++] = uint32LittleEndian.byte[0];
+  flashBuffer[index++] = uint32LittleEndian.byte[1];
+  flashBuffer[index++] = uint32LittleEndian.byte[2];
+  flashBuffer[index++] = uint32LittleEndian.byte[3];
 
   // dns id
   flashBuffer[index++] = (uint8_t)TYPE_DOWNLINK_DNS_UPDATE;
@@ -62,6 +64,14 @@ uint8_t update_flash_configuration(struct octa_configuration* toFlash)
   flashBuffer[index++] = uint32LittleEndian.byte[2];
   flashBuffer[index++] = uint32LittleEndian.byte[3];
 
+  // last known timestamp
+  flashBuffer[index++] = (uint8_t)TYPE_LAST_KNOWN_TIMESTAMP;
+  uint32LittleEndian.integer = toFlash->last_known_timestamp;
+  flashBuffer[index++] = uint32LittleEndian.byte[0];
+  flashBuffer[index++] = uint32LittleEndian.byte[1];
+  flashBuffer[index++] = uint32LittleEndian.byte[2];
+  flashBuffer[index++] = uint32LittleEndian.byte[3];
+
   retval = OCTA_FLASH_eraseConfigSector();
   if(retval != OCTA_FLASH_OK)
   {
@@ -70,7 +80,10 @@ uint8_t update_flash_configuration(struct octa_configuration* toFlash)
   while(OCTA_FLASH_isWriteInProgress())
   {
         printDBG("Write in progress\r\n");
-        HAL_Delay(50);
+        if(osKernelRunning())
+          osDelay(50);
+        else
+          HAL_Delay(50);
   }
   uint8_t rxbuffer[OCTA_FLASH_PAGE_SIZE] = {0xff};
   retval = OCTA_FLASH_read(rxbuffer, OCTA_FLASH_PAGE_SIZE);
@@ -80,7 +93,7 @@ uint8_t update_flash_configuration(struct octa_configuration* toFlash)
   }
   printDBG("Flash after erase\r\n");
   #if DEBUG
-    for (uint16_t i = 0; i < OCTA_FLASH_PAGE_SIZE; ++i) {
+    for (uint16_t i = 0; i < CONFIG_BUFFER_SIZE; ++i) {
       printf("%02x", rxbuffer[i]);
     }
     printf("\r\n");
@@ -88,14 +101,13 @@ uint8_t update_flash_configuration(struct octa_configuration* toFlash)
 
   printDBG("Writing updated configuration to flash:\r\n");
   #if DEBUG
-    for (uint16_t i = 0; i < OCTA_FLASH_PAGE_SIZE; ++i) {
+    for (uint16_t i = 0; i < CONFIG_BUFFER_SIZE; ++i) {
       printf("%02x", flashBuffer[i]);
     }
     printf("\r\n");
   #endif
   
   retval =  OCTA_FLASH_write(flashBuffer, OCTA_FLASH_PAGE_SIZE);
-  HAL_Delay(50);
   if(retval != OCTA_FLASH_PAGE_SIZE)
   {
     printERR("Flash operation NOK: %d\r\n", retval);
@@ -103,7 +115,10 @@ uint8_t update_flash_configuration(struct octa_configuration* toFlash)
   while(OCTA_FLASH_isWriteInProgress())
   {
         printDBG("Write in progress\r\n");
-        HAL_Delay(50);
+        if(osKernelRunning())
+          osDelay(50);
+        else
+          HAL_Delay(50);
   }
   memset(flashBuffer, 0, OCTA_FLASH_PAGE_SIZE);
   retval = OCTA_FLASH_read(flashBuffer, OCTA_FLASH_PAGE_SIZE);
@@ -113,7 +128,7 @@ uint8_t update_flash_configuration(struct octa_configuration* toFlash)
   }
   printDBG("Flash after new config\r\n");
   #if DEBUG
-    for (uint16_t i = 0; i < OCTA_FLASH_PAGE_SIZE; ++i) {
+    for (uint16_t i = 0; i < CONFIG_BUFFER_SIZE; ++i) {
       printf("%02x", flashBuffer[i]);
     }
     printf("\r\n");

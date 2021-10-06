@@ -1,7 +1,7 @@
 ######################################
 # STACK VERSION (https://semver.org/)
 ######################################
-STACK_VERSION = 0.4.1
+STACK_VERSION = 0.5.7
 
 # Globally set default goal to `all`
 .DEFAULT_GOAL := all
@@ -24,9 +24,9 @@ endif
 PLATFORM_DIR    ?= $(STACKBASE)/core/platform
 DRIVERS_DIR     ?= $(STACKBASE)/core/drivers
 ST_DIR          ?= $(STACKBASE)/core/ST
-APPLICATION_DIR ?= $(STACKBASE)/applications/$(APPLICATION)
-BUILD_DIR       ?= $(STACKBASE)/applications/$(APPLICATION)/build
-RELEASE_DIR       ?= $(STACKBASE)/applications/$(APPLICATION)/release
+APPLICATION_DIR ?= $(STACKBASE)/applications/$(FOLDER)/$(APPLICATION)
+BUILD_DIR       ?= $(STACKBASE)/applications/$(FOLDER)/$(APPLICATION)/build
+RELEASE_DIR     ?= $(STACKBASE)/applications/$(FOLDER)/$(APPLICATION)/release
 STM32CUBEPROG   ?= $(STACKBASE)/core/ST/STM32CubeProgrammer/bin/STM32_Programmer_CLI
 
 ######################################
@@ -155,16 +155,6 @@ else
 	USER_DEFINES += -DENABLE_STEPUP=0
 endif
 
-
-#######################################
-# BLE define
-#######################################
-ifeq ($(USE_BLE),1)
-	USER_DEFINES += -DUSE_BLE=1
-else
-	USER_DEFINES += -DUSE_BLE=0
-endif
-
 #######################################
 # Low power define
 #######################################
@@ -186,10 +176,10 @@ endif
 #######################################
 # RTOS PRINT STATUS define
 #######################################
-ifeq ($(PRINT_RTOS_STATS),0)
-	USER_DEFINES += -DPRINT_RTOS_STATS=0
-else
+ifeq ($(PRINT_RTOS_STATS),1)
 	USER_DEFINES += -DPRINT_RTOS_STATS=1
+else
+	USER_DEFINES += -DPRINT_RTOS_STATS=0
 endif
 
 #######################################
@@ -245,13 +235,17 @@ $(BUILD_DIR):
 #######################################
 # cp elf to release with version
 #######################################
-release: create_release_dir $(RELEASE_DIR)/$(TARGET_WITH_VERSION).elf
+release: create_release_dir $(RELEASE_DIR)/$(TARGET_WITH_VERSION).elf $(RELEASE_DIR)/$(TARGET_WITH_VERSION).bin $(RELEASE_DIR)/$(TARGET_WITH_VERSION).hex
 
 create_release_dir:
 	if test -d $(RELEASE_DIR); then echo exists; else mkdir $(RELEASE_DIR); fi
 	
 $(RELEASE_DIR)/$(TARGET_WITH_VERSION).elf:
 	cp $(BUILD_DIR)/$(TARGET).elf $@
+$(RELEASE_DIR)/$(TARGET_WITH_VERSION).bin:
+	cp $(BUILD_DIR)/$(TARGET).bin $@
+$(RELEASE_DIR)/$(TARGET_WITH_VERSION).hex:
+	cp $(BUILD_DIR)/$(TARGET).hex $@
 
 #######################################
 # clean up

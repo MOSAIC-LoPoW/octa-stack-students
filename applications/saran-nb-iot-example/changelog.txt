@@ -1,2 +1,0 @@
-saran-nb-iot-example
-0.1.0: initial version

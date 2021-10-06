@@ -48,7 +48,12 @@
 #define TYPE_CUR_CONFIGURABLE_SETTING               46
 #define TYPE_DEVICE_HEALTH_PARAM                    47
 #define TYPE_HEARTBEAT_MESSAGE                      48
-
+#define TYPE_NB_IOT_NEIGHBORS                       49
+#define TYPE_NB_IOT_RSRP                            50
+#define TYPE_NB_IOT_RSRQ                            51
+#define TYPE_NB_IOT_SNR                             52
+#define TYPE_ACC_ARRAY                              53
+#define TYPE_LAST_KNOWN_TIMESTAMP                   54
 
 /* DOWNLINKS */
 #define TYPE_DOWNLINK_DNS_UPDATE                    245

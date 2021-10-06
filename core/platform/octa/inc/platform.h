@@ -15,16 +15,21 @@
 #endif
 #include "print.h"
 #include "payloadformat.h"
+#include "octa-protocol-types.h"
 #include <stdio.h>
 #include <stdint.h>
 #include <stdarg.h>
 #include <string.h>
 #include "assert.h"
 #include "error.h"
+#include "leds.h"
 #include "datatypes.h"
 
 #define XSTR(x) #x
 #define STR(x) XSTR(x)
+
+uint8_t wd_reset; 
+uint8_t hard_reset; 
 
 uint64_t short_UID;
 uint8_t appversion_major;

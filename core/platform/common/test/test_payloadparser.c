@@ -2,6 +2,8 @@
 #include "datatypes.h"
 #include "print.h"
 #include "payloadparser.h"
+#include "octa-protocol-types.h"
+#include "mock_rtc.h"
 
 struct octa_configuration test_octa_configuration = {0};
 uint8_t buffer[20];
@@ -14,6 +16,9 @@ void setUp(void)
     test_octa_configuration.last_msg_acked = 0;
     test_octa_configuration.interval = 0;
     test_octa_configuration.multiplier = 0;
+    test_octa_configuration.last_known_timestamp = 0;
+    RTC_Print_DateTime_Ignore();
+    RTC_Set_Time_From_Unix_Ignore();
 }
 
 void tearDown(void) {} // every test file requires this function;
@@ -60,7 +65,7 @@ void test_payloadparser_parseOctaConfiguration_should_UpdateConfigurationStructW
 
     TEST_ASSERT_EQUAL_UINT8(wanted_octa_configuration.flash_index, test_octa_configuration.flash_index);
     TEST_ASSERT_EQUAL_UINT8(wanted_octa_configuration.dns_id, test_octa_configuration.dns_id);
-    TEST_ASSERT_EQUAL_INT32(wanted_octa_configuration.last_msg_acked, test_octa_configuration.last_msg_acked);
+    TEST_ASSERT_EQUAL_UINT32(wanted_octa_configuration.last_msg_acked, test_octa_configuration.last_msg_acked);
     TEST_ASSERT_EQUAL_UINT8(wanted_octa_configuration.interval, test_octa_configuration.interval);
     TEST_ASSERT_EQUAL_UINT8(wanted_octa_configuration.multiplier, test_octa_configuration.multiplier);
 
@@ -77,7 +82,7 @@ void test_payloadparser_parseOctaConfiguration_should_UpdateConfigurationStructW
 
     TEST_ASSERT_EQUAL_UINT8(wanted_octa_configuration.flash_index, test_octa_configuration.flash_index);
     TEST_ASSERT_EQUAL_UINT8(wanted_octa_configuration.dns_id, test_octa_configuration.dns_id);
-    TEST_ASSERT_EQUAL_INT32(wanted_octa_configuration.last_msg_acked, test_octa_configuration.last_msg_acked);
+    TEST_ASSERT_EQUAL_UINT32(wanted_octa_configuration.last_msg_acked, test_octa_configuration.last_msg_acked);
     TEST_ASSERT_EQUAL_UINT8(wanted_octa_configuration.interval, test_octa_configuration.interval);
     TEST_ASSERT_EQUAL_UINT8(wanted_octa_configuration.multiplier, test_octa_configuration.multiplier);
 
@@ -91,7 +96,7 @@ void test_payloadparser_parseOctaConfiguration_should_UpdateConfigurationStructW
 
     TEST_ASSERT_EQUAL_UINT8(wanted_octa_configuration.flash_index, test_octa_configuration.flash_index);
     TEST_ASSERT_EQUAL_UINT8(wanted_octa_configuration.dns_id, test_octa_configuration.dns_id);
-    TEST_ASSERT_EQUAL_INT32(wanted_octa_configuration.last_msg_acked, test_octa_configuration.last_msg_acked);
+    TEST_ASSERT_EQUAL_UINT32(wanted_octa_configuration.last_msg_acked, test_octa_configuration.last_msg_acked);
     TEST_ASSERT_EQUAL_UINT8(wanted_octa_configuration.interval, test_octa_configuration.interval);
     TEST_ASSERT_EQUAL_UINT8(wanted_octa_configuration.multiplier, test_octa_configuration.multiplier);
 }
@@ -188,9 +193,9 @@ void test_payloadparser_parseOctaConfiguration_should_NotUpdateConfigWheneverAnE
 
     TEST_ASSERT_EQUAL(PARSER_PARSE_ERROR, parse_octa_configuration(&test_octa_configuration, buffer, len));
 
-    TEST_ASSERT_EQUAL_UINT8(wanted_octa_configuration.flash_index, test_octa_configuration.flash_index);
+    TEST_ASSERT_EQUAL_UINT32(wanted_octa_configuration.flash_index, test_octa_configuration.flash_index);
     TEST_ASSERT_EQUAL_UINT8(wanted_octa_configuration.dns_id, test_octa_configuration.dns_id);
-    TEST_ASSERT_EQUAL_INT32(wanted_octa_configuration.last_msg_acked, test_octa_configuration.last_msg_acked);
+    TEST_ASSERT_EQUAL_UINT32(wanted_octa_configuration.last_msg_acked, test_octa_configuration.last_msg_acked);
     TEST_ASSERT_EQUAL_UINT8(wanted_octa_configuration.interval, test_octa_configuration.interval);
     TEST_ASSERT_EQUAL_UINT8(wanted_octa_configuration.multiplier, test_octa_configuration.multiplier);
 }
@@ -222,9 +227,9 @@ void test_payloadparser_parseOctaConfiguration_should_ParseCorrectlyAfterError(v
 
     TEST_ASSERT_EQUAL(PARSER_PARSE_ERROR, parse_octa_configuration(&test_octa_configuration, buffer, len));
 
-    TEST_ASSERT_EQUAL_UINT8(wanted_octa_configuration.flash_index, test_octa_configuration.flash_index);
+    TEST_ASSERT_EQUAL_UINT32(wanted_octa_configuration.flash_index, test_octa_configuration.flash_index);
     TEST_ASSERT_EQUAL_UINT8(wanted_octa_configuration.dns_id, test_octa_configuration.dns_id);
-    TEST_ASSERT_EQUAL_INT32(wanted_octa_configuration.last_msg_acked, test_octa_configuration.last_msg_acked);
+    TEST_ASSERT_EQUAL_UINT32(wanted_octa_configuration.last_msg_acked, test_octa_configuration.last_msg_acked);
     TEST_ASSERT_EQUAL_UINT8(wanted_octa_configuration.interval, test_octa_configuration.interval);
     TEST_ASSERT_EQUAL_UINT8(wanted_octa_configuration.multiplier, test_octa_configuration.multiplier);
 
@@ -250,8 +255,237 @@ void test_payloadparser_parseOctaConfiguration_should_ParseCorrectlyAfterError(v
 
     TEST_ASSERT_EQUAL_UINT8(wanted_octa_configuration.flash_index, test_octa_configuration.flash_index);
     TEST_ASSERT_EQUAL_UINT8(wanted_octa_configuration.dns_id, test_octa_configuration.dns_id);
-    TEST_ASSERT_EQUAL_INT32(wanted_octa_configuration.last_msg_acked, test_octa_configuration.last_msg_acked);
+    TEST_ASSERT_EQUAL_UINT32(wanted_octa_configuration.last_msg_acked, test_octa_configuration.last_msg_acked);
     TEST_ASSERT_EQUAL_UINT8(wanted_octa_configuration.interval, test_octa_configuration.interval);
     TEST_ASSERT_EQUAL_UINT8(wanted_octa_configuration.multiplier, test_octa_configuration.multiplier);
 
+}
+
+void test_payloadparser_parse_octa_protocol_downlink_should_ReturnCONFIG_UNKNOWN_TYPEWhenUnknownTypeIsPassed(void)
+{
+    buffer[0] = 1;
+    buffer[1] = 2; 
+    len = 2;
+    TEST_ASSERT_EQUAL(PARSER_UNKNOWN_TYPE, parse_octa_protocol_downlink(&test_octa_configuration, buffer, len));
+}
+
+void test_payloadparser_parse_octa_protocol_downlink_should_UpdateConfigurationStructWhenValidDownlinkIsParsed(void)
+{
+    //msg acked
+    buffer[0] = TYPE_HEADER_ACK;
+    buffer[1] = 1;
+    buffer[2] = 2;
+    buffer[3] = 3;
+    buffer[4] = 4;
+    //header end
+    buffer[5] = TYPE_HEADER_END;
+
+    //timestamp
+    buffer[6] = TYPE_PAYLOAD_TIMESTAMP;
+    buffer[7] = 2;
+    buffer[8] = 2;
+    buffer[9] = 3;
+    buffer[10] = 4;
+
+    len = 11;
+    struct octa_configuration wanted_octa_configuration = { .flash_index = 0, 
+                                                            .dns_id = 0, 
+                                                            .last_msg_acked = 67305985, 
+                                                            .interval = 0, 
+                                                            .multiplier = 0,
+                                                            .last_known_timestamp = 67305986};
+
+    TEST_ASSERT_EQUAL(PARSER_OK, parse_octa_protocol_downlink(&test_octa_configuration, buffer, len));
+
+    TEST_ASSERT_EQUAL_UINT32(wanted_octa_configuration.flash_index, test_octa_configuration.flash_index);
+    TEST_ASSERT_EQUAL_UINT8(wanted_octa_configuration.dns_id, test_octa_configuration.dns_id);
+    TEST_ASSERT_EQUAL_UINT32(wanted_octa_configuration.last_msg_acked, test_octa_configuration.last_msg_acked);
+    TEST_ASSERT_EQUAL_UINT8(wanted_octa_configuration.interval, test_octa_configuration.interval);
+    TEST_ASSERT_EQUAL_UINT8(wanted_octa_configuration.multiplier, test_octa_configuration.multiplier);
+    TEST_ASSERT_EQUAL_UINT32(wanted_octa_configuration.last_known_timestamp, test_octa_configuration.last_known_timestamp);
+
+    //update msg acked to 1
+    buffer[0] = TYPE_HEADER_ACK;
+    buffer[1] = 1;
+    buffer[2] = 0;
+    buffer[3] = 0;
+    buffer[4] = 0;
+    //header end
+    buffer[5] = TYPE_HEADER_END;
+    len = 6;
+    wanted_octa_configuration.last_msg_acked = 1;
+
+    TEST_ASSERT_EQUAL(PARSER_OK, parse_octa_protocol_downlink(&test_octa_configuration, buffer, len));
+
+    TEST_ASSERT_EQUAL_UINT8(wanted_octa_configuration.flash_index, test_octa_configuration.flash_index);
+    TEST_ASSERT_EQUAL_UINT8(wanted_octa_configuration.dns_id, test_octa_configuration.dns_id);
+    TEST_ASSERT_EQUAL_UINT32(wanted_octa_configuration.last_msg_acked, test_octa_configuration.last_msg_acked);
+    TEST_ASSERT_EQUAL_UINT8(wanted_octa_configuration.interval, test_octa_configuration.interval);
+    TEST_ASSERT_EQUAL_UINT8(wanted_octa_configuration.multiplier, test_octa_configuration.multiplier);
+    TEST_ASSERT_EQUAL_UINT32(wanted_octa_configuration.last_known_timestamp, test_octa_configuration.last_known_timestamp);
+
+    //msg acked
+    buffer[0] = TYPE_HEADER_ACK;
+    buffer[1] = 2;
+    buffer[2] = 0;
+    buffer[3] = 0;
+    buffer[4] = 0;
+    //header end
+    buffer[5] = TYPE_HEADER_END;
+
+    //timestamp
+    buffer[6] = TYPE_PAYLOAD_TIMESTAMP;
+    buffer[7] = 3;
+    buffer[8] = 2;
+    buffer[9] = 3;
+    buffer[10] = 4;
+
+    len = 11;
+    wanted_octa_configuration.last_msg_acked = 2;
+    wanted_octa_configuration.last_known_timestamp = 67305987;
+
+    TEST_ASSERT_EQUAL(PARSER_OK, parse_octa_protocol_downlink(&test_octa_configuration, buffer, len));
+
+    TEST_ASSERT_EQUAL_UINT8(wanted_octa_configuration.flash_index, test_octa_configuration.flash_index);
+    TEST_ASSERT_EQUAL_UINT8(wanted_octa_configuration.dns_id, test_octa_configuration.dns_id);
+    TEST_ASSERT_EQUAL_UINT32(wanted_octa_configuration.last_msg_acked, test_octa_configuration.last_msg_acked);
+    TEST_ASSERT_EQUAL_UINT8(wanted_octa_configuration.interval, test_octa_configuration.interval);
+    TEST_ASSERT_EQUAL_UINT8(wanted_octa_configuration.multiplier, test_octa_configuration.multiplier);
+    TEST_ASSERT_EQUAL_UINT32(wanted_octa_configuration.last_known_timestamp, test_octa_configuration.last_known_timestamp);
+}
+
+void test_payloadparser_parse_octa_protocol_downlink_should_ReturnCONFIG_TOO_SHORTWhenEmptyBufferIsPassed(void)
+{
+    len = 0;
+    TEST_ASSERT_EQUAL(PARSER_TOO_SHORT, parse_octa_protocol_downlink(&test_octa_configuration, buffer, len));
+}
+
+void test_payloadparser_parse_octa_protocol_downlink_should_ReturnCONFIG_PARSER_ERROROnUnderSizedMessage(void)
+{
+    //msg acked
+    buffer[0] = TYPE_HEADER_ACK;
+    buffer[1] = 1;
+    buffer[2] = 2;
+    buffer[3] = 2;
+
+    len = 4;
+    TEST_ASSERT_EQUAL(PARSER_PARSE_ERROR, parse_octa_protocol_downlink(&test_octa_configuration, buffer, len));
+
+    //interval acked
+    buffer[0] = TYPE_PAYLOAD_TIMESTAMP;
+    buffer[1] = 1;
+
+    len = 2;
+    TEST_ASSERT_EQUAL(PARSER_PARSE_ERROR, parse_octa_protocol_downlink(&test_octa_configuration, buffer, len));
+}
+
+void test_payloadparser_parse_octa_protocol_downlink_should_ReturnCONFIG_PARSER_UNKNOWN_TYPEOnOverSizedMessage(void)
+{
+    //msg acked
+    buffer[0] = TYPE_HEADER_ACK;
+    buffer[1] = 1;
+    buffer[2] = 2;
+    buffer[3] = 2;
+    buffer[4] = 2;
+    buffer[5] = 2;
+
+    len = 6;
+    TEST_ASSERT_EQUAL(PARSER_UNKNOWN_TYPE, parse_octa_protocol_downlink(&test_octa_configuration, buffer, len));
+}
+
+void test_payloadparser_parse_octa_protocol_downlink_should_NotUpdateConfigWheneverAnErrorOccursDuringParsing(void)
+{
+    //msg acked
+    buffer[0] = TYPE_HEADER_ACK;
+    buffer[1] = 1;
+    buffer[2] = 2;
+    buffer[3] = 3;
+    buffer[4] = 4;
+    //header end
+    buffer[5] = TYPE_HEADER_END;
+
+    //timestamp
+    buffer[6] = TYPE_PAYLOAD_TIMESTAMP;
+    buffer[7] = 2;
+    buffer[8] = 2;
+    buffer[9] = 3;
+    
+    len = 10;
+
+    //should be 0, everything dropped
+    struct octa_configuration wanted_octa_configuration = { 0 };
+
+    TEST_ASSERT_EQUAL(PARSER_PARSE_ERROR, parse_octa_protocol_downlink(&test_octa_configuration, buffer, len));
+
+    TEST_ASSERT_EQUAL_UINT32(wanted_octa_configuration.flash_index, test_octa_configuration.flash_index);
+    TEST_ASSERT_EQUAL_UINT8(wanted_octa_configuration.dns_id, test_octa_configuration.dns_id);
+    TEST_ASSERT_EQUAL_UINT32(wanted_octa_configuration.last_msg_acked, test_octa_configuration.last_msg_acked);
+    TEST_ASSERT_EQUAL_UINT8(wanted_octa_configuration.interval, test_octa_configuration.interval);
+    TEST_ASSERT_EQUAL_UINT8(wanted_octa_configuration.multiplier, test_octa_configuration.multiplier);
+    TEST_ASSERT_EQUAL_UINT8(wanted_octa_configuration.last_known_timestamp, test_octa_configuration.last_known_timestamp);
+}
+
+void test_payloadparser_parse_octa_protocol_downlink_should_ParseCorrectlyAfterError(void)
+{
+    //msg acked
+    buffer[0] = TYPE_HEADER_ACK;
+    buffer[1] = 1;
+    buffer[2] = 2;
+    buffer[3] = 3;
+    buffer[4] = 4;
+    //header end
+    buffer[5] = TYPE_HEADER_END;
+
+    //timestamp
+    buffer[6] = TYPE_PAYLOAD_TIMESTAMP;
+    buffer[7] = 2;
+    buffer[8] = 2;
+    buffer[9] = 3;
+    
+    len = 10;
+
+    //should be 0, everything dropped
+    struct octa_configuration wanted_octa_configuration = { 0 };
+
+    TEST_ASSERT_EQUAL(PARSER_PARSE_ERROR, parse_octa_protocol_downlink(&test_octa_configuration, buffer, len));
+
+    TEST_ASSERT_EQUAL_UINT32(wanted_octa_configuration.flash_index, test_octa_configuration.flash_index);
+    TEST_ASSERT_EQUAL_UINT8(wanted_octa_configuration.dns_id, test_octa_configuration.dns_id);
+    TEST_ASSERT_EQUAL_UINT32(wanted_octa_configuration.last_msg_acked, test_octa_configuration.last_msg_acked);
+    TEST_ASSERT_EQUAL_UINT8(wanted_octa_configuration.interval, test_octa_configuration.interval);
+    TEST_ASSERT_EQUAL_UINT8(wanted_octa_configuration.multiplier, test_octa_configuration.multiplier);
+    TEST_ASSERT_EQUAL_UINT8(wanted_octa_configuration.last_known_timestamp, test_octa_configuration.last_known_timestamp);
+
+    //msg acked
+    buffer[0] = TYPE_HEADER_ACK;
+    buffer[1] = 1;
+    buffer[2] = 2;
+    buffer[3] = 3;
+    buffer[4] = 4;
+    //header end
+    buffer[5] = TYPE_HEADER_END;
+
+    //timestamp
+    buffer[6] = TYPE_PAYLOAD_TIMESTAMP;
+    buffer[7] = 2;
+    buffer[8] = 2;
+    buffer[9] = 3;
+    buffer[10] = 4;
+
+    len = 11;
+    wanted_octa_configuration.flash_index = 0;
+    wanted_octa_configuration.dns_id = 0;
+    wanted_octa_configuration.last_msg_acked = 67305985;
+    wanted_octa_configuration.interval = 0;
+    wanted_octa_configuration.multiplier = 0;
+    wanted_octa_configuration.last_known_timestamp = 67305986;
+
+    TEST_ASSERT_EQUAL(PARSER_OK, parse_octa_protocol_downlink(&test_octa_configuration, buffer, len));
+
+    TEST_ASSERT_EQUAL_UINT32(wanted_octa_configuration.flash_index, test_octa_configuration.flash_index);
+    TEST_ASSERT_EQUAL_UINT8(wanted_octa_configuration.dns_id, test_octa_configuration.dns_id);
+    TEST_ASSERT_EQUAL_UINT32(wanted_octa_configuration.last_msg_acked, test_octa_configuration.last_msg_acked);
+    TEST_ASSERT_EQUAL_UINT8(wanted_octa_configuration.interval, test_octa_configuration.interval);
+    TEST_ASSERT_EQUAL_UINT8(wanted_octa_configuration.multiplier, test_octa_configuration.multiplier);
+    TEST_ASSERT_EQUAL_UINT32(wanted_octa_configuration.last_known_timestamp, test_octa_configuration.last_known_timestamp);
 }

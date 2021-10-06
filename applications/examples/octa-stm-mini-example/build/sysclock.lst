@@ -1,0 +1,447 @@
+ARM GAS  /tmp/ccWTjzdH.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 28, 1
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.file	"sysclock.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.text.SystemClock_Config,"ax",%progbits
+  18              		.align	1
+  19              		.weak	SystemClock_Config
+  20              		.arch armv7e-m
+  21              		.syntax unified
+  22              		.thumb
+  23              		.thumb_func
+  24              		.fpu fpv4-sp-d16
+  26              	SystemClock_Config:
+  27              	.LFB131:
+  28              		.file 1 "../../../core/platform/octa_stm_mini/src/sysclock.c"
+   1:../../../core/platform/octa_stm_mini/src/sysclock.c **** #include "sysclock.h"
+   2:../../../core/platform/octa_stm_mini/src/sysclock.c **** #include "platform.h"
+   3:../../../core/platform/octa_stm_mini/src/sysclock.c **** 
+   4:../../../core/platform/octa_stm_mini/src/sysclock.c **** __weak void SystemClock_Config(void)
+   5:../../../core/platform/octa_stm_mini/src/sysclock.c **** {
+  29              		.loc 1 5 1 view -0
+  30              		.cfi_startproc
+  31              		@ args = 0, pretend = 0, frame = 224
+  32              		@ frame_needed = 0, uses_anonymous_args = 0
+  33 0000 00B5     		push	{lr}
+  34              	.LCFI0:
+  35              		.cfi_def_cfa_offset 4
+  36              		.cfi_offset 14, -4
+  37 0002 B9B0     		sub	sp, sp, #228
+  38              	.LCFI1:
+  39              		.cfi_def_cfa_offset 232
+   6:../../../core/platform/octa_stm_mini/src/sysclock.c ****   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
+  40              		.loc 1 6 3 view .LVU1
+  41              		.loc 1 6 22 is_stmt 0 view .LVU2
+  42 0004 2422     		movs	r2, #36
+  43 0006 0021     		movs	r1, #0
+  44 0008 28A8     		add	r0, sp, #160
+  45 000a FFF7FEFF 		bl	memset
+  46              	.LVL0:
+   7:../../../core/platform/octa_stm_mini/src/sysclock.c ****   RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
+  47              		.loc 1 7 3 is_stmt 1 view .LVU3
+  48              		.loc 1 7 22 is_stmt 0 view .LVU4
+  49 000e 0021     		movs	r1, #0
+  50 0010 2291     		str	r1, [sp, #136]
+  51 0012 2391     		str	r1, [sp, #140]
+ARM GAS  /tmp/ccWTjzdH.s 			page 2
+
+
+  52 0014 2491     		str	r1, [sp, #144]
+  53 0016 2591     		str	r1, [sp, #148]
+  54 0018 2691     		str	r1, [sp, #152]
+   8:../../../core/platform/octa_stm_mini/src/sysclock.c ****   RCC_PeriphCLKInitTypeDef PeriphClkInit = {0};
+  55              		.loc 1 8 3 is_stmt 1 view .LVU5
+  56              		.loc 1 8 28 is_stmt 0 view .LVU6
+  57 001a 8822     		movs	r2, #136
+  58 001c 6846     		mov	r0, sp
+  59 001e FFF7FEFF 		bl	memset
+  60              	.LVL1:
+   9:../../../core/platform/octa_stm_mini/src/sysclock.c **** 
+  10:../../../core/platform/octa_stm_mini/src/sysclock.c ****   #if LOW_POWER
+  11:../../../core/platform/octa_stm_mini/src/sysclock.c ****     // 8 MHz
+  12:../../../core/platform/octa_stm_mini/src/sysclock.c ****     RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_MSI|RCC_OSCILLATORTYPE_LSE;
+  13:../../../core/platform/octa_stm_mini/src/sysclock.c ****     //RCC_OscInitStruct.LSIState = RCC_LSI_ON;
+  14:../../../core/platform/octa_stm_mini/src/sysclock.c ****     RCC_OscInitStruct.MSIState = RCC_MSI_ON;
+  15:../../../core/platform/octa_stm_mini/src/sysclock.c ****     RCC_OscInitStruct.LSEState = RCC_LSE_ON;
+  16:../../../core/platform/octa_stm_mini/src/sysclock.c ****     RCC_OscInitStruct.MSICalibrationValue = 0;
+  17:../../../core/platform/octa_stm_mini/src/sysclock.c ****     RCC_OscInitStruct.MSIClockRange = RCC_MSIRANGE_6;
+  18:../../../core/platform/octa_stm_mini/src/sysclock.c ****     RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
+  19:../../../core/platform/octa_stm_mini/src/sysclock.c ****     RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_MSI;
+  20:../../../core/platform/octa_stm_mini/src/sysclock.c ****     RCC_OscInitStruct.PLL.PLLM = 1;
+  21:../../../core/platform/octa_stm_mini/src/sysclock.c ****     RCC_OscInitStruct.PLL.PLLN = 16;
+  22:../../../core/platform/octa_stm_mini/src/sysclock.c ****     RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV2;
+  23:../../../core/platform/octa_stm_mini/src/sysclock.c ****     RCC_OscInitStruct.PLL.PLLQ = RCC_PLLQ_DIV2;
+  24:../../../core/platform/octa_stm_mini/src/sysclock.c ****     RCC_OscInitStruct.PLL.PLLR = RCC_PLLR_DIV8;
+  25:../../../core/platform/octa_stm_mini/src/sysclock.c ****     if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
+  26:../../../core/platform/octa_stm_mini/src/sysclock.c ****     {
+  27:../../../core/platform/octa_stm_mini/src/sysclock.c ****       Error_Handler();
+  28:../../../core/platform/octa_stm_mini/src/sysclock.c ****     }
+  29:../../../core/platform/octa_stm_mini/src/sysclock.c ****     /**Initializes the CPU, AHB and APB busses clocks 
+  30:../../../core/platform/octa_stm_mini/src/sysclock.c ****     */
+  31:../../../core/platform/octa_stm_mini/src/sysclock.c ****     RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
+  32:../../../core/platform/octa_stm_mini/src/sysclock.c ****                                 |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
+  33:../../../core/platform/octa_stm_mini/src/sysclock.c ****     RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
+  34:../../../core/platform/octa_stm_mini/src/sysclock.c ****     RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV2;
+  35:../../../core/platform/octa_stm_mini/src/sysclock.c ****     RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
+  36:../../../core/platform/octa_stm_mini/src/sysclock.c ****     RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
+  37:../../../core/platform/octa_stm_mini/src/sysclock.c ****   #else 
+  38:../../../core/platform/octa_stm_mini/src/sysclock.c ****     // /**Initializes the CPU, AHB and APB busses clocks 
+  39:../../../core/platform/octa_stm_mini/src/sysclock.c ****     // */
+  40:../../../core/platform/octa_stm_mini/src/sysclock.c ****     // RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
+  41:../../../core/platform/octa_stm_mini/src/sysclock.c ****     // RCC_OscInitStruct.HSIState = RCC_HSI_ON;
+  42:../../../core/platform/octa_stm_mini/src/sysclock.c ****     // RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
+  43:../../../core/platform/octa_stm_mini/src/sysclock.c ****     // RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
+  44:../../../core/platform/octa_stm_mini/src/sysclock.c ****     // if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
+  45:../../../core/platform/octa_stm_mini/src/sysclock.c ****     // {
+  46:../../../core/platform/octa_stm_mini/src/sysclock.c ****     //   Error_Handler();
+  47:../../../core/platform/octa_stm_mini/src/sysclock.c ****     // }
+  48:../../../core/platform/octa_stm_mini/src/sysclock.c ****     /**Initializes the CPU, AHB and APB busses clocks 
+  49:../../../core/platform/octa_stm_mini/src/sysclock.c ****     */
+  50:../../../core/platform/octa_stm_mini/src/sysclock.c ****     RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_MSI|RCC_OSCILLATORTYPE_LSI|RCC_OSCILLATOR
+  61              		.loc 1 50 5 is_stmt 1 view .LVU7
+  62              		.loc 1 50 38 is_stmt 0 view .LVU8
+  63 0022 1A23     		movs	r3, #26
+  64 0024 2793     		str	r3, [sp, #156]
+  51:../../../core/platform/octa_stm_mini/src/sysclock.c ****     RCC_OscInitStruct.LSIState = RCC_LSI_ON;
+ARM GAS  /tmp/ccWTjzdH.s 			page 3
+
+
+  65              		.loc 1 51 5 is_stmt 1 view .LVU9
+  66              		.loc 1 51 32 is_stmt 0 view .LVU10
+  67 0026 0123     		movs	r3, #1
+  68 0028 2C93     		str	r3, [sp, #176]
+  52:../../../core/platform/octa_stm_mini/src/sysclock.c ****     RCC_OscInitStruct.HSIState = RCC_HSI_ON;
+  69              		.loc 1 52 5 is_stmt 1 view .LVU11
+  70              		.loc 1 52 32 is_stmt 0 view .LVU12
+  71 002a 4FF48072 		mov	r2, #256
+  72 002e 2A92     		str	r2, [sp, #168]
+  53:../../../core/platform/octa_stm_mini/src/sysclock.c ****     RCC_OscInitStruct.MSIState = RCC_MSI_ON;
+  73              		.loc 1 53 5 is_stmt 1 view .LVU13
+  74              		.loc 1 53 32 is_stmt 0 view .LVU14
+  75 0030 2D93     		str	r3, [sp, #180]
+  54:../../../core/platform/octa_stm_mini/src/sysclock.c ****     RCC_OscInitStruct.MSICalibrationValue = 0;
+  76              		.loc 1 54 5 is_stmt 1 view .LVU15
+  55:../../../core/platform/octa_stm_mini/src/sysclock.c ****     RCC_OscInitStruct.MSIClockRange = RCC_MSIRANGE_9;
+  77              		.loc 1 55 5 view .LVU16
+  78              		.loc 1 55 37 is_stmt 0 view .LVU17
+  79 0032 9022     		movs	r2, #144
+  80 0034 2F92     		str	r2, [sp, #188]
+  56:../../../core/platform/octa_stm_mini/src/sysclock.c ****     RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
+  81              		.loc 1 56 5 is_stmt 1 view .LVU18
+  82              		.loc 1 56 36 is_stmt 0 view .LVU19
+  83 0036 0222     		movs	r2, #2
+  84 0038 3192     		str	r2, [sp, #196]
+  57:../../../core/platform/octa_stm_mini/src/sysclock.c ****     RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_MSI;
+  85              		.loc 1 57 5 is_stmt 1 view .LVU20
+  86              		.loc 1 57 37 is_stmt 0 view .LVU21
+  87 003a 3293     		str	r3, [sp, #200]
+  58:../../../core/platform/octa_stm_mini/src/sysclock.c ****     RCC_OscInitStruct.PLL.PLLM = 5;
+  88              		.loc 1 58 5 is_stmt 1 view .LVU22
+  89              		.loc 1 58 32 is_stmt 0 view .LVU23
+  90 003c 0523     		movs	r3, #5
+  91 003e 3393     		str	r3, [sp, #204]
+  59:../../../core/platform/octa_stm_mini/src/sysclock.c ****     RCC_OscInitStruct.PLL.PLLN = 71;
+  92              		.loc 1 59 5 is_stmt 1 view .LVU24
+  93              		.loc 1 59 32 is_stmt 0 view .LVU25
+  94 0040 4723     		movs	r3, #71
+  95 0042 3493     		str	r3, [sp, #208]
+  60:../../../core/platform/octa_stm_mini/src/sysclock.c ****     RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV7;//RCC_PLLP_DIV2;
+  96              		.loc 1 60 5 is_stmt 1 view .LVU26
+  97              		.loc 1 60 32 is_stmt 0 view .LVU27
+  98 0044 0723     		movs	r3, #7
+  99 0046 3593     		str	r3, [sp, #212]
+  61:../../../core/platform/octa_stm_mini/src/sysclock.c ****     RCC_OscInitStruct.PLL.PLLQ = RCC_PLLQ_DIV2;
+ 100              		.loc 1 61 5 is_stmt 1 view .LVU28
+ 101              		.loc 1 61 32 is_stmt 0 view .LVU29
+ 102 0048 3692     		str	r2, [sp, #216]
+  62:../../../core/platform/octa_stm_mini/src/sysclock.c ****     RCC_OscInitStruct.PLL.PLLR = RCC_PLLR_DIV6;
+ 103              		.loc 1 62 5 is_stmt 1 view .LVU30
+ 104              		.loc 1 62 32 is_stmt 0 view .LVU31
+ 105 004a 0623     		movs	r3, #6
+ 106 004c 3793     		str	r3, [sp, #220]
+  63:../../../core/platform/octa_stm_mini/src/sysclock.c ****     if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
+ 107              		.loc 1 63 5 is_stmt 1 view .LVU32
+ 108              		.loc 1 63 9 is_stmt 0 view .LVU33
+ 109 004e 27A8     		add	r0, sp, #156
+ARM GAS  /tmp/ccWTjzdH.s 			page 4
+
+
+ 110 0050 FFF7FEFF 		bl	HAL_RCC_OscConfig
+ 111              	.LVL2:
+ 112              		.loc 1 63 8 view .LVU34
+ 113 0054 18BB     		cbnz	r0, .L7
+ 114              	.L2:
+  64:../../../core/platform/octa_stm_mini/src/sysclock.c ****     {
+  65:../../../core/platform/octa_stm_mini/src/sysclock.c ****       Error_Handler();
+  66:../../../core/platform/octa_stm_mini/src/sysclock.c ****     }
+  67:../../../core/platform/octa_stm_mini/src/sysclock.c ****     /**Initializes the CPU, AHB and APB busses clocks 
+  68:../../../core/platform/octa_stm_mini/src/sysclock.c ****     */
+  69:../../../core/platform/octa_stm_mini/src/sysclock.c ****     RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
+ 115              		.loc 1 69 5 is_stmt 1 view .LVU35
+ 116              		.loc 1 69 33 is_stmt 0 view .LVU36
+ 117 0056 0F23     		movs	r3, #15
+ 118 0058 2293     		str	r3, [sp, #136]
+  70:../../../core/platform/octa_stm_mini/src/sysclock.c ****                                 |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
+  71:../../../core/platform/octa_stm_mini/src/sysclock.c ****     RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
+ 119              		.loc 1 71 5 is_stmt 1 view .LVU37
+ 120              		.loc 1 71 36 is_stmt 0 view .LVU38
+ 121 005a 0323     		movs	r3, #3
+ 122 005c 2393     		str	r3, [sp, #140]
+  72:../../../core/platform/octa_stm_mini/src/sysclock.c ****     RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV4;
+ 123              		.loc 1 72 5 is_stmt 1 view .LVU39
+ 124              		.loc 1 72 37 is_stmt 0 view .LVU40
+ 125 005e 9023     		movs	r3, #144
+ 126 0060 2493     		str	r3, [sp, #144]
+  73:../../../core/platform/octa_stm_mini/src/sysclock.c ****     RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
+ 127              		.loc 1 73 5 is_stmt 1 view .LVU41
+ 128              		.loc 1 73 38 is_stmt 0 view .LVU42
+ 129 0062 4FF48063 		mov	r3, #1024
+ 130 0066 2593     		str	r3, [sp, #148]
+  74:../../../core/platform/octa_stm_mini/src/sysclock.c ****     RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
+ 131              		.loc 1 74 5 is_stmt 1 view .LVU43
+ 132              		.loc 1 74 38 is_stmt 0 view .LVU44
+ 133 0068 0021     		movs	r1, #0
+ 134 006a 2691     		str	r1, [sp, #152]
+  75:../../../core/platform/octa_stm_mini/src/sysclock.c ****   #endif
+  76:../../../core/platform/octa_stm_mini/src/sysclock.c ****   
+  77:../../../core/platform/octa_stm_mini/src/sysclock.c ****   if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_0) != HAL_OK)
+ 135              		.loc 1 77 3 is_stmt 1 view .LVU45
+ 136              		.loc 1 77 7 is_stmt 0 view .LVU46
+ 137 006c 22A8     		add	r0, sp, #136
+ 138 006e FFF7FEFF 		bl	HAL_RCC_ClockConfig
+ 139              	.LVL3:
+ 140              		.loc 1 77 6 view .LVU47
+ 141 0072 B8B9     		cbnz	r0, .L8
+ 142              	.L3:
+  78:../../../core/platform/octa_stm_mini/src/sysclock.c ****   {
+  79:../../../core/platform/octa_stm_mini/src/sysclock.c ****     Error_Handler();
+  80:../../../core/platform/octa_stm_mini/src/sysclock.c ****   }
+  81:../../../core/platform/octa_stm_mini/src/sysclock.c ****   PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_USART3|RCC_PERIPHCLK_LPUART1
+ 143              		.loc 1 81 3 is_stmt 1 view .LVU48
+ 144              		.loc 1 81 38 is_stmt 0 view .LVU49
+ 145 0074 104B     		ldr	r3, .L11
+ 146 0076 0093     		str	r3, [sp]
+  82:../../../core/platform/octa_stm_mini/src/sysclock.c ****                               |RCC_PERIPHCLK_I2C3|RCC_PERIPHCLK_RTC;
+  83:../../../core/platform/octa_stm_mini/src/sysclock.c **** 
+ARM GAS  /tmp/ccWTjzdH.s 			page 5
+
+
+  84:../../../core/platform/octa_stm_mini/src/sysclock.c ****   PeriphClkInit.Usart3ClockSelection = RCC_USART3CLKSOURCE_PCLK1;
+ 147              		.loc 1 84 3 is_stmt 1 view .LVU50
+ 148              		.loc 1 84 38 is_stmt 0 view .LVU51
+ 149 0078 0023     		movs	r3, #0
+ 150 007a 1093     		str	r3, [sp, #64]
+  85:../../../core/platform/octa_stm_mini/src/sysclock.c ****   PeriphClkInit.Lpuart1ClockSelection = RCC_LPUART1CLKSOURCE_PCLK1;
+ 151              		.loc 1 85 3 is_stmt 1 view .LVU52
+ 152              		.loc 1 85 39 is_stmt 0 view .LVU53
+ 153 007c 1393     		str	r3, [sp, #76]
+  86:../../../core/platform/octa_stm_mini/src/sysclock.c ****   PeriphClkInit.I2c3ClockSelection = RCC_I2C3CLKSOURCE_PCLK1;
+ 154              		.loc 1 86 3 is_stmt 1 view .LVU54
+ 155              		.loc 1 86 36 is_stmt 0 view .LVU55
+ 156 007e 1693     		str	r3, [sp, #88]
+  87:../../../core/platform/octa_stm_mini/src/sysclock.c ****   PeriphClkInit.RTCClockSelection =  RCC_RTCCLKSOURCE_LSI;
+ 157              		.loc 1 87 3 is_stmt 1 view .LVU56
+ 158              		.loc 1 87 35 is_stmt 0 view .LVU57
+ 159 0080 4FF40073 		mov	r3, #512
+ 160 0084 2193     		str	r3, [sp, #132]
+  88:../../../core/platform/octa_stm_mini/src/sysclock.c ****   if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)
+ 161              		.loc 1 88 3 is_stmt 1 view .LVU58
+ 162              		.loc 1 88 7 is_stmt 0 view .LVU59
+ 163 0086 6846     		mov	r0, sp
+ 164 0088 FFF7FEFF 		bl	HAL_RCCEx_PeriphCLKConfig
+ 165              	.LVL4:
+ 166              		.loc 1 88 6 view .LVU60
+ 167 008c 68B9     		cbnz	r0, .L9
+ 168              	.L4:
+  89:../../../core/platform/octa_stm_mini/src/sysclock.c ****   {
+  90:../../../core/platform/octa_stm_mini/src/sysclock.c ****     Error_Handler();
+  91:../../../core/platform/octa_stm_mini/src/sysclock.c ****   }
+  92:../../../core/platform/octa_stm_mini/src/sysclock.c ****   /**Configure the main internal regulator output voltage 
+  93:../../../core/platform/octa_stm_mini/src/sysclock.c ****   */
+  94:../../../core/platform/octa_stm_mini/src/sysclock.c ****   if (HAL_PWREx_ControlVoltageScaling(PWR_REGULATOR_VOLTAGE_SCALE1) != HAL_OK)
+ 169              		.loc 1 94 3 is_stmt 1 view .LVU61
+ 170              		.loc 1 94 7 is_stmt 0 view .LVU62
+ 171 008e 4FF40070 		mov	r0, #512
+ 172 0092 FFF7FEFF 		bl	HAL_PWREx_ControlVoltageScaling
+ 173              	.LVL5:
+ 174              		.loc 1 94 6 view .LVU63
+ 175 0096 58B9     		cbnz	r0, .L10
+ 176              	.L1:
+  95:../../../core/platform/octa_stm_mini/src/sysclock.c ****   {
+  96:../../../core/platform/octa_stm_mini/src/sysclock.c ****     Error_Handler();
+  97:../../../core/platform/octa_stm_mini/src/sysclock.c ****   } 
+  98:../../../core/platform/octa_stm_mini/src/sysclock.c **** }...
+ 177              		.loc 1 98 1 view .LVU64
+ 178 0098 39B0     		add	sp, sp, #228
+ 179              	.LCFI2:
+ 180              		.cfi_remember_state
+ 181              		.cfi_def_cfa_offset 4
+ 182              		@ sp needed
+ 183 009a 5DF804FB 		ldr	pc, [sp], #4
+ 184              	.L7:
+ 185              	.LCFI3:
+ 186              		.cfi_restore_state
+  65:../../../core/platform/octa_stm_mini/src/sysclock.c ****       Error_Handler();
+ 187              		.loc 1 65 7 is_stmt 1 view .LVU65
+ARM GAS  /tmp/ccWTjzdH.s 			page 6
+
+
+ 188 009e FFF7FEFF 		bl	Error_Handler
+ 189              	.LVL6:
+ 190 00a2 D8E7     		b	.L2
+ 191              	.L8:
+  79:../../../core/platform/octa_stm_mini/src/sysclock.c ****     Error_Handler();
+ 192              		.loc 1 79 5 view .LVU66
+ 193 00a4 FFF7FEFF 		bl	Error_Handler
+ 194              	.LVL7:
+ 195 00a8 E4E7     		b	.L3
+ 196              	.L9:
+  90:../../../core/platform/octa_stm_mini/src/sysclock.c ****     Error_Handler();
+ 197              		.loc 1 90 5 view .LVU67
+ 198 00aa FFF7FEFF 		bl	Error_Handler
+ 199              	.LVL8:
+ 200 00ae EEE7     		b	.L4
+ 201              	.L10:
+  96:../../../core/platform/octa_stm_mini/src/sysclock.c ****     Error_Handler();
+ 202              		.loc 1 96 5 view .LVU68
+ 203 00b0 FFF7FEFF 		bl	Error_Handler
+ 204              	.LVL9:
+ 205              		.loc 1 98 1 is_stmt 0 view .LVU69
+ 206 00b4 F0E7     		b	.L1
+ 207              	.L12:
+ 208 00b6 00BF     		.align	2
+ 209              	.L11:
+ 210 00b8 24010200 		.word	131364
+ 211              		.cfi_endproc
+ 212              	.LFE131:
+ 214              		.comm	stackversion_patch,1,1
+ 215              		.comm	stackversion_minor,1,1
+ 216              		.comm	stackversion_major,1,1
+ 217              		.comm	appversion_patch,1,1
+ 218              		.comm	appversion_minor,1,1
+ 219              		.comm	appversion_major,1,1
+ 220              		.comm	short_UID,8,8
+ 221              		.comm	hard_reset,1,1
+ 222              		.comm	wd_reset,1,1
+ 223              		.comm	octa_uid,8,8
+ 224              		.comm	float_union,4,4
+ 225              		.comm	uint16LittleEndian,2,4
+ 226              		.comm	int16LittleEndian,2,4
+ 227              		.comm	uint32LittleEndian,4,4
+ 228              		.comm	int32LittleEndian,4,4
+ 229              		.comm	rtosprintHandle,4,4
+ 230              		.comm	hrtc,36,4
+ 231              		.comm	FLASH_SPI,100,4
+ 232              		.comm	P2_SPI,100,4
+ 233              		.comm	P1_SPI,100,4
+ 234              		.comm	common_I2C,76,4
+ 235              		.comm	P2_UART,120,4
+ 236              		.comm	P1_UART,120,4
+ 237              		.comm	RS232_UART,120,4
+ 238              		.comm	NBIOT_UART,120,4
+ 239              		.comm	USB_UART,120,4
+ 240              		.comm	hiwdg,16,4
+ 241              		.comm	NBIOT_Reset,8,4
+ 242              		.comm	htim6,64,4
+ARM GAS  /tmp/ccWTjzdH.s 			page 7
+
+
+ 243              		.comm	htim1,64,4
+ 244              		.text
+ 245              	.Letext0:
+ 246              		.file 2 "/usr/arm-none-eabi/include/machine/_default_types.h"
+ 247              		.file 3 "/usr/arm-none-eabi/include/sys/_stdint.h"
+ 248              		.file 4 "../../../core/ST/CMSIS/Include/core_cm4.h"
+ 249              		.file 5 "../../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/system_stm32l4xx.h"
+ 250              		.file 6 "../../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/stm32l486xx.h"
+ 251              		.file 7 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h"
+ 252              		.file 8 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc.h"
+ 253              		.file 9 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc_ex.h"
+ 254              		.file 10 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_dma.h"
+ 255              		.file 11 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_i2c.h"
+ 256              		.file 12 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_iwdg.h"
+ 257              		.file 13 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rtc.h"
+ 258              		.file 14 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_spi.h"
+ 259              		.file 15 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_tim.h"
+ 260              		.file 16 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h"
+ 261              		.file 17 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h"
+ 262              		.file 18 "../../../core/platform/octa_stm_mini/inc/sysclock.h"
+ 263              		.file 19 "../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/include/task.h"
+ 264              		.file 20 "../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h"
+ 265              		.file 21 "../../../core/platform/octa_stm_mini/inc/gpio.h"
+ 266              		.file 22 "../../../core/platform/octa_stm_mini/inc/iwdg.h"
+ 267              		.file 23 "../../../core/platform/octa_stm_mini/inc/uart.h"
+ 268              		.file 24 "../../../core/platform/octa_stm_mini/inc/i2c.h"
+ 269              		.file 25 "../../../core/platform/octa_stm_mini/inc/spi.h"
+ 270              		.file 26 "../../../core/platform/octa_stm_mini/inc/rtc.h"
+ 271              		.file 27 "../../../core/platform/octa_stm_mini/inc/rtosincludes.h"
+ 272              		.file 28 "/usr/arm-none-eabi/include/sys/lock.h"
+ 273              		.file 29 "/usr/arm-none-eabi/include/sys/_types.h"
+ 274              		.file 30 "/usr/lib/gcc/arm-none-eabi/9.2.1/include/stddef.h"
+ 275              		.file 31 "/usr/arm-none-eabi/include/sys/reent.h"
+ 276              		.file 32 "../../../core/platform/common/inc/datatypes.h"
+ 277              		.file 33 "../../../core/platform/octa_stm_mini/inc/platform.h"
+ 278              		.file 34 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_pwr_ex.h"
+ 279              		.file 35 "../../../core/platform/common/inc/error.h"
+ 280              		.file 36 "<built-in>"
+ARM GAS  /tmp/ccWTjzdH.s 			page 8
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 sysclock.c
+     /tmp/ccWTjzdH.s:18     .text.SystemClock_Config:0000000000000000 $t
+     /tmp/ccWTjzdH.s:26     .text.SystemClock_Config:0000000000000000 SystemClock_Config
+     /tmp/ccWTjzdH.s:210    .text.SystemClock_Config:00000000000000b8 $d
+                            *COM*:0000000000000001 stackversion_patch
+                            *COM*:0000000000000001 stackversion_minor
+                            *COM*:0000000000000001 stackversion_major
+                            *COM*:0000000000000001 appversion_patch
+                            *COM*:0000000000000001 appversion_minor
+                            *COM*:0000000000000001 appversion_major
+                            *COM*:0000000000000008 short_UID
+                            *COM*:0000000000000001 hard_reset
+                            *COM*:0000000000000001 wd_reset
+                            *COM*:0000000000000008 octa_uid
+                            *COM*:0000000000000004 float_union
+                            *COM*:0000000000000002 uint16LittleEndian
+                            *COM*:0000000000000002 int16LittleEndian
+                            *COM*:0000000000000004 uint32LittleEndian
+                            *COM*:0000000000000004 int32LittleEndian
+                            *COM*:0000000000000004 rtosprintHandle
+                            *COM*:0000000000000024 hrtc
+                            *COM*:0000000000000064 FLASH_SPI
+                            *COM*:0000000000000064 P2_SPI
+                            *COM*:0000000000000064 P1_SPI
+                            *COM*:000000000000004c common_I2C
+                            *COM*:0000000000000078 P2_UART
+                            *COM*:0000000000000078 P1_UART
+                            *COM*:0000000000000078 RS232_UART
+                            *COM*:0000000000000078 NBIOT_UART
+                            *COM*:0000000000000078 USB_UART
+                            *COM*:0000000000000010 hiwdg
+                            *COM*:0000000000000008 NBIOT_Reset
+                            *COM*:0000000000000040 htim6
+                            *COM*:0000000000000040 htim1
+
+UNDEFINED SYMBOLS
+memset
+HAL_RCC_OscConfig
+HAL_RCC_ClockConfig
+HAL_RCCEx_PeriphCLKConfig
+HAL_PWREx_ControlVoltageScaling
+Error_Handler

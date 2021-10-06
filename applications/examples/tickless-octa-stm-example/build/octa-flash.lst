@@ -1,0 +1,3203 @@
+ARM GAS  /tmp/cckIivDo.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 28, 1
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.file	"octa-flash.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.text.OCTA_FLASH_Enable,"ax",%progbits
+  18              		.align	1
+  19              		.global	OCTA_FLASH_Enable
+  20              		.arch armv7e-m
+  21              		.syntax unified
+  22              		.thumb
+  23              		.thumb_func
+  24              		.fpu fpv4-sp-d16
+  26              	OCTA_FLASH_Enable:
+  27              	.LFB145:
+  28              		.file 1 "../../core/drivers/octa-flash/src/octa-flash.c"
+   1:../../core/drivers/octa-flash/src/octa-flash.c **** #include "octa-flash.h"
+   2:../../core/drivers/octa-flash/src/octa-flash.c **** #include "platform.h"
+   3:../../core/drivers/octa-flash/src/octa-flash.c **** 
+   4:../../core/drivers/octa-flash/src/octa-flash.c **** #define SPI_WRDI_CMD 0x04 // Write disable
+   5:../../core/drivers/octa-flash/src/octa-flash.c **** #define SPI_RDSR_CMD 0x05 // Read Status Register
+   6:../../core/drivers/octa-flash/src/octa-flash.c **** #define SPI_RDCR_CMD 0x35 // Read Status Register
+   7:../../core/drivers/octa-flash/src/octa-flash.c **** #define SPI_WREN_CMD 0x06 // Write enable
+   8:../../core/drivers/octa-flash/src/octa-flash.c **** 
+   9:../../core/drivers/octa-flash/src/octa-flash.c **** #define SPI_PP_4B_CMD 0x12   //Page Program (4-byte address). Enables writing
+  10:../../core/drivers/octa-flash/src/octa-flash.c **** #define SPI_READ_4B_CMD 0x13 //Read (4-byte Address)
+  11:../../core/drivers/octa-flash/src/octa-flash.c **** 
+  12:../../core/drivers/octa-flash/src/octa-flash.c **** #define SPI_BE_CMD 0x60 //Bulk erase
+  13:../../core/drivers/octa-flash/src/octa-flash.c **** #define SPI_SE256KB_CMD 0xDC //Sector erase
+  14:../../core/drivers/octa-flash/src/octa-flash.c **** #define SPI_SE4KB_CMD 0x20
+  15:../../core/drivers/octa-flash/src/octa-flash.c **** 
+  16:../../core/drivers/octa-flash/src/octa-flash.c **** #define WRITE_IN_PROGRESS_MASK 0x01 //Bit 0 of RDSR is "Write in Progress"
+  17:../../core/drivers/octa-flash/src/octa-flash.c **** 
+  18:../../core/drivers/octa-flash/src/octa-flash.c **** #define SPI_WAIT 10
+  19:../../core/drivers/octa-flash/src/octa-flash.c **** 
+  20:../../core/drivers/octa-flash/src/octa-flash.c **** uint32_t mCurrentReadAddress;
+  21:../../core/drivers/octa-flash/src/octa-flash.c **** uint32_t mCurrentWriteAddress;
+  22:../../core/drivers/octa-flash/src/octa-flash.c **** uint8_t  mMemPage[OCTA_FLASH_PAGE_SIZE];
+  23:../../core/drivers/octa-flash/src/octa-flash.c **** uint16_t mMemPageIndex;
+  24:../../core/drivers/octa-flash/src/octa-flash.c **** uint8_t _initialised;
+  25:../../core/drivers/octa-flash/src/octa-flash.c **** 
+  26:../../core/drivers/octa-flash/src/octa-flash.c **** //One because it's only used to read a register
+  27:../../core/drivers/octa-flash/src/octa-flash.c **** uint8_t rxData[1];
+  28:../../core/drivers/octa-flash/src/octa-flash.c **** //Five, because the max amount of bytes is 5, in send4BCommand
+  29:../../core/drivers/octa-flash/src/octa-flash.c **** uint8_t txData[5];
+  30:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ARM GAS  /tmp/cckIivDo.s 			page 2
+
+
+  31:../../core/drivers/octa-flash/src/octa-flash.c **** SPI_HandleTypeDef *flashSPI;
+  32:../../core/drivers/octa-flash/src/octa-flash.c **** 
+  33:../../core/drivers/octa-flash/src/octa-flash.c **** /**
+  34:../../core/drivers/octa-flash/src/octa-flash.c ****     * \brief   Initializes the OCTA_FLASH driver.
+  35:../../core/drivers/octa-flash/src/octa-flash.c ****     * \returns 0 if init is successful
+  36:../../core/drivers/octa-flash/src/octa-flash.c ****     * \returns E_INIT_FAILED if SPI could not be configured.
+  37:../../core/drivers/octa-flash/src/octa-flash.c ****     */
+  38:../../core/drivers/octa-flash/src/octa-flash.c **** uint8_t OCTA_FLASH_Initialize(SPI_HandleTypeDef *hspi)
+  39:../../core/drivers/octa-flash/src/octa-flash.c **** {
+  40:../../core/drivers/octa-flash/src/octa-flash.c ****     mMemPageIndex = 0;
+  41:../../core/drivers/octa-flash/src/octa-flash.c ****     memset(mMemPage, 0, OCTA_FLASH_PAGE_SIZE);
+  42:../../core/drivers/octa-flash/src/octa-flash.c ****     mCurrentReadAddress = FIRST_FLASH_ADDRESS;
+  43:../../core/drivers/octa-flash/src/octa-flash.c ****     mCurrentWriteAddress = FIRST_FLASH_ADDRESS;
+  44:../../core/drivers/octa-flash/src/octa-flash.c ****     _initialised = 0;
+  45:../../core/drivers/octa-flash/src/octa-flash.c **** 
+  46:../../core/drivers/octa-flash/src/octa-flash.c ****     flashSPI = hspi;
+  47:../../core/drivers/octa-flash/src/octa-flash.c **** 
+  48:../../core/drivers/octa-flash/src/octa-flash.c ****     //set CS pin to High (== disable flash, will be enabled when needed)
+  49:../../core/drivers/octa-flash/src/octa-flash.c ****     OCTA_FLASH_Disable();
+  50:../../core/drivers/octa-flash/src/octa-flash.c ****     
+  51:../../core/drivers/octa-flash/src/octa-flash.c ****     //disable WP and HOLD
+  52:../../core/drivers/octa-flash/src/octa-flash.c ****     HAL_GPIO_WritePin(OCTA_FLASH_WP_Port, OCTA_FLASH_WP_Pin, GPIO_PIN_SET);
+  53:../../core/drivers/octa-flash/src/octa-flash.c ****     HAL_GPIO_WritePin(OCTA_FLASH_HOLD_Port, OCTA_FLASH_HOLD_Pin, GPIO_PIN_SET);
+  54:../../core/drivers/octa-flash/src/octa-flash.c **** 
+  55:../../core/drivers/octa-flash/src/octa-flash.c ****     #ifdef platform_octa_stm
+  56:../../core/drivers/octa-flash/src/octa-flash.c ****         printINF("MX25L512: 512Mb (64MB) Flash, first 4kB sector reserved for configuration\r\n");
+  57:../../core/drivers/octa-flash/src/octa-flash.c ****     #else
+  58:../../core/drivers/octa-flash/src/octa-flash.c ****         printINF("S25FL256: 256Mb (32MB) Flash, first 4kB sector reserved for configuration\r\n");
+  59:../../core/drivers/octa-flash/src/octa-flash.c ****     #endif
+  60:../../core/drivers/octa-flash/src/octa-flash.c ****     printDBG("Max page number: %d, page size: %d, start adr: %d, last adr: %d, pages/4kbsector: %d\
+  61:../../core/drivers/octa-flash/src/octa-flash.c **** 
+  62:../../core/drivers/octa-flash/src/octa-flash.c ****     _initialised = 1;
+  63:../../core/drivers/octa-flash/src/octa-flash.c **** 
+  64:../../core/drivers/octa-flash/src/octa-flash.c ****     return _initialised;
+  65:../../core/drivers/octa-flash/src/octa-flash.c **** }
+  66:../../core/drivers/octa-flash/src/octa-flash.c **** 
+  67:../../core/drivers/octa-flash/src/octa-flash.c **** /**
+  68:../../core/drivers/octa-flash/src/octa-flash.c ****     * \brief    Sets the read and write address to the start of this page. The max value is defined
+  69:../../core/drivers/octa-flash/src/octa-flash.c ****     * \param    aPageNr      The 256 byte page you want to start reading or writing from.
+  70:../../core/drivers/octa-flash/src/octa-flash.c ****     * \returns  0 if successful
+  71:../../core/drivers/octa-flash/src/octa-flash.c ****     * \returns  E_WRITE_IN_PROGRESS if the flash is performing a write action.
+  72:../../core/drivers/octa-flash/src/octa-flash.c ****     * \returns  E_INVALID_PAGE_NR if aPageNr is invalid.
+  73:../../core/drivers/octa-flash/src/octa-flash.c ****     */
+  74:../../core/drivers/octa-flash/src/octa-flash.c **** int OCTA_FLASH_open(const uint32_t aPageNr)
+  75:../../core/drivers/octa-flash/src/octa-flash.c **** {
+  76:../../core/drivers/octa-flash/src/octa-flash.c ****     HAL_Delay(SPI_WAIT);
+  77:../../core/drivers/octa-flash/src/octa-flash.c **** 
+  78:../../core/drivers/octa-flash/src/octa-flash.c ****     if (OCTA_FLASH_isWriteInProgress())
+  79:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+  80:../../core/drivers/octa-flash/src/octa-flash.c ****         return E_WRITE_IN_PROGRESS;
+  81:../../core/drivers/octa-flash/src/octa-flash.c ****     }
+  82:../../core/drivers/octa-flash/src/octa-flash.c **** 
+  83:../../core/drivers/octa-flash/src/octa-flash.c ****     if (aPageNr > MAX_PAGE_NUMBER)
+  84:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+  85:../../core/drivers/octa-flash/src/octa-flash.c ****         return E_INVALID_PAGE_NR;
+  86:../../core/drivers/octa-flash/src/octa-flash.c ****     }
+  87:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ARM GAS  /tmp/cckIivDo.s 			page 3
+
+
+  88:../../core/drivers/octa-flash/src/octa-flash.c ****     uint32_t newAddress = FIRST_FLASH_ADDRESS + aPageNr * (OCTA_FLASH_PAGE_SIZE);
+  89:../../core/drivers/octa-flash/src/octa-flash.c ****     mCurrentReadAddress = newAddress;
+  90:../../core/drivers/octa-flash/src/octa-flash.c ****     mCurrentWriteAddress = newAddress;
+  91:../../core/drivers/octa-flash/src/octa-flash.c **** 
+  92:../../core/drivers/octa-flash/src/octa-flash.c ****     return 0;
+  93:../../core/drivers/octa-flash/src/octa-flash.c **** }
+  94:../../core/drivers/octa-flash/src/octa-flash.c **** 
+  95:../../core/drivers/octa-flash/src/octa-flash.c **** /**
+  96:../../core/drivers/octa-flash/src/octa-flash.c ****     * \brief    Sets the read and write address to the start of this page. The max value is defined
+  97:../../core/drivers/octa-flash/src/octa-flash.c ****     * \param    aPageNr      The 256 byte page you want to start reading or writing from.
+  98:../../core/drivers/octa-flash/src/octa-flash.c ****     * \returns  0 if successful
+  99:../../core/drivers/octa-flash/src/octa-flash.c ****     * \returns  E_WRITE_IN_PROGRESS if the flash is performing a write action.
+ 100:../../core/drivers/octa-flash/src/octa-flash.c ****     * \returns  E_INVALID_PAGE_NR if aPageNr is invalid.
+ 101:../../core/drivers/octa-flash/src/octa-flash.c ****     */
+ 102:../../core/drivers/octa-flash/src/octa-flash.c **** int OCTA_FLASH_openConfigSector(void)
+ 103:../../core/drivers/octa-flash/src/octa-flash.c **** {
+ 104:../../core/drivers/octa-flash/src/octa-flash.c ****     HAL_Delay(SPI_WAIT);
+ 105:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 106:../../core/drivers/octa-flash/src/octa-flash.c ****     if (OCTA_FLASH_isWriteInProgress())
+ 107:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 108:../../core/drivers/octa-flash/src/octa-flash.c ****         return E_WRITE_IN_PROGRESS;
+ 109:../../core/drivers/octa-flash/src/octa-flash.c ****     }
+ 110:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 111:../../core/drivers/octa-flash/src/octa-flash.c ****     uint32_t newAddress = 0;
+ 112:../../core/drivers/octa-flash/src/octa-flash.c ****     mCurrentReadAddress = newAddress;
+ 113:../../core/drivers/octa-flash/src/octa-flash.c ****     mCurrentWriteAddress = newAddress;
+ 114:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 115:../../core/drivers/octa-flash/src/octa-flash.c ****     return 0;
+ 116:../../core/drivers/octa-flash/src/octa-flash.c **** }
+ 117:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 118:../../core/drivers/octa-flash/src/octa-flash.c **** /**
+ 119:../../core/drivers/octa-flash/src/octa-flash.c ****     * \brief    Reads the given number of bytes from flash.
+ 120:../../core/drivers/octa-flash/src/octa-flash.c ****     * \param    apData     Pointer to the uint8_t array to fill.
+ 121:../../core/drivers/octa-flash/src/octa-flash.c ****     * \param    aSize      The number of bytes to be read.
+ 122:../../core/drivers/octa-flash/src/octa-flash.c ****     * \returns  the number of bytes read if successful
+ 123:../../core/drivers/octa-flash/src/octa-flash.c ****     * \returns  E_WRITE_IN_PROGRESS if the flash is performing a write action.
+ 124:../../core/drivers/octa-flash/src/octa-flash.c ****     * \returns  E_SPI_ERROR if something went wrong during SPI communication.
+ 125:../../core/drivers/octa-flash/src/octa-flash.c ****     */
+ 126:../../core/drivers/octa-flash/src/octa-flash.c **** int OCTA_FLASH_read(uint8_t *apData, const uint32_t aSize)
+ 127:../../core/drivers/octa-flash/src/octa-flash.c **** {
+ 128:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 129:../../core/drivers/octa-flash/src/octa-flash.c ****     HAL_Delay(SPI_WAIT);
+ 130:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 131:../../core/drivers/octa-flash/src/octa-flash.c ****     if (OCTA_FLASH_isWriteInProgress())
+ 132:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 133:../../core/drivers/octa-flash/src/octa-flash.c ****         return E_WRITE_IN_PROGRESS;
+ 134:../../core/drivers/octa-flash/src/octa-flash.c ****     }
+ 135:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 136:../../core/drivers/octa-flash/src/octa-flash.c ****     //Starting the read.
+ 137:../../core/drivers/octa-flash/src/octa-flash.c ****     int status = 0;
+ 138:../../core/drivers/octa-flash/src/octa-flash.c ****     status = OCTA_FLASH_send4BCommand(SPI_READ_4B_CMD, mCurrentReadAddress);
+ 139:../../core/drivers/octa-flash/src/octa-flash.c ****     if (status!=0)
+ 140:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 141:../../core/drivers/octa-flash/src/octa-flash.c ****         printDBG("\r\n FLASH read error: %d\r\n", status);
+ 142:../../core/drivers/octa-flash/src/octa-flash.c ****         return status;
+ 143:../../core/drivers/octa-flash/src/octa-flash.c ****     }
+ 144:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ARM GAS  /tmp/cckIivDo.s 			page 4
+
+
+ 145:../../core/drivers/octa-flash/src/octa-flash.c ****     HAL_SPI_Receive(flashSPI, apData, (uint16_t)aSize, HAL_MAX_DELAY);
+ 146:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 147:../../core/drivers/octa-flash/src/octa-flash.c ****     OCTA_FLASH_Disable();
+ 148:../../core/drivers/octa-flash/src/octa-flash.c ****     __HAL_SPI_DISABLE(flashSPI);
+ 149:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 150:../../core/drivers/octa-flash/src/octa-flash.c ****     return aSize;
+ 151:../../core/drivers/octa-flash/src/octa-flash.c **** }
+ 152:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 153:../../core/drivers/octa-flash/src/octa-flash.c **** /**
+ 154:../../core/drivers/octa-flash/src/octa-flash.c ****     * \brief    Buffers the given array. Once 256 bytes are cached, the data is flushed to flash.
+ 155:../../core/drivers/octa-flash/src/octa-flash.c ****     * \param    apData     Pointer to the uint8_t array with data to write.
+ 156:../../core/drivers/octa-flash/src/octa-flash.c ****     * \param    aSize      The number of bytes to be written.
+ 157:../../core/drivers/octa-flash/src/octa-flash.c ****     * \returns  The number of written bytes.
+ 158:../../core/drivers/octa-flash/src/octa-flash.c ****     * \returns  E_WRITE_IN_PROGRESS if the flash is performing a write action.
+ 159:../../core/drivers/octa-flash/src/octa-flash.c ****     * \returns  E_SPI_ERROR if something went wrong during SPI communication.
+ 160:../../core/drivers/octa-flash/src/octa-flash.c ****     * \returns  E_LAST_PAGE_WRITTEN if the last block was written and no more data can be buffered.
+ 161:../../core/drivers/octa-flash/src/octa-flash.c ****     */
+ 162:../../core/drivers/octa-flash/src/octa-flash.c **** int OCTA_FLASH_write(const uint8_t *apData, const uint32_t aSize)
+ 163:../../core/drivers/octa-flash/src/octa-flash.c **** {
+ 164:../../core/drivers/octa-flash/src/octa-flash.c ****     HAL_Delay(SPI_WAIT);
+ 165:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 166:../../core/drivers/octa-flash/src/octa-flash.c ****     if (OCTA_FLASH_isWriteInProgress())
+ 167:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 168:../../core/drivers/octa-flash/src/octa-flash.c ****         return E_WRITE_IN_PROGRESS;
+ 169:../../core/drivers/octa-flash/src/octa-flash.c ****     }
+ 170:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 171:../../core/drivers/octa-flash/src/octa-flash.c ****     if (mCurrentWriteAddress > LAST_FLASH_ADDRESS)
+ 172:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 173:../../core/drivers/octa-flash/src/octa-flash.c ****         return E_LAST_PAGE_WRITTEN;
+ 174:../../core/drivers/octa-flash/src/octa-flash.c ****     }
+ 175:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 176:../../core/drivers/octa-flash/src/octa-flash.c ****     uint32_t bytesLeftToWrite = aSize;
+ 177:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 178:../../core/drivers/octa-flash/src/octa-flash.c ****     while (mMemPageIndex + bytesLeftToWrite >= OCTA_FLASH_PAGE_SIZE)
+ 179:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 180:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 181:../../core/drivers/octa-flash/src/octa-flash.c ****         //The number of bytes we will add to mMemBlock in this loop
+ 182:../../core/drivers/octa-flash/src/octa-flash.c ****         uint32_t bytesToWrite = OCTA_FLASH_PAGE_SIZE - mMemPageIndex;
+ 183:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 184:../../core/drivers/octa-flash/src/octa-flash.c ****         //Filling the remainder of the buffer
+ 185:../../core/drivers/octa-flash/src/octa-flash.c ****         memcpy(&mMemPage[mMemPageIndex], apData, OCTA_FLASH_PAGE_SIZE);
+ 186:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 187:../../core/drivers/octa-flash/src/octa-flash.c ****         int flushedBytes = OCTA_FLASH_flush();
+ 188:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 189:../../core/drivers/octa-flash/src/octa-flash.c ****         //And writing the block of FLASH_BLOCK_SIZE bytes. This also clears mMemBlock and mMemBlock
+ 190:../../core/drivers/octa-flash/src/octa-flash.c ****         if (flushedBytes < 0)
+ 191:../../core/drivers/octa-flash/src/octa-flash.c ****         {
+ 192:../../core/drivers/octa-flash/src/octa-flash.c ****             //Flush failed
+ 193:../../core/drivers/octa-flash/src/octa-flash.c ****             printDBG("Flush failed\r\n");
+ 194:../../core/drivers/octa-flash/src/octa-flash.c ****             return flushedBytes;
+ 195:../../core/drivers/octa-flash/src/octa-flash.c ****         }
+ 196:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 197:../../core/drivers/octa-flash/src/octa-flash.c ****         //Moving the pointer
+ 198:../../core/drivers/octa-flash/src/octa-flash.c ****         apData += bytesToWrite;
+ 199:../../core/drivers/octa-flash/src/octa-flash.c ****         bytesLeftToWrite -= bytesToWrite;
+ 200:../../core/drivers/octa-flash/src/octa-flash.c ****     }
+ 201:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ARM GAS  /tmp/cckIivDo.s 			page 5
+
+
+ 202:../../core/drivers/octa-flash/src/octa-flash.c ****     if (mCurrentWriteAddress > LAST_FLASH_ADDRESS)
+ 203:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 204:../../core/drivers/octa-flash/src/octa-flash.c ****         //Flash is full, no more buffering.
+ 205:../../core/drivers/octa-flash/src/octa-flash.c ****         return E_LAST_PAGE_WRITTEN;
+ 206:../../core/drivers/octa-flash/src/octa-flash.c ****     }
+ 207:../../core/drivers/octa-flash/src/octa-flash.c ****     else if (bytesLeftToWrite > 0)
+ 208:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 209:../../core/drivers/octa-flash/src/octa-flash.c ****         //We still have some bytes left to cache.
+ 210:../../core/drivers/octa-flash/src/octa-flash.c ****         memcpy(&mMemPage[mMemPageIndex], apData, bytesLeftToWrite);
+ 211:../../core/drivers/octa-flash/src/octa-flash.c ****         bytesLeftToWrite = 0;
+ 212:../../core/drivers/octa-flash/src/octa-flash.c ****     }
+ 213:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 214:../../core/drivers/octa-flash/src/octa-flash.c ****     return (aSize-bytesLeftToWrite);
+ 215:../../core/drivers/octa-flash/src/octa-flash.c **** }
+ 216:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 217:../../core/drivers/octa-flash/src/octa-flash.c **** /**
+ 218:../../core/drivers/octa-flash/src/octa-flash.c ****     * \brief    Returns the state of the write in process status bit.
+ 219:../../core/drivers/octa-flash/src/octa-flash.c ****     * \returns  true is the flash is performing a write action.
+ 220:../../core/drivers/octa-flash/src/octa-flash.c ****     */
+ 221:../../core/drivers/octa-flash/src/octa-flash.c **** uint8_t OCTA_FLASH_isWriteInProgress(void)
+ 222:../../core/drivers/octa-flash/src/octa-flash.c **** {
+ 223:../../core/drivers/octa-flash/src/octa-flash.c ****     HAL_Delay(SPI_WAIT);
+ 224:../../core/drivers/octa-flash/src/octa-flash.c ****     uint8_t status = 0;
+ 225:../../core/drivers/octa-flash/src/octa-flash.c ****     if (OCTA_FLASH_readReg(SPI_RDSR_CMD, &status) == 0)
+ 226:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 227:../../core/drivers/octa-flash/src/octa-flash.c ****         return (uint8_t)(status & WRITE_IN_PROGRESS_MASK);
+ 228:../../core/drivers/octa-flash/src/octa-flash.c ****     }
+ 229:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 230:../../core/drivers/octa-flash/src/octa-flash.c ****     return 0;
+ 231:../../core/drivers/octa-flash/src/octa-flash.c **** }
+ 232:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 233:../../core/drivers/octa-flash/src/octa-flash.c **** /**
+ 234:../../core/drivers/octa-flash/src/octa-flash.c ****     * \brief    Erases the entire flash.
+ 235:../../core/drivers/octa-flash/src/octa-flash.c ****                 This method is a write action. Poll with isWriteInProgress()
+ 236:../../core/drivers/octa-flash/src/octa-flash.c ****     * \returns  0 if successful
+ 237:../../core/drivers/octa-flash/src/octa-flash.c ****     * \returns  E_WRITE_IN_PROGRESS if the flash is performing a write action.
+ 238:../../core/drivers/octa-flash/src/octa-flash.c ****     * \returns  E_SPI_ERROR if something went wrong during SPI communication.
+ 239:../../core/drivers/octa-flash/src/octa-flash.c ****     */
+ 240:../../core/drivers/octa-flash/src/octa-flash.c **** int OCTA_FLASH_eraseFullFlash(void)
+ 241:../../core/drivers/octa-flash/src/octa-flash.c **** {
+ 242:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 243:../../core/drivers/octa-flash/src/octa-flash.c ****     HAL_Delay(SPI_WAIT);
+ 244:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 245:../../core/drivers/octa-flash/src/octa-flash.c ****     if (OCTA_FLASH_isWriteInProgress())
+ 246:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 247:../../core/drivers/octa-flash/src/octa-flash.c ****         return E_WRITE_IN_PROGRESS;        
+ 248:../../core/drivers/octa-flash/src/octa-flash.c ****     }
+ 249:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 250:../../core/drivers/octa-flash/src/octa-flash.c ****     //Setting write enable
+ 251:../../core/drivers/octa-flash/src/octa-flash.c ****     if (OCTA_FLASH_sendCommand(SPI_WREN_CMD) == E_SPI_ERROR)
+ 252:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 253:../../core/drivers/octa-flash/src/octa-flash.c ****         return E_SPI_ERROR;
+ 254:../../core/drivers/octa-flash/src/octa-flash.c ****     }
+ 255:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 256:../../core/drivers/octa-flash/src/octa-flash.c ****     //The actual bulk erase
+ 257:../../core/drivers/octa-flash/src/octa-flash.c ****     if (OCTA_FLASH_sendCommand(SPI_BE_CMD) == E_SPI_ERROR)
+ 258:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ARM GAS  /tmp/cckIivDo.s 			page 6
+
+
+ 259:../../core/drivers/octa-flash/src/octa-flash.c ****         return E_SPI_ERROR;
+ 260:../../core/drivers/octa-flash/src/octa-flash.c ****     }
+ 261:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 262:../../core/drivers/octa-flash/src/octa-flash.c ****     //And disabling write again.
+ 263:../../core/drivers/octa-flash/src/octa-flash.c ****     if (OCTA_FLASH_sendCommand(SPI_WRDI_CMD) == E_SPI_ERROR)
+ 264:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 265:../../core/drivers/octa-flash/src/octa-flash.c ****         return E_SPI_ERROR;
+ 266:../../core/drivers/octa-flash/src/octa-flash.c ****     }
+ 267:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 268:../../core/drivers/octa-flash/src/octa-flash.c ****     return 0;
+ 269:../../core/drivers/octa-flash/src/octa-flash.c **** }
+ 270:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 271:../../core/drivers/octa-flash/src/octa-flash.c **** /**
+ 272:../../core/drivers/octa-flash/src/octa-flash.c ****     * \brief    Erases 256kb of data, starting from the given block.
+ 273:../../core/drivers/octa-flash/src/octa-flash.c ****                 This method is a write action. Poll with isWriteInProgress()
+ 274:../../core/drivers/octa-flash/src/octa-flash.c ****     * \param    aPageNr   The block you want to start erasing from.
+ 275:../../core/drivers/octa-flash/src/octa-flash.c ****     * \returns  0 if successful
+ 276:../../core/drivers/octa-flash/src/octa-flash.c ****     * \returns  E_WRITE_IN_PROGRESS if the flash is performing a write action.
+ 277:../../core/drivers/octa-flash/src/octa-flash.c ****     * \returns  E_INVALID_PAGE_NR if aPageNr is invalid.
+ 278:../../core/drivers/octa-flash/src/octa-flash.c ****     * \returns  E_SPI_ERROR if something went wrong during SPI communication.
+ 279:../../core/drivers/octa-flash/src/octa-flash.c ****     */
+ 280:../../core/drivers/octa-flash/src/octa-flash.c **** int OCTA_FLASH_erase265KBSectorFromPage(const uint32_t aPageNr)
+ 281:../../core/drivers/octa-flash/src/octa-flash.c **** {
+ 282:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 283:../../core/drivers/octa-flash/src/octa-flash.c ****     HAL_Delay(SPI_WAIT);
+ 284:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 285:../../core/drivers/octa-flash/src/octa-flash.c ****     if (OCTA_FLASH_isWriteInProgress())
+ 286:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 287:../../core/drivers/octa-flash/src/octa-flash.c ****         return E_WRITE_IN_PROGRESS;
+ 288:../../core/drivers/octa-flash/src/octa-flash.c ****     }
+ 289:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 290:../../core/drivers/octa-flash/src/octa-flash.c ****     if (aPageNr > MAX_PAGE_NUMBER)
+ 291:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 292:../../core/drivers/octa-flash/src/octa-flash.c ****         return E_INVALID_PAGE_NR;
+ 293:../../core/drivers/octa-flash/src/octa-flash.c ****     }
+ 294:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 295:../../core/drivers/octa-flash/src/octa-flash.c ****     //Setting write enable
+ 296:../../core/drivers/octa-flash/src/octa-flash.c ****     if (OCTA_FLASH_sendCommand(SPI_WREN_CMD) == E_SPI_ERROR)
+ 297:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 298:../../core/drivers/octa-flash/src/octa-flash.c ****         return E_SPI_ERROR;
+ 299:../../core/drivers/octa-flash/src/octa-flash.c ****     }
+ 300:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 301:../../core/drivers/octa-flash/src/octa-flash.c ****     //The actual sector erase
+ 302:../../core/drivers/octa-flash/src/octa-flash.c ****     if (OCTA_FLASH_send4BCommand(SPI_SE256KB_CMD, (FIRST_FLASH_ADDRESS + aPageNr * (OCTA_FLASH_PAGE
+ 303:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 304:../../core/drivers/octa-flash/src/octa-flash.c ****         return E_SPI_ERROR;
+ 305:../../core/drivers/octa-flash/src/octa-flash.c ****     }
+ 306:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 307:../../core/drivers/octa-flash/src/octa-flash.c ****     __HAL_SPI_DISABLE(flashSPI);
+ 308:../../core/drivers/octa-flash/src/octa-flash.c ****     OCTA_FLASH_Disable();
+ 309:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 310:../../core/drivers/octa-flash/src/octa-flash.c ****     //Disabling write.
+ 311:../../core/drivers/octa-flash/src/octa-flash.c ****     if (OCTA_FLASH_sendCommand(SPI_WRDI_CMD) == E_SPI_ERROR)
+ 312:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 313:../../core/drivers/octa-flash/src/octa-flash.c ****         return E_SPI_ERROR;
+ 314:../../core/drivers/octa-flash/src/octa-flash.c ****     }
+ 315:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ARM GAS  /tmp/cckIivDo.s 			page 7
+
+
+ 316:../../core/drivers/octa-flash/src/octa-flash.c ****     return 0;
+ 317:../../core/drivers/octa-flash/src/octa-flash.c **** }
+ 318:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 319:../../core/drivers/octa-flash/src/octa-flash.c **** /**
+ 320:../../core/drivers/octa-flash/src/octa-flash.c ****     * \brief    Erases 4kb of data, starting from the given block.
+ 321:../../core/drivers/octa-flash/src/octa-flash.c ****                 This method is a write action. Poll with isWriteInProgress()
+ 322:../../core/drivers/octa-flash/src/octa-flash.c ****     * \param    aPageNr   The block you want to start erasing from.
+ 323:../../core/drivers/octa-flash/src/octa-flash.c ****     * \returns  0 if successful
+ 324:../../core/drivers/octa-flash/src/octa-flash.c ****     * \returns  E_WRITE_IN_PROGRESS if the flash is performing a write action.
+ 325:../../core/drivers/octa-flash/src/octa-flash.c ****     * \returns  E_INVALID_PAGE_NR if aPageNr is invalid.
+ 326:../../core/drivers/octa-flash/src/octa-flash.c ****     * \returns  E_SPI_ERROR if something went wrong during SPI communication.
+ 327:../../core/drivers/octa-flash/src/octa-flash.c ****     */
+ 328:../../core/drivers/octa-flash/src/octa-flash.c **** int OCTA_FLASH_erase4KBSectorFromPage(const uint32_t aPageNr)
+ 329:../../core/drivers/octa-flash/src/octa-flash.c **** {
+ 330:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 331:../../core/drivers/octa-flash/src/octa-flash.c ****     HAL_Delay(SPI_WAIT);
+ 332:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 333:../../core/drivers/octa-flash/src/octa-flash.c ****     if (OCTA_FLASH_isWriteInProgress())
+ 334:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 335:../../core/drivers/octa-flash/src/octa-flash.c ****         return E_WRITE_IN_PROGRESS;
+ 336:../../core/drivers/octa-flash/src/octa-flash.c ****     }
+ 337:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 338:../../core/drivers/octa-flash/src/octa-flash.c ****     if (aPageNr > MAX_PAGE_NUMBER)
+ 339:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 340:../../core/drivers/octa-flash/src/octa-flash.c ****         return E_INVALID_PAGE_NR;
+ 341:../../core/drivers/octa-flash/src/octa-flash.c ****     }
+ 342:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 343:../../core/drivers/octa-flash/src/octa-flash.c ****     //Setting write enable
+ 344:../../core/drivers/octa-flash/src/octa-flash.c ****     if (OCTA_FLASH_sendCommand(SPI_WREN_CMD) == E_SPI_ERROR)
+ 345:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 346:../../core/drivers/octa-flash/src/octa-flash.c ****         return E_SPI_ERROR;
+ 347:../../core/drivers/octa-flash/src/octa-flash.c ****     }
+ 348:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 349:../../core/drivers/octa-flash/src/octa-flash.c ****     //The actual sector erase
+ 350:../../core/drivers/octa-flash/src/octa-flash.c ****     if (OCTA_FLASH_send4BCommand(SPI_SE4KB_CMD, (FIRST_FLASH_ADDRESS + aPageNr * (OCTA_FLASH_PAGE_S
+ 351:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 352:../../core/drivers/octa-flash/src/octa-flash.c ****         return E_SPI_ERROR;
+ 353:../../core/drivers/octa-flash/src/octa-flash.c ****     }
+ 354:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 355:../../core/drivers/octa-flash/src/octa-flash.c ****     __HAL_SPI_DISABLE(flashSPI);
+ 356:../../core/drivers/octa-flash/src/octa-flash.c ****     OCTA_FLASH_Disable();
+ 357:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 358:../../core/drivers/octa-flash/src/octa-flash.c ****     //Disabling write.
+ 359:../../core/drivers/octa-flash/src/octa-flash.c ****     if (OCTA_FLASH_sendCommand(SPI_WRDI_CMD) == E_SPI_ERROR)
+ 360:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 361:../../core/drivers/octa-flash/src/octa-flash.c ****         return E_SPI_ERROR;
+ 362:../../core/drivers/octa-flash/src/octa-flash.c ****     }
+ 363:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 364:../../core/drivers/octa-flash/src/octa-flash.c ****     return 0;
+ 365:../../core/drivers/octa-flash/src/octa-flash.c **** }
+ 366:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 367:../../core/drivers/octa-flash/src/octa-flash.c **** /**
+ 368:../../core/drivers/octa-flash/src/octa-flash.c ****     * \brief    Erases 4kb of data, starting from the given block.
+ 369:../../core/drivers/octa-flash/src/octa-flash.c ****                 This method is a write action. Poll with isWriteInProgress()
+ 370:../../core/drivers/octa-flash/src/octa-flash.c ****     * \param    aPageNr   The block you want to start erasing from.
+ 371:../../core/drivers/octa-flash/src/octa-flash.c ****     * \returns  0 if successful
+ 372:../../core/drivers/octa-flash/src/octa-flash.c ****     * \returns  E_WRITE_IN_PROGRESS if the flash is performing a write action.
+ARM GAS  /tmp/cckIivDo.s 			page 8
+
+
+ 373:../../core/drivers/octa-flash/src/octa-flash.c ****     * \returns  E_INVALID_PAGE_NR if aPageNr is invalid.
+ 374:../../core/drivers/octa-flash/src/octa-flash.c ****     * \returns  E_SPI_ERROR if something went wrong during SPI communication.
+ 375:../../core/drivers/octa-flash/src/octa-flash.c ****     */
+ 376:../../core/drivers/octa-flash/src/octa-flash.c **** int OCTA_FLASH_eraseConfigSector()
+ 377:../../core/drivers/octa-flash/src/octa-flash.c **** {
+ 378:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 379:../../core/drivers/octa-flash/src/octa-flash.c ****     HAL_Delay(SPI_WAIT);
+ 380:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 381:../../core/drivers/octa-flash/src/octa-flash.c ****     if (OCTA_FLASH_isWriteInProgress())
+ 382:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 383:../../core/drivers/octa-flash/src/octa-flash.c ****         return E_WRITE_IN_PROGRESS;
+ 384:../../core/drivers/octa-flash/src/octa-flash.c ****     }
+ 385:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 386:../../core/drivers/octa-flash/src/octa-flash.c ****     //Setting write enable
+ 387:../../core/drivers/octa-flash/src/octa-flash.c ****     if (OCTA_FLASH_sendCommand(SPI_WREN_CMD) == E_SPI_ERROR)
+ 388:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 389:../../core/drivers/octa-flash/src/octa-flash.c ****         return E_SPI_ERROR;
+ 390:../../core/drivers/octa-flash/src/octa-flash.c ****     }
+ 391:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 392:../../core/drivers/octa-flash/src/octa-flash.c ****     //The actual sector erase
+ 393:../../core/drivers/octa-flash/src/octa-flash.c ****     if (OCTA_FLASH_send4BCommand(SPI_SE4KB_CMD, 0) == E_SPI_ERROR)
+ 394:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 395:../../core/drivers/octa-flash/src/octa-flash.c ****         return E_SPI_ERROR;
+ 396:../../core/drivers/octa-flash/src/octa-flash.c ****     }
+ 397:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 398:../../core/drivers/octa-flash/src/octa-flash.c ****     __HAL_SPI_DISABLE(flashSPI);
+ 399:../../core/drivers/octa-flash/src/octa-flash.c ****     OCTA_FLASH_Disable();
+ 400:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 401:../../core/drivers/octa-flash/src/octa-flash.c ****     //Disabling write.
+ 402:../../core/drivers/octa-flash/src/octa-flash.c ****     if (OCTA_FLASH_sendCommand(SPI_WRDI_CMD) == E_SPI_ERROR)
+ 403:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 404:../../core/drivers/octa-flash/src/octa-flash.c ****         return E_SPI_ERROR;
+ 405:../../core/drivers/octa-flash/src/octa-flash.c ****     }
+ 406:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 407:../../core/drivers/octa-flash/src/octa-flash.c ****     return 0;
+ 408:../../core/drivers/octa-flash/src/octa-flash.c **** }
+ 409:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 410:../../core/drivers/octa-flash/src/octa-flash.c **** /**
+ 411:../../core/drivers/octa-flash/src/octa-flash.c ****     * \brief    Reads the value of a register.
+ 412:../../core/drivers/octa-flash/src/octa-flash.c ****     * \param    aReg      The register ytou want to read
+ 413:../../core/drivers/octa-flash/src/octa-flash.c ****     * \param    aData     Pointer to the data location.
+ 414:../../core/drivers/octa-flash/src/octa-flash.c ****     * \returns  0 if successful
+ 415:../../core/drivers/octa-flash/src/octa-flash.c ****     * \returns E_SPI_ERROR if something went wrong during SPI communication.
+ 416:../../core/drivers/octa-flash/src/octa-flash.c ****     */
+ 417:../../core/drivers/octa-flash/src/octa-flash.c **** int OCTA_FLASH_readReg(uint8_t aReg, uint8_t *aData)
+ 418:../../core/drivers/octa-flash/src/octa-flash.c **** {
+ 419:../../core/drivers/octa-flash/src/octa-flash.c ****     txData[0] = aReg;
+ 420:../../core/drivers/octa-flash/src/octa-flash.c ****     *aData = 0x00;
+ 421:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 422:../../core/drivers/octa-flash/src/octa-flash.c ****     OCTA_FLASH_Enable();
+ 423:../../core/drivers/octa-flash/src/octa-flash.c ****     __HAL_SPI_ENABLE(flashSPI);
+ 424:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 425:../../core/drivers/octa-flash/src/octa-flash.c ****     HAL_SPI_Transmit(flashSPI, (uint8_t *)txData, 1, HAL_MAX_DELAY);
+ 426:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 427:../../core/drivers/octa-flash/src/octa-flash.c ****     HAL_SPI_Receive(flashSPI, (uint8_t *)rxData, 1, HAL_MAX_DELAY);
+ 428:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 429:../../core/drivers/octa-flash/src/octa-flash.c ****     __HAL_SPI_DISABLE(flashSPI);
+ARM GAS  /tmp/cckIivDo.s 			page 9
+
+
+ 430:../../core/drivers/octa-flash/src/octa-flash.c ****     OCTA_FLASH_Disable();
+ 431:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 432:../../core/drivers/octa-flash/src/octa-flash.c ****     *aData = rxData[0];
+ 433:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 434:../../core/drivers/octa-flash/src/octa-flash.c ****     return 0;
+ 435:../../core/drivers/octa-flash/src/octa-flash.c **** }
+ 436:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 437:../../core/drivers/octa-flash/src/octa-flash.c **** /**
+ 438:../../core/drivers/octa-flash/src/octa-flash.c ****     * \brief   Flushes the internal buffer and writes it to flash.
+ 439:../../core/drivers/octa-flash/src/octa-flash.c ****        This method should only be called when mMemBlock is full.
+ 440:../../core/drivers/octa-flash/src/octa-flash.c ****     * \returns 0 if successful
+ 441:../../core/drivers/octa-flash/src/octa-flash.c ****     * \returns  E_WRITE_IN_PROGRESS if the flash is performing a write action.
+ 442:../../core/drivers/octa-flash/src/octa-flash.c ****     * \returns  E_SPI_ERROR if something went wrong during SPI communication.
+ 443:../../core/drivers/octa-flash/src/octa-flash.c ****     */
+ 444:../../core/drivers/octa-flash/src/octa-flash.c **** int OCTA_FLASH_flush(void)
+ 445:../../core/drivers/octa-flash/src/octa-flash.c **** {
+ 446:../../core/drivers/octa-flash/src/octa-flash.c ****     if (OCTA_FLASH_isWriteInProgress())
+ 447:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 448:../../core/drivers/octa-flash/src/octa-flash.c ****         return E_WRITE_IN_PROGRESS;
+ 449:../../core/drivers/octa-flash/src/octa-flash.c ****     }
+ 450:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 451:../../core/drivers/octa-flash/src/octa-flash.c ****     //Setting write enable
+ 452:../../core/drivers/octa-flash/src/octa-flash.c ****     if (OCTA_FLASH_sendCommand(SPI_WREN_CMD) == E_SPI_ERROR)
+ 453:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 454:../../core/drivers/octa-flash/src/octa-flash.c ****         return E_SPI_ERROR;
+ 455:../../core/drivers/octa-flash/src/octa-flash.c ****     }
+ 456:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 457:../../core/drivers/octa-flash/src/octa-flash.c ****     // write command and address adress
+ 458:../../core/drivers/octa-flash/src/octa-flash.c ****     if (OCTA_FLASH_send4BCommand(SPI_PP_4B_CMD, mCurrentWriteAddress) == E_SPI_ERROR)
+ 459:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 460:../../core/drivers/octa-flash/src/octa-flash.c ****         return E_SPI_ERROR;
+ 461:../../core/drivers/octa-flash/src/octa-flash.c ****     }
+ 462:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 463:../../core/drivers/octa-flash/src/octa-flash.c ****     if(HAL_SPI_Transmit(flashSPI, (uint8_t *)mMemPage, OCTA_FLASH_PAGE_SIZE, HAL_MAX_DELAY) != HAL_
+ 464:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 465:../../core/drivers/octa-flash/src/octa-flash.c ****         return E_SPI_ERROR;
+ 466:../../core/drivers/octa-flash/src/octa-flash.c ****     }
+ 467:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 468:../../core/drivers/octa-flash/src/octa-flash.c ****     __HAL_SPI_DISABLE(flashSPI);
+ 469:../../core/drivers/octa-flash/src/octa-flash.c ****     OCTA_FLASH_Disable();
+ 470:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 471:../../core/drivers/octa-flash/src/octa-flash.c ****     //Setting write disable
+ 472:../../core/drivers/octa-flash/src/octa-flash.c ****     if (OCTA_FLASH_sendCommand(SPI_WRDI_CMD) == E_SPI_ERROR)
+ 473:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 474:../../core/drivers/octa-flash/src/octa-flash.c ****         return E_SPI_ERROR;
+ 475:../../core/drivers/octa-flash/src/octa-flash.c ****     }
+ 476:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 477:../../core/drivers/octa-flash/src/octa-flash.c ****     //It's possible that we pass LAST_FLASH_ADDRESS here, but the write method checks for that.
+ 478:../../core/drivers/octa-flash/src/octa-flash.c ****     mCurrentWriteAddress += OCTA_FLASH_PAGE_SIZE;
+ 479:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 480:../../core/drivers/octa-flash/src/octa-flash.c ****     // Clearing mMemBlock and mMemBlockIndex
+ 481:../../core/drivers/octa-flash/src/octa-flash.c ****     memset(mMemPage, 0, OCTA_FLASH_PAGE_SIZE);
+ 482:../../core/drivers/octa-flash/src/octa-flash.c ****     mMemPageIndex = 0;
+ 483:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 484:../../core/drivers/octa-flash/src/octa-flash.c ****     return 0;
+ 485:../../core/drivers/octa-flash/src/octa-flash.c **** }
+ 486:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ARM GAS  /tmp/cckIivDo.s 			page 10
+
+
+ 487:../../core/drivers/octa-flash/src/octa-flash.c **** /**
+ 488:../../core/drivers/octa-flash/src/octa-flash.c ****     * \brief    Sends a single command to the flash
+ 489:../../core/drivers/octa-flash/src/octa-flash.c ****     * \param    command The command to be sent.
+ 490:../../core/drivers/octa-flash/src/octa-flash.c ****     * \returns  0 if successful
+ 491:../../core/drivers/octa-flash/src/octa-flash.c ****     * \returns  E_WRITE_IN_PROGRESS if the flash is performing a write action.
+ 492:../../core/drivers/octa-flash/src/octa-flash.c ****     * \returns  E_SPI_ERROR if something went wrong during SPI communication.
+ 493:../../core/drivers/octa-flash/src/octa-flash.c ****     */
+ 494:../../core/drivers/octa-flash/src/octa-flash.c **** int OCTA_FLASH_sendCommand(const uint8_t command)
+ 495:../../core/drivers/octa-flash/src/octa-flash.c **** {
+ 496:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 497:../../core/drivers/octa-flash/src/octa-flash.c ****     if (OCTA_FLASH_isWriteInProgress())
+ 498:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 499:../../core/drivers/octa-flash/src/octa-flash.c ****         return E_WRITE_IN_PROGRESS;
+ 500:../../core/drivers/octa-flash/src/octa-flash.c ****     }
+ 501:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 502:../../core/drivers/octa-flash/src/octa-flash.c ****     txData[0] = command;
+ 503:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 504:../../core/drivers/octa-flash/src/octa-flash.c ****     OCTA_FLASH_Enable();
+ 505:../../core/drivers/octa-flash/src/octa-flash.c ****     __HAL_SPI_ENABLE(flashSPI);
+ 506:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 507:../../core/drivers/octa-flash/src/octa-flash.c ****     if(HAL_SPI_Transmit(flashSPI, (uint8_t *)txData, 1, HAL_MAX_DELAY)!= HAL_OK)
+ 508:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 509:../../core/drivers/octa-flash/src/octa-flash.c ****         return E_SPI_ERROR;
+ 510:../../core/drivers/octa-flash/src/octa-flash.c ****     }
+ 511:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 512:../../core/drivers/octa-flash/src/octa-flash.c ****     __HAL_SPI_DISABLE(flashSPI);
+ 513:../../core/drivers/octa-flash/src/octa-flash.c ****     OCTA_FLASH_Disable();
+ 514:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 515:../../core/drivers/octa-flash/src/octa-flash.c ****     return 0;
+ 516:../../core/drivers/octa-flash/src/octa-flash.c **** }
+ 517:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 518:../../core/drivers/octa-flash/src/octa-flash.c **** /**
+ 519:../../core/drivers/octa-flash/src/octa-flash.c ****     * \brief    Sends a 4 byte address command
+ 520:../../core/drivers/octa-flash/src/octa-flash.c ****     * \param    command   The command to be sent.
+ 521:../../core/drivers/octa-flash/src/octa-flash.c ****     * \param    address  The 4 byte address
+ 522:../../core/drivers/octa-flash/src/octa-flash.c ****     * \returns  0 if successful
+ 523:../../core/drivers/octa-flash/src/octa-flash.c ****     * \returns  E_WRITE_IN_PROGRESS if the flash is performing a write action.
+ 524:../../core/drivers/octa-flash/src/octa-flash.c ****     * \returns  E_SPI_ERROR if something went wrong during SPI communication.
+ 525:../../core/drivers/octa-flash/src/octa-flash.c ****     */
+ 526:../../core/drivers/octa-flash/src/octa-flash.c **** int OCTA_FLASH_send4BCommand(const uint8_t command, const uint32_t address)
+ 527:../../core/drivers/octa-flash/src/octa-flash.c **** {
+ 528:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 529:../../core/drivers/octa-flash/src/octa-flash.c ****     if (OCTA_FLASH_isWriteInProgress())
+ 530:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 531:../../core/drivers/octa-flash/src/octa-flash.c ****         return E_WRITE_IN_PROGRESS;
+ 532:../../core/drivers/octa-flash/src/octa-flash.c ****     }
+ 533:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 534:../../core/drivers/octa-flash/src/octa-flash.c ****     uint8_t index = 0;
+ 535:../../core/drivers/octa-flash/src/octa-flash.c ****     txData[index++] = command;
+ 536:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 537:../../core/drivers/octa-flash/src/octa-flash.c ****     //Writing 4 byte address.
+ 538:../../core/drivers/octa-flash/src/octa-flash.c ****     txData[index++] = (uint8_t)((address >> 24) & 0x000000FF);
+ 539:../../core/drivers/octa-flash/src/octa-flash.c ****     txData[index++] = (uint8_t)((address >> 16) & 0x000000FF);
+ 540:../../core/drivers/octa-flash/src/octa-flash.c ****     txData[index++] = (uint8_t)((address >> 8) & 0x000000FF);
+ 541:../../core/drivers/octa-flash/src/octa-flash.c ****     txData[index++] = (uint8_t)(address & 0x000000FF);
+ 542:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 543:../../core/drivers/octa-flash/src/octa-flash.c ****     //We have to enable SPI here, because isWriteInProgress disables it.
+ARM GAS  /tmp/cckIivDo.s 			page 11
+
+
+ 544:../../core/drivers/octa-flash/src/octa-flash.c ****     //We don't disable it here, because CS has to stay high after this command.
+ 545:../../core/drivers/octa-flash/src/octa-flash.c ****     OCTA_FLASH_Enable();
+ 546:../../core/drivers/octa-flash/src/octa-flash.c ****     __HAL_SPI_ENABLE(flashSPI);
+ 547:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 548:../../core/drivers/octa-flash/src/octa-flash.c ****     //send the command over SPI
+ 549:../../core/drivers/octa-flash/src/octa-flash.c ****     if(HAL_SPI_Transmit(flashSPI, (uint8_t *)txData, index, HAL_MAX_DELAY)!=HAL_OK)
+ 550:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 551:../../core/drivers/octa-flash/src/octa-flash.c ****         return E_SPI_ERROR;
+ 552:../../core/drivers/octa-flash/src/octa-flash.c ****     }
+ 553:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 554:../../core/drivers/octa-flash/src/octa-flash.c ****     return 0;
+ 555:../../core/drivers/octa-flash/src/octa-flash.c **** }
+ 556:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 557:../../core/drivers/octa-flash/src/octa-flash.c **** /* Manually toggle enable pin, due to it not being a default SPI pin */
+ 558:../../core/drivers/octa-flash/src/octa-flash.c **** void OCTA_FLASH_Enable(void)
+ 559:../../core/drivers/octa-flash/src/octa-flash.c **** {
+  29              		.loc 1 559 1 view -0
+  30              		.cfi_startproc
+  31              		@ args = 0, pretend = 0, frame = 0
+  32              		@ frame_needed = 0, uses_anonymous_args = 0
+  33 0000 08B5     		push	{r3, lr}
+  34              	.LCFI0:
+  35              		.cfi_def_cfa_offset 8
+  36              		.cfi_offset 3, -8
+  37              		.cfi_offset 14, -4
+ 560:../../core/drivers/octa-flash/src/octa-flash.c ****     //set CS pin to low
+ 561:../../core/drivers/octa-flash/src/octa-flash.c ****    HAL_GPIO_WritePin(OCTA_FLASH_CS_Port, OCTA_FLASH_CS_Pin, GPIO_PIN_RESET);
+  38              		.loc 1 561 4 view .LVU1
+  39 0002 0022     		movs	r2, #0
+  40 0004 4FF40041 		mov	r1, #32768
+  41 0008 4FF09040 		mov	r0, #1207959552
+  42 000c FFF7FEFF 		bl	HAL_GPIO_WritePin
+  43              	.LVL0:
+ 562:../../core/drivers/octa-flash/src/octa-flash.c **** }
+  44              		.loc 1 562 1 is_stmt 0 view .LVU2
+  45 0010 08BD     		pop	{r3, pc}
+  46              		.cfi_endproc
+  47              	.LFE145:
+  49              		.section	.text.OCTA_FLASH_Disable,"ax",%progbits
+  50              		.align	1
+  51              		.global	OCTA_FLASH_Disable
+  52              		.syntax unified
+  53              		.thumb
+  54              		.thumb_func
+  55              		.fpu fpv4-sp-d16
+  57              	OCTA_FLASH_Disable:
+  58              	.LFB146:
+ 563:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 564:../../core/drivers/octa-flash/src/octa-flash.c **** /* Manually toggle enable pin, due to it not being a default SPI pin */
+ 565:../../core/drivers/octa-flash/src/octa-flash.c **** void OCTA_FLASH_Disable(void)
+ 566:../../core/drivers/octa-flash/src/octa-flash.c **** {
+  59              		.loc 1 566 1 is_stmt 1 view -0
+  60              		.cfi_startproc
+  61              		@ args = 0, pretend = 0, frame = 0
+  62              		@ frame_needed = 0, uses_anonymous_args = 0
+  63 0000 08B5     		push	{r3, lr}
+  64              	.LCFI1:
+ARM GAS  /tmp/cckIivDo.s 			page 12
+
+
+  65              		.cfi_def_cfa_offset 8
+  66              		.cfi_offset 3, -8
+  67              		.cfi_offset 14, -4
+ 567:../../core/drivers/octa-flash/src/octa-flash.c ****     //set CS pin to high
+ 568:../../core/drivers/octa-flash/src/octa-flash.c ****     HAL_GPIO_WritePin(OCTA_FLASH_CS_Port, OCTA_FLASH_CS_Pin, GPIO_PIN_SET);
+  68              		.loc 1 568 5 view .LVU4
+  69 0002 0122     		movs	r2, #1
+  70 0004 4FF40041 		mov	r1, #32768
+  71 0008 4FF09040 		mov	r0, #1207959552
+  72 000c FFF7FEFF 		bl	HAL_GPIO_WritePin
+  73              	.LVL1:
+ 569:../../core/drivers/octa-flash/src/octa-flash.c **** }
+  74              		.loc 1 569 1 is_stmt 0 view .LVU5
+  75 0010 08BD     		pop	{r3, pc}
+  76              		.cfi_endproc
+  77              	.LFE146:
+  79              		.section	.rodata.OCTA_FLASH_Initialize.str1.4,"aMS",%progbits,1
+  80              		.align	2
+  81              	.LC0:
+  82 0000 4D583235 		.ascii	"MX25L512: 512Mb (64MB) Flash, first 4kB sector rese"
+  82      4C353132 
+  82      3A203531 
+  82      324D6220 
+  82      2836344D 
+  83 0033 72766564 		.ascii	"rved for configuration\015\012\000"
+  83      20666F72 
+  83      20636F6E 
+  83      66696775 
+  83      72617469 
+  84              		.align	2
+  85              	.LC1:
+  86 004c 4D617820 		.ascii	"Max page number: %d, page size: %d, start adr: %d, "
+  86      70616765 
+  86      206E756D 
+  86      6265723A 
+  86      2025642C 
+  87 007f 6C617374 		.ascii	"last adr: %d, pages/4kbsector: %d\015\012\000"
+  87      20616472 
+  87      3A202564 
+  87      2C207061 
+  87      6765732F 
+  88              		.section	.text.OCTA_FLASH_Initialize,"ax",%progbits
+  89              		.align	1
+  90              		.global	OCTA_FLASH_Initialize
+  91              		.syntax unified
+  92              		.thumb
+  93              		.thumb_func
+  94              		.fpu fpv4-sp-d16
+  96              	OCTA_FLASH_Initialize:
+  97              	.LVL2:
+  98              	.LFB131:
+  39:../../core/drivers/octa-flash/src/octa-flash.c ****     mMemPageIndex = 0;
+  99              		.loc 1 39 1 is_stmt 1 view -0
+ 100              		.cfi_startproc
+ 101              		@ args = 0, pretend = 0, frame = 0
+ 102              		@ frame_needed = 0, uses_anonymous_args = 0
+  39:../../core/drivers/octa-flash/src/octa-flash.c ****     mMemPageIndex = 0;
+ARM GAS  /tmp/cckIivDo.s 			page 13
+
+
+ 103              		.loc 1 39 1 is_stmt 0 view .LVU7
+ 104 0000 2DE9F041 		push	{r4, r5, r6, r7, r8, lr}
+ 105              	.LCFI2:
+ 106              		.cfi_def_cfa_offset 24
+ 107              		.cfi_offset 4, -24
+ 108              		.cfi_offset 5, -20
+ 109              		.cfi_offset 6, -16
+ 110              		.cfi_offset 7, -12
+ 111              		.cfi_offset 8, -8
+ 112              		.cfi_offset 14, -4
+ 113 0004 82B0     		sub	sp, sp, #8
+ 114              	.LCFI3:
+ 115              		.cfi_def_cfa_offset 32
+ 116 0006 0646     		mov	r6, r0
+  40:../../core/drivers/octa-flash/src/octa-flash.c ****     memset(mMemPage, 0, OCTA_FLASH_PAGE_SIZE);
+ 117              		.loc 1 40 5 is_stmt 1 view .LVU8
+  40:../../core/drivers/octa-flash/src/octa-flash.c ****     memset(mMemPage, 0, OCTA_FLASH_PAGE_SIZE);
+ 118              		.loc 1 40 19 is_stmt 0 view .LVU9
+ 119 0008 0027     		movs	r7, #0
+ 120 000a 1A4B     		ldr	r3, .L7
+ 121 000c 1F80     		strh	r7, [r3]	@ movhi
+  41:../../core/drivers/octa-flash/src/octa-flash.c ****     mCurrentReadAddress = FIRST_FLASH_ADDRESS;
+ 122              		.loc 1 41 5 is_stmt 1 view .LVU10
+ 123 000e 4FF48074 		mov	r4, #256
+ 124 0012 2246     		mov	r2, r4
+ 125 0014 3946     		mov	r1, r7
+ 126 0016 1848     		ldr	r0, .L7+4
+ 127              	.LVL3:
+  41:../../core/drivers/octa-flash/src/octa-flash.c ****     mCurrentReadAddress = FIRST_FLASH_ADDRESS;
+ 128              		.loc 1 41 5 is_stmt 0 view .LVU11
+ 129 0018 FFF7FEFF 		bl	memset
+ 130              	.LVL4:
+  42:../../core/drivers/octa-flash/src/octa-flash.c ****     mCurrentWriteAddress = FIRST_FLASH_ADDRESS;
+ 131              		.loc 1 42 5 is_stmt 1 view .LVU12
+  42:../../core/drivers/octa-flash/src/octa-flash.c ****     mCurrentWriteAddress = FIRST_FLASH_ADDRESS;
+ 132              		.loc 1 42 25 is_stmt 0 view .LVU13
+ 133 001c 4FF48055 		mov	r5, #4096
+ 134 0020 164B     		ldr	r3, .L7+8
+ 135 0022 1D60     		str	r5, [r3]
+  43:../../core/drivers/octa-flash/src/octa-flash.c ****     _initialised = 0;
+ 136              		.loc 1 43 5 is_stmt 1 view .LVU14
+  43:../../core/drivers/octa-flash/src/octa-flash.c ****     _initialised = 0;
+ 137              		.loc 1 43 26 is_stmt 0 view .LVU15
+ 138 0024 164B     		ldr	r3, .L7+12
+ 139 0026 1D60     		str	r5, [r3]
+  44:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 140              		.loc 1 44 5 is_stmt 1 view .LVU16
+  44:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 141              		.loc 1 44 18 is_stmt 0 view .LVU17
+ 142 0028 DFF87480 		ldr	r8, .L7+44
+ 143 002c 88F80070 		strb	r7, [r8]
+  46:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 144              		.loc 1 46 5 is_stmt 1 view .LVU18
+  46:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 145              		.loc 1 46 14 is_stmt 0 view .LVU19
+ 146 0030 144B     		ldr	r3, .L7+16
+ 147 0032 1E60     		str	r6, [r3]
+ARM GAS  /tmp/cckIivDo.s 			page 14
+
+
+  49:../../core/drivers/octa-flash/src/octa-flash.c ****     
+ 148              		.loc 1 49 5 is_stmt 1 view .LVU20
+ 149 0034 FFF7FEFF 		bl	OCTA_FLASH_Disable
+ 150              	.LVL5:
+  52:../../core/drivers/octa-flash/src/octa-flash.c ****     HAL_GPIO_WritePin(OCTA_FLASH_HOLD_Port, OCTA_FLASH_HOLD_Pin, GPIO_PIN_SET);
+ 151              		.loc 1 52 5 view .LVU21
+ 152 0038 0122     		movs	r2, #1
+ 153 003a 4FF40061 		mov	r1, #2048
+ 154 003e 1248     		ldr	r0, .L7+20
+ 155 0040 FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 156              	.LVL6:
+  53:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 157              		.loc 1 53 5 view .LVU22
+ 158 0044 0122     		movs	r2, #1
+ 159 0046 2146     		mov	r1, r4
+ 160 0048 1048     		ldr	r0, .L7+24
+ 161 004a FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 162              	.LVL7:
+  56:../../core/drivers/octa-flash/src/octa-flash.c ****     #else
+ 163              		.loc 1 56 9 view .LVU23
+ 164 004e 1048     		ldr	r0, .L7+28
+ 165 0050 FFF7FEFF 		bl	printINF
+ 166              	.LVL8:
+  60:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 167              		.loc 1 60 5 view .LVU24
+ 168 0054 1023     		movs	r3, #16
+ 169 0056 0193     		str	r3, [sp, #4]
+ 170 0058 0E4B     		ldr	r3, .L7+32
+ 171 005a 0093     		str	r3, [sp]
+ 172 005c 2B46     		mov	r3, r5
+ 173 005e 2246     		mov	r2, r4
+ 174 0060 0D49     		ldr	r1, .L7+36
+ 175 0062 0E48     		ldr	r0, .L7+40
+ 176 0064 FFF7FEFF 		bl	printDBG
+ 177              	.LVL9:
+  62:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 178              		.loc 1 62 5 view .LVU25
+  62:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 179              		.loc 1 62 18 is_stmt 0 view .LVU26
+ 180 0068 0120     		movs	r0, #1
+ 181 006a 88F80000 		strb	r0, [r8]
+  64:../../core/drivers/octa-flash/src/octa-flash.c **** }
+ 182              		.loc 1 64 5 is_stmt 1 view .LVU27
+  65:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 183              		.loc 1 65 1 is_stmt 0 view .LVU28
+ 184 006e 02B0     		add	sp, sp, #8
+ 185              	.LCFI4:
+ 186              		.cfi_def_cfa_offset 24
+ 187              		@ sp needed
+ 188 0070 BDE8F081 		pop	{r4, r5, r6, r7, r8, pc}
+ 189              	.LVL10:
+ 190              	.L8:
+  65:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 191              		.loc 1 65 1 view .LVU29
+ 192              		.align	2
+ 193              	.L7:
+ 194 0074 00000000 		.word	mMemPageIndex
+ARM GAS  /tmp/cckIivDo.s 			page 15
+
+
+ 195 0078 00000000 		.word	mMemPage
+ 196 007c 00000000 		.word	mCurrentReadAddress
+ 197 0080 00000000 		.word	mCurrentWriteAddress
+ 198 0084 00000000 		.word	flashSPI
+ 199 0088 000C0048 		.word	1207962624
+ 200 008c 00080048 		.word	1207961600
+ 201 0090 00000000 		.word	.LC0
+ 202 0094 0090D003 		.word	64000000
+ 203 0098 7FD00300 		.word	249983
+ 204 009c 4C000000 		.word	.LC1
+ 205 00a0 00000000 		.word	_initialised
+ 206              		.cfi_endproc
+ 207              	.LFE131:
+ 209              		.section	.text.OCTA_FLASH_readReg,"ax",%progbits
+ 210              		.align	1
+ 211              		.global	OCTA_FLASH_readReg
+ 212              		.syntax unified
+ 213              		.thumb
+ 214              		.thumb_func
+ 215              		.fpu fpv4-sp-d16
+ 217              	OCTA_FLASH_readReg:
+ 218              	.LVL11:
+ 219              	.LFB141:
+ 418:../../core/drivers/octa-flash/src/octa-flash.c ****     txData[0] = aReg;
+ 220              		.loc 1 418 1 is_stmt 1 view -0
+ 221              		.cfi_startproc
+ 222              		@ args = 0, pretend = 0, frame = 0
+ 223              		@ frame_needed = 0, uses_anonymous_args = 0
+ 418:../../core/drivers/octa-flash/src/octa-flash.c ****     txData[0] = aReg;
+ 224              		.loc 1 418 1 is_stmt 0 view .LVU31
+ 225 0000 F8B5     		push	{r3, r4, r5, r6, r7, lr}
+ 226              	.LCFI5:
+ 227              		.cfi_def_cfa_offset 24
+ 228              		.cfi_offset 3, -24
+ 229              		.cfi_offset 4, -20
+ 230              		.cfi_offset 5, -16
+ 231              		.cfi_offset 6, -12
+ 232              		.cfi_offset 7, -8
+ 233              		.cfi_offset 14, -4
+ 234 0002 0C46     		mov	r4, r1
+ 419:../../core/drivers/octa-flash/src/octa-flash.c ****     *aData = 0x00;
+ 235              		.loc 1 419 5 is_stmt 1 view .LVU32
+ 419:../../core/drivers/octa-flash/src/octa-flash.c ****     *aData = 0x00;
+ 236              		.loc 1 419 15 is_stmt 0 view .LVU33
+ 237 0004 134F     		ldr	r7, .L11
+ 238 0006 3870     		strb	r0, [r7]
+ 420:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 239              		.loc 1 420 5 is_stmt 1 view .LVU34
+ 420:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 240              		.loc 1 420 12 is_stmt 0 view .LVU35
+ 241 0008 0026     		movs	r6, #0
+ 242 000a 0E70     		strb	r6, [r1]
+ 422:../../core/drivers/octa-flash/src/octa-flash.c ****     __HAL_SPI_ENABLE(flashSPI);
+ 243              		.loc 1 422 5 is_stmt 1 view .LVU36
+ 244 000c FFF7FEFF 		bl	OCTA_FLASH_Enable
+ 245              	.LVL12:
+ 423:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ARM GAS  /tmp/cckIivDo.s 			page 16
+
+
+ 246              		.loc 1 423 5 view .LVU37
+ 247 0010 114D     		ldr	r5, .L11+4
+ 248 0012 2B68     		ldr	r3, [r5]
+ 249 0014 1A68     		ldr	r2, [r3]
+ 250 0016 1368     		ldr	r3, [r2]
+ 251 0018 43F04003 		orr	r3, r3, #64
+ 252 001c 1360     		str	r3, [r2]
+ 425:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 253              		.loc 1 425 5 view .LVU38
+ 254 001e 4FF0FF33 		mov	r3, #-1
+ 255 0022 0122     		movs	r2, #1
+ 256 0024 3946     		mov	r1, r7
+ 257 0026 2868     		ldr	r0, [r5]
+ 258 0028 FFF7FEFF 		bl	HAL_SPI_Transmit
+ 259              	.LVL13:
+ 427:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 260              		.loc 1 427 5 view .LVU39
+ 261 002c 0B4F     		ldr	r7, .L11+8
+ 262 002e 4FF0FF33 		mov	r3, #-1
+ 263 0032 0122     		movs	r2, #1
+ 264 0034 3946     		mov	r1, r7
+ 265 0036 2868     		ldr	r0, [r5]
+ 266 0038 FFF7FEFF 		bl	HAL_SPI_Receive
+ 267              	.LVL14:
+ 429:../../core/drivers/octa-flash/src/octa-flash.c ****     OCTA_FLASH_Disable();
+ 268              		.loc 1 429 5 view .LVU40
+ 269 003c 2B68     		ldr	r3, [r5]
+ 270 003e 1A68     		ldr	r2, [r3]
+ 271 0040 1368     		ldr	r3, [r2]
+ 272 0042 23F04003 		bic	r3, r3, #64
+ 273 0046 1360     		str	r3, [r2]
+ 430:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 274              		.loc 1 430 5 view .LVU41
+ 275 0048 FFF7FEFF 		bl	OCTA_FLASH_Disable
+ 276              	.LVL15:
+ 432:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 277              		.loc 1 432 5 view .LVU42
+ 432:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 278              		.loc 1 432 20 is_stmt 0 view .LVU43
+ 279 004c 3B78     		ldrb	r3, [r7]	@ zero_extendqisi2
+ 432:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 280              		.loc 1 432 12 view .LVU44
+ 281 004e 2370     		strb	r3, [r4]
+ 434:../../core/drivers/octa-flash/src/octa-flash.c **** }
+ 282              		.loc 1 434 5 is_stmt 1 view .LVU45
+ 435:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 283              		.loc 1 435 1 is_stmt 0 view .LVU46
+ 284 0050 3046     		mov	r0, r6
+ 285 0052 F8BD     		pop	{r3, r4, r5, r6, r7, pc}
+ 286              	.LVL16:
+ 287              	.L12:
+ 435:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 288              		.loc 1 435 1 view .LVU47
+ 289              		.align	2
+ 290              	.L11:
+ 291 0054 00000000 		.word	txData
+ 292 0058 00000000 		.word	flashSPI
+ARM GAS  /tmp/cckIivDo.s 			page 17
+
+
+ 293 005c 00000000 		.word	rxData
+ 294              		.cfi_endproc
+ 295              	.LFE141:
+ 297              		.section	.text.OCTA_FLASH_isWriteInProgress,"ax",%progbits
+ 298              		.align	1
+ 299              		.global	OCTA_FLASH_isWriteInProgress
+ 300              		.syntax unified
+ 301              		.thumb
+ 302              		.thumb_func
+ 303              		.fpu fpv4-sp-d16
+ 305              	OCTA_FLASH_isWriteInProgress:
+ 306              	.LFB136:
+ 222:../../core/drivers/octa-flash/src/octa-flash.c ****     HAL_Delay(SPI_WAIT);
+ 307              		.loc 1 222 1 is_stmt 1 view -0
+ 308              		.cfi_startproc
+ 309              		@ args = 0, pretend = 0, frame = 8
+ 310              		@ frame_needed = 0, uses_anonymous_args = 0
+ 311 0000 00B5     		push	{lr}
+ 312              	.LCFI6:
+ 313              		.cfi_def_cfa_offset 4
+ 314              		.cfi_offset 14, -4
+ 315 0002 83B0     		sub	sp, sp, #12
+ 316              	.LCFI7:
+ 317              		.cfi_def_cfa_offset 16
+ 223:../../core/drivers/octa-flash/src/octa-flash.c ****     uint8_t status = 0;
+ 318              		.loc 1 223 5 view .LVU49
+ 319 0004 0A20     		movs	r0, #10
+ 320 0006 FFF7FEFF 		bl	HAL_Delay
+ 321              	.LVL17:
+ 224:../../core/drivers/octa-flash/src/octa-flash.c ****     if (OCTA_FLASH_readReg(SPI_RDSR_CMD, &status) == 0)
+ 322              		.loc 1 224 5 view .LVU50
+ 224:../../core/drivers/octa-flash/src/octa-flash.c ****     if (OCTA_FLASH_readReg(SPI_RDSR_CMD, &status) == 0)
+ 323              		.loc 1 224 13 is_stmt 0 view .LVU51
+ 324 000a 0023     		movs	r3, #0
+ 325 000c 8DF80730 		strb	r3, [sp, #7]
+ 225:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 326              		.loc 1 225 5 is_stmt 1 view .LVU52
+ 225:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 327              		.loc 1 225 9 is_stmt 0 view .LVU53
+ 328 0010 0DF10701 		add	r1, sp, #7
+ 329 0014 0520     		movs	r0, #5
+ 330 0016 FFF7FEFF 		bl	OCTA_FLASH_readReg
+ 331              	.LVL18:
+ 225:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 332              		.loc 1 225 8 view .LVU54
+ 333 001a 18B1     		cbz	r0, .L17
+ 230:../../core/drivers/octa-flash/src/octa-flash.c **** }
+ 334              		.loc 1 230 12 view .LVU55
+ 335 001c 0020     		movs	r0, #0
+ 336              	.L14:
+ 231:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 337              		.loc 1 231 1 view .LVU56
+ 338 001e 03B0     		add	sp, sp, #12
+ 339              	.LCFI8:
+ 340              		.cfi_remember_state
+ 341              		.cfi_def_cfa_offset 4
+ 342              		@ sp needed
+ARM GAS  /tmp/cckIivDo.s 			page 18
+
+
+ 343 0020 5DF804FB 		ldr	pc, [sp], #4
+ 344              	.L17:
+ 345              	.LCFI9:
+ 346              		.cfi_restore_state
+ 227:../../core/drivers/octa-flash/src/octa-flash.c ****     }
+ 347              		.loc 1 227 9 is_stmt 1 view .LVU57
+ 227:../../core/drivers/octa-flash/src/octa-flash.c ****     }
+ 348              		.loc 1 227 16 is_stmt 0 view .LVU58
+ 349 0024 9DF80700 		ldrb	r0, [sp, #7]	@ zero_extendqisi2
+ 350 0028 00F00100 		and	r0, r0, #1
+ 351 002c F7E7     		b	.L14
+ 352              		.cfi_endproc
+ 353              	.LFE136:
+ 355              		.section	.text.OCTA_FLASH_open,"ax",%progbits
+ 356              		.align	1
+ 357              		.global	OCTA_FLASH_open
+ 358              		.syntax unified
+ 359              		.thumb
+ 360              		.thumb_func
+ 361              		.fpu fpv4-sp-d16
+ 363              	OCTA_FLASH_open:
+ 364              	.LVL19:
+ 365              	.LFB132:
+  75:../../core/drivers/octa-flash/src/octa-flash.c ****     HAL_Delay(SPI_WAIT);
+ 366              		.loc 1 75 1 is_stmt 1 view -0
+ 367              		.cfi_startproc
+ 368              		@ args = 0, pretend = 0, frame = 0
+ 369              		@ frame_needed = 0, uses_anonymous_args = 0
+  75:../../core/drivers/octa-flash/src/octa-flash.c ****     HAL_Delay(SPI_WAIT);
+ 370              		.loc 1 75 1 is_stmt 0 view .LVU60
+ 371 0000 10B5     		push	{r4, lr}
+ 372              	.LCFI10:
+ 373              		.cfi_def_cfa_offset 8
+ 374              		.cfi_offset 4, -8
+ 375              		.cfi_offset 14, -4
+ 376 0002 0446     		mov	r4, r0
+  76:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 377              		.loc 1 76 5 is_stmt 1 view .LVU61
+ 378 0004 0A20     		movs	r0, #10
+ 379              	.LVL20:
+  76:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 380              		.loc 1 76 5 is_stmt 0 view .LVU62
+ 381 0006 FFF7FEFF 		bl	HAL_Delay
+ 382              	.LVL21:
+  78:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 383              		.loc 1 78 5 is_stmt 1 view .LVU63
+  78:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 384              		.loc 1 78 9 is_stmt 0 view .LVU64
+ 385 000a FFF7FEFF 		bl	OCTA_FLASH_isWriteInProgress
+ 386              	.LVL22:
+  78:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 387              		.loc 1 78 8 view .LVU65
+ 388 000e 48B9     		cbnz	r0, .L20
+  83:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 389              		.loc 1 83 5 is_stmt 1 view .LVU66
+  83:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 390              		.loc 1 83 8 is_stmt 0 view .LVU67
+ARM GAS  /tmp/cckIivDo.s 			page 19
+
+
+ 391 0010 074B     		ldr	r3, .L23
+ 392 0012 9C42     		cmp	r4, r3
+ 393 0014 09D8     		bhi	.L21
+  88:../../core/drivers/octa-flash/src/octa-flash.c ****     mCurrentReadAddress = newAddress;
+ 394              		.loc 1 88 5 is_stmt 1 view .LVU68
+  88:../../core/drivers/octa-flash/src/octa-flash.c ****     mCurrentReadAddress = newAddress;
+ 395              		.loc 1 88 47 is_stmt 0 view .LVU69
+ 396 0016 1034     		adds	r4, r4, #16
+ 397              	.LVL23:
+  88:../../core/drivers/octa-flash/src/octa-flash.c ****     mCurrentReadAddress = newAddress;
+ 398              		.loc 1 88 14 view .LVU70
+ 399 0018 2402     		lsls	r4, r4, #8
+ 400              	.LVL24:
+  89:../../core/drivers/octa-flash/src/octa-flash.c ****     mCurrentWriteAddress = newAddress;
+ 401              		.loc 1 89 5 is_stmt 1 view .LVU71
+  89:../../core/drivers/octa-flash/src/octa-flash.c ****     mCurrentWriteAddress = newAddress;
+ 402              		.loc 1 89 25 is_stmt 0 view .LVU72
+ 403 001a 064B     		ldr	r3, .L23+4
+ 404 001c 1C60     		str	r4, [r3]
+  90:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 405              		.loc 1 90 5 is_stmt 1 view .LVU73
+  90:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 406              		.loc 1 90 26 is_stmt 0 view .LVU74
+ 407 001e 064B     		ldr	r3, .L23+8
+ 408 0020 1C60     		str	r4, [r3]
+  92:../../core/drivers/octa-flash/src/octa-flash.c **** }
+ 409              		.loc 1 92 5 is_stmt 1 view .LVU75
+ 410              	.LVL25:
+ 411              	.L18:
+  93:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 412              		.loc 1 93 1 is_stmt 0 view .LVU76
+ 413 0022 10BD     		pop	{r4, pc}
+ 414              	.LVL26:
+ 415              	.L20:
+  80:../../core/drivers/octa-flash/src/octa-flash.c ****     }
+ 416              		.loc 1 80 16 view .LVU77
+ 417 0024 6FF00100 		mvn	r0, #1
+ 418 0028 FBE7     		b	.L18
+ 419              	.L21:
+  85:../../core/drivers/octa-flash/src/octa-flash.c ****     }
+ 420              		.loc 1 85 16 view .LVU78
+ 421 002a 6FF00300 		mvn	r0, #3
+ 422 002e F8E7     		b	.L18
+ 423              	.L24:
+ 424              		.align	2
+ 425              	.L23:
+ 426 0030 7FD00300 		.word	249983
+ 427 0034 00000000 		.word	mCurrentReadAddress
+ 428 0038 00000000 		.word	mCurrentWriteAddress
+ 429              		.cfi_endproc
+ 430              	.LFE132:
+ 432              		.section	.text.OCTA_FLASH_openConfigSector,"ax",%progbits
+ 433              		.align	1
+ 434              		.global	OCTA_FLASH_openConfigSector
+ 435              		.syntax unified
+ 436              		.thumb
+ 437              		.thumb_func
+ARM GAS  /tmp/cckIivDo.s 			page 20
+
+
+ 438              		.fpu fpv4-sp-d16
+ 440              	OCTA_FLASH_openConfigSector:
+ 441              	.LFB133:
+ 103:../../core/drivers/octa-flash/src/octa-flash.c ****     HAL_Delay(SPI_WAIT);
+ 442              		.loc 1 103 1 is_stmt 1 view -0
+ 443              		.cfi_startproc
+ 444              		@ args = 0, pretend = 0, frame = 0
+ 445              		@ frame_needed = 0, uses_anonymous_args = 0
+ 446 0000 08B5     		push	{r3, lr}
+ 447              	.LCFI11:
+ 448              		.cfi_def_cfa_offset 8
+ 449              		.cfi_offset 3, -8
+ 450              		.cfi_offset 14, -4
+ 104:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 451              		.loc 1 104 5 view .LVU80
+ 452 0002 0A20     		movs	r0, #10
+ 453 0004 FFF7FEFF 		bl	HAL_Delay
+ 454              	.LVL27:
+ 106:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 455              		.loc 1 106 5 view .LVU81
+ 106:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 456              		.loc 1 106 9 is_stmt 0 view .LVU82
+ 457 0008 FFF7FEFF 		bl	OCTA_FLASH_isWriteInProgress
+ 458              	.LVL28:
+ 106:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 459              		.loc 1 106 8 view .LVU83
+ 460 000c 20B9     		cbnz	r0, .L27
+ 111:../../core/drivers/octa-flash/src/octa-flash.c ****     mCurrentReadAddress = newAddress;
+ 461              		.loc 1 111 5 is_stmt 1 view .LVU84
+ 462              	.LVL29:
+ 112:../../core/drivers/octa-flash/src/octa-flash.c ****     mCurrentWriteAddress = newAddress;
+ 463              		.loc 1 112 5 view .LVU85
+ 112:../../core/drivers/octa-flash/src/octa-flash.c ****     mCurrentWriteAddress = newAddress;
+ 464              		.loc 1 112 25 is_stmt 0 view .LVU86
+ 465 000e 044B     		ldr	r3, .L29
+ 466 0010 1860     		str	r0, [r3]
+ 113:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 467              		.loc 1 113 5 is_stmt 1 view .LVU87
+ 113:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 468              		.loc 1 113 26 is_stmt 0 view .LVU88
+ 469 0012 044B     		ldr	r3, .L29+4
+ 470 0014 1860     		str	r0, [r3]
+ 115:../../core/drivers/octa-flash/src/octa-flash.c **** }
+ 471              		.loc 1 115 5 is_stmt 1 view .LVU89
+ 472              	.LVL30:
+ 473              	.L25:
+ 116:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 474              		.loc 1 116 1 is_stmt 0 view .LVU90
+ 475 0016 08BD     		pop	{r3, pc}
+ 476              	.L27:
+ 108:../../core/drivers/octa-flash/src/octa-flash.c ****     }
+ 477              		.loc 1 108 16 view .LVU91
+ 478 0018 6FF00100 		mvn	r0, #1
+ 479 001c FBE7     		b	.L25
+ 480              	.L30:
+ 481 001e 00BF     		.align	2
+ 482              	.L29:
+ARM GAS  /tmp/cckIivDo.s 			page 21
+
+
+ 483 0020 00000000 		.word	mCurrentReadAddress
+ 484 0024 00000000 		.word	mCurrentWriteAddress
+ 485              		.cfi_endproc
+ 486              	.LFE133:
+ 488              		.section	.text.OCTA_FLASH_send4BCommand,"ax",%progbits
+ 489              		.align	1
+ 490              		.global	OCTA_FLASH_send4BCommand
+ 491              		.syntax unified
+ 492              		.thumb
+ 493              		.thumb_func
+ 494              		.fpu fpv4-sp-d16
+ 496              	OCTA_FLASH_send4BCommand:
+ 497              	.LVL31:
+ 498              	.LFB144:
+ 527:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 499              		.loc 1 527 1 is_stmt 1 view -0
+ 500              		.cfi_startproc
+ 501              		@ args = 0, pretend = 0, frame = 0
+ 502              		@ frame_needed = 0, uses_anonymous_args = 0
+ 527:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 503              		.loc 1 527 1 is_stmt 0 view .LVU93
+ 504 0000 70B5     		push	{r4, r5, r6, lr}
+ 505              	.LCFI12:
+ 506              		.cfi_def_cfa_offset 16
+ 507              		.cfi_offset 4, -16
+ 508              		.cfi_offset 5, -12
+ 509              		.cfi_offset 6, -8
+ 510              		.cfi_offset 14, -4
+ 511 0002 0646     		mov	r6, r0
+ 512 0004 0C46     		mov	r4, r1
+ 529:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 513              		.loc 1 529 5 is_stmt 1 view .LVU94
+ 529:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 514              		.loc 1 529 9 is_stmt 0 view .LVU95
+ 515 0006 FFF7FEFF 		bl	OCTA_FLASH_isWriteInProgress
+ 516              	.LVL32:
+ 529:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 517              		.loc 1 529 8 view .LVU96
+ 518 000a E0B9     		cbnz	r0, .L33
+ 534:../../core/drivers/octa-flash/src/octa-flash.c ****     txData[index++] = command;
+ 519              		.loc 1 534 5 is_stmt 1 view .LVU97
+ 520              	.LVL33:
+ 535:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 521              		.loc 1 535 5 view .LVU98
+ 535:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 522              		.loc 1 535 21 is_stmt 0 view .LVU99
+ 523 000c 114D     		ldr	r5, .L36
+ 524 000e 2E70     		strb	r6, [r5]
+ 538:../../core/drivers/octa-flash/src/octa-flash.c ****     txData[index++] = (uint8_t)((address >> 16) & 0x000000FF);
+ 525              		.loc 1 538 5 is_stmt 1 view .LVU100
+ 526              	.LVL34:
+ 538:../../core/drivers/octa-flash/src/octa-flash.c ****     txData[index++] = (uint8_t)((address >> 16) & 0x000000FF);
+ 527              		.loc 1 538 23 is_stmt 0 view .LVU101
+ 528 0010 230E     		lsrs	r3, r4, #24
+ 538:../../core/drivers/octa-flash/src/octa-flash.c ****     txData[index++] = (uint8_t)((address >> 16) & 0x000000FF);
+ 529              		.loc 1 538 21 view .LVU102
+ 530 0012 6B70     		strb	r3, [r5, #1]
+ARM GAS  /tmp/cckIivDo.s 			page 22
+
+
+ 539:../../core/drivers/octa-flash/src/octa-flash.c ****     txData[index++] = (uint8_t)((address >> 8) & 0x000000FF);
+ 531              		.loc 1 539 5 is_stmt 1 view .LVU103
+ 532              	.LVL35:
+ 539:../../core/drivers/octa-flash/src/octa-flash.c ****     txData[index++] = (uint8_t)((address >> 8) & 0x000000FF);
+ 533              		.loc 1 539 23 is_stmt 0 view .LVU104
+ 534 0014 C4F30743 		ubfx	r3, r4, #16, #8
+ 539:../../core/drivers/octa-flash/src/octa-flash.c ****     txData[index++] = (uint8_t)((address >> 8) & 0x000000FF);
+ 535              		.loc 1 539 21 view .LVU105
+ 536 0018 AB70     		strb	r3, [r5, #2]
+ 540:../../core/drivers/octa-flash/src/octa-flash.c ****     txData[index++] = (uint8_t)(address & 0x000000FF);
+ 537              		.loc 1 540 5 is_stmt 1 view .LVU106
+ 538              	.LVL36:
+ 540:../../core/drivers/octa-flash/src/octa-flash.c ****     txData[index++] = (uint8_t)(address & 0x000000FF);
+ 539              		.loc 1 540 23 is_stmt 0 view .LVU107
+ 540 001a C4F30723 		ubfx	r3, r4, #8, #8
+ 540:../../core/drivers/octa-flash/src/octa-flash.c ****     txData[index++] = (uint8_t)(address & 0x000000FF);
+ 541              		.loc 1 540 21 view .LVU108
+ 542 001e EB70     		strb	r3, [r5, #3]
+ 541:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 543              		.loc 1 541 5 is_stmt 1 view .LVU109
+ 544              	.LVL37:
+ 541:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 545              		.loc 1 541 21 is_stmt 0 view .LVU110
+ 546 0020 2C71     		strb	r4, [r5, #4]
+ 545:../../core/drivers/octa-flash/src/octa-flash.c ****     __HAL_SPI_ENABLE(flashSPI);
+ 547              		.loc 1 545 5 is_stmt 1 view .LVU111
+ 548 0022 FFF7FEFF 		bl	OCTA_FLASH_Enable
+ 549              	.LVL38:
+ 546:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 550              		.loc 1 546 5 view .LVU112
+ 551 0026 0C48     		ldr	r0, .L36+4
+ 552 0028 0368     		ldr	r3, [r0]
+ 553 002a 1A68     		ldr	r2, [r3]
+ 554 002c 1368     		ldr	r3, [r2]
+ 555 002e 43F04003 		orr	r3, r3, #64
+ 556 0032 1360     		str	r3, [r2]
+ 549:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 557              		.loc 1 549 5 view .LVU113
+ 549:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 558              		.loc 1 549 8 is_stmt 0 view .LVU114
+ 559 0034 4FF0FF33 		mov	r3, #-1
+ 560 0038 0522     		movs	r2, #5
+ 561 003a 2946     		mov	r1, r5
+ 562 003c 0068     		ldr	r0, [r0]
+ 563 003e FFF7FEFF 		bl	HAL_SPI_Transmit
+ 564              	.LVL39:
+ 549:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 565              		.loc 1 549 7 view .LVU115
+ 566 0042 18B9     		cbnz	r0, .L34
+ 567              	.LVL40:
+ 568              	.L31:
+ 555:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 569              		.loc 1 555 1 view .LVU116
+ 570 0044 70BD     		pop	{r4, r5, r6, pc}
+ 571              	.LVL41:
+ 572              	.L33:
+ 531:../../core/drivers/octa-flash/src/octa-flash.c ****     }
+ARM GAS  /tmp/cckIivDo.s 			page 23
+
+
+ 573              		.loc 1 531 16 view .LVU117
+ 574 0046 6FF00100 		mvn	r0, #1
+ 575 004a FBE7     		b	.L31
+ 576              	.LVL42:
+ 577              	.L34:
+ 551:../../core/drivers/octa-flash/src/octa-flash.c ****     }
+ 578              		.loc 1 551 16 view .LVU118
+ 579 004c 6FF00200 		mvn	r0, #2
+ 580 0050 F8E7     		b	.L31
+ 581              	.L37:
+ 582 0052 00BF     		.align	2
+ 583              	.L36:
+ 584 0054 00000000 		.word	txData
+ 585 0058 00000000 		.word	flashSPI
+ 586              		.cfi_endproc
+ 587              	.LFE144:
+ 589              		.section	.rodata.OCTA_FLASH_read.str1.4,"aMS",%progbits,1
+ 590              		.align	2
+ 591              	.LC2:
+ 592 0000 0D0A2046 		.ascii	"\015\012 FLASH read error: %d\015\012\000"
+ 592      4C415348 
+ 592      20726561 
+ 592      64206572 
+ 592      726F723A 
+ 593              		.section	.text.OCTA_FLASH_read,"ax",%progbits
+ 594              		.align	1
+ 595              		.global	OCTA_FLASH_read
+ 596              		.syntax unified
+ 597              		.thumb
+ 598              		.thumb_func
+ 599              		.fpu fpv4-sp-d16
+ 601              	OCTA_FLASH_read:
+ 602              	.LVL43:
+ 603              	.LFB134:
+ 127:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 604              		.loc 1 127 1 is_stmt 1 view -0
+ 605              		.cfi_startproc
+ 606              		@ args = 0, pretend = 0, frame = 0
+ 607              		@ frame_needed = 0, uses_anonymous_args = 0
+ 127:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 608              		.loc 1 127 1 is_stmt 0 view .LVU120
+ 609 0000 70B5     		push	{r4, r5, r6, lr}
+ 610              	.LCFI13:
+ 611              		.cfi_def_cfa_offset 16
+ 612              		.cfi_offset 4, -16
+ 613              		.cfi_offset 5, -12
+ 614              		.cfi_offset 6, -8
+ 615              		.cfi_offset 14, -4
+ 616 0002 0546     		mov	r5, r0
+ 617 0004 0C46     		mov	r4, r1
+ 129:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 618              		.loc 1 129 5 is_stmt 1 view .LVU121
+ 619 0006 0A20     		movs	r0, #10
+ 620              	.LVL44:
+ 129:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 621              		.loc 1 129 5 is_stmt 0 view .LVU122
+ 622 0008 FFF7FEFF 		bl	HAL_Delay
+ARM GAS  /tmp/cckIivDo.s 			page 24
+
+
+ 623              	.LVL45:
+ 131:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 624              		.loc 1 131 5 is_stmt 1 view .LVU123
+ 131:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 625              		.loc 1 131 9 is_stmt 0 view .LVU124
+ 626 000c FFF7FEFF 		bl	OCTA_FLASH_isWriteInProgress
+ 627              	.LVL46:
+ 131:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 628              		.loc 1 131 8 view .LVU125
+ 629 0010 F0B9     		cbnz	r0, .L41
+ 137:../../core/drivers/octa-flash/src/octa-flash.c ****     status = OCTA_FLASH_send4BCommand(SPI_READ_4B_CMD, mCurrentReadAddress);
+ 630              		.loc 1 137 5 is_stmt 1 view .LVU126
+ 631              	.LVL47:
+ 138:../../core/drivers/octa-flash/src/octa-flash.c ****     if (status!=0)
+ 632              		.loc 1 138 5 view .LVU127
+ 138:../../core/drivers/octa-flash/src/octa-flash.c ****     if (status!=0)
+ 633              		.loc 1 138 14 is_stmt 0 view .LVU128
+ 634 0012 114B     		ldr	r3, .L44
+ 635 0014 1968     		ldr	r1, [r3]
+ 636 0016 1320     		movs	r0, #19
+ 637 0018 FFF7FEFF 		bl	OCTA_FLASH_send4BCommand
+ 638              	.LVL48:
+ 139:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 639              		.loc 1 139 5 is_stmt 1 view .LVU129
+ 139:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 640              		.loc 1 139 8 is_stmt 0 view .LVU130
+ 641 001c 0646     		mov	r6, r0
+ 642 001e 90B9     		cbnz	r0, .L43
+ 145:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 643              		.loc 1 145 5 is_stmt 1 view .LVU131
+ 644 0020 0E4E     		ldr	r6, .L44+4
+ 645 0022 4FF0FF33 		mov	r3, #-1
+ 646 0026 A2B2     		uxth	r2, r4
+ 647 0028 2946     		mov	r1, r5
+ 648 002a 3068     		ldr	r0, [r6]
+ 649              	.LVL49:
+ 145:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 650              		.loc 1 145 5 is_stmt 0 view .LVU132
+ 651 002c FFF7FEFF 		bl	HAL_SPI_Receive
+ 652              	.LVL50:
+ 147:../../core/drivers/octa-flash/src/octa-flash.c ****     __HAL_SPI_DISABLE(flashSPI);
+ 653              		.loc 1 147 5 is_stmt 1 view .LVU133
+ 654 0030 FFF7FEFF 		bl	OCTA_FLASH_Disable
+ 655              	.LVL51:
+ 148:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 656              		.loc 1 148 5 view .LVU134
+ 657 0034 3368     		ldr	r3, [r6]
+ 658 0036 1A68     		ldr	r2, [r3]
+ 659 0038 1368     		ldr	r3, [r2]
+ 660 003a 23F04003 		bic	r3, r3, #64
+ 661 003e 1360     		str	r3, [r2]
+ 150:../../core/drivers/octa-flash/src/octa-flash.c **** }
+ 662              		.loc 1 150 5 view .LVU135
+ 150:../../core/drivers/octa-flash/src/octa-flash.c **** }
+ 663              		.loc 1 150 12 is_stmt 0 view .LVU136
+ 664 0040 2646     		mov	r6, r4
+ 665              	.L38:
+ARM GAS  /tmp/cckIivDo.s 			page 25
+
+
+ 151:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 666              		.loc 1 151 1 view .LVU137
+ 667 0042 3046     		mov	r0, r6
+ 668 0044 70BD     		pop	{r4, r5, r6, pc}
+ 669              	.LVL52:
+ 670              	.L43:
+ 141:../../core/drivers/octa-flash/src/octa-flash.c ****         return status;
+ 671              		.loc 1 141 9 is_stmt 1 view .LVU138
+ 672 0046 0146     		mov	r1, r0
+ 673 0048 0548     		ldr	r0, .L44+8
+ 674              	.LVL53:
+ 141:../../core/drivers/octa-flash/src/octa-flash.c ****         return status;
+ 675              		.loc 1 141 9 is_stmt 0 view .LVU139
+ 676 004a FFF7FEFF 		bl	printDBG
+ 677              	.LVL54:
+ 142:../../core/drivers/octa-flash/src/octa-flash.c ****     }
+ 678              		.loc 1 142 9 is_stmt 1 view .LVU140
+ 142:../../core/drivers/octa-flash/src/octa-flash.c ****     }
+ 679              		.loc 1 142 16 is_stmt 0 view .LVU141
+ 680 004e F8E7     		b	.L38
+ 681              	.LVL55:
+ 682              	.L41:
+ 133:../../core/drivers/octa-flash/src/octa-flash.c ****     }
+ 683              		.loc 1 133 16 view .LVU142
+ 684 0050 6FF00106 		mvn	r6, #1
+ 685 0054 F5E7     		b	.L38
+ 686              	.L45:
+ 687 0056 00BF     		.align	2
+ 688              	.L44:
+ 689 0058 00000000 		.word	mCurrentReadAddress
+ 690 005c 00000000 		.word	flashSPI
+ 691 0060 00000000 		.word	.LC2
+ 692              		.cfi_endproc
+ 693              	.LFE134:
+ 695              		.section	.text.OCTA_FLASH_sendCommand,"ax",%progbits
+ 696              		.align	1
+ 697              		.global	OCTA_FLASH_sendCommand
+ 698              		.syntax unified
+ 699              		.thumb
+ 700              		.thumb_func
+ 701              		.fpu fpv4-sp-d16
+ 703              	OCTA_FLASH_sendCommand:
+ 704              	.LVL56:
+ 705              	.LFB143:
+ 495:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 706              		.loc 1 495 1 is_stmt 1 view -0
+ 707              		.cfi_startproc
+ 708              		@ args = 0, pretend = 0, frame = 0
+ 709              		@ frame_needed = 0, uses_anonymous_args = 0
+ 495:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 710              		.loc 1 495 1 is_stmt 0 view .LVU144
+ 711 0000 38B5     		push	{r3, r4, r5, lr}
+ 712              	.LCFI14:
+ 713              		.cfi_def_cfa_offset 16
+ 714              		.cfi_offset 3, -16
+ 715              		.cfi_offset 4, -12
+ 716              		.cfi_offset 5, -8
+ARM GAS  /tmp/cckIivDo.s 			page 26
+
+
+ 717              		.cfi_offset 14, -4
+ 718 0002 0446     		mov	r4, r0
+ 497:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 719              		.loc 1 497 5 is_stmt 1 view .LVU145
+ 497:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 720              		.loc 1 497 9 is_stmt 0 view .LVU146
+ 721 0004 FFF7FEFF 		bl	OCTA_FLASH_isWriteInProgress
+ 722              	.LVL57:
+ 497:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 723              		.loc 1 497 8 view .LVU147
+ 724 0008 E8B9     		cbnz	r0, .L48
+ 502:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 725              		.loc 1 502 5 is_stmt 1 view .LVU148
+ 502:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 726              		.loc 1 502 15 is_stmt 0 view .LVU149
+ 727 000a 124D     		ldr	r5, .L51
+ 728 000c 2C70     		strb	r4, [r5]
+ 504:../../core/drivers/octa-flash/src/octa-flash.c ****     __HAL_SPI_ENABLE(flashSPI);
+ 729              		.loc 1 504 5 is_stmt 1 view .LVU150
+ 730 000e FFF7FEFF 		bl	OCTA_FLASH_Enable
+ 731              	.LVL58:
+ 505:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 732              		.loc 1 505 5 view .LVU151
+ 733 0012 1148     		ldr	r0, .L51+4
+ 734 0014 0368     		ldr	r3, [r0]
+ 735 0016 1A68     		ldr	r2, [r3]
+ 736 0018 1368     		ldr	r3, [r2]
+ 737 001a 43F04003 		orr	r3, r3, #64
+ 738 001e 1360     		str	r3, [r2]
+ 507:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 739              		.loc 1 507 5 view .LVU152
+ 507:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 740              		.loc 1 507 8 is_stmt 0 view .LVU153
+ 741 0020 4FF0FF33 		mov	r3, #-1
+ 742 0024 0122     		movs	r2, #1
+ 743 0026 2946     		mov	r1, r5
+ 744 0028 0068     		ldr	r0, [r0]
+ 745 002a FFF7FEFF 		bl	HAL_SPI_Transmit
+ 746              	.LVL59:
+ 507:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 747              		.loc 1 507 7 view .LVU154
+ 748 002e 68B9     		cbnz	r0, .L49
+ 512:../../core/drivers/octa-flash/src/octa-flash.c ****     OCTA_FLASH_Disable();
+ 749              		.loc 1 512 5 is_stmt 1 view .LVU155
+ 750 0030 094B     		ldr	r3, .L51+4
+ 751 0032 1B68     		ldr	r3, [r3]
+ 752 0034 1A68     		ldr	r2, [r3]
+ 753 0036 1368     		ldr	r3, [r2]
+ 754 0038 23F04003 		bic	r3, r3, #64
+ 755 003c 1360     		str	r3, [r2]
+ 513:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 756              		.loc 1 513 5 view .LVU156
+ 757 003e FFF7FEFF 		bl	OCTA_FLASH_Disable
+ 758              	.LVL60:
+ 515:../../core/drivers/octa-flash/src/octa-flash.c **** }
+ 759              		.loc 1 515 5 view .LVU157
+ 515:../../core/drivers/octa-flash/src/octa-flash.c **** }
+ARM GAS  /tmp/cckIivDo.s 			page 27
+
+
+ 760              		.loc 1 515 12 is_stmt 0 view .LVU158
+ 761 0042 0020     		movs	r0, #0
+ 762              	.L46:
+ 516:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 763              		.loc 1 516 1 view .LVU159
+ 764 0044 38BD     		pop	{r3, r4, r5, pc}
+ 765              	.L48:
+ 499:../../core/drivers/octa-flash/src/octa-flash.c ****     }
+ 766              		.loc 1 499 16 view .LVU160
+ 767 0046 6FF00100 		mvn	r0, #1
+ 768 004a FBE7     		b	.L46
+ 769              	.L49:
+ 509:../../core/drivers/octa-flash/src/octa-flash.c ****     }
+ 770              		.loc 1 509 16 view .LVU161
+ 771 004c 6FF00200 		mvn	r0, #2
+ 772 0050 F8E7     		b	.L46
+ 773              	.L52:
+ 774 0052 00BF     		.align	2
+ 775              	.L51:
+ 776 0054 00000000 		.word	txData
+ 777 0058 00000000 		.word	flashSPI
+ 778              		.cfi_endproc
+ 779              	.LFE143:
+ 781              		.section	.text.OCTA_FLASH_eraseFullFlash,"ax",%progbits
+ 782              		.align	1
+ 783              		.global	OCTA_FLASH_eraseFullFlash
+ 784              		.syntax unified
+ 785              		.thumb
+ 786              		.thumb_func
+ 787              		.fpu fpv4-sp-d16
+ 789              	OCTA_FLASH_eraseFullFlash:
+ 790              	.LFB137:
+ 241:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 791              		.loc 1 241 1 is_stmt 1 view -0
+ 792              		.cfi_startproc
+ 793              		@ args = 0, pretend = 0, frame = 0
+ 794              		@ frame_needed = 0, uses_anonymous_args = 0
+ 795 0000 08B5     		push	{r3, lr}
+ 796              	.LCFI15:
+ 797              		.cfi_def_cfa_offset 8
+ 798              		.cfi_offset 3, -8
+ 799              		.cfi_offset 14, -4
+ 243:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 800              		.loc 1 243 5 view .LVU163
+ 801 0002 0A20     		movs	r0, #10
+ 802 0004 FFF7FEFF 		bl	HAL_Delay
+ 803              	.LVL61:
+ 245:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 804              		.loc 1 245 5 view .LVU164
+ 245:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 805              		.loc 1 245 9 is_stmt 0 view .LVU165
+ 806 0008 FFF7FEFF 		bl	OCTA_FLASH_isWriteInProgress
+ 807              	.LVL62:
+ 245:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 808              		.loc 1 245 8 view .LVU166
+ 809 000c 98B9     		cbnz	r0, .L55
+ 251:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ARM GAS  /tmp/cckIivDo.s 			page 28
+
+
+ 810              		.loc 1 251 5 is_stmt 1 view .LVU167
+ 251:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 811              		.loc 1 251 9 is_stmt 0 view .LVU168
+ 812 000e 0620     		movs	r0, #6
+ 813 0010 FFF7FEFF 		bl	OCTA_FLASH_sendCommand
+ 814              	.LVL63:
+ 251:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 815              		.loc 1 251 8 view .LVU169
+ 816 0014 10F1030F 		cmn	r0, #3
+ 817 0018 0CD0     		beq	.L53
+ 257:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 818              		.loc 1 257 5 is_stmt 1 view .LVU170
+ 257:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 819              		.loc 1 257 9 is_stmt 0 view .LVU171
+ 820 001a 6020     		movs	r0, #96
+ 821 001c FFF7FEFF 		bl	OCTA_FLASH_sendCommand
+ 822              	.LVL64:
+ 257:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 823              		.loc 1 257 8 view .LVU172
+ 824 0020 10F1030F 		cmn	r0, #3
+ 825 0024 06D0     		beq	.L53
+ 263:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 826              		.loc 1 263 5 is_stmt 1 view .LVU173
+ 263:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 827              		.loc 1 263 9 is_stmt 0 view .LVU174
+ 828 0026 0420     		movs	r0, #4
+ 829 0028 FFF7FEFF 		bl	OCTA_FLASH_sendCommand
+ 830              	.LVL65:
+ 263:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 831              		.loc 1 263 8 view .LVU175
+ 832 002c 10F1030F 		cmn	r0, #3
+ 833 0030 00D0     		beq	.L53
+ 268:../../core/drivers/octa-flash/src/octa-flash.c **** }
+ 834              		.loc 1 268 12 view .LVU176
+ 835 0032 0020     		movs	r0, #0
+ 836              	.L53:
+ 269:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 837              		.loc 1 269 1 view .LVU177
+ 838 0034 08BD     		pop	{r3, pc}
+ 839              	.L55:
+ 247:../../core/drivers/octa-flash/src/octa-flash.c ****     }
+ 840              		.loc 1 247 16 view .LVU178
+ 841 0036 6FF00100 		mvn	r0, #1
+ 842 003a FBE7     		b	.L53
+ 843              		.cfi_endproc
+ 844              	.LFE137:
+ 846              		.section	.text.OCTA_FLASH_erase265KBSectorFromPage,"ax",%progbits
+ 847              		.align	1
+ 848              		.global	OCTA_FLASH_erase265KBSectorFromPage
+ 849              		.syntax unified
+ 850              		.thumb
+ 851              		.thumb_func
+ 852              		.fpu fpv4-sp-d16
+ 854              	OCTA_FLASH_erase265KBSectorFromPage:
+ 855              	.LVL66:
+ 856              	.LFB138:
+ 281:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ARM GAS  /tmp/cckIivDo.s 			page 29
+
+
+ 857              		.loc 1 281 1 is_stmt 1 view -0
+ 858              		.cfi_startproc
+ 859              		@ args = 0, pretend = 0, frame = 0
+ 860              		@ frame_needed = 0, uses_anonymous_args = 0
+ 281:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 861              		.loc 1 281 1 is_stmt 0 view .LVU180
+ 862 0000 10B5     		push	{r4, lr}
+ 863              	.LCFI16:
+ 864              		.cfi_def_cfa_offset 8
+ 865              		.cfi_offset 4, -8
+ 866              		.cfi_offset 14, -4
+ 867 0002 0446     		mov	r4, r0
+ 283:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 868              		.loc 1 283 5 is_stmt 1 view .LVU181
+ 869 0004 0A20     		movs	r0, #10
+ 870              	.LVL67:
+ 283:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 871              		.loc 1 283 5 is_stmt 0 view .LVU182
+ 872 0006 FFF7FEFF 		bl	HAL_Delay
+ 873              	.LVL68:
+ 285:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 874              		.loc 1 285 5 is_stmt 1 view .LVU183
+ 285:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 875              		.loc 1 285 9 is_stmt 0 view .LVU184
+ 876 000a FFF7FEFF 		bl	OCTA_FLASH_isWriteInProgress
+ 877              	.LVL69:
+ 285:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 878              		.loc 1 285 8 view .LVU185
+ 879 000e 10BB     		cbnz	r0, .L59
+ 290:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 880              		.loc 1 290 5 is_stmt 1 view .LVU186
+ 290:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 881              		.loc 1 290 8 is_stmt 0 view .LVU187
+ 882 0010 144B     		ldr	r3, .L62
+ 883 0012 9C42     		cmp	r4, r3
+ 884 0014 22D8     		bhi	.L60
+ 296:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 885              		.loc 1 296 5 is_stmt 1 view .LVU188
+ 296:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 886              		.loc 1 296 9 is_stmt 0 view .LVU189
+ 887 0016 0620     		movs	r0, #6
+ 888 0018 FFF7FEFF 		bl	OCTA_FLASH_sendCommand
+ 889              	.LVL70:
+ 296:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 890              		.loc 1 296 8 view .LVU190
+ 891 001c 10F1030F 		cmn	r0, #3
+ 892 0020 18D0     		beq	.L57
+ 302:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 893              		.loc 1 302 5 is_stmt 1 view .LVU191
+ 302:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 894              		.loc 1 302 72 is_stmt 0 view .LVU192
+ 895 0022 04F11001 		add	r1, r4, #16
+ 302:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 896              		.loc 1 302 9 view .LVU193
+ 897 0026 0902     		lsls	r1, r1, #8
+ 898 0028 DC20     		movs	r0, #220
+ 899 002a FFF7FEFF 		bl	OCTA_FLASH_send4BCommand
+ARM GAS  /tmp/cckIivDo.s 			page 30
+
+
+ 900              	.LVL71:
+ 302:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 901              		.loc 1 302 8 view .LVU194
+ 902 002e 10F1030F 		cmn	r0, #3
+ 903 0032 0FD0     		beq	.L57
+ 307:../../core/drivers/octa-flash/src/octa-flash.c ****     OCTA_FLASH_Disable();
+ 904              		.loc 1 307 5 is_stmt 1 view .LVU195
+ 905 0034 0C4B     		ldr	r3, .L62+4
+ 906 0036 1B68     		ldr	r3, [r3]
+ 907 0038 1A68     		ldr	r2, [r3]
+ 908 003a 1368     		ldr	r3, [r2]
+ 909 003c 23F04003 		bic	r3, r3, #64
+ 910 0040 1360     		str	r3, [r2]
+ 308:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 911              		.loc 1 308 5 view .LVU196
+ 912 0042 FFF7FEFF 		bl	OCTA_FLASH_Disable
+ 913              	.LVL72:
+ 311:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 914              		.loc 1 311 5 view .LVU197
+ 311:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 915              		.loc 1 311 9 is_stmt 0 view .LVU198
+ 916 0046 0420     		movs	r0, #4
+ 917 0048 FFF7FEFF 		bl	OCTA_FLASH_sendCommand
+ 918              	.LVL73:
+ 311:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 919              		.loc 1 311 8 view .LVU199
+ 920 004c 10F1030F 		cmn	r0, #3
+ 921 0050 00D0     		beq	.L57
+ 316:../../core/drivers/octa-flash/src/octa-flash.c **** }
+ 922              		.loc 1 316 12 view .LVU200
+ 923 0052 0020     		movs	r0, #0
+ 924              	.L57:
+ 317:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 925              		.loc 1 317 1 view .LVU201
+ 926 0054 10BD     		pop	{r4, pc}
+ 927              	.LVL74:
+ 928              	.L59:
+ 287:../../core/drivers/octa-flash/src/octa-flash.c ****     }
+ 929              		.loc 1 287 16 view .LVU202
+ 930 0056 6FF00100 		mvn	r0, #1
+ 931 005a FBE7     		b	.L57
+ 932              	.L60:
+ 292:../../core/drivers/octa-flash/src/octa-flash.c ****     }
+ 933              		.loc 1 292 16 view .LVU203
+ 934 005c 6FF00300 		mvn	r0, #3
+ 935 0060 F8E7     		b	.L57
+ 936              	.L63:
+ 937 0062 00BF     		.align	2
+ 938              	.L62:
+ 939 0064 7FD00300 		.word	249983
+ 940 0068 00000000 		.word	flashSPI
+ 941              		.cfi_endproc
+ 942              	.LFE138:
+ 944              		.section	.text.OCTA_FLASH_erase4KBSectorFromPage,"ax",%progbits
+ 945              		.align	1
+ 946              		.global	OCTA_FLASH_erase4KBSectorFromPage
+ 947              		.syntax unified
+ARM GAS  /tmp/cckIivDo.s 			page 31
+
+
+ 948              		.thumb
+ 949              		.thumb_func
+ 950              		.fpu fpv4-sp-d16
+ 952              	OCTA_FLASH_erase4KBSectorFromPage:
+ 953              	.LVL75:
+ 954              	.LFB139:
+ 329:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 955              		.loc 1 329 1 is_stmt 1 view -0
+ 956              		.cfi_startproc
+ 957              		@ args = 0, pretend = 0, frame = 0
+ 958              		@ frame_needed = 0, uses_anonymous_args = 0
+ 329:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 959              		.loc 1 329 1 is_stmt 0 view .LVU205
+ 960 0000 10B5     		push	{r4, lr}
+ 961              	.LCFI17:
+ 962              		.cfi_def_cfa_offset 8
+ 963              		.cfi_offset 4, -8
+ 964              		.cfi_offset 14, -4
+ 965 0002 0446     		mov	r4, r0
+ 331:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 966              		.loc 1 331 5 is_stmt 1 view .LVU206
+ 967 0004 0A20     		movs	r0, #10
+ 968              	.LVL76:
+ 331:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 969              		.loc 1 331 5 is_stmt 0 view .LVU207
+ 970 0006 FFF7FEFF 		bl	HAL_Delay
+ 971              	.LVL77:
+ 333:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 972              		.loc 1 333 5 is_stmt 1 view .LVU208
+ 333:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 973              		.loc 1 333 9 is_stmt 0 view .LVU209
+ 974 000a FFF7FEFF 		bl	OCTA_FLASH_isWriteInProgress
+ 975              	.LVL78:
+ 333:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 976              		.loc 1 333 8 view .LVU210
+ 977 000e 10BB     		cbnz	r0, .L66
+ 338:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 978              		.loc 1 338 5 is_stmt 1 view .LVU211
+ 338:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 979              		.loc 1 338 8 is_stmt 0 view .LVU212
+ 980 0010 144B     		ldr	r3, .L69
+ 981 0012 9C42     		cmp	r4, r3
+ 982 0014 22D8     		bhi	.L67
+ 344:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 983              		.loc 1 344 5 is_stmt 1 view .LVU213
+ 344:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 984              		.loc 1 344 9 is_stmt 0 view .LVU214
+ 985 0016 0620     		movs	r0, #6
+ 986 0018 FFF7FEFF 		bl	OCTA_FLASH_sendCommand
+ 987              	.LVL79:
+ 344:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 988              		.loc 1 344 8 view .LVU215
+ 989 001c 10F1030F 		cmn	r0, #3
+ 990 0020 18D0     		beq	.L64
+ 350:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 991              		.loc 1 350 5 is_stmt 1 view .LVU216
+ 350:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ARM GAS  /tmp/cckIivDo.s 			page 32
+
+
+ 992              		.loc 1 350 70 is_stmt 0 view .LVU217
+ 993 0022 04F11001 		add	r1, r4, #16
+ 350:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 994              		.loc 1 350 9 view .LVU218
+ 995 0026 0902     		lsls	r1, r1, #8
+ 996 0028 2020     		movs	r0, #32
+ 997 002a FFF7FEFF 		bl	OCTA_FLASH_send4BCommand
+ 998              	.LVL80:
+ 350:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 999              		.loc 1 350 8 view .LVU219
+ 1000 002e 10F1030F 		cmn	r0, #3
+ 1001 0032 0FD0     		beq	.L64
+ 355:../../core/drivers/octa-flash/src/octa-flash.c ****     OCTA_FLASH_Disable();
+ 1002              		.loc 1 355 5 is_stmt 1 view .LVU220
+ 1003 0034 0C4B     		ldr	r3, .L69+4
+ 1004 0036 1B68     		ldr	r3, [r3]
+ 1005 0038 1A68     		ldr	r2, [r3]
+ 1006 003a 1368     		ldr	r3, [r2]
+ 1007 003c 23F04003 		bic	r3, r3, #64
+ 1008 0040 1360     		str	r3, [r2]
+ 356:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 1009              		.loc 1 356 5 view .LVU221
+ 1010 0042 FFF7FEFF 		bl	OCTA_FLASH_Disable
+ 1011              	.LVL81:
+ 359:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 1012              		.loc 1 359 5 view .LVU222
+ 359:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 1013              		.loc 1 359 9 is_stmt 0 view .LVU223
+ 1014 0046 0420     		movs	r0, #4
+ 1015 0048 FFF7FEFF 		bl	OCTA_FLASH_sendCommand
+ 1016              	.LVL82:
+ 359:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 1017              		.loc 1 359 8 view .LVU224
+ 1018 004c 10F1030F 		cmn	r0, #3
+ 1019 0050 00D0     		beq	.L64
+ 364:../../core/drivers/octa-flash/src/octa-flash.c **** }
+ 1020              		.loc 1 364 12 view .LVU225
+ 1021 0052 0020     		movs	r0, #0
+ 1022              	.L64:
+ 365:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 1023              		.loc 1 365 1 view .LVU226
+ 1024 0054 10BD     		pop	{r4, pc}
+ 1025              	.LVL83:
+ 1026              	.L66:
+ 335:../../core/drivers/octa-flash/src/octa-flash.c ****     }
+ 1027              		.loc 1 335 16 view .LVU227
+ 1028 0056 6FF00100 		mvn	r0, #1
+ 1029 005a FBE7     		b	.L64
+ 1030              	.L67:
+ 340:../../core/drivers/octa-flash/src/octa-flash.c ****     }
+ 1031              		.loc 1 340 16 view .LVU228
+ 1032 005c 6FF00300 		mvn	r0, #3
+ 1033 0060 F8E7     		b	.L64
+ 1034              	.L70:
+ 1035 0062 00BF     		.align	2
+ 1036              	.L69:
+ 1037 0064 7FD00300 		.word	249983
+ARM GAS  /tmp/cckIivDo.s 			page 33
+
+
+ 1038 0068 00000000 		.word	flashSPI
+ 1039              		.cfi_endproc
+ 1040              	.LFE139:
+ 1042              		.section	.text.OCTA_FLASH_eraseConfigSector,"ax",%progbits
+ 1043              		.align	1
+ 1044              		.global	OCTA_FLASH_eraseConfigSector
+ 1045              		.syntax unified
+ 1046              		.thumb
+ 1047              		.thumb_func
+ 1048              		.fpu fpv4-sp-d16
+ 1050              	OCTA_FLASH_eraseConfigSector:
+ 1051              	.LFB140:
+ 377:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 1052              		.loc 1 377 1 is_stmt 1 view -0
+ 1053              		.cfi_startproc
+ 1054              		@ args = 0, pretend = 0, frame = 0
+ 1055              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1056 0000 08B5     		push	{r3, lr}
+ 1057              	.LCFI18:
+ 1058              		.cfi_def_cfa_offset 8
+ 1059              		.cfi_offset 3, -8
+ 1060              		.cfi_offset 14, -4
+ 379:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 1061              		.loc 1 379 5 view .LVU230
+ 1062 0002 0A20     		movs	r0, #10
+ 1063 0004 FFF7FEFF 		bl	HAL_Delay
+ 1064              	.LVL84:
+ 381:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 1065              		.loc 1 381 5 view .LVU231
+ 381:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 1066              		.loc 1 381 9 is_stmt 0 view .LVU232
+ 1067 0008 FFF7FEFF 		bl	OCTA_FLASH_isWriteInProgress
+ 1068              	.LVL85:
+ 381:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 1069              		.loc 1 381 8 view .LVU233
+ 1070 000c E8B9     		cbnz	r0, .L73
+ 387:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 1071              		.loc 1 387 5 is_stmt 1 view .LVU234
+ 387:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 1072              		.loc 1 387 9 is_stmt 0 view .LVU235
+ 1073 000e 0620     		movs	r0, #6
+ 1074 0010 FFF7FEFF 		bl	OCTA_FLASH_sendCommand
+ 1075              	.LVL86:
+ 387:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 1076              		.loc 1 387 8 view .LVU236
+ 1077 0014 10F1030F 		cmn	r0, #3
+ 1078 0018 16D0     		beq	.L71
+ 393:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 1079              		.loc 1 393 5 is_stmt 1 view .LVU237
+ 393:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 1080              		.loc 1 393 9 is_stmt 0 view .LVU238
+ 1081 001a 0021     		movs	r1, #0
+ 1082 001c 2020     		movs	r0, #32
+ 1083 001e FFF7FEFF 		bl	OCTA_FLASH_send4BCommand
+ 1084              	.LVL87:
+ 393:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 1085              		.loc 1 393 8 view .LVU239
+ARM GAS  /tmp/cckIivDo.s 			page 34
+
+
+ 1086 0022 10F1030F 		cmn	r0, #3
+ 1087 0026 0FD0     		beq	.L71
+ 398:../../core/drivers/octa-flash/src/octa-flash.c ****     OCTA_FLASH_Disable();
+ 1088              		.loc 1 398 5 is_stmt 1 view .LVU240
+ 1089 0028 094B     		ldr	r3, .L75
+ 1090 002a 1B68     		ldr	r3, [r3]
+ 1091 002c 1A68     		ldr	r2, [r3]
+ 1092 002e 1368     		ldr	r3, [r2]
+ 1093 0030 23F04003 		bic	r3, r3, #64
+ 1094 0034 1360     		str	r3, [r2]
+ 399:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 1095              		.loc 1 399 5 view .LVU241
+ 1096 0036 FFF7FEFF 		bl	OCTA_FLASH_Disable
+ 1097              	.LVL88:
+ 402:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 1098              		.loc 1 402 5 view .LVU242
+ 402:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 1099              		.loc 1 402 9 is_stmt 0 view .LVU243
+ 1100 003a 0420     		movs	r0, #4
+ 1101 003c FFF7FEFF 		bl	OCTA_FLASH_sendCommand
+ 1102              	.LVL89:
+ 402:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 1103              		.loc 1 402 8 view .LVU244
+ 1104 0040 10F1030F 		cmn	r0, #3
+ 1105 0044 00D0     		beq	.L71
+ 407:../../core/drivers/octa-flash/src/octa-flash.c **** }
+ 1106              		.loc 1 407 12 view .LVU245
+ 1107 0046 0020     		movs	r0, #0
+ 1108              	.L71:
+ 408:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 1109              		.loc 1 408 1 view .LVU246
+ 1110 0048 08BD     		pop	{r3, pc}
+ 1111              	.L73:
+ 383:../../core/drivers/octa-flash/src/octa-flash.c ****     }
+ 1112              		.loc 1 383 16 view .LVU247
+ 1113 004a 6FF00100 		mvn	r0, #1
+ 1114 004e FBE7     		b	.L71
+ 1115              	.L76:
+ 1116              		.align	2
+ 1117              	.L75:
+ 1118 0050 00000000 		.word	flashSPI
+ 1119              		.cfi_endproc
+ 1120              	.LFE140:
+ 1122              		.section	.text.OCTA_FLASH_flush,"ax",%progbits
+ 1123              		.align	1
+ 1124              		.global	OCTA_FLASH_flush
+ 1125              		.syntax unified
+ 1126              		.thumb
+ 1127              		.thumb_func
+ 1128              		.fpu fpv4-sp-d16
+ 1130              	OCTA_FLASH_flush:
+ 1131              	.LFB142:
+ 445:../../core/drivers/octa-flash/src/octa-flash.c ****     if (OCTA_FLASH_isWriteInProgress())
+ 1132              		.loc 1 445 1 is_stmt 1 view -0
+ 1133              		.cfi_startproc
+ 1134              		@ args = 0, pretend = 0, frame = 0
+ 1135              		@ frame_needed = 0, uses_anonymous_args = 0
+ARM GAS  /tmp/cckIivDo.s 			page 35
+
+
+ 1136 0000 08B5     		push	{r3, lr}
+ 1137              	.LCFI19:
+ 1138              		.cfi_def_cfa_offset 8
+ 1139              		.cfi_offset 3, -8
+ 1140              		.cfi_offset 14, -4
+ 446:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 1141              		.loc 1 446 5 view .LVU249
+ 446:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 1142              		.loc 1 446 9 is_stmt 0 view .LVU250
+ 1143 0002 FFF7FEFF 		bl	OCTA_FLASH_isWriteInProgress
+ 1144              	.LVL90:
+ 446:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 1145              		.loc 1 446 8 view .LVU251
+ 1146 0006 0028     		cmp	r0, #0
+ 1147 0008 35D1     		bne	.L79
+ 452:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 1148              		.loc 1 452 5 is_stmt 1 view .LVU252
+ 452:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 1149              		.loc 1 452 9 is_stmt 0 view .LVU253
+ 1150 000a 0620     		movs	r0, #6
+ 1151 000c FFF7FEFF 		bl	OCTA_FLASH_sendCommand
+ 1152              	.LVL91:
+ 452:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 1153              		.loc 1 452 8 view .LVU254
+ 1154 0010 10F1030F 		cmn	r0, #3
+ 1155 0014 2ED0     		beq	.L77
+ 458:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 1156              		.loc 1 458 5 is_stmt 1 view .LVU255
+ 458:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 1157              		.loc 1 458 9 is_stmt 0 view .LVU256
+ 1158 0016 1B4B     		ldr	r3, .L82
+ 1159 0018 1968     		ldr	r1, [r3]
+ 1160 001a 1220     		movs	r0, #18
+ 1161 001c FFF7FEFF 		bl	OCTA_FLASH_send4BCommand
+ 1162              	.LVL92:
+ 458:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 1163              		.loc 1 458 8 view .LVU257
+ 1164 0020 10F1030F 		cmn	r0, #3
+ 1165 0024 26D0     		beq	.L77
+ 463:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 1166              		.loc 1 463 5 is_stmt 1 view .LVU258
+ 463:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 1167              		.loc 1 463 8 is_stmt 0 view .LVU259
+ 1168 0026 4FF0FF33 		mov	r3, #-1
+ 1169 002a 4FF48072 		mov	r2, #256
+ 1170 002e 1649     		ldr	r1, .L82+4
+ 1171 0030 1648     		ldr	r0, .L82+8
+ 1172 0032 0068     		ldr	r0, [r0]
+ 1173 0034 FFF7FEFF 		bl	HAL_SPI_Transmit
+ 1174              	.LVL93:
+ 463:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 1175              		.loc 1 463 7 view .LVU260
+ 1176 0038 00BB     		cbnz	r0, .L80
+ 468:../../core/drivers/octa-flash/src/octa-flash.c ****     OCTA_FLASH_Disable();
+ 1177              		.loc 1 468 5 is_stmt 1 view .LVU261
+ 1178 003a 144B     		ldr	r3, .L82+8
+ 1179 003c 1B68     		ldr	r3, [r3]
+ARM GAS  /tmp/cckIivDo.s 			page 36
+
+
+ 1180 003e 1A68     		ldr	r2, [r3]
+ 1181 0040 1368     		ldr	r3, [r2]
+ 1182 0042 23F04003 		bic	r3, r3, #64
+ 1183 0046 1360     		str	r3, [r2]
+ 469:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 1184              		.loc 1 469 5 view .LVU262
+ 1185 0048 FFF7FEFF 		bl	OCTA_FLASH_Disable
+ 1186              	.LVL94:
+ 472:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 1187              		.loc 1 472 5 view .LVU263
+ 472:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 1188              		.loc 1 472 9 is_stmt 0 view .LVU264
+ 1189 004c 0420     		movs	r0, #4
+ 1190 004e FFF7FEFF 		bl	OCTA_FLASH_sendCommand
+ 1191              	.LVL95:
+ 472:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 1192              		.loc 1 472 8 view .LVU265
+ 1193 0052 10F1030F 		cmn	r0, #3
+ 1194 0056 0DD0     		beq	.L77
+ 478:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 1195              		.loc 1 478 5 is_stmt 1 view .LVU266
+ 478:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 1196              		.loc 1 478 26 is_stmt 0 view .LVU267
+ 1197 0058 0A4A     		ldr	r2, .L82
+ 1198 005a 1368     		ldr	r3, [r2]
+ 1199 005c 03F58073 		add	r3, r3, #256
+ 1200 0060 1360     		str	r3, [r2]
+ 481:../../core/drivers/octa-flash/src/octa-flash.c ****     mMemPageIndex = 0;
+ 1201              		.loc 1 481 5 is_stmt 1 view .LVU268
+ 1202 0062 4FF48072 		mov	r2, #256
+ 1203 0066 0021     		movs	r1, #0
+ 1204 0068 0748     		ldr	r0, .L82+4
+ 1205 006a FFF7FEFF 		bl	memset
+ 1206              	.LVL96:
+ 482:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 1207              		.loc 1 482 5 view .LVU269
+ 482:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 1208              		.loc 1 482 19 is_stmt 0 view .LVU270
+ 1209 006e 0020     		movs	r0, #0
+ 1210 0070 074B     		ldr	r3, .L82+12
+ 1211 0072 1880     		strh	r0, [r3]	@ movhi
+ 484:../../core/drivers/octa-flash/src/octa-flash.c **** }
+ 1212              		.loc 1 484 5 is_stmt 1 view .LVU271
+ 1213              	.L77:
+ 485:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 1214              		.loc 1 485 1 is_stmt 0 view .LVU272
+ 1215 0074 08BD     		pop	{r3, pc}
+ 1216              	.L79:
+ 448:../../core/drivers/octa-flash/src/octa-flash.c ****     }
+ 1217              		.loc 1 448 16 view .LVU273
+ 1218 0076 6FF00100 		mvn	r0, #1
+ 1219 007a FBE7     		b	.L77
+ 1220              	.L80:
+ 465:../../core/drivers/octa-flash/src/octa-flash.c ****     }
+ 1221              		.loc 1 465 16 view .LVU274
+ 1222 007c 6FF00200 		mvn	r0, #2
+ 1223 0080 F8E7     		b	.L77
+ARM GAS  /tmp/cckIivDo.s 			page 37
+
+
+ 1224              	.L83:
+ 1225 0082 00BF     		.align	2
+ 1226              	.L82:
+ 1227 0084 00000000 		.word	mCurrentWriteAddress
+ 1228 0088 00000000 		.word	mMemPage
+ 1229 008c 00000000 		.word	flashSPI
+ 1230 0090 00000000 		.word	mMemPageIndex
+ 1231              		.cfi_endproc
+ 1232              	.LFE142:
+ 1234              		.section	.rodata.OCTA_FLASH_write.str1.4,"aMS",%progbits,1
+ 1235              		.align	2
+ 1236              	.LC3:
+ 1237 0000 466C7573 		.ascii	"Flush failed\015\012\000"
+ 1237      68206661 
+ 1237      696C6564 
+ 1237      0D0A00
+ 1238              		.section	.text.OCTA_FLASH_write,"ax",%progbits
+ 1239              		.align	1
+ 1240              		.global	OCTA_FLASH_write
+ 1241              		.syntax unified
+ 1242              		.thumb
+ 1243              		.thumb_func
+ 1244              		.fpu fpv4-sp-d16
+ 1246              	OCTA_FLASH_write:
+ 1247              	.LVL97:
+ 1248              	.LFB135:
+ 163:../../core/drivers/octa-flash/src/octa-flash.c ****     HAL_Delay(SPI_WAIT);
+ 1249              		.loc 1 163 1 is_stmt 1 view -0
+ 1250              		.cfi_startproc
+ 1251              		@ args = 0, pretend = 0, frame = 0
+ 1252              		@ frame_needed = 0, uses_anonymous_args = 0
+ 163:../../core/drivers/octa-flash/src/octa-flash.c ****     HAL_Delay(SPI_WAIT);
+ 1253              		.loc 1 163 1 is_stmt 0 view .LVU276
+ 1254 0000 2DE9F041 		push	{r4, r5, r6, r7, r8, lr}
+ 1255              	.LCFI20:
+ 1256              		.cfi_def_cfa_offset 24
+ 1257              		.cfi_offset 4, -24
+ 1258              		.cfi_offset 5, -20
+ 1259              		.cfi_offset 6, -16
+ 1260              		.cfi_offset 7, -12
+ 1261              		.cfi_offset 8, -8
+ 1262              		.cfi_offset 14, -4
+ 1263 0004 0546     		mov	r5, r0
+ 1264 0006 8846     		mov	r8, r1
+ 164:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 1265              		.loc 1 164 5 is_stmt 1 view .LVU277
+ 1266 0008 0A20     		movs	r0, #10
+ 1267              	.LVL98:
+ 164:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 1268              		.loc 1 164 5 is_stmt 0 view .LVU278
+ 1269 000a FFF7FEFF 		bl	HAL_Delay
+ 1270              	.LVL99:
+ 166:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 1271              		.loc 1 166 5 is_stmt 1 view .LVU279
+ 166:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 1272              		.loc 1 166 9 is_stmt 0 view .LVU280
+ 1273 000e FFF7FEFF 		bl	OCTA_FLASH_isWriteInProgress
+ARM GAS  /tmp/cckIivDo.s 			page 38
+
+
+ 1274              	.LVL100:
+ 166:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 1275              		.loc 1 166 8 view .LVU281
+ 1276 0012 88BB     		cbnz	r0, .L90
+ 171:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 1277              		.loc 1 171 5 is_stmt 1 view .LVU282
+ 171:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 1278              		.loc 1 171 30 is_stmt 0 view .LVU283
+ 1279 0014 1D4B     		ldr	r3, .L97
+ 1280 0016 1A68     		ldr	r2, [r3]
+ 171:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 1281              		.loc 1 171 8 view .LVU284
+ 1282 0018 1D4B     		ldr	r3, .L97+4
+ 1283 001a 9A42     		cmp	r2, r3
+ 1284 001c 2FD8     		bhi	.L91
+ 176:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 1285              		.loc 1 176 14 view .LVU285
+ 1286 001e 4646     		mov	r6, r8
+ 1287              	.L86:
+ 1288              	.LVL101:
+ 178:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 1289              		.loc 1 178 11 is_stmt 1 view .LVU286
+ 178:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 1290              		.loc 1 178 26 is_stmt 0 view .LVU287
+ 1291 0020 1C4B     		ldr	r3, .L97+8
+ 1292 0022 1B88     		ldrh	r3, [r3]
+ 1293 0024 9A19     		adds	r2, r3, r6
+ 178:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 1294              		.loc 1 178 11 view .LVU288
+ 1295 0026 FF2A     		cmp	r2, #255
+ 1296 0028 13D9     		bls	.L94
+ 1297              	.LBB2:
+ 182:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 1298              		.loc 1 182 9 is_stmt 1 view .LVU289
+ 182:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 1299              		.loc 1 182 54 is_stmt 0 view .LVU290
+ 1300 002a C3F58077 		rsb	r7, r3, #256
+ 1301              	.LVL102:
+ 185:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 1302              		.loc 1 185 9 is_stmt 1 view .LVU291
+ 1303 002e 4FF48072 		mov	r2, #256
+ 1304 0032 2946     		mov	r1, r5
+ 1305 0034 1848     		ldr	r0, .L97+12
+ 1306 0036 1844     		add	r0, r0, r3
+ 1307 0038 FFF7FEFF 		bl	memcpy
+ 1308              	.LVL103:
+ 187:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 1309              		.loc 1 187 9 view .LVU292
+ 187:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 1310              		.loc 1 187 28 is_stmt 0 view .LVU293
+ 1311 003c FFF7FEFF 		bl	OCTA_FLASH_flush
+ 1312              	.LVL104:
+ 190:../../core/drivers/octa-flash/src/octa-flash.c ****         {
+ 1313              		.loc 1 190 9 is_stmt 1 view .LVU294
+ 190:../../core/drivers/octa-flash/src/octa-flash.c ****         {
+ 1314              		.loc 1 190 12 is_stmt 0 view .LVU295
+ 1315 0040 041E     		subs	r4, r0, #0
+ARM GAS  /tmp/cckIivDo.s 			page 39
+
+
+ 1316 0042 02DB     		blt	.L95
+ 198:../../core/drivers/octa-flash/src/octa-flash.c ****         bytesLeftToWrite -= bytesToWrite;
+ 1317              		.loc 1 198 9 is_stmt 1 view .LVU296
+ 198:../../core/drivers/octa-flash/src/octa-flash.c ****         bytesLeftToWrite -= bytesToWrite;
+ 1318              		.loc 1 198 16 is_stmt 0 view .LVU297
+ 1319 0044 3D44     		add	r5, r5, r7
+ 1320              	.LVL105:
+ 199:../../core/drivers/octa-flash/src/octa-flash.c ****     }
+ 1321              		.loc 1 199 9 is_stmt 1 view .LVU298
+ 199:../../core/drivers/octa-flash/src/octa-flash.c ****     }
+ 1322              		.loc 1 199 26 is_stmt 0 view .LVU299
+ 1323 0046 F61B     		subs	r6, r6, r7
+ 1324              	.LVL106:
+ 199:../../core/drivers/octa-flash/src/octa-flash.c ****     }
+ 1325              		.loc 1 199 26 view .LVU300
+ 1326 0048 EAE7     		b	.L86
+ 1327              	.L95:
+ 193:../../core/drivers/octa-flash/src/octa-flash.c ****             return flushedBytes;
+ 1328              		.loc 1 193 13 is_stmt 1 view .LVU301
+ 1329 004a 1448     		ldr	r0, .L97+16
+ 1330              	.LVL107:
+ 193:../../core/drivers/octa-flash/src/octa-flash.c ****             return flushedBytes;
+ 1331              		.loc 1 193 13 is_stmt 0 view .LVU302
+ 1332 004c FFF7FEFF 		bl	printDBG
+ 1333              	.LVL108:
+ 194:../../core/drivers/octa-flash/src/octa-flash.c ****         }
+ 1334              		.loc 1 194 13 is_stmt 1 view .LVU303
+ 194:../../core/drivers/octa-flash/src/octa-flash.c ****         }
+ 1335              		.loc 1 194 20 is_stmt 0 view .LVU304
+ 1336 0050 07E0     		b	.L84
+ 1337              	.LVL109:
+ 1338              	.L94:
+ 194:../../core/drivers/octa-flash/src/octa-flash.c ****         }
+ 1339              		.loc 1 194 20 view .LVU305
+ 1340              	.LBE2:
+ 202:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 1341              		.loc 1 202 5 is_stmt 1 view .LVU306
+ 202:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 1342              		.loc 1 202 30 is_stmt 0 view .LVU307
+ 1343 0052 0E4A     		ldr	r2, .L97
+ 1344 0054 1168     		ldr	r1, [r2]
+ 202:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 1345              		.loc 1 202 8 view .LVU308
+ 1346 0056 0E4A     		ldr	r2, .L97+4
+ 1347 0058 9142     		cmp	r1, r2
+ 1348 005a 13D8     		bhi	.L92
+ 207:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 1349              		.loc 1 207 10 is_stmt 1 view .LVU309
+ 207:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 1350              		.loc 1 207 13 is_stmt 0 view .LVU310
+ 1351 005c 26B9     		cbnz	r6, .L96
+ 1352              	.LVL110:
+ 1353              	.L89:
+ 214:../../core/drivers/octa-flash/src/octa-flash.c **** }
+ 1354              		.loc 1 214 5 is_stmt 1 view .LVU311
+ 214:../../core/drivers/octa-flash/src/octa-flash.c **** }
+ 1355              		.loc 1 214 18 is_stmt 0 view .LVU312
+ARM GAS  /tmp/cckIivDo.s 			page 40
+
+
+ 1356 005e A8EB0604 		sub	r4, r8, r6
+ 1357              	.LVL111:
+ 1358              	.L84:
+ 215:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 1359              		.loc 1 215 1 view .LVU313
+ 1360 0062 2046     		mov	r0, r4
+ 1361 0064 BDE8F081 		pop	{r4, r5, r6, r7, r8, pc}
+ 1362              	.LVL112:
+ 1363              	.L96:
+ 210:../../core/drivers/octa-flash/src/octa-flash.c ****         bytesLeftToWrite = 0;
+ 1364              		.loc 1 210 9 is_stmt 1 view .LVU314
+ 1365 0068 3246     		mov	r2, r6
+ 1366 006a 2946     		mov	r1, r5
+ 1367 006c 0A48     		ldr	r0, .L97+12
+ 1368 006e 1844     		add	r0, r0, r3
+ 1369 0070 FFF7FEFF 		bl	memcpy
+ 1370              	.LVL113:
+ 211:../../core/drivers/octa-flash/src/octa-flash.c ****     }
+ 1371              		.loc 1 211 9 view .LVU315
+ 211:../../core/drivers/octa-flash/src/octa-flash.c ****     }
+ 1372              		.loc 1 211 26 is_stmt 0 view .LVU316
+ 1373 0074 0026     		movs	r6, #0
+ 1374 0076 F2E7     		b	.L89
+ 1375              	.LVL114:
+ 1376              	.L90:
+ 168:../../core/drivers/octa-flash/src/octa-flash.c ****     }
+ 1377              		.loc 1 168 16 view .LVU317
+ 1378 0078 6FF00104 		mvn	r4, #1
+ 1379 007c F1E7     		b	.L84
+ 1380              	.L91:
+ 173:../../core/drivers/octa-flash/src/octa-flash.c ****     }
+ 1381              		.loc 1 173 16 view .LVU318
+ 1382 007e 6FF00404 		mvn	r4, #4
+ 1383 0082 EEE7     		b	.L84
+ 1384              	.LVL115:
+ 1385              	.L92:
+ 205:../../core/drivers/octa-flash/src/octa-flash.c ****     }
+ 1386              		.loc 1 205 16 view .LVU319
+ 1387 0084 6FF00404 		mvn	r4, #4
+ 1388 0088 EBE7     		b	.L84
+ 1389              	.L98:
+ 1390 008a 00BF     		.align	2
+ 1391              	.L97:
+ 1392 008c 00000000 		.word	mCurrentWriteAddress
+ 1393 0090 0090D003 		.word	64000000
+ 1394 0094 00000000 		.word	mMemPageIndex
+ 1395 0098 00000000 		.word	mMemPage
+ 1396 009c 00000000 		.word	.LC3
+ 1397              		.cfi_endproc
+ 1398              	.LFE135:
+ 1400              		.section	.rodata.OCTA_FLASH_TestRW.str1.4,"aMS",%progbits,1
+ 1401              		.align	2
+ 1402              	.LC4:
+ 1403 0000 50616765 		.ascii	"Page0 after: \015\012\000"
+ 1403      30206166 
+ 1403      7465723A 
+ 1403      200D0A00 
+ARM GAS  /tmp/cckIivDo.s 			page 41
+
+
+ 1404              		.align	2
+ 1405              	.LC5:
+ 1406 0010 50616765 		.ascii	"Page0 NO MATCH\015\012\000"
+ 1406      30204E4F 
+ 1406      204D4154 
+ 1406      43480D0A 
+ 1406      00
+ 1407 0021 000000   		.align	2
+ 1408              	.LC6:
+ 1409 0024 50616765 		.ascii	"Page1 after: \015\012\000"
+ 1409      31206166 
+ 1409      7465723A 
+ 1409      200D0A00 
+ 1410              		.align	2
+ 1411              	.LC7:
+ 1412 0034 50616765 		.ascii	"Page1 NO MATCH\015\012\000"
+ 1412      31204E4F 
+ 1412      204D4154 
+ 1412      43480D0A 
+ 1412      00
+ 1413 0045 000000   		.align	2
+ 1414              	.LC8:
+ 1415 0048 50616765 		.ascii	"Page2 after: \015\012\000"
+ 1415      32206166 
+ 1415      7465723A 
+ 1415      200D0A00 
+ 1416              		.align	2
+ 1417              	.LC9:
+ 1418 0058 50616765 		.ascii	"Page2 NO MATCH\015\012\000"
+ 1418      32204E4F 
+ 1418      204D4154 
+ 1418      43480D0A 
+ 1418      00
+ 1419              		.section	.text.OCTA_FLASH_TestRW,"ax",%progbits
+ 1420              		.align	1
+ 1421              		.global	OCTA_FLASH_TestRW
+ 1422              		.syntax unified
+ 1423              		.thumb
+ 1424              		.thumb_func
+ 1425              		.fpu fpv4-sp-d16
+ 1427              	OCTA_FLASH_TestRW:
+ 1428              	.LFB147:
+ 570:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 571:../../core/drivers/octa-flash/src/octa-flash.c **** /*  READ WRITE TEST 
+ 572:../../core/drivers/octa-flash/src/octa-flash.c **** *   writes 1 block en reads it
+ 573:../../core/drivers/octa-flash/src/octa-flash.c **** *   returns 1 if equal (success), 0 if not equal (fail)
+ 574:../../core/drivers/octa-flash/src/octa-flash.c **** */
+ 575:../../core/drivers/octa-flash/src/octa-flash.c **** uint8_t OCTA_FLASH_TestRW(void)
+ 576:../../core/drivers/octa-flash/src/octa-flash.c **** {
+ 1429              		.loc 1 576 1 is_stmt 1 view -0
+ 1430              		.cfi_startproc
+ 1431              		@ args = 0, pretend = 0, frame = 0
+ 1432              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1433 0000 F8B5     		push	{r3, r4, r5, r6, r7, lr}
+ 1434              	.LCFI21:
+ 1435              		.cfi_def_cfa_offset 24
+ 1436              		.cfi_offset 3, -24
+ARM GAS  /tmp/cckIivDo.s 			page 42
+
+
+ 1437              		.cfi_offset 4, -20
+ 1438              		.cfi_offset 5, -16
+ 1439              		.cfi_offset 6, -12
+ 1440              		.cfi_offset 7, -8
+ 1441              		.cfi_offset 14, -4
+ 577:../../core/drivers/octa-flash/src/octa-flash.c ****     //test flash RW
+ 578:../../core/drivers/octa-flash/src/octa-flash.c ****     #define SIZE 256
+ 579:../../core/drivers/octa-flash/src/octa-flash.c ****     
+ 580:../../core/drivers/octa-flash/src/octa-flash.c ****     static uint8_t tx[SIZE] = {0};
+ 1442              		.loc 1 580 5 view .LVU321
+ 581:../../core/drivers/octa-flash/src/octa-flash.c ****     static uint8_t rx[SIZE] = {0};
+ 1443              		.loc 1 581 5 view .LVU322
+ 582:../../core/drivers/octa-flash/src/octa-flash.c ****     uint16_t i = 0;
+ 1444              		.loc 1 582 5 view .LVU323
+ 1445              	.LVL116:
+ 583:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 584:../../core/drivers/octa-flash/src/octa-flash.c ****     uint8_t page0 = 1;
+ 1446              		.loc 1 584 5 view .LVU324
+ 585:../../core/drivers/octa-flash/src/octa-flash.c ****     uint8_t page1 = 1;
+ 1447              		.loc 1 585 5 view .LVU325
+ 586:../../core/drivers/octa-flash/src/octa-flash.c ****     uint8_t page2 = 1;
+ 1448              		.loc 1 586 5 view .LVU326
+ 587:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 588:../../core/drivers/octa-flash/src/octa-flash.c ****     OCTA_FLASH_open(0);
+ 1449              		.loc 1 588 5 view .LVU327
+ 1450 0002 0020     		movs	r0, #0
+ 1451 0004 FFF7FEFF 		bl	OCTA_FLASH_open
+ 1452              	.LVL117:
+ 589:../../core/drivers/octa-flash/src/octa-flash.c ****     #if DEBUG
+ 590:../../core/drivers/octa-flash/src/octa-flash.c ****         OCTA_FLASH_read(rx,SIZE);
+ 591:../../core/drivers/octa-flash/src/octa-flash.c ****         printDBG("Page0 before: \r\n");
+ 592:../../core/drivers/octa-flash/src/octa-flash.c ****         for(i = 0; i<256; i++)
+ 593:../../core/drivers/octa-flash/src/octa-flash.c ****         {   
+ 594:../../core/drivers/octa-flash/src/octa-flash.c ****             printf("%d ", rx[i]);
+ 595:../../core/drivers/octa-flash/src/octa-flash.c ****         }        
+ 596:../../core/drivers/octa-flash/src/octa-flash.c ****         printf("\r\n"); 
+ 597:../../core/drivers/octa-flash/src/octa-flash.c ****     #endif
+ 598:../../core/drivers/octa-flash/src/octa-flash.c ****     
+ 599:../../core/drivers/octa-flash/src/octa-flash.c ****     memset(tx, 0, SIZE);
+ 1453              		.loc 1 599 5 view .LVU328
+ 1454 0008 4E4C     		ldr	r4, .L127
+ 1455 000a 4FF48075 		mov	r5, #256
+ 1456 000e 2A46     		mov	r2, r5
+ 1457 0010 0021     		movs	r1, #0
+ 1458 0012 2046     		mov	r0, r4
+ 1459 0014 FFF7FEFF 		bl	memset
+ 1460              	.LVL118:
+ 600:../../core/drivers/octa-flash/src/octa-flash.c ****     #if DEBUG
+ 601:../../core/drivers/octa-flash/src/octa-flash.c ****         printDBG("tx: \r\n");
+ 602:../../core/drivers/octa-flash/src/octa-flash.c ****         for(i = 0; i<SIZE; i++)
+ 603:../../core/drivers/octa-flash/src/octa-flash.c ****             printf("%d ", tx[i]);
+ 604:../../core/drivers/octa-flash/src/octa-flash.c ****         printf("\r\n");
+ 605:../../core/drivers/octa-flash/src/octa-flash.c ****     #endif
+ 606:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 607:../../core/drivers/octa-flash/src/octa-flash.c ****     OCTA_FLASH_write(tx, SIZE);
+ 1461              		.loc 1 607 5 view .LVU329
+ 1462 0018 2946     		mov	r1, r5
+ARM GAS  /tmp/cckIivDo.s 			page 43
+
+
+ 1463 001a 2046     		mov	r0, r4
+ 1464 001c FFF7FEFF 		bl	OCTA_FLASH_write
+ 1465              	.LVL119:
+ 608:../../core/drivers/octa-flash/src/octa-flash.c ****     while(OCTA_FLASH_isWriteInProgress())
+ 1466              		.loc 1 608 5 view .LVU330
+ 1467              	.L100:
+ 1468              		.loc 1 608 10 view .LVU331
+ 1469              		.loc 1 608 11 is_stmt 0 view .LVU332
+ 1470 0020 FFF7FEFF 		bl	OCTA_FLASH_isWriteInProgress
+ 1471              	.LVL120:
+ 1472              		.loc 1 608 10 view .LVU333
+ 1473 0024 0646     		mov	r6, r0
+ 1474 0026 18B1     		cbz	r0, .L120
+ 609:../../core/drivers/octa-flash/src/octa-flash.c ****         HAL_Delay(SPI_WAIT);
+ 1475              		.loc 1 609 9 is_stmt 1 view .LVU334
+ 1476 0028 0A20     		movs	r0, #10
+ 1477 002a FFF7FEFF 		bl	HAL_Delay
+ 1478              	.LVL121:
+ 1479 002e F7E7     		b	.L100
+ 1480              	.L120:
+ 610:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 611:../../core/drivers/octa-flash/src/octa-flash.c ****     OCTA_FLASH_read(rx,SIZE);
+ 1481              		.loc 1 611 5 view .LVU335
+ 1482 0030 4FF48071 		mov	r1, #256
+ 1483 0034 4448     		ldr	r0, .L127+4
+ 1484 0036 FFF7FEFF 		bl	OCTA_FLASH_read
+ 1485              	.LVL122:
+ 612:../../core/drivers/octa-flash/src/octa-flash.c ****     printDBG("Page0 after: \r\n");
+ 1486              		.loc 1 612 5 view .LVU336
+ 1487 003a 4448     		ldr	r0, .L127+8
+ 1488 003c FFF7FEFF 		bl	printDBG
+ 1489              	.LVL123:
+ 613:../../core/drivers/octa-flash/src/octa-flash.c ****     for(i = 0; i<SIZE; i++)
+ 1490              		.loc 1 613 5 view .LVU337
+ 584:../../core/drivers/octa-flash/src/octa-flash.c ****     uint8_t page1 = 1;
+ 1491              		.loc 1 584 13 is_stmt 0 view .LVU338
+ 1492 0040 0125     		movs	r5, #1
+ 1493              		.loc 1 613 11 view .LVU339
+ 1494 0042 0024     		movs	r4, #0
+ 1495              		.loc 1 613 5 view .LVU340
+ 1496 0044 05E0     		b	.L102
+ 1497              	.LVL124:
+ 1498              	.L122:
+ 614:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 615:../../core/drivers/octa-flash/src/octa-flash.c ****         #if DEBUG
+ 616:../../core/drivers/octa-flash/src/octa-flash.c ****             printf("%d ", rx[i]); 
+ 617:../../core/drivers/octa-flash/src/octa-flash.c ****         #endif
+ 618:../../core/drivers/octa-flash/src/octa-flash.c ****         if(rx[i] != tx[i])
+ 619:../../core/drivers/octa-flash/src/octa-flash.c ****         {
+ 620:../../core/drivers/octa-flash/src/octa-flash.c ****             page0 = 0;
+ 1499              		.loc 1 620 13 is_stmt 1 view .LVU341
+ 621:../../core/drivers/octa-flash/src/octa-flash.c ****             printERR("Page0 NO MATCH\r\n");
+ 1500              		.loc 1 621 13 view .LVU342
+ 1501 0046 4248     		ldr	r0, .L127+12
+ 1502 0048 FFF7FEFF 		bl	printERR
+ 1503              	.LVL125:
+ 620:../../core/drivers/octa-flash/src/octa-flash.c ****             printERR("Page0 NO MATCH\r\n");
+ARM GAS  /tmp/cckIivDo.s 			page 44
+
+
+ 1504              		.loc 1 620 19 is_stmt 0 view .LVU343
+ 1505 004c 3546     		mov	r5, r6
+ 1506              	.LVL126:
+ 1507              	.L103:
+ 613:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 1508              		.loc 1 613 24 is_stmt 1 discriminator 2 view .LVU344
+ 613:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 1509              		.loc 1 613 25 is_stmt 0 discriminator 2 view .LVU345
+ 1510 004e 0134     		adds	r4, r4, #1
+ 1511              	.LVL127:
+ 613:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 1512              		.loc 1 613 25 discriminator 2 view .LVU346
+ 1513 0050 A4B2     		uxth	r4, r4
+ 1514              	.LVL128:
+ 1515              	.L102:
+ 613:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 1516              		.loc 1 613 16 is_stmt 1 discriminator 1 view .LVU347
+ 613:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 1517              		.loc 1 613 5 is_stmt 0 discriminator 1 view .LVU348
+ 1518 0052 FF2C     		cmp	r4, #255
+ 1519 0054 06D8     		bhi	.L121
+ 618:../../core/drivers/octa-flash/src/octa-flash.c ****         {
+ 1520              		.loc 1 618 9 is_stmt 1 view .LVU349
+ 618:../../core/drivers/octa-flash/src/octa-flash.c ****         {
+ 1521              		.loc 1 618 14 is_stmt 0 view .LVU350
+ 1522 0056 3C4B     		ldr	r3, .L127+4
+ 1523 0058 1A5D     		ldrb	r2, [r3, r4]	@ zero_extendqisi2
+ 618:../../core/drivers/octa-flash/src/octa-flash.c ****         {
+ 1524              		.loc 1 618 23 view .LVU351
+ 1525 005a 3A4B     		ldr	r3, .L127
+ 1526 005c 1B5D     		ldrb	r3, [r3, r4]	@ zero_extendqisi2
+ 618:../../core/drivers/octa-flash/src/octa-flash.c ****         {
+ 1527              		.loc 1 618 11 view .LVU352
+ 1528 005e 9A42     		cmp	r2, r3
+ 1529 0060 F5D0     		beq	.L103
+ 1530 0062 F0E7     		b	.L122
+ 1531              	.L121:
+ 622:../../core/drivers/octa-flash/src/octa-flash.c ****         }
+ 623:../../core/drivers/octa-flash/src/octa-flash.c ****             
+ 624:../../core/drivers/octa-flash/src/octa-flash.c ****     }
+ 625:../../core/drivers/octa-flash/src/octa-flash.c ****     #if DEBUG
+ 626:../../core/drivers/octa-flash/src/octa-flash.c ****         printf("\r\n"); 
+ 627:../../core/drivers/octa-flash/src/octa-flash.c ****     #endif
+ 628:../../core/drivers/octa-flash/src/octa-flash.c ****     
+ 629:../../core/drivers/octa-flash/src/octa-flash.c ****     OCTA_FLASH_open(1);
+ 1532              		.loc 1 629 5 is_stmt 1 view .LVU353
+ 1533 0064 0120     		movs	r0, #1
+ 1534 0066 FFF7FEFF 		bl	OCTA_FLASH_open
+ 1535              	.LVL129:
+ 630:../../core/drivers/octa-flash/src/octa-flash.c ****     #if DEBUG
+ 631:../../core/drivers/octa-flash/src/octa-flash.c ****         OCTA_FLASH_read(rx,SIZE);
+ 632:../../core/drivers/octa-flash/src/octa-flash.c ****         printDBG("Page1 before: \r\n");
+ 633:../../core/drivers/octa-flash/src/octa-flash.c ****         for(i = 0; i<256; i++)
+ 634:../../core/drivers/octa-flash/src/octa-flash.c ****             printf("%d ", rx[i]); 
+ 635:../../core/drivers/octa-flash/src/octa-flash.c ****         printf("\r\n");
+ 636:../../core/drivers/octa-flash/src/octa-flash.c ****     #endif 
+ 637:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ARM GAS  /tmp/cckIivDo.s 			page 45
+
+
+ 638:../../core/drivers/octa-flash/src/octa-flash.c ****     memset(tx, 1, SIZE);
+ 1536              		.loc 1 638 5 view .LVU354
+ 1537 006a 364C     		ldr	r4, .L127
+ 1538              	.LVL130:
+ 1539              		.loc 1 638 5 is_stmt 0 view .LVU355
+ 1540 006c 4FF48072 		mov	r2, #256
+ 1541 0070 0121     		movs	r1, #1
+ 1542 0072 2046     		mov	r0, r4
+ 1543 0074 FFF7FEFF 		bl	memset
+ 1544              	.LVL131:
+ 639:../../core/drivers/octa-flash/src/octa-flash.c ****     #if DEBUG
+ 640:../../core/drivers/octa-flash/src/octa-flash.c ****         printDBG("tx: \r\n");
+ 641:../../core/drivers/octa-flash/src/octa-flash.c ****         for(i = 0; i<SIZE; i++)
+ 642:../../core/drivers/octa-flash/src/octa-flash.c ****             printf("%d ", tx[i]);
+ 643:../../core/drivers/octa-flash/src/octa-flash.c ****         printf("\r\n");
+ 644:../../core/drivers/octa-flash/src/octa-flash.c ****     #endif
+ 645:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 646:../../core/drivers/octa-flash/src/octa-flash.c ****     OCTA_FLASH_write(tx, SIZE);
+ 1545              		.loc 1 646 5 is_stmt 1 view .LVU356
+ 1546 0078 4FF48071 		mov	r1, #256
+ 1547 007c 2046     		mov	r0, r4
+ 1548 007e FFF7FEFF 		bl	OCTA_FLASH_write
+ 1549              	.LVL132:
+ 647:../../core/drivers/octa-flash/src/octa-flash.c ****     while(OCTA_FLASH_isWriteInProgress())
+ 1550              		.loc 1 647 5 view .LVU357
+ 1551              		.loc 1 647 10 is_stmt 0 view .LVU358
+ 1552 0082 02E0     		b	.L105
+ 1553              	.L106:
+ 648:../../core/drivers/octa-flash/src/octa-flash.c ****         HAL_Delay(SPI_WAIT);
+ 1554              		.loc 1 648 9 is_stmt 1 view .LVU359
+ 1555 0084 0A20     		movs	r0, #10
+ 1556 0086 FFF7FEFF 		bl	HAL_Delay
+ 1557              	.LVL133:
+ 1558              	.L105:
+ 647:../../core/drivers/octa-flash/src/octa-flash.c ****     while(OCTA_FLASH_isWriteInProgress())
+ 1559              		.loc 1 647 10 view .LVU360
+ 647:../../core/drivers/octa-flash/src/octa-flash.c ****     while(OCTA_FLASH_isWriteInProgress())
+ 1560              		.loc 1 647 11 is_stmt 0 view .LVU361
+ 1561 008a FFF7FEFF 		bl	OCTA_FLASH_isWriteInProgress
+ 1562              	.LVL134:
+ 647:../../core/drivers/octa-flash/src/octa-flash.c ****     while(OCTA_FLASH_isWriteInProgress())
+ 1563              		.loc 1 647 10 view .LVU362
+ 1564 008e 0746     		mov	r7, r0
+ 1565 0090 0028     		cmp	r0, #0
+ 1566 0092 F7D1     		bne	.L106
+ 649:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 650:../../core/drivers/octa-flash/src/octa-flash.c ****     OCTA_FLASH_read(rx,SIZE);
+ 1567              		.loc 1 650 5 is_stmt 1 view .LVU363
+ 1568 0094 4FF48071 		mov	r1, #256
+ 1569 0098 2B48     		ldr	r0, .L127+4
+ 1570 009a FFF7FEFF 		bl	OCTA_FLASH_read
+ 1571              	.LVL135:
+ 651:../../core/drivers/octa-flash/src/octa-flash.c ****     printDBG("Page1 after: \r\n");
+ 1572              		.loc 1 651 5 view .LVU364
+ 1573 009e 2D48     		ldr	r0, .L127+16
+ 1574 00a0 FFF7FEFF 		bl	printDBG
+ 1575              	.LVL136:
+ARM GAS  /tmp/cckIivDo.s 			page 46
+
+
+ 652:../../core/drivers/octa-flash/src/octa-flash.c ****     for(i = 0; i<256; i++)
+ 1576              		.loc 1 652 5 view .LVU365
+ 585:../../core/drivers/octa-flash/src/octa-flash.c ****     uint8_t page2 = 1;
+ 1577              		.loc 1 585 13 is_stmt 0 view .LVU366
+ 1578 00a4 0126     		movs	r6, #1
+ 1579              		.loc 1 652 11 view .LVU367
+ 1580 00a6 0024     		movs	r4, #0
+ 1581              		.loc 1 652 5 view .LVU368
+ 1582 00a8 05E0     		b	.L107
+ 1583              	.LVL137:
+ 1584              	.L124:
+ 653:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 654:../../core/drivers/octa-flash/src/octa-flash.c ****         #if DEBUG
+ 655:../../core/drivers/octa-flash/src/octa-flash.c ****             printf("%d ", rx[i]);
+ 656:../../core/drivers/octa-flash/src/octa-flash.c ****         #endif
+ 657:../../core/drivers/octa-flash/src/octa-flash.c ****         if(rx[i] != tx[i])
+ 658:../../core/drivers/octa-flash/src/octa-flash.c ****         {
+ 659:../../core/drivers/octa-flash/src/octa-flash.c ****             page1 = 0;
+ 1585              		.loc 1 659 13 is_stmt 1 view .LVU369
+ 660:../../core/drivers/octa-flash/src/octa-flash.c ****             printERR("Page1 NO MATCH\r\n");
+ 1586              		.loc 1 660 13 view .LVU370
+ 1587 00aa 2B48     		ldr	r0, .L127+20
+ 1588 00ac FFF7FEFF 		bl	printERR
+ 1589              	.LVL138:
+ 659:../../core/drivers/octa-flash/src/octa-flash.c ****             printERR("Page1 NO MATCH\r\n");
+ 1590              		.loc 1 659 19 is_stmt 0 view .LVU371
+ 1591 00b0 3E46     		mov	r6, r7
+ 1592              	.LVL139:
+ 1593              	.L108:
+ 652:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 1594              		.loc 1 652 23 is_stmt 1 discriminator 2 view .LVU372
+ 652:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 1595              		.loc 1 652 24 is_stmt 0 discriminator 2 view .LVU373
+ 1596 00b2 0134     		adds	r4, r4, #1
+ 1597              	.LVL140:
+ 652:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 1598              		.loc 1 652 24 discriminator 2 view .LVU374
+ 1599 00b4 A4B2     		uxth	r4, r4
+ 1600              	.LVL141:
+ 1601              	.L107:
+ 652:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 1602              		.loc 1 652 16 is_stmt 1 discriminator 1 view .LVU375
+ 652:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 1603              		.loc 1 652 5 is_stmt 0 discriminator 1 view .LVU376
+ 1604 00b6 FF2C     		cmp	r4, #255
+ 1605 00b8 06D8     		bhi	.L123
+ 657:../../core/drivers/octa-flash/src/octa-flash.c ****         {
+ 1606              		.loc 1 657 9 is_stmt 1 view .LVU377
+ 657:../../core/drivers/octa-flash/src/octa-flash.c ****         {
+ 1607              		.loc 1 657 14 is_stmt 0 view .LVU378
+ 1608 00ba 234B     		ldr	r3, .L127+4
+ 1609 00bc 1A5D     		ldrb	r2, [r3, r4]	@ zero_extendqisi2
+ 657:../../core/drivers/octa-flash/src/octa-flash.c ****         {
+ 1610              		.loc 1 657 23 view .LVU379
+ 1611 00be 214B     		ldr	r3, .L127
+ 1612 00c0 1B5D     		ldrb	r3, [r3, r4]	@ zero_extendqisi2
+ 657:../../core/drivers/octa-flash/src/octa-flash.c ****         {
+ARM GAS  /tmp/cckIivDo.s 			page 47
+
+
+ 1613              		.loc 1 657 11 view .LVU380
+ 1614 00c2 9A42     		cmp	r2, r3
+ 1615 00c4 F5D0     		beq	.L108
+ 1616 00c6 F0E7     		b	.L124
+ 1617              	.L123:
+ 661:../../core/drivers/octa-flash/src/octa-flash.c ****         }
+ 662:../../core/drivers/octa-flash/src/octa-flash.c ****     }
+ 663:../../core/drivers/octa-flash/src/octa-flash.c ****     #if DEBUG
+ 664:../../core/drivers/octa-flash/src/octa-flash.c ****         printf("\r\n"); 
+ 665:../../core/drivers/octa-flash/src/octa-flash.c ****     #endif
+ 666:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 667:../../core/drivers/octa-flash/src/octa-flash.c ****     OCTA_FLASH_open(2);
+ 1618              		.loc 1 667 5 is_stmt 1 view .LVU381
+ 1619 00c8 0220     		movs	r0, #2
+ 1620 00ca FFF7FEFF 		bl	OCTA_FLASH_open
+ 1621              	.LVL142:
+ 668:../../core/drivers/octa-flash/src/octa-flash.c ****     #if DEBUG
+ 669:../../core/drivers/octa-flash/src/octa-flash.c ****         OCTA_FLASH_read(rx,SIZE);
+ 670:../../core/drivers/octa-flash/src/octa-flash.c ****         printDBG("Page1 before: \r\n");
+ 671:../../core/drivers/octa-flash/src/octa-flash.c ****         for(i = 0; i<256; i++)
+ 672:../../core/drivers/octa-flash/src/octa-flash.c ****             printf("%d ", rx[i]); 
+ 673:../../core/drivers/octa-flash/src/octa-flash.c ****         printf("\r\n");
+ 674:../../core/drivers/octa-flash/src/octa-flash.c ****     #endif 
+ 675:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 676:../../core/drivers/octa-flash/src/octa-flash.c ****     memset(tx, 2, SIZE);
+ 1622              		.loc 1 676 5 view .LVU382
+ 1623 00ce 1D4C     		ldr	r4, .L127
+ 1624              	.LVL143:
+ 1625              		.loc 1 676 5 is_stmt 0 view .LVU383
+ 1626 00d0 4FF48072 		mov	r2, #256
+ 1627 00d4 0221     		movs	r1, #2
+ 1628 00d6 2046     		mov	r0, r4
+ 1629 00d8 FFF7FEFF 		bl	memset
+ 1630              	.LVL144:
+ 677:../../core/drivers/octa-flash/src/octa-flash.c ****     #if DEBUG
+ 678:../../core/drivers/octa-flash/src/octa-flash.c ****         printDBG("tx: \r\n");
+ 679:../../core/drivers/octa-flash/src/octa-flash.c ****         for(i = 0; i<SIZE; i++)
+ 680:../../core/drivers/octa-flash/src/octa-flash.c ****             printf("%d ", tx[i]);
+ 681:../../core/drivers/octa-flash/src/octa-flash.c ****         printf("\r\n");
+ 682:../../core/drivers/octa-flash/src/octa-flash.c ****     #endif
+ 683:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 684:../../core/drivers/octa-flash/src/octa-flash.c ****     OCTA_FLASH_write(tx, SIZE);
+ 1631              		.loc 1 684 5 is_stmt 1 view .LVU384
+ 1632 00dc 4FF48071 		mov	r1, #256
+ 1633 00e0 2046     		mov	r0, r4
+ 1634 00e2 FFF7FEFF 		bl	OCTA_FLASH_write
+ 1635              	.LVL145:
+ 685:../../core/drivers/octa-flash/src/octa-flash.c ****     while(OCTA_FLASH_isWriteInProgress())
+ 1636              		.loc 1 685 5 view .LVU385
+ 1637              		.loc 1 685 10 is_stmt 0 view .LVU386
+ 1638 00e6 02E0     		b	.L110
+ 1639              	.L111:
+ 686:../../core/drivers/octa-flash/src/octa-flash.c ****         HAL_Delay(SPI_WAIT);
+ 1640              		.loc 1 686 9 is_stmt 1 view .LVU387
+ 1641 00e8 0A20     		movs	r0, #10
+ 1642 00ea FFF7FEFF 		bl	HAL_Delay
+ 1643              	.LVL146:
+ARM GAS  /tmp/cckIivDo.s 			page 48
+
+
+ 1644              	.L110:
+ 685:../../core/drivers/octa-flash/src/octa-flash.c ****     while(OCTA_FLASH_isWriteInProgress())
+ 1645              		.loc 1 685 10 view .LVU388
+ 685:../../core/drivers/octa-flash/src/octa-flash.c ****     while(OCTA_FLASH_isWriteInProgress())
+ 1646              		.loc 1 685 11 is_stmt 0 view .LVU389
+ 1647 00ee FFF7FEFF 		bl	OCTA_FLASH_isWriteInProgress
+ 1648              	.LVL147:
+ 685:../../core/drivers/octa-flash/src/octa-flash.c ****     while(OCTA_FLASH_isWriteInProgress())
+ 1649              		.loc 1 685 10 view .LVU390
+ 1650 00f2 0746     		mov	r7, r0
+ 1651 00f4 0028     		cmp	r0, #0
+ 1652 00f6 F7D1     		bne	.L111
+ 687:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 688:../../core/drivers/octa-flash/src/octa-flash.c ****     OCTA_FLASH_read(rx,SIZE);
+ 1653              		.loc 1 688 5 is_stmt 1 view .LVU391
+ 1654 00f8 4FF48071 		mov	r1, #256
+ 1655 00fc 1248     		ldr	r0, .L127+4
+ 1656 00fe FFF7FEFF 		bl	OCTA_FLASH_read
+ 1657              	.LVL148:
+ 689:../../core/drivers/octa-flash/src/octa-flash.c ****     printDBG("Page2 after: \r\n");
+ 1658              		.loc 1 689 5 view .LVU392
+ 1659 0102 1648     		ldr	r0, .L127+24
+ 1660 0104 FFF7FEFF 		bl	printDBG
+ 1661              	.LVL149:
+ 690:../../core/drivers/octa-flash/src/octa-flash.c ****     for(i = 0; i<256; i++)
+ 1662              		.loc 1 690 5 view .LVU393
+ 586:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 1663              		.loc 1 586 13 is_stmt 0 view .LVU394
+ 1664 0108 0121     		movs	r1, #1
+ 1665              		.loc 1 690 11 view .LVU395
+ 1666 010a 0024     		movs	r4, #0
+ 1667              		.loc 1 690 5 view .LVU396
+ 1668 010c 05E0     		b	.L112
+ 1669              	.LVL150:
+ 1670              	.L126:
+ 691:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 692:../../core/drivers/octa-flash/src/octa-flash.c ****         #if DEBUG
+ 693:../../core/drivers/octa-flash/src/octa-flash.c ****             printf("%d ", rx[i]);
+ 694:../../core/drivers/octa-flash/src/octa-flash.c ****         #endif
+ 695:../../core/drivers/octa-flash/src/octa-flash.c ****         if(rx[i] != tx[i])
+ 696:../../core/drivers/octa-flash/src/octa-flash.c ****         {
+ 697:../../core/drivers/octa-flash/src/octa-flash.c ****             page2 = 0;
+ 1671              		.loc 1 697 13 is_stmt 1 view .LVU397
+ 698:../../core/drivers/octa-flash/src/octa-flash.c ****             printERR("Page2 NO MATCH\r\n");
+ 1672              		.loc 1 698 13 view .LVU398
+ 1673 010e 1448     		ldr	r0, .L127+28
+ 1674 0110 FFF7FEFF 		bl	printERR
+ 1675              	.LVL151:
+ 697:../../core/drivers/octa-flash/src/octa-flash.c ****             printERR("Page2 NO MATCH\r\n");
+ 1676              		.loc 1 697 19 is_stmt 0 view .LVU399
+ 1677 0114 3946     		mov	r1, r7
+ 1678              	.LVL152:
+ 1679              	.L113:
+ 690:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 1680              		.loc 1 690 23 is_stmt 1 discriminator 2 view .LVU400
+ 690:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 1681              		.loc 1 690 24 is_stmt 0 discriminator 2 view .LVU401
+ARM GAS  /tmp/cckIivDo.s 			page 49
+
+
+ 1682 0116 0134     		adds	r4, r4, #1
+ 1683              	.LVL153:
+ 690:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 1684              		.loc 1 690 24 discriminator 2 view .LVU402
+ 1685 0118 A4B2     		uxth	r4, r4
+ 1686              	.LVL154:
+ 1687              	.L112:
+ 690:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 1688              		.loc 1 690 16 is_stmt 1 discriminator 1 view .LVU403
+ 690:../../core/drivers/octa-flash/src/octa-flash.c ****     {
+ 1689              		.loc 1 690 5 is_stmt 0 discriminator 1 view .LVU404
+ 1690 011a FF2C     		cmp	r4, #255
+ 1691 011c 06D8     		bhi	.L125
+ 695:../../core/drivers/octa-flash/src/octa-flash.c ****         {
+ 1692              		.loc 1 695 9 is_stmt 1 view .LVU405
+ 695:../../core/drivers/octa-flash/src/octa-flash.c ****         {
+ 1693              		.loc 1 695 14 is_stmt 0 view .LVU406
+ 1694 011e 0A4B     		ldr	r3, .L127+4
+ 1695 0120 1A5D     		ldrb	r2, [r3, r4]	@ zero_extendqisi2
+ 695:../../core/drivers/octa-flash/src/octa-flash.c ****         {
+ 1696              		.loc 1 695 23 view .LVU407
+ 1697 0122 084B     		ldr	r3, .L127
+ 1698 0124 1B5D     		ldrb	r3, [r3, r4]	@ zero_extendqisi2
+ 695:../../core/drivers/octa-flash/src/octa-flash.c ****         {
+ 1699              		.loc 1 695 11 view .LVU408
+ 1700 0126 9A42     		cmp	r2, r3
+ 1701 0128 F5D0     		beq	.L113
+ 1702 012a F0E7     		b	.L126
+ 1703              	.L125:
+ 699:../../core/drivers/octa-flash/src/octa-flash.c ****         }
+ 700:../../core/drivers/octa-flash/src/octa-flash.c ****     }
+ 701:../../core/drivers/octa-flash/src/octa-flash.c ****     #if DEBUG
+ 702:../../core/drivers/octa-flash/src/octa-flash.c ****         printf("\r\n"); 
+ 703:../../core/drivers/octa-flash/src/octa-flash.c ****     #endif
+ 704:../../core/drivers/octa-flash/src/octa-flash.c **** 
+ 705:../../core/drivers/octa-flash/src/octa-flash.c ****     return (page0 && page1 && page2);
+ 1704              		.loc 1 705 5 is_stmt 1 view .LVU409
+ 1705              		.loc 1 705 28 is_stmt 0 view .LVU410
+ 1706 012c 1DB1     		cbz	r5, .L116
+ 1707              		.loc 1 705 19 discriminator 1 view .LVU411
+ 1708 012e 26B1     		cbz	r6, .L117
+ 1709              		.loc 1 705 28 discriminator 3 view .LVU412
+ 1710 0130 29B9     		cbnz	r1, .L118
+ 1711              		.loc 1 705 28 view .LVU413
+ 1712 0132 0020     		movs	r0, #0
+ 1713 0134 00E0     		b	.L115
+ 1714              	.L116:
+ 1715 0136 0020     		movs	r0, #0
+ 1716              	.L115:
+ 706:../../core/drivers/octa-flash/src/octa-flash.c **** }...
+ 1717              		.loc 1 706 1 discriminator 8 view .LVU414
+ 1718 0138 F8BD     		pop	{r3, r4, r5, r6, r7, pc}
+ 1719              	.LVL155:
+ 1720              	.L117:
+ 705:../../core/drivers/octa-flash/src/octa-flash.c ****     return (page0 && page1 && page2);
+ 1721              		.loc 1 705 28 view .LVU415
+ 1722 013a 0020     		movs	r0, #0
+ARM GAS  /tmp/cckIivDo.s 			page 50
+
+
+ 1723 013c FCE7     		b	.L115
+ 1724              	.L118:
+ 1725 013e 0120     		movs	r0, #1
+ 1726 0140 FAE7     		b	.L115
+ 1727              	.L128:
+ 1728 0142 00BF     		.align	2
+ 1729              	.L127:
+ 1730 0144 00000000 		.word	.LANCHOR0
+ 1731 0148 00000000 		.word	.LANCHOR1
+ 1732 014c 00000000 		.word	.LC4
+ 1733 0150 10000000 		.word	.LC5
+ 1734 0154 24000000 		.word	.LC6
+ 1735 0158 34000000 		.word	.LC7
+ 1736 015c 48000000 		.word	.LC8
+ 1737 0160 58000000 		.word	.LC9
+ 1738              		.cfi_endproc
+ 1739              	.LFE147:
+ 1741              		.comm	flashSPI,4,4
+ 1742              		.comm	txData,5,4
+ 1743              		.comm	rxData,1,4
+ 1744              		.comm	_initialised,1,1
+ 1745              		.comm	mMemPageIndex,2,2
+ 1746              		.comm	mMemPage,256,4
+ 1747              		.comm	mCurrentWriteAddress,4,4
+ 1748              		.comm	mCurrentReadAddress,4,4
+ 1749              		.comm	P3_header,44,4
+ 1750              		.comm	P2_header,44,4
+ 1751              		.comm	P1_header,44,4
+ 1752              		.comm	stackversion_patch,1,1
+ 1753              		.comm	stackversion_minor,1,1
+ 1754              		.comm	stackversion_major,1,1
+ 1755              		.comm	appversion_patch,1,1
+ 1756              		.comm	appversion_minor,1,1
+ 1757              		.comm	appversion_major,1,1
+ 1758              		.comm	short_UID,8,8
+ 1759              		.comm	octa_uid,8,8
+ 1760              		.comm	float_union,4,4
+ 1761              		.comm	uint16LittleEndian,2,4
+ 1762              		.comm	int16LittleEndian,2,4
+ 1763              		.comm	uint32LittleEndian,4,4
+ 1764              		.comm	int32LittleEndian,4,4
+ 1765              		.comm	rtosprintHandle,4,4
+ 1766              		.comm	hrtc,36,4
+ 1767              		.comm	FLASH_SPI,100,4
+ 1768              		.comm	P2_SPI,100,4
+ 1769              		.comm	P1_SPI,100,4
+ 1770              		.comm	P2_I2C,76,4
+ 1771              		.comm	P1_I2C,76,4
+ 1772              		.comm	common_I2C,76,4
+ 1773              		.comm	P2_UART,120,4
+ 1774              		.comm	P1_UART,120,4
+ 1775              		.comm	RS232_UART,120,4
+ 1776              		.comm	NBIOT_UART,120,4
+ 1777              		.comm	USB_UART,120,4
+ 1778              		.comm	hiwdg,16,4
+ 1779              		.comm	NBIOT_Reset,8,4
+ 1780              		.comm	P2_DIO6,8,4
+ARM GAS  /tmp/cckIivDo.s 			page 51
+
+
+ 1781              		.comm	P2_DIO5,8,4
+ 1782              		.comm	P2_DIO4,8,4
+ 1783              		.comm	P2_DIO3,8,4
+ 1784              		.comm	P2_DIO2,8,4
+ 1785              		.comm	P2_DIO1,8,4
+ 1786              		.comm	P1_DIO6,8,4
+ 1787              		.comm	P1_DIO5,8,4
+ 1788              		.comm	P1_DIO4,8,4
+ 1789              		.comm	P1_DIO3,8,4
+ 1790              		.comm	P1_DIO2,8,4
+ 1791              		.comm	P1_DIO1,8,4
+ 1792              		.comm	htim6,64,4
+ 1793              		.comm	htim1,64,4
+ 1794              		.section	.bss.rx.11730,"aw",%nobits
+ 1795              		.align	2
+ 1796              		.set	.LANCHOR1,. + 0
+ 1799              	rx.11730:
+ 1800 0000 00000000 		.space	256
+ 1800      00000000 
+ 1800      00000000 
+ 1800      00000000 
+ 1800      00000000 
+ 1801              		.section	.bss.tx.11729,"aw",%nobits
+ 1802              		.align	2
+ 1803              		.set	.LANCHOR0,. + 0
+ 1806              	tx.11729:
+ 1807 0000 00000000 		.space	256
+ 1807      00000000 
+ 1807      00000000 
+ 1807      00000000 
+ 1807      00000000 
+ 1808              		.text
+ 1809              	.Letext0:
+ 1810              		.file 2 "/usr/arm-none-eabi/include/machine/_default_types.h"
+ 1811              		.file 3 "/usr/arm-none-eabi/include/sys/_stdint.h"
+ 1812              		.file 4 "../../core/ST/CMSIS/Include/core_cm4.h"
+ 1813              		.file 5 "../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/system_stm32l4xx.h"
+ 1814              		.file 6 "../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/stm32l496xx.h"
+ 1815              		.file 7 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h"
+ 1816              		.file 8 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_gpio.h"
+ 1817              		.file 9 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_dma.h"
+ 1818              		.file 10 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_i2c.h"
+ 1819              		.file 11 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_iwdg.h"
+ 1820              		.file 12 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rtc.h"
+ 1821              		.file 13 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_spi.h"
+ 1822              		.file 14 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_tim.h"
+ 1823              		.file 15 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h"
+ 1824              		.file 16 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h"
+ 1825              		.file 17 "../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/include/task.h"
+ 1826              		.file 18 "../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h"
+ 1827              		.file 19 "../../core/platform/octa_stm/inc/sysclock.h"
+ 1828              		.file 20 "../../core/platform/octa_stm/inc/gpio.h"
+ 1829              		.file 21 "../../core/platform/octa_stm/inc/iwdg.h"
+ 1830              		.file 22 "../../core/platform/octa_stm/inc/uart.h"
+ 1831              		.file 23 "../../core/platform/octa_stm/inc/i2c.h"
+ 1832              		.file 24 "../../core/platform/octa_stm/inc/spi.h"
+ 1833              		.file 25 "../../core/platform/octa_stm/inc/rtc.h"
+ARM GAS  /tmp/cckIivDo.s 			page 52
+
+
+ 1834              		.file 26 "../../core/platform/octa_stm/inc/rtosincludes.h"
+ 1835              		.file 27 "/usr/arm-none-eabi/include/sys/lock.h"
+ 1836              		.file 28 "/usr/arm-none-eabi/include/sys/_types.h"
+ 1837              		.file 29 "/usr/lib/gcc/arm-none-eabi/9.2.1/include/stddef.h"
+ 1838              		.file 30 "/usr/arm-none-eabi/include/sys/reent.h"
+ 1839              		.file 31 "../../core/platform/common/inc/datatypes.h"
+ 1840              		.file 32 "../../core/platform/octa_stm/inc/platform.h"
+ 1841              		.file 33 "../../core/platform/common/inc/print.h"
+ 1842              		.file 34 "/usr/arm-none-eabi/include/string.h"
+ 1843              		.file 35 "<built-in>"
+ARM GAS  /tmp/cckIivDo.s 			page 53
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 octa-flash.c
+     /tmp/cckIivDo.s:18     .text.OCTA_FLASH_Enable:0000000000000000 $t
+     /tmp/cckIivDo.s:26     .text.OCTA_FLASH_Enable:0000000000000000 OCTA_FLASH_Enable
+     /tmp/cckIivDo.s:50     .text.OCTA_FLASH_Disable:0000000000000000 $t
+     /tmp/cckIivDo.s:57     .text.OCTA_FLASH_Disable:0000000000000000 OCTA_FLASH_Disable
+     /tmp/cckIivDo.s:80     .rodata.OCTA_FLASH_Initialize.str1.4:0000000000000000 $d
+     /tmp/cckIivDo.s:89     .text.OCTA_FLASH_Initialize:0000000000000000 $t
+     /tmp/cckIivDo.s:96     .text.OCTA_FLASH_Initialize:0000000000000000 OCTA_FLASH_Initialize
+     /tmp/cckIivDo.s:194    .text.OCTA_FLASH_Initialize:0000000000000074 $d
+                            *COM*:0000000000000002 mMemPageIndex
+                            *COM*:0000000000000100 mMemPage
+                            *COM*:0000000000000004 mCurrentReadAddress
+                            *COM*:0000000000000004 mCurrentWriteAddress
+                            *COM*:0000000000000004 flashSPI
+                            *COM*:0000000000000001 _initialised
+     /tmp/cckIivDo.s:210    .text.OCTA_FLASH_readReg:0000000000000000 $t
+     /tmp/cckIivDo.s:217    .text.OCTA_FLASH_readReg:0000000000000000 OCTA_FLASH_readReg
+     /tmp/cckIivDo.s:291    .text.OCTA_FLASH_readReg:0000000000000054 $d
+                            *COM*:0000000000000005 txData
+                            *COM*:0000000000000001 rxData
+     /tmp/cckIivDo.s:298    .text.OCTA_FLASH_isWriteInProgress:0000000000000000 $t
+     /tmp/cckIivDo.s:305    .text.OCTA_FLASH_isWriteInProgress:0000000000000000 OCTA_FLASH_isWriteInProgress
+     /tmp/cckIivDo.s:356    .text.OCTA_FLASH_open:0000000000000000 $t
+     /tmp/cckIivDo.s:363    .text.OCTA_FLASH_open:0000000000000000 OCTA_FLASH_open
+     /tmp/cckIivDo.s:426    .text.OCTA_FLASH_open:0000000000000030 $d
+     /tmp/cckIivDo.s:433    .text.OCTA_FLASH_openConfigSector:0000000000000000 $t
+     /tmp/cckIivDo.s:440    .text.OCTA_FLASH_openConfigSector:0000000000000000 OCTA_FLASH_openConfigSector
+     /tmp/cckIivDo.s:483    .text.OCTA_FLASH_openConfigSector:0000000000000020 $d
+     /tmp/cckIivDo.s:489    .text.OCTA_FLASH_send4BCommand:0000000000000000 $t
+     /tmp/cckIivDo.s:496    .text.OCTA_FLASH_send4BCommand:0000000000000000 OCTA_FLASH_send4BCommand
+     /tmp/cckIivDo.s:584    .text.OCTA_FLASH_send4BCommand:0000000000000054 $d
+     /tmp/cckIivDo.s:590    .rodata.OCTA_FLASH_read.str1.4:0000000000000000 $d
+     /tmp/cckIivDo.s:594    .text.OCTA_FLASH_read:0000000000000000 $t
+     /tmp/cckIivDo.s:601    .text.OCTA_FLASH_read:0000000000000000 OCTA_FLASH_read
+     /tmp/cckIivDo.s:689    .text.OCTA_FLASH_read:0000000000000058 $d
+     /tmp/cckIivDo.s:696    .text.OCTA_FLASH_sendCommand:0000000000000000 $t
+     /tmp/cckIivDo.s:703    .text.OCTA_FLASH_sendCommand:0000000000000000 OCTA_FLASH_sendCommand
+     /tmp/cckIivDo.s:776    .text.OCTA_FLASH_sendCommand:0000000000000054 $d
+     /tmp/cckIivDo.s:782    .text.OCTA_FLASH_eraseFullFlash:0000000000000000 $t
+     /tmp/cckIivDo.s:789    .text.OCTA_FLASH_eraseFullFlash:0000000000000000 OCTA_FLASH_eraseFullFlash
+     /tmp/cckIivDo.s:847    .text.OCTA_FLASH_erase265KBSectorFromPage:0000000000000000 $t
+     /tmp/cckIivDo.s:854    .text.OCTA_FLASH_erase265KBSectorFromPage:0000000000000000 OCTA_FLASH_erase265KBSectorFromPage
+     /tmp/cckIivDo.s:939    .text.OCTA_FLASH_erase265KBSectorFromPage:0000000000000064 $d
+     /tmp/cckIivDo.s:945    .text.OCTA_FLASH_erase4KBSectorFromPage:0000000000000000 $t
+     /tmp/cckIivDo.s:952    .text.OCTA_FLASH_erase4KBSectorFromPage:0000000000000000 OCTA_FLASH_erase4KBSectorFromPage
+     /tmp/cckIivDo.s:1037   .text.OCTA_FLASH_erase4KBSectorFromPage:0000000000000064 $d
+     /tmp/cckIivDo.s:1043   .text.OCTA_FLASH_eraseConfigSector:0000000000000000 $t
+     /tmp/cckIivDo.s:1050   .text.OCTA_FLASH_eraseConfigSector:0000000000000000 OCTA_FLASH_eraseConfigSector
+     /tmp/cckIivDo.s:1118   .text.OCTA_FLASH_eraseConfigSector:0000000000000050 $d
+     /tmp/cckIivDo.s:1123   .text.OCTA_FLASH_flush:0000000000000000 $t
+     /tmp/cckIivDo.s:1130   .text.OCTA_FLASH_flush:0000000000000000 OCTA_FLASH_flush
+     /tmp/cckIivDo.s:1227   .text.OCTA_FLASH_flush:0000000000000084 $d
+     /tmp/cckIivDo.s:1235   .rodata.OCTA_FLASH_write.str1.4:0000000000000000 $d
+     /tmp/cckIivDo.s:1239   .text.OCTA_FLASH_write:0000000000000000 $t
+     /tmp/cckIivDo.s:1246   .text.OCTA_FLASH_write:0000000000000000 OCTA_FLASH_write
+     /tmp/cckIivDo.s:1392   .text.OCTA_FLASH_write:000000000000008c $d
+ARM GAS  /tmp/cckIivDo.s 			page 54
+
+
+     /tmp/cckIivDo.s:1401   .rodata.OCTA_FLASH_TestRW.str1.4:0000000000000000 $d
+     /tmp/cckIivDo.s:1420   .text.OCTA_FLASH_TestRW:0000000000000000 $t
+     /tmp/cckIivDo.s:1427   .text.OCTA_FLASH_TestRW:0000000000000000 OCTA_FLASH_TestRW
+     /tmp/cckIivDo.s:1730   .text.OCTA_FLASH_TestRW:0000000000000144 $d
+                            *COM*:000000000000002c P3_header
+                            *COM*:000000000000002c P2_header
+                            *COM*:000000000000002c P1_header
+                            *COM*:0000000000000001 stackversion_patch
+                            *COM*:0000000000000001 stackversion_minor
+                            *COM*:0000000000000001 stackversion_major
+                            *COM*:0000000000000001 appversion_patch
+                            *COM*:0000000000000001 appversion_minor
+                            *COM*:0000000000000001 appversion_major
+                            *COM*:0000000000000008 short_UID
+                            *COM*:0000000000000008 octa_uid
+                            *COM*:0000000000000004 float_union
+                            *COM*:0000000000000002 uint16LittleEndian
+                            *COM*:0000000000000002 int16LittleEndian
+                            *COM*:0000000000000004 uint32LittleEndian
+                            *COM*:0000000000000004 int32LittleEndian
+                            *COM*:0000000000000004 rtosprintHandle
+                            *COM*:0000000000000024 hrtc
+                            *COM*:0000000000000064 FLASH_SPI
+                            *COM*:0000000000000064 P2_SPI
+                            *COM*:0000000000000064 P1_SPI
+                            *COM*:000000000000004c P2_I2C
+                            *COM*:000000000000004c P1_I2C
+                            *COM*:000000000000004c common_I2C
+                            *COM*:0000000000000078 P2_UART
+                            *COM*:0000000000000078 P1_UART
+                            *COM*:0000000000000078 RS232_UART
+                            *COM*:0000000000000078 NBIOT_UART
+                            *COM*:0000000000000078 USB_UART
+                            *COM*:0000000000000010 hiwdg
+                            *COM*:0000000000000008 NBIOT_Reset
+                            *COM*:0000000000000008 P2_DIO6
+                            *COM*:0000000000000008 P2_DIO5
+                            *COM*:0000000000000008 P2_DIO4
+                            *COM*:0000000000000008 P2_DIO3
+                            *COM*:0000000000000008 P2_DIO2
+                            *COM*:0000000000000008 P2_DIO1
+                            *COM*:0000000000000008 P1_DIO6
+                            *COM*:0000000000000008 P1_DIO5
+                            *COM*:0000000000000008 P1_DIO4
+                            *COM*:0000000000000008 P1_DIO3
+                            *COM*:0000000000000008 P1_DIO2
+                            *COM*:0000000000000008 P1_DIO1
+                            *COM*:0000000000000040 htim6
+                            *COM*:0000000000000040 htim1
+     /tmp/cckIivDo.s:1795   .bss.rx.11730:0000000000000000 $d
+     /tmp/cckIivDo.s:1799   .bss.rx.11730:0000000000000000 rx.11730
+     /tmp/cckIivDo.s:1802   .bss.tx.11729:0000000000000000 $d
+     /tmp/cckIivDo.s:1806   .bss.tx.11729:0000000000000000 tx.11729
+
+UNDEFINED SYMBOLS
+HAL_GPIO_WritePin
+memset
+ARM GAS  /tmp/cckIivDo.s 			page 55
+
+
+printINF
+printDBG
+HAL_SPI_Transmit
+HAL_SPI_Receive
+HAL_Delay
+memcpy
+printERR

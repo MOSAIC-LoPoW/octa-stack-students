@@ -1,0 +1,140 @@
+../../../applications/examples/octa-stm-mini-example/build/Iim423xxDriver_HL_apex.o: \
+ ../../../shields/IIM423xx/src/Iim423xxDriver_HL_apex.c \
+ ../../../shields/IIM423xx/inc/Iim423xxDefs.h \
+ ../../../shields/IIM423xx/inc/Iim423xxExtFunc.h \
+ ../../../shields/IIM423xx/inc/Iim423xxDriver_HL.h \
+ ../../../shields/IIM423xx/inc/Iim423xxDefs.h \
+ ../../../shields/IIM423xx/inc/Iim423xxTransport.h \
+ ../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h \
+ ../../../core/platform/octa_stm_mini/inc/stm32l4xx_hal_conf.h \
+ ../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc.h \
+ ../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h \
+ ../../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/stm32l4xx.h \
+ ../../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/stm32l486xx.h \
+ ../../../core/ST/CMSIS/Include/core_cm4.h \
+ ../../../core/ST/CMSIS/Include/core_cmInstr.h \
+ ../../../core/ST/CMSIS/Include/cmsis_gcc.h \
+ ../../../core/ST/CMSIS/Include/core_cmFunc.h \
+ ../../../core/ST/CMSIS/Include/core_cmSimd.h \
+ ../../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/system_stm32l4xx.h \
+ ../../../core/ST/STM32L4xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h \
+ ../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc_ex.h \
+ ../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc_ex.h \
+ ../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_gpio.h \
+ ../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_gpio_ex.h \
+ ../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_dma.h \
+ ../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_dma_ex.h \
+ ../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_cortex.h \
+ ../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_flash.h \
+ ../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_flash_ex.h \
+ ../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_flash_ramfunc.h \
+ ../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_i2c.h \
+ ../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_i2c_ex.h \
+ ../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_iwdg.h \
+ ../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_lptim.h \
+ ../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_pwr.h \
+ ../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_pwr_ex.h \
+ ../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rtc.h \
+ ../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rtc_ex.h \
+ ../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_spi.h \
+ ../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_spi_ex.h \
+ ../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_tim.h \
+ ../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_tim_ex.h \
+ ../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h \
+ ../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart_ex.h \
+ ../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_usart.h \
+ ../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_usart_ex.h \
+ ../../../shields/IIM423xx/inc/InvError.h \
+ ../../../shields/IIM423xx/inc/Iim423xxDriver_HL_apex.h
+
+../../../shields/IIM423xx/inc/Iim423xxDefs.h:
+
+../../../shields/IIM423xx/inc/Iim423xxExtFunc.h:
+
+../../../shields/IIM423xx/inc/Iim423xxDriver_HL.h:
+
+../../../shields/IIM423xx/inc/Iim423xxDefs.h:
+
+../../../shields/IIM423xx/inc/Iim423xxTransport.h:
+
+../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h:
+
+../../../core/platform/octa_stm_mini/inc/stm32l4xx_hal_conf.h:
+
+../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc.h:
+
+../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h:
+
+../../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/stm32l4xx.h:
+
+../../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/stm32l486xx.h:
+
+../../../core/ST/CMSIS/Include/core_cm4.h:
+
+../../../core/ST/CMSIS/Include/core_cmInstr.h:
+
+../../../core/ST/CMSIS/Include/cmsis_gcc.h:
+
+../../../core/ST/CMSIS/Include/core_cmFunc.h:
+
+../../../core/ST/CMSIS/Include/core_cmSimd.h:
+
+../../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/system_stm32l4xx.h:
+
+../../../core/ST/STM32L4xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h:
+
+../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc_ex.h:
+
+../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc_ex.h:
+
+../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_gpio.h:
+
+../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_gpio_ex.h:
+
+../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_dma.h:
+
+../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_dma_ex.h:
+
+../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_cortex.h:
+
+../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_flash.h:
+
+../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_flash_ex.h:
+
+../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_flash_ramfunc.h:
+
+../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_i2c.h:
+
+../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_i2c_ex.h:
+
+../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_iwdg.h:
+
+../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_lptim.h:
+
+../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_pwr.h:
+
+../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_pwr_ex.h:
+
+../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rtc.h:
+
+../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rtc_ex.h:
+
+../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_spi.h:
+
+../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_spi_ex.h:
+
+../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_tim.h:
+
+../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_tim_ex.h:
+
+../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h:
+
+../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart_ex.h:
+
+../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_usart.h:
+
+../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_usart_ex.h:
+
+../../../shields/IIM423xx/inc/InvError.h:
+
+../../../shields/IIM423xx/inc/Iim423xxDriver_HL_apex.h:

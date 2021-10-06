@@ -1,0 +1,511 @@
+ARM GAS  /tmp/ccNmYsP2.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 28, 1
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.file	"sysclock.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.text.SystemClock_Config,"ax",%progbits
+  18              		.align	1
+  19              		.weak	SystemClock_Config
+  20              		.arch armv7e-m
+  21              		.syntax unified
+  22              		.thumb
+  23              		.thumb_func
+  24              		.fpu fpv4-sp-d16
+  26              	SystemClock_Config:
+  27              	.LFB131:
+  28              		.file 1 "../../../core/platform/octa/src/sysclock.c"
+   1:../../../core/platform/octa/src/sysclock.c **** #include "sysclock.h"
+   2:../../../core/platform/octa/src/sysclock.c **** #include "platform.h"
+   3:../../../core/platform/octa/src/sysclock.c **** 
+   4:../../../core/platform/octa/src/sysclock.c **** __weak void SystemClock_Config(void)
+   5:../../../core/platform/octa/src/sysclock.c **** {
+  29              		.loc 1 5 1 view -0
+  30              		.cfi_startproc
+  31              		@ args = 0, pretend = 0, frame = 232
+  32              		@ frame_needed = 0, uses_anonymous_args = 0
+  33 0000 00B5     		push	{lr}
+  34              	.LCFI0:
+  35              		.cfi_def_cfa_offset 4
+  36              		.cfi_offset 14, -4
+  37 0002 BBB0     		sub	sp, sp, #236
+  38              	.LCFI1:
+  39              		.cfi_def_cfa_offset 240
+   6:../../../core/platform/octa/src/sysclock.c ****   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
+  40              		.loc 1 6 3 view .LVU1
+  41              		.loc 1 6 22 is_stmt 0 view .LVU2
+  42 0004 2422     		movs	r2, #36
+  43 0006 0021     		movs	r1, #0
+  44 0008 2AA8     		add	r0, sp, #168
+  45 000a FFF7FEFF 		bl	memset
+  46              	.LVL0:
+   7:../../../core/platform/octa/src/sysclock.c ****   RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
+  47              		.loc 1 7 3 is_stmt 1 view .LVU3
+  48              		.loc 1 7 22 is_stmt 0 view .LVU4
+  49 000e 0021     		movs	r1, #0
+  50 0010 2491     		str	r1, [sp, #144]
+  51 0012 2591     		str	r1, [sp, #148]
+ARM GAS  /tmp/ccNmYsP2.s 			page 2
+
+
+  52 0014 2691     		str	r1, [sp, #152]
+  53 0016 2791     		str	r1, [sp, #156]
+  54 0018 2891     		str	r1, [sp, #160]
+   8:../../../core/platform/octa/src/sysclock.c ****   RCC_PeriphCLKInitTypeDef PeriphClkInit = {0};
+  55              		.loc 1 8 3 is_stmt 1 view .LVU5
+  56              		.loc 1 8 28 is_stmt 0 view .LVU6
+  57 001a 8C22     		movs	r2, #140
+  58 001c 01A8     		add	r0, sp, #4
+  59 001e FFF7FEFF 		bl	memset
+  60              	.LVL1:
+   9:../../../core/platform/octa/src/sysclock.c **** 
+  10:../../../core/platform/octa/src/sysclock.c ****   #if LOW_POWER
+  11:../../../core/platform/octa/src/sysclock.c ****     // 8 MHz
+  12:../../../core/platform/octa/src/sysclock.c ****     RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_LSI|RCC_OSCILLATORTYPE_MSI;
+  13:../../../core/platform/octa/src/sysclock.c ****     RCC_OscInitStruct.LSIState = RCC_LSI_ON;
+  14:../../../core/platform/octa/src/sysclock.c ****     RCC_OscInitStruct.MSIState = RCC_MSI_ON;
+  15:../../../core/platform/octa/src/sysclock.c ****     RCC_OscInitStruct.MSICalibrationValue = 0;
+  16:../../../core/platform/octa/src/sysclock.c ****     RCC_OscInitStruct.MSIClockRange = RCC_MSIRANGE_6;
+  17:../../../core/platform/octa/src/sysclock.c ****     RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
+  18:../../../core/platform/octa/src/sysclock.c ****     RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_MSI;
+  19:../../../core/platform/octa/src/sysclock.c ****     RCC_OscInitStruct.PLL.PLLM = 1;
+  20:../../../core/platform/octa/src/sysclock.c ****     RCC_OscInitStruct.PLL.PLLN = 16;
+  21:../../../core/platform/octa/src/sysclock.c ****     RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV2;
+  22:../../../core/platform/octa/src/sysclock.c ****     RCC_OscInitStruct.PLL.PLLQ = RCC_PLLQ_DIV2;
+  23:../../../core/platform/octa/src/sysclock.c ****     RCC_OscInitStruct.PLL.PLLR = RCC_PLLR_DIV8;
+  24:../../../core/platform/octa/src/sysclock.c ****     if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
+  25:../../../core/platform/octa/src/sysclock.c ****     {
+  26:../../../core/platform/octa/src/sysclock.c ****       Error_Handler();
+  27:../../../core/platform/octa/src/sysclock.c ****     }
+  28:../../../core/platform/octa/src/sysclock.c ****     /**Initializes the CPU, AHB and APB busses clocks 
+  29:../../../core/platform/octa/src/sysclock.c ****     */
+  30:../../../core/platform/octa/src/sysclock.c ****     RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
+  31:../../../core/platform/octa/src/sysclock.c ****                                 |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
+  32:../../../core/platform/octa/src/sysclock.c ****     RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
+  33:../../../core/platform/octa/src/sysclock.c ****     RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV2;
+  34:../../../core/platform/octa/src/sysclock.c ****     RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
+  35:../../../core/platform/octa/src/sysclock.c ****     RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
+  36:../../../core/platform/octa/src/sysclock.c ****   #else 
+  37:../../../core/platform/octa/src/sysclock.c ****     /**Initializes the CPU, AHB and APB busses clocks 
+  38:../../../core/platform/octa/src/sysclock.c ****     */
+  39:../../../core/platform/octa/src/sysclock.c ****     RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_LSI|RCC_OSCILLATORTYPE_MSI|RCC_OSCILLATOR
+  61              		.loc 1 39 5 is_stmt 1 view .LVU7
+  62              		.loc 1 39 38 is_stmt 0 view .LVU8
+  63 0022 1C23     		movs	r3, #28
+  64 0024 2993     		str	r3, [sp, #164]
+  40:../../../core/platform/octa/src/sysclock.c ****     RCC_OscInitStruct.LSIState = RCC_LSI_ON;
+  65              		.loc 1 40 5 is_stmt 1 view .LVU9
+  66              		.loc 1 40 32 is_stmt 0 view .LVU10
+  67 0026 0123     		movs	r3, #1
+  68 0028 2E93     		str	r3, [sp, #184]
+  41:../../../core/platform/octa/src/sysclock.c ****     RCC_OscInitStruct.MSIState = RCC_MSI_ON;
+  69              		.loc 1 41 5 is_stmt 1 view .LVU11
+  70              		.loc 1 41 32 is_stmt 0 view .LVU12
+  71 002a 2F93     		str	r3, [sp, #188]
+  42:../../../core/platform/octa/src/sysclock.c ****     RCC_OscInitStruct.LSEState = RCC_LSE_ON;
+  72              		.loc 1 42 5 is_stmt 1 view .LVU13
+  73              		.loc 1 42 32 is_stmt 0 view .LVU14
+ARM GAS  /tmp/ccNmYsP2.s 			page 3
+
+
+  74 002c 2B93     		str	r3, [sp, #172]
+  43:../../../core/platform/octa/src/sysclock.c ****     RCC_OscInitStruct.MSICalibrationValue = 0;
+  75              		.loc 1 43 5 is_stmt 1 view .LVU15
+  44:../../../core/platform/octa/src/sysclock.c ****     RCC_OscInitStruct.MSIClockRange = RCC_MSIRANGE_9;
+  76              		.loc 1 44 5 view .LVU16
+  77              		.loc 1 44 37 is_stmt 0 view .LVU17
+  78 002e 9022     		movs	r2, #144
+  79 0030 3192     		str	r2, [sp, #196]
+  45:../../../core/platform/octa/src/sysclock.c ****     RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
+  80              		.loc 1 45 5 is_stmt 1 view .LVU18
+  81              		.loc 1 45 36 is_stmt 0 view .LVU19
+  82 0032 0222     		movs	r2, #2
+  83 0034 3392     		str	r2, [sp, #204]
+  46:../../../core/platform/octa/src/sysclock.c ****     RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_MSI;
+  84              		.loc 1 46 5 is_stmt 1 view .LVU20
+  85              		.loc 1 46 37 is_stmt 0 view .LVU21
+  86 0036 3493     		str	r3, [sp, #208]
+  47:../../../core/platform/octa/src/sysclock.c ****     RCC_OscInitStruct.PLL.PLLM = 5;
+  87              		.loc 1 47 5 is_stmt 1 view .LVU22
+  88              		.loc 1 47 32 is_stmt 0 view .LVU23
+  89 0038 0523     		movs	r3, #5
+  90 003a 3593     		str	r3, [sp, #212]
+  48:../../../core/platform/octa/src/sysclock.c ****     RCC_OscInitStruct.PLL.PLLN = 71;
+  91              		.loc 1 48 5 is_stmt 1 view .LVU24
+  92              		.loc 1 48 32 is_stmt 0 view .LVU25
+  93 003c 4723     		movs	r3, #71
+  94 003e 3693     		str	r3, [sp, #216]
+  49:../../../core/platform/octa/src/sysclock.c ****     RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV2;
+  95              		.loc 1 49 5 is_stmt 1 view .LVU26
+  96              		.loc 1 49 32 is_stmt 0 view .LVU27
+  97 0040 3792     		str	r2, [sp, #220]
+  50:../../../core/platform/octa/src/sysclock.c ****     RCC_OscInitStruct.PLL.PLLQ = RCC_PLLQ_DIV2;
+  98              		.loc 1 50 5 is_stmt 1 view .LVU28
+  99              		.loc 1 50 32 is_stmt 0 view .LVU29
+ 100 0042 3892     		str	r2, [sp, #224]
+  51:../../../core/platform/octa/src/sysclock.c ****     RCC_OscInitStruct.PLL.PLLR = RCC_PLLR_DIV6;
+ 101              		.loc 1 51 5 is_stmt 1 view .LVU30
+ 102              		.loc 1 51 32 is_stmt 0 view .LVU31
+ 103 0044 0623     		movs	r3, #6
+ 104 0046 3993     		str	r3, [sp, #228]
+  52:../../../core/platform/octa/src/sysclock.c ****     if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
+ 105              		.loc 1 52 5 is_stmt 1 view .LVU32
+ 106              		.loc 1 52 9 is_stmt 0 view .LVU33
+ 107 0048 29A8     		add	r0, sp, #164
+ 108 004a FFF7FEFF 		bl	HAL_RCC_OscConfig
+ 109              	.LVL2:
+ 110              		.loc 1 52 8 view .LVU34
+ 111 004e 40BB     		cbnz	r0, .L7
+ 112              	.L2:
+  53:../../../core/platform/octa/src/sysclock.c ****     {
+  54:../../../core/platform/octa/src/sysclock.c ****       Error_Handler();
+  55:../../../core/platform/octa/src/sysclock.c ****     }
+  56:../../../core/platform/octa/src/sysclock.c ****     /**Initializes the CPU, AHB and APB busses clocks 
+  57:../../../core/platform/octa/src/sysclock.c ****     */
+  58:../../../core/platform/octa/src/sysclock.c ****     RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
+ 113              		.loc 1 58 5 is_stmt 1 view .LVU35
+ 114              		.loc 1 58 33 is_stmt 0 view .LVU36
+ARM GAS  /tmp/ccNmYsP2.s 			page 4
+
+
+ 115 0050 0F23     		movs	r3, #15
+ 116 0052 2493     		str	r3, [sp, #144]
+  59:../../../core/platform/octa/src/sysclock.c ****                                 |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
+  60:../../../core/platform/octa/src/sysclock.c ****     RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
+ 117              		.loc 1 60 5 is_stmt 1 view .LVU37
+ 118              		.loc 1 60 36 is_stmt 0 view .LVU38
+ 119 0054 0323     		movs	r3, #3
+ 120 0056 2593     		str	r3, [sp, #148]
+  61:../../../core/platform/octa/src/sysclock.c ****     RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV4;
+ 121              		.loc 1 61 5 is_stmt 1 view .LVU39
+ 122              		.loc 1 61 37 is_stmt 0 view .LVU40
+ 123 0058 9023     		movs	r3, #144
+ 124 005a 2693     		str	r3, [sp, #152]
+  62:../../../core/platform/octa/src/sysclock.c ****     RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
+ 125              		.loc 1 62 5 is_stmt 1 view .LVU41
+ 126              		.loc 1 62 38 is_stmt 0 view .LVU42
+ 127 005c 4FF48063 		mov	r3, #1024
+ 128 0060 2793     		str	r3, [sp, #156]
+  63:../../../core/platform/octa/src/sysclock.c ****     RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
+ 129              		.loc 1 63 5 is_stmt 1 view .LVU43
+ 130              		.loc 1 63 38 is_stmt 0 view .LVU44
+ 131 0062 0021     		movs	r1, #0
+ 132 0064 2891     		str	r1, [sp, #160]
+  64:../../../core/platform/octa/src/sysclock.c ****   #endif
+  65:../../../core/platform/octa/src/sysclock.c ****   
+  66:../../../core/platform/octa/src/sysclock.c ****   if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_0) != HAL_OK)
+ 133              		.loc 1 66 3 is_stmt 1 view .LVU45
+ 134              		.loc 1 66 7 is_stmt 0 view .LVU46
+ 135 0066 24A8     		add	r0, sp, #144
+ 136 0068 FFF7FEFF 		bl	HAL_RCC_ClockConfig
+ 137              	.LVL3:
+ 138              		.loc 1 66 6 view .LVU47
+ 139 006c E0B9     		cbnz	r0, .L8
+ 140              	.L3:
+  67:../../../core/platform/octa/src/sysclock.c ****   {
+  68:../../../core/platform/octa/src/sysclock.c ****     Error_Handler();
+  69:../../../core/platform/octa/src/sysclock.c ****   }
+  70:../../../core/platform/octa/src/sysclock.c ****   PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_USART2|RCC_PERIPHCLK_USART3
+ 141              		.loc 1 70 3 is_stmt 1 view .LVU48
+ 142              		.loc 1 70 38 is_stmt 0 view .LVU49
+ 143 006e 134B     		ldr	r3, .L11
+ 144 0070 0193     		str	r3, [sp, #4]
+  71:../../../core/platform/octa/src/sysclock.c ****                               |RCC_PERIPHCLK_UART5|RCC_PERIPHCLK_LPUART1
+  72:../../../core/platform/octa/src/sysclock.c ****                               |RCC_PERIPHCLK_I2C1|RCC_PERIPHCLK_I2C2
+  73:../../../core/platform/octa/src/sysclock.c ****                               |RCC_PERIPHCLK_I2C3|RCC_PERIPHCLK_I2C4|RCC_PERIPHCLK_RTC;
+  74:../../../core/platform/octa/src/sysclock.c ****   PeriphClkInit.Usart2ClockSelection = RCC_USART2CLKSOURCE_PCLK1;
+ 145              		.loc 1 74 3 is_stmt 1 view .LVU50
+ 146              		.loc 1 74 38 is_stmt 0 view .LVU51
+ 147 0072 0023     		movs	r3, #0
+ 148 0074 1093     		str	r3, [sp, #64]
+  75:../../../core/platform/octa/src/sysclock.c ****   PeriphClkInit.Usart3ClockSelection = RCC_USART3CLKSOURCE_PCLK1;
+ 149              		.loc 1 75 3 is_stmt 1 view .LVU52
+ 150              		.loc 1 75 38 is_stmt 0 view .LVU53
+ 151 0076 1193     		str	r3, [sp, #68]
+  76:../../../core/platform/octa/src/sysclock.c ****   PeriphClkInit.Uart5ClockSelection = RCC_UART5CLKSOURCE_PCLK1;
+ 152              		.loc 1 76 3 is_stmt 1 view .LVU54
+ 153              		.loc 1 76 37 is_stmt 0 view .LVU55
+ARM GAS  /tmp/ccNmYsP2.s 			page 5
+
+
+ 154 0078 1393     		str	r3, [sp, #76]
+  77:../../../core/platform/octa/src/sysclock.c ****   PeriphClkInit.Lpuart1ClockSelection = RCC_LPUART1CLKSOURCE_PCLK1;
+ 155              		.loc 1 77 3 is_stmt 1 view .LVU56
+ 156              		.loc 1 77 39 is_stmt 0 view .LVU57
+ 157 007a 1493     		str	r3, [sp, #80]
+  78:../../../core/platform/octa/src/sysclock.c ****   PeriphClkInit.I2c1ClockSelection = RCC_I2C1CLKSOURCE_PCLK1;
+ 158              		.loc 1 78 3 is_stmt 1 view .LVU58
+ 159              		.loc 1 78 36 is_stmt 0 view .LVU59
+ 160 007c 1593     		str	r3, [sp, #84]
+  79:../../../core/platform/octa/src/sysclock.c ****   PeriphClkInit.I2c2ClockSelection = RCC_I2C2CLKSOURCE_PCLK1;
+ 161              		.loc 1 79 3 is_stmt 1 view .LVU60
+ 162              		.loc 1 79 36 is_stmt 0 view .LVU61
+ 163 007e 1693     		str	r3, [sp, #88]
+  80:../../../core/platform/octa/src/sysclock.c ****   PeriphClkInit.I2c3ClockSelection = RCC_I2C3CLKSOURCE_PCLK1;
+ 164              		.loc 1 80 3 is_stmt 1 view .LVU62
+ 165              		.loc 1 80 36 is_stmt 0 view .LVU63
+ 166 0080 1793     		str	r3, [sp, #92]
+  81:../../../core/platform/octa/src/sysclock.c ****   PeriphClkInit.I2c4ClockSelection = RCC_I2C4CLKSOURCE_PCLK1;
+ 167              		.loc 1 81 3 is_stmt 1 view .LVU64
+ 168              		.loc 1 81 36 is_stmt 0 view .LVU65
+ 169 0082 1893     		str	r3, [sp, #96]
+  82:../../../core/platform/octa/src/sysclock.c ****   PeriphClkInit.RTCClockSelection =  RCC_RTCCLKSOURCE_LSE;
+ 170              		.loc 1 82 3 is_stmt 1 view .LVU66
+ 171              		.loc 1 82 35 is_stmt 0 view .LVU67
+ 172 0084 4FF48073 		mov	r3, #256
+ 173 0088 2393     		str	r3, [sp, #140]
+  83:../../../core/platform/octa/src/sysclock.c ****   if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)
+ 174              		.loc 1 83 3 is_stmt 1 view .LVU68
+ 175              		.loc 1 83 7 is_stmt 0 view .LVU69
+ 176 008a 01A8     		add	r0, sp, #4
+ 177 008c FFF7FEFF 		bl	HAL_RCCEx_PeriphCLKConfig
+ 178              	.LVL4:
+ 179              		.loc 1 83 6 view .LVU70
+ 180 0090 68B9     		cbnz	r0, .L9
+ 181              	.L4:
+  84:../../../core/platform/octa/src/sysclock.c ****   {
+  85:../../../core/platform/octa/src/sysclock.c ****     Error_Handler();
+  86:../../../core/platform/octa/src/sysclock.c ****   }
+  87:../../../core/platform/octa/src/sysclock.c ****   /**Configure the main internal regulator output voltage 
+  88:../../../core/platform/octa/src/sysclock.c ****   */
+  89:../../../core/platform/octa/src/sysclock.c ****   if (HAL_PWREx_ControlVoltageScaling(PWR_REGULATOR_VOLTAGE_SCALE1) != HAL_OK)
+ 182              		.loc 1 89 3 is_stmt 1 view .LVU71
+ 183              		.loc 1 89 7 is_stmt 0 view .LVU72
+ 184 0092 4FF40070 		mov	r0, #512
+ 185 0096 FFF7FEFF 		bl	HAL_PWREx_ControlVoltageScaling
+ 186              	.LVL5:
+ 187              		.loc 1 89 6 view .LVU73
+ 188 009a 58B9     		cbnz	r0, .L10
+ 189              	.L1:
+  90:../../../core/platform/octa/src/sysclock.c ****   {
+  91:../../../core/platform/octa/src/sysclock.c ****     Error_Handler();
+  92:../../../core/platform/octa/src/sysclock.c ****   } 
+  93:../../../core/platform/octa/src/sysclock.c **** }...
+ 190              		.loc 1 93 1 view .LVU74
+ 191 009c 3BB0     		add	sp, sp, #236
+ 192              	.LCFI2:
+ 193              		.cfi_remember_state
+ARM GAS  /tmp/ccNmYsP2.s 			page 6
+
+
+ 194              		.cfi_def_cfa_offset 4
+ 195              		@ sp needed
+ 196 009e 5DF804FB 		ldr	pc, [sp], #4
+ 197              	.L7:
+ 198              	.LCFI3:
+ 199              		.cfi_restore_state
+  54:../../../core/platform/octa/src/sysclock.c ****       Error_Handler();
+ 200              		.loc 1 54 7 is_stmt 1 view .LVU75
+ 201 00a2 FFF7FEFF 		bl	Error_Handler
+ 202              	.LVL6:
+ 203 00a6 D3E7     		b	.L2
+ 204              	.L8:
+  68:../../../core/platform/octa/src/sysclock.c ****     Error_Handler();
+ 205              		.loc 1 68 5 view .LVU76
+ 206 00a8 FFF7FEFF 		bl	Error_Handler
+ 207              	.LVL7:
+ 208 00ac DFE7     		b	.L3
+ 209              	.L9:
+  85:../../../core/platform/octa/src/sysclock.c ****     Error_Handler();
+ 210              		.loc 1 85 5 view .LVU77
+ 211 00ae FFF7FEFF 		bl	Error_Handler
+ 212              	.LVL8:
+ 213 00b2 EEE7     		b	.L4
+ 214              	.L10:
+  91:../../../core/platform/octa/src/sysclock.c ****     Error_Handler();
+ 215              		.loc 1 91 5 view .LVU78
+ 216 00b4 FFF7FEFF 		bl	Error_Handler
+ 217              	.LVL9:
+ 218              		.loc 1 93 1 is_stmt 0 view .LVU79
+ 219 00b8 F0E7     		b	.L1
+ 220              	.L12:
+ 221 00ba 00BF     		.align	2
+ 222              	.L11:
+ 223 00bc F6011200 		.word	1180150
+ 224              		.cfi_endproc
+ 225              	.LFE131:
+ 227              		.comm	P3_header,44,4
+ 228              		.comm	P2_header,44,4
+ 229              		.comm	P1_header,44,4
+ 230              		.comm	stackversion_patch,1,1
+ 231              		.comm	stackversion_minor,1,1
+ 232              		.comm	stackversion_major,1,1
+ 233              		.comm	appversion_patch,1,1
+ 234              		.comm	appversion_minor,1,1
+ 235              		.comm	appversion_major,1,1
+ 236              		.comm	short_UID,8,8
+ 237              		.comm	hard_reset,1,1
+ 238              		.comm	wd_reset,1,1
+ 239              		.comm	octa_uid,8,8
+ 240              		.comm	float_union,4,4
+ 241              		.comm	uint16LittleEndian,2,4
+ 242              		.comm	int16LittleEndian,2,4
+ 243              		.comm	uint32LittleEndian,4,4
+ 244              		.comm	int32LittleEndian,4,4
+ 245              		.comm	rtosprintHandle,4,4
+ 246              		.comm	hrtc,36,4
+ 247              		.comm	FLASH_SPI,100,4
+ARM GAS  /tmp/ccNmYsP2.s 			page 7
+
+
+ 248              		.comm	P3_SPI,100,4
+ 249              		.comm	P2_SPI,100,4
+ 250              		.comm	P1_SPI,100,4
+ 251              		.comm	P3_I2C,76,4
+ 252              		.comm	P2_I2C,76,4
+ 253              		.comm	P1_I2C,76,4
+ 254              		.comm	common_I2C,76,4
+ 255              		.comm	P3_UART,120,4
+ 256              		.comm	P2_UART,120,4
+ 257              		.comm	P1_UART,120,4
+ 258              		.comm	FTDI_UART,120,4
+ 259              		.comm	BLE_UART,120,4
+ 260              		.comm	USB_UART,120,4
+ 261              		.comm	hiwdg,16,4
+ 262              		.comm	P3_DIO6,8,4
+ 263              		.comm	P3_DIO5,8,4
+ 264              		.comm	P3_DIO4,8,4
+ 265              		.comm	P3_DIO3,8,4
+ 266              		.comm	P3_DIO2,8,4
+ 267              		.comm	P3_DIO1,8,4
+ 268              		.comm	P2_DIO6,8,4
+ 269              		.comm	P2_DIO5,8,4
+ 270              		.comm	P2_DIO4,8,4
+ 271              		.comm	P2_DIO3,8,4
+ 272              		.comm	P2_DIO2,8,4
+ 273              		.comm	P2_DIO1,8,4
+ 274              		.comm	P1_DIO6,8,4
+ 275              		.comm	P1_DIO5,8,4
+ 276              		.comm	P1_DIO4,8,4
+ 277              		.comm	P1_DIO3,8,4
+ 278              		.comm	P1_DIO2,8,4
+ 279              		.comm	P1_DIO1,8,4
+ 280              		.comm	htim6,64,4
+ 281              		.comm	htim1,64,4
+ 282              		.text
+ 283              	.Letext0:
+ 284              		.file 2 "/usr/arm-none-eabi/include/machine/_default_types.h"
+ 285              		.file 3 "/usr/arm-none-eabi/include/sys/_stdint.h"
+ 286              		.file 4 "../../../core/ST/CMSIS/Include/core_cm4.h"
+ 287              		.file 5 "../../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/system_stm32l4xx.h"
+ 288              		.file 6 "../../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/stm32l496xx.h"
+ 289              		.file 7 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h"
+ 290              		.file 8 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc.h"
+ 291              		.file 9 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc_ex.h"
+ 292              		.file 10 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_dma.h"
+ 293              		.file 11 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_i2c.h"
+ 294              		.file 12 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_iwdg.h"
+ 295              		.file 13 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rtc.h"
+ 296              		.file 14 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_spi.h"
+ 297              		.file 15 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_tim.h"
+ 298              		.file 16 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h"
+ 299              		.file 17 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h"
+ 300              		.file 18 "../../../core/platform/octa/inc/sysclock.h"
+ 301              		.file 19 "../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/include/task.h"
+ 302              		.file 20 "../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h"
+ 303              		.file 21 "../../../core/platform/octa/inc/gpio.h"
+ 304              		.file 22 "../../../core/platform/octa/inc/iwdg.h"
+ARM GAS  /tmp/ccNmYsP2.s 			page 8
+
+
+ 305              		.file 23 "../../../core/platform/octa/inc/uart.h"
+ 306              		.file 24 "../../../core/platform/octa/inc/i2c.h"
+ 307              		.file 25 "../../../core/platform/octa/inc/spi.h"
+ 308              		.file 26 "../../../core/platform/octa/inc/rtc.h"
+ 309              		.file 27 "../../../core/platform/octa/inc/rtosincludes.h"
+ 310              		.file 28 "/usr/arm-none-eabi/include/sys/lock.h"
+ 311              		.file 29 "/usr/arm-none-eabi/include/sys/_types.h"
+ 312              		.file 30 "/usr/lib/gcc/arm-none-eabi/9.2.1/include/stddef.h"
+ 313              		.file 31 "/usr/arm-none-eabi/include/sys/reent.h"
+ 314              		.file 32 "../../../core/platform/common/inc/datatypes.h"
+ 315              		.file 33 "../../../core/platform/octa/inc/platform.h"
+ 316              		.file 34 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_pwr_ex.h"
+ 317              		.file 35 "../../../core/platform/common/inc/error.h"
+ 318              		.file 36 "<built-in>"
+ARM GAS  /tmp/ccNmYsP2.s 			page 9
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 sysclock.c
+     /tmp/ccNmYsP2.s:18     .text.SystemClock_Config:0000000000000000 $t
+     /tmp/ccNmYsP2.s:26     .text.SystemClock_Config:0000000000000000 SystemClock_Config
+     /tmp/ccNmYsP2.s:223    .text.SystemClock_Config:00000000000000bc $d
+                            *COM*:000000000000002c P3_header
+                            *COM*:000000000000002c P2_header
+                            *COM*:000000000000002c P1_header
+                            *COM*:0000000000000001 stackversion_patch
+                            *COM*:0000000000000001 stackversion_minor
+                            *COM*:0000000000000001 stackversion_major
+                            *COM*:0000000000000001 appversion_patch
+                            *COM*:0000000000000001 appversion_minor
+                            *COM*:0000000000000001 appversion_major
+                            *COM*:0000000000000008 short_UID
+                            *COM*:0000000000000001 hard_reset
+                            *COM*:0000000000000001 wd_reset
+                            *COM*:0000000000000008 octa_uid
+                            *COM*:0000000000000004 float_union
+                            *COM*:0000000000000002 uint16LittleEndian
+                            *COM*:0000000000000002 int16LittleEndian
+                            *COM*:0000000000000004 uint32LittleEndian
+                            *COM*:0000000000000004 int32LittleEndian
+                            *COM*:0000000000000004 rtosprintHandle
+                            *COM*:0000000000000024 hrtc
+                            *COM*:0000000000000064 FLASH_SPI
+                            *COM*:0000000000000064 P3_SPI
+                            *COM*:0000000000000064 P2_SPI
+                            *COM*:0000000000000064 P1_SPI
+                            *COM*:000000000000004c P3_I2C
+                            *COM*:000000000000004c P2_I2C
+                            *COM*:000000000000004c P1_I2C
+                            *COM*:000000000000004c common_I2C
+                            *COM*:0000000000000078 P3_UART
+                            *COM*:0000000000000078 P2_UART
+                            *COM*:0000000000000078 P1_UART
+                            *COM*:0000000000000078 FTDI_UART
+                            *COM*:0000000000000078 BLE_UART
+                            *COM*:0000000000000078 USB_UART
+                            *COM*:0000000000000010 hiwdg
+                            *COM*:0000000000000008 P3_DIO6
+                            *COM*:0000000000000008 P3_DIO5
+                            *COM*:0000000000000008 P3_DIO4
+                            *COM*:0000000000000008 P3_DIO3
+                            *COM*:0000000000000008 P3_DIO2
+                            *COM*:0000000000000008 P3_DIO1
+                            *COM*:0000000000000008 P2_DIO6
+                            *COM*:0000000000000008 P2_DIO5
+                            *COM*:0000000000000008 P2_DIO4
+                            *COM*:0000000000000008 P2_DIO3
+                            *COM*:0000000000000008 P2_DIO2
+                            *COM*:0000000000000008 P2_DIO1
+                            *COM*:0000000000000008 P1_DIO6
+                            *COM*:0000000000000008 P1_DIO5
+                            *COM*:0000000000000008 P1_DIO4
+                            *COM*:0000000000000008 P1_DIO3
+                            *COM*:0000000000000008 P1_DIO2
+ARM GAS  /tmp/ccNmYsP2.s 			page 10
+
+
+                            *COM*:0000000000000008 P1_DIO1
+                            *COM*:0000000000000040 htim6
+                            *COM*:0000000000000040 htim1
+
+UNDEFINED SYMBOLS
+memset
+HAL_RCC_OscConfig
+HAL_RCC_ClockConfig
+HAL_RCCEx_PeriphCLKConfig
+HAL_PWREx_ControlVoltageScaling
+Error_Handler

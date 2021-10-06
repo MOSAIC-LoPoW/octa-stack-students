@@ -1,0 +1,2996 @@
+ARM GAS  /tmp/cciMkFzD.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 28, 1
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.file	"scd30.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.rodata.scd30_Initialize.str1.4,"aMS",%progbits,1
+  18              		.align	2
+  19              	.LC0:
+  20 0000 2A2A2A49 		.ascii	"***Initializing SCD30 CO2 driver***\015\012\000"
+  20      6E697469 
+  20      616C697A 
+  20      696E6720 
+  20      53434433 
+  21 0026 0000     		.align	2
+  22              	.LC1:
+  23 0028 496E7661 		.ascii	"Invalid SCD30_CONNECTOR provided in Makefile\015\012"
+  23      6C696420 
+  23      53434433 
+  23      305F434F 
+  23      4E4E4543 
+  24 0056 00       		.ascii	"\000"
+  25 0057 00       		.align	2
+  26              	.LC2:
+  27 0058 53434433 		.ascii	"SCD30 on P%d, initializing I2C\015\012\000"
+  27      30206F6E 
+  27      20502564 
+  27      2C20696E 
+  27      69746961 
+  28              		.section	.text.scd30_Initialize,"ax",%progbits
+  29              		.align	1
+  30              		.global	scd30_Initialize
+  31              		.arch armv7e-m
+  32              		.syntax unified
+  33              		.thumb
+  34              		.thumb_func
+  35              		.fpu fpv4-sp-d16
+  37              	scd30_Initialize:
+  38              	.LFB131:
+  39              		.file 1 "../../shields/SCD30/src/scd30.c"
+   1:../../shields/SCD30/src/scd30.c **** /*
+   2:../../shields/SCD30/src/scd30.c ****  * Copyright (c) 2018, Sensirion AG
+   3:../../shields/SCD30/src/scd30.c ****  * All rights reserved.
+   4:../../shields/SCD30/src/scd30.c ****  *
+   5:../../shields/SCD30/src/scd30.c ****  * Redistribution and use in source and binary forms, with or without
+   6:../../shields/SCD30/src/scd30.c ****  * modification, are permitted provided that the following conditions are met:
+   7:../../shields/SCD30/src/scd30.c ****  *
+ARM GAS  /tmp/cciMkFzD.s 			page 2
+
+
+   8:../../shields/SCD30/src/scd30.c ****  * * Redistributions of source code must retain the above copyright notice, this
+   9:../../shields/SCD30/src/scd30.c ****  *   list of conditions and the following disclaimer.
+  10:../../shields/SCD30/src/scd30.c ****  *
+  11:../../shields/SCD30/src/scd30.c ****  * * Redistributions in binary form must reproduce the above copyright notice,
+  12:../../shields/SCD30/src/scd30.c ****  *   this list of conditions and the following disclaimer in the documentation
+  13:../../shields/SCD30/src/scd30.c ****  *   and/or other materials provided with the distribution.
+  14:../../shields/SCD30/src/scd30.c ****  *
+  15:../../shields/SCD30/src/scd30.c ****  * * Neither the name of Sensirion AG nor the names of its
+  16:../../shields/SCD30/src/scd30.c ****  *   contributors may be used to endorse or promote products derived from
+  17:../../shields/SCD30/src/scd30.c ****  *   this software without specific prior written permission.
+  18:../../shields/SCD30/src/scd30.c ****  *
+  19:../../shields/SCD30/src/scd30.c ****  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+  20:../../shields/SCD30/src/scd30.c ****  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+  21:../../shields/SCD30/src/scd30.c ****  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+  22:../../shields/SCD30/src/scd30.c ****  * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+  23:../../shields/SCD30/src/scd30.c ****  * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+  24:../../shields/SCD30/src/scd30.c ****  * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+  25:../../shields/SCD30/src/scd30.c ****  * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+  26:../../shields/SCD30/src/scd30.c ****  * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+  27:../../shields/SCD30/src/scd30.c ****  * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+  28:../../shields/SCD30/src/scd30.c ****  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+  29:../../shields/SCD30/src/scd30.c ****  * POSSIBILITY OF SUCH DAMAGE.
+  30:../../shields/SCD30/src/scd30.c ****  */
+  31:../../shields/SCD30/src/scd30.c **** #include "platform.h"
+  32:../../shields/SCD30/src/scd30.c **** #include "scd30.h"
+  33:../../shields/SCD30/src/scd30.c **** #include "sensirion_arch_config.h"
+  34:../../shields/SCD30/src/scd30.c **** #include "sensirion_common.h"
+  35:../../shields/SCD30/src/scd30.c **** #include "sensirion_i2c.h"
+  36:../../shields/SCD30/src/scd30.c **** 
+  37:../../shields/SCD30/src/scd30.c **** #ifdef SCD30_ADDRESS
+  38:../../shields/SCD30/src/scd30.c **** static const uint8_t SCD30_I2C_ADDRESS = SCD30_ADDRESS;
+  39:../../shields/SCD30/src/scd30.c **** #else
+  40:../../shields/SCD30/src/scd30.c **** static const uint8_t SCD30_I2C_ADDRESS = 0x61;
+  41:../../shields/SCD30/src/scd30.c **** #endif
+  42:../../shields/SCD30/src/scd30.c **** 
+  43:../../shields/SCD30/src/scd30.c **** #define SCD30_CMD_START_PERIODIC_MEASUREMENT 0x0010
+  44:../../shields/SCD30/src/scd30.c **** #define SCD30_CMD_STOP_PERIODIC_MEASUREMENT 0x0104
+  45:../../shields/SCD30/src/scd30.c **** #define SCD30_CMD_READ_MEASUREMENT 0x0300
+  46:../../shields/SCD30/src/scd30.c **** #define SCD30_CMD_SET_MEASUREMENT_INTERVAL 0x4600
+  47:../../shields/SCD30/src/scd30.c **** #define SCD30_CMD_GET_DATA_READY 0x0202
+  48:../../shields/SCD30/src/scd30.c **** #define SCD30_CMD_SET_TEMPERATURE_OFFSET 0x5403
+  49:../../shields/SCD30/src/scd30.c **** #define SCD30_CMD_SET_ALTITUDE 0x5102
+  50:../../shields/SCD30/src/scd30.c **** #define SCD30_CMD_SET_FORCED_RECALIBRATION 0x5204
+  51:../../shields/SCD30/src/scd30.c **** #define SCD30_CMD_AUTO_SELF_CALIBRATION 0x5306
+  52:../../shields/SCD30/src/scd30.c **** #define SCD30_CMD_READ_SERIAL 0xD033
+  53:../../shields/SCD30/src/scd30.c **** #define SCD30_SERIAL_NUM_WORDS 16
+  54:../../shields/SCD30/src/scd30.c **** #define SCD30_WRITE_DELAY_US 20000
+  55:../../shields/SCD30/src/scd30.c **** 
+  56:../../shields/SCD30/src/scd30.c **** #define SCD30_MAX_BUFFER_WORDS 24
+  57:../../shields/SCD30/src/scd30.c **** #define SCD30_CMD_SINGLE_WORD_BUF_LEN \
+  58:../../shields/SCD30/src/scd30.c ****     (SENSIRION_COMMAND_SIZE + SENSIRION_WORD_SIZE + CRC8_LEN)
+  59:../../shields/SCD30/src/scd30.c **** 
+  60:../../shields/SCD30/src/scd30.c **** struct OCTA_header SCD30Header;
+  61:../../shields/SCD30/src/scd30.c **** I2C_HandleTypeDef *i2cHandle;
+  62:../../shields/SCD30/src/scd30.c **** uint8_t SCD30_initialised = 0;
+  63:../../shields/SCD30/src/scd30.c **** 
+  64:../../shields/SCD30/src/scd30.c **** uint8_t scd30_Initialize(void) 
+ARM GAS  /tmp/cciMkFzD.s 			page 3
+
+
+  65:../../shields/SCD30/src/scd30.c **** {
+  40              		.loc 1 65 1 view -0
+  41              		.cfi_startproc
+  42              		@ args = 0, pretend = 0, frame = 48
+  43              		@ frame_needed = 0, uses_anonymous_args = 0
+  44 0000 70B5     		push	{r4, r5, r6, lr}
+  45              	.LCFI0:
+  46              		.cfi_def_cfa_offset 16
+  47              		.cfi_offset 4, -16
+  48              		.cfi_offset 5, -12
+  49              		.cfi_offset 6, -8
+  50              		.cfi_offset 14, -4
+  51 0002 94B0     		sub	sp, sp, #80
+  52              	.LCFI1:
+  53              		.cfi_def_cfa_offset 96
+  66:../../shields/SCD30/src/scd30.c **** 
+  67:../../shields/SCD30/src/scd30.c ****   if(SCD30_initialised) {
+  54              		.loc 1 67 3 view .LVU1
+  55              		.loc 1 67 6 is_stmt 0 view .LVU2
+  56 0004 1C4B     		ldr	r3, .L8
+  57 0006 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+  58              		.loc 1 67 5 view .LVU3
+  59 0008 1BB1     		cbz	r3, .L6
+  68:../../shields/SCD30/src/scd30.c ****     return 0;
+  60              		.loc 1 68 12 view .LVU4
+  61 000a 0024     		movs	r4, #0
+  62              	.L2:
+  69:../../shields/SCD30/src/scd30.c ****   }
+  70:../../shields/SCD30/src/scd30.c **** 
+  71:../../shields/SCD30/src/scd30.c ****   printINF("***Initializing SCD30 CO2 driver***\r\n");
+  72:../../shields/SCD30/src/scd30.c **** 
+  73:../../shields/SCD30/src/scd30.c ****     #ifndef SCD30_CONNECTOR
+  74:../../shields/SCD30/src/scd30.c ****         printERR("No SCD30_CONNECTOR provided in Makefile\r\n");
+  75:../../shields/SCD30/src/scd30.c ****         return 0;
+  76:../../shields/SCD30/src/scd30.c ****     #else
+  77:../../shields/SCD30/src/scd30.c ****         SCD30Header = platform_getHeader((uint8_t)SCD30_CONNECTOR);
+  78:../../shields/SCD30/src/scd30.c ****         if(!SCD30Header.active)
+  79:../../shields/SCD30/src/scd30.c ****         {
+  80:../../shields/SCD30/src/scd30.c ****             printERR("Invalid SCD30_CONNECTOR provided in Makefile\r\n");
+  81:../../shields/SCD30/src/scd30.c ****             return 0;  
+  82:../../shields/SCD30/src/scd30.c ****         }
+  83:../../shields/SCD30/src/scd30.c ****         else   
+  84:../../shields/SCD30/src/scd30.c ****             printINF("SCD30 on P%d, initializing I2C\r\n", (uint8_t)SCD30_CONNECTOR); 
+  85:../../shields/SCD30/src/scd30.c ****             // Initialize I2C peripheral with driver baudrate
+  86:../../shields/SCD30/src/scd30.c ****             platform_initialize_I2C(SCD30Header);
+  87:../../shields/SCD30/src/scd30.c **** 
+  88:../../shields/SCD30/src/scd30.c ****             i2cHandle = SCD30Header.i2cHandle;                        
+  89:../../shields/SCD30/src/scd30.c ****     #endif
+  90:../../shields/SCD30/src/scd30.c **** 
+  91:../../shields/SCD30/src/scd30.c ****   SCD30_initialised = 1;
+  92:../../shields/SCD30/src/scd30.c ****   return SCD30_initialised;
+  93:../../shields/SCD30/src/scd30.c **** }
+  63              		.loc 1 93 1 view .LVU5
+  64 000c 2046     		mov	r0, r4
+  65 000e 14B0     		add	sp, sp, #80
+  66              	.LCFI2:
+  67              		.cfi_remember_state
+ARM GAS  /tmp/cciMkFzD.s 			page 4
+
+
+  68              		.cfi_def_cfa_offset 16
+  69              		@ sp needed
+  70 0010 70BD     		pop	{r4, r5, r6, pc}
+  71              	.L6:
+  72              	.LCFI3:
+  73              		.cfi_restore_state
+  71:../../shields/SCD30/src/scd30.c **** 
+  74              		.loc 1 71 3 is_stmt 1 view .LVU6
+  75 0012 1A48     		ldr	r0, .L8+4
+  76 0014 FFF7FEFF 		bl	printINF
+  77              	.LVL0:
+  77:../../shields/SCD30/src/scd30.c ****         if(!SCD30Header.active)
+  78              		.loc 1 77 9 view .LVU7
+  77:../../shields/SCD30/src/scd30.c ****         if(!SCD30Header.active)
+  79              		.loc 1 77 23 is_stmt 0 view .LVU8
+  80 0018 194E     		ldr	r6, .L8+8
+  81 001a 0121     		movs	r1, #1
+  82 001c 08A8     		add	r0, sp, #32
+  83 001e FFF7FEFF 		bl	platform_getHeader
+  84              	.LVL1:
+  85 0022 3546     		mov	r5, r6
+  86 0024 08AC     		add	r4, sp, #32
+  87 0026 0FCC     		ldmia	r4!, {r0, r1, r2, r3}
+  88 0028 0FC5     		stmia	r5!, {r0, r1, r2, r3}
+  89 002a 0FCC     		ldmia	r4!, {r0, r1, r2, r3}
+  90 002c 0FC5     		stmia	r5!, {r0, r1, r2, r3}
+  91 002e 94E80700 		ldm	r4, {r0, r1, r2}
+  92 0032 85E80700 		stm	r5, {r0, r1, r2}
+  78:../../shields/SCD30/src/scd30.c ****         {
+  93              		.loc 1 78 9 is_stmt 1 view .LVU9
+  78:../../shields/SCD30/src/scd30.c ****         {
+  94              		.loc 1 78 24 is_stmt 0 view .LVU10
+  95 0036 96F82840 		ldrb	r4, [r6, #40]	@ zero_extendqisi2
+  78:../../shields/SCD30/src/scd30.c ****         {
+  96              		.loc 1 78 11 view .LVU11
+  97 003a C4B1     		cbz	r4, .L7
+  84:../../shields/SCD30/src/scd30.c ****             // Initialize I2C peripheral with driver baudrate
+  98              		.loc 1 84 13 is_stmt 1 view .LVU12
+  99 003c 0121     		movs	r1, #1
+ 100 003e 1148     		ldr	r0, .L8+12
+ 101 0040 FFF7FEFF 		bl	printINF
+ 102              	.LVL2:
+  86:../../shields/SCD30/src/scd30.c **** 
+ 103              		.loc 1 86 13 view .LVU13
+ 104 0044 0E4E     		ldr	r6, .L8+8
+ 105 0046 6C46     		mov	r4, sp
+ 106 0048 06F11005 		add	r5, r6, #16
+ 107 004c 0FCD     		ldmia	r5!, {r0, r1, r2, r3}
+ 108 004e 0FC4     		stmia	r4!, {r0, r1, r2, r3}
+ 109 0050 95E80700 		ldm	r5, {r0, r1, r2}
+ 110 0054 84E80700 		stm	r4, {r0, r1, r2}
+ 111 0058 96E80F00 		ldm	r6, {r0, r1, r2, r3}
+ 112 005c FFF7FEFF 		bl	platform_initialize_I2C
+ 113              	.LVL3:
+  88:../../shields/SCD30/src/scd30.c ****     #endif
+ 114              		.loc 1 88 13 view .LVU14
+  88:../../shields/SCD30/src/scd30.c ****     #endif
+ARM GAS  /tmp/cciMkFzD.s 			page 5
+
+
+ 115              		.loc 1 88 36 is_stmt 0 view .LVU15
+ 116 0060 B268     		ldr	r2, [r6, #8]
+  88:../../shields/SCD30/src/scd30.c ****     #endif
+ 117              		.loc 1 88 23 view .LVU16
+ 118 0062 094B     		ldr	r3, .L8+16
+ 119 0064 1A60     		str	r2, [r3]
+  91:../../shields/SCD30/src/scd30.c ****   return SCD30_initialised;
+ 120              		.loc 1 91 3 is_stmt 1 view .LVU17
+  91:../../shields/SCD30/src/scd30.c ****   return SCD30_initialised;
+ 121              		.loc 1 91 21 is_stmt 0 view .LVU18
+ 122 0066 0124     		movs	r4, #1
+ 123 0068 034B     		ldr	r3, .L8
+ 124 006a 1C70     		strb	r4, [r3]
+  92:../../shields/SCD30/src/scd30.c **** }
+ 125              		.loc 1 92 3 is_stmt 1 view .LVU19
+  92:../../shields/SCD30/src/scd30.c **** }
+ 126              		.loc 1 92 10 is_stmt 0 view .LVU20
+ 127 006c CEE7     		b	.L2
+ 128              	.L7:
+  80:../../shields/SCD30/src/scd30.c ****             return 0;  
+ 129              		.loc 1 80 13 is_stmt 1 view .LVU21
+ 130 006e 0748     		ldr	r0, .L8+20
+ 131 0070 FFF7FEFF 		bl	printERR
+ 132              	.LVL4:
+  81:../../shields/SCD30/src/scd30.c ****         }
+ 133              		.loc 1 81 13 view .LVU22
+  81:../../shields/SCD30/src/scd30.c ****         }
+ 134              		.loc 1 81 20 is_stmt 0 view .LVU23
+ 135 0074 CAE7     		b	.L2
+ 136              	.L9:
+ 137 0076 00BF     		.align	2
+ 138              	.L8:
+ 139 0078 00000000 		.word	.LANCHOR0
+ 140 007c 00000000 		.word	.LC0
+ 141 0080 00000000 		.word	SCD30Header
+ 142 0084 58000000 		.word	.LC2
+ 143 0088 00000000 		.word	i2cHandle
+ 144 008c 28000000 		.word	.LC1
+ 145              		.cfi_endproc
+ 146              	.LFE131:
+ 148              		.section	.text.scd30_get_configured_address,"ax",%progbits
+ 149              		.align	1
+ 150              		.global	scd30_get_configured_address
+ 151              		.syntax unified
+ 152              		.thumb
+ 153              		.thumb_func
+ 154              		.fpu fpv4-sp-d16
+ 156              	scd30_get_configured_address:
+ 157              	.LFB143:
+  94:../../shields/SCD30/src/scd30.c **** 
+  95:../../shields/SCD30/src/scd30.c **** int16_t scd30_start_periodic_measurement(uint16_t ambient_pressure_mbar) {
+  96:../../shields/SCD30/src/scd30.c ****     if (ambient_pressure_mbar &&
+  97:../../shields/SCD30/src/scd30.c ****         (ambient_pressure_mbar < 700 || ambient_pressure_mbar > 1400)) {
+  98:../../shields/SCD30/src/scd30.c ****         /* out of allowable range */
+  99:../../shields/SCD30/src/scd30.c ****         return STATUS_FAIL;
+ 100:../../shields/SCD30/src/scd30.c ****     }
+ 101:../../shields/SCD30/src/scd30.c **** 
+ARM GAS  /tmp/cciMkFzD.s 			page 6
+
+
+ 102:../../shields/SCD30/src/scd30.c ****     return sensirion_i2c_write_cmd_with_args(
+ 103:../../shields/SCD30/src/scd30.c ****         SCD30_I2C_ADDRESS, SCD30_CMD_START_PERIODIC_MEASUREMENT,
+ 104:../../shields/SCD30/src/scd30.c ****         &ambient_pressure_mbar, SENSIRION_NUM_WORDS(ambient_pressure_mbar));
+ 105:../../shields/SCD30/src/scd30.c **** }
+ 106:../../shields/SCD30/src/scd30.c **** 
+ 107:../../shields/SCD30/src/scd30.c **** int16_t scd30_stop_periodic_measurement() {
+ 108:../../shields/SCD30/src/scd30.c ****     return sensirion_i2c_write_cmd(SCD30_I2C_ADDRESS,
+ 109:../../shields/SCD30/src/scd30.c ****                                    SCD30_CMD_STOP_PERIODIC_MEASUREMENT);
+ 110:../../shields/SCD30/src/scd30.c **** }
+ 111:../../shields/SCD30/src/scd30.c **** 
+ 112:../../shields/SCD30/src/scd30.c **** int16_t scd30_read_measurement(float* co2_ppm, float* temperature,
+ 113:../../shields/SCD30/src/scd30.c ****                                float* humidity) {
+ 114:../../shields/SCD30/src/scd30.c ****     int16_t error;
+ 115:../../shields/SCD30/src/scd30.c ****     uint8_t data[3][4];
+ 116:../../shields/SCD30/src/scd30.c **** 
+ 117:../../shields/SCD30/src/scd30.c ****     error =
+ 118:../../shields/SCD30/src/scd30.c ****         sensirion_i2c_write_cmd(SCD30_I2C_ADDRESS, SCD30_CMD_READ_MEASUREMENT);
+ 119:../../shields/SCD30/src/scd30.c ****     if (error != NO_ERROR)
+ 120:../../shields/SCD30/src/scd30.c ****         return error;
+ 121:../../shields/SCD30/src/scd30.c **** 
+ 122:../../shields/SCD30/src/scd30.c ****     error = sensirion_i2c_read_words_as_bytes(SCD30_I2C_ADDRESS, &data[0][0],
+ 123:../../shields/SCD30/src/scd30.c ****                                               SENSIRION_NUM_WORDS(data));
+ 124:../../shields/SCD30/src/scd30.c ****     if (error != NO_ERROR)
+ 125:../../shields/SCD30/src/scd30.c ****         return error;
+ 126:../../shields/SCD30/src/scd30.c **** 
+ 127:../../shields/SCD30/src/scd30.c ****     *co2_ppm = sensirion_bytes_to_float(data[0]);
+ 128:../../shields/SCD30/src/scd30.c ****     *temperature = sensirion_bytes_to_float(data[1]);
+ 129:../../shields/SCD30/src/scd30.c ****     *humidity = sensirion_bytes_to_float(data[2]);
+ 130:../../shields/SCD30/src/scd30.c **** 
+ 131:../../shields/SCD30/src/scd30.c ****     return NO_ERROR;
+ 132:../../shields/SCD30/src/scd30.c **** }
+ 133:../../shields/SCD30/src/scd30.c **** 
+ 134:../../shields/SCD30/src/scd30.c **** int16_t scd30_set_measurement_interval(uint16_t interval_sec) {
+ 135:../../shields/SCD30/src/scd30.c ****     int16_t error;
+ 136:../../shields/SCD30/src/scd30.c **** 
+ 137:../../shields/SCD30/src/scd30.c ****     if (interval_sec < 2 || interval_sec > 1800) {
+ 138:../../shields/SCD30/src/scd30.c ****         /* out of allowable range */
+ 139:../../shields/SCD30/src/scd30.c ****         return STATUS_FAIL;
+ 140:../../shields/SCD30/src/scd30.c ****     }
+ 141:../../shields/SCD30/src/scd30.c **** 
+ 142:../../shields/SCD30/src/scd30.c ****     error = sensirion_i2c_write_cmd_with_args(
+ 143:../../shields/SCD30/src/scd30.c ****         SCD30_I2C_ADDRESS, SCD30_CMD_SET_MEASUREMENT_INTERVAL, &interval_sec,
+ 144:../../shields/SCD30/src/scd30.c ****         SENSIRION_NUM_WORDS(interval_sec));
+ 145:../../shields/SCD30/src/scd30.c ****     sensirion_sleep_usec(SCD30_WRITE_DELAY_US);
+ 146:../../shields/SCD30/src/scd30.c **** 
+ 147:../../shields/SCD30/src/scd30.c ****     return error;
+ 148:../../shields/SCD30/src/scd30.c **** }
+ 149:../../shields/SCD30/src/scd30.c **** 
+ 150:../../shields/SCD30/src/scd30.c **** int16_t scd30_get_data_ready(uint16_t* data_ready) {
+ 151:../../shields/SCD30/src/scd30.c ****     return sensirion_i2c_delayed_read_cmd(
+ 152:../../shields/SCD30/src/scd30.c ****         SCD30_I2C_ADDRESS, SCD30_CMD_GET_DATA_READY, 3000, data_ready,
+ 153:../../shields/SCD30/src/scd30.c ****         SENSIRION_NUM_WORDS(*data_ready));
+ 154:../../shields/SCD30/src/scd30.c **** }
+ 155:../../shields/SCD30/src/scd30.c **** 
+ 156:../../shields/SCD30/src/scd30.c **** int16_t scd30_set_temperature_offset(uint16_t temperature_offset) {
+ 157:../../shields/SCD30/src/scd30.c ****     int16_t error;
+ 158:../../shields/SCD30/src/scd30.c **** 
+ARM GAS  /tmp/cciMkFzD.s 			page 7
+
+
+ 159:../../shields/SCD30/src/scd30.c ****     error = sensirion_i2c_write_cmd_with_args(
+ 160:../../shields/SCD30/src/scd30.c ****         SCD30_I2C_ADDRESS, SCD30_CMD_SET_TEMPERATURE_OFFSET,
+ 161:../../shields/SCD30/src/scd30.c ****         &temperature_offset, SENSIRION_NUM_WORDS(temperature_offset));
+ 162:../../shields/SCD30/src/scd30.c ****     sensirion_sleep_usec(SCD30_WRITE_DELAY_US);
+ 163:../../shields/SCD30/src/scd30.c **** 
+ 164:../../shields/SCD30/src/scd30.c ****     return error;
+ 165:../../shields/SCD30/src/scd30.c **** }
+ 166:../../shields/SCD30/src/scd30.c **** 
+ 167:../../shields/SCD30/src/scd30.c **** int16_t scd30_set_altitude(uint16_t altitude) {
+ 168:../../shields/SCD30/src/scd30.c ****     int16_t error;
+ 169:../../shields/SCD30/src/scd30.c **** 
+ 170:../../shields/SCD30/src/scd30.c ****     error = sensirion_i2c_write_cmd_with_args(SCD30_I2C_ADDRESS,
+ 171:../../shields/SCD30/src/scd30.c ****                                               SCD30_CMD_SET_ALTITUDE, &altitude,
+ 172:../../shields/SCD30/src/scd30.c ****                                               SENSIRION_NUM_WORDS(altitude));
+ 173:../../shields/SCD30/src/scd30.c ****     sensirion_sleep_usec(SCD30_WRITE_DELAY_US);
+ 174:../../shields/SCD30/src/scd30.c **** 
+ 175:../../shields/SCD30/src/scd30.c ****     return error;
+ 176:../../shields/SCD30/src/scd30.c **** }
+ 177:../../shields/SCD30/src/scd30.c **** 
+ 178:../../shields/SCD30/src/scd30.c **** int16_t scd30_get_automatic_self_calibration(uint8_t* asc_enabled) {
+ 179:../../shields/SCD30/src/scd30.c ****     uint16_t word;
+ 180:../../shields/SCD30/src/scd30.c ****     int16_t error;
+ 181:../../shields/SCD30/src/scd30.c **** 
+ 182:../../shields/SCD30/src/scd30.c ****     error = sensirion_i2c_read_cmd(SCD30_I2C_ADDRESS,
+ 183:../../shields/SCD30/src/scd30.c ****                                    SCD30_CMD_AUTO_SELF_CALIBRATION, &word,
+ 184:../../shields/SCD30/src/scd30.c ****                                    SENSIRION_NUM_WORDS(word));
+ 185:../../shields/SCD30/src/scd30.c ****     if (error != NO_ERROR)
+ 186:../../shields/SCD30/src/scd30.c ****         return error;
+ 187:../../shields/SCD30/src/scd30.c **** 
+ 188:../../shields/SCD30/src/scd30.c ****     *asc_enabled = (uint8_t)word;
+ 189:../../shields/SCD30/src/scd30.c **** 
+ 190:../../shields/SCD30/src/scd30.c ****     return NO_ERROR;
+ 191:../../shields/SCD30/src/scd30.c **** }
+ 192:../../shields/SCD30/src/scd30.c **** 
+ 193:../../shields/SCD30/src/scd30.c **** int16_t scd30_enable_automatic_self_calibration(uint8_t enable_asc) {
+ 194:../../shields/SCD30/src/scd30.c ****     int16_t error;
+ 195:../../shields/SCD30/src/scd30.c ****     uint16_t asc = !!enable_asc;
+ 196:../../shields/SCD30/src/scd30.c **** 
+ 197:../../shields/SCD30/src/scd30.c ****     error = sensirion_i2c_write_cmd_with_args(SCD30_I2C_ADDRESS,
+ 198:../../shields/SCD30/src/scd30.c ****                                               SCD30_CMD_AUTO_SELF_CALIBRATION,
+ 199:../../shields/SCD30/src/scd30.c ****                                               &asc, SENSIRION_NUM_WORDS(asc));
+ 200:../../shields/SCD30/src/scd30.c ****     sensirion_sleep_usec(SCD30_WRITE_DELAY_US);
+ 201:../../shields/SCD30/src/scd30.c **** 
+ 202:../../shields/SCD30/src/scd30.c ****     return error;
+ 203:../../shields/SCD30/src/scd30.c **** }
+ 204:../../shields/SCD30/src/scd30.c **** 
+ 205:../../shields/SCD30/src/scd30.c **** int16_t scd30_set_forced_recalibration(uint16_t co2_ppm) {
+ 206:../../shields/SCD30/src/scd30.c ****     int16_t error;
+ 207:../../shields/SCD30/src/scd30.c **** 
+ 208:../../shields/SCD30/src/scd30.c ****     error = sensirion_i2c_write_cmd_with_args(
+ 209:../../shields/SCD30/src/scd30.c ****         SCD30_I2C_ADDRESS, SCD30_CMD_SET_FORCED_RECALIBRATION, &co2_ppm,
+ 210:../../shields/SCD30/src/scd30.c ****         SENSIRION_NUM_WORDS(co2_ppm));
+ 211:../../shields/SCD30/src/scd30.c ****     sensirion_sleep_usec(SCD30_WRITE_DELAY_US);
+ 212:../../shields/SCD30/src/scd30.c **** 
+ 213:../../shields/SCD30/src/scd30.c ****     return error;
+ 214:../../shields/SCD30/src/scd30.c **** }
+ 215:../../shields/SCD30/src/scd30.c **** 
+ARM GAS  /tmp/cciMkFzD.s 			page 8
+
+
+ 216:../../shields/SCD30/src/scd30.c **** int16_t scd30_read_serial(char* serial) {
+ 217:../../shields/SCD30/src/scd30.c ****     int16_t error;
+ 218:../../shields/SCD30/src/scd30.c **** 
+ 219:../../shields/SCD30/src/scd30.c ****     error = sensirion_i2c_write_cmd(SCD30_I2C_ADDRESS, SCD30_CMD_READ_SERIAL);
+ 220:../../shields/SCD30/src/scd30.c ****     if (error)
+ 221:../../shields/SCD30/src/scd30.c ****         return error;
+ 222:../../shields/SCD30/src/scd30.c **** 
+ 223:../../shields/SCD30/src/scd30.c ****     sensirion_sleep_usec(SCD30_WRITE_DELAY_US);
+ 224:../../shields/SCD30/src/scd30.c ****     error = sensirion_i2c_read_words_as_bytes(
+ 225:../../shields/SCD30/src/scd30.c ****         SCD30_I2C_ADDRESS, (uint8_t*)serial, SCD30_SERIAL_NUM_WORDS);
+ 226:../../shields/SCD30/src/scd30.c ****     serial[2 * SCD30_SERIAL_NUM_WORDS] = '\0';
+ 227:../../shields/SCD30/src/scd30.c ****     return error;
+ 228:../../shields/SCD30/src/scd30.c **** }
+ 229:../../shields/SCD30/src/scd30.c **** 
+ 230:../../shields/SCD30/src/scd30.c **** // const char* scd30_get_driver_version() {
+ 231:../../shields/SCD30/src/scd30.c **** //     return SCD_DRV_VERSION_STR;
+ 232:../../shields/SCD30/src/scd30.c **** // }
+ 233:../../shields/SCD30/src/scd30.c **** 
+ 234:../../shields/SCD30/src/scd30.c **** uint8_t scd30_get_configured_address() {
+ 158              		.loc 1 234 40 is_stmt 1 view -0
+ 159              		.cfi_startproc
+ 160              		@ args = 0, pretend = 0, frame = 0
+ 161              		@ frame_needed = 0, uses_anonymous_args = 0
+ 162              		@ link register save eliminated.
+ 235:../../shields/SCD30/src/scd30.c ****     return SCD30_I2C_ADDRESS;
+ 163              		.loc 1 235 5 view .LVU25
+ 236:../../shields/SCD30/src/scd30.c **** }
+ 164              		.loc 1 236 1 is_stmt 0 view .LVU26
+ 165 0000 6120     		movs	r0, #97
+ 166 0002 7047     		bx	lr
+ 167              		.cfi_endproc
+ 168              	.LFE143:
+ 170              		.section	.text.sensirion_bytes_to_uint16_t,"ax",%progbits
+ 171              		.align	1
+ 172              		.global	sensirion_bytes_to_uint16_t
+ 173              		.syntax unified
+ 174              		.thumb
+ 175              		.thumb_func
+ 176              		.fpu fpv4-sp-d16
+ 178              	sensirion_bytes_to_uint16_t:
+ 179              	.LVL5:
+ 180              	.LFB145:
+ 237:../../shields/SCD30/src/scd30.c **** 
+ 238:../../shields/SCD30/src/scd30.c **** int16_t scd30_probe() {
+ 239:../../shields/SCD30/src/scd30.c ****     uint16_t data_ready;
+ 240:../../shields/SCD30/src/scd30.c **** 
+ 241:../../shields/SCD30/src/scd30.c ****     /* try to read data-ready state */
+ 242:../../shields/SCD30/src/scd30.c ****     return scd30_get_data_ready(&data_ready);
+ 243:../../shields/SCD30/src/scd30.c **** }
+ 244:../../shields/SCD30/src/scd30.c **** 
+ 245:../../shields/SCD30/src/scd30.c **** //common functions
+ 246:../../shields/SCD30/src/scd30.c **** uint16_t sensirion_bytes_to_uint16_t(const uint8_t* bytes) {
+ 181              		.loc 1 246 60 is_stmt 1 view -0
+ 182              		.cfi_startproc
+ 183              		@ args = 0, pretend = 0, frame = 0
+ 184              		@ frame_needed = 0, uses_anonymous_args = 0
+ 185              		@ link register save eliminated.
+ARM GAS  /tmp/cciMkFzD.s 			page 9
+
+
+ 247:../../shields/SCD30/src/scd30.c ****     return (uint16_t)bytes[0] << 8 | (uint16_t)bytes[1];
+ 186              		.loc 1 247 5 view .LVU28
+ 187              		.loc 1 247 27 is_stmt 0 view .LVU29
+ 188 0000 0278     		ldrb	r2, [r0]	@ zero_extendqisi2
+ 189              		.loc 1 247 53 view .LVU30
+ 190 0002 4078     		ldrb	r0, [r0, #1]	@ zero_extendqisi2
+ 191              	.LVL6:
+ 248:../../shields/SCD30/src/scd30.c **** }
+ 192              		.loc 1 248 1 view .LVU31
+ 193 0004 40EA0220 		orr	r0, r0, r2, lsl #8
+ 194 0008 7047     		bx	lr
+ 195              		.cfi_endproc
+ 196              	.LFE145:
+ 198              		.section	.text.sensirion_bytes_to_uint32_t,"ax",%progbits
+ 199              		.align	1
+ 200              		.global	sensirion_bytes_to_uint32_t
+ 201              		.syntax unified
+ 202              		.thumb
+ 203              		.thumb_func
+ 204              		.fpu fpv4-sp-d16
+ 206              	sensirion_bytes_to_uint32_t:
+ 207              	.LVL7:
+ 208              	.LFB146:
+ 249:../../shields/SCD30/src/scd30.c **** 
+ 250:../../shields/SCD30/src/scd30.c **** uint32_t sensirion_bytes_to_uint32_t(const uint8_t* bytes) {
+ 209              		.loc 1 250 60 is_stmt 1 view -0
+ 210              		.cfi_startproc
+ 211              		@ args = 0, pretend = 0, frame = 0
+ 212              		@ frame_needed = 0, uses_anonymous_args = 0
+ 213              		@ link register save eliminated.
+ 251:../../shields/SCD30/src/scd30.c ****     return (uint32_t)bytes[0] << 24 | (uint32_t)bytes[1] << 16 |
+ 214              		.loc 1 251 5 view .LVU33
+ 215              		.loc 1 251 27 is_stmt 0 view .LVU34
+ 216 0000 0278     		ldrb	r2, [r0]	@ zero_extendqisi2
+ 217              		.loc 1 251 54 view .LVU35
+ 218 0002 4378     		ldrb	r3, [r0, #1]	@ zero_extendqisi2
+ 219              		.loc 1 251 58 view .LVU36
+ 220 0004 1B04     		lsls	r3, r3, #16
+ 221              		.loc 1 251 37 view .LVU37
+ 222 0006 43EA0263 		orr	r3, r3, r2, lsl #24
+ 252:../../shields/SCD30/src/scd30.c ****            (uint32_t)bytes[2] << 8 | (uint32_t)bytes[3];
+ 223              		.loc 1 252 27 view .LVU38
+ 224 000a 8278     		ldrb	r2, [r0, #2]	@ zero_extendqisi2
+ 251:../../shields/SCD30/src/scd30.c ****     return (uint32_t)bytes[0] << 24 | (uint32_t)bytes[1] << 16 |
+ 225              		.loc 1 251 64 view .LVU39
+ 226 000c 43EA0223 		orr	r3, r3, r2, lsl #8
+ 227              		.loc 1 252 53 view .LVU40
+ 228 0010 C078     		ldrb	r0, [r0, #3]	@ zero_extendqisi2
+ 229              	.LVL8:
+ 253:../../shields/SCD30/src/scd30.c **** }
+ 230              		.loc 1 253 1 view .LVU41
+ 231 0012 1843     		orrs	r0, r0, r3
+ 232 0014 7047     		bx	lr
+ 233              		.cfi_endproc
+ 234              	.LFE146:
+ 236              		.section	.text.sensirion_bytes_to_float,"ax",%progbits
+ 237              		.align	1
+ARM GAS  /tmp/cciMkFzD.s 			page 10
+
+
+ 238              		.global	sensirion_bytes_to_float
+ 239              		.syntax unified
+ 240              		.thumb
+ 241              		.thumb_func
+ 242              		.fpu fpv4-sp-d16
+ 244              	sensirion_bytes_to_float:
+ 245              	.LVL9:
+ 246              	.LFB147:
+ 254:../../shields/SCD30/src/scd30.c **** 
+ 255:../../shields/SCD30/src/scd30.c **** float sensirion_bytes_to_float(const uint8_t* bytes) {
+ 247              		.loc 1 255 54 is_stmt 1 view -0
+ 248              		.cfi_startproc
+ 249              		@ args = 0, pretend = 0, frame = 0
+ 250              		@ frame_needed = 0, uses_anonymous_args = 0
+ 251              		.loc 1 255 54 is_stmt 0 view .LVU43
+ 252 0000 08B5     		push	{r3, lr}
+ 253              	.LCFI4:
+ 254              		.cfi_def_cfa_offset 8
+ 255              		.cfi_offset 3, -8
+ 256              		.cfi_offset 14, -4
+ 256:../../shields/SCD30/src/scd30.c ****     union {
+ 257              		.loc 1 256 5 is_stmt 1 view .LVU44
+ 257:../../shields/SCD30/src/scd30.c ****         uint32_t u32_value;
+ 258:../../shields/SCD30/src/scd30.c ****         float float32;
+ 259:../../shields/SCD30/src/scd30.c ****     } tmp;
+ 260:../../shields/SCD30/src/scd30.c **** 
+ 261:../../shields/SCD30/src/scd30.c ****     tmp.u32_value = sensirion_bytes_to_uint32_t(bytes);
+ 258              		.loc 1 261 5 view .LVU45
+ 259              		.loc 1 261 21 is_stmt 0 view .LVU46
+ 260 0002 FFF7FEFF 		bl	sensirion_bytes_to_uint32_t
+ 261              	.LVL10:
+ 262:../../shields/SCD30/src/scd30.c ****     return tmp.float32;
+ 262              		.loc 1 262 5 is_stmt 1 view .LVU47
+ 263              		.loc 1 262 15 is_stmt 0 view .LVU48
+ 264 0006 00EE100A 		vmov	s0, r0
+ 263:../../shields/SCD30/src/scd30.c **** }
+ 265              		.loc 1 263 1 view .LVU49
+ 266 000a 08BD     		pop	{r3, pc}
+ 267              		.cfi_endproc
+ 268              	.LFE147:
+ 270              		.section	.text.sensirion_common_generate_crc,"ax",%progbits
+ 271              		.align	1
+ 272              		.global	sensirion_common_generate_crc
+ 273              		.syntax unified
+ 274              		.thumb
+ 275              		.thumb_func
+ 276              		.fpu fpv4-sp-d16
+ 278              	sensirion_common_generate_crc:
+ 279              	.LVL11:
+ 280              	.LFB148:
+ 264:../../shields/SCD30/src/scd30.c **** 
+ 265:../../shields/SCD30/src/scd30.c **** uint8_t sensirion_common_generate_crc(const uint8_t* data, uint16_t count) {
+ 281              		.loc 1 265 76 is_stmt 1 view -0
+ 282              		.cfi_startproc
+ 283              		@ args = 0, pretend = 0, frame = 0
+ 284              		@ frame_needed = 0, uses_anonymous_args = 0
+ 285              		@ link register save eliminated.
+ARM GAS  /tmp/cciMkFzD.s 			page 11
+
+
+ 286              		.loc 1 265 76 is_stmt 0 view .LVU51
+ 287 0000 10B4     		push	{r4}
+ 288              	.LCFI5:
+ 289              		.cfi_def_cfa_offset 4
+ 290              		.cfi_offset 4, -4
+ 291 0002 0446     		mov	r4, r0
+ 266:../../shields/SCD30/src/scd30.c ****     uint16_t current_byte;
+ 292              		.loc 1 266 5 is_stmt 1 view .LVU52
+ 267:../../shields/SCD30/src/scd30.c ****     uint8_t crc = CRC8_INIT;
+ 293              		.loc 1 267 5 view .LVU53
+ 294              	.LVL12:
+ 268:../../shields/SCD30/src/scd30.c ****     uint8_t crc_bit;
+ 295              		.loc 1 268 5 view .LVU54
+ 269:../../shields/SCD30/src/scd30.c **** 
+ 270:../../shields/SCD30/src/scd30.c ****     /* calculates 8-Bit checksum with given polynomial */
+ 271:../../shields/SCD30/src/scd30.c ****     for (current_byte = 0; current_byte < count; ++current_byte) {
+ 296              		.loc 1 271 5 view .LVU55
+ 267:../../shields/SCD30/src/scd30.c ****     uint8_t crc_bit;
+ 297              		.loc 1 267 13 is_stmt 0 view .LVU56
+ 298 0004 FF20     		movs	r0, #255
+ 299              	.LVL13:
+ 300              		.loc 1 271 23 view .LVU57
+ 301 0006 0022     		movs	r2, #0
+ 302              		.loc 1 271 5 view .LVU58
+ 303 0008 0EE0     		b	.L16
+ 304              	.LVL14:
+ 305              	.L24:
+ 272:../../shields/SCD30/src/scd30.c ****         crc ^= (data[current_byte]);
+ 273:../../shields/SCD30/src/scd30.c ****         for (crc_bit = 8; crc_bit > 0; --crc_bit) {
+ 274:../../shields/SCD30/src/scd30.c ****             if (crc & 0x80)
+ 275:../../shields/SCD30/src/scd30.c ****                 crc = (crc << 1) ^ CRC8_POLYNOMIAL;
+ 306              		.loc 1 275 17 is_stmt 1 view .LVU59
+ 307              		.loc 1 275 28 is_stmt 0 view .LVU60
+ 308 000a 4000     		lsls	r0, r0, #1
+ 309              	.LVL15:
+ 310              		.loc 1 275 34 view .LVU61
+ 311 000c 80F03100 		eor	r0, r0, #49
+ 312              		.loc 1 275 21 view .LVU62
+ 313 0010 C0B2     		uxtb	r0, r0
+ 314              	.LVL16:
+ 315              	.L19:
+ 273:../../shields/SCD30/src/scd30.c ****             if (crc & 0x80)
+ 316              		.loc 1 273 40 is_stmt 1 discriminator 2 view .LVU63
+ 317 0012 013B     		subs	r3, r3, #1
+ 318              	.LVL17:
+ 273:../../shields/SCD30/src/scd30.c ****             if (crc & 0x80)
+ 319              		.loc 1 273 40 is_stmt 0 discriminator 2 view .LVU64
+ 320 0014 DBB2     		uxtb	r3, r3
+ 321              	.LVL18:
+ 322              	.L17:
+ 273:../../shields/SCD30/src/scd30.c ****             if (crc & 0x80)
+ 323              		.loc 1 273 27 is_stmt 1 discriminator 1 view .LVU65
+ 273:../../shields/SCD30/src/scd30.c ****             if (crc & 0x80)
+ 324              		.loc 1 273 9 is_stmt 0 discriminator 1 view .LVU66
+ 325 0016 2BB1     		cbz	r3, .L23
+ 274:../../shields/SCD30/src/scd30.c ****                 crc = (crc << 1) ^ CRC8_POLYNOMIAL;
+ 326              		.loc 1 274 13 is_stmt 1 view .LVU67
+ARM GAS  /tmp/cciMkFzD.s 			page 12
+
+
+ 274:../../shields/SCD30/src/scd30.c ****                 crc = (crc << 1) ^ CRC8_POLYNOMIAL;
+ 327              		.loc 1 274 16 is_stmt 0 view .LVU68
+ 328 0018 10F0800F 		tst	r0, #128
+ 329 001c F5D1     		bne	.L24
+ 276:../../shields/SCD30/src/scd30.c ****             else
+ 277:../../shields/SCD30/src/scd30.c ****                 crc = (crc << 1);
+ 330              		.loc 1 277 17 is_stmt 1 view .LVU69
+ 331              		.loc 1 277 21 is_stmt 0 view .LVU70
+ 332 001e 4000     		lsls	r0, r0, #1
+ 333              	.LVL19:
+ 334              		.loc 1 277 21 view .LVU71
+ 335 0020 C0B2     		uxtb	r0, r0
+ 336              	.LVL20:
+ 337              		.loc 1 277 21 view .LVU72
+ 338 0022 F6E7     		b	.L19
+ 339              	.L23:
+ 271:../../shields/SCD30/src/scd30.c ****         crc ^= (data[current_byte]);
+ 340              		.loc 1 271 50 is_stmt 1 discriminator 2 view .LVU73
+ 341 0024 0132     		adds	r2, r2, #1
+ 342              	.LVL21:
+ 271:../../shields/SCD30/src/scd30.c ****         crc ^= (data[current_byte]);
+ 343              		.loc 1 271 50 is_stmt 0 discriminator 2 view .LVU74
+ 344 0026 92B2     		uxth	r2, r2
+ 345              	.LVL22:
+ 346              	.L16:
+ 271:../../shields/SCD30/src/scd30.c ****         crc ^= (data[current_byte]);
+ 347              		.loc 1 271 28 is_stmt 1 discriminator 1 view .LVU75
+ 271:../../shields/SCD30/src/scd30.c ****         crc ^= (data[current_byte]);
+ 348              		.loc 1 271 5 is_stmt 0 discriminator 1 view .LVU76
+ 349 0028 8A42     		cmp	r2, r1
+ 350 002a 03D2     		bcs	.L25
+ 272:../../shields/SCD30/src/scd30.c ****         for (crc_bit = 8; crc_bit > 0; --crc_bit) {
+ 351              		.loc 1 272 9 is_stmt 1 view .LVU77
+ 272:../../shields/SCD30/src/scd30.c ****         for (crc_bit = 8; crc_bit > 0; --crc_bit) {
+ 352              		.loc 1 272 21 is_stmt 0 view .LVU78
+ 353 002c A35C     		ldrb	r3, [r4, r2]	@ zero_extendqisi2
+ 272:../../shields/SCD30/src/scd30.c ****         for (crc_bit = 8; crc_bit > 0; --crc_bit) {
+ 354              		.loc 1 272 13 view .LVU79
+ 355 002e 5840     		eors	r0, r0, r3
+ 356              	.LVL23:
+ 273:../../shields/SCD30/src/scd30.c ****             if (crc & 0x80)
+ 357              		.loc 1 273 9 is_stmt 1 view .LVU80
+ 273:../../shields/SCD30/src/scd30.c ****             if (crc & 0x80)
+ 358              		.loc 1 273 22 is_stmt 0 view .LVU81
+ 359 0030 0823     		movs	r3, #8
+ 273:../../shields/SCD30/src/scd30.c ****             if (crc & 0x80)
+ 360              		.loc 1 273 9 view .LVU82
+ 361 0032 F0E7     		b	.L17
+ 362              	.LVL24:
+ 363              	.L25:
+ 278:../../shields/SCD30/src/scd30.c ****         }
+ 279:../../shields/SCD30/src/scd30.c ****     }
+ 280:../../shields/SCD30/src/scd30.c ****     return crc;
+ 281:../../shields/SCD30/src/scd30.c **** }
+ 364              		.loc 1 281 1 view .LVU83
+ 365 0034 5DF8044B 		ldr	r4, [sp], #4
+ 366              	.LCFI6:
+ARM GAS  /tmp/cciMkFzD.s 			page 13
+
+
+ 367              		.cfi_restore 4
+ 368              		.cfi_def_cfa_offset 0
+ 369              	.LVL25:
+ 370              		.loc 1 281 1 view .LVU84
+ 371 0038 7047     		bx	lr
+ 372              		.cfi_endproc
+ 373              	.LFE148:
+ 375              		.section	.text.sensirion_common_check_crc,"ax",%progbits
+ 376              		.align	1
+ 377              		.global	sensirion_common_check_crc
+ 378              		.syntax unified
+ 379              		.thumb
+ 380              		.thumb_func
+ 381              		.fpu fpv4-sp-d16
+ 383              	sensirion_common_check_crc:
+ 384              	.LVL26:
+ 385              	.LFB149:
+ 282:../../shields/SCD30/src/scd30.c **** 
+ 283:../../shields/SCD30/src/scd30.c **** int8_t sensirion_common_check_crc(const uint8_t* data, uint16_t count,
+ 284:../../shields/SCD30/src/scd30.c ****                                   uint8_t checksum) {
+ 386              		.loc 1 284 53 is_stmt 1 view -0
+ 387              		.cfi_startproc
+ 388              		@ args = 0, pretend = 0, frame = 0
+ 389              		@ frame_needed = 0, uses_anonymous_args = 0
+ 390              		.loc 1 284 53 is_stmt 0 view .LVU86
+ 391 0000 10B5     		push	{r4, lr}
+ 392              	.LCFI7:
+ 393              		.cfi_def_cfa_offset 8
+ 394              		.cfi_offset 4, -8
+ 395              		.cfi_offset 14, -4
+ 396 0002 1446     		mov	r4, r2
+ 285:../../shields/SCD30/src/scd30.c ****     if (sensirion_common_generate_crc(data, count) != checksum)
+ 397              		.loc 1 285 5 is_stmt 1 view .LVU87
+ 398              		.loc 1 285 9 is_stmt 0 view .LVU88
+ 399 0004 FFF7FEFF 		bl	sensirion_common_generate_crc
+ 400              	.LVL27:
+ 401              		.loc 1 285 8 view .LVU89
+ 402 0008 A042     		cmp	r0, r4
+ 403 000a 01D1     		bne	.L28
+ 286:../../shields/SCD30/src/scd30.c ****         return STATUS_FAIL;
+ 287:../../shields/SCD30/src/scd30.c ****     return NO_ERROR;
+ 404              		.loc 1 287 12 view .LVU90
+ 405 000c 0020     		movs	r0, #0
+ 406              	.L27:
+ 288:../../shields/SCD30/src/scd30.c **** }
+ 407              		.loc 1 288 1 view .LVU91
+ 408 000e 10BD     		pop	{r4, pc}
+ 409              	.L28:
+ 286:../../shields/SCD30/src/scd30.c ****         return STATUS_FAIL;
+ 410              		.loc 1 286 16 view .LVU92
+ 411 0010 4FF0FF30 		mov	r0, #-1
+ 412 0014 FBE7     		b	.L27
+ 413              		.cfi_endproc
+ 414              	.LFE149:
+ 416              		.section	.text.sensirion_fill_cmd_send_buf,"ax",%progbits
+ 417              		.align	1
+ 418              		.global	sensirion_fill_cmd_send_buf
+ARM GAS  /tmp/cciMkFzD.s 			page 14
+
+
+ 419              		.syntax unified
+ 420              		.thumb
+ 421              		.thumb_func
+ 422              		.fpu fpv4-sp-d16
+ 424              	sensirion_fill_cmd_send_buf:
+ 425              	.LVL28:
+ 426              	.LFB151:
+ 289:../../shields/SCD30/src/scd30.c **** 
+ 290:../../shields/SCD30/src/scd30.c **** int16_t sensirion_i2c_general_call_reset(void) {
+ 291:../../shields/SCD30/src/scd30.c ****     const uint8_t data = 0x06;
+ 292:../../shields/SCD30/src/scd30.c ****     return sensirion_i2c_write(0, &data, (uint16_t)sizeof(data));
+ 293:../../shields/SCD30/src/scd30.c **** }
+ 294:../../shields/SCD30/src/scd30.c **** 
+ 295:../../shields/SCD30/src/scd30.c **** uint16_t sensirion_fill_cmd_send_buf(uint8_t* buf, uint16_t cmd,
+ 296:../../shields/SCD30/src/scd30.c ****                                      const uint16_t* args, uint8_t num_args) {
+ 427              		.loc 1 296 78 is_stmt 1 view -0
+ 428              		.cfi_startproc
+ 429              		@ args = 0, pretend = 0, frame = 0
+ 430              		@ frame_needed = 0, uses_anonymous_args = 0
+ 431              		.loc 1 296 78 is_stmt 0 view .LVU94
+ 432 0000 2DE9F843 		push	{r3, r4, r5, r6, r7, r8, r9, lr}
+ 433              	.LCFI8:
+ 434              		.cfi_def_cfa_offset 32
+ 435              		.cfi_offset 3, -32
+ 436              		.cfi_offset 4, -28
+ 437              		.cfi_offset 5, -24
+ 438              		.cfi_offset 6, -20
+ 439              		.cfi_offset 7, -16
+ 440              		.cfi_offset 8, -12
+ 441              		.cfi_offset 9, -8
+ 442              		.cfi_offset 14, -4
+ 443 0004 0746     		mov	r7, r0
+ 444 0006 9046     		mov	r8, r2
+ 445 0008 9946     		mov	r9, r3
+ 297:../../shields/SCD30/src/scd30.c ****     uint8_t crc;
+ 446              		.loc 1 297 5 is_stmt 1 view .LVU95
+ 298:../../shields/SCD30/src/scd30.c ****     uint8_t i;
+ 447              		.loc 1 298 5 view .LVU96
+ 299:../../shields/SCD30/src/scd30.c ****     uint16_t idx = 0;
+ 448              		.loc 1 299 5 view .LVU97
+ 449              	.LVL29:
+ 300:../../shields/SCD30/src/scd30.c **** 
+ 301:../../shields/SCD30/src/scd30.c ****     buf[idx++] = (uint8_t)((cmd & 0xFF00) >> 8);
+ 450              		.loc 1 301 5 view .LVU98
+ 451              		.loc 1 301 18 is_stmt 0 view .LVU99
+ 452 000a 0B0A     		lsrs	r3, r1, #8
+ 453              	.LVL30:
+ 454              		.loc 1 301 16 view .LVU100
+ 455 000c 0370     		strb	r3, [r0]
+ 302:../../shields/SCD30/src/scd30.c ****     buf[idx++] = (uint8_t)((cmd & 0x00FF) >> 0);
+ 456              		.loc 1 302 5 is_stmt 1 view .LVU101
+ 457              	.LVL31:
+ 458              		.loc 1 302 16 is_stmt 0 view .LVU102
+ 459 000e 4170     		strb	r1, [r0, #1]
+ 303:../../shields/SCD30/src/scd30.c **** 
+ 304:../../shields/SCD30/src/scd30.c ****     for (i = 0; i < num_args; ++i) {
+ 460              		.loc 1 304 5 is_stmt 1 view .LVU103
+ARM GAS  /tmp/cciMkFzD.s 			page 15
+
+
+ 461              	.LVL32:
+ 302:../../shields/SCD30/src/scd30.c ****     buf[idx++] = (uint8_t)((cmd & 0x00FF) >> 0);
+ 462              		.loc 1 302 12 is_stmt 0 view .LVU104
+ 463 0010 0224     		movs	r4, #2
+ 464              		.loc 1 304 12 view .LVU105
+ 465 0012 0025     		movs	r5, #0
+ 466              	.LVL33:
+ 467              	.L31:
+ 468              		.loc 1 304 17 is_stmt 1 discriminator 1 view .LVU106
+ 469              		.loc 1 304 5 is_stmt 0 discriminator 1 view .LVU107
+ 470 0014 4D45     		cmp	r5, r9
+ 471 0016 15D2     		bcs	.L34
+ 305:../../shields/SCD30/src/scd30.c ****         buf[idx++] = (uint8_t)((args[i] & 0xFF00) >> 8);
+ 472              		.loc 1 305 9 is_stmt 1 discriminator 3 view .LVU108
+ 473              		.loc 1 305 37 is_stmt 0 discriminator 3 view .LVU109
+ 474 0018 38F81530 		ldrh	r3, [r8, r5, lsl #1]
+ 475              		.loc 1 305 16 discriminator 3 view .LVU110
+ 476 001c 611C     		adds	r1, r4, #1
+ 477 001e 89B2     		uxth	r1, r1
+ 478              	.LVL34:
+ 479              		.loc 1 305 22 discriminator 3 view .LVU111
+ 480 0020 1B0A     		lsrs	r3, r3, #8
+ 481              		.loc 1 305 20 discriminator 3 view .LVU112
+ 482 0022 3B55     		strb	r3, [r7, r4]
+ 306:../../shields/SCD30/src/scd30.c ****         buf[idx++] = (uint8_t)((args[i] & 0x00FF) >> 0);
+ 483              		.loc 1 306 9 is_stmt 1 discriminator 3 view .LVU113
+ 484              		.loc 1 306 16 is_stmt 0 discriminator 3 view .LVU114
+ 485 0024 A61C     		adds	r6, r4, #2
+ 486 0026 B6B2     		uxth	r6, r6
+ 487              	.LVL35:
+ 488              		.loc 1 306 22 discriminator 3 view .LVU115
+ 489 0028 18F81530 		ldrb	r3, [r8, r5, lsl #1]	@ zero_extendqisi2
+ 490              		.loc 1 306 20 discriminator 3 view .LVU116
+ 491 002c 7B54     		strb	r3, [r7, r1]
+ 307:../../shields/SCD30/src/scd30.c **** 
+ 308:../../shields/SCD30/src/scd30.c ****         crc = sensirion_common_generate_crc((uint8_t*)&buf[idx - 2],
+ 492              		.loc 1 308 9 is_stmt 1 discriminator 3 view .LVU117
+ 493              		.loc 1 308 59 is_stmt 0 discriminator 3 view .LVU118
+ 494 002e B01E     		subs	r0, r6, #2
+ 495              		.loc 1 308 15 discriminator 3 view .LVU119
+ 496 0030 0221     		movs	r1, #2
+ 497 0032 3844     		add	r0, r0, r7
+ 498 0034 FFF7FEFF 		bl	sensirion_common_generate_crc
+ 499              	.LVL36:
+ 309:../../shields/SCD30/src/scd30.c ****                                             SENSIRION_WORD_SIZE);
+ 310:../../shields/SCD30/src/scd30.c ****         buf[idx++] = crc;
+ 500              		.loc 1 310 9 is_stmt 1 discriminator 3 view .LVU120
+ 501              		.loc 1 310 16 is_stmt 0 discriminator 3 view .LVU121
+ 502 0038 0334     		adds	r4, r4, #3
+ 503 003a A4B2     		uxth	r4, r4
+ 504              	.LVL37:
+ 505              		.loc 1 310 20 discriminator 3 view .LVU122
+ 506 003c B855     		strb	r0, [r7, r6]
+ 304:../../shields/SCD30/src/scd30.c ****         buf[idx++] = (uint8_t)((args[i] & 0xFF00) >> 8);
+ 507              		.loc 1 304 31 is_stmt 1 discriminator 3 view .LVU123
+ 508 003e 0135     		adds	r5, r5, #1
+ 509              	.LVL38:
+ARM GAS  /tmp/cciMkFzD.s 			page 16
+
+
+ 304:../../shields/SCD30/src/scd30.c ****         buf[idx++] = (uint8_t)((args[i] & 0xFF00) >> 8);
+ 510              		.loc 1 304 31 is_stmt 0 discriminator 3 view .LVU124
+ 511 0040 EDB2     		uxtb	r5, r5
+ 512              	.LVL39:
+ 304:../../shields/SCD30/src/scd30.c ****         buf[idx++] = (uint8_t)((args[i] & 0xFF00) >> 8);
+ 513              		.loc 1 304 31 discriminator 3 view .LVU125
+ 514 0042 E7E7     		b	.L31
+ 515              	.LVL40:
+ 516              	.L34:
+ 311:../../shields/SCD30/src/scd30.c ****     }
+ 312:../../shields/SCD30/src/scd30.c ****     return idx;
+ 517              		.loc 1 312 5 is_stmt 1 view .LVU126
+ 313:../../shields/SCD30/src/scd30.c **** }
+ 518              		.loc 1 313 1 is_stmt 0 view .LVU127
+ 519 0044 2046     		mov	r0, r4
+ 520 0046 BDE8F883 		pop	{r3, r4, r5, r6, r7, r8, r9, pc}
+ 521              		.loc 1 313 1 view .LVU128
+ 522              		.cfi_endproc
+ 523              	.LFE151:
+ 525              		.section	.text.sensirion_i2c_release,"ax",%progbits
+ 526              		.align	1
+ 527              		.global	sensirion_i2c_release
+ 528              		.syntax unified
+ 529              		.thumb
+ 530              		.thumb_func
+ 531              		.fpu fpv4-sp-d16
+ 533              	sensirion_i2c_release:
+ 534              	.LFB158:
+ 314:../../shields/SCD30/src/scd30.c **** 
+ 315:../../shields/SCD30/src/scd30.c **** int16_t sensirion_i2c_read_words_as_bytes(uint8_t address, uint8_t* data,
+ 316:../../shields/SCD30/src/scd30.c ****                                           uint16_t num_words) {
+ 317:../../shields/SCD30/src/scd30.c ****     int16_t ret;
+ 318:../../shields/SCD30/src/scd30.c ****     uint16_t i, j;
+ 319:../../shields/SCD30/src/scd30.c ****     uint16_t size = num_words * (SENSIRION_WORD_SIZE + CRC8_LEN);
+ 320:../../shields/SCD30/src/scd30.c ****     uint16_t word_buf[SENSIRION_MAX_BUFFER_WORDS];
+ 321:../../shields/SCD30/src/scd30.c ****     uint8_t* const buf8 = (uint8_t*)word_buf;
+ 322:../../shields/SCD30/src/scd30.c **** 
+ 323:../../shields/SCD30/src/scd30.c ****     ret = sensirion_i2c_read(address, buf8, size);
+ 324:../../shields/SCD30/src/scd30.c ****     if (ret != NO_ERROR)
+ 325:../../shields/SCD30/src/scd30.c ****         return ret;
+ 326:../../shields/SCD30/src/scd30.c **** 
+ 327:../../shields/SCD30/src/scd30.c ****     /* check the CRC for each word */
+ 328:../../shields/SCD30/src/scd30.c ****     for (i = 0, j = 0; i < size; i += SENSIRION_WORD_SIZE + CRC8_LEN) {
+ 329:../../shields/SCD30/src/scd30.c **** 
+ 330:../../shields/SCD30/src/scd30.c ****         ret = sensirion_common_check_crc(&buf8[i], SENSIRION_WORD_SIZE,
+ 331:../../shields/SCD30/src/scd30.c ****                                          buf8[i + SENSIRION_WORD_SIZE]);
+ 332:../../shields/SCD30/src/scd30.c ****         if (ret != NO_ERROR)
+ 333:../../shields/SCD30/src/scd30.c ****             return ret;
+ 334:../../shields/SCD30/src/scd30.c **** 
+ 335:../../shields/SCD30/src/scd30.c ****         data[j++] = buf8[i];
+ 336:../../shields/SCD30/src/scd30.c ****         data[j++] = buf8[i + 1];
+ 337:../../shields/SCD30/src/scd30.c ****     }
+ 338:../../shields/SCD30/src/scd30.c **** 
+ 339:../../shields/SCD30/src/scd30.c ****     return NO_ERROR;
+ 340:../../shields/SCD30/src/scd30.c **** }
+ 341:../../shields/SCD30/src/scd30.c **** 
+ 342:../../shields/SCD30/src/scd30.c **** int16_t sensirion_i2c_read_words(uint8_t address, uint16_t* data_words,
+ARM GAS  /tmp/cciMkFzD.s 			page 17
+
+
+ 343:../../shields/SCD30/src/scd30.c ****                                  uint16_t num_words) {
+ 344:../../shields/SCD30/src/scd30.c ****     int16_t ret;
+ 345:../../shields/SCD30/src/scd30.c ****     uint8_t i;
+ 346:../../shields/SCD30/src/scd30.c ****     const uint8_t* word_bytes;
+ 347:../../shields/SCD30/src/scd30.c **** 
+ 348:../../shields/SCD30/src/scd30.c ****     ret = sensirion_i2c_read_words_as_bytes(address, (uint8_t*)data_words,
+ 349:../../shields/SCD30/src/scd30.c ****                                             num_words);
+ 350:../../shields/SCD30/src/scd30.c ****     if (ret != NO_ERROR)
+ 351:../../shields/SCD30/src/scd30.c ****         return ret;
+ 352:../../shields/SCD30/src/scd30.c **** 
+ 353:../../shields/SCD30/src/scd30.c ****     for (i = 0; i < num_words; ++i) {
+ 354:../../shields/SCD30/src/scd30.c ****         word_bytes = (uint8_t*)&data_words[i];
+ 355:../../shields/SCD30/src/scd30.c ****         data_words[i] = ((uint16_t)word_bytes[0] << 8) | word_bytes[1];
+ 356:../../shields/SCD30/src/scd30.c ****     }
+ 357:../../shields/SCD30/src/scd30.c **** 
+ 358:../../shields/SCD30/src/scd30.c ****     return NO_ERROR;
+ 359:../../shields/SCD30/src/scd30.c **** }
+ 360:../../shields/SCD30/src/scd30.c **** 
+ 361:../../shields/SCD30/src/scd30.c **** int16_t sensirion_i2c_write_cmd(uint8_t address, uint16_t command) {
+ 362:../../shields/SCD30/src/scd30.c ****     uint8_t buf[SENSIRION_COMMAND_SIZE];
+ 363:../../shields/SCD30/src/scd30.c **** 
+ 364:../../shields/SCD30/src/scd30.c ****     sensirion_fill_cmd_send_buf(buf, command, NULL, 0);
+ 365:../../shields/SCD30/src/scd30.c ****     return sensirion_i2c_write(address, buf, SENSIRION_COMMAND_SIZE);
+ 366:../../shields/SCD30/src/scd30.c **** }
+ 367:../../shields/SCD30/src/scd30.c **** 
+ 368:../../shields/SCD30/src/scd30.c **** int16_t sensirion_i2c_write_cmd_with_args(uint8_t address, uint16_t command,
+ 369:../../shields/SCD30/src/scd30.c ****                                           const uint16_t* data_words,
+ 370:../../shields/SCD30/src/scd30.c ****                                           uint16_t num_words) {
+ 371:../../shields/SCD30/src/scd30.c ****     uint8_t buf[SENSIRION_MAX_BUFFER_WORDS];
+ 372:../../shields/SCD30/src/scd30.c ****     uint16_t buf_size;
+ 373:../../shields/SCD30/src/scd30.c **** 
+ 374:../../shields/SCD30/src/scd30.c ****     buf_size = sensirion_fill_cmd_send_buf(buf, command, data_words, num_words);
+ 375:../../shields/SCD30/src/scd30.c ****     return sensirion_i2c_write(address, buf, buf_size);
+ 376:../../shields/SCD30/src/scd30.c **** }
+ 377:../../shields/SCD30/src/scd30.c **** 
+ 378:../../shields/SCD30/src/scd30.c **** int16_t sensirion_i2c_delayed_read_cmd(uint8_t address, uint16_t cmd,
+ 379:../../shields/SCD30/src/scd30.c ****                                        uint32_t delay_us, uint16_t* data_words,
+ 380:../../shields/SCD30/src/scd30.c ****                                        uint16_t num_words) {
+ 381:../../shields/SCD30/src/scd30.c ****     int16_t ret;
+ 382:../../shields/SCD30/src/scd30.c ****     uint8_t buf[SENSIRION_COMMAND_SIZE];
+ 383:../../shields/SCD30/src/scd30.c **** 
+ 384:../../shields/SCD30/src/scd30.c ****     sensirion_fill_cmd_send_buf(buf, cmd, NULL, 0);
+ 385:../../shields/SCD30/src/scd30.c ****     ret = sensirion_i2c_write(address, buf, SENSIRION_COMMAND_SIZE);
+ 386:../../shields/SCD30/src/scd30.c ****     if (ret != NO_ERROR)
+ 387:../../shields/SCD30/src/scd30.c ****         return ret;
+ 388:../../shields/SCD30/src/scd30.c **** 
+ 389:../../shields/SCD30/src/scd30.c ****     if (delay_us)
+ 390:../../shields/SCD30/src/scd30.c ****         sensirion_sleep_usec(delay_us);
+ 391:../../shields/SCD30/src/scd30.c **** 
+ 392:../../shields/SCD30/src/scd30.c ****     return sensirion_i2c_read_words(address, data_words, num_words);
+ 393:../../shields/SCD30/src/scd30.c **** }
+ 394:../../shields/SCD30/src/scd30.c **** 
+ 395:../../shields/SCD30/src/scd30.c **** int16_t sensirion_i2c_read_cmd(uint8_t address, uint16_t cmd,
+ 396:../../shields/SCD30/src/scd30.c ****                                uint16_t* data_words, uint16_t num_words) {
+ 397:../../shields/SCD30/src/scd30.c ****     return sensirion_i2c_delayed_read_cmd(address, cmd, 0, data_words,
+ 398:../../shields/SCD30/src/scd30.c ****                                           num_words);
+ 399:../../shields/SCD30/src/scd30.c **** }
+ARM GAS  /tmp/cciMkFzD.s 			page 18
+
+
+ 400:../../shields/SCD30/src/scd30.c **** 
+ 401:../../shields/SCD30/src/scd30.c **** //STM32 example implementation
+ 402:../../shields/SCD30/src/scd30.c **** /**
+ 403:../../shields/SCD30/src/scd30.c ****  * Release all resources initialized by sensirion_i2c_init().
+ 404:../../shields/SCD30/src/scd30.c ****  */
+ 405:../../shields/SCD30/src/scd30.c **** void sensirion_i2c_release(void) {
+ 535              		.loc 1 405 34 is_stmt 1 view -0
+ 536              		.cfi_startproc
+ 537              		@ args = 0, pretend = 0, frame = 0
+ 538              		@ frame_needed = 0, uses_anonymous_args = 0
+ 539              		@ link register save eliminated.
+ 406:../../shields/SCD30/src/scd30.c **** }
+ 540              		.loc 1 406 1 view .LVU130
+ 541 0000 7047     		bx	lr
+ 542              		.cfi_endproc
+ 543              	.LFE158:
+ 545              		.section	.text.sensirion_i2c_read,"ax",%progbits
+ 546              		.align	1
+ 547              		.global	sensirion_i2c_read
+ 548              		.syntax unified
+ 549              		.thumb
+ 550              		.thumb_func
+ 551              		.fpu fpv4-sp-d16
+ 553              	sensirion_i2c_read:
+ 554              	.LVL41:
+ 555              	.LFB159:
+ 407:../../shields/SCD30/src/scd30.c **** 
+ 408:../../shields/SCD30/src/scd30.c **** /**
+ 409:../../shields/SCD30/src/scd30.c ****  * Execute one read transaction on the I2C bus, reading a given number of bytes.
+ 410:../../shields/SCD30/src/scd30.c ****  * If the device does not acknowledge the read command, an error shall be
+ 411:../../shields/SCD30/src/scd30.c ****  * returned.
+ 412:../../shields/SCD30/src/scd30.c ****  *
+ 413:../../shields/SCD30/src/scd30.c ****  * @param address 7-bit I2C address to read from
+ 414:../../shields/SCD30/src/scd30.c ****  * @param data    pointer to the buffer where the data is to be stored
+ 415:../../shields/SCD30/src/scd30.c ****  * @param count   number of bytes to read from I2C and store in the buffer
+ 416:../../shields/SCD30/src/scd30.c ****  * @returns 0 on success, error code otherwise
+ 417:../../shields/SCD30/src/scd30.c ****  */
+ 418:../../shields/SCD30/src/scd30.c **** int8_t sensirion_i2c_read(uint8_t address, uint8_t* data, uint16_t count) {
+ 556              		.loc 1 418 75 view -0
+ 557              		.cfi_startproc
+ 558              		@ args = 0, pretend = 0, frame = 0
+ 559              		@ frame_needed = 0, uses_anonymous_args = 0
+ 560              		.loc 1 418 75 is_stmt 0 view .LVU132
+ 561 0000 00B5     		push	{lr}
+ 562              	.LCFI9:
+ 563              		.cfi_def_cfa_offset 4
+ 564              		.cfi_offset 14, -4
+ 565 0002 83B0     		sub	sp, sp, #12
+ 566              	.LCFI10:
+ 567              		.cfi_def_cfa_offset 16
+ 568 0004 1346     		mov	r3, r2
+ 419:../../shields/SCD30/src/scd30.c ****     return (int8_t)HAL_I2C_Master_Receive(i2cHandle, (uint16_t)(address << 1),
+ 569              		.loc 1 419 5 is_stmt 1 view .LVU133
+ 570              		.loc 1 419 20 is_stmt 0 view .LVU134
+ 571 0006 6422     		movs	r2, #100
+ 572              	.LVL42:
+ 573              		.loc 1 419 20 view .LVU135
+ARM GAS  /tmp/cciMkFzD.s 			page 19
+
+
+ 574 0008 0092     		str	r2, [sp]
+ 575 000a 0A46     		mov	r2, r1
+ 576 000c 4100     		lsls	r1, r0, #1
+ 577              	.LVL43:
+ 578              		.loc 1 419 20 view .LVU136
+ 579 000e 0448     		ldr	r0, .L38
+ 580              	.LVL44:
+ 581              		.loc 1 419 20 view .LVU137
+ 582 0010 0068     		ldr	r0, [r0]
+ 583 0012 FFF7FEFF 		bl	HAL_I2C_Master_Receive
+ 584              	.LVL45:
+ 420:../../shields/SCD30/src/scd30.c ****                                           data, count, 100);
+ 421:../../shields/SCD30/src/scd30.c **** }
+ 585              		.loc 1 421 1 view .LVU138
+ 586 0016 40B2     		sxtb	r0, r0
+ 587 0018 03B0     		add	sp, sp, #12
+ 588              	.LCFI11:
+ 589              		.cfi_def_cfa_offset 4
+ 590              		@ sp needed
+ 591 001a 5DF804FB 		ldr	pc, [sp], #4
+ 592              	.L39:
+ 593 001e 00BF     		.align	2
+ 594              	.L38:
+ 595 0020 00000000 		.word	i2cHandle
+ 596              		.cfi_endproc
+ 597              	.LFE159:
+ 599              		.section	.text.sensirion_i2c_read_words_as_bytes,"ax",%progbits
+ 600              		.align	1
+ 601              		.global	sensirion_i2c_read_words_as_bytes
+ 602              		.syntax unified
+ 603              		.thumb
+ 604              		.thumb_func
+ 605              		.fpu fpv4-sp-d16
+ 607              	sensirion_i2c_read_words_as_bytes:
+ 608              	.LVL46:
+ 609              	.LFB152:
+ 316:../../shields/SCD30/src/scd30.c ****     int16_t ret;
+ 610              		.loc 1 316 63 is_stmt 1 view -0
+ 611              		.cfi_startproc
+ 612              		@ args = 0, pretend = 0, frame = 64
+ 613              		@ frame_needed = 0, uses_anonymous_args = 0
+ 316:../../shields/SCD30/src/scd30.c ****     int16_t ret;
+ 614              		.loc 1 316 63 is_stmt 0 view .LVU140
+ 615 0000 2DE9F041 		push	{r4, r5, r6, r7, r8, lr}
+ 616              	.LCFI12:
+ 617              		.cfi_def_cfa_offset 24
+ 618              		.cfi_offset 4, -24
+ 619              		.cfi_offset 5, -20
+ 620              		.cfi_offset 6, -16
+ 621              		.cfi_offset 7, -12
+ 622              		.cfi_offset 8, -8
+ 623              		.cfi_offset 14, -4
+ 624 0004 90B0     		sub	sp, sp, #64
+ 625              	.LCFI13:
+ 626              		.cfi_def_cfa_offset 88
+ 627 0006 0E46     		mov	r6, r1
+ 317:../../shields/SCD30/src/scd30.c ****     uint16_t i, j;
+ARM GAS  /tmp/cciMkFzD.s 			page 20
+
+
+ 628              		.loc 1 317 5 is_stmt 1 view .LVU141
+ 318:../../shields/SCD30/src/scd30.c ****     uint16_t size = num_words * (SENSIRION_WORD_SIZE + CRC8_LEN);
+ 629              		.loc 1 318 5 view .LVU142
+ 319:../../shields/SCD30/src/scd30.c ****     uint16_t word_buf[SENSIRION_MAX_BUFFER_WORDS];
+ 630              		.loc 1 319 5 view .LVU143
+ 319:../../shields/SCD30/src/scd30.c ****     uint16_t word_buf[SENSIRION_MAX_BUFFER_WORDS];
+ 631              		.loc 1 319 14 is_stmt 0 view .LVU144
+ 632 0008 02EB4202 		add	r2, r2, r2, lsl #1
+ 633              	.LVL47:
+ 319:../../shields/SCD30/src/scd30.c ****     uint16_t word_buf[SENSIRION_MAX_BUFFER_WORDS];
+ 634              		.loc 1 319 14 view .LVU145
+ 635 000c 97B2     		uxth	r7, r2
+ 636              	.LVL48:
+ 320:../../shields/SCD30/src/scd30.c ****     uint8_t* const buf8 = (uint8_t*)word_buf;
+ 637              		.loc 1 320 5 is_stmt 1 view .LVU146
+ 321:../../shields/SCD30/src/scd30.c **** 
+ 638              		.loc 1 321 5 view .LVU147
+ 323:../../shields/SCD30/src/scd30.c ****     if (ret != NO_ERROR)
+ 639              		.loc 1 323 5 view .LVU148
+ 323:../../shields/SCD30/src/scd30.c ****     if (ret != NO_ERROR)
+ 640              		.loc 1 323 11 is_stmt 0 view .LVU149
+ 641 000e 3A46     		mov	r2, r7
+ 642 0010 6946     		mov	r1, sp
+ 643              	.LVL49:
+ 323:../../shields/SCD30/src/scd30.c ****     if (ret != NO_ERROR)
+ 644              		.loc 1 323 11 view .LVU150
+ 645 0012 FFF7FEFF 		bl	sensirion_i2c_read
+ 646              	.LVL50:
+ 323:../../shields/SCD30/src/scd30.c ****     if (ret != NO_ERROR)
+ 647              		.loc 1 323 9 view .LVU151
+ 648 0016 0FFA80F8 		sxth	r8, r0
+ 649              	.LVL51:
+ 324:../../shields/SCD30/src/scd30.c ****         return ret;
+ 650              		.loc 1 324 5 is_stmt 1 view .LVU152
+ 324:../../shields/SCD30/src/scd30.c ****         return ret;
+ 651              		.loc 1 324 8 is_stmt 0 view .LVU153
+ 652 001a B8F1000F 		cmp	r8, #0
+ 653 001e 1DD1     		bne	.L41
+ 328:../../shields/SCD30/src/scd30.c **** 
+ 654              		.loc 1 328 19 view .LVU154
+ 655 0020 0025     		movs	r5, #0
+ 328:../../shields/SCD30/src/scd30.c **** 
+ 656              		.loc 1 328 12 view .LVU155
+ 657 0022 2C46     		mov	r4, r5
+ 658              	.LVL52:
+ 659              	.L42:
+ 328:../../shields/SCD30/src/scd30.c **** 
+ 660              		.loc 1 328 24 is_stmt 1 discriminator 1 view .LVU156
+ 328:../../shields/SCD30/src/scd30.c **** 
+ 661              		.loc 1 328 5 is_stmt 0 discriminator 1 view .LVU157
+ 662 0024 BC42     		cmp	r4, r7
+ 663 0026 19D2     		bcs	.L41
+ 330:../../shields/SCD30/src/scd30.c ****                                          buf8[i + SENSIRION_WORD_SIZE]);
+ 664              		.loc 1 330 9 is_stmt 1 view .LVU158
+ 331:../../shields/SCD30/src/scd30.c ****         if (ret != NO_ERROR)
+ 665              		.loc 1 331 46 is_stmt 0 view .LVU159
+ 666 0028 A31C     		adds	r3, r4, #2
+ARM GAS  /tmp/cciMkFzD.s 			page 21
+
+
+ 330:../../shields/SCD30/src/scd30.c ****                                          buf8[i + SENSIRION_WORD_SIZE]);
+ 667              		.loc 1 330 15 view .LVU160
+ 668 002a 1DF80320 		ldrb	r2, [sp, r3]	@ zero_extendqisi2
+ 669 002e 0221     		movs	r1, #2
+ 670 0030 0DEB0400 		add	r0, sp, r4
+ 671 0034 FFF7FEFF 		bl	sensirion_common_check_crc
+ 672              	.LVL53:
+ 330:../../shields/SCD30/src/scd30.c ****                                          buf8[i + SENSIRION_WORD_SIZE]);
+ 673              		.loc 1 330 13 view .LVU161
+ 674 0038 00B2     		sxth	r0, r0
+ 675              	.LVL54:
+ 332:../../shields/SCD30/src/scd30.c ****             return ret;
+ 676              		.loc 1 332 9 is_stmt 1 view .LVU162
+ 332:../../shields/SCD30/src/scd30.c ****             return ret;
+ 677              		.loc 1 332 12 is_stmt 0 view .LVU163
+ 678 003a 70B9     		cbnz	r0, .L44
+ 335:../../shields/SCD30/src/scd30.c ****         data[j++] = buf8[i + 1];
+ 679              		.loc 1 335 9 is_stmt 1 discriminator 2 view .LVU164
+ 335:../../shields/SCD30/src/scd30.c ****         data[j++] = buf8[i + 1];
+ 680              		.loc 1 335 15 is_stmt 0 discriminator 2 view .LVU165
+ 681 003c 6B1C     		adds	r3, r5, #1
+ 682 003e 9BB2     		uxth	r3, r3
+ 683              	.LVL55:
+ 335:../../shields/SCD30/src/scd30.c ****         data[j++] = buf8[i + 1];
+ 684              		.loc 1 335 25 discriminator 2 view .LVU166
+ 685 0040 1DF80420 		ldrb	r2, [sp, r4]	@ zero_extendqisi2
+ 335:../../shields/SCD30/src/scd30.c ****         data[j++] = buf8[i + 1];
+ 686              		.loc 1 335 19 discriminator 2 view .LVU167
+ 687 0044 7255     		strb	r2, [r6, r5]
+ 336:../../shields/SCD30/src/scd30.c ****     }
+ 688              		.loc 1 336 9 is_stmt 1 discriminator 2 view .LVU168
+ 336:../../shields/SCD30/src/scd30.c ****     }
+ 689              		.loc 1 336 15 is_stmt 0 discriminator 2 view .LVU169
+ 690 0046 0235     		adds	r5, r5, #2
+ 691 0048 ADB2     		uxth	r5, r5
+ 692              	.LVL56:
+ 336:../../shields/SCD30/src/scd30.c ****     }
+ 693              		.loc 1 336 25 discriminator 2 view .LVU170
+ 694 004a 10AA     		add	r2, sp, #64
+ 695 004c 2244     		add	r2, r2, r4
+ 696 004e 12F83F2C 		ldrb	r2, [r2, #-63]	@ zero_extendqisi2
+ 336:../../shields/SCD30/src/scd30.c ****     }
+ 697              		.loc 1 336 19 discriminator 2 view .LVU171
+ 698 0052 F254     		strb	r2, [r6, r3]
+ 328:../../shields/SCD30/src/scd30.c **** 
+ 699              		.loc 1 328 34 is_stmt 1 discriminator 2 view .LVU172
+ 328:../../shields/SCD30/src/scd30.c **** 
+ 700              		.loc 1 328 36 is_stmt 0 discriminator 2 view .LVU173
+ 701 0054 0334     		adds	r4, r4, #3
+ 702              	.LVL57:
+ 328:../../shields/SCD30/src/scd30.c **** 
+ 703              		.loc 1 328 36 discriminator 2 view .LVU174
+ 704 0056 A4B2     		uxth	r4, r4
+ 705              	.LVL58:
+ 328:../../shields/SCD30/src/scd30.c **** 
+ 706              		.loc 1 328 36 discriminator 2 view .LVU175
+ 707 0058 E4E7     		b	.L42
+ARM GAS  /tmp/cciMkFzD.s 			page 22
+
+
+ 708              	.L44:
+ 333:../../shields/SCD30/src/scd30.c **** 
+ 709              		.loc 1 333 20 view .LVU176
+ 710 005a 8046     		mov	r8, r0
+ 711              	.LVL59:
+ 712              	.L41:
+ 340:../../shields/SCD30/src/scd30.c **** 
+ 713              		.loc 1 340 1 view .LVU177
+ 714 005c 4046     		mov	r0, r8
+ 715 005e 10B0     		add	sp, sp, #64
+ 716              	.LCFI14:
+ 717              		.cfi_def_cfa_offset 24
+ 718              	.LVL60:
+ 340:../../shields/SCD30/src/scd30.c **** 
+ 719              		.loc 1 340 1 view .LVU178
+ 720              		@ sp needed
+ 721 0060 BDE8F081 		pop	{r4, r5, r6, r7, r8, pc}
+ 340:../../shields/SCD30/src/scd30.c **** 
+ 722              		.loc 1 340 1 view .LVU179
+ 723              		.cfi_endproc
+ 724              	.LFE152:
+ 726              		.section	.text.sensirion_i2c_read_words,"ax",%progbits
+ 727              		.align	1
+ 728              		.global	sensirion_i2c_read_words
+ 729              		.syntax unified
+ 730              		.thumb
+ 731              		.thumb_func
+ 732              		.fpu fpv4-sp-d16
+ 734              	sensirion_i2c_read_words:
+ 735              	.LVL61:
+ 736              	.LFB153:
+ 343:../../shields/SCD30/src/scd30.c ****     int16_t ret;
+ 737              		.loc 1 343 54 is_stmt 1 view -0
+ 738              		.cfi_startproc
+ 739              		@ args = 0, pretend = 0, frame = 0
+ 740              		@ frame_needed = 0, uses_anonymous_args = 0
+ 343:../../shields/SCD30/src/scd30.c ****     int16_t ret;
+ 741              		.loc 1 343 54 is_stmt 0 view .LVU181
+ 742 0000 70B5     		push	{r4, r5, r6, lr}
+ 743              	.LCFI15:
+ 744              		.cfi_def_cfa_offset 16
+ 745              		.cfi_offset 4, -16
+ 746              		.cfi_offset 5, -12
+ 747              		.cfi_offset 6, -8
+ 748              		.cfi_offset 14, -4
+ 749 0002 0D46     		mov	r5, r1
+ 750 0004 1646     		mov	r6, r2
+ 344:../../shields/SCD30/src/scd30.c ****     uint8_t i;
+ 751              		.loc 1 344 5 is_stmt 1 view .LVU182
+ 345:../../shields/SCD30/src/scd30.c ****     const uint8_t* word_bytes;
+ 752              		.loc 1 345 5 view .LVU183
+ 346:../../shields/SCD30/src/scd30.c **** 
+ 753              		.loc 1 346 5 view .LVU184
+ 348:../../shields/SCD30/src/scd30.c ****                                             num_words);
+ 754              		.loc 1 348 5 view .LVU185
+ 348:../../shields/SCD30/src/scd30.c ****                                             num_words);
+ 755              		.loc 1 348 11 is_stmt 0 view .LVU186
+ARM GAS  /tmp/cciMkFzD.s 			page 23
+
+
+ 756 0006 FFF7FEFF 		bl	sensirion_i2c_read_words_as_bytes
+ 757              	.LVL62:
+ 350:../../shields/SCD30/src/scd30.c ****         return ret;
+ 758              		.loc 1 350 5 is_stmt 1 view .LVU187
+ 350:../../shields/SCD30/src/scd30.c ****         return ret;
+ 759              		.loc 1 350 8 is_stmt 0 view .LVU188
+ 760 000a 78B9     		cbnz	r0, .L47
+ 761 000c 0346     		mov	r3, r0
+ 762              	.L48:
+ 763              	.LVL63:
+ 353:../../shields/SCD30/src/scd30.c ****         word_bytes = (uint8_t*)&data_words[i];
+ 764              		.loc 1 353 17 is_stmt 1 discriminator 1 view .LVU189
+ 353:../../shields/SCD30/src/scd30.c ****         word_bytes = (uint8_t*)&data_words[i];
+ 765              		.loc 1 353 19 is_stmt 0 discriminator 1 view .LVU190
+ 766 000e 99B2     		uxth	r1, r3
+ 353:../../shields/SCD30/src/scd30.c ****         word_bytes = (uint8_t*)&data_words[i];
+ 767              		.loc 1 353 5 discriminator 1 view .LVU191
+ 768 0010 B142     		cmp	r1, r6
+ 769 0012 0BD2     		bcs	.L47
+ 354:../../shields/SCD30/src/scd30.c ****         data_words[i] = ((uint16_t)word_bytes[0] << 8) | word_bytes[1];
+ 770              		.loc 1 354 9 is_stmt 1 discriminator 3 view .LVU192
+ 354:../../shields/SCD30/src/scd30.c ****         data_words[i] = ((uint16_t)word_bytes[0] << 8) | word_bytes[1];
+ 771              		.loc 1 354 20 is_stmt 0 discriminator 3 view .LVU193
+ 772 0014 05EB4302 		add	r2, r5, r3, lsl #1
+ 773              	.LVL64:
+ 355:../../shields/SCD30/src/scd30.c ****     }
+ 774              		.loc 1 355 9 is_stmt 1 discriminator 3 view .LVU194
+ 355:../../shields/SCD30/src/scd30.c ****     }
+ 775              		.loc 1 355 46 is_stmt 0 discriminator 3 view .LVU195
+ 776 0018 15F81310 		ldrb	r1, [r5, r3, lsl #1]	@ zero_extendqisi2
+ 355:../../shields/SCD30/src/scd30.c ****     }
+ 777              		.loc 1 355 68 discriminator 3 view .LVU196
+ 778 001c 5478     		ldrb	r4, [r2, #1]	@ zero_extendqisi2
+ 355:../../shields/SCD30/src/scd30.c ****     }
+ 779              		.loc 1 355 56 discriminator 3 view .LVU197
+ 780 001e 44EA0124 		orr	r4, r4, r1, lsl #8
+ 355:../../shields/SCD30/src/scd30.c ****     }
+ 781              		.loc 1 355 23 discriminator 3 view .LVU198
+ 782 0022 25F81340 		strh	r4, [r5, r3, lsl #1]	@ movhi
+ 353:../../shields/SCD30/src/scd30.c ****         word_bytes = (uint8_t*)&data_words[i];
+ 783              		.loc 1 353 32 is_stmt 1 discriminator 3 view .LVU199
+ 784 0026 0133     		adds	r3, r3, #1
+ 785              	.LVL65:
+ 353:../../shields/SCD30/src/scd30.c ****         word_bytes = (uint8_t*)&data_words[i];
+ 786              		.loc 1 353 32 is_stmt 0 discriminator 3 view .LVU200
+ 787 0028 DBB2     		uxtb	r3, r3
+ 788              	.LVL66:
+ 353:../../shields/SCD30/src/scd30.c ****         word_bytes = (uint8_t*)&data_words[i];
+ 789              		.loc 1 353 32 discriminator 3 view .LVU201
+ 790 002a F0E7     		b	.L48
+ 791              	.LVL67:
+ 792              	.L47:
+ 359:../../shields/SCD30/src/scd30.c **** 
+ 793              		.loc 1 359 1 view .LVU202
+ 794 002c 70BD     		pop	{r4, r5, r6, pc}
+ 359:../../shields/SCD30/src/scd30.c **** 
+ 795              		.loc 1 359 1 view .LVU203
+ARM GAS  /tmp/cciMkFzD.s 			page 24
+
+
+ 796              		.cfi_endproc
+ 797              	.LFE153:
+ 799              		.section	.text.sensirion_i2c_write,"ax",%progbits
+ 800              		.align	1
+ 801              		.global	sensirion_i2c_write
+ 802              		.syntax unified
+ 803              		.thumb
+ 804              		.thumb_func
+ 805              		.fpu fpv4-sp-d16
+ 807              	sensirion_i2c_write:
+ 808              	.LVL68:
+ 809              	.LFB160:
+ 422:../../shields/SCD30/src/scd30.c **** 
+ 423:../../shields/SCD30/src/scd30.c **** /**
+ 424:../../shields/SCD30/src/scd30.c ****  * Execute one write transaction on the I2C bus, sending a given number of
+ 425:../../shields/SCD30/src/scd30.c ****  * bytes. The bytes in the supplied buffer must be sent to the given address. If
+ 426:../../shields/SCD30/src/scd30.c ****  * the slave device does not acknowledge any of the bytes, an error shall be
+ 427:../../shields/SCD30/src/scd30.c ****  * returned.
+ 428:../../shields/SCD30/src/scd30.c ****  *
+ 429:../../shields/SCD30/src/scd30.c ****  * @param address 7-bit I2C address to write to
+ 430:../../shields/SCD30/src/scd30.c ****  * @param data    pointer to the buffer containing the data to write
+ 431:../../shields/SCD30/src/scd30.c ****  * @param count   number of bytes to read from the buffer and send over I2C
+ 432:../../shields/SCD30/src/scd30.c ****  * @returns 0 on success, error code otherwise
+ 433:../../shields/SCD30/src/scd30.c ****  */
+ 434:../../shields/SCD30/src/scd30.c **** int8_t sensirion_i2c_write(uint8_t address, const uint8_t* data,
+ 435:../../shields/SCD30/src/scd30.c ****                            uint16_t count) {
+ 810              		.loc 1 435 44 is_stmt 1 view -0
+ 811              		.cfi_startproc
+ 812              		@ args = 0, pretend = 0, frame = 0
+ 813              		@ frame_needed = 0, uses_anonymous_args = 0
+ 814              		.loc 1 435 44 is_stmt 0 view .LVU205
+ 815 0000 00B5     		push	{lr}
+ 816              	.LCFI16:
+ 817              		.cfi_def_cfa_offset 4
+ 818              		.cfi_offset 14, -4
+ 819 0002 83B0     		sub	sp, sp, #12
+ 820              	.LCFI17:
+ 821              		.cfi_def_cfa_offset 16
+ 822 0004 1346     		mov	r3, r2
+ 436:../../shields/SCD30/src/scd30.c ****     return (int8_t)HAL_I2C_Master_Transmit(i2cHandle, (uint16_t)(address << 1),
+ 823              		.loc 1 436 5 is_stmt 1 view .LVU206
+ 824              		.loc 1 436 20 is_stmt 0 view .LVU207
+ 825 0006 6422     		movs	r2, #100
+ 826              	.LVL69:
+ 827              		.loc 1 436 20 view .LVU208
+ 828 0008 0092     		str	r2, [sp]
+ 829 000a 0A46     		mov	r2, r1
+ 830 000c 4100     		lsls	r1, r0, #1
+ 831              	.LVL70:
+ 832              		.loc 1 436 20 view .LVU209
+ 833 000e 0448     		ldr	r0, .L53
+ 834              	.LVL71:
+ 835              		.loc 1 436 20 view .LVU210
+ 836 0010 0068     		ldr	r0, [r0]
+ 837 0012 FFF7FEFF 		bl	HAL_I2C_Master_Transmit
+ 838              	.LVL72:
+ 437:../../shields/SCD30/src/scd30.c ****                                            (uint8_t*)data, count, 100);
+ARM GAS  /tmp/cciMkFzD.s 			page 25
+
+
+ 438:../../shields/SCD30/src/scd30.c **** }
+ 839              		.loc 1 438 1 view .LVU211
+ 840 0016 40B2     		sxtb	r0, r0
+ 841 0018 03B0     		add	sp, sp, #12
+ 842              	.LCFI18:
+ 843              		.cfi_def_cfa_offset 4
+ 844              		@ sp needed
+ 845 001a 5DF804FB 		ldr	pc, [sp], #4
+ 846              	.L54:
+ 847 001e 00BF     		.align	2
+ 848              	.L53:
+ 849 0020 00000000 		.word	i2cHandle
+ 850              		.cfi_endproc
+ 851              	.LFE160:
+ 853              		.section	.text.sensirion_i2c_general_call_reset,"ax",%progbits
+ 854              		.align	1
+ 855              		.global	sensirion_i2c_general_call_reset
+ 856              		.syntax unified
+ 857              		.thumb
+ 858              		.thumb_func
+ 859              		.fpu fpv4-sp-d16
+ 861              	sensirion_i2c_general_call_reset:
+ 862              	.LFB150:
+ 290:../../shields/SCD30/src/scd30.c ****     const uint8_t data = 0x06;
+ 863              		.loc 1 290 48 is_stmt 1 view -0
+ 864              		.cfi_startproc
+ 865              		@ args = 0, pretend = 0, frame = 8
+ 866              		@ frame_needed = 0, uses_anonymous_args = 0
+ 867 0000 00B5     		push	{lr}
+ 868              	.LCFI19:
+ 869              		.cfi_def_cfa_offset 4
+ 870              		.cfi_offset 14, -4
+ 871 0002 83B0     		sub	sp, sp, #12
+ 872              	.LCFI20:
+ 873              		.cfi_def_cfa_offset 16
+ 291:../../shields/SCD30/src/scd30.c ****     return sensirion_i2c_write(0, &data, (uint16_t)sizeof(data));
+ 874              		.loc 1 291 5 view .LVU213
+ 291:../../shields/SCD30/src/scd30.c ****     return sensirion_i2c_write(0, &data, (uint16_t)sizeof(data));
+ 875              		.loc 1 291 19 is_stmt 0 view .LVU214
+ 876 0004 0623     		movs	r3, #6
+ 877 0006 8DF80730 		strb	r3, [sp, #7]
+ 292:../../shields/SCD30/src/scd30.c **** }
+ 878              		.loc 1 292 5 is_stmt 1 view .LVU215
+ 292:../../shields/SCD30/src/scd30.c **** }
+ 879              		.loc 1 292 12 is_stmt 0 view .LVU216
+ 880 000a 0122     		movs	r2, #1
+ 881 000c 0DF10701 		add	r1, sp, #7
+ 882 0010 0020     		movs	r0, #0
+ 883 0012 FFF7FEFF 		bl	sensirion_i2c_write
+ 884              	.LVL73:
+ 293:../../shields/SCD30/src/scd30.c **** 
+ 885              		.loc 1 293 1 view .LVU217
+ 886 0016 00B2     		sxth	r0, r0
+ 887 0018 03B0     		add	sp, sp, #12
+ 888              	.LCFI21:
+ 889              		.cfi_def_cfa_offset 4
+ 890              		@ sp needed
+ARM GAS  /tmp/cciMkFzD.s 			page 26
+
+
+ 891 001a 5DF804FB 		ldr	pc, [sp], #4
+ 892              		.cfi_endproc
+ 893              	.LFE150:
+ 895              		.section	.text.sensirion_i2c_write_cmd,"ax",%progbits
+ 896              		.align	1
+ 897              		.global	sensirion_i2c_write_cmd
+ 898              		.syntax unified
+ 899              		.thumb
+ 900              		.thumb_func
+ 901              		.fpu fpv4-sp-d16
+ 903              	sensirion_i2c_write_cmd:
+ 904              	.LVL74:
+ 905              	.LFB154:
+ 361:../../shields/SCD30/src/scd30.c ****     uint8_t buf[SENSIRION_COMMAND_SIZE];
+ 906              		.loc 1 361 68 is_stmt 1 view -0
+ 907              		.cfi_startproc
+ 908              		@ args = 0, pretend = 0, frame = 8
+ 909              		@ frame_needed = 0, uses_anonymous_args = 0
+ 361:../../shields/SCD30/src/scd30.c ****     uint8_t buf[SENSIRION_COMMAND_SIZE];
+ 910              		.loc 1 361 68 is_stmt 0 view .LVU219
+ 911 0000 10B5     		push	{r4, lr}
+ 912              	.LCFI22:
+ 913              		.cfi_def_cfa_offset 8
+ 914              		.cfi_offset 4, -8
+ 915              		.cfi_offset 14, -4
+ 916 0002 82B0     		sub	sp, sp, #8
+ 917              	.LCFI23:
+ 918              		.cfi_def_cfa_offset 16
+ 919 0004 0446     		mov	r4, r0
+ 362:../../shields/SCD30/src/scd30.c **** 
+ 920              		.loc 1 362 5 is_stmt 1 view .LVU220
+ 364:../../shields/SCD30/src/scd30.c ****     return sensirion_i2c_write(address, buf, SENSIRION_COMMAND_SIZE);
+ 921              		.loc 1 364 5 view .LVU221
+ 922 0006 0023     		movs	r3, #0
+ 923 0008 1A46     		mov	r2, r3
+ 924 000a 01A8     		add	r0, sp, #4
+ 925              	.LVL75:
+ 364:../../shields/SCD30/src/scd30.c ****     return sensirion_i2c_write(address, buf, SENSIRION_COMMAND_SIZE);
+ 926              		.loc 1 364 5 is_stmt 0 view .LVU222
+ 927 000c FFF7FEFF 		bl	sensirion_fill_cmd_send_buf
+ 928              	.LVL76:
+ 365:../../shields/SCD30/src/scd30.c **** }
+ 929              		.loc 1 365 5 is_stmt 1 view .LVU223
+ 365:../../shields/SCD30/src/scd30.c **** }
+ 930              		.loc 1 365 12 is_stmt 0 view .LVU224
+ 931 0010 0222     		movs	r2, #2
+ 932 0012 01A9     		add	r1, sp, #4
+ 933 0014 2046     		mov	r0, r4
+ 934 0016 FFF7FEFF 		bl	sensirion_i2c_write
+ 935              	.LVL77:
+ 366:../../shields/SCD30/src/scd30.c **** 
+ 936              		.loc 1 366 1 view .LVU225
+ 937 001a 00B2     		sxth	r0, r0
+ 938 001c 02B0     		add	sp, sp, #8
+ 939              	.LCFI24:
+ 940              		.cfi_def_cfa_offset 8
+ 941              		@ sp needed
+ARM GAS  /tmp/cciMkFzD.s 			page 27
+
+
+ 942 001e 10BD     		pop	{r4, pc}
+ 943              		.cfi_endproc
+ 944              	.LFE154:
+ 946              		.section	.text.scd30_stop_periodic_measurement,"ax",%progbits
+ 947              		.align	1
+ 948              		.global	scd30_stop_periodic_measurement
+ 949              		.syntax unified
+ 950              		.thumb
+ 951              		.thumb_func
+ 952              		.fpu fpv4-sp-d16
+ 954              	scd30_stop_periodic_measurement:
+ 955              	.LFB133:
+ 107:../../shields/SCD30/src/scd30.c ****     return sensirion_i2c_write_cmd(SCD30_I2C_ADDRESS,
+ 956              		.loc 1 107 43 is_stmt 1 view -0
+ 957              		.cfi_startproc
+ 958              		@ args = 0, pretend = 0, frame = 0
+ 959              		@ frame_needed = 0, uses_anonymous_args = 0
+ 960 0000 08B5     		push	{r3, lr}
+ 961              	.LCFI25:
+ 962              		.cfi_def_cfa_offset 8
+ 963              		.cfi_offset 3, -8
+ 964              		.cfi_offset 14, -4
+ 108:../../shields/SCD30/src/scd30.c ****                                    SCD30_CMD_STOP_PERIODIC_MEASUREMENT);
+ 965              		.loc 1 108 5 view .LVU227
+ 108:../../shields/SCD30/src/scd30.c ****                                    SCD30_CMD_STOP_PERIODIC_MEASUREMENT);
+ 966              		.loc 1 108 12 is_stmt 0 view .LVU228
+ 967 0002 4FF48271 		mov	r1, #260
+ 968 0006 6120     		movs	r0, #97
+ 969 0008 FFF7FEFF 		bl	sensirion_i2c_write_cmd
+ 970              	.LVL78:
+ 110:../../shields/SCD30/src/scd30.c **** 
+ 971              		.loc 1 110 1 view .LVU229
+ 972 000c 08BD     		pop	{r3, pc}
+ 973              		.cfi_endproc
+ 974              	.LFE133:
+ 976              		.section	.text.scd30_read_measurement,"ax",%progbits
+ 977              		.align	1
+ 978              		.global	scd30_read_measurement
+ 979              		.syntax unified
+ 980              		.thumb
+ 981              		.thumb_func
+ 982              		.fpu fpv4-sp-d16
+ 984              	scd30_read_measurement:
+ 985              	.LVL79:
+ 986              	.LFB134:
+ 113:../../shields/SCD30/src/scd30.c ****     int16_t error;
+ 987              		.loc 1 113 49 is_stmt 1 view -0
+ 988              		.cfi_startproc
+ 989              		@ args = 0, pretend = 0, frame = 16
+ 990              		@ frame_needed = 0, uses_anonymous_args = 0
+ 113:../../shields/SCD30/src/scd30.c ****     int16_t error;
+ 991              		.loc 1 113 49 is_stmt 0 view .LVU231
+ 992 0000 F0B5     		push	{r4, r5, r6, r7, lr}
+ 993              	.LCFI26:
+ 994              		.cfi_def_cfa_offset 20
+ 995              		.cfi_offset 4, -20
+ 996              		.cfi_offset 5, -16
+ARM GAS  /tmp/cciMkFzD.s 			page 28
+
+
+ 997              		.cfi_offset 6, -12
+ 998              		.cfi_offset 7, -8
+ 999              		.cfi_offset 14, -4
+ 1000 0002 85B0     		sub	sp, sp, #20
+ 1001              	.LCFI27:
+ 1002              		.cfi_def_cfa_offset 40
+ 1003 0004 0646     		mov	r6, r0
+ 1004 0006 0D46     		mov	r5, r1
+ 1005 0008 1446     		mov	r4, r2
+ 114:../../shields/SCD30/src/scd30.c ****     uint8_t data[3][4];
+ 1006              		.loc 1 114 5 is_stmt 1 view .LVU232
+ 115:../../shields/SCD30/src/scd30.c **** 
+ 1007              		.loc 1 115 5 view .LVU233
+ 117:../../shields/SCD30/src/scd30.c ****         sensirion_i2c_write_cmd(SCD30_I2C_ADDRESS, SCD30_CMD_READ_MEASUREMENT);
+ 1008              		.loc 1 117 5 view .LVU234
+ 118:../../shields/SCD30/src/scd30.c ****     if (error != NO_ERROR)
+ 1009              		.loc 1 118 9 is_stmt 0 view .LVU235
+ 1010 000a 4FF44071 		mov	r1, #768
+ 1011              	.LVL80:
+ 118:../../shields/SCD30/src/scd30.c ****     if (error != NO_ERROR)
+ 1012              		.loc 1 118 9 view .LVU236
+ 1013 000e 6120     		movs	r0, #97
+ 1014              	.LVL81:
+ 118:../../shields/SCD30/src/scd30.c ****     if (error != NO_ERROR)
+ 1015              		.loc 1 118 9 view .LVU237
+ 1016 0010 FFF7FEFF 		bl	sensirion_i2c_write_cmd
+ 1017              	.LVL82:
+ 119:../../shields/SCD30/src/scd30.c ****         return error;
+ 1018              		.loc 1 119 5 is_stmt 1 view .LVU238
+ 119:../../shields/SCD30/src/scd30.c ****         return error;
+ 1019              		.loc 1 119 8 is_stmt 0 view .LVU239
+ 1020 0014 0746     		mov	r7, r0
+ 1021 0016 10B1     		cbz	r0, .L64
+ 1022              	.LVL83:
+ 1023              	.L62:
+ 132:../../shields/SCD30/src/scd30.c **** 
+ 1024              		.loc 1 132 1 view .LVU240
+ 1025 0018 3846     		mov	r0, r7
+ 1026 001a 05B0     		add	sp, sp, #20
+ 1027              	.LCFI28:
+ 1028              		.cfi_remember_state
+ 1029              		.cfi_def_cfa_offset 20
+ 1030              		@ sp needed
+ 1031 001c F0BD     		pop	{r4, r5, r6, r7, pc}
+ 1032              	.LVL84:
+ 1033              	.L64:
+ 1034              	.LCFI29:
+ 1035              		.cfi_restore_state
+ 122:../../shields/SCD30/src/scd30.c ****                                               SENSIRION_NUM_WORDS(data));
+ 1036              		.loc 1 122 5 is_stmt 1 view .LVU241
+ 122:../../shields/SCD30/src/scd30.c ****                                               SENSIRION_NUM_WORDS(data));
+ 1037              		.loc 1 122 13 is_stmt 0 view .LVU242
+ 1038 001e 0622     		movs	r2, #6
+ 1039 0020 01A9     		add	r1, sp, #4
+ 1040 0022 6120     		movs	r0, #97
+ 1041              	.LVL85:
+ 122:../../shields/SCD30/src/scd30.c ****                                               SENSIRION_NUM_WORDS(data));
+ARM GAS  /tmp/cciMkFzD.s 			page 29
+
+
+ 1042              		.loc 1 122 13 view .LVU243
+ 1043 0024 FFF7FEFF 		bl	sensirion_i2c_read_words_as_bytes
+ 1044              	.LVL86:
+ 124:../../shields/SCD30/src/scd30.c ****         return error;
+ 1045              		.loc 1 124 5 is_stmt 1 view .LVU244
+ 124:../../shields/SCD30/src/scd30.c ****         return error;
+ 1046              		.loc 1 124 8 is_stmt 0 view .LVU245
+ 1047 0028 0746     		mov	r7, r0
+ 1048 002a 0028     		cmp	r0, #0
+ 1049 002c F4D1     		bne	.L62
+ 127:../../shields/SCD30/src/scd30.c ****     *temperature = sensirion_bytes_to_float(data[1]);
+ 1050              		.loc 1 127 5 is_stmt 1 view .LVU246
+ 127:../../shields/SCD30/src/scd30.c ****     *temperature = sensirion_bytes_to_float(data[1]);
+ 1051              		.loc 1 127 16 is_stmt 0 view .LVU247
+ 1052 002e 01A8     		add	r0, sp, #4
+ 1053              	.LVL87:
+ 127:../../shields/SCD30/src/scd30.c ****     *temperature = sensirion_bytes_to_float(data[1]);
+ 1054              		.loc 1 127 16 view .LVU248
+ 1055 0030 FFF7FEFF 		bl	sensirion_bytes_to_float
+ 1056              	.LVL88:
+ 127:../../shields/SCD30/src/scd30.c ****     *temperature = sensirion_bytes_to_float(data[1]);
+ 1057              		.loc 1 127 14 view .LVU249
+ 1058 0034 86ED000A 		vstr.32	s0, [r6]
+ 128:../../shields/SCD30/src/scd30.c ****     *humidity = sensirion_bytes_to_float(data[2]);
+ 1059              		.loc 1 128 5 is_stmt 1 view .LVU250
+ 128:../../shields/SCD30/src/scd30.c ****     *humidity = sensirion_bytes_to_float(data[2]);
+ 1060              		.loc 1 128 20 is_stmt 0 view .LVU251
+ 1061 0038 02A8     		add	r0, sp, #8
+ 1062 003a FFF7FEFF 		bl	sensirion_bytes_to_float
+ 1063              	.LVL89:
+ 128:../../shields/SCD30/src/scd30.c ****     *humidity = sensirion_bytes_to_float(data[2]);
+ 1064              		.loc 1 128 18 view .LVU252
+ 1065 003e 85ED000A 		vstr.32	s0, [r5]
+ 129:../../shields/SCD30/src/scd30.c **** 
+ 1066              		.loc 1 129 5 is_stmt 1 view .LVU253
+ 129:../../shields/SCD30/src/scd30.c **** 
+ 1067              		.loc 1 129 17 is_stmt 0 view .LVU254
+ 1068 0042 03A8     		add	r0, sp, #12
+ 1069 0044 FFF7FEFF 		bl	sensirion_bytes_to_float
+ 1070              	.LVL90:
+ 129:../../shields/SCD30/src/scd30.c **** 
+ 1071              		.loc 1 129 15 view .LVU255
+ 1072 0048 84ED000A 		vstr.32	s0, [r4]
+ 131:../../shields/SCD30/src/scd30.c **** }
+ 1073              		.loc 1 131 5 is_stmt 1 view .LVU256
+ 131:../../shields/SCD30/src/scd30.c **** }
+ 1074              		.loc 1 131 12 is_stmt 0 view .LVU257
+ 1075 004c E4E7     		b	.L62
+ 1076              		.cfi_endproc
+ 1077              	.LFE134:
+ 1079              		.section	.text.sensirion_i2c_write_cmd_with_args,"ax",%progbits
+ 1080              		.align	1
+ 1081              		.global	sensirion_i2c_write_cmd_with_args
+ 1082              		.syntax unified
+ 1083              		.thumb
+ 1084              		.thumb_func
+ 1085              		.fpu fpv4-sp-d16
+ARM GAS  /tmp/cciMkFzD.s 			page 30
+
+
+ 1087              	sensirion_i2c_write_cmd_with_args:
+ 1088              	.LVL91:
+ 1089              	.LFB155:
+ 370:../../shields/SCD30/src/scd30.c ****     uint8_t buf[SENSIRION_MAX_BUFFER_WORDS];
+ 1090              		.loc 1 370 63 is_stmt 1 view -0
+ 1091              		.cfi_startproc
+ 1092              		@ args = 0, pretend = 0, frame = 32
+ 1093              		@ frame_needed = 0, uses_anonymous_args = 0
+ 370:../../shields/SCD30/src/scd30.c ****     uint8_t buf[SENSIRION_MAX_BUFFER_WORDS];
+ 1094              		.loc 1 370 63 is_stmt 0 view .LVU259
+ 1095 0000 10B5     		push	{r4, lr}
+ 1096              	.LCFI30:
+ 1097              		.cfi_def_cfa_offset 8
+ 1098              		.cfi_offset 4, -8
+ 1099              		.cfi_offset 14, -4
+ 1100 0002 88B0     		sub	sp, sp, #32
+ 1101              	.LCFI31:
+ 1102              		.cfi_def_cfa_offset 40
+ 1103 0004 0446     		mov	r4, r0
+ 371:../../shields/SCD30/src/scd30.c ****     uint16_t buf_size;
+ 1104              		.loc 1 371 5 is_stmt 1 view .LVU260
+ 372:../../shields/SCD30/src/scd30.c **** 
+ 1105              		.loc 1 372 5 view .LVU261
+ 374:../../shields/SCD30/src/scd30.c ****     return sensirion_i2c_write(address, buf, buf_size);
+ 1106              		.loc 1 374 5 view .LVU262
+ 374:../../shields/SCD30/src/scd30.c ****     return sensirion_i2c_write(address, buf, buf_size);
+ 1107              		.loc 1 374 16 is_stmt 0 view .LVU263
+ 1108 0006 DBB2     		uxtb	r3, r3
+ 1109              	.LVL92:
+ 374:../../shields/SCD30/src/scd30.c ****     return sensirion_i2c_write(address, buf, buf_size);
+ 1110              		.loc 1 374 16 view .LVU264
+ 1111 0008 6846     		mov	r0, sp
+ 1112              	.LVL93:
+ 374:../../shields/SCD30/src/scd30.c ****     return sensirion_i2c_write(address, buf, buf_size);
+ 1113              		.loc 1 374 16 view .LVU265
+ 1114 000a FFF7FEFF 		bl	sensirion_fill_cmd_send_buf
+ 1115              	.LVL94:
+ 374:../../shields/SCD30/src/scd30.c ****     return sensirion_i2c_write(address, buf, buf_size);
+ 1116              		.loc 1 374 16 view .LVU266
+ 1117 000e 0246     		mov	r2, r0
+ 1118              	.LVL95:
+ 375:../../shields/SCD30/src/scd30.c **** }
+ 1119              		.loc 1 375 5 is_stmt 1 view .LVU267
+ 375:../../shields/SCD30/src/scd30.c **** }
+ 1120              		.loc 1 375 12 is_stmt 0 view .LVU268
+ 1121 0010 6946     		mov	r1, sp
+ 1122 0012 2046     		mov	r0, r4
+ 1123 0014 FFF7FEFF 		bl	sensirion_i2c_write
+ 1124              	.LVL96:
+ 376:../../shields/SCD30/src/scd30.c **** 
+ 1125              		.loc 1 376 1 view .LVU269
+ 1126 0018 00B2     		sxth	r0, r0
+ 1127 001a 08B0     		add	sp, sp, #32
+ 1128              	.LCFI32:
+ 1129              		.cfi_def_cfa_offset 8
+ 1130              		@ sp needed
+ 1131 001c 10BD     		pop	{r4, pc}
+ARM GAS  /tmp/cciMkFzD.s 			page 31
+
+
+ 1132              		.cfi_endproc
+ 1133              	.LFE155:
+ 1135              		.section	.text.scd30_start_periodic_measurement,"ax",%progbits
+ 1136              		.align	1
+ 1137              		.global	scd30_start_periodic_measurement
+ 1138              		.syntax unified
+ 1139              		.thumb
+ 1140              		.thumb_func
+ 1141              		.fpu fpv4-sp-d16
+ 1143              	scd30_start_periodic_measurement:
+ 1144              	.LVL97:
+ 1145              	.LFB132:
+  95:../../shields/SCD30/src/scd30.c ****     if (ambient_pressure_mbar &&
+ 1146              		.loc 1 95 74 is_stmt 1 view -0
+ 1147              		.cfi_startproc
+ 1148              		@ args = 0, pretend = 0, frame = 8
+ 1149              		@ frame_needed = 0, uses_anonymous_args = 0
+  95:../../shields/SCD30/src/scd30.c ****     if (ambient_pressure_mbar &&
+ 1150              		.loc 1 95 74 is_stmt 0 view .LVU271
+ 1151 0000 00B5     		push	{lr}
+ 1152              	.LCFI33:
+ 1153              		.cfi_def_cfa_offset 4
+ 1154              		.cfi_offset 14, -4
+ 1155 0002 83B0     		sub	sp, sp, #12
+ 1156              	.LCFI34:
+ 1157              		.cfi_def_cfa_offset 16
+ 1158 0004 ADF80600 		strh	r0, [sp, #6]	@ movhi
+  96:../../shields/SCD30/src/scd30.c ****         (ambient_pressure_mbar < 700 || ambient_pressure_mbar > 1400)) {
+ 1159              		.loc 1 96 5 is_stmt 1 view .LVU272
+  96:../../shields/SCD30/src/scd30.c ****         (ambient_pressure_mbar < 700 || ambient_pressure_mbar > 1400)) {
+ 1160              		.loc 1 96 8 is_stmt 0 view .LVU273
+ 1161 0008 28B1     		cbz	r0, .L68
+  97:../../shields/SCD30/src/scd30.c ****         /* out of allowable range */
+ 1162              		.loc 1 97 38 discriminator 1 view .LVU274
+ 1163 000a A0F52F73 		sub	r3, r0, #700
+ 1164 000e 9BB2     		uxth	r3, r3
+  96:../../shields/SCD30/src/scd30.c ****         (ambient_pressure_mbar < 700 || ambient_pressure_mbar > 1400)) {
+ 1165              		.loc 1 96 31 discriminator 1 view .LVU275
+ 1166 0010 B3F52F7F 		cmp	r3, #700
+ 1167 0014 09D8     		bhi	.L70
+ 1168              	.L68:
+ 102:../../shields/SCD30/src/scd30.c ****         SCD30_I2C_ADDRESS, SCD30_CMD_START_PERIODIC_MEASUREMENT,
+ 1169              		.loc 1 102 5 is_stmt 1 view .LVU276
+ 102:../../shields/SCD30/src/scd30.c ****         SCD30_I2C_ADDRESS, SCD30_CMD_START_PERIODIC_MEASUREMENT,
+ 1170              		.loc 1 102 12 is_stmt 0 view .LVU277
+ 1171 0016 0123     		movs	r3, #1
+ 1172 0018 0DF10602 		add	r2, sp, #6
+ 1173 001c 1021     		movs	r1, #16
+ 1174 001e 6120     		movs	r0, #97
+ 1175              	.LVL98:
+ 102:../../shields/SCD30/src/scd30.c ****         SCD30_I2C_ADDRESS, SCD30_CMD_START_PERIODIC_MEASUREMENT,
+ 1176              		.loc 1 102 12 view .LVU278
+ 1177 0020 FFF7FEFF 		bl	sensirion_i2c_write_cmd_with_args
+ 1178              	.LVL99:
+ 1179              	.L69:
+ 105:../../shields/SCD30/src/scd30.c **** 
+ 1180              		.loc 1 105 1 view .LVU279
+ARM GAS  /tmp/cciMkFzD.s 			page 32
+
+
+ 1181 0024 03B0     		add	sp, sp, #12
+ 1182              	.LCFI35:
+ 1183              		.cfi_remember_state
+ 1184              		.cfi_def_cfa_offset 4
+ 1185              		@ sp needed
+ 1186 0026 5DF804FB 		ldr	pc, [sp], #4
+ 1187              	.LVL100:
+ 1188              	.L70:
+ 1189              	.LCFI36:
+ 1190              		.cfi_restore_state
+  99:../../shields/SCD30/src/scd30.c ****     }
+ 1191              		.loc 1 99 16 view .LVU280
+ 1192 002a 4FF0FF30 		mov	r0, #-1
+ 1193              	.LVL101:
+  99:../../shields/SCD30/src/scd30.c ****     }
+ 1194              		.loc 1 99 16 view .LVU281
+ 1195 002e F9E7     		b	.L69
+ 1196              		.cfi_endproc
+ 1197              	.LFE132:
+ 1199              		.section	.text.sensirion_sleep_usec,"ax",%progbits
+ 1200              		.align	1
+ 1201              		.global	sensirion_sleep_usec
+ 1202              		.syntax unified
+ 1203              		.thumb
+ 1204              		.thumb_func
+ 1205              		.fpu fpv4-sp-d16
+ 1207              	sensirion_sleep_usec:
+ 1208              	.LVL102:
+ 1209              	.LFB161:
+ 439:../../shields/SCD30/src/scd30.c **** 
+ 440:../../shields/SCD30/src/scd30.c **** /**
+ 441:../../shields/SCD30/src/scd30.c ****  * Sleep for a given number of microseconds. The function should delay the
+ 442:../../shields/SCD30/src/scd30.c ****  * execution for at least the given time, but may also sleep longer.
+ 443:../../shields/SCD30/src/scd30.c ****  *
+ 444:../../shields/SCD30/src/scd30.c ****  * @param useconds the sleep time in microseconds
+ 445:../../shields/SCD30/src/scd30.c ****  */
+ 446:../../shields/SCD30/src/scd30.c **** void sensirion_sleep_usec(uint32_t useconds) {
+ 1210              		.loc 1 446 46 is_stmt 1 view -0
+ 1211              		.cfi_startproc
+ 1212              		@ args = 0, pretend = 0, frame = 0
+ 1213              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1214              		.loc 1 446 46 is_stmt 0 view .LVU283
+ 1215 0000 10B5     		push	{r4, lr}
+ 1216              	.LCFI37:
+ 1217              		.cfi_def_cfa_offset 8
+ 1218              		.cfi_offset 4, -8
+ 1219              		.cfi_offset 14, -4
+ 447:../../shields/SCD30/src/scd30.c ****     uint32_t msec = useconds / 1000;
+ 1220              		.loc 1 447 5 is_stmt 1 view .LVU284
+ 1221              		.loc 1 447 14 is_stmt 0 view .LVU285
+ 1222 0002 0A4C     		ldr	r4, .L76
+ 1223 0004 A4FB0034 		umull	r3, r4, r4, r0
+ 1224 0008 A409     		lsrs	r4, r4, #6
+ 1225              	.LVL103:
+ 448:../../shields/SCD30/src/scd30.c ****     if (useconds % 1000 > 0) {
+ 1226              		.loc 1 448 5 is_stmt 1 view .LVU286
+ 1227              		.loc 1 448 18 is_stmt 0 view .LVU287
+ARM GAS  /tmp/cciMkFzD.s 			page 33
+
+
+ 1228 000a 4FF47A73 		mov	r3, #1000
+ 1229 000e 03FB1400 		mls	r0, r3, r4, r0
+ 1230              	.LVL104:
+ 1231              		.loc 1 448 8 view .LVU288
+ 1232 0012 00B1     		cbz	r0, .L73
+ 449:../../shields/SCD30/src/scd30.c ****         msec++;
+ 1233              		.loc 1 449 9 is_stmt 1 view .LVU289
+ 1234              		.loc 1 449 13 is_stmt 0 view .LVU290
+ 1235 0014 0134     		adds	r4, r4, #1
+ 1236              	.LVL105:
+ 1237              	.L73:
+ 450:../../shields/SCD30/src/scd30.c ****     }
+ 451:../../shields/SCD30/src/scd30.c **** 
+ 452:../../shields/SCD30/src/scd30.c ****     /*
+ 453:../../shields/SCD30/src/scd30.c ****      * Increment by 1 if STM32F1 driver version less than 1.1.1
+ 454:../../shields/SCD30/src/scd30.c ****      * Old firmwares of STM32F1 sleep 1ms shorter than specified in HAL_Delay.
+ 455:../../shields/SCD30/src/scd30.c ****      * This was fixed with firmware 1.6 (driver version 1.1.1), so we have to
+ 456:../../shields/SCD30/src/scd30.c ****      * fix it ourselves for older firmwares
+ 457:../../shields/SCD30/src/scd30.c ****      */
+ 458:../../shields/SCD30/src/scd30.c ****     if (HAL_GetHalVersion() < 0x01010100) {
+ 1238              		.loc 1 458 5 is_stmt 1 view .LVU291
+ 1239              		.loc 1 458 9 is_stmt 0 view .LVU292
+ 1240 0016 FFF7FEFF 		bl	HAL_GetHalVersion
+ 1241              	.LVL106:
+ 1242              		.loc 1 458 8 view .LVU293
+ 1243 001a 054B     		ldr	r3, .L76+4
+ 1244 001c 9842     		cmp	r0, r3
+ 1245 001e 00D2     		bcs	.L74
+ 459:../../shields/SCD30/src/scd30.c ****         msec++;
+ 1246              		.loc 1 459 9 is_stmt 1 view .LVU294
+ 1247              		.loc 1 459 13 is_stmt 0 view .LVU295
+ 1248 0020 0134     		adds	r4, r4, #1
+ 1249              	.LVL107:
+ 1250              	.L74:
+ 460:../../shields/SCD30/src/scd30.c ****     }
+ 461:../../shields/SCD30/src/scd30.c **** 
+ 462:../../shields/SCD30/src/scd30.c ****     HAL_Delay(msec);
+ 1251              		.loc 1 462 5 is_stmt 1 view .LVU296
+ 1252 0022 2046     		mov	r0, r4
+ 1253 0024 FFF7FEFF 		bl	HAL_Delay
+ 1254              	.LVL108:
+ 463:../../shields/SCD30/src/scd30.c **** }
+ 1255              		.loc 1 463 1 is_stmt 0 view .LVU297
+ 1256 0028 10BD     		pop	{r4, pc}
+ 1257              	.LVL109:
+ 1258              	.L77:
+ 1259              		.loc 1 463 1 view .LVU298
+ 1260 002a 00BF     		.align	2
+ 1261              	.L76:
+ 1262 002c D34D6210 		.word	274877907
+ 1263 0030 00010101 		.word	16843008
+ 1264              		.cfi_endproc
+ 1265              	.LFE161:
+ 1267              		.section	.text.scd30_set_measurement_interval,"ax",%progbits
+ 1268              		.align	1
+ 1269              		.global	scd30_set_measurement_interval
+ 1270              		.syntax unified
+ARM GAS  /tmp/cciMkFzD.s 			page 34
+
+
+ 1271              		.thumb
+ 1272              		.thumb_func
+ 1273              		.fpu fpv4-sp-d16
+ 1275              	scd30_set_measurement_interval:
+ 1276              	.LVL110:
+ 1277              	.LFB135:
+ 134:../../shields/SCD30/src/scd30.c ****     int16_t error;
+ 1278              		.loc 1 134 63 is_stmt 1 view -0
+ 1279              		.cfi_startproc
+ 1280              		@ args = 0, pretend = 0, frame = 8
+ 1281              		@ frame_needed = 0, uses_anonymous_args = 0
+ 134:../../shields/SCD30/src/scd30.c ****     int16_t error;
+ 1282              		.loc 1 134 63 is_stmt 0 view .LVU300
+ 1283 0000 10B5     		push	{r4, lr}
+ 1284              	.LCFI38:
+ 1285              		.cfi_def_cfa_offset 8
+ 1286              		.cfi_offset 4, -8
+ 1287              		.cfi_offset 14, -4
+ 1288 0002 82B0     		sub	sp, sp, #8
+ 1289              	.LCFI39:
+ 1290              		.cfi_def_cfa_offset 16
+ 1291 0004 ADF80600 		strh	r0, [sp, #6]	@ movhi
+ 135:../../shields/SCD30/src/scd30.c **** 
+ 1292              		.loc 1 135 5 is_stmt 1 view .LVU301
+ 137:../../shields/SCD30/src/scd30.c ****         /* out of allowable range */
+ 1293              		.loc 1 137 5 view .LVU302
+ 137:../../shields/SCD30/src/scd30.c ****         /* out of allowable range */
+ 1294              		.loc 1 137 26 is_stmt 0 view .LVU303
+ 1295 0008 0238     		subs	r0, r0, #2
+ 1296              	.LVL111:
+ 137:../../shields/SCD30/src/scd30.c ****         /* out of allowable range */
+ 1297              		.loc 1 137 26 view .LVU304
+ 1298 000a 80B2     		uxth	r0, r0
+ 137:../../shields/SCD30/src/scd30.c ****         /* out of allowable range */
+ 1299              		.loc 1 137 8 view .LVU305
+ 1300 000c 40F20673 		movw	r3, #1798
+ 1301 0010 9842     		cmp	r0, r3
+ 1302 0012 0FD8     		bhi	.L80
+ 142:../../shields/SCD30/src/scd30.c ****         SCD30_I2C_ADDRESS, SCD30_CMD_SET_MEASUREMENT_INTERVAL, &interval_sec,
+ 1303              		.loc 1 142 5 is_stmt 1 view .LVU306
+ 142:../../shields/SCD30/src/scd30.c ****         SCD30_I2C_ADDRESS, SCD30_CMD_SET_MEASUREMENT_INTERVAL, &interval_sec,
+ 1304              		.loc 1 142 13 is_stmt 0 view .LVU307
+ 1305 0014 0123     		movs	r3, #1
+ 1306 0016 0DF10602 		add	r2, sp, #6
+ 1307              	.LVL112:
+ 142:../../shields/SCD30/src/scd30.c ****         SCD30_I2C_ADDRESS, SCD30_CMD_SET_MEASUREMENT_INTERVAL, &interval_sec,
+ 1308              		.loc 1 142 13 view .LVU308
+ 1309 001a 4FF48C41 		mov	r1, #17920
+ 1310 001e 6120     		movs	r0, #97
+ 1311 0020 FFF7FEFF 		bl	sensirion_i2c_write_cmd_with_args
+ 1312              	.LVL113:
+ 142:../../shields/SCD30/src/scd30.c ****         SCD30_I2C_ADDRESS, SCD30_CMD_SET_MEASUREMENT_INTERVAL, &interval_sec,
+ 1313              		.loc 1 142 13 view .LVU309
+ 1314 0024 0446     		mov	r4, r0
+ 1315              	.LVL114:
+ 145:../../shields/SCD30/src/scd30.c **** 
+ 1316              		.loc 1 145 5 is_stmt 1 view .LVU310
+ARM GAS  /tmp/cciMkFzD.s 			page 35
+
+
+ 1317 0026 44F62060 		movw	r0, #20000
+ 1318 002a FFF7FEFF 		bl	sensirion_sleep_usec
+ 1319              	.LVL115:
+ 147:../../shields/SCD30/src/scd30.c **** }
+ 1320              		.loc 1 147 5 view .LVU311
+ 1321              	.L79:
+ 148:../../shields/SCD30/src/scd30.c **** 
+ 1322              		.loc 1 148 1 is_stmt 0 view .LVU312
+ 1323 002e 2046     		mov	r0, r4
+ 1324 0030 02B0     		add	sp, sp, #8
+ 1325              	.LCFI40:
+ 1326              		.cfi_remember_state
+ 1327              		.cfi_def_cfa_offset 8
+ 1328              		@ sp needed
+ 1329 0032 10BD     		pop	{r4, pc}
+ 1330              	.LVL116:
+ 1331              	.L80:
+ 1332              	.LCFI41:
+ 1333              		.cfi_restore_state
+ 139:../../shields/SCD30/src/scd30.c ****     }
+ 1334              		.loc 1 139 16 view .LVU313
+ 1335 0034 4FF0FF34 		mov	r4, #-1
+ 1336 0038 F9E7     		b	.L79
+ 1337              		.cfi_endproc
+ 1338              	.LFE135:
+ 1340              		.section	.text.scd30_set_temperature_offset,"ax",%progbits
+ 1341              		.align	1
+ 1342              		.global	scd30_set_temperature_offset
+ 1343              		.syntax unified
+ 1344              		.thumb
+ 1345              		.thumb_func
+ 1346              		.fpu fpv4-sp-d16
+ 1348              	scd30_set_temperature_offset:
+ 1349              	.LVL117:
+ 1350              	.LFB137:
+ 156:../../shields/SCD30/src/scd30.c ****     int16_t error;
+ 1351              		.loc 1 156 67 is_stmt 1 view -0
+ 1352              		.cfi_startproc
+ 1353              		@ args = 0, pretend = 0, frame = 8
+ 1354              		@ frame_needed = 0, uses_anonymous_args = 0
+ 156:../../shields/SCD30/src/scd30.c ****     int16_t error;
+ 1355              		.loc 1 156 67 is_stmt 0 view .LVU315
+ 1356 0000 10B5     		push	{r4, lr}
+ 1357              	.LCFI42:
+ 1358              		.cfi_def_cfa_offset 8
+ 1359              		.cfi_offset 4, -8
+ 1360              		.cfi_offset 14, -4
+ 1361 0002 82B0     		sub	sp, sp, #8
+ 1362              	.LCFI43:
+ 1363              		.cfi_def_cfa_offset 16
+ 1364 0004 ADF80600 		strh	r0, [sp, #6]	@ movhi
+ 157:../../shields/SCD30/src/scd30.c **** 
+ 1365              		.loc 1 157 5 is_stmt 1 view .LVU316
+ 159:../../shields/SCD30/src/scd30.c ****         SCD30_I2C_ADDRESS, SCD30_CMD_SET_TEMPERATURE_OFFSET,
+ 1366              		.loc 1 159 5 view .LVU317
+ 159:../../shields/SCD30/src/scd30.c ****         SCD30_I2C_ADDRESS, SCD30_CMD_SET_TEMPERATURE_OFFSET,
+ 1367              		.loc 1 159 13 is_stmt 0 view .LVU318
+ARM GAS  /tmp/cciMkFzD.s 			page 36
+
+
+ 1368 0008 0123     		movs	r3, #1
+ 1369 000a 0DF10602 		add	r2, sp, #6
+ 1370 000e 45F20341 		movw	r1, #21507
+ 1371 0012 6120     		movs	r0, #97
+ 1372              	.LVL118:
+ 159:../../shields/SCD30/src/scd30.c ****         SCD30_I2C_ADDRESS, SCD30_CMD_SET_TEMPERATURE_OFFSET,
+ 1373              		.loc 1 159 13 view .LVU319
+ 1374 0014 FFF7FEFF 		bl	sensirion_i2c_write_cmd_with_args
+ 1375              	.LVL119:
+ 159:../../shields/SCD30/src/scd30.c ****         SCD30_I2C_ADDRESS, SCD30_CMD_SET_TEMPERATURE_OFFSET,
+ 1376              		.loc 1 159 13 view .LVU320
+ 1377 0018 0446     		mov	r4, r0
+ 1378              	.LVL120:
+ 162:../../shields/SCD30/src/scd30.c **** 
+ 1379              		.loc 1 162 5 is_stmt 1 view .LVU321
+ 1380 001a 44F62060 		movw	r0, #20000
+ 1381 001e FFF7FEFF 		bl	sensirion_sleep_usec
+ 1382              	.LVL121:
+ 164:../../shields/SCD30/src/scd30.c **** }
+ 1383              		.loc 1 164 5 view .LVU322
+ 165:../../shields/SCD30/src/scd30.c **** 
+ 1384              		.loc 1 165 1 is_stmt 0 view .LVU323
+ 1385 0022 2046     		mov	r0, r4
+ 1386 0024 02B0     		add	sp, sp, #8
+ 1387              	.LCFI44:
+ 1388              		.cfi_def_cfa_offset 8
+ 1389              		@ sp needed
+ 1390 0026 10BD     		pop	{r4, pc}
+ 165:../../shields/SCD30/src/scd30.c **** 
+ 1391              		.loc 1 165 1 view .LVU324
+ 1392              		.cfi_endproc
+ 1393              	.LFE137:
+ 1395              		.section	.text.scd30_set_altitude,"ax",%progbits
+ 1396              		.align	1
+ 1397              		.global	scd30_set_altitude
+ 1398              		.syntax unified
+ 1399              		.thumb
+ 1400              		.thumb_func
+ 1401              		.fpu fpv4-sp-d16
+ 1403              	scd30_set_altitude:
+ 1404              	.LVL122:
+ 1405              	.LFB138:
+ 167:../../shields/SCD30/src/scd30.c ****     int16_t error;
+ 1406              		.loc 1 167 47 is_stmt 1 view -0
+ 1407              		.cfi_startproc
+ 1408              		@ args = 0, pretend = 0, frame = 8
+ 1409              		@ frame_needed = 0, uses_anonymous_args = 0
+ 167:../../shields/SCD30/src/scd30.c ****     int16_t error;
+ 1410              		.loc 1 167 47 is_stmt 0 view .LVU326
+ 1411 0000 10B5     		push	{r4, lr}
+ 1412              	.LCFI45:
+ 1413              		.cfi_def_cfa_offset 8
+ 1414              		.cfi_offset 4, -8
+ 1415              		.cfi_offset 14, -4
+ 1416 0002 82B0     		sub	sp, sp, #8
+ 1417              	.LCFI46:
+ 1418              		.cfi_def_cfa_offset 16
+ARM GAS  /tmp/cciMkFzD.s 			page 37
+
+
+ 1419 0004 ADF80600 		strh	r0, [sp, #6]	@ movhi
+ 168:../../shields/SCD30/src/scd30.c **** 
+ 1420              		.loc 1 168 5 is_stmt 1 view .LVU327
+ 170:../../shields/SCD30/src/scd30.c ****                                               SCD30_CMD_SET_ALTITUDE, &altitude,
+ 1421              		.loc 1 170 5 view .LVU328
+ 170:../../shields/SCD30/src/scd30.c ****                                               SCD30_CMD_SET_ALTITUDE, &altitude,
+ 1422              		.loc 1 170 13 is_stmt 0 view .LVU329
+ 1423 0008 0123     		movs	r3, #1
+ 1424 000a 0DF10602 		add	r2, sp, #6
+ 1425 000e 45F20211 		movw	r1, #20738
+ 1426 0012 6120     		movs	r0, #97
+ 1427              	.LVL123:
+ 170:../../shields/SCD30/src/scd30.c ****                                               SCD30_CMD_SET_ALTITUDE, &altitude,
+ 1428              		.loc 1 170 13 view .LVU330
+ 1429 0014 FFF7FEFF 		bl	sensirion_i2c_write_cmd_with_args
+ 1430              	.LVL124:
+ 170:../../shields/SCD30/src/scd30.c ****                                               SCD30_CMD_SET_ALTITUDE, &altitude,
+ 1431              		.loc 1 170 13 view .LVU331
+ 1432 0018 0446     		mov	r4, r0
+ 1433              	.LVL125:
+ 173:../../shields/SCD30/src/scd30.c **** 
+ 1434              		.loc 1 173 5 is_stmt 1 view .LVU332
+ 1435 001a 44F62060 		movw	r0, #20000
+ 1436 001e FFF7FEFF 		bl	sensirion_sleep_usec
+ 1437              	.LVL126:
+ 175:../../shields/SCD30/src/scd30.c **** }
+ 1438              		.loc 1 175 5 view .LVU333
+ 176:../../shields/SCD30/src/scd30.c **** 
+ 1439              		.loc 1 176 1 is_stmt 0 view .LVU334
+ 1440 0022 2046     		mov	r0, r4
+ 1441 0024 02B0     		add	sp, sp, #8
+ 1442              	.LCFI47:
+ 1443              		.cfi_def_cfa_offset 8
+ 1444              		@ sp needed
+ 1445 0026 10BD     		pop	{r4, pc}
+ 176:../../shields/SCD30/src/scd30.c **** 
+ 1446              		.loc 1 176 1 view .LVU335
+ 1447              		.cfi_endproc
+ 1448              	.LFE138:
+ 1450              		.section	.text.scd30_enable_automatic_self_calibration,"ax",%progbits
+ 1451              		.align	1
+ 1452              		.global	scd30_enable_automatic_self_calibration
+ 1453              		.syntax unified
+ 1454              		.thumb
+ 1455              		.thumb_func
+ 1456              		.fpu fpv4-sp-d16
+ 1458              	scd30_enable_automatic_self_calibration:
+ 1459              	.LVL127:
+ 1460              	.LFB140:
+ 193:../../shields/SCD30/src/scd30.c ****     int16_t error;
+ 1461              		.loc 1 193 69 is_stmt 1 view -0
+ 1462              		.cfi_startproc
+ 1463              		@ args = 0, pretend = 0, frame = 8
+ 1464              		@ frame_needed = 0, uses_anonymous_args = 0
+ 193:../../shields/SCD30/src/scd30.c ****     int16_t error;
+ 1465              		.loc 1 193 69 is_stmt 0 view .LVU337
+ 1466 0000 10B5     		push	{r4, lr}
+ARM GAS  /tmp/cciMkFzD.s 			page 38
+
+
+ 1467              	.LCFI48:
+ 1468              		.cfi_def_cfa_offset 8
+ 1469              		.cfi_offset 4, -8
+ 1470              		.cfi_offset 14, -4
+ 1471 0002 82B0     		sub	sp, sp, #8
+ 1472              	.LCFI49:
+ 1473              		.cfi_def_cfa_offset 16
+ 194:../../shields/SCD30/src/scd30.c ****     uint16_t asc = !!enable_asc;
+ 1474              		.loc 1 194 5 is_stmt 1 view .LVU338
+ 195:../../shields/SCD30/src/scd30.c **** 
+ 1475              		.loc 1 195 5 view .LVU339
+ 195:../../shields/SCD30/src/scd30.c **** 
+ 1476              		.loc 1 195 20 is_stmt 0 view .LVU340
+ 1477 0004 0038     		subs	r0, r0, #0
+ 1478              	.LVL128:
+ 195:../../shields/SCD30/src/scd30.c **** 
+ 1479              		.loc 1 195 20 view .LVU341
+ 1480 0006 18BF     		it	ne
+ 1481 0008 0120     		movne	r0, #1
+ 195:../../shields/SCD30/src/scd30.c **** 
+ 1482              		.loc 1 195 14 view .LVU342
+ 1483 000a ADF80600 		strh	r0, [sp, #6]	@ movhi
+ 197:../../shields/SCD30/src/scd30.c ****                                               SCD30_CMD_AUTO_SELF_CALIBRATION,
+ 1484              		.loc 1 197 5 is_stmt 1 view .LVU343
+ 197:../../shields/SCD30/src/scd30.c ****                                               SCD30_CMD_AUTO_SELF_CALIBRATION,
+ 1485              		.loc 1 197 13 is_stmt 0 view .LVU344
+ 1486 000e 0123     		movs	r3, #1
+ 1487 0010 0DF10602 		add	r2, sp, #6
+ 1488 0014 45F20631 		movw	r1, #21254
+ 1489 0018 6120     		movs	r0, #97
+ 1490 001a FFF7FEFF 		bl	sensirion_i2c_write_cmd_with_args
+ 1491              	.LVL129:
+ 1492 001e 0446     		mov	r4, r0
+ 1493              	.LVL130:
+ 200:../../shields/SCD30/src/scd30.c **** 
+ 1494              		.loc 1 200 5 is_stmt 1 view .LVU345
+ 1495 0020 44F62060 		movw	r0, #20000
+ 1496 0024 FFF7FEFF 		bl	sensirion_sleep_usec
+ 1497              	.LVL131:
+ 202:../../shields/SCD30/src/scd30.c **** }
+ 1498              		.loc 1 202 5 view .LVU346
+ 203:../../shields/SCD30/src/scd30.c **** 
+ 1499              		.loc 1 203 1 is_stmt 0 view .LVU347
+ 1500 0028 2046     		mov	r0, r4
+ 1501 002a 02B0     		add	sp, sp, #8
+ 1502              	.LCFI50:
+ 1503              		.cfi_def_cfa_offset 8
+ 1504              		@ sp needed
+ 1505 002c 10BD     		pop	{r4, pc}
+ 203:../../shields/SCD30/src/scd30.c **** 
+ 1506              		.loc 1 203 1 view .LVU348
+ 1507              		.cfi_endproc
+ 1508              	.LFE140:
+ 1510              		.section	.text.scd30_set_forced_recalibration,"ax",%progbits
+ 1511              		.align	1
+ 1512              		.global	scd30_set_forced_recalibration
+ 1513              		.syntax unified
+ARM GAS  /tmp/cciMkFzD.s 			page 39
+
+
+ 1514              		.thumb
+ 1515              		.thumb_func
+ 1516              		.fpu fpv4-sp-d16
+ 1518              	scd30_set_forced_recalibration:
+ 1519              	.LVL132:
+ 1520              	.LFB141:
+ 205:../../shields/SCD30/src/scd30.c ****     int16_t error;
+ 1521              		.loc 1 205 58 is_stmt 1 view -0
+ 1522              		.cfi_startproc
+ 1523              		@ args = 0, pretend = 0, frame = 8
+ 1524              		@ frame_needed = 0, uses_anonymous_args = 0
+ 205:../../shields/SCD30/src/scd30.c ****     int16_t error;
+ 1525              		.loc 1 205 58 is_stmt 0 view .LVU350
+ 1526 0000 10B5     		push	{r4, lr}
+ 1527              	.LCFI51:
+ 1528              		.cfi_def_cfa_offset 8
+ 1529              		.cfi_offset 4, -8
+ 1530              		.cfi_offset 14, -4
+ 1531 0002 82B0     		sub	sp, sp, #8
+ 1532              	.LCFI52:
+ 1533              		.cfi_def_cfa_offset 16
+ 1534 0004 ADF80600 		strh	r0, [sp, #6]	@ movhi
+ 206:../../shields/SCD30/src/scd30.c **** 
+ 1535              		.loc 1 206 5 is_stmt 1 view .LVU351
+ 208:../../shields/SCD30/src/scd30.c ****         SCD30_I2C_ADDRESS, SCD30_CMD_SET_FORCED_RECALIBRATION, &co2_ppm,
+ 1536              		.loc 1 208 5 view .LVU352
+ 208:../../shields/SCD30/src/scd30.c ****         SCD30_I2C_ADDRESS, SCD30_CMD_SET_FORCED_RECALIBRATION, &co2_ppm,
+ 1537              		.loc 1 208 13 is_stmt 0 view .LVU353
+ 1538 0008 0123     		movs	r3, #1
+ 1539 000a 0DF10602 		add	r2, sp, #6
+ 1540 000e 45F20421 		movw	r1, #20996
+ 1541 0012 6120     		movs	r0, #97
+ 1542              	.LVL133:
+ 208:../../shields/SCD30/src/scd30.c ****         SCD30_I2C_ADDRESS, SCD30_CMD_SET_FORCED_RECALIBRATION, &co2_ppm,
+ 1543              		.loc 1 208 13 view .LVU354
+ 1544 0014 FFF7FEFF 		bl	sensirion_i2c_write_cmd_with_args
+ 1545              	.LVL134:
+ 208:../../shields/SCD30/src/scd30.c ****         SCD30_I2C_ADDRESS, SCD30_CMD_SET_FORCED_RECALIBRATION, &co2_ppm,
+ 1546              		.loc 1 208 13 view .LVU355
+ 1547 0018 0446     		mov	r4, r0
+ 1548              	.LVL135:
+ 211:../../shields/SCD30/src/scd30.c **** 
+ 1549              		.loc 1 211 5 is_stmt 1 view .LVU356
+ 1550 001a 44F62060 		movw	r0, #20000
+ 1551 001e FFF7FEFF 		bl	sensirion_sleep_usec
+ 1552              	.LVL136:
+ 213:../../shields/SCD30/src/scd30.c **** }
+ 1553              		.loc 1 213 5 view .LVU357
+ 214:../../shields/SCD30/src/scd30.c **** 
+ 1554              		.loc 1 214 1 is_stmt 0 view .LVU358
+ 1555 0022 2046     		mov	r0, r4
+ 1556 0024 02B0     		add	sp, sp, #8
+ 1557              	.LCFI53:
+ 1558              		.cfi_def_cfa_offset 8
+ 1559              		@ sp needed
+ 1560 0026 10BD     		pop	{r4, pc}
+ 214:../../shields/SCD30/src/scd30.c **** 
+ARM GAS  /tmp/cciMkFzD.s 			page 40
+
+
+ 1561              		.loc 1 214 1 view .LVU359
+ 1562              		.cfi_endproc
+ 1563              	.LFE141:
+ 1565              		.section	.text.scd30_read_serial,"ax",%progbits
+ 1566              		.align	1
+ 1567              		.global	scd30_read_serial
+ 1568              		.syntax unified
+ 1569              		.thumb
+ 1570              		.thumb_func
+ 1571              		.fpu fpv4-sp-d16
+ 1573              	scd30_read_serial:
+ 1574              	.LVL137:
+ 1575              	.LFB142:
+ 216:../../shields/SCD30/src/scd30.c ****     int16_t error;
+ 1576              		.loc 1 216 41 is_stmt 1 view -0
+ 1577              		.cfi_startproc
+ 1578              		@ args = 0, pretend = 0, frame = 0
+ 1579              		@ frame_needed = 0, uses_anonymous_args = 0
+ 216:../../shields/SCD30/src/scd30.c ****     int16_t error;
+ 1580              		.loc 1 216 41 is_stmt 0 view .LVU361
+ 1581 0000 10B5     		push	{r4, lr}
+ 1582              	.LCFI54:
+ 1583              		.cfi_def_cfa_offset 8
+ 1584              		.cfi_offset 4, -8
+ 1585              		.cfi_offset 14, -4
+ 1586 0002 0446     		mov	r4, r0
+ 217:../../shields/SCD30/src/scd30.c **** 
+ 1587              		.loc 1 217 5 is_stmt 1 view .LVU362
+ 219:../../shields/SCD30/src/scd30.c ****     if (error)
+ 1588              		.loc 1 219 5 view .LVU363
+ 219:../../shields/SCD30/src/scd30.c ****     if (error)
+ 1589              		.loc 1 219 13 is_stmt 0 view .LVU364
+ 1590 0004 4DF23301 		movw	r1, #53299
+ 1591 0008 6120     		movs	r0, #97
+ 1592              	.LVL138:
+ 219:../../shields/SCD30/src/scd30.c ****     if (error)
+ 1593              		.loc 1 219 13 view .LVU365
+ 1594 000a FFF7FEFF 		bl	sensirion_i2c_write_cmd
+ 1595              	.LVL139:
+ 220:../../shields/SCD30/src/scd30.c ****         return error;
+ 1596              		.loc 1 220 5 is_stmt 1 view .LVU366
+ 220:../../shields/SCD30/src/scd30.c ****         return error;
+ 1597              		.loc 1 220 8 is_stmt 0 view .LVU367
+ 1598 000e 00B1     		cbz	r0, .L93
+ 1599              	.L91:
+ 228:../../shields/SCD30/src/scd30.c **** 
+ 1600              		.loc 1 228 1 view .LVU368
+ 1601 0010 10BD     		pop	{r4, pc}
+ 1602              	.LVL140:
+ 1603              	.L93:
+ 223:../../shields/SCD30/src/scd30.c ****     error = sensirion_i2c_read_words_as_bytes(
+ 1604              		.loc 1 223 5 is_stmt 1 view .LVU369
+ 1605 0012 44F62060 		movw	r0, #20000
+ 1606 0016 FFF7FEFF 		bl	sensirion_sleep_usec
+ 1607              	.LVL141:
+ 224:../../shields/SCD30/src/scd30.c ****         SCD30_I2C_ADDRESS, (uint8_t*)serial, SCD30_SERIAL_NUM_WORDS);
+ 1608              		.loc 1 224 5 view .LVU370
+ARM GAS  /tmp/cciMkFzD.s 			page 41
+
+
+ 224:../../shields/SCD30/src/scd30.c ****         SCD30_I2C_ADDRESS, (uint8_t*)serial, SCD30_SERIAL_NUM_WORDS);
+ 1609              		.loc 1 224 13 is_stmt 0 view .LVU371
+ 1610 001a 1022     		movs	r2, #16
+ 1611 001c 2146     		mov	r1, r4
+ 1612 001e 6120     		movs	r0, #97
+ 1613 0020 FFF7FEFF 		bl	sensirion_i2c_read_words_as_bytes
+ 1614              	.LVL142:
+ 226:../../shields/SCD30/src/scd30.c ****     return error;
+ 1615              		.loc 1 226 5 is_stmt 1 view .LVU372
+ 226:../../shields/SCD30/src/scd30.c ****     return error;
+ 1616              		.loc 1 226 40 is_stmt 0 view .LVU373
+ 1617 0024 0023     		movs	r3, #0
+ 1618 0026 84F82030 		strb	r3, [r4, #32]
+ 227:../../shields/SCD30/src/scd30.c **** }
+ 1619              		.loc 1 227 5 is_stmt 1 view .LVU374
+ 227:../../shields/SCD30/src/scd30.c **** }
+ 1620              		.loc 1 227 12 is_stmt 0 view .LVU375
+ 1621 002a F1E7     		b	.L91
+ 1622              		.cfi_endproc
+ 1623              	.LFE142:
+ 1625              		.section	.text.sensirion_i2c_delayed_read_cmd,"ax",%progbits
+ 1626              		.align	1
+ 1627              		.global	sensirion_i2c_delayed_read_cmd
+ 1628              		.syntax unified
+ 1629              		.thumb
+ 1630              		.thumb_func
+ 1631              		.fpu fpv4-sp-d16
+ 1633              	sensirion_i2c_delayed_read_cmd:
+ 1634              	.LVL143:
+ 1635              	.LFB156:
+ 380:../../shields/SCD30/src/scd30.c ****     int16_t ret;
+ 1636              		.loc 1 380 60 is_stmt 1 view -0
+ 1637              		.cfi_startproc
+ 1638              		@ args = 4, pretend = 0, frame = 8
+ 1639              		@ frame_needed = 0, uses_anonymous_args = 0
+ 380:../../shields/SCD30/src/scd30.c ****     int16_t ret;
+ 1640              		.loc 1 380 60 is_stmt 0 view .LVU377
+ 1641 0000 70B5     		push	{r4, r5, r6, lr}
+ 1642              	.LCFI55:
+ 1643              		.cfi_def_cfa_offset 16
+ 1644              		.cfi_offset 4, -16
+ 1645              		.cfi_offset 5, -12
+ 1646              		.cfi_offset 6, -8
+ 1647              		.cfi_offset 14, -4
+ 1648 0002 82B0     		sub	sp, sp, #8
+ 1649              	.LCFI56:
+ 1650              		.cfi_def_cfa_offset 24
+ 1651 0004 0446     		mov	r4, r0
+ 1652 0006 1546     		mov	r5, r2
+ 1653 0008 1E46     		mov	r6, r3
+ 381:../../shields/SCD30/src/scd30.c ****     uint8_t buf[SENSIRION_COMMAND_SIZE];
+ 1654              		.loc 1 381 5 is_stmt 1 view .LVU378
+ 382:../../shields/SCD30/src/scd30.c **** 
+ 1655              		.loc 1 382 5 view .LVU379
+ 384:../../shields/SCD30/src/scd30.c ****     ret = sensirion_i2c_write(address, buf, SENSIRION_COMMAND_SIZE);
+ 1656              		.loc 1 384 5 view .LVU380
+ 1657 000a 0023     		movs	r3, #0
+ARM GAS  /tmp/cciMkFzD.s 			page 42
+
+
+ 1658              	.LVL144:
+ 384:../../shields/SCD30/src/scd30.c ****     ret = sensirion_i2c_write(address, buf, SENSIRION_COMMAND_SIZE);
+ 1659              		.loc 1 384 5 is_stmt 0 view .LVU381
+ 1660 000c 1A46     		mov	r2, r3
+ 1661              	.LVL145:
+ 384:../../shields/SCD30/src/scd30.c ****     ret = sensirion_i2c_write(address, buf, SENSIRION_COMMAND_SIZE);
+ 1662              		.loc 1 384 5 view .LVU382
+ 1663 000e 01A8     		add	r0, sp, #4
+ 1664              	.LVL146:
+ 384:../../shields/SCD30/src/scd30.c ****     ret = sensirion_i2c_write(address, buf, SENSIRION_COMMAND_SIZE);
+ 1665              		.loc 1 384 5 view .LVU383
+ 1666 0010 FFF7FEFF 		bl	sensirion_fill_cmd_send_buf
+ 1667              	.LVL147:
+ 385:../../shields/SCD30/src/scd30.c ****     if (ret != NO_ERROR)
+ 1668              		.loc 1 385 5 is_stmt 1 view .LVU384
+ 385:../../shields/SCD30/src/scd30.c ****     if (ret != NO_ERROR)
+ 1669              		.loc 1 385 11 is_stmt 0 view .LVU385
+ 1670 0014 0222     		movs	r2, #2
+ 1671 0016 01A9     		add	r1, sp, #4
+ 1672 0018 2046     		mov	r0, r4
+ 1673 001a FFF7FEFF 		bl	sensirion_i2c_write
+ 1674              	.LVL148:
+ 385:../../shields/SCD30/src/scd30.c ****     if (ret != NO_ERROR)
+ 1675              		.loc 1 385 9 view .LVU386
+ 1676 001e 00B2     		sxth	r0, r0
+ 1677              	.LVL149:
+ 386:../../shields/SCD30/src/scd30.c ****         return ret;
+ 1678              		.loc 1 386 5 is_stmt 1 view .LVU387
+ 386:../../shields/SCD30/src/scd30.c ****         return ret;
+ 1679              		.loc 1 386 8 is_stmt 0 view .LVU388
+ 1680 0020 30B9     		cbnz	r0, .L95
+ 389:../../shields/SCD30/src/scd30.c ****         sensirion_sleep_usec(delay_us);
+ 1681              		.loc 1 389 5 is_stmt 1 view .LVU389
+ 389:../../shields/SCD30/src/scd30.c ****         sensirion_sleep_usec(delay_us);
+ 1682              		.loc 1 389 8 is_stmt 0 view .LVU390
+ 1683 0022 3DB9     		cbnz	r5, .L98
+ 1684              	.LVL150:
+ 1685              	.L96:
+ 392:../../shields/SCD30/src/scd30.c **** }
+ 1686              		.loc 1 392 5 is_stmt 1 view .LVU391
+ 392:../../shields/SCD30/src/scd30.c **** }
+ 1687              		.loc 1 392 12 is_stmt 0 view .LVU392
+ 1688 0024 BDF81820 		ldrh	r2, [sp, #24]
+ 1689 0028 3146     		mov	r1, r6
+ 1690 002a 2046     		mov	r0, r4
+ 1691 002c FFF7FEFF 		bl	sensirion_i2c_read_words
+ 1692              	.LVL151:
+ 1693              	.L95:
+ 393:../../shields/SCD30/src/scd30.c **** 
+ 1694              		.loc 1 393 1 view .LVU393
+ 1695 0030 02B0     		add	sp, sp, #8
+ 1696              	.LCFI57:
+ 1697              		.cfi_remember_state
+ 1698              		.cfi_def_cfa_offset 16
+ 1699              		@ sp needed
+ 1700 0032 70BD     		pop	{r4, r5, r6, pc}
+ 1701              	.LVL152:
+ARM GAS  /tmp/cciMkFzD.s 			page 43
+
+
+ 1702              	.L98:
+ 1703              	.LCFI58:
+ 1704              		.cfi_restore_state
+ 390:../../shields/SCD30/src/scd30.c **** 
+ 1705              		.loc 1 390 9 is_stmt 1 view .LVU394
+ 1706 0034 2846     		mov	r0, r5
+ 1707              	.LVL153:
+ 390:../../shields/SCD30/src/scd30.c **** 
+ 1708              		.loc 1 390 9 is_stmt 0 view .LVU395
+ 1709 0036 FFF7FEFF 		bl	sensirion_sleep_usec
+ 1710              	.LVL154:
+ 1711 003a F3E7     		b	.L96
+ 1712              		.cfi_endproc
+ 1713              	.LFE156:
+ 1715              		.section	.text.scd30_get_data_ready,"ax",%progbits
+ 1716              		.align	1
+ 1717              		.global	scd30_get_data_ready
+ 1718              		.syntax unified
+ 1719              		.thumb
+ 1720              		.thumb_func
+ 1721              		.fpu fpv4-sp-d16
+ 1723              	scd30_get_data_ready:
+ 1724              	.LVL155:
+ 1725              	.LFB136:
+ 150:../../shields/SCD30/src/scd30.c ****     return sensirion_i2c_delayed_read_cmd(
+ 1726              		.loc 1 150 52 is_stmt 1 view -0
+ 1727              		.cfi_startproc
+ 1728              		@ args = 0, pretend = 0, frame = 0
+ 1729              		@ frame_needed = 0, uses_anonymous_args = 0
+ 150:../../shields/SCD30/src/scd30.c ****     return sensirion_i2c_delayed_read_cmd(
+ 1730              		.loc 1 150 52 is_stmt 0 view .LVU397
+ 1731 0000 00B5     		push	{lr}
+ 1732              	.LCFI59:
+ 1733              		.cfi_def_cfa_offset 4
+ 1734              		.cfi_offset 14, -4
+ 1735 0002 83B0     		sub	sp, sp, #12
+ 1736              	.LCFI60:
+ 1737              		.cfi_def_cfa_offset 16
+ 1738 0004 0346     		mov	r3, r0
+ 151:../../shields/SCD30/src/scd30.c ****         SCD30_I2C_ADDRESS, SCD30_CMD_GET_DATA_READY, 3000, data_ready,
+ 1739              		.loc 1 151 5 is_stmt 1 view .LVU398
+ 151:../../shields/SCD30/src/scd30.c ****         SCD30_I2C_ADDRESS, SCD30_CMD_GET_DATA_READY, 3000, data_ready,
+ 1740              		.loc 1 151 12 is_stmt 0 view .LVU399
+ 1741 0006 0122     		movs	r2, #1
+ 1742 0008 0092     		str	r2, [sp]
+ 1743 000a 40F6B832 		movw	r2, #3000
+ 1744 000e 40F20221 		movw	r1, #514
+ 1745 0012 6120     		movs	r0, #97
+ 1746              	.LVL156:
+ 151:../../shields/SCD30/src/scd30.c ****         SCD30_I2C_ADDRESS, SCD30_CMD_GET_DATA_READY, 3000, data_ready,
+ 1747              		.loc 1 151 12 view .LVU400
+ 1748 0014 FFF7FEFF 		bl	sensirion_i2c_delayed_read_cmd
+ 1749              	.LVL157:
+ 154:../../shields/SCD30/src/scd30.c **** 
+ 1750              		.loc 1 154 1 view .LVU401
+ 1751 0018 03B0     		add	sp, sp, #12
+ 1752              	.LCFI61:
+ARM GAS  /tmp/cciMkFzD.s 			page 44
+
+
+ 1753              		.cfi_def_cfa_offset 4
+ 1754              		@ sp needed
+ 1755 001a 5DF804FB 		ldr	pc, [sp], #4
+ 1756              		.cfi_endproc
+ 1757              	.LFE136:
+ 1759              		.section	.text.scd30_probe,"ax",%progbits
+ 1760              		.align	1
+ 1761              		.global	scd30_probe
+ 1762              		.syntax unified
+ 1763              		.thumb
+ 1764              		.thumb_func
+ 1765              		.fpu fpv4-sp-d16
+ 1767              	scd30_probe:
+ 1768              	.LFB144:
+ 238:../../shields/SCD30/src/scd30.c ****     uint16_t data_ready;
+ 1769              		.loc 1 238 23 is_stmt 1 view -0
+ 1770              		.cfi_startproc
+ 1771              		@ args = 0, pretend = 0, frame = 8
+ 1772              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1773 0000 00B5     		push	{lr}
+ 1774              	.LCFI62:
+ 1775              		.cfi_def_cfa_offset 4
+ 1776              		.cfi_offset 14, -4
+ 1777 0002 83B0     		sub	sp, sp, #12
+ 1778              	.LCFI63:
+ 1779              		.cfi_def_cfa_offset 16
+ 239:../../shields/SCD30/src/scd30.c **** 
+ 1780              		.loc 1 239 5 view .LVU403
+ 242:../../shields/SCD30/src/scd30.c **** }
+ 1781              		.loc 1 242 5 view .LVU404
+ 242:../../shields/SCD30/src/scd30.c **** }
+ 1782              		.loc 1 242 12 is_stmt 0 view .LVU405
+ 1783 0004 0DF10600 		add	r0, sp, #6
+ 1784 0008 FFF7FEFF 		bl	scd30_get_data_ready
+ 1785              	.LVL158:
+ 243:../../shields/SCD30/src/scd30.c **** 
+ 1786              		.loc 1 243 1 view .LVU406
+ 1787 000c 03B0     		add	sp, sp, #12
+ 1788              	.LCFI64:
+ 1789              		.cfi_def_cfa_offset 4
+ 1790              		@ sp needed
+ 1791 000e 5DF804FB 		ldr	pc, [sp], #4
+ 1792              		.cfi_endproc
+ 1793              	.LFE144:
+ 1795              		.section	.text.sensirion_i2c_read_cmd,"ax",%progbits
+ 1796              		.align	1
+ 1797              		.global	sensirion_i2c_read_cmd
+ 1798              		.syntax unified
+ 1799              		.thumb
+ 1800              		.thumb_func
+ 1801              		.fpu fpv4-sp-d16
+ 1803              	sensirion_i2c_read_cmd:
+ 1804              	.LVL159:
+ 1805              	.LFB157:
+ 396:../../shields/SCD30/src/scd30.c ****     return sensirion_i2c_delayed_read_cmd(address, cmd, 0, data_words,
+ 1806              		.loc 1 396 74 is_stmt 1 view -0
+ 1807              		.cfi_startproc
+ARM GAS  /tmp/cciMkFzD.s 			page 45
+
+
+ 1808              		@ args = 0, pretend = 0, frame = 0
+ 1809              		@ frame_needed = 0, uses_anonymous_args = 0
+ 396:../../shields/SCD30/src/scd30.c ****     return sensirion_i2c_delayed_read_cmd(address, cmd, 0, data_words,
+ 1810              		.loc 1 396 74 is_stmt 0 view .LVU408
+ 1811 0000 00B5     		push	{lr}
+ 1812              	.LCFI65:
+ 1813              		.cfi_def_cfa_offset 4
+ 1814              		.cfi_offset 14, -4
+ 1815 0002 83B0     		sub	sp, sp, #12
+ 1816              	.LCFI66:
+ 1817              		.cfi_def_cfa_offset 16
+ 397:../../shields/SCD30/src/scd30.c ****                                           num_words);
+ 1818              		.loc 1 397 5 is_stmt 1 view .LVU409
+ 397:../../shields/SCD30/src/scd30.c ****                                           num_words);
+ 1819              		.loc 1 397 12 is_stmt 0 view .LVU410
+ 1820 0004 0093     		str	r3, [sp]
+ 1821 0006 1346     		mov	r3, r2
+ 1822              	.LVL160:
+ 397:../../shields/SCD30/src/scd30.c ****                                           num_words);
+ 1823              		.loc 1 397 12 view .LVU411
+ 1824 0008 0022     		movs	r2, #0
+ 1825              	.LVL161:
+ 397:../../shields/SCD30/src/scd30.c ****                                           num_words);
+ 1826              		.loc 1 397 12 view .LVU412
+ 1827 000a FFF7FEFF 		bl	sensirion_i2c_delayed_read_cmd
+ 1828              	.LVL162:
+ 399:../../shields/SCD30/src/scd30.c **** 
+ 1829              		.loc 1 399 1 view .LVU413
+ 1830 000e 03B0     		add	sp, sp, #12
+ 1831              	.LCFI67:
+ 1832              		.cfi_def_cfa_offset 4
+ 1833              		@ sp needed
+ 1834 0010 5DF804FB 		ldr	pc, [sp], #4
+ 1835              		.cfi_endproc
+ 1836              	.LFE157:
+ 1838              		.section	.text.scd30_get_automatic_self_calibration,"ax",%progbits
+ 1839              		.align	1
+ 1840              		.global	scd30_get_automatic_self_calibration
+ 1841              		.syntax unified
+ 1842              		.thumb
+ 1843              		.thumb_func
+ 1844              		.fpu fpv4-sp-d16
+ 1846              	scd30_get_automatic_self_calibration:
+ 1847              	.LVL163:
+ 1848              	.LFB139:
+ 178:../../shields/SCD30/src/scd30.c ****     uint16_t word;
+ 1849              		.loc 1 178 68 is_stmt 1 view -0
+ 1850              		.cfi_startproc
+ 1851              		@ args = 0, pretend = 0, frame = 8
+ 1852              		@ frame_needed = 0, uses_anonymous_args = 0
+ 178:../../shields/SCD30/src/scd30.c ****     uint16_t word;
+ 1853              		.loc 1 178 68 is_stmt 0 view .LVU415
+ 1854 0000 10B5     		push	{r4, lr}
+ 1855              	.LCFI68:
+ 1856              		.cfi_def_cfa_offset 8
+ 1857              		.cfi_offset 4, -8
+ 1858              		.cfi_offset 14, -4
+ARM GAS  /tmp/cciMkFzD.s 			page 46
+
+
+ 1859 0002 82B0     		sub	sp, sp, #8
+ 1860              	.LCFI69:
+ 1861              		.cfi_def_cfa_offset 16
+ 1862 0004 0446     		mov	r4, r0
+ 179:../../shields/SCD30/src/scd30.c ****     int16_t error;
+ 1863              		.loc 1 179 5 is_stmt 1 view .LVU416
+ 180:../../shields/SCD30/src/scd30.c **** 
+ 1864              		.loc 1 180 5 view .LVU417
+ 182:../../shields/SCD30/src/scd30.c ****                                    SCD30_CMD_AUTO_SELF_CALIBRATION, &word,
+ 1865              		.loc 1 182 5 view .LVU418
+ 182:../../shields/SCD30/src/scd30.c ****                                    SCD30_CMD_AUTO_SELF_CALIBRATION, &word,
+ 1866              		.loc 1 182 13 is_stmt 0 view .LVU419
+ 1867 0006 0123     		movs	r3, #1
+ 1868 0008 0DF10602 		add	r2, sp, #6
+ 1869 000c 45F20631 		movw	r1, #21254
+ 1870 0010 6120     		movs	r0, #97
+ 1871              	.LVL164:
+ 182:../../shields/SCD30/src/scd30.c ****                                    SCD30_CMD_AUTO_SELF_CALIBRATION, &word,
+ 1872              		.loc 1 182 13 view .LVU420
+ 1873 0012 FFF7FEFF 		bl	sensirion_i2c_read_cmd
+ 1874              	.LVL165:
+ 185:../../shields/SCD30/src/scd30.c ****         return error;
+ 1875              		.loc 1 185 5 is_stmt 1 view .LVU421
+ 185:../../shields/SCD30/src/scd30.c ****         return error;
+ 1876              		.loc 1 185 8 is_stmt 0 view .LVU422
+ 1877 0016 10B9     		cbnz	r0, .L106
+ 188:../../shields/SCD30/src/scd30.c **** 
+ 1878              		.loc 1 188 5 is_stmt 1 view .LVU423
+ 188:../../shields/SCD30/src/scd30.c **** 
+ 1879              		.loc 1 188 20 is_stmt 0 view .LVU424
+ 1880 0018 9DF80630 		ldrb	r3, [sp, #6]	@ zero_extendqisi2
+ 188:../../shields/SCD30/src/scd30.c **** 
+ 1881              		.loc 1 188 18 view .LVU425
+ 1882 001c 2370     		strb	r3, [r4]
+ 190:../../shields/SCD30/src/scd30.c **** }
+ 1883              		.loc 1 190 5 is_stmt 1 view .LVU426
+ 1884              	.L106:
+ 191:../../shields/SCD30/src/scd30.c **** 
+ 1885              		.loc 1 191 1 is_stmt 0 view .LVU427
+ 1886 001e 02B0     		add	sp, sp, #8
+ 1887              	.LCFI70:
+ 1888              		.cfi_def_cfa_offset 8
+ 1889              		@ sp needed
+ 1890 0020 10BD     		pop	{r4, pc}
+ 191:../../shields/SCD30/src/scd30.c **** 
+ 1891              		.loc 1 191 1 view .LVU428
+ 1892              		.cfi_endproc
+ 1893              	.LFE139:
+ 1895              		.global	SCD30_initialised
+ 1896              		.comm	i2cHandle,4,4
+ 1897              		.comm	SCD30Header,44,4
+ 1898              		.comm	P3_header,44,4
+ 1899              		.comm	P2_header,44,4
+ 1900              		.comm	P1_header,44,4
+ 1901              		.comm	stackversion_patch,1,1
+ 1902              		.comm	stackversion_minor,1,1
+ 1903              		.comm	stackversion_major,1,1
+ARM GAS  /tmp/cciMkFzD.s 			page 47
+
+
+ 1904              		.comm	appversion_patch,1,1
+ 1905              		.comm	appversion_minor,1,1
+ 1906              		.comm	appversion_major,1,1
+ 1907              		.comm	short_UID,8,8
+ 1908              		.comm	octa_uid,8,8
+ 1909              		.comm	float_union,4,4
+ 1910              		.comm	uint16LittleEndian,2,4
+ 1911              		.comm	int16LittleEndian,2,4
+ 1912              		.comm	uint32LittleEndian,4,4
+ 1913              		.comm	int32LittleEndian,4,4
+ 1914              		.comm	rtosprintHandle,4,4
+ 1915              		.comm	hrtc,36,4
+ 1916              		.comm	FLASH_SPI,100,4
+ 1917              		.comm	P3_SPI,100,4
+ 1918              		.comm	P2_SPI,100,4
+ 1919              		.comm	P1_SPI,100,4
+ 1920              		.comm	P3_I2C,76,4
+ 1921              		.comm	P2_I2C,76,4
+ 1922              		.comm	P1_I2C,76,4
+ 1923              		.comm	common_I2C,76,4
+ 1924              		.comm	P3_UART,120,4
+ 1925              		.comm	P2_UART,120,4
+ 1926              		.comm	P1_UART,120,4
+ 1927              		.comm	FTDI_UART,120,4
+ 1928              		.comm	BLE_UART,120,4
+ 1929              		.comm	USB_UART,120,4
+ 1930              		.comm	hiwdg,16,4
+ 1931              		.comm	P3_DIO6,8,4
+ 1932              		.comm	P3_DIO5,8,4
+ 1933              		.comm	P3_DIO4,8,4
+ 1934              		.comm	P3_DIO3,8,4
+ 1935              		.comm	P3_DIO2,8,4
+ 1936              		.comm	P3_DIO1,8,4
+ 1937              		.comm	P2_DIO6,8,4
+ 1938              		.comm	P2_DIO5,8,4
+ 1939              		.comm	P2_DIO4,8,4
+ 1940              		.comm	P2_DIO3,8,4
+ 1941              		.comm	P2_DIO2,8,4
+ 1942              		.comm	P2_DIO1,8,4
+ 1943              		.comm	P1_DIO6,8,4
+ 1944              		.comm	P1_DIO5,8,4
+ 1945              		.comm	P1_DIO4,8,4
+ 1946              		.comm	P1_DIO3,8,4
+ 1947              		.comm	P1_DIO2,8,4
+ 1948              		.comm	P1_DIO1,8,4
+ 1949              		.comm	htim6,64,4
+ 1950              		.comm	htim1,64,4
+ 1951              		.section	.bss.SCD30_initialised,"aw",%nobits
+ 1952              		.set	.LANCHOR0,. + 0
+ 1955              	SCD30_initialised:
+ 1956 0000 00       		.space	1
+ 1957              		.text
+ 1958              	.Letext0:
+ 1959              		.file 2 "/usr/arm-none-eabi/include/machine/_default_types.h"
+ 1960              		.file 3 "/usr/arm-none-eabi/include/sys/_stdint.h"
+ 1961              		.file 4 "../../core/ST/CMSIS/Include/core_cm4.h"
+ 1962              		.file 5 "../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/system_stm32l4xx.h"
+ARM GAS  /tmp/cciMkFzD.s 			page 48
+
+
+ 1963              		.file 6 "../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/stm32l496xx.h"
+ 1964              		.file 7 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h"
+ 1965              		.file 8 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_dma.h"
+ 1966              		.file 9 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_i2c.h"
+ 1967              		.file 10 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_iwdg.h"
+ 1968              		.file 11 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rtc.h"
+ 1969              		.file 12 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_spi.h"
+ 1970              		.file 13 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_tim.h"
+ 1971              		.file 14 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h"
+ 1972              		.file 15 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h"
+ 1973              		.file 16 "../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/include/task.h"
+ 1974              		.file 17 "../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h"
+ 1975              		.file 18 "../../core/platform/octa/inc/sysclock.h"
+ 1976              		.file 19 "../../core/platform/octa/inc/gpio.h"
+ 1977              		.file 20 "../../core/platform/octa/inc/iwdg.h"
+ 1978              		.file 21 "../../core/platform/octa/inc/uart.h"
+ 1979              		.file 22 "../../core/platform/octa/inc/i2c.h"
+ 1980              		.file 23 "../../core/platform/octa/inc/spi.h"
+ 1981              		.file 24 "../../core/platform/octa/inc/rtc.h"
+ 1982              		.file 25 "../../core/platform/octa/inc/rtosincludes.h"
+ 1983              		.file 26 "/usr/arm-none-eabi/include/sys/lock.h"
+ 1984              		.file 27 "/usr/arm-none-eabi/include/sys/_types.h"
+ 1985              		.file 28 "/usr/lib/gcc/arm-none-eabi/9.2.1/include/stddef.h"
+ 1986              		.file 29 "/usr/arm-none-eabi/include/sys/reent.h"
+ 1987              		.file 30 "../../core/platform/common/inc/datatypes.h"
+ 1988              		.file 31 "../../core/platform/octa/inc/platform.h"
+ 1989              		.file 32 "/usr/arm-none-eabi/include/stdlib.h"
+ 1990              		.file 33 "../../core/platform/common/inc/print.h"
+ARM GAS  /tmp/cciMkFzD.s 			page 49
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 scd30.c
+     /tmp/cciMkFzD.s:18     .rodata.scd30_Initialize.str1.4:0000000000000000 $d
+     /tmp/cciMkFzD.s:29     .text.scd30_Initialize:0000000000000000 $t
+     /tmp/cciMkFzD.s:37     .text.scd30_Initialize:0000000000000000 scd30_Initialize
+     /tmp/cciMkFzD.s:139    .text.scd30_Initialize:0000000000000078 $d
+                            *COM*:000000000000002c SCD30Header
+                            *COM*:0000000000000004 i2cHandle
+     /tmp/cciMkFzD.s:149    .text.scd30_get_configured_address:0000000000000000 $t
+     /tmp/cciMkFzD.s:156    .text.scd30_get_configured_address:0000000000000000 scd30_get_configured_address
+     /tmp/cciMkFzD.s:171    .text.sensirion_bytes_to_uint16_t:0000000000000000 $t
+     /tmp/cciMkFzD.s:178    .text.sensirion_bytes_to_uint16_t:0000000000000000 sensirion_bytes_to_uint16_t
+     /tmp/cciMkFzD.s:199    .text.sensirion_bytes_to_uint32_t:0000000000000000 $t
+     /tmp/cciMkFzD.s:206    .text.sensirion_bytes_to_uint32_t:0000000000000000 sensirion_bytes_to_uint32_t
+     /tmp/cciMkFzD.s:237    .text.sensirion_bytes_to_float:0000000000000000 $t
+     /tmp/cciMkFzD.s:244    .text.sensirion_bytes_to_float:0000000000000000 sensirion_bytes_to_float
+     /tmp/cciMkFzD.s:271    .text.sensirion_common_generate_crc:0000000000000000 $t
+     /tmp/cciMkFzD.s:278    .text.sensirion_common_generate_crc:0000000000000000 sensirion_common_generate_crc
+     /tmp/cciMkFzD.s:376    .text.sensirion_common_check_crc:0000000000000000 $t
+     /tmp/cciMkFzD.s:383    .text.sensirion_common_check_crc:0000000000000000 sensirion_common_check_crc
+     /tmp/cciMkFzD.s:417    .text.sensirion_fill_cmd_send_buf:0000000000000000 $t
+     /tmp/cciMkFzD.s:424    .text.sensirion_fill_cmd_send_buf:0000000000000000 sensirion_fill_cmd_send_buf
+     /tmp/cciMkFzD.s:526    .text.sensirion_i2c_release:0000000000000000 $t
+     /tmp/cciMkFzD.s:533    .text.sensirion_i2c_release:0000000000000000 sensirion_i2c_release
+     /tmp/cciMkFzD.s:546    .text.sensirion_i2c_read:0000000000000000 $t
+     /tmp/cciMkFzD.s:553    .text.sensirion_i2c_read:0000000000000000 sensirion_i2c_read
+     /tmp/cciMkFzD.s:595    .text.sensirion_i2c_read:0000000000000020 $d
+     /tmp/cciMkFzD.s:600    .text.sensirion_i2c_read_words_as_bytes:0000000000000000 $t
+     /tmp/cciMkFzD.s:607    .text.sensirion_i2c_read_words_as_bytes:0000000000000000 sensirion_i2c_read_words_as_bytes
+     /tmp/cciMkFzD.s:727    .text.sensirion_i2c_read_words:0000000000000000 $t
+     /tmp/cciMkFzD.s:734    .text.sensirion_i2c_read_words:0000000000000000 sensirion_i2c_read_words
+     /tmp/cciMkFzD.s:800    .text.sensirion_i2c_write:0000000000000000 $t
+     /tmp/cciMkFzD.s:807    .text.sensirion_i2c_write:0000000000000000 sensirion_i2c_write
+     /tmp/cciMkFzD.s:849    .text.sensirion_i2c_write:0000000000000020 $d
+     /tmp/cciMkFzD.s:854    .text.sensirion_i2c_general_call_reset:0000000000000000 $t
+     /tmp/cciMkFzD.s:861    .text.sensirion_i2c_general_call_reset:0000000000000000 sensirion_i2c_general_call_reset
+     /tmp/cciMkFzD.s:896    .text.sensirion_i2c_write_cmd:0000000000000000 $t
+     /tmp/cciMkFzD.s:903    .text.sensirion_i2c_write_cmd:0000000000000000 sensirion_i2c_write_cmd
+     /tmp/cciMkFzD.s:947    .text.scd30_stop_periodic_measurement:0000000000000000 $t
+     /tmp/cciMkFzD.s:954    .text.scd30_stop_periodic_measurement:0000000000000000 scd30_stop_periodic_measurement
+     /tmp/cciMkFzD.s:977    .text.scd30_read_measurement:0000000000000000 $t
+     /tmp/cciMkFzD.s:984    .text.scd30_read_measurement:0000000000000000 scd30_read_measurement
+     /tmp/cciMkFzD.s:1080   .text.sensirion_i2c_write_cmd_with_args:0000000000000000 $t
+     /tmp/cciMkFzD.s:1087   .text.sensirion_i2c_write_cmd_with_args:0000000000000000 sensirion_i2c_write_cmd_with_args
+     /tmp/cciMkFzD.s:1136   .text.scd30_start_periodic_measurement:0000000000000000 $t
+     /tmp/cciMkFzD.s:1143   .text.scd30_start_periodic_measurement:0000000000000000 scd30_start_periodic_measurement
+     /tmp/cciMkFzD.s:1200   .text.sensirion_sleep_usec:0000000000000000 $t
+     /tmp/cciMkFzD.s:1207   .text.sensirion_sleep_usec:0000000000000000 sensirion_sleep_usec
+     /tmp/cciMkFzD.s:1262   .text.sensirion_sleep_usec:000000000000002c $d
+     /tmp/cciMkFzD.s:1268   .text.scd30_set_measurement_interval:0000000000000000 $t
+     /tmp/cciMkFzD.s:1275   .text.scd30_set_measurement_interval:0000000000000000 scd30_set_measurement_interval
+     /tmp/cciMkFzD.s:1341   .text.scd30_set_temperature_offset:0000000000000000 $t
+     /tmp/cciMkFzD.s:1348   .text.scd30_set_temperature_offset:0000000000000000 scd30_set_temperature_offset
+     /tmp/cciMkFzD.s:1396   .text.scd30_set_altitude:0000000000000000 $t
+     /tmp/cciMkFzD.s:1403   .text.scd30_set_altitude:0000000000000000 scd30_set_altitude
+     /tmp/cciMkFzD.s:1451   .text.scd30_enable_automatic_self_calibration:0000000000000000 $t
+     /tmp/cciMkFzD.s:1458   .text.scd30_enable_automatic_self_calibration:0000000000000000 scd30_enable_automatic_self_calibration
+ARM GAS  /tmp/cciMkFzD.s 			page 50
+
+
+     /tmp/cciMkFzD.s:1511   .text.scd30_set_forced_recalibration:0000000000000000 $t
+     /tmp/cciMkFzD.s:1518   .text.scd30_set_forced_recalibration:0000000000000000 scd30_set_forced_recalibration
+     /tmp/cciMkFzD.s:1566   .text.scd30_read_serial:0000000000000000 $t
+     /tmp/cciMkFzD.s:1573   .text.scd30_read_serial:0000000000000000 scd30_read_serial
+     /tmp/cciMkFzD.s:1626   .text.sensirion_i2c_delayed_read_cmd:0000000000000000 $t
+     /tmp/cciMkFzD.s:1633   .text.sensirion_i2c_delayed_read_cmd:0000000000000000 sensirion_i2c_delayed_read_cmd
+     /tmp/cciMkFzD.s:1716   .text.scd30_get_data_ready:0000000000000000 $t
+     /tmp/cciMkFzD.s:1723   .text.scd30_get_data_ready:0000000000000000 scd30_get_data_ready
+     /tmp/cciMkFzD.s:1760   .text.scd30_probe:0000000000000000 $t
+     /tmp/cciMkFzD.s:1767   .text.scd30_probe:0000000000000000 scd30_probe
+     /tmp/cciMkFzD.s:1796   .text.sensirion_i2c_read_cmd:0000000000000000 $t
+     /tmp/cciMkFzD.s:1803   .text.sensirion_i2c_read_cmd:0000000000000000 sensirion_i2c_read_cmd
+     /tmp/cciMkFzD.s:1839   .text.scd30_get_automatic_self_calibration:0000000000000000 $t
+     /tmp/cciMkFzD.s:1846   .text.scd30_get_automatic_self_calibration:0000000000000000 scd30_get_automatic_self_calibration
+     /tmp/cciMkFzD.s:1955   .bss.SCD30_initialised:0000000000000000 SCD30_initialised
+                            *COM*:000000000000002c P3_header
+                            *COM*:000000000000002c P2_header
+                            *COM*:000000000000002c P1_header
+                            *COM*:0000000000000001 stackversion_patch
+                            *COM*:0000000000000001 stackversion_minor
+                            *COM*:0000000000000001 stackversion_major
+                            *COM*:0000000000000001 appversion_patch
+                            *COM*:0000000000000001 appversion_minor
+                            *COM*:0000000000000001 appversion_major
+                            *COM*:0000000000000008 short_UID
+                            *COM*:0000000000000008 octa_uid
+                            *COM*:0000000000000004 float_union
+                            *COM*:0000000000000002 uint16LittleEndian
+                            *COM*:0000000000000002 int16LittleEndian
+                            *COM*:0000000000000004 uint32LittleEndian
+                            *COM*:0000000000000004 int32LittleEndian
+                            *COM*:0000000000000004 rtosprintHandle
+                            *COM*:0000000000000024 hrtc
+                            *COM*:0000000000000064 FLASH_SPI
+                            *COM*:0000000000000064 P3_SPI
+                            *COM*:0000000000000064 P2_SPI
+                            *COM*:0000000000000064 P1_SPI
+                            *COM*:000000000000004c P3_I2C
+                            *COM*:000000000000004c P2_I2C
+                            *COM*:000000000000004c P1_I2C
+                            *COM*:000000000000004c common_I2C
+                            *COM*:0000000000000078 P3_UART
+                            *COM*:0000000000000078 P2_UART
+                            *COM*:0000000000000078 P1_UART
+                            *COM*:0000000000000078 FTDI_UART
+                            *COM*:0000000000000078 BLE_UART
+                            *COM*:0000000000000078 USB_UART
+                            *COM*:0000000000000010 hiwdg
+                            *COM*:0000000000000008 P3_DIO6
+                            *COM*:0000000000000008 P3_DIO5
+                            *COM*:0000000000000008 P3_DIO4
+                            *COM*:0000000000000008 P3_DIO3
+                            *COM*:0000000000000008 P3_DIO2
+                            *COM*:0000000000000008 P3_DIO1
+                            *COM*:0000000000000008 P2_DIO6
+                            *COM*:0000000000000008 P2_DIO5
+                            *COM*:0000000000000008 P2_DIO4
+ARM GAS  /tmp/cciMkFzD.s 			page 51
+
+
+                            *COM*:0000000000000008 P2_DIO3
+                            *COM*:0000000000000008 P2_DIO2
+                            *COM*:0000000000000008 P2_DIO1
+                            *COM*:0000000000000008 P1_DIO6
+                            *COM*:0000000000000008 P1_DIO5
+                            *COM*:0000000000000008 P1_DIO4
+                            *COM*:0000000000000008 P1_DIO3
+                            *COM*:0000000000000008 P1_DIO2
+                            *COM*:0000000000000008 P1_DIO1
+                            *COM*:0000000000000040 htim6
+                            *COM*:0000000000000040 htim1
+     /tmp/cciMkFzD.s:1956   .bss.SCD30_initialised:0000000000000000 $d
+
+UNDEFINED SYMBOLS
+printINF
+platform_getHeader
+platform_initialize_I2C
+printERR
+HAL_I2C_Master_Receive
+HAL_I2C_Master_Transmit
+HAL_GetHalVersion
+HAL_Delay

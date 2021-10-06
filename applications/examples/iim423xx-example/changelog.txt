@@ -1,0 +1,4 @@
+IIM423xx-example
+0.1.0: initial version
+0.1.1: working i2c communication
+0.1.2: added sensor readout

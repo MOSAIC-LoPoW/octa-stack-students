@@ -1,0 +1,270 @@
+ARM GAS  /tmp/ccFb4uM2.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 28, 1
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.file	"i2c.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.text.common_I2C_Init,"ax",%progbits
+  18              		.align	1
+  19              		.global	common_I2C_Init
+  20              		.arch armv7e-m
+  21              		.syntax unified
+  22              		.thumb
+  23              		.thumb_func
+  24              		.fpu fpv4-sp-d16
+  26              	common_I2C_Init:
+  27              	.LFB131:
+  28              		.file 1 "../../../core/platform/octa_stm_mini/src/i2c.c"
+   1:../../../core/platform/octa_stm_mini/src/i2c.c **** #include "i2c.h"
+   2:../../../core/platform/octa_stm_mini/src/i2c.c **** #include "platform.h"
+   3:../../../core/platform/octa_stm_mini/src/i2c.c **** 
+   4:../../../core/platform/octa_stm_mini/src/i2c.c **** void common_I2C_Init(void)
+   5:../../../core/platform/octa_stm_mini/src/i2c.c **** {
+  29              		.loc 1 5 1 view -0
+  30              		.cfi_startproc
+  31              		@ args = 0, pretend = 0, frame = 0
+  32              		@ frame_needed = 0, uses_anonymous_args = 0
+  33 0000 08B5     		push	{r3, lr}
+  34              	.LCFI0:
+  35              		.cfi_def_cfa_offset 8
+  36              		.cfi_offset 3, -8
+  37              		.cfi_offset 14, -4
+   6:../../../core/platform/octa_stm_mini/src/i2c.c ****   common_I2C.Instance = I2C3;
+  38              		.loc 1 6 3 view .LVU1
+  39              		.loc 1 6 23 is_stmt 0 view .LVU2
+  40 0002 1248     		ldr	r0, .L9
+  41 0004 124B     		ldr	r3, .L9+4
+  42 0006 0360     		str	r3, [r0]
+   7:../../../core/platform/octa_stm_mini/src/i2c.c ****   common_I2C.Init.Timing = 0x00101A26;
+  43              		.loc 1 7 3 is_stmt 1 view .LVU3
+  44              		.loc 1 7 26 is_stmt 0 view .LVU4
+  45 0008 124B     		ldr	r3, .L9+8
+  46 000a 4360     		str	r3, [r0, #4]
+   8:../../../core/platform/octa_stm_mini/src/i2c.c ****   common_I2C.Init.OwnAddress1 = 0;
+  47              		.loc 1 8 3 is_stmt 1 view .LVU5
+  48              		.loc 1 8 31 is_stmt 0 view .LVU6
+  49 000c 0023     		movs	r3, #0
+  50 000e 8360     		str	r3, [r0, #8]
+ARM GAS  /tmp/ccFb4uM2.s 			page 2
+
+
+   9:../../../core/platform/octa_stm_mini/src/i2c.c ****   common_I2C.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
+  51              		.loc 1 9 3 is_stmt 1 view .LVU7
+  52              		.loc 1 9 34 is_stmt 0 view .LVU8
+  53 0010 0122     		movs	r2, #1
+  54 0012 C260     		str	r2, [r0, #12]
+  10:../../../core/platform/octa_stm_mini/src/i2c.c ****   common_I2C.Init.DualAddressMode = I2C_DUALADDRESS_DISABLE;
+  55              		.loc 1 10 3 is_stmt 1 view .LVU9
+  56              		.loc 1 10 35 is_stmt 0 view .LVU10
+  57 0014 0361     		str	r3, [r0, #16]
+  11:../../../core/platform/octa_stm_mini/src/i2c.c ****   common_I2C.Init.OwnAddress2 = 0;
+  58              		.loc 1 11 3 is_stmt 1 view .LVU11
+  59              		.loc 1 11 31 is_stmt 0 view .LVU12
+  60 0016 4361     		str	r3, [r0, #20]
+  12:../../../core/platform/octa_stm_mini/src/i2c.c ****   common_I2C.Init.OwnAddress2Masks = I2C_OA2_NOMASK;
+  61              		.loc 1 12 3 is_stmt 1 view .LVU13
+  62              		.loc 1 12 36 is_stmt 0 view .LVU14
+  63 0018 8361     		str	r3, [r0, #24]
+  13:../../../core/platform/octa_stm_mini/src/i2c.c ****   common_I2C.Init.GeneralCallMode = I2C_GENERALCALL_DISABLE;
+  64              		.loc 1 13 3 is_stmt 1 view .LVU15
+  65              		.loc 1 13 35 is_stmt 0 view .LVU16
+  66 001a C361     		str	r3, [r0, #28]
+  14:../../../core/platform/octa_stm_mini/src/i2c.c ****   common_I2C.Init.NoStretchMode = I2C_NOSTRETCH_DISABLE;
+  67              		.loc 1 14 3 is_stmt 1 view .LVU17
+  68              		.loc 1 14 33 is_stmt 0 view .LVU18
+  69 001c 0362     		str	r3, [r0, #32]
+  15:../../../core/platform/octa_stm_mini/src/i2c.c ****   if (HAL_I2C_Init(&common_I2C) != HAL_OK)
+  70              		.loc 1 15 3 is_stmt 1 view .LVU19
+  71              		.loc 1 15 7 is_stmt 0 view .LVU20
+  72 001e FFF7FEFF 		bl	HAL_I2C_Init
+  73              	.LVL0:
+  74              		.loc 1 15 6 view .LVU21
+  75 0022 50B9     		cbnz	r0, .L6
+  76              	.L2:
+  16:../../../core/platform/octa_stm_mini/src/i2c.c ****   {
+  17:../../../core/platform/octa_stm_mini/src/i2c.c ****     Error_Handler();
+  18:../../../core/platform/octa_stm_mini/src/i2c.c ****   }
+  19:../../../core/platform/octa_stm_mini/src/i2c.c **** 
+  20:../../../core/platform/octa_stm_mini/src/i2c.c ****   if (HAL_I2CEx_ConfigAnalogFilter(&common_I2C, I2C_ANALOGFILTER_ENABLE) != HAL_OK)
+  77              		.loc 1 20 3 is_stmt 1 view .LVU22
+  78              		.loc 1 20 7 is_stmt 0 view .LVU23
+  79 0024 0021     		movs	r1, #0
+  80 0026 0948     		ldr	r0, .L9
+  81 0028 FFF7FEFF 		bl	HAL_I2CEx_ConfigAnalogFilter
+  82              	.LVL1:
+  83              		.loc 1 20 6 view .LVU24
+  84 002c 40B9     		cbnz	r0, .L7
+  85              	.L3:
+  21:../../../core/platform/octa_stm_mini/src/i2c.c ****   {
+  22:../../../core/platform/octa_stm_mini/src/i2c.c ****     Error_Handler();
+  23:../../../core/platform/octa_stm_mini/src/i2c.c ****   }
+  24:../../../core/platform/octa_stm_mini/src/i2c.c ****   if (HAL_I2CEx_ConfigDigitalFilter(&common_I2C, 0) != HAL_OK)
+  86              		.loc 1 24 3 is_stmt 1 view .LVU25
+  87              		.loc 1 24 7 is_stmt 0 view .LVU26
+  88 002e 0021     		movs	r1, #0
+  89 0030 0648     		ldr	r0, .L9
+  90 0032 FFF7FEFF 		bl	HAL_I2CEx_ConfigDigitalFilter
+  91              	.LVL2:
+ARM GAS  /tmp/ccFb4uM2.s 			page 3
+
+
+  92              		.loc 1 24 6 view .LVU27
+  93 0036 30B9     		cbnz	r0, .L8
+  94              	.L1:
+  25:../../../core/platform/octa_stm_mini/src/i2c.c ****   {
+  26:../../../core/platform/octa_stm_mini/src/i2c.c ****     Error_Handler();
+  27:../../../core/platform/octa_stm_mini/src/i2c.c ****   }
+  28:../../../core/platform/octa_stm_mini/src/i2c.c **** }...
+  95              		.loc 1 28 1 view .LVU28
+  96 0038 08BD     		pop	{r3, pc}
+  97              	.L6:
+  17:../../../core/platform/octa_stm_mini/src/i2c.c ****     Error_Handler();
+  98              		.loc 1 17 5 is_stmt 1 view .LVU29
+  99 003a FFF7FEFF 		bl	Error_Handler
+ 100              	.LVL3:
+ 101 003e F1E7     		b	.L2
+ 102              	.L7:
+  22:../../../core/platform/octa_stm_mini/src/i2c.c ****     Error_Handler();
+ 103              		.loc 1 22 5 view .LVU30
+ 104 0040 FFF7FEFF 		bl	Error_Handler
+ 105              	.LVL4:
+ 106 0044 F3E7     		b	.L3
+ 107              	.L8:
+  26:../../../core/platform/octa_stm_mini/src/i2c.c ****     Error_Handler();
+ 108              		.loc 1 26 5 view .LVU31
+ 109 0046 FFF7FEFF 		bl	Error_Handler
+ 110              	.LVL5:
+ 111              		.loc 1 28 1 is_stmt 0 view .LVU32
+ 112 004a F5E7     		b	.L1
+ 113              	.L10:
+ 114              		.align	2
+ 115              	.L9:
+ 116 004c 00000000 		.word	common_I2C
+ 117 0050 005C0040 		.word	1073765376
+ 118 0054 261A1000 		.word	1055270
+ 119              		.cfi_endproc
+ 120              	.LFE131:
+ 122              		.comm	stackversion_patch,1,1
+ 123              		.comm	stackversion_minor,1,1
+ 124              		.comm	stackversion_major,1,1
+ 125              		.comm	appversion_patch,1,1
+ 126              		.comm	appversion_minor,1,1
+ 127              		.comm	appversion_major,1,1
+ 128              		.comm	short_UID,8,8
+ 129              		.comm	hard_reset,1,1
+ 130              		.comm	wd_reset,1,1
+ 131              		.comm	octa_uid,8,8
+ 132              		.comm	float_union,4,4
+ 133              		.comm	uint16LittleEndian,2,4
+ 134              		.comm	int16LittleEndian,2,4
+ 135              		.comm	uint32LittleEndian,4,4
+ 136              		.comm	int32LittleEndian,4,4
+ 137              		.comm	rtosprintHandle,4,4
+ 138              		.comm	hrtc,36,4
+ 139              		.comm	FLASH_SPI,100,4
+ 140              		.comm	P2_SPI,100,4
+ 141              		.comm	P1_SPI,100,4
+ 142              		.comm	P2_UART,120,4
+ARM GAS  /tmp/ccFb4uM2.s 			page 4
+
+
+ 143              		.comm	P1_UART,120,4
+ 144              		.comm	RS232_UART,120,4
+ 145              		.comm	NBIOT_UART,120,4
+ 146              		.comm	USB_UART,120,4
+ 147              		.comm	hiwdg,16,4
+ 148              		.comm	NBIOT_Reset,8,4
+ 149              		.comm	htim6,64,4
+ 150              		.comm	htim1,64,4
+ 151              		.comm	common_I2C,76,4
+ 152              		.text
+ 153              	.Letext0:
+ 154              		.file 2 "/usr/arm-none-eabi/include/machine/_default_types.h"
+ 155              		.file 3 "/usr/arm-none-eabi/include/sys/_stdint.h"
+ 156              		.file 4 "../../../core/ST/CMSIS/Include/core_cm4.h"
+ 157              		.file 5 "../../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/system_stm32l4xx.h"
+ 158              		.file 6 "../../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/stm32l486xx.h"
+ 159              		.file 7 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h"
+ 160              		.file 8 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_dma.h"
+ 161              		.file 9 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_i2c.h"
+ 162              		.file 10 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_iwdg.h"
+ 163              		.file 11 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rtc.h"
+ 164              		.file 12 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_spi.h"
+ 165              		.file 13 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_tim.h"
+ 166              		.file 14 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h"
+ 167              		.file 15 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h"
+ 168              		.file 16 "../../../core/platform/octa_stm_mini/inc/i2c.h"
+ 169              		.file 17 "../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/include/task.h"
+ 170              		.file 18 "../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h"
+ 171              		.file 19 "../../../core/platform/octa_stm_mini/inc/sysclock.h"
+ 172              		.file 20 "../../../core/platform/octa_stm_mini/inc/gpio.h"
+ 173              		.file 21 "../../../core/platform/octa_stm_mini/inc/iwdg.h"
+ 174              		.file 22 "../../../core/platform/octa_stm_mini/inc/uart.h"
+ 175              		.file 23 "../../../core/platform/octa_stm_mini/inc/spi.h"
+ 176              		.file 24 "../../../core/platform/octa_stm_mini/inc/rtc.h"
+ 177              		.file 25 "../../../core/platform/octa_stm_mini/inc/rtosincludes.h"
+ 178              		.file 26 "/usr/arm-none-eabi/include/sys/lock.h"
+ 179              		.file 27 "/usr/arm-none-eabi/include/sys/_types.h"
+ 180              		.file 28 "/usr/lib/gcc/arm-none-eabi/9.2.1/include/stddef.h"
+ 181              		.file 29 "/usr/arm-none-eabi/include/sys/reent.h"
+ 182              		.file 30 "../../../core/platform/common/inc/datatypes.h"
+ 183              		.file 31 "../../../core/platform/octa_stm_mini/inc/platform.h"
+ 184              		.file 32 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_i2c_ex.h"
+ 185              		.file 33 "../../../core/platform/common/inc/error.h"
+ARM GAS  /tmp/ccFb4uM2.s 			page 5
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 i2c.c
+     /tmp/ccFb4uM2.s:18     .text.common_I2C_Init:0000000000000000 $t
+     /tmp/ccFb4uM2.s:26     .text.common_I2C_Init:0000000000000000 common_I2C_Init
+     /tmp/ccFb4uM2.s:116    .text.common_I2C_Init:000000000000004c $d
+                            *COM*:000000000000004c common_I2C
+                            *COM*:0000000000000001 stackversion_patch
+                            *COM*:0000000000000001 stackversion_minor
+                            *COM*:0000000000000001 stackversion_major
+                            *COM*:0000000000000001 appversion_patch
+                            *COM*:0000000000000001 appversion_minor
+                            *COM*:0000000000000001 appversion_major
+                            *COM*:0000000000000008 short_UID
+                            *COM*:0000000000000001 hard_reset
+                            *COM*:0000000000000001 wd_reset
+                            *COM*:0000000000000008 octa_uid
+                            *COM*:0000000000000004 float_union
+                            *COM*:0000000000000002 uint16LittleEndian
+                            *COM*:0000000000000002 int16LittleEndian
+                            *COM*:0000000000000004 uint32LittleEndian
+                            *COM*:0000000000000004 int32LittleEndian
+                            *COM*:0000000000000004 rtosprintHandle
+                            *COM*:0000000000000024 hrtc
+                            *COM*:0000000000000064 FLASH_SPI
+                            *COM*:0000000000000064 P2_SPI
+                            *COM*:0000000000000064 P1_SPI
+                            *COM*:0000000000000078 P2_UART
+                            *COM*:0000000000000078 P1_UART
+                            *COM*:0000000000000078 RS232_UART
+                            *COM*:0000000000000078 NBIOT_UART
+                            *COM*:0000000000000078 USB_UART
+                            *COM*:0000000000000010 hiwdg
+                            *COM*:0000000000000008 NBIOT_Reset
+                            *COM*:0000000000000040 htim6
+                            *COM*:0000000000000040 htim1
+
+UNDEFINED SYMBOLS
+HAL_I2C_Init
+HAL_I2CEx_ConfigAnalogFilter
+HAL_I2CEx_ConfigDigitalFilter
+Error_Handler

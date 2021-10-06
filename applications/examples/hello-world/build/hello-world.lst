@@ -1,0 +1,395 @@
+ARM GAS  /tmp/cca7K8JC.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 28, 1
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.file	"hello-world.c"
+  14              		.section	.rodata.str1.4,"aMS",%progbits,1
+  15              		.align	2
+  16              	.LC0:
+  17 0000 64656661 		.ascii	"defaultTask\000"
+  17      756C7454 
+  17      61736B00 
+  18              		.text
+  19              	.Ltext0:
+  20              		.cfi_sections	.debug_frame
+  21              		.section	.text.StartDefaultTask,"ax",%progbits
+  22              		.align	1
+  23              		.global	StartDefaultTask
+  24              		.arch armv7e-m
+  25              		.syntax unified
+  26              		.thumb
+  27              		.thumb_func
+  28              		.fpu fpv4-sp-d16
+  30              	StartDefaultTask:
+  31              	.LFB132:
+  32              		.file 1 "../../../applications/examples/hello-world/src/hello-world.c"
+   1:../../../applications/examples/hello-world/src/hello-world.c **** #include "hello-world.h"
+   2:../../../applications/examples/hello-world/src/hello-world.c **** 
+   3:../../../applications/examples/hello-world/src/hello-world.c **** int main(void)
+   4:../../../applications/examples/hello-world/src/hello-world.c **** {
+   5:../../../applications/examples/hello-world/src/hello-world.c ****   Initialize_Platform();
+   6:../../../applications/examples/hello-world/src/hello-world.c **** 
+   7:../../../applications/examples/hello-world/src/hello-world.c ****   osThreadDef(defaultTask, StartDefaultTask, osPriorityLow, 0, 128);
+   8:../../../applications/examples/hello-world/src/hello-world.c ****   defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
+   9:../../../applications/examples/hello-world/src/hello-world.c **** 
+  10:../../../applications/examples/hello-world/src/hello-world.c ****   //feed IWDG every 5 seconds
+  11:../../../applications/examples/hello-world/src/hello-world.c ****   IWDG_feed(NULL);
+  12:../../../applications/examples/hello-world/src/hello-world.c ****   osTimerDef(iwdgTim, IWDG_feed);
+  13:../../../applications/examples/hello-world/src/hello-world.c ****   iwdgTimId = osTimerCreate(osTimer(iwdgTim), osTimerPeriodic, NULL);
+  14:../../../applications/examples/hello-world/src/hello-world.c ****   osTimerStart(iwdgTimId, 5 * 1000);
+  15:../../../applications/examples/hello-world/src/hello-world.c **** 
+  16:../../../applications/examples/hello-world/src/hello-world.c ****   OCTA_LED_PWM_Init();
+  17:../../../applications/examples/hello-world/src/hello-world.c ****   OCTA_LED_set_rgb(255, 140, 0);
+  18:../../../applications/examples/hello-world/src/hello-world.c **** 
+  19:../../../applications/examples/hello-world/src/hello-world.c ****   osKernelStart();
+  20:../../../applications/examples/hello-world/src/hello-world.c **** 
+  21:../../../applications/examples/hello-world/src/hello-world.c ****   while (1)
+  22:../../../applications/examples/hello-world/src/hello-world.c ****   {
+  23:../../../applications/examples/hello-world/src/hello-world.c ****   }
+  24:../../../applications/examples/hello-world/src/hello-world.c **** }
+ARM GAS  /tmp/cca7K8JC.s 			page 2
+
+
+  25:../../../applications/examples/hello-world/src/hello-world.c **** 
+  26:../../../applications/examples/hello-world/src/hello-world.c **** void StartDefaultTask(void const *argument)
+  27:../../../applications/examples/hello-world/src/hello-world.c **** {
+  33              		.loc 1 27 1 view -0
+  34              		.cfi_startproc
+  35              		@ Volatile: function does not return.
+  36              		@ args = 0, pretend = 0, frame = 0
+  37              		@ frame_needed = 0, uses_anonymous_args = 0
+  38              	.LVL0:
+  39              		.loc 1 27 1 is_stmt 0 view .LVU1
+  40 0000 08B5     		push	{r3, lr}
+  41              	.LCFI0:
+  42              		.cfi_def_cfa_offset 8
+  43              		.cfi_offset 3, -8
+  44              		.cfi_offset 14, -4
+  45              	.LVL1:
+  46              	.L2:
+  28:../../../applications/examples/hello-world/src/hello-world.c ****   for (;;)
+  47              		.loc 1 28 3 is_stmt 1 discriminator 1 view .LVU2
+  29:../../../applications/examples/hello-world/src/hello-world.c ****   {
+  30:../../../applications/examples/hello-world/src/hello-world.c ****     osDelay(1);
+  48              		.loc 1 30 5 discriminator 1 view .LVU3
+  49 0002 0120     		movs	r0, #1
+  50 0004 FFF7FEFF 		bl	osDelay
+  51              	.LVL2:
+  28:../../../applications/examples/hello-world/src/hello-world.c ****   for (;;)
+  52              		.loc 1 28 9 discriminator 1 view .LVU4
+  53 0008 FBE7     		b	.L2
+  54              		.cfi_endproc
+  55              	.LFE132:
+  57              		.section	.text.main,"ax",%progbits
+  58              		.align	1
+  59              		.global	main
+  60              		.syntax unified
+  61              		.thumb
+  62              		.thumb_func
+  63              		.fpu fpv4-sp-d16
+  65              	main:
+  66              	.LFB131:
+   4:../../../applications/examples/hello-world/src/hello-world.c ****   Initialize_Platform();
+  67              		.loc 1 4 1 view -0
+  68              		.cfi_startproc
+  69              		@ Volatile: function does not return.
+  70              		@ args = 0, pretend = 0, frame = 24
+  71              		@ frame_needed = 0, uses_anonymous_args = 0
+  72 0000 00B5     		push	{lr}
+  73              	.LCFI1:
+  74              		.cfi_def_cfa_offset 4
+  75              		.cfi_offset 14, -4
+  76 0002 87B0     		sub	sp, sp, #28
+  77              	.LCFI2:
+  78              		.cfi_def_cfa_offset 32
+   5:../../../applications/examples/hello-world/src/hello-world.c **** 
+  79              		.loc 1 5 3 view .LVU6
+  80 0004 FFF7FEFF 		bl	Initialize_Platform
+  81              	.LVL3:
+   7:../../../applications/examples/hello-world/src/hello-world.c ****   defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
+ARM GAS  /tmp/cca7K8JC.s 			page 3
+
+
+  82              		.loc 1 7 3 view .LVU7
+  83 0008 01AC     		add	r4, sp, #4
+  84 000a 124D     		ldr	r5, .L7
+  85 000c 0FCD     		ldmia	r5!, {r0, r1, r2, r3}
+  86 000e 0FC4     		stmia	r4!, {r0, r1, r2, r3}
+  87 0010 2B68     		ldr	r3, [r5]
+  88 0012 2360     		str	r3, [r4]
+   8:../../../applications/examples/hello-world/src/hello-world.c **** 
+  89              		.loc 1 8 3 view .LVU8
+   8:../../../applications/examples/hello-world/src/hello-world.c **** 
+  90              		.loc 1 8 23 is_stmt 0 view .LVU9
+  91 0014 0021     		movs	r1, #0
+  92 0016 01A8     		add	r0, sp, #4
+  93 0018 FFF7FEFF 		bl	osThreadCreate
+  94              	.LVL4:
+   8:../../../applications/examples/hello-world/src/hello-world.c **** 
+  95              		.loc 1 8 21 view .LVU10
+  96 001c 0E4B     		ldr	r3, .L7+4
+  97 001e 1860     		str	r0, [r3]
+  11:../../../applications/examples/hello-world/src/hello-world.c ****   osTimerDef(iwdgTim, IWDG_feed);
+  98              		.loc 1 11 3 is_stmt 1 view .LVU11
+  99 0020 0020     		movs	r0, #0
+ 100 0022 FFF7FEFF 		bl	IWDG_feed
+ 101              	.LVL5:
+  12:../../../applications/examples/hello-world/src/hello-world.c ****   iwdgTimId = osTimerCreate(osTimer(iwdgTim), osTimerPeriodic, NULL);
+ 102              		.loc 1 12 3 view .LVU12
+ 103 0026 0D4B     		ldr	r3, .L7+8
+ 104 0028 0093     		str	r3, [sp]
+  13:../../../applications/examples/hello-world/src/hello-world.c ****   osTimerStart(iwdgTimId, 5 * 1000);
+ 105              		.loc 1 13 3 view .LVU13
+  13:../../../applications/examples/hello-world/src/hello-world.c ****   osTimerStart(iwdgTimId, 5 * 1000);
+ 106              		.loc 1 13 15 is_stmt 0 view .LVU14
+ 107 002a 0022     		movs	r2, #0
+ 108 002c 0121     		movs	r1, #1
+ 109 002e 6846     		mov	r0, sp
+ 110 0030 FFF7FEFF 		bl	osTimerCreate
+ 111              	.LVL6:
+  13:../../../applications/examples/hello-world/src/hello-world.c ****   osTimerStart(iwdgTimId, 5 * 1000);
+ 112              		.loc 1 13 13 view .LVU15
+ 113 0034 0A4B     		ldr	r3, .L7+12
+ 114 0036 1860     		str	r0, [r3]
+  14:../../../applications/examples/hello-world/src/hello-world.c **** 
+ 115              		.loc 1 14 3 is_stmt 1 view .LVU16
+ 116 0038 41F28831 		movw	r1, #5000
+ 117 003c FFF7FEFF 		bl	osTimerStart
+ 118              	.LVL7:
+  16:../../../applications/examples/hello-world/src/hello-world.c ****   OCTA_LED_set_rgb(255, 140, 0);
+ 119              		.loc 1 16 3 view .LVU17
+ 120 0040 FFF7FEFF 		bl	OCTA_LED_PWM_Init
+ 121              	.LVL8:
+  17:../../../applications/examples/hello-world/src/hello-world.c **** 
+ 122              		.loc 1 17 3 view .LVU18
+ 123 0044 0022     		movs	r2, #0
+ 124 0046 8C21     		movs	r1, #140
+ 125 0048 FF20     		movs	r0, #255
+ 126 004a FFF7FEFF 		bl	OCTA_LED_set_rgb
+ 127              	.LVL9:
+ARM GAS  /tmp/cca7K8JC.s 			page 4
+
+
+  19:../../../applications/examples/hello-world/src/hello-world.c **** 
+ 128              		.loc 1 19 3 view .LVU19
+ 129 004e FFF7FEFF 		bl	osKernelStart
+ 130              	.LVL10:
+ 131              	.L5:
+  21:../../../applications/examples/hello-world/src/hello-world.c ****   {
+ 132              		.loc 1 21 3 discriminator 1 view .LVU20
+  23:../../../applications/examples/hello-world/src/hello-world.c **** }
+ 133              		.loc 1 23 3 discriminator 1 view .LVU21
+  21:../../../applications/examples/hello-world/src/hello-world.c ****   {
+ 134              		.loc 1 21 9 discriminator 1 view .LVU22
+ 135 0052 FEE7     		b	.L5
+ 136              	.L8:
+ 137              		.align	2
+ 138              	.L7:
+ 139 0054 00000000 		.word	.LANCHOR0
+ 140 0058 00000000 		.word	defaultTaskHandle
+ 141 005c 00000000 		.word	IWDG_feed
+ 142 0060 00000000 		.word	iwdgTimId
+ 143              		.cfi_endproc
+ 144              	.LFE131:
+ 146              		.comm	iwdgTimId,4,4
+ 147              		.comm	defaultTaskHandle,4,4
+ 148              		.comm	P3_header,44,4
+ 149              		.comm	P2_header,44,4
+ 150              		.comm	P1_header,44,4
+ 151              		.comm	stackversion_patch,1,1
+ 152              		.comm	stackversion_minor,1,1
+ 153              		.comm	stackversion_major,1,1
+ 154              		.comm	appversion_patch,1,1
+ 155              		.comm	appversion_minor,1,1
+ 156              		.comm	appversion_major,1,1
+ 157              		.comm	short_UID,8,8
+ 158              		.comm	hard_reset,1,1
+ 159              		.comm	wd_reset,1,1
+ 160              		.comm	octa_uid,8,8
+ 161              		.comm	float_union,4,4
+ 162              		.comm	uint16LittleEndian,2,4
+ 163              		.comm	int16LittleEndian,2,4
+ 164              		.comm	uint32LittleEndian,4,4
+ 165              		.comm	int32LittleEndian,4,4
+ 166              		.comm	rtosprintHandle,4,4
+ 167              		.comm	hrtc,36,4
+ 168              		.comm	FLASH_SPI,100,4
+ 169              		.comm	P3_SPI,100,4
+ 170              		.comm	P2_SPI,100,4
+ 171              		.comm	P1_SPI,100,4
+ 172              		.comm	P3_I2C,76,4
+ 173              		.comm	P2_I2C,76,4
+ 174              		.comm	P1_I2C,76,4
+ 175              		.comm	common_I2C,76,4
+ 176              		.comm	P3_UART,120,4
+ 177              		.comm	P2_UART,120,4
+ 178              		.comm	P1_UART,120,4
+ 179              		.comm	FTDI_UART,120,4
+ 180              		.comm	BLE_UART,120,4
+ 181              		.comm	USB_UART,120,4
+ARM GAS  /tmp/cca7K8JC.s 			page 5
+
+
+ 182              		.comm	hiwdg,16,4
+ 183              		.comm	P3_DIO6,8,4
+ 184              		.comm	P3_DIO5,8,4
+ 185              		.comm	P3_DIO4,8,4
+ 186              		.comm	P3_DIO3,8,4
+ 187              		.comm	P3_DIO2,8,4
+ 188              		.comm	P3_DIO1,8,4
+ 189              		.comm	P2_DIO6,8,4
+ 190              		.comm	P2_DIO5,8,4
+ 191              		.comm	P2_DIO4,8,4
+ 192              		.comm	P2_DIO3,8,4
+ 193              		.comm	P2_DIO2,8,4
+ 194              		.comm	P2_DIO1,8,4
+ 195              		.comm	P1_DIO6,8,4
+ 196              		.comm	P1_DIO5,8,4
+ 197              		.comm	P1_DIO4,8,4
+ 198              		.comm	P1_DIO3,8,4
+ 199              		.comm	P1_DIO2,8,4
+ 200              		.comm	P1_DIO1,8,4
+ 201              		.comm	htim6,64,4
+ 202              		.comm	htim1,64,4
+ 203              		.section	.rodata
+ 204              		.align	2
+ 205              		.set	.LANCHOR0,. + 0
+ 206              	.LC2:
+ 207 0000 00000000 		.word	.LC0
+ 208 0004 00000000 		.word	StartDefaultTask
+ 209 0008 FEFF     		.short	-2
+ 210 000a 0000     		.space	2
+ 211 000c 00000000 		.word	0
+ 212 0010 80000000 		.word	128
+ 213              		.text
+ 214              	.Letext0:
+ 215              		.file 2 "/usr/arm-none-eabi/include/machine/_default_types.h"
+ 216              		.file 3 "/usr/arm-none-eabi/include/sys/_stdint.h"
+ 217              		.file 4 "../../../core/ST/CMSIS/Include/core_cm4.h"
+ 218              		.file 5 "../../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/system_stm32l4xx.h"
+ 219              		.file 6 "../../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/stm32l496xx.h"
+ 220              		.file 7 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h"
+ 221              		.file 8 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_dma.h"
+ 222              		.file 9 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_i2c.h"
+ 223              		.file 10 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_iwdg.h"
+ 224              		.file 11 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rtc.h"
+ 225              		.file 12 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_spi.h"
+ 226              		.file 13 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_tim.h"
+ 227              		.file 14 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h"
+ 228              		.file 15 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h"
+ 229              		.file 16 "../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/include/task.h"
+ 230              		.file 17 "../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/include/timers.h"
+ 231              		.file 18 "../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h"
+ 232              		.file 19 "../../../core/platform/octa/inc/sysclock.h"
+ 233              		.file 20 "../../../core/platform/octa/inc/gpio.h"
+ 234              		.file 21 "../../../core/platform/octa/inc/iwdg.h"
+ 235              		.file 22 "../../../core/platform/octa/inc/uart.h"
+ 236              		.file 23 "../../../core/platform/octa/inc/i2c.h"
+ 237              		.file 24 "../../../core/platform/octa/inc/spi.h"
+ 238              		.file 25 "../../../core/platform/octa/inc/rtc.h"
+ARM GAS  /tmp/cca7K8JC.s 			page 6
+
+
+ 239              		.file 26 "../../../core/platform/octa/inc/rtosincludes.h"
+ 240              		.file 27 "/usr/arm-none-eabi/include/sys/lock.h"
+ 241              		.file 28 "/usr/arm-none-eabi/include/sys/_types.h"
+ 242              		.file 29 "/usr/lib/gcc/arm-none-eabi/9.2.1/include/stddef.h"
+ 243              		.file 30 "/usr/arm-none-eabi/include/sys/reent.h"
+ 244              		.file 31 "../../../core/platform/common/inc/datatypes.h"
+ 245              		.file 32 "../../../core/platform/octa/inc/platform.h"
+ 246              		.file 33 "../../../applications/examples/hello-world/inc/hello-world.h"
+ 247              		.file 34 "../../../core/platform/octa/inc/leds.h"
+ARM GAS  /tmp/cca7K8JC.s 			page 7
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 hello-world.c
+     /tmp/cca7K8JC.s:15     .rodata.str1.4:0000000000000000 $d
+     /tmp/cca7K8JC.s:22     .text.StartDefaultTask:0000000000000000 $t
+     /tmp/cca7K8JC.s:30     .text.StartDefaultTask:0000000000000000 StartDefaultTask
+     /tmp/cca7K8JC.s:58     .text.main:0000000000000000 $t
+     /tmp/cca7K8JC.s:65     .text.main:0000000000000000 main
+     /tmp/cca7K8JC.s:139    .text.main:0000000000000054 $d
+                            *COM*:0000000000000004 defaultTaskHandle
+                            *COM*:0000000000000004 iwdgTimId
+                            *COM*:000000000000002c P3_header
+                            *COM*:000000000000002c P2_header
+                            *COM*:000000000000002c P1_header
+                            *COM*:0000000000000001 stackversion_patch
+                            *COM*:0000000000000001 stackversion_minor
+                            *COM*:0000000000000001 stackversion_major
+                            *COM*:0000000000000001 appversion_patch
+                            *COM*:0000000000000001 appversion_minor
+                            *COM*:0000000000000001 appversion_major
+                            *COM*:0000000000000008 short_UID
+                            *COM*:0000000000000001 hard_reset
+                            *COM*:0000000000000001 wd_reset
+                            *COM*:0000000000000008 octa_uid
+                            *COM*:0000000000000004 float_union
+                            *COM*:0000000000000002 uint16LittleEndian
+                            *COM*:0000000000000002 int16LittleEndian
+                            *COM*:0000000000000004 uint32LittleEndian
+                            *COM*:0000000000000004 int32LittleEndian
+                            *COM*:0000000000000004 rtosprintHandle
+                            *COM*:0000000000000024 hrtc
+                            *COM*:0000000000000064 FLASH_SPI
+                            *COM*:0000000000000064 P3_SPI
+                            *COM*:0000000000000064 P2_SPI
+                            *COM*:0000000000000064 P1_SPI
+                            *COM*:000000000000004c P3_I2C
+                            *COM*:000000000000004c P2_I2C
+                            *COM*:000000000000004c P1_I2C
+                            *COM*:000000000000004c common_I2C
+                            *COM*:0000000000000078 P3_UART
+                            *COM*:0000000000000078 P2_UART
+                            *COM*:0000000000000078 P1_UART
+                            *COM*:0000000000000078 FTDI_UART
+                            *COM*:0000000000000078 BLE_UART
+                            *COM*:0000000000000078 USB_UART
+                            *COM*:0000000000000010 hiwdg
+                            *COM*:0000000000000008 P3_DIO6
+                            *COM*:0000000000000008 P3_DIO5
+                            *COM*:0000000000000008 P3_DIO4
+                            *COM*:0000000000000008 P3_DIO3
+                            *COM*:0000000000000008 P3_DIO2
+                            *COM*:0000000000000008 P3_DIO1
+                            *COM*:0000000000000008 P2_DIO6
+                            *COM*:0000000000000008 P2_DIO5
+                            *COM*:0000000000000008 P2_DIO4
+                            *COM*:0000000000000008 P2_DIO3
+                            *COM*:0000000000000008 P2_DIO2
+                            *COM*:0000000000000008 P2_DIO1
+ARM GAS  /tmp/cca7K8JC.s 			page 8
+
+
+                            *COM*:0000000000000008 P1_DIO6
+                            *COM*:0000000000000008 P1_DIO5
+                            *COM*:0000000000000008 P1_DIO4
+                            *COM*:0000000000000008 P1_DIO3
+                            *COM*:0000000000000008 P1_DIO2
+                            *COM*:0000000000000008 P1_DIO1
+                            *COM*:0000000000000040 htim6
+                            *COM*:0000000000000040 htim1
+     /tmp/cca7K8JC.s:204    .rodata:0000000000000000 $d
+
+UNDEFINED SYMBOLS
+osDelay
+Initialize_Platform
+osThreadCreate
+IWDG_feed
+osTimerCreate
+osTimerStart
+OCTA_LED_PWM_Init
+OCTA_LED_set_rgb
+osKernelStart

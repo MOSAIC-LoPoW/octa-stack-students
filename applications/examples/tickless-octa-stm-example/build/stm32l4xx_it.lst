@@ -1,0 +1,929 @@
+ARM GAS  /tmp/ccT0mp9F.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 28, 1
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.file	"stm32l4xx_it.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.text.NMI_Handler,"ax",%progbits
+  18              		.align	1
+  19              		.global	NMI_Handler
+  20              		.arch armv7e-m
+  21              		.syntax unified
+  22              		.thumb
+  23              		.thumb_func
+  24              		.fpu fpv4-sp-d16
+  26              	NMI_Handler:
+  27              	.LFB128:
+  28              		.file 1 "../../core/platform/octa_stm/src/stm32l4xx_it.c"
+   1:../../core/platform/octa_stm/src/stm32l4xx_it.c **** /* USER CODE BEGIN Header */
+   2:../../core/platform/octa_stm/src/stm32l4xx_it.c **** /**
+   3:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   ******************************************************************************
+   4:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   * @file    stm32l4xx_it.c
+   5:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   * @brief   Interrupt Service Routines.
+   6:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   ******************************************************************************
+   7:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   *
+   8:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   * COPYRIGHT(c) 2019 STMicroelectronics
+   9:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   *
+  10:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   * Redistribution and use in source and binary forms, with or without modification,
+  11:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   * are permitted provided that the following conditions are met:
+  12:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   *   1. Redistributions of source code must retain the above copyright notice,
+  13:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   *      this list of conditions and the following disclaimer.
+  14:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   *   2. Redistributions in binary form must reproduce the above copyright notice,
+  15:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   *      this list of conditions and the following disclaimer in the documentation
+  16:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   *      and/or other materials provided with the distribution.
+  17:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   *   3. Neither the name of STMicroelectronics nor the names of its contributors
+  18:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   *      may be used to endorse or promote products derived from this software
+  19:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   *      without specific prior written permission.
+  20:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   *
+  21:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+  22:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+  23:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+  24:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+  25:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+  26:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+  27:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+  28:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+  29:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+  30:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ARM GAS  /tmp/ccT0mp9F.s 			page 2
+
+
+  31:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   *
+  32:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   ******************************************************************************
+  33:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   */
+  34:../../core/platform/octa_stm/src/stm32l4xx_it.c **** /* USER CODE END Header */
+  35:../../core/platform/octa_stm/src/stm32l4xx_it.c **** 
+  36:../../core/platform/octa_stm/src/stm32l4xx_it.c **** /* Includes ------------------------------------------------------------------*/
+  37:../../core/platform/octa_stm/src/stm32l4xx_it.c **** #include "stm32l4xx_it.h"
+  38:../../core/platform/octa_stm/src/stm32l4xx_it.c **** #include "cmsis_os.h"
+  39:../../core/platform/octa_stm/src/stm32l4xx_it.c **** #include "uart.h"
+  40:../../core/platform/octa_stm/src/stm32l4xx_it.c **** #include "spi.h"
+  41:../../core/platform/octa_stm/src/stm32l4xx_it.c **** #include "rtc.h"
+  42:../../core/platform/octa_stm/src/stm32l4xx_it.c **** #include "gpio.h"
+  43:../../core/platform/octa_stm/src/stm32l4xx_it.c **** #include "sysclock.h"
+  44:../../core/platform/octa_stm/src/stm32l4xx_it.c **** /* Private includes ----------------------------------------------------------*/
+  45:../../core/platform/octa_stm/src/stm32l4xx_it.c **** /* USER CODE BEGIN Includes */
+  46:../../core/platform/octa_stm/src/stm32l4xx_it.c **** /* USER CODE END Includes */
+  47:../../core/platform/octa_stm/src/stm32l4xx_it.c **** 
+  48:../../core/platform/octa_stm/src/stm32l4xx_it.c **** /* Private typedef -----------------------------------------------------------*/
+  49:../../core/platform/octa_stm/src/stm32l4xx_it.c **** /* USER CODE BEGIN TD */
+  50:../../core/platform/octa_stm/src/stm32l4xx_it.c **** 
+  51:../../core/platform/octa_stm/src/stm32l4xx_it.c **** /* USER CODE END TD */
+  52:../../core/platform/octa_stm/src/stm32l4xx_it.c **** 
+  53:../../core/platform/octa_stm/src/stm32l4xx_it.c **** /* Private define ------------------------------------------------------------*/
+  54:../../core/platform/octa_stm/src/stm32l4xx_it.c **** /* USER CODE BEGIN PD */
+  55:../../core/platform/octa_stm/src/stm32l4xx_it.c ****  
+  56:../../core/platform/octa_stm/src/stm32l4xx_it.c **** /* USER CODE END PD */
+  57:../../core/platform/octa_stm/src/stm32l4xx_it.c **** 
+  58:../../core/platform/octa_stm/src/stm32l4xx_it.c **** /* Private macro -------------------------------------------------------------*/
+  59:../../core/platform/octa_stm/src/stm32l4xx_it.c **** /* USER CODE BEGIN PM */
+  60:../../core/platform/octa_stm/src/stm32l4xx_it.c **** 
+  61:../../core/platform/octa_stm/src/stm32l4xx_it.c **** /* USER CODE END PM */
+  62:../../core/platform/octa_stm/src/stm32l4xx_it.c **** 
+  63:../../core/platform/octa_stm/src/stm32l4xx_it.c **** /* Private variables ---------------------------------------------------------*/
+  64:../../core/platform/octa_stm/src/stm32l4xx_it.c **** /* USER CODE BEGIN PV */
+  65:../../core/platform/octa_stm/src/stm32l4xx_it.c **** 
+  66:../../core/platform/octa_stm/src/stm32l4xx_it.c **** /* USER CODE END PV */
+  67:../../core/platform/octa_stm/src/stm32l4xx_it.c **** 
+  68:../../core/platform/octa_stm/src/stm32l4xx_it.c **** /* Private function prototypes -----------------------------------------------*/
+  69:../../core/platform/octa_stm/src/stm32l4xx_it.c **** /* USER CODE BEGIN PFP */
+  70:../../core/platform/octa_stm/src/stm32l4xx_it.c **** 
+  71:../../core/platform/octa_stm/src/stm32l4xx_it.c **** /* USER CODE END PFP */
+  72:../../core/platform/octa_stm/src/stm32l4xx_it.c **** 
+  73:../../core/platform/octa_stm/src/stm32l4xx_it.c **** /* Private user code ---------------------------------------------------------*/
+  74:../../core/platform/octa_stm/src/stm32l4xx_it.c **** /* USER CODE BEGIN 0 */
+  75:../../core/platform/octa_stm/src/stm32l4xx_it.c **** 
+  76:../../core/platform/octa_stm/src/stm32l4xx_it.c **** /* USER CODE END 0 */
+  77:../../core/platform/octa_stm/src/stm32l4xx_it.c **** 
+  78:../../core/platform/octa_stm/src/stm32l4xx_it.c **** /* External variables --------------------------------------------------------*/
+  79:../../core/platform/octa_stm/src/stm32l4xx_it.c **** /* USER CODE BEGIN EV */
+  80:../../core/platform/octa_stm/src/stm32l4xx_it.c **** 
+  81:../../core/platform/octa_stm/src/stm32l4xx_it.c **** /* USER CODE END EV */
+  82:../../core/platform/octa_stm/src/stm32l4xx_it.c **** 
+  83:../../core/platform/octa_stm/src/stm32l4xx_it.c **** /******************************************************************************/
+  84:../../core/platform/octa_stm/src/stm32l4xx_it.c **** /*           Cortex-M4 Processor Interruption and Exception Handlers          */ 
+  85:../../core/platform/octa_stm/src/stm32l4xx_it.c **** /******************************************************************************/
+  86:../../core/platform/octa_stm/src/stm32l4xx_it.c **** /**
+  87:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   * @brief This function handles Non maskable interrupt.
+ARM GAS  /tmp/ccT0mp9F.s 			page 3
+
+
+  88:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   */
+  89:../../core/platform/octa_stm/src/stm32l4xx_it.c **** void NMI_Handler(void)
+  90:../../core/platform/octa_stm/src/stm32l4xx_it.c **** {
+  29              		.loc 1 90 1 view -0
+  30              		.cfi_startproc
+  31              		@ args = 0, pretend = 0, frame = 0
+  32              		@ frame_needed = 0, uses_anonymous_args = 0
+  33              		@ link register save eliminated.
+  91:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   /* USER CODE BEGIN NonMaskableInt_IRQn 0 */
+  92:../../core/platform/octa_stm/src/stm32l4xx_it.c **** 
+  93:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   /* USER CODE END NonMaskableInt_IRQn 0 */
+  94:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   /* USER CODE BEGIN NonMaskableInt_IRQn 1 */
+  95:../../core/platform/octa_stm/src/stm32l4xx_it.c **** 
+  96:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   /* USER CODE END NonMaskableInt_IRQn 1 */
+  97:../../core/platform/octa_stm/src/stm32l4xx_it.c **** }
+  34              		.loc 1 97 1 view .LVU1
+  35 0000 7047     		bx	lr
+  36              		.cfi_endproc
+  37              	.LFE128:
+  39              		.section	.text.HardFault_Handler,"ax",%progbits
+  40              		.align	1
+  41              		.global	HardFault_Handler
+  42              		.syntax unified
+  43              		.thumb
+  44              		.thumb_func
+  45              		.fpu fpv4-sp-d16
+  47              	HardFault_Handler:
+  48              	.LFB129:
+  98:../../core/platform/octa_stm/src/stm32l4xx_it.c **** 
+  99:../../core/platform/octa_stm/src/stm32l4xx_it.c **** /**
+ 100:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   * @brief This function handles Hard fault interrupt.
+ 101:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   */
+ 102:../../core/platform/octa_stm/src/stm32l4xx_it.c **** void HardFault_Handler(void)
+ 103:../../core/platform/octa_stm/src/stm32l4xx_it.c **** {
+  49              		.loc 1 103 1 view -0
+  50              		.cfi_startproc
+  51              		@ Volatile: function does not return.
+  52              		@ args = 0, pretend = 0, frame = 0
+  53              		@ frame_needed = 0, uses_anonymous_args = 0
+  54              		@ link register save eliminated.
+  55              	.L3:
+ 104:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   /* USER CODE BEGIN HardFault_IRQn 0 */
+ 105:../../core/platform/octa_stm/src/stm32l4xx_it.c **** 
+ 106:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   /* USER CODE END HardFault_IRQn 0 */
+ 107:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   while (1)
+  56              		.loc 1 107 3 discriminator 1 view .LVU3
+ 108:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   {
+ 109:../../core/platform/octa_stm/src/stm32l4xx_it.c ****     /* USER CODE BEGIN W1_HardFault_IRQn 0 */
+ 110:../../core/platform/octa_stm/src/stm32l4xx_it.c ****     /* USER CODE END W1_HardFault_IRQn 0 */
+ 111:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   }
+  57              		.loc 1 111 3 discriminator 1 view .LVU4
+ 107:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   {
+  58              		.loc 1 107 9 discriminator 1 view .LVU5
+  59 0000 FEE7     		b	.L3
+  60              		.cfi_endproc
+  61              	.LFE129:
+  63              		.section	.text.MemManage_Handler,"ax",%progbits
+ARM GAS  /tmp/ccT0mp9F.s 			page 4
+
+
+  64              		.align	1
+  65              		.global	MemManage_Handler
+  66              		.syntax unified
+  67              		.thumb
+  68              		.thumb_func
+  69              		.fpu fpv4-sp-d16
+  71              	MemManage_Handler:
+  72              	.LFB130:
+ 112:../../core/platform/octa_stm/src/stm32l4xx_it.c **** }
+ 113:../../core/platform/octa_stm/src/stm32l4xx_it.c **** 
+ 114:../../core/platform/octa_stm/src/stm32l4xx_it.c **** /**
+ 115:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   * @brief This function handles Memory management fault.
+ 116:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   */
+ 117:../../core/platform/octa_stm/src/stm32l4xx_it.c **** void MemManage_Handler(void)
+ 118:../../core/platform/octa_stm/src/stm32l4xx_it.c **** {
+  73              		.loc 1 118 1 view -0
+  74              		.cfi_startproc
+  75              		@ Volatile: function does not return.
+  76              		@ args = 0, pretend = 0, frame = 0
+  77              		@ frame_needed = 0, uses_anonymous_args = 0
+  78              		@ link register save eliminated.
+  79              	.L5:
+ 119:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   /* USER CODE BEGIN MemoryManagement_IRQn 0 */
+ 120:../../core/platform/octa_stm/src/stm32l4xx_it.c **** 
+ 121:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   /* USER CODE END MemoryManagement_IRQn 0 */
+ 122:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   while (1)
+  80              		.loc 1 122 3 discriminator 1 view .LVU7
+ 123:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   {
+ 124:../../core/platform/octa_stm/src/stm32l4xx_it.c ****     /* USER CODE BEGIN W1_MemoryManagement_IRQn 0 */
+ 125:../../core/platform/octa_stm/src/stm32l4xx_it.c ****     /* USER CODE END W1_MemoryManagement_IRQn 0 */
+ 126:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   }
+  81              		.loc 1 126 3 discriminator 1 view .LVU8
+ 122:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   {
+  82              		.loc 1 122 9 discriminator 1 view .LVU9
+  83 0000 FEE7     		b	.L5
+  84              		.cfi_endproc
+  85              	.LFE130:
+  87              		.section	.text.BusFault_Handler,"ax",%progbits
+  88              		.align	1
+  89              		.global	BusFault_Handler
+  90              		.syntax unified
+  91              		.thumb
+  92              		.thumb_func
+  93              		.fpu fpv4-sp-d16
+  95              	BusFault_Handler:
+  96              	.LFB131:
+ 127:../../core/platform/octa_stm/src/stm32l4xx_it.c **** }
+ 128:../../core/platform/octa_stm/src/stm32l4xx_it.c **** 
+ 129:../../core/platform/octa_stm/src/stm32l4xx_it.c **** /**
+ 130:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   * @brief This function handles Prefetch fault, memory access fault.
+ 131:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   */
+ 132:../../core/platform/octa_stm/src/stm32l4xx_it.c **** void BusFault_Handler(void)
+ 133:../../core/platform/octa_stm/src/stm32l4xx_it.c **** {
+  97              		.loc 1 133 1 view -0
+  98              		.cfi_startproc
+  99              		@ Volatile: function does not return.
+ 100              		@ args = 0, pretend = 0, frame = 0
+ARM GAS  /tmp/ccT0mp9F.s 			page 5
+
+
+ 101              		@ frame_needed = 0, uses_anonymous_args = 0
+ 102              		@ link register save eliminated.
+ 103              	.L7:
+ 134:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   /* USER CODE BEGIN BusFault_IRQn 0 */
+ 135:../../core/platform/octa_stm/src/stm32l4xx_it.c **** 
+ 136:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   /* USER CODE END BusFault_IRQn 0 */
+ 137:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   while (1)
+ 104              		.loc 1 137 3 discriminator 1 view .LVU11
+ 138:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   {
+ 139:../../core/platform/octa_stm/src/stm32l4xx_it.c ****     /* USER CODE BEGIN W1_BusFault_IRQn 0 */
+ 140:../../core/platform/octa_stm/src/stm32l4xx_it.c ****     /* USER CODE END W1_BusFault_IRQn 0 */
+ 141:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   }
+ 105              		.loc 1 141 3 discriminator 1 view .LVU12
+ 137:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   {
+ 106              		.loc 1 137 9 discriminator 1 view .LVU13
+ 107 0000 FEE7     		b	.L7
+ 108              		.cfi_endproc
+ 109              	.LFE131:
+ 111              		.section	.text.UsageFault_Handler,"ax",%progbits
+ 112              		.align	1
+ 113              		.global	UsageFault_Handler
+ 114              		.syntax unified
+ 115              		.thumb
+ 116              		.thumb_func
+ 117              		.fpu fpv4-sp-d16
+ 119              	UsageFault_Handler:
+ 120              	.LFB132:
+ 142:../../core/platform/octa_stm/src/stm32l4xx_it.c **** }
+ 143:../../core/platform/octa_stm/src/stm32l4xx_it.c **** 
+ 144:../../core/platform/octa_stm/src/stm32l4xx_it.c **** /**
+ 145:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   * @brief This function handles Undefined instruction or illegal state.
+ 146:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   */
+ 147:../../core/platform/octa_stm/src/stm32l4xx_it.c **** void UsageFault_Handler(void)
+ 148:../../core/platform/octa_stm/src/stm32l4xx_it.c **** {
+ 121              		.loc 1 148 1 view -0
+ 122              		.cfi_startproc
+ 123              		@ Volatile: function does not return.
+ 124              		@ args = 0, pretend = 0, frame = 0
+ 125              		@ frame_needed = 0, uses_anonymous_args = 0
+ 126              		@ link register save eliminated.
+ 127              	.L9:
+ 149:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   /* USER CODE BEGIN UsageFault_IRQn 0 */
+ 150:../../core/platform/octa_stm/src/stm32l4xx_it.c **** 
+ 151:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   /* USER CODE END UsageFault_IRQn 0 */
+ 152:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   while (1)
+ 128              		.loc 1 152 3 discriminator 1 view .LVU15
+ 153:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   {
+ 154:../../core/platform/octa_stm/src/stm32l4xx_it.c ****     /* USER CODE BEGIN W1_UsageFault_IRQn 0 */
+ 155:../../core/platform/octa_stm/src/stm32l4xx_it.c ****     /* USER CODE END W1_UsageFault_IRQn 0 */
+ 156:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   }
+ 129              		.loc 1 156 3 discriminator 1 view .LVU16
+ 152:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   {
+ 130              		.loc 1 152 9 discriminator 1 view .LVU17
+ 131 0000 FEE7     		b	.L9
+ 132              		.cfi_endproc
+ 133              	.LFE132:
+ 135              		.section	.text.DebugMon_Handler,"ax",%progbits
+ARM GAS  /tmp/ccT0mp9F.s 			page 6
+
+
+ 136              		.align	1
+ 137              		.global	DebugMon_Handler
+ 138              		.syntax unified
+ 139              		.thumb
+ 140              		.thumb_func
+ 141              		.fpu fpv4-sp-d16
+ 143              	DebugMon_Handler:
+ 144              	.LFB133:
+ 157:../../core/platform/octa_stm/src/stm32l4xx_it.c **** }
+ 158:../../core/platform/octa_stm/src/stm32l4xx_it.c **** 
+ 159:../../core/platform/octa_stm/src/stm32l4xx_it.c **** /**
+ 160:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   * @brief This function handles Debug monitor.
+ 161:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   */
+ 162:../../core/platform/octa_stm/src/stm32l4xx_it.c **** void DebugMon_Handler(void)
+ 163:../../core/platform/octa_stm/src/stm32l4xx_it.c **** {
+ 145              		.loc 1 163 1 view -0
+ 146              		.cfi_startproc
+ 147              		@ args = 0, pretend = 0, frame = 0
+ 148              		@ frame_needed = 0, uses_anonymous_args = 0
+ 149              		@ link register save eliminated.
+ 164:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   /* USER CODE BEGIN DebugMonitor_IRQn 0 */
+ 165:../../core/platform/octa_stm/src/stm32l4xx_it.c **** 
+ 166:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   /* USER CODE END DebugMonitor_IRQn 0 */
+ 167:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   /* USER CODE BEGIN DebugMonitor_IRQn 1 */
+ 168:../../core/platform/octa_stm/src/stm32l4xx_it.c **** 
+ 169:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   /* USER CODE END DebugMonitor_IRQn 1 */
+ 170:../../core/platform/octa_stm/src/stm32l4xx_it.c **** }
+ 150              		.loc 1 170 1 view .LVU19
+ 151 0000 7047     		bx	lr
+ 152              		.cfi_endproc
+ 153              	.LFE133:
+ 155              		.section	.text.TIM1_UP_TIM16_IRQHandler,"ax",%progbits
+ 156              		.align	1
+ 157              		.global	TIM1_UP_TIM16_IRQHandler
+ 158              		.syntax unified
+ 159              		.thumb
+ 160              		.thumb_func
+ 161              		.fpu fpv4-sp-d16
+ 163              	TIM1_UP_TIM16_IRQHandler:
+ 164              	.LFB134:
+ 171:../../core/platform/octa_stm/src/stm32l4xx_it.c **** 
+ 172:../../core/platform/octa_stm/src/stm32l4xx_it.c **** /******************************************************************************/
+ 173:../../core/platform/octa_stm/src/stm32l4xx_it.c **** /* STM32L4xx Peripheral Interrupt Handlers                                    */
+ 174:../../core/platform/octa_stm/src/stm32l4xx_it.c **** /* Add here the Interrupt Handlers for the used peripherals.                  */
+ 175:../../core/platform/octa_stm/src/stm32l4xx_it.c **** /* For the available peripheral interrupt handler names,                      */
+ 176:../../core/platform/octa_stm/src/stm32l4xx_it.c **** /* please refer to the startup file (startup_stm32l4xx.s).                    */
+ 177:../../core/platform/octa_stm/src/stm32l4xx_it.c **** /******************************************************************************/
+ 178:../../core/platform/octa_stm/src/stm32l4xx_it.c **** 
+ 179:../../core/platform/octa_stm/src/stm32l4xx_it.c **** /**
+ 180:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   * @brief This function handles TIM1 update interrupt and TIM16 global interrupt.
+ 181:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   */
+ 182:../../core/platform/octa_stm/src/stm32l4xx_it.c **** void TIM1_UP_TIM16_IRQHandler(void)
+ 183:../../core/platform/octa_stm/src/stm32l4xx_it.c **** {
+ 165              		.loc 1 183 1 view -0
+ 166              		.cfi_startproc
+ 167              		@ args = 0, pretend = 0, frame = 0
+ 168              		@ frame_needed = 0, uses_anonymous_args = 0
+ARM GAS  /tmp/ccT0mp9F.s 			page 7
+
+
+ 169 0000 08B5     		push	{r3, lr}
+ 170              	.LCFI0:
+ 171              		.cfi_def_cfa_offset 8
+ 172              		.cfi_offset 3, -8
+ 173              		.cfi_offset 14, -4
+ 184:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   /* USER CODE BEGIN TIM1_UP_TIM16_IRQn 0 */
+ 185:../../core/platform/octa_stm/src/stm32l4xx_it.c **** 
+ 186:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   /* USER CODE END TIM1_UP_TIM16_IRQn 0 */
+ 187:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   HAL_TIM_IRQHandler(&htim1);
+ 174              		.loc 1 187 3 view .LVU21
+ 175 0002 0248     		ldr	r0, .L13
+ 176 0004 FFF7FEFF 		bl	HAL_TIM_IRQHandler
+ 177              	.LVL0:
+ 188:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   /* USER CODE BEGIN TIM1_UP_TIM16_IRQn 1 */
+ 189:../../core/platform/octa_stm/src/stm32l4xx_it.c **** 
+ 190:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   /* USER CODE END TIM1_UP_TIM16_IRQn 1 */
+ 191:../../core/platform/octa_stm/src/stm32l4xx_it.c **** }
+ 178              		.loc 1 191 1 is_stmt 0 view .LVU22
+ 179 0008 08BD     		pop	{r3, pc}
+ 180              	.L14:
+ 181 000a 00BF     		.align	2
+ 182              	.L13:
+ 183 000c 00000000 		.word	htim1
+ 184              		.cfi_endproc
+ 185              	.LFE134:
+ 187              		.section	.text.TIM6_DAC_IRQHandler,"ax",%progbits
+ 188              		.align	1
+ 189              		.global	TIM6_DAC_IRQHandler
+ 190              		.syntax unified
+ 191              		.thumb
+ 192              		.thumb_func
+ 193              		.fpu fpv4-sp-d16
+ 195              	TIM6_DAC_IRQHandler:
+ 196              	.LFB135:
+ 192:../../core/platform/octa_stm/src/stm32l4xx_it.c **** 
+ 193:../../core/platform/octa_stm/src/stm32l4xx_it.c **** void TIM6_DAC_IRQHandler(void)
+ 194:../../core/platform/octa_stm/src/stm32l4xx_it.c **** {
+ 197              		.loc 1 194 1 is_stmt 1 view -0
+ 198              		.cfi_startproc
+ 199              		@ args = 0, pretend = 0, frame = 0
+ 200              		@ frame_needed = 0, uses_anonymous_args = 0
+ 201 0000 08B5     		push	{r3, lr}
+ 202              	.LCFI1:
+ 203              		.cfi_def_cfa_offset 8
+ 204              		.cfi_offset 3, -8
+ 205              		.cfi_offset 14, -4
+ 195:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   HAL_TIM_IRQHandler(&htim6);
+ 206              		.loc 1 195 3 view .LVU24
+ 207 0002 0248     		ldr	r0, .L17
+ 208 0004 FFF7FEFF 		bl	HAL_TIM_IRQHandler
+ 209              	.LVL1:
+ 196:../../core/platform/octa_stm/src/stm32l4xx_it.c **** }
+ 210              		.loc 1 196 1 is_stmt 0 view .LVU25
+ 211 0008 08BD     		pop	{r3, pc}
+ 212              	.L18:
+ 213 000a 00BF     		.align	2
+ 214              	.L17:
+ARM GAS  /tmp/ccT0mp9F.s 			page 8
+
+
+ 215 000c 00000000 		.word	htim6
+ 216              		.cfi_endproc
+ 217              	.LFE135:
+ 219              		.section	.text.USART2_IRQHandler,"ax",%progbits
+ 220              		.align	1
+ 221              		.global	USART2_IRQHandler
+ 222              		.syntax unified
+ 223              		.thumb
+ 224              		.thumb_func
+ 225              		.fpu fpv4-sp-d16
+ 227              	USART2_IRQHandler:
+ 228              	.LFB136:
+ 197:../../core/platform/octa_stm/src/stm32l4xx_it.c **** 
+ 198:../../core/platform/octa_stm/src/stm32l4xx_it.c **** 
+ 199:../../core/platform/octa_stm/src/stm32l4xx_it.c **** /* USER CODE BEGIN 1 */
+ 200:../../core/platform/octa_stm/src/stm32l4xx_it.c **** /**
+ 201:../../core/platform/octa_stm/src/stm32l4xx_it.c **** * @brief This function handles USART2 global interrupt.
+ 202:../../core/platform/octa_stm/src/stm32l4xx_it.c **** */
+ 203:../../core/platform/octa_stm/src/stm32l4xx_it.c **** void USART2_IRQHandler(void)
+ 204:../../core/platform/octa_stm/src/stm32l4xx_it.c **** {
+ 229              		.loc 1 204 1 is_stmt 1 view -0
+ 230              		.cfi_startproc
+ 231              		@ args = 0, pretend = 0, frame = 0
+ 232              		@ frame_needed = 0, uses_anonymous_args = 0
+ 233 0000 08B5     		push	{r3, lr}
+ 234              	.LCFI2:
+ 235              		.cfi_def_cfa_offset 8
+ 236              		.cfi_offset 3, -8
+ 237              		.cfi_offset 14, -4
+ 205:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   /* USER CODE BEGIN USART2_IRQn 0 */
+ 206:../../core/platform/octa_stm/src/stm32l4xx_it.c **** 
+ 207:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   /* USER CODE END USART2_IRQn 0 */
+ 208:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   HAL_UART_IRQHandler(&USB_UART);
+ 238              		.loc 1 208 3 view .LVU27
+ 239 0002 0248     		ldr	r0, .L21
+ 240 0004 FFF7FEFF 		bl	HAL_UART_IRQHandler
+ 241              	.LVL2:
+ 209:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   /* USER CODE BEGIN USART2_IRQn 1 */
+ 210:../../core/platform/octa_stm/src/stm32l4xx_it.c **** 
+ 211:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   /* USER CODE END USART2_IRQn 1 */
+ 212:../../core/platform/octa_stm/src/stm32l4xx_it.c **** }
+ 242              		.loc 1 212 1 is_stmt 0 view .LVU28
+ 243 0008 08BD     		pop	{r3, pc}
+ 244              	.L22:
+ 245 000a 00BF     		.align	2
+ 246              	.L21:
+ 247 000c 00000000 		.word	USB_UART
+ 248              		.cfi_endproc
+ 249              	.LFE136:
+ 251              		.section	.text.USART3_IRQHandler,"ax",%progbits
+ 252              		.align	1
+ 253              		.global	USART3_IRQHandler
+ 254              		.syntax unified
+ 255              		.thumb
+ 256              		.thumb_func
+ 257              		.fpu fpv4-sp-d16
+ 259              	USART3_IRQHandler:
+ARM GAS  /tmp/ccT0mp9F.s 			page 9
+
+
+ 260              	.LFB137:
+ 213:../../core/platform/octa_stm/src/stm32l4xx_it.c **** 
+ 214:../../core/platform/octa_stm/src/stm32l4xx_it.c **** /**
+ 215:../../core/platform/octa_stm/src/stm32l4xx_it.c **** * @brief This function handles USART3 global interrupt.
+ 216:../../core/platform/octa_stm/src/stm32l4xx_it.c **** */
+ 217:../../core/platform/octa_stm/src/stm32l4xx_it.c **** void USART3_IRQHandler(void)
+ 218:../../core/platform/octa_stm/src/stm32l4xx_it.c **** {
+ 261              		.loc 1 218 1 is_stmt 1 view -0
+ 262              		.cfi_startproc
+ 263              		@ args = 0, pretend = 0, frame = 0
+ 264              		@ frame_needed = 0, uses_anonymous_args = 0
+ 265              		@ link register save eliminated.
+ 219:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   /* USER CODE BEGIN USART2_IRQn 0 */
+ 220:../../core/platform/octa_stm/src/stm32l4xx_it.c **** 
+ 221:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   /* USER CODE END USART2_IRQn 0 */
+ 222:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   //HAL_UART_IRQHandler(&P3_UART);
+ 223:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   /* USER CODE BEGIN USART2_IRQn 1 */
+ 224:../../core/platform/octa_stm/src/stm32l4xx_it.c **** 
+ 225:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   /* USER CODE END USART2_IRQn 1 */
+ 226:../../core/platform/octa_stm/src/stm32l4xx_it.c **** }
+ 266              		.loc 1 226 1 view .LVU30
+ 267 0000 7047     		bx	lr
+ 268              		.cfi_endproc
+ 269              	.LFE137:
+ 271              		.section	.text.LPUART1_IRQHandler,"ax",%progbits
+ 272              		.align	1
+ 273              		.global	LPUART1_IRQHandler
+ 274              		.syntax unified
+ 275              		.thumb
+ 276              		.thumb_func
+ 277              		.fpu fpv4-sp-d16
+ 279              	LPUART1_IRQHandler:
+ 280              	.LFB138:
+ 227:../../core/platform/octa_stm/src/stm32l4xx_it.c **** 
+ 228:../../core/platform/octa_stm/src/stm32l4xx_it.c **** void LPUART1_IRQHandler(void)
+ 229:../../core/platform/octa_stm/src/stm32l4xx_it.c **** {
+ 281              		.loc 1 229 1 view -0
+ 282              		.cfi_startproc
+ 283              		@ args = 0, pretend = 0, frame = 0
+ 284              		@ frame_needed = 0, uses_anonymous_args = 0
+ 285 0000 08B5     		push	{r3, lr}
+ 286              	.LCFI3:
+ 287              		.cfi_def_cfa_offset 8
+ 288              		.cfi_offset 3, -8
+ 289              		.cfi_offset 14, -4
+ 230:../../core/platform/octa_stm/src/stm32l4xx_it.c ****     HAL_UART_IRQHandler(&NBIOT_UART);
+ 290              		.loc 1 230 5 view .LVU32
+ 291 0002 0248     		ldr	r0, .L26
+ 292 0004 FFF7FEFF 		bl	HAL_UART_IRQHandler
+ 293              	.LVL3:
+ 231:../../core/platform/octa_stm/src/stm32l4xx_it.c **** }
+ 294              		.loc 1 231 1 is_stmt 0 view .LVU33
+ 295 0008 08BD     		pop	{r3, pc}
+ 296              	.L27:
+ 297 000a 00BF     		.align	2
+ 298              	.L26:
+ 299 000c 00000000 		.word	NBIOT_UART
+ARM GAS  /tmp/ccT0mp9F.s 			page 10
+
+
+ 300              		.cfi_endproc
+ 301              	.LFE138:
+ 303              		.section	.text.UART5_IRQHandler,"ax",%progbits
+ 304              		.align	1
+ 305              		.global	UART5_IRQHandler
+ 306              		.syntax unified
+ 307              		.thumb
+ 308              		.thumb_func
+ 309              		.fpu fpv4-sp-d16
+ 311              	UART5_IRQHandler:
+ 312              	.LFB139:
+ 232:../../core/platform/octa_stm/src/stm32l4xx_it.c **** 
+ 233:../../core/platform/octa_stm/src/stm32l4xx_it.c **** /**
+ 234:../../core/platform/octa_stm/src/stm32l4xx_it.c **** * @brief This function handles UART5 global interrupt.
+ 235:../../core/platform/octa_stm/src/stm32l4xx_it.c **** */
+ 236:../../core/platform/octa_stm/src/stm32l4xx_it.c **** void UART5_IRQHandler(void)
+ 237:../../core/platform/octa_stm/src/stm32l4xx_it.c **** {
+ 313              		.loc 1 237 1 is_stmt 1 view -0
+ 314              		.cfi_startproc
+ 315              		@ args = 0, pretend = 0, frame = 0
+ 316              		@ frame_needed = 0, uses_anonymous_args = 0
+ 317 0000 08B5     		push	{r3, lr}
+ 318              	.LCFI4:
+ 319              		.cfi_def_cfa_offset 8
+ 320              		.cfi_offset 3, -8
+ 321              		.cfi_offset 14, -4
+ 238:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   /* USER CODE BEGIN UART5 0 */
+ 239:../../core/platform/octa_stm/src/stm32l4xx_it.c **** 
+ 240:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   /* USER CODE END UART5 0 */
+ 241:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   HAL_UART_IRQHandler(&P1_UART);
+ 322              		.loc 1 241 3 view .LVU35
+ 323 0002 0248     		ldr	r0, .L30
+ 324 0004 FFF7FEFF 		bl	HAL_UART_IRQHandler
+ 325              	.LVL4:
+ 242:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   /* USER CODE BEGIN UART5 1 */
+ 243:../../core/platform/octa_stm/src/stm32l4xx_it.c **** 
+ 244:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   /* USER CODE END UART5 1 */
+ 245:../../core/platform/octa_stm/src/stm32l4xx_it.c **** }
+ 326              		.loc 1 245 1 is_stmt 0 view .LVU36
+ 327 0008 08BD     		pop	{r3, pc}
+ 328              	.L31:
+ 329 000a 00BF     		.align	2
+ 330              	.L30:
+ 331 000c 00000000 		.word	P1_UART
+ 332              		.cfi_endproc
+ 333              	.LFE139:
+ 335              		.section	.text.SPI1_IRQHandler,"ax",%progbits
+ 336              		.align	1
+ 337              		.global	SPI1_IRQHandler
+ 338              		.syntax unified
+ 339              		.thumb
+ 340              		.thumb_func
+ 341              		.fpu fpv4-sp-d16
+ 343              	SPI1_IRQHandler:
+ 344              	.LFB140:
+ 246:../../core/platform/octa_stm/src/stm32l4xx_it.c **** 
+ 247:../../core/platform/octa_stm/src/stm32l4xx_it.c **** /**
+ARM GAS  /tmp/ccT0mp9F.s 			page 11
+
+
+ 248:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   * @brief This function handles SPI1 global interrupt.
+ 249:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   */
+ 250:../../core/platform/octa_stm/src/stm32l4xx_it.c **** void SPI1_IRQHandler(void)
+ 251:../../core/platform/octa_stm/src/stm32l4xx_it.c **** {
+ 345              		.loc 1 251 1 is_stmt 1 view -0
+ 346              		.cfi_startproc
+ 347              		@ args = 0, pretend = 0, frame = 0
+ 348              		@ frame_needed = 0, uses_anonymous_args = 0
+ 349              		@ link register save eliminated.
+ 252:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   /* USER CODE BEGIN SPI1_IRQn 0 */
+ 253:../../core/platform/octa_stm/src/stm32l4xx_it.c **** 
+ 254:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   /* USER CODE END SPI1_IRQn 0 */
+ 255:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   //HAL_SPI_IRQHandler(&P3_SPI);
+ 256:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   /* USER CODE BEGIN SPI1_IRQn 1 */
+ 257:../../core/platform/octa_stm/src/stm32l4xx_it.c **** 
+ 258:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   /* USER CODE END SPI1_IRQn 1 */
+ 259:../../core/platform/octa_stm/src/stm32l4xx_it.c **** }
+ 350              		.loc 1 259 1 view .LVU38
+ 351 0000 7047     		bx	lr
+ 352              		.cfi_endproc
+ 353              	.LFE140:
+ 355              		.section	.text.SPI2_IRQHandler,"ax",%progbits
+ 356              		.align	1
+ 357              		.global	SPI2_IRQHandler
+ 358              		.syntax unified
+ 359              		.thumb
+ 360              		.thumb_func
+ 361              		.fpu fpv4-sp-d16
+ 363              	SPI2_IRQHandler:
+ 364              	.LFB141:
+ 260:../../core/platform/octa_stm/src/stm32l4xx_it.c **** 
+ 261:../../core/platform/octa_stm/src/stm32l4xx_it.c **** /**
+ 262:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   * @brief This function handles SPI2 global interrupt.
+ 263:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   */
+ 264:../../core/platform/octa_stm/src/stm32l4xx_it.c **** void SPI2_IRQHandler(void)
+ 265:../../core/platform/octa_stm/src/stm32l4xx_it.c **** {
+ 365              		.loc 1 265 1 view -0
+ 366              		.cfi_startproc
+ 367              		@ args = 0, pretend = 0, frame = 0
+ 368              		@ frame_needed = 0, uses_anonymous_args = 0
+ 369 0000 08B5     		push	{r3, lr}
+ 370              	.LCFI5:
+ 371              		.cfi_def_cfa_offset 8
+ 372              		.cfi_offset 3, -8
+ 373              		.cfi_offset 14, -4
+ 266:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   /* USER CODE BEGIN SPI2_IRQn 0 */
+ 267:../../core/platform/octa_stm/src/stm32l4xx_it.c **** 
+ 268:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   /* USER CODE END SPI2_IRQn 0 */
+ 269:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   HAL_SPI_IRQHandler(&P2_SPI);
+ 374              		.loc 1 269 3 view .LVU40
+ 375 0002 0248     		ldr	r0, .L35
+ 376 0004 FFF7FEFF 		bl	HAL_SPI_IRQHandler
+ 377              	.LVL5:
+ 270:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   /* USER CODE BEGIN SPI2_IRQn 1 */
+ 271:../../core/platform/octa_stm/src/stm32l4xx_it.c **** 
+ 272:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   /* USER CODE END SPI2_IRQn 1 */
+ 273:../../core/platform/octa_stm/src/stm32l4xx_it.c **** }
+ARM GAS  /tmp/ccT0mp9F.s 			page 12
+
+
+ 378              		.loc 1 273 1 is_stmt 0 view .LVU41
+ 379 0008 08BD     		pop	{r3, pc}
+ 380              	.L36:
+ 381 000a 00BF     		.align	2
+ 382              	.L35:
+ 383 000c 00000000 		.word	P2_SPI
+ 384              		.cfi_endproc
+ 385              	.LFE141:
+ 387              		.section	.text.SPI3_IRQHandler,"ax",%progbits
+ 388              		.align	1
+ 389              		.global	SPI3_IRQHandler
+ 390              		.syntax unified
+ 391              		.thumb
+ 392              		.thumb_func
+ 393              		.fpu fpv4-sp-d16
+ 395              	SPI3_IRQHandler:
+ 396              	.LFB142:
+ 274:../../core/platform/octa_stm/src/stm32l4xx_it.c **** 
+ 275:../../core/platform/octa_stm/src/stm32l4xx_it.c **** /**
+ 276:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   * @brief This function handles SPI3 global interrupt.
+ 277:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   */
+ 278:../../core/platform/octa_stm/src/stm32l4xx_it.c **** void SPI3_IRQHandler(void)
+ 279:../../core/platform/octa_stm/src/stm32l4xx_it.c **** {
+ 397              		.loc 1 279 1 is_stmt 1 view -0
+ 398              		.cfi_startproc
+ 399              		@ args = 0, pretend = 0, frame = 0
+ 400              		@ frame_needed = 0, uses_anonymous_args = 0
+ 401 0000 08B5     		push	{r3, lr}
+ 402              	.LCFI6:
+ 403              		.cfi_def_cfa_offset 8
+ 404              		.cfi_offset 3, -8
+ 405              		.cfi_offset 14, -4
+ 280:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   /* USER CODE BEGIN SPI3_IRQn 0 */
+ 281:../../core/platform/octa_stm/src/stm32l4xx_it.c **** 
+ 282:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   /* USER CODE END SPI3_IRQn 0 */
+ 283:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   HAL_SPI_IRQHandler(&P1_SPI);
+ 406              		.loc 1 283 3 view .LVU43
+ 407 0002 0248     		ldr	r0, .L39
+ 408 0004 FFF7FEFF 		bl	HAL_SPI_IRQHandler
+ 409              	.LVL6:
+ 284:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   /* USER CODE BEGIN SPI3_IRQn 1 */
+ 285:../../core/platform/octa_stm/src/stm32l4xx_it.c **** 
+ 286:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   /* USER CODE END SPI3_IRQn 1 */
+ 287:../../core/platform/octa_stm/src/stm32l4xx_it.c **** }
+ 410              		.loc 1 287 1 is_stmt 0 view .LVU44
+ 411 0008 08BD     		pop	{r3, pc}
+ 412              	.L40:
+ 413 000a 00BF     		.align	2
+ 414              	.L39:
+ 415 000c 00000000 		.word	P1_SPI
+ 416              		.cfi_endproc
+ 417              	.LFE142:
+ 419              		.section	.text.EXTI15_10_IRQHandler,"ax",%progbits
+ 420              		.align	1
+ 421              		.global	EXTI15_10_IRQHandler
+ 422              		.syntax unified
+ 423              		.thumb
+ARM GAS  /tmp/ccT0mp9F.s 			page 13
+
+
+ 424              		.thumb_func
+ 425              		.fpu fpv4-sp-d16
+ 427              	EXTI15_10_IRQHandler:
+ 428              	.LFB143:
+ 288:../../core/platform/octa_stm/src/stm32l4xx_it.c **** 
+ 289:../../core/platform/octa_stm/src/stm32l4xx_it.c **** void EXTI15_10_IRQHandler(void) 
+ 290:../../core/platform/octa_stm/src/stm32l4xx_it.c **** {
+ 429              		.loc 1 290 1 is_stmt 1 view -0
+ 430              		.cfi_startproc
+ 431              		@ args = 0, pretend = 0, frame = 0
+ 432              		@ frame_needed = 0, uses_anonymous_args = 0
+ 433 0000 08B5     		push	{r3, lr}
+ 434              	.LCFI7:
+ 435              		.cfi_def_cfa_offset 8
+ 436              		.cfi_offset 3, -8
+ 437              		.cfi_offset 14, -4
+ 291:../../core/platform/octa_stm/src/stm32l4xx_it.c ****     HAL_GPIO_EXTI_IRQHandler(OCTA_BTN1_Pin);
+ 438              		.loc 1 291 5 view .LVU46
+ 439 0002 4FF48050 		mov	r0, #4096
+ 440 0006 FFF7FEFF 		bl	HAL_GPIO_EXTI_IRQHandler
+ 441              	.LVL7:
+ 292:../../core/platform/octa_stm/src/stm32l4xx_it.c ****     HAL_GPIO_EXTI_IRQHandler(OCTA_BTN2_Pin);
+ 442              		.loc 1 292 5 view .LVU47
+ 443 000a 4FF40040 		mov	r0, #32768
+ 444 000e FFF7FEFF 		bl	HAL_GPIO_EXTI_IRQHandler
+ 445              	.LVL8:
+ 293:../../core/platform/octa_stm/src/stm32l4xx_it.c **** }
+ 446              		.loc 1 293 1 is_stmt 0 view .LVU48
+ 447 0012 08BD     		pop	{r3, pc}
+ 448              		.cfi_endproc
+ 449              	.LFE143:
+ 451              		.section	.text.RTC_WKUP_IRQHandler,"ax",%progbits
+ 452              		.align	1
+ 453              		.global	RTC_WKUP_IRQHandler
+ 454              		.syntax unified
+ 455              		.thumb
+ 456              		.thumb_func
+ 457              		.fpu fpv4-sp-d16
+ 459              	RTC_WKUP_IRQHandler:
+ 460              	.LFB144:
+ 294:../../core/platform/octa_stm/src/stm32l4xx_it.c **** 
+ 295:../../core/platform/octa_stm/src/stm32l4xx_it.c **** /**
+ 296:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   * @brief  This function handles RTC Auto wake-up interrupt request.
+ 297:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   * @param  None
+ 298:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   * @retval None
+ 299:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   */
+ 300:../../core/platform/octa_stm/src/stm32l4xx_it.c **** 
+ 301:../../core/platform/octa_stm/src/stm32l4xx_it.c ****  
+ 302:../../core/platform/octa_stm/src/stm32l4xx_it.c **** void RTC_WKUP_IRQHandler(void)
+ 303:../../core/platform/octa_stm/src/stm32l4xx_it.c **** {
+ 461              		.loc 1 303 1 is_stmt 1 view -0
+ 462              		.cfi_startproc
+ 463              		@ args = 0, pretend = 0, frame = 0
+ 464              		@ frame_needed = 0, uses_anonymous_args = 0
+ 465 0000 08B5     		push	{r3, lr}
+ 466              	.LCFI8:
+ 467              		.cfi_def_cfa_offset 8
+ARM GAS  /tmp/ccT0mp9F.s 			page 14
+
+
+ 468              		.cfi_offset 3, -8
+ 469              		.cfi_offset 14, -4
+ 304:../../core/platform/octa_stm/src/stm32l4xx_it.c ****   HAL_RTCEx_WakeUpTimerIRQHandler(&hrtc);
+ 470              		.loc 1 304 3 view .LVU50
+ 471 0002 0248     		ldr	r0, .L45
+ 472 0004 FFF7FEFF 		bl	HAL_RTCEx_WakeUpTimerIRQHandler
+ 473              	.LVL9:
+ 305:../../core/platform/octa_stm/src/stm32l4xx_it.c **** }
+ 474              		.loc 1 305 1 is_stmt 0 view .LVU51
+ 475 0008 08BD     		pop	{r3, pc}
+ 476              	.L46:
+ 477 000a 00BF     		.align	2
+ 478              	.L45:
+ 479 000c 00000000 		.word	hrtc
+ 480              		.cfi_endproc
+ 481              	.LFE144:
+ 483              		.comm	htim6,64,4
+ 484              		.comm	htim1,64,4
+ 485              		.comm	NBIOT_Reset,8,4
+ 486              		.comm	P2_DIO6,8,4
+ 487              		.comm	P2_DIO5,8,4
+ 488              		.comm	P2_DIO4,8,4
+ 489              		.comm	P2_DIO3,8,4
+ 490              		.comm	P2_DIO2,8,4
+ 491              		.comm	P2_DIO1,8,4
+ 492              		.comm	P1_DIO6,8,4
+ 493              		.comm	P1_DIO5,8,4
+ 494              		.comm	P1_DIO4,8,4
+ 495              		.comm	P1_DIO3,8,4
+ 496              		.comm	P1_DIO2,8,4
+ 497              		.comm	P1_DIO1,8,4
+ 498              		.comm	hrtc,36,4
+ 499              		.comm	FLASH_SPI,100,4
+ 500              		.comm	P2_SPI,100,4
+ 501              		.comm	P1_SPI,100,4
+ 502              		.comm	P2_UART,120,4
+ 503              		.comm	P1_UART,120,4
+ 504              		.comm	RS232_UART,120,4
+ 505              		.comm	NBIOT_UART,120,4
+ 506              		.comm	USB_UART,120,4
+ 507              		.text
+ 508              	.Letext0:
+ 509              		.file 2 "/usr/arm-none-eabi/include/machine/_default_types.h"
+ 510              		.file 3 "/usr/arm-none-eabi/include/sys/_stdint.h"
+ 511              		.file 4 "../../core/platform/octa_stm/inc/FreeRTOSConfig.h"
+ 512              		.file 5 "../../core/ST/CMSIS/Include/core_cm4.h"
+ 513              		.file 6 "../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/system_stm32l4xx.h"
+ 514              		.file 7 "../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/stm32l496xx.h"
+ 515              		.file 8 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h"
+ 516              		.file 9 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_dma.h"
+ 517              		.file 10 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rtc.h"
+ 518              		.file 11 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_spi.h"
+ 519              		.file 12 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_tim.h"
+ 520              		.file 13 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h"
+ 521              		.file 14 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h"
+ 522              		.file 15 "../../core/platform/octa_stm/inc/uart.h"
+ 523              		.file 16 "../../core/platform/octa_stm/inc/spi.h"
+ARM GAS  /tmp/ccT0mp9F.s 			page 15
+
+
+ 524              		.file 17 "../../core/platform/octa_stm/inc/rtc.h"
+ 525              		.file 18 "../../core/platform/octa_stm/inc/gpio.h"
+ 526              		.file 19 "../../core/platform/octa_stm/inc/sysclock.h"
+ 527              		.file 20 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rtc_ex.h"
+ 528              		.file 21 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_gpio.h"
+ARM GAS  /tmp/ccT0mp9F.s 			page 16
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 stm32l4xx_it.c
+     /tmp/ccT0mp9F.s:18     .text.NMI_Handler:0000000000000000 $t
+     /tmp/ccT0mp9F.s:26     .text.NMI_Handler:0000000000000000 NMI_Handler
+     /tmp/ccT0mp9F.s:40     .text.HardFault_Handler:0000000000000000 $t
+     /tmp/ccT0mp9F.s:47     .text.HardFault_Handler:0000000000000000 HardFault_Handler
+     /tmp/ccT0mp9F.s:64     .text.MemManage_Handler:0000000000000000 $t
+     /tmp/ccT0mp9F.s:71     .text.MemManage_Handler:0000000000000000 MemManage_Handler
+     /tmp/ccT0mp9F.s:88     .text.BusFault_Handler:0000000000000000 $t
+     /tmp/ccT0mp9F.s:95     .text.BusFault_Handler:0000000000000000 BusFault_Handler
+     /tmp/ccT0mp9F.s:112    .text.UsageFault_Handler:0000000000000000 $t
+     /tmp/ccT0mp9F.s:119    .text.UsageFault_Handler:0000000000000000 UsageFault_Handler
+     /tmp/ccT0mp9F.s:136    .text.DebugMon_Handler:0000000000000000 $t
+     /tmp/ccT0mp9F.s:143    .text.DebugMon_Handler:0000000000000000 DebugMon_Handler
+     /tmp/ccT0mp9F.s:156    .text.TIM1_UP_TIM16_IRQHandler:0000000000000000 $t
+     /tmp/ccT0mp9F.s:163    .text.TIM1_UP_TIM16_IRQHandler:0000000000000000 TIM1_UP_TIM16_IRQHandler
+     /tmp/ccT0mp9F.s:183    .text.TIM1_UP_TIM16_IRQHandler:000000000000000c $d
+                            *COM*:0000000000000040 htim1
+     /tmp/ccT0mp9F.s:188    .text.TIM6_DAC_IRQHandler:0000000000000000 $t
+     /tmp/ccT0mp9F.s:195    .text.TIM6_DAC_IRQHandler:0000000000000000 TIM6_DAC_IRQHandler
+     /tmp/ccT0mp9F.s:215    .text.TIM6_DAC_IRQHandler:000000000000000c $d
+                            *COM*:0000000000000040 htim6
+     /tmp/ccT0mp9F.s:220    .text.USART2_IRQHandler:0000000000000000 $t
+     /tmp/ccT0mp9F.s:227    .text.USART2_IRQHandler:0000000000000000 USART2_IRQHandler
+     /tmp/ccT0mp9F.s:247    .text.USART2_IRQHandler:000000000000000c $d
+                            *COM*:0000000000000078 USB_UART
+     /tmp/ccT0mp9F.s:252    .text.USART3_IRQHandler:0000000000000000 $t
+     /tmp/ccT0mp9F.s:259    .text.USART3_IRQHandler:0000000000000000 USART3_IRQHandler
+     /tmp/ccT0mp9F.s:272    .text.LPUART1_IRQHandler:0000000000000000 $t
+     /tmp/ccT0mp9F.s:279    .text.LPUART1_IRQHandler:0000000000000000 LPUART1_IRQHandler
+     /tmp/ccT0mp9F.s:299    .text.LPUART1_IRQHandler:000000000000000c $d
+                            *COM*:0000000000000078 NBIOT_UART
+     /tmp/ccT0mp9F.s:304    .text.UART5_IRQHandler:0000000000000000 $t
+     /tmp/ccT0mp9F.s:311    .text.UART5_IRQHandler:0000000000000000 UART5_IRQHandler
+     /tmp/ccT0mp9F.s:331    .text.UART5_IRQHandler:000000000000000c $d
+                            *COM*:0000000000000078 P1_UART
+     /tmp/ccT0mp9F.s:336    .text.SPI1_IRQHandler:0000000000000000 $t
+     /tmp/ccT0mp9F.s:343    .text.SPI1_IRQHandler:0000000000000000 SPI1_IRQHandler
+     /tmp/ccT0mp9F.s:356    .text.SPI2_IRQHandler:0000000000000000 $t
+     /tmp/ccT0mp9F.s:363    .text.SPI2_IRQHandler:0000000000000000 SPI2_IRQHandler
+     /tmp/ccT0mp9F.s:383    .text.SPI2_IRQHandler:000000000000000c $d
+                            *COM*:0000000000000064 P2_SPI
+     /tmp/ccT0mp9F.s:388    .text.SPI3_IRQHandler:0000000000000000 $t
+     /tmp/ccT0mp9F.s:395    .text.SPI3_IRQHandler:0000000000000000 SPI3_IRQHandler
+     /tmp/ccT0mp9F.s:415    .text.SPI3_IRQHandler:000000000000000c $d
+                            *COM*:0000000000000064 P1_SPI
+     /tmp/ccT0mp9F.s:420    .text.EXTI15_10_IRQHandler:0000000000000000 $t
+     /tmp/ccT0mp9F.s:427    .text.EXTI15_10_IRQHandler:0000000000000000 EXTI15_10_IRQHandler
+     /tmp/ccT0mp9F.s:452    .text.RTC_WKUP_IRQHandler:0000000000000000 $t
+     /tmp/ccT0mp9F.s:459    .text.RTC_WKUP_IRQHandler:0000000000000000 RTC_WKUP_IRQHandler
+     /tmp/ccT0mp9F.s:479    .text.RTC_WKUP_IRQHandler:000000000000000c $d
+                            *COM*:0000000000000024 hrtc
+                            *COM*:0000000000000008 NBIOT_Reset
+                            *COM*:0000000000000008 P2_DIO6
+                            *COM*:0000000000000008 P2_DIO5
+                            *COM*:0000000000000008 P2_DIO4
+                            *COM*:0000000000000008 P2_DIO3
+ARM GAS  /tmp/ccT0mp9F.s 			page 17
+
+
+                            *COM*:0000000000000008 P2_DIO2
+                            *COM*:0000000000000008 P2_DIO1
+                            *COM*:0000000000000008 P1_DIO6
+                            *COM*:0000000000000008 P1_DIO5
+                            *COM*:0000000000000008 P1_DIO4
+                            *COM*:0000000000000008 P1_DIO3
+                            *COM*:0000000000000008 P1_DIO2
+                            *COM*:0000000000000008 P1_DIO1
+                            *COM*:0000000000000064 FLASH_SPI
+                            *COM*:0000000000000078 P2_UART
+                            *COM*:0000000000000078 RS232_UART
+
+UNDEFINED SYMBOLS
+HAL_TIM_IRQHandler
+HAL_UART_IRQHandler
+HAL_SPI_IRQHandler
+HAL_GPIO_EXTI_IRQHandler
+HAL_RTCEx_WakeUpTimerIRQHandler

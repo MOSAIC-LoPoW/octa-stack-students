@@ -1,3 +1,0 @@
-lorawan-example
-0.1.0: initial version
-0.2.0: updated interrupt flow

@@ -1,0 +1,646 @@
+ARM GAS  /tmp/ccIGsKZA.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 28, 1
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.file	"flash_config.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.rodata.update_flash_configuration.str1.4,"aMS",%progbits,1
+  18              		.align	2
+  19              	.LC0:
+  20 0000 466C6173 		.ascii	"Flash open NOK\015\012\000"
+  20      68206F70 
+  20      656E204E 
+  20      4F4B0D0A 
+  20      00
+  21 0011 000000   		.align	2
+  22              	.LC1:
+  23 0014 466C6173 		.ascii	"Flash operation NOK: %d\015\012\000"
+  23      68206F70 
+  23      65726174 
+  23      696F6E20 
+  23      4E4F4B3A 
+  24 002e 0000     		.align	2
+  25              	.LC2:
+  26 0030 43757272 		.ascii	"Current flash configuration:\015\012\000"
+  26      656E7420 
+  26      666C6173 
+  26      6820636F 
+  26      6E666967 
+  27 004f 00       		.align	2
+  28              	.LC3:
+  29 0050 57726974 		.ascii	"Write in progress\015\012\000"
+  29      6520696E 
+  29      2070726F 
+  29      67726573 
+  29      730D0A00 
+  30              		.align	2
+  31              	.LC4:
+  32 0064 466C6173 		.ascii	"Flash after erase\015\012\000"
+  32      68206166 
+  32      74657220 
+  32      65726173 
+  32      650D0A00 
+  33              		.align	2
+  34              	.LC5:
+  35 0078 57726974 		.ascii	"Writing updated configuration to flash:\015\012\000"
+  35      696E6720 
+  35      75706461 
+ARM GAS  /tmp/ccIGsKZA.s 			page 2
+
+
+  35      74656420 
+  35      636F6E66 
+  36 00a2 0000     		.align	2
+  37              	.LC6:
+  38 00a4 466C6173 		.ascii	"Flash after new config\015\012\000"
+  38      68206166 
+  38      74657220 
+  38      6E657720 
+  38      636F6E66 
+  39              		.section	.text.update_flash_configuration,"ax",%progbits
+  40              		.align	1
+  41              		.global	update_flash_configuration
+  42              		.arch armv7e-m
+  43              		.syntax unified
+  44              		.thumb
+  45              		.thumb_func
+  46              		.fpu fpv4-sp-d16
+  48              	update_flash_configuration:
+  49              	.LVL0:
+  50              	.LFB123:
+  51              		.file 1 "../../../core/platform/common/src/flash_config.c"
+   1:../../../core/platform/common/src/flash_config.c **** #include "payloadformat.h"
+   2:../../../core/platform/common/src/flash_config.c **** #include "octa-flash.h"
+   3:../../../core/platform/common/src/flash_config.c **** #include "datatypes.h"
+   4:../../../core/platform/common/src/flash_config.c **** #include "flash_config.h"
+   5:../../../core/platform/common/src/flash_config.c **** 
+   6:../../../core/platform/common/src/flash_config.c **** /*
+   7:../../../core/platform/common/src/flash_config.c **** ***********************************
+   8:../../../core/platform/common/src/flash_config.c **** * Flash configuration (first page *
+   9:../../../core/platform/common/src/flash_config.c **** ***********************************
+  10:../../../core/platform/common/src/flash_config.c **** * interval & multiplier
+  11:../../../core/platform/common/src/flash_config.c **** * last msg acked
+  12:../../../core/platform/common/src/flash_config.c **** * dns id
+  13:../../../core/platform/common/src/flash_config.c **** * current flash index (page?)
+  14:../../../core/platform/common/src/flash_config.c **** */
+  15:../../../core/platform/common/src/flash_config.c **** uint8_t update_flash_configuration(struct octa_configuration* toFlash)
+  16:../../../core/platform/common/src/flash_config.c **** {
+  52              		.loc 1 16 1 view -0
+  53              		.cfi_startproc
+  54              		@ args = 0, pretend = 0, frame = 512
+  55              		@ frame_needed = 0, uses_anonymous_args = 0
+  56              		.loc 1 16 1 is_stmt 0 view .LVU1
+  57 0000 10B5     		push	{r4, lr}
+  58              	.LCFI0:
+  59              		.cfi_def_cfa_offset 8
+  60              		.cfi_offset 4, -8
+  61              		.cfi_offset 14, -4
+  62 0002 ADF5007D 		sub	sp, sp, #512
+  63              	.LCFI1:
+  64              		.cfi_def_cfa_offset 520
+  65 0006 0446     		mov	r4, r0
+  17:../../../core/platform/common/src/flash_config.c ****   int retval = 0;
+  66              		.loc 1 17 3 is_stmt 1 view .LVU2
+  67              	.LVL1:
+  18:../../../core/platform/common/src/flash_config.c ****   // write to flash as octa payload
+  19:../../../core/platform/common/src/flash_config.c ****   uint8_t flashBuffer[OCTA_FLASH_PAGE_SIZE] = {0xff};
+  68              		.loc 1 19 3 view .LVU3
+ARM GAS  /tmp/ccIGsKZA.s 			page 3
+
+
+  69              		.loc 1 19 11 is_stmt 0 view .LVU4
+  70 0008 FF23     		movs	r3, #255
+  71 000a 4093     		str	r3, [sp, #256]
+  72 000c FC22     		movs	r2, #252
+  73 000e 0021     		movs	r1, #0
+  74 0010 41A8     		add	r0, sp, #260
+  75              	.LVL2:
+  76              		.loc 1 19 11 view .LVU5
+  77 0012 FFF7FEFF 		bl	memset
+  78              	.LVL3:
+  20:../../../core/platform/common/src/flash_config.c ****   // read current flash
+  21:../../../core/platform/common/src/flash_config.c ****   if(OCTA_FLASH_openConfigSector()!= OCTA_FLASH_OK)
+  79              		.loc 1 21 3 is_stmt 1 view .LVU6
+  80              		.loc 1 21 6 is_stmt 0 view .LVU7
+  81 0016 FFF7FEFF 		bl	OCTA_FLASH_openConfigSector
+  82              	.LVL4:
+  83              		.loc 1 21 5 view .LVU8
+  84 001a 0028     		cmp	r0, #0
+  85 001c 50D1     		bne	.L13
+  86              	.L2:
+  22:../../../core/platform/common/src/flash_config.c ****   {
+  23:../../../core/platform/common/src/flash_config.c ****     printERR("Flash open NOK\r\n");
+  24:../../../core/platform/common/src/flash_config.c ****   }
+  25:../../../core/platform/common/src/flash_config.c **** 
+  26:../../../core/platform/common/src/flash_config.c ****   retval = OCTA_FLASH_read(flashBuffer, OCTA_FLASH_PAGE_SIZE);
+  87              		.loc 1 26 3 is_stmt 1 view .LVU9
+  88              		.loc 1 26 12 is_stmt 0 view .LVU10
+  89 001e 4FF48071 		mov	r1, #256
+  90 0022 0DEB0100 		add	r0, sp, r1
+  91 0026 FFF7FEFF 		bl	OCTA_FLASH_read
+  92              	.LVL5:
+  27:../../../core/platform/common/src/flash_config.c ****   if(retval != OCTA_FLASH_PAGE_SIZE)
+  93              		.loc 1 27 3 is_stmt 1 view .LVU11
+  94              		.loc 1 27 5 is_stmt 0 view .LVU12
+  95 002a B0F5807F 		cmp	r0, #256
+  96 002e 4BD1     		bne	.L14
+  97              	.LVL6:
+  98              	.L3:
+  28:../../../core/platform/common/src/flash_config.c ****   {
+  29:../../../core/platform/common/src/flash_config.c ****     printERR("Flash operation NOK: %d\r\n", retval);
+  30:../../../core/platform/common/src/flash_config.c ****   }
+  31:../../../core/platform/common/src/flash_config.c ****   printDBG("Current flash configuration:\r\n");
+  99              		.loc 1 31 3 is_stmt 1 view .LVU13
+ 100 0030 5348     		ldr	r0, .L19
+ 101 0032 FFF7FEFF 		bl	printDBG
+ 102              	.LVL7:
+  32:../../../core/platform/common/src/flash_config.c ****   #if DEBUG
+  33:../../../core/platform/common/src/flash_config.c ****     for (uint16_t i = 0; i < OCTA_FLASH_PAGE_SIZE; ++i) {
+  34:../../../core/platform/common/src/flash_config.c ****       printf("%02x", flashBuffer[i]);
+  35:../../../core/platform/common/src/flash_config.c ****     }
+  36:../../../core/platform/common/src/flash_config.c ****     printf("\r\n");
+  37:../../../core/platform/common/src/flash_config.c ****   #endif
+  38:../../../core/platform/common/src/flash_config.c **** 
+  39:../../../core/platform/common/src/flash_config.c ****   uint16_t index = 0;
+ 103              		.loc 1 39 3 view .LVU14
+  40:../../../core/platform/common/src/flash_config.c ****   // interval & multiplier
+  41:../../../core/platform/common/src/flash_config.c ****   flashBuffer[index++] = (uint8_t)TYPE_DOWNLINK_INTERVAL_MULTIPLIER_UPDATE;
+ARM GAS  /tmp/ccIGsKZA.s 			page 4
+
+
+ 104              		.loc 1 41 3 view .LVU15
+ 105              		.loc 1 41 24 is_stmt 0 view .LVU16
+ 106 0036 F623     		movs	r3, #246
+ 107 0038 8DF80031 		strb	r3, [sp, #256]
+  42:../../../core/platform/common/src/flash_config.c ****   flashBuffer[index++] = toFlash->interval;
+ 108              		.loc 1 42 3 is_stmt 1 view .LVU17
+ 109              	.LVL8:
+ 110              		.loc 1 42 33 is_stmt 0 view .LVU18
+ 111 003c 237B     		ldrb	r3, [r4, #12]	@ zero_extendqisi2
+ 112              		.loc 1 42 24 view .LVU19
+ 113 003e 8DF80131 		strb	r3, [sp, #257]
+  43:../../../core/platform/common/src/flash_config.c ****   flashBuffer[index++] = toFlash->multiplier;
+ 114              		.loc 1 43 3 is_stmt 1 view .LVU20
+ 115              	.LVL9:
+ 116              		.loc 1 43 33 is_stmt 0 view .LVU21
+ 117 0042 637B     		ldrb	r3, [r4, #13]	@ zero_extendqisi2
+ 118              		.loc 1 43 24 view .LVU22
+ 119 0044 8DF80231 		strb	r3, [sp, #258]
+  44:../../../core/platform/common/src/flash_config.c **** 
+  45:../../../core/platform/common/src/flash_config.c ****   // last acked msg
+  46:../../../core/platform/common/src/flash_config.c ****   flashBuffer[index++] = (uint8_t)TYPE_DOWNLINK_ACK;
+ 120              		.loc 1 46 3 is_stmt 1 view .LVU23
+ 121              	.LVL10:
+ 122              		.loc 1 46 24 is_stmt 0 view .LVU24
+ 123 0048 F723     		movs	r3, #247
+ 124 004a 8DF80331 		strb	r3, [sp, #259]
+  47:../../../core/platform/common/src/flash_config.c ****   int32LittleEndian.integer = toFlash->last_msg_acked;
+ 125              		.loc 1 47 3 is_stmt 1 view .LVU25
+ 126              		.loc 1 47 38 is_stmt 0 view .LVU26
+ 127 004e A368     		ldr	r3, [r4, #8]
+ 128              		.loc 1 47 29 view .LVU27
+ 129 0050 4C4A     		ldr	r2, .L19+4
+ 130 0052 1360     		str	r3, [r2]
+  48:../../../core/platform/common/src/flash_config.c ****   flashBuffer[index++] = int32LittleEndian.byte[0];
+ 131              		.loc 1 48 3 is_stmt 1 view .LVU28
+ 132              	.LVL11:
+ 133              		.loc 1 48 24 is_stmt 0 view .LVU29
+ 134 0054 8DF80431 		strb	r3, [sp, #260]
+  49:../../../core/platform/common/src/flash_config.c ****   flashBuffer[index++] = int32LittleEndian.byte[1];
+ 135              		.loc 1 49 3 is_stmt 1 view .LVU30
+ 136              	.LVL12:
+ 137              		.loc 1 49 24 is_stmt 0 view .LVU31
+ 138 0058 C3F30722 		ubfx	r2, r3, #8, #8
+ 139 005c 8DF80521 		strb	r2, [sp, #261]
+  50:../../../core/platform/common/src/flash_config.c ****   flashBuffer[index++] = int32LittleEndian.byte[2];
+ 140              		.loc 1 50 3 is_stmt 1 view .LVU32
+ 141              	.LVL13:
+ 142              		.loc 1 50 24 is_stmt 0 view .LVU33
+ 143 0060 C3F30742 		ubfx	r2, r3, #16, #8
+ 144 0064 8DF80621 		strb	r2, [sp, #262]
+  51:../../../core/platform/common/src/flash_config.c ****   flashBuffer[index++] = int32LittleEndian.byte[3];
+ 145              		.loc 1 51 3 is_stmt 1 view .LVU34
+ 146              	.LVL14:
+ 147              		.loc 1 51 24 is_stmt 0 view .LVU35
+ 148 0068 C3F30763 		ubfx	r3, r3, #24, #8
+ 149 006c 8DF80731 		strb	r3, [sp, #263]
+  52:../../../core/platform/common/src/flash_config.c **** 
+ARM GAS  /tmp/ccIGsKZA.s 			page 5
+
+
+  53:../../../core/platform/common/src/flash_config.c ****   // dns id
+  54:../../../core/platform/common/src/flash_config.c ****   flashBuffer[index++] = (uint8_t)TYPE_DOWNLINK_DNS_UPDATE;
+ 150              		.loc 1 54 3 is_stmt 1 view .LVU36
+ 151              	.LVL15:
+ 152              		.loc 1 54 24 is_stmt 0 view .LVU37
+ 153 0070 F523     		movs	r3, #245
+ 154 0072 8DF80831 		strb	r3, [sp, #264]
+  55:../../../core/platform/common/src/flash_config.c ****   flashBuffer[index++] = toFlash->dns_id;
+ 155              		.loc 1 55 3 is_stmt 1 view .LVU38
+ 156              	.LVL16:
+ 157              		.loc 1 55 33 is_stmt 0 view .LVU39
+ 158 0076 2379     		ldrb	r3, [r4, #4]	@ zero_extendqisi2
+ 159              		.loc 1 55 24 view .LVU40
+ 160 0078 8DF80931 		strb	r3, [sp, #265]
+  56:../../../core/platform/common/src/flash_config.c **** 
+  57:../../../core/platform/common/src/flash_config.c ****   // current flash index page
+  58:../../../core/platform/common/src/flash_config.c ****   flashBuffer[index++] = (uint8_t)TYPE_CURRENT_FLASH_INDEX;
+ 161              		.loc 1 58 3 is_stmt 1 view .LVU41
+ 162              	.LVL17:
+ 163              		.loc 1 58 24 is_stmt 0 view .LVU42
+ 164 007c 2623     		movs	r3, #38
+ 165 007e 8DF80A31 		strb	r3, [sp, #266]
+  59:../../../core/platform/common/src/flash_config.c ****   uint32LittleEndian.integer = toFlash->flash_index;
+ 166              		.loc 1 59 3 is_stmt 1 view .LVU43
+ 167              		.loc 1 59 39 is_stmt 0 view .LVU44
+ 168 0082 2368     		ldr	r3, [r4]
+ 169              		.loc 1 59 30 view .LVU45
+ 170 0084 404A     		ldr	r2, .L19+8
+ 171 0086 1360     		str	r3, [r2]
+  60:../../../core/platform/common/src/flash_config.c ****   flashBuffer[index++] = uint32LittleEndian.byte[0];
+ 172              		.loc 1 60 3 is_stmt 1 view .LVU46
+ 173              	.LVL18:
+ 174              		.loc 1 60 24 is_stmt 0 view .LVU47
+ 175 0088 8DF80B31 		strb	r3, [sp, #267]
+  61:../../../core/platform/common/src/flash_config.c ****   flashBuffer[index++] = uint32LittleEndian.byte[1];
+ 176              		.loc 1 61 3 is_stmt 1 view .LVU48
+ 177              	.LVL19:
+ 178              		.loc 1 61 24 is_stmt 0 view .LVU49
+ 179 008c C3F30722 		ubfx	r2, r3, #8, #8
+ 180 0090 8DF80C21 		strb	r2, [sp, #268]
+  62:../../../core/platform/common/src/flash_config.c ****   flashBuffer[index++] = uint32LittleEndian.byte[2];
+ 181              		.loc 1 62 3 is_stmt 1 view .LVU50
+ 182              	.LVL20:
+ 183              		.loc 1 62 24 is_stmt 0 view .LVU51
+ 184 0094 C3F30742 		ubfx	r2, r3, #16, #8
+ 185 0098 8DF80D21 		strb	r2, [sp, #269]
+  63:../../../core/platform/common/src/flash_config.c ****   flashBuffer[index++] = uint32LittleEndian.byte[3];
+ 186              		.loc 1 63 3 is_stmt 1 view .LVU52
+ 187              	.LVL21:
+ 188              		.loc 1 63 24 is_stmt 0 view .LVU53
+ 189 009c C3F30763 		ubfx	r3, r3, #24, #8
+ 190 00a0 8DF80E31 		strb	r3, [sp, #270]
+  64:../../../core/platform/common/src/flash_config.c **** 
+  65:../../../core/platform/common/src/flash_config.c ****   retval = OCTA_FLASH_eraseConfigSector();
+ 191              		.loc 1 65 3 is_stmt 1 view .LVU54
+ 192              		.loc 1 65 12 is_stmt 0 view .LVU55
+ 193 00a4 FFF7FEFF 		bl	OCTA_FLASH_eraseConfigSector
+ARM GAS  /tmp/ccIGsKZA.s 			page 6
+
+
+ 194              	.LVL22:
+  66:../../../core/platform/common/src/flash_config.c ****   if(retval != OCTA_FLASH_OK)
+ 195              		.loc 1 66 3 is_stmt 1 view .LVU56
+ 196              		.loc 1 66 5 is_stmt 0 view .LVU57
+ 197 00a8 0146     		mov	r1, r0
+ 198 00aa 90B9     		cbnz	r0, .L15
+ 199              	.LVL23:
+ 200              	.L5:
+  67:../../../core/platform/common/src/flash_config.c ****   {
+  68:../../../core/platform/common/src/flash_config.c ****     printERR("Flash operation NOK: %d\r\n", retval);
+  69:../../../core/platform/common/src/flash_config.c ****   }
+  70:../../../core/platform/common/src/flash_config.c ****   while(OCTA_FLASH_isWriteInProgress())
+ 201              		.loc 1 70 8 is_stmt 1 view .LVU58
+ 202              		.loc 1 70 9 is_stmt 0 view .LVU59
+ 203 00ac FFF7FEFF 		bl	OCTA_FLASH_isWriteInProgress
+ 204              	.LVL24:
+ 205              		.loc 1 70 8 view .LVU60
+ 206 00b0 98B1     		cbz	r0, .L16
+  71:../../../core/platform/common/src/flash_config.c ****   {
+  72:../../../core/platform/common/src/flash_config.c ****         printDBG("Write in progress\r\n");
+ 207              		.loc 1 72 9 is_stmt 1 view .LVU61
+ 208 00b2 3648     		ldr	r0, .L19+12
+ 209 00b4 FFF7FEFF 		bl	printDBG
+ 210              	.LVL25:
+  73:../../../core/platform/common/src/flash_config.c ****         HAL_Delay(50);
+ 211              		.loc 1 73 9 view .LVU62
+ 212 00b8 3220     		movs	r0, #50
+ 213 00ba FFF7FEFF 		bl	HAL_Delay
+ 214              	.LVL26:
+ 215 00be F5E7     		b	.L5
+ 216              	.LVL27:
+ 217              	.L13:
+ 218              	.LBB2:
+  23:../../../core/platform/common/src/flash_config.c ****   }
+ 219              		.loc 1 23 5 view .LVU63
+ 220 00c0 3348     		ldr	r0, .L19+16
+ 221 00c2 FFF7FEFF 		bl	printERR
+ 222              	.LVL28:
+ 223 00c6 AAE7     		b	.L2
+ 224              	.LVL29:
+ 225              	.L14:
+  23:../../../core/platform/common/src/flash_config.c ****   }
+ 226              		.loc 1 23 5 is_stmt 0 view .LVU64
+ 227              	.LBE2:
+ 228              	.LBB3:
+  29:../../../core/platform/common/src/flash_config.c ****   }
+ 229              		.loc 1 29 5 is_stmt 1 view .LVU65
+ 230 00c8 0146     		mov	r1, r0
+ 231 00ca 3248     		ldr	r0, .L19+20
+ 232              	.LVL30:
+  29:../../../core/platform/common/src/flash_config.c ****   }
+ 233              		.loc 1 29 5 is_stmt 0 view .LVU66
+ 234 00cc FFF7FEFF 		bl	printERR
+ 235              	.LVL31:
+  29:../../../core/platform/common/src/flash_config.c ****   }
+ 236              		.loc 1 29 5 view .LVU67
+ 237 00d0 AEE7     		b	.L3
+ARM GAS  /tmp/ccIGsKZA.s 			page 7
+
+
+ 238              	.LVL32:
+ 239              	.L15:
+  29:../../../core/platform/common/src/flash_config.c ****   }
+ 240              		.loc 1 29 5 view .LVU68
+ 241              	.LBE3:
+ 242              	.LBB4:
+  68:../../../core/platform/common/src/flash_config.c ****   }
+ 243              		.loc 1 68 5 is_stmt 1 view .LVU69
+ 244 00d2 3048     		ldr	r0, .L19+20
+ 245              	.LVL33:
+  68:../../../core/platform/common/src/flash_config.c ****   }
+ 246              		.loc 1 68 5 is_stmt 0 view .LVU70
+ 247 00d4 FFF7FEFF 		bl	printERR
+ 248              	.LVL34:
+  68:../../../core/platform/common/src/flash_config.c ****   }
+ 249              		.loc 1 68 5 view .LVU71
+ 250 00d8 E8E7     		b	.L5
+ 251              	.L16:
+ 252              	.LBE4:
+  74:../../../core/platform/common/src/flash_config.c ****   }
+  75:../../../core/platform/common/src/flash_config.c ****   uint8_t rxbuffer[OCTA_FLASH_PAGE_SIZE] = {0xff};
+ 253              		.loc 1 75 3 is_stmt 1 view .LVU72
+ 254              		.loc 1 75 11 is_stmt 0 view .LVU73
+ 255 00da FF23     		movs	r3, #255
+ 256 00dc 0093     		str	r3, [sp]
+ 257 00de FC22     		movs	r2, #252
+ 258 00e0 0021     		movs	r1, #0
+ 259 00e2 01A8     		add	r0, sp, #4
+ 260 00e4 FFF7FEFF 		bl	memset
+ 261              	.LVL35:
+  76:../../../core/platform/common/src/flash_config.c ****   retval = OCTA_FLASH_read(rxbuffer, OCTA_FLASH_PAGE_SIZE);
+ 262              		.loc 1 76 3 is_stmt 1 view .LVU74
+ 263              		.loc 1 76 12 is_stmt 0 view .LVU75
+ 264 00e8 4FF48071 		mov	r1, #256
+ 265 00ec 6846     		mov	r0, sp
+ 266 00ee FFF7FEFF 		bl	OCTA_FLASH_read
+ 267              	.LVL36:
+  77:../../../core/platform/common/src/flash_config.c ****   if(retval != OCTA_FLASH_PAGE_SIZE)
+ 268              		.loc 1 77 3 is_stmt 1 view .LVU76
+ 269              		.loc 1 77 5 is_stmt 0 view .LVU77
+ 270 00f2 B0F5807F 		cmp	r0, #256
+ 271 00f6 17D1     		bne	.L17
+ 272              	.LVL37:
+ 273              	.L7:
+  78:../../../core/platform/common/src/flash_config.c ****   {
+  79:../../../core/platform/common/src/flash_config.c ****     printERR("Flash operation NOK: %d\r\n", retval);
+  80:../../../core/platform/common/src/flash_config.c ****   }
+  81:../../../core/platform/common/src/flash_config.c ****   printDBG("Flash after erase\r\n");
+ 274              		.loc 1 81 3 is_stmt 1 view .LVU78
+ 275 00f8 2748     		ldr	r0, .L19+24
+ 276 00fa FFF7FEFF 		bl	printDBG
+ 277              	.LVL38:
+  82:../../../core/platform/common/src/flash_config.c ****   #if DEBUG
+  83:../../../core/platform/common/src/flash_config.c ****     for (uint16_t i = 0; i < OCTA_FLASH_PAGE_SIZE; ++i) {
+  84:../../../core/platform/common/src/flash_config.c ****       printf("%02x", rxbuffer[i]);
+  85:../../../core/platform/common/src/flash_config.c ****     }
+  86:../../../core/platform/common/src/flash_config.c ****     printf("\r\n");
+ARM GAS  /tmp/ccIGsKZA.s 			page 8
+
+
+  87:../../../core/platform/common/src/flash_config.c ****   #endif
+  88:../../../core/platform/common/src/flash_config.c **** 
+  89:../../../core/platform/common/src/flash_config.c ****   printDBG("Writing updated configuration to flash:\r\n");
+ 278              		.loc 1 89 3 view .LVU79
+ 279 00fe 2748     		ldr	r0, .L19+28
+ 280 0100 FFF7FEFF 		bl	printDBG
+ 281              	.LVL39:
+  90:../../../core/platform/common/src/flash_config.c ****   #if DEBUG
+  91:../../../core/platform/common/src/flash_config.c ****     for (uint16_t i = 0; i < OCTA_FLASH_PAGE_SIZE; ++i) {
+  92:../../../core/platform/common/src/flash_config.c ****       printf("%02x", flashBuffer[i]);
+  93:../../../core/platform/common/src/flash_config.c ****     }
+  94:../../../core/platform/common/src/flash_config.c ****     printf("\r\n");
+  95:../../../core/platform/common/src/flash_config.c ****   #endif
+  96:../../../core/platform/common/src/flash_config.c ****   
+  97:../../../core/platform/common/src/flash_config.c ****   retval =  OCTA_FLASH_write(flashBuffer, OCTA_FLASH_PAGE_SIZE);
+ 282              		.loc 1 97 3 view .LVU80
+ 283              		.loc 1 97 13 is_stmt 0 view .LVU81
+ 284 0104 4FF48071 		mov	r1, #256
+ 285 0108 0DEB0100 		add	r0, sp, r1
+ 286 010c FFF7FEFF 		bl	OCTA_FLASH_write
+ 287              	.LVL40:
+ 288 0110 0446     		mov	r4, r0
+ 289              	.LVL41:
+  98:../../../core/platform/common/src/flash_config.c ****   HAL_Delay(50);
+ 290              		.loc 1 98 3 is_stmt 1 view .LVU82
+ 291 0112 3220     		movs	r0, #50
+ 292              	.LVL42:
+ 293              		.loc 1 98 3 is_stmt 0 view .LVU83
+ 294 0114 FFF7FEFF 		bl	HAL_Delay
+ 295              	.LVL43:
+  99:../../../core/platform/common/src/flash_config.c ****   if(retval != OCTA_FLASH_PAGE_SIZE)
+ 296              		.loc 1 99 3 is_stmt 1 view .LVU84
+ 297              		.loc 1 99 5 is_stmt 0 view .LVU85
+ 298 0118 B4F5807F 		cmp	r4, #256
+ 299 011c 0FD0     		beq	.L9
+ 300              	.LBB5:
+ 100:../../../core/platform/common/src/flash_config.c ****   {
+ 101:../../../core/platform/common/src/flash_config.c ****     printERR("Flash operation NOK: %d\r\n", retval);
+ 301              		.loc 1 101 5 is_stmt 1 view .LVU86
+ 302 011e 2146     		mov	r1, r4
+ 303 0120 1C48     		ldr	r0, .L19+20
+ 304 0122 FFF7FEFF 		bl	printERR
+ 305              	.LVL44:
+ 306 0126 0AE0     		b	.L9
+ 307              	.LVL45:
+ 308              	.L17:
+ 309              		.loc 1 101 5 is_stmt 0 view .LVU87
+ 310              	.LBE5:
+ 311              	.LBB6:
+  79:../../../core/platform/common/src/flash_config.c ****   }
+ 312              		.loc 1 79 5 is_stmt 1 view .LVU88
+ 313 0128 0146     		mov	r1, r0
+ 314 012a 1A48     		ldr	r0, .L19+20
+ 315              	.LVL46:
+  79:../../../core/platform/common/src/flash_config.c ****   }
+ 316              		.loc 1 79 5 is_stmt 0 view .LVU89
+ 317 012c FFF7FEFF 		bl	printERR
+ARM GAS  /tmp/ccIGsKZA.s 			page 9
+
+
+ 318              	.LVL47:
+  79:../../../core/platform/common/src/flash_config.c ****   }
+ 319              		.loc 1 79 5 view .LVU90
+ 320 0130 E2E7     		b	.L7
+ 321              	.LVL48:
+ 322              	.L10:
+  79:../../../core/platform/common/src/flash_config.c ****   }
+ 323              		.loc 1 79 5 view .LVU91
+ 324              	.LBE6:
+ 102:../../../core/platform/common/src/flash_config.c ****   }
+ 103:../../../core/platform/common/src/flash_config.c ****   while(OCTA_FLASH_isWriteInProgress())
+ 104:../../../core/platform/common/src/flash_config.c ****   {
+ 105:../../../core/platform/common/src/flash_config.c ****         printDBG("Write in progress\r\n");
+ 325              		.loc 1 105 9 is_stmt 1 view .LVU92
+ 326 0132 1648     		ldr	r0, .L19+12
+ 327 0134 FFF7FEFF 		bl	printDBG
+ 328              	.LVL49:
+ 106:../../../core/platform/common/src/flash_config.c ****         HAL_Delay(50);
+ 329              		.loc 1 106 9 view .LVU93
+ 330 0138 3220     		movs	r0, #50
+ 331 013a FFF7FEFF 		bl	HAL_Delay
+ 332              	.LVL50:
+ 333              	.L9:
+ 103:../../../core/platform/common/src/flash_config.c ****   {
+ 334              		.loc 1 103 8 view .LVU94
+ 103:../../../core/platform/common/src/flash_config.c ****   {
+ 335              		.loc 1 103 9 is_stmt 0 view .LVU95
+ 336 013e FFF7FEFF 		bl	OCTA_FLASH_isWriteInProgress
+ 337              	.LVL51:
+ 103:../../../core/platform/common/src/flash_config.c ****   {
+ 338              		.loc 1 103 8 view .LVU96
+ 339 0142 0028     		cmp	r0, #0
+ 340 0144 F5D1     		bne	.L10
+ 107:../../../core/platform/common/src/flash_config.c ****   }
+ 108:../../../core/platform/common/src/flash_config.c ****   memset(flashBuffer, 0, OCTA_FLASH_PAGE_SIZE);
+ 341              		.loc 1 108 3 is_stmt 1 view .LVU97
+ 342 0146 4FF48074 		mov	r4, #256
+ 343              	.LVL52:
+ 344              		.loc 1 108 3 is_stmt 0 view .LVU98
+ 345 014a 2246     		mov	r2, r4
+ 346 014c 0021     		movs	r1, #0
+ 347 014e 0DEB0400 		add	r0, sp, r4
+ 348 0152 FFF7FEFF 		bl	memset
+ 349              	.LVL53:
+ 109:../../../core/platform/common/src/flash_config.c ****   retval = OCTA_FLASH_read(flashBuffer, OCTA_FLASH_PAGE_SIZE);
+ 350              		.loc 1 109 3 is_stmt 1 view .LVU99
+ 351              		.loc 1 109 12 is_stmt 0 view .LVU100
+ 352 0156 2146     		mov	r1, r4
+ 353 0158 0DEB0400 		add	r0, sp, r4
+ 354 015c FFF7FEFF 		bl	OCTA_FLASH_read
+ 355              	.LVL54:
+ 356 0160 0446     		mov	r4, r0
+ 357              	.LVL55:
+ 110:../../../core/platform/common/src/flash_config.c ****   if(retval != OCTA_FLASH_PAGE_SIZE)
+ 358              		.loc 1 110 3 is_stmt 1 view .LVU101
+ 359              		.loc 1 110 5 is_stmt 0 view .LVU102
+ 360 0162 B0F5807F 		cmp	r0, #256
+ARM GAS  /tmp/ccIGsKZA.s 			page 10
+
+
+ 361 0166 06D1     		bne	.L18
+ 362              	.LVL56:
+ 363              	.L11:
+ 111:../../../core/platform/common/src/flash_config.c ****   {
+ 112:../../../core/platform/common/src/flash_config.c ****     printERR("Flash operation NOK: %d\r\n", retval);
+ 113:../../../core/platform/common/src/flash_config.c ****   }
+ 114:../../../core/platform/common/src/flash_config.c ****   printDBG("Flash after new config\r\n");
+ 364              		.loc 1 114 3 is_stmt 1 view .LVU103
+ 365 0168 0D48     		ldr	r0, .L19+32
+ 366 016a FFF7FEFF 		bl	printDBG
+ 367              	.LVL57:
+ 115:../../../core/platform/common/src/flash_config.c ****   #if DEBUG
+ 116:../../../core/platform/common/src/flash_config.c ****     for (uint16_t i = 0; i < OCTA_FLASH_PAGE_SIZE; ++i) {
+ 117:../../../core/platform/common/src/flash_config.c ****       printf("%02x", flashBuffer[i]);
+ 118:../../../core/platform/common/src/flash_config.c ****     }
+ 119:../../../core/platform/common/src/flash_config.c ****     printf("\r\n");
+ 120:../../../core/platform/common/src/flash_config.c ****   #endif
+ 121:../../../core/platform/common/src/flash_config.c ****   return retval;
+ 368              		.loc 1 121 3 view .LVU104
+ 122:../../../core/platform/common/src/flash_config.c **** }...
+ 369              		.loc 1 122 1 is_stmt 0 view .LVU105
+ 370 016e E0B2     		uxtb	r0, r4
+ 371 0170 0DF5007D 		add	sp, sp, #512
+ 372              	.LCFI2:
+ 373              		.cfi_remember_state
+ 374              		.cfi_def_cfa_offset 8
+ 375              		@ sp needed
+ 376 0174 10BD     		pop	{r4, pc}
+ 377              	.LVL58:
+ 378              	.L18:
+ 379              	.LCFI3:
+ 380              		.cfi_restore_state
+ 381              	.LBB7:
+ 112:../../../core/platform/common/src/flash_config.c ****     printERR("Flash operation NOK: %d\r\n", retval);
+ 382              		.loc 1 112 5 is_stmt 1 view .LVU106
+ 383 0176 0146     		mov	r1, r0
+ 384 0178 0648     		ldr	r0, .L19+20
+ 385              	.LVL59:
+ 112:../../../core/platform/common/src/flash_config.c ****     printERR("Flash operation NOK: %d\r\n", retval);
+ 386              		.loc 1 112 5 is_stmt 0 view .LVU107
+ 387 017a FFF7FEFF 		bl	printERR
+ 388              	.LVL60:
+ 389 017e F3E7     		b	.L11
+ 390              	.L20:
+ 391              		.align	2
+ 392              	.L19:
+ 393 0180 30000000 		.word	.LC2
+ 394 0184 00000000 		.word	int32LittleEndian
+ 395 0188 00000000 		.word	uint32LittleEndian
+ 396 018c 50000000 		.word	.LC3
+ 397 0190 00000000 		.word	.LC0
+ 398 0194 14000000 		.word	.LC1
+ 399 0198 64000000 		.word	.LC4
+ 400 019c 78000000 		.word	.LC5
+ 401 01a0 A4000000 		.word	.LC6
+ 402              	.LBE7:
+ 403              		.cfi_endproc
+ARM GAS  /tmp/ccIGsKZA.s 			page 11
+
+
+ 404              	.LFE123:
+ 406              		.comm	octa_uid,8,8
+ 407              		.comm	float_union,4,4
+ 408              		.comm	uint16LittleEndian,2,4
+ 409              		.comm	int16LittleEndian,2,4
+ 410              		.comm	uint32LittleEndian,4,4
+ 411              		.comm	int32LittleEndian,4,4
+ 412              		.text
+ 413              	.Letext0:
+ 414              		.file 2 "/usr/arm-none-eabi/include/machine/_default_types.h"
+ 415              		.file 3 "/usr/arm-none-eabi/include/sys/_stdint.h"
+ 416              		.file 4 "../../../core/ST/CMSIS/Include/core_cm4.h"
+ 417              		.file 5 "../../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/system_stm32l4xx.h"
+ 418              		.file 6 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h"
+ 419              		.file 7 "../../../core/platform/common/inc/datatypes.h"
+ 420              		.file 8 "<built-in>"
+ 421              		.file 9 "../../../core/drivers/octa-flash/inc/octa-flash.h"
+ARM GAS  /tmp/ccIGsKZA.s 			page 12
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 flash_config.c
+     /tmp/ccIGsKZA.s:18     .rodata.update_flash_configuration.str1.4:0000000000000000 $d
+     /tmp/ccIGsKZA.s:40     .text.update_flash_configuration:0000000000000000 $t
+     /tmp/ccIGsKZA.s:48     .text.update_flash_configuration:0000000000000000 update_flash_configuration
+     /tmp/ccIGsKZA.s:393    .text.update_flash_configuration:0000000000000180 $d
+                            *COM*:0000000000000004 int32LittleEndian
+                            *COM*:0000000000000004 uint32LittleEndian
+                            *COM*:0000000000000008 octa_uid
+                            *COM*:0000000000000004 float_union
+                            *COM*:0000000000000002 uint16LittleEndian
+                            *COM*:0000000000000002 int16LittleEndian
+
+UNDEFINED SYMBOLS
+memset
+OCTA_FLASH_openConfigSector
+OCTA_FLASH_read
+printDBG
+OCTA_FLASH_eraseConfigSector
+OCTA_FLASH_isWriteInProgress
+HAL_Delay
+printERR
+OCTA_FLASH_write

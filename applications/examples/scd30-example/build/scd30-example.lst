@@ -1,0 +1,595 @@
+ARM GAS  /tmp/ccJdlOsm.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 28, 1
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.file	"scd30-example.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.rodata.co2_measurement.str1.4,"aMS",%progbits,1
+  18              		.align	2
+  19              	.LC0:
+  20 0000 53434433 		.ascii	"SCD30 sensor probing failed\000"
+  20      30207365 
+  20      6E736F72 
+  20      2070726F 
+  20      62696E67 
+  21              		.align	2
+  22              	.LC1:
+  23 001c 4572726F 		.ascii	"Error reading data_ready flag: %i\012\000"
+  23      72207265 
+  23      6164696E 
+  23      67206461 
+  23      74615F72 
+  24 003f 00       		.align	2
+  25              	.LC2:
+  26 0040 6572726F 		.ascii	"error reading measurement\000"
+  26      72207265 
+  26      6164696E 
+  26      67206D65 
+  26      61737572 
+  27              		.global	__aeabi_f2d
+  28 005a 0000     		.align	2
+  29              	.LC3:
+  30 005c 6D656173 		.ascii	"measured co2 concentration: %0.2f ppm, measured tem"
+  30      75726564 
+  30      20636F32 
+  30      20636F6E 
+  30      63656E74 
+  31 008f 70657261 		.ascii	"perature: %0.2f degreeCelsius, measured humidity: %"
+  31      74757265 
+  31      3A202530 
+  31      2E326620 
+  31      64656772 
+  32 00c2 302E3266 		.ascii	"0.2f %%RH\012\000"
+  32      20252552 
+  32      480A00
+  33              		.section	.text.co2_measurement,"ax",%progbits
+  34              		.align	1
+  35              		.global	co2_measurement
+ARM GAS  /tmp/ccJdlOsm.s 			page 2
+
+
+  36              		.arch armv7e-m
+  37              		.syntax unified
+  38              		.thumb
+  39              		.thumb_func
+  40              		.fpu fpv4-sp-d16
+  42              	co2_measurement:
+  43              	.LFB132:
+  44              		.file 1 "../../applications/examples/scd30-example/src/scd30-example.c"
+   1:../../applications/examples/scd30-example/src/scd30-example.c **** #include "scd30-example.h"
+   2:../../applications/examples/scd30-example/src/scd30-example.c **** #include "scd30.h"
+   3:../../applications/examples/scd30-example/src/scd30-example.c **** 
+   4:../../applications/examples/scd30-example/src/scd30-example.c **** #define co2_timer    5
+   5:../../applications/examples/scd30-example/src/scd30-example.c **** 
+   6:../../applications/examples/scd30-example/src/scd30-example.c **** osTimerId co2_timer_id;
+   7:../../applications/examples/scd30-example/src/scd30-example.c **** float co2_ppm, temperature, relative_humidity;
+   8:../../applications/examples/scd30-example/src/scd30-example.c **** 
+   9:../../applications/examples/scd30-example/src/scd30-example.c **** int main(void)
+  10:../../applications/examples/scd30-example/src/scd30-example.c **** {
+  11:../../applications/examples/scd30-example/src/scd30-example.c ****   Initialize_Platform();
+  12:../../applications/examples/scd30-example/src/scd30-example.c **** 
+  13:../../applications/examples/scd30-example/src/scd30-example.c ****   scd30_Initialize();
+  14:../../applications/examples/scd30-example/src/scd30-example.c **** 
+  15:../../applications/examples/scd30-example/src/scd30-example.c ****   scd30_set_measurement_interval(1);
+  16:../../applications/examples/scd30-example/src/scd30-example.c ****   sensirion_sleep_usec(20000u);
+  17:../../applications/examples/scd30-example/src/scd30-example.c ****   scd30_start_periodic_measurement(0);
+  18:../../applications/examples/scd30-example/src/scd30-example.c **** 
+  19:../../applications/examples/scd30-example/src/scd30-example.c ****   //feed IWDG every 5 seconds
+  20:../../applications/examples/scd30-example/src/scd30-example.c ****   IWDG_feed(NULL);
+  21:../../applications/examples/scd30-example/src/scd30-example.c ****   osTimerDef(iwdgTim, IWDG_feed);
+  22:../../applications/examples/scd30-example/src/scd30-example.c ****   iwdgTimId = osTimerCreate(osTimer(iwdgTim), osTimerPeriodic, NULL);
+  23:../../applications/examples/scd30-example/src/scd30-example.c ****   osTimerStart(iwdgTimId, 5 * 1000);
+  24:../../applications/examples/scd30-example/src/scd30-example.c **** 
+  25:../../applications/examples/scd30-example/src/scd30-example.c ****   osTimerDef(co2_Tim, co2_measurement);
+  26:../../applications/examples/scd30-example/src/scd30-example.c ****   co2_timer_id = osTimerCreate(osTimer(co2_Tim), osTimerPeriodic, NULL);
+  27:../../applications/examples/scd30-example/src/scd30-example.c ****   osTimerStart(co2_timer_id, co2_timer * 1000);
+  28:../../applications/examples/scd30-example/src/scd30-example.c **** 
+  29:../../applications/examples/scd30-example/src/scd30-example.c ****   osKernelStart();
+  30:../../applications/examples/scd30-example/src/scd30-example.c **** 
+  31:../../applications/examples/scd30-example/src/scd30-example.c ****   while (1)
+  32:../../applications/examples/scd30-example/src/scd30-example.c ****   {
+  33:../../applications/examples/scd30-example/src/scd30-example.c ****   }
+  34:../../applications/examples/scd30-example/src/scd30-example.c **** }
+  35:../../applications/examples/scd30-example/src/scd30-example.c **** 
+  36:../../applications/examples/scd30-example/src/scd30-example.c **** void co2_measurement(void)
+  37:../../applications/examples/scd30-example/src/scd30-example.c **** {
+  45              		.loc 1 37 1 view -0
+  46              		.cfi_startproc
+  47              		@ args = 0, pretend = 0, frame = 8
+  48              		@ frame_needed = 0, uses_anonymous_args = 0
+  49 0000 30B5     		push	{r4, r5, lr}
+  50              	.LCFI0:
+  51              		.cfi_def_cfa_offset 12
+  52              		.cfi_offset 4, -12
+  53              		.cfi_offset 5, -8
+  54              		.cfi_offset 14, -4
+  55 0002 87B0     		sub	sp, sp, #28
+  56              	.LCFI1:
+ARM GAS  /tmp/ccJdlOsm.s 			page 3
+
+
+  57              		.cfi_def_cfa_offset 40
+  38:../../applications/examples/scd30-example/src/scd30-example.c ****     int16_t err;
+  58              		.loc 1 38 5 view .LVU1
+  39:../../applications/examples/scd30-example/src/scd30-example.c ****     if (scd30_probe() != NO_ERROR) {
+  59              		.loc 1 39 5 view .LVU2
+  60              		.loc 1 39 9 is_stmt 0 view .LVU3
+  61 0004 FFF7FEFF 		bl	scd30_probe
+  62              	.LVL0:
+  63              		.loc 1 39 8 view .LVU4
+  64 0008 50BB     		cbnz	r0, .L8
+  40:../../applications/examples/scd30-example/src/scd30-example.c ****       printf("SCD30 sensor probing failed\n");
+  41:../../applications/examples/scd30-example/src/scd30-example.c ****       return;
+  42:../../applications/examples/scd30-example/src/scd30-example.c ****     }
+  43:../../applications/examples/scd30-example/src/scd30-example.c **** 
+  44:../../applications/examples/scd30-example/src/scd30-example.c ****     uint16_t data_ready = 0;
+  65              		.loc 1 44 5 is_stmt 1 view .LVU5
+  66              		.loc 1 44 14 is_stmt 0 view .LVU6
+  67 000a 0023     		movs	r3, #0
+  68 000c ADF81630 		strh	r3, [sp, #22]	@ movhi
+  45:../../applications/examples/scd30-example/src/scd30-example.c ****     uint16_t timeout = 0;
+  69              		.loc 1 45 5 is_stmt 1 view .LVU7
+  70              	.LVL1:
+  46:../../applications/examples/scd30-example/src/scd30-example.c **** 
+  47:../../applications/examples/scd30-example/src/scd30-example.c ****     /* Poll data_ready flag until data is available. Allow 20% more than
+  48:../../applications/examples/scd30-example/src/scd30-example.c ****     * the measurement interval to account for clock imprecision of the
+  49:../../applications/examples/scd30-example/src/scd30-example.c ****     * sensor.
+  50:../../applications/examples/scd30-example/src/scd30-example.c ****     */
+  51:../../applications/examples/scd30-example/src/scd30-example.c ****     err = scd30_get_data_ready(&data_ready);
+  71              		.loc 1 51 5 view .LVU8
+  72              		.loc 1 51 11 is_stmt 0 view .LVU9
+  73 0010 0DF11600 		add	r0, sp, #22
+  74 0014 FFF7FEFF 		bl	scd30_get_data_ready
+  75              	.LVL2:
+  52:../../applications/examples/scd30-example/src/scd30-example.c ****     if (err != NO_ERROR) {
+  76              		.loc 1 52 5 is_stmt 1 view .LVU10
+  77              		.loc 1 52 8 is_stmt 0 view .LVU11
+  78 0018 0146     		mov	r1, r0
+  79 001a 28BB     		cbnz	r0, .L9
+  80              	.LVL3:
+  81              	.L4:
+  53:../../applications/examples/scd30-example/src/scd30-example.c ****         printf("Error reading data_ready flag: %i\n", err);
+  54:../../applications/examples/scd30-example/src/scd30-example.c ****     }
+  55:../../applications/examples/scd30-example/src/scd30-example.c **** 
+  56:../../applications/examples/scd30-example/src/scd30-example.c ****     /* Measure co2, temperature and relative humidity and store into
+  57:../../applications/examples/scd30-example/src/scd30-example.c ****       * variables.
+  58:../../applications/examples/scd30-example/src/scd30-example.c ****       */
+  59:../../applications/examples/scd30-example/src/scd30-example.c ****     err = scd30_read_measurement(&co2_ppm, &temperature, &relative_humidity);
+  82              		.loc 1 59 5 is_stmt 1 view .LVU12
+  83              		.loc 1 59 11 is_stmt 0 view .LVU13
+  84 001c 164A     		ldr	r2, .L11
+  85 001e 1749     		ldr	r1, .L11+4
+  86 0020 1748     		ldr	r0, .L11+8
+  87 0022 FFF7FEFF 		bl	scd30_read_measurement
+  88              	.LVL4:
+  60:../../applications/examples/scd30-example/src/scd30-example.c ****     if (err != NO_ERROR) {
+  89              		.loc 1 60 5 is_stmt 1 view .LVU14
+  90              		.loc 1 60 8 is_stmt 0 view .LVU15
+ARM GAS  /tmp/ccJdlOsm.s 			page 4
+
+
+  91 0026 18BB     		cbnz	r0, .L10
+  61:../../applications/examples/scd30-example/src/scd30-example.c ****         printf("error reading measurement\n");
+  62:../../applications/examples/scd30-example/src/scd30-example.c ****         return;
+  63:../../applications/examples/scd30-example/src/scd30-example.c ****     } else {
+  64:../../applications/examples/scd30-example/src/scd30-example.c ****         printf("measured co2 concentration: %0.2f ppm, "
+  92              		.loc 1 64 9 is_stmt 1 view .LVU16
+  93 0028 154B     		ldr	r3, .L11+8
+  94 002a 1868     		ldr	r0, [r3]	@ float
+  95              	.LVL5:
+  96              		.loc 1 64 9 is_stmt 0 view .LVU17
+  97 002c FFF7FEFF 		bl	__aeabi_f2d
+  98              	.LVL6:
+  99 0030 0446     		mov	r4, r0
+ 100 0032 0D46     		mov	r5, r1
+ 101 0034 104B     		ldr	r3, .L11
+ 102 0036 1868     		ldr	r0, [r3]	@ float
+ 103 0038 FFF7FEFF 		bl	__aeabi_f2d
+ 104              	.LVL7:
+ 105 003c CDE90201 		strd	r0, [sp, #8]
+ 106 0040 0E4B     		ldr	r3, .L11+4
+ 107 0042 1868     		ldr	r0, [r3]	@ float
+ 108 0044 FFF7FEFF 		bl	__aeabi_f2d
+ 109              	.LVL8:
+ 110 0048 CDE90001 		strd	r0, [sp]
+ 111 004c 2246     		mov	r2, r4
+ 112 004e 2B46     		mov	r3, r5
+ 113 0050 0C48     		ldr	r0, .L11+12
+ 114 0052 FFF7FEFF 		bl	printf
+ 115              	.LVL9:
+  65:../../applications/examples/scd30-example/src/scd30-example.c ****                 "measured temperature: %0.2f degreeCelsius, "
+  66:../../applications/examples/scd30-example/src/scd30-example.c ****                 "measured humidity: %0.2f %%RH\n",
+  67:../../applications/examples/scd30-example/src/scd30-example.c ****                 co2_ppm, temperature, relative_humidity);
+  68:../../applications/examples/scd30-example/src/scd30-example.c ****     }
+  69:../../applications/examples/scd30-example/src/scd30-example.c ****     osDelay(1);
+ 116              		.loc 1 69 5 is_stmt 1 view .LVU18
+ 117 0056 0120     		movs	r0, #1
+ 118 0058 FFF7FEFF 		bl	osDelay
+ 119              	.LVL10:
+ 120              	.L1:
+  70:../../applications/examples/scd30-example/src/scd30-example.c **** }
+ 121              		.loc 1 70 1 is_stmt 0 view .LVU19
+ 122 005c 07B0     		add	sp, sp, #28
+ 123              	.LCFI2:
+ 124              		.cfi_remember_state
+ 125              		.cfi_def_cfa_offset 12
+ 126              		@ sp needed
+ 127 005e 30BD     		pop	{r4, r5, pc}
+ 128              	.L8:
+ 129              	.LCFI3:
+ 130              		.cfi_restore_state
+  40:../../applications/examples/scd30-example/src/scd30-example.c ****       return;
+ 131              		.loc 1 40 7 is_stmt 1 view .LVU20
+ 132 0060 0948     		ldr	r0, .L11+16
+ 133 0062 FFF7FEFF 		bl	puts
+ 134              	.LVL11:
+  41:../../applications/examples/scd30-example/src/scd30-example.c ****     }
+ 135              		.loc 1 41 7 view .LVU21
+ARM GAS  /tmp/ccJdlOsm.s 			page 5
+
+
+ 136 0066 F9E7     		b	.L1
+ 137              	.LVL12:
+ 138              	.L9:
+  53:../../applications/examples/scd30-example/src/scd30-example.c ****     }
+ 139              		.loc 1 53 9 view .LVU22
+ 140 0068 0848     		ldr	r0, .L11+20
+ 141              	.LVL13:
+  53:../../applications/examples/scd30-example/src/scd30-example.c ****     }
+ 142              		.loc 1 53 9 is_stmt 0 view .LVU23
+ 143 006a FFF7FEFF 		bl	printf
+ 144              	.LVL14:
+ 145 006e D5E7     		b	.L4
+ 146              	.LVL15:
+ 147              	.L10:
+  61:../../applications/examples/scd30-example/src/scd30-example.c ****         return;
+ 148              		.loc 1 61 9 is_stmt 1 view .LVU24
+ 149 0070 0748     		ldr	r0, .L11+24
+ 150              	.LVL16:
+  61:../../applications/examples/scd30-example/src/scd30-example.c ****         return;
+ 151              		.loc 1 61 9 is_stmt 0 view .LVU25
+ 152 0072 FFF7FEFF 		bl	puts
+ 153              	.LVL17:
+  62:../../applications/examples/scd30-example/src/scd30-example.c ****     } else {
+ 154              		.loc 1 62 9 is_stmt 1 view .LVU26
+ 155 0076 F1E7     		b	.L1
+ 156              	.L12:
+ 157              		.align	2
+ 158              	.L11:
+ 159 0078 00000000 		.word	relative_humidity
+ 160 007c 00000000 		.word	temperature
+ 161 0080 00000000 		.word	co2_ppm
+ 162 0084 5C000000 		.word	.LC3
+ 163 0088 00000000 		.word	.LC0
+ 164 008c 1C000000 		.word	.LC1
+ 165 0090 40000000 		.word	.LC2
+ 166              		.cfi_endproc
+ 167              	.LFE132:
+ 169              		.section	.text.main,"ax",%progbits
+ 170              		.align	1
+ 171              		.global	main
+ 172              		.syntax unified
+ 173              		.thumb
+ 174              		.thumb_func
+ 175              		.fpu fpv4-sp-d16
+ 177              	main:
+ 178              	.LFB131:
+  10:../../applications/examples/scd30-example/src/scd30-example.c ****   Initialize_Platform();
+ 179              		.loc 1 10 1 view -0
+ 180              		.cfi_startproc
+ 181              		@ Volatile: function does not return.
+ 182              		@ args = 0, pretend = 0, frame = 8
+ 183              		@ frame_needed = 0, uses_anonymous_args = 0
+ 184 0000 00B5     		push	{lr}
+ 185              	.LCFI4:
+ 186              		.cfi_def_cfa_offset 4
+ 187              		.cfi_offset 14, -4
+ 188 0002 83B0     		sub	sp, sp, #12
+ARM GAS  /tmp/ccJdlOsm.s 			page 6
+
+
+ 189              	.LCFI5:
+ 190              		.cfi_def_cfa_offset 16
+  11:../../applications/examples/scd30-example/src/scd30-example.c **** 
+ 191              		.loc 1 11 3 view .LVU28
+ 192 0004 FFF7FEFF 		bl	Initialize_Platform
+ 193              	.LVL18:
+  13:../../applications/examples/scd30-example/src/scd30-example.c **** 
+ 194              		.loc 1 13 3 view .LVU29
+ 195 0008 FFF7FEFF 		bl	scd30_Initialize
+ 196              	.LVL19:
+  15:../../applications/examples/scd30-example/src/scd30-example.c ****   sensirion_sleep_usec(20000u);
+ 197              		.loc 1 15 3 view .LVU30
+ 198 000c 0120     		movs	r0, #1
+ 199 000e FFF7FEFF 		bl	scd30_set_measurement_interval
+ 200              	.LVL20:
+  16:../../applications/examples/scd30-example/src/scd30-example.c ****   scd30_start_periodic_measurement(0);
+ 201              		.loc 1 16 3 view .LVU31
+ 202 0012 44F62060 		movw	r0, #20000
+ 203 0016 FFF7FEFF 		bl	sensirion_sleep_usec
+ 204              	.LVL21:
+  17:../../applications/examples/scd30-example/src/scd30-example.c **** 
+ 205              		.loc 1 17 3 view .LVU32
+ 206 001a 0020     		movs	r0, #0
+ 207 001c FFF7FEFF 		bl	scd30_start_periodic_measurement
+ 208              	.LVL22:
+  20:../../applications/examples/scd30-example/src/scd30-example.c ****   osTimerDef(iwdgTim, IWDG_feed);
+ 209              		.loc 1 20 3 view .LVU33
+ 210 0020 0020     		movs	r0, #0
+ 211 0022 FFF7FEFF 		bl	IWDG_feed
+ 212              	.LVL23:
+  21:../../applications/examples/scd30-example/src/scd30-example.c ****   iwdgTimId = osTimerCreate(osTimer(iwdgTim), osTimerPeriodic, NULL);
+ 213              		.loc 1 21 3 view .LVU34
+ 214 0026 0E4B     		ldr	r3, .L16
+ 215 0028 0193     		str	r3, [sp, #4]
+  22:../../applications/examples/scd30-example/src/scd30-example.c ****   osTimerStart(iwdgTimId, 5 * 1000);
+ 216              		.loc 1 22 3 view .LVU35
+  22:../../applications/examples/scd30-example/src/scd30-example.c ****   osTimerStart(iwdgTimId, 5 * 1000);
+ 217              		.loc 1 22 15 is_stmt 0 view .LVU36
+ 218 002a 0022     		movs	r2, #0
+ 219 002c 0121     		movs	r1, #1
+ 220 002e 01A8     		add	r0, sp, #4
+ 221 0030 FFF7FEFF 		bl	osTimerCreate
+ 222              	.LVL24:
+  22:../../applications/examples/scd30-example/src/scd30-example.c ****   osTimerStart(iwdgTimId, 5 * 1000);
+ 223              		.loc 1 22 13 view .LVU37
+ 224 0034 0B4B     		ldr	r3, .L16+4
+ 225 0036 1860     		str	r0, [r3]
+  23:../../applications/examples/scd30-example/src/scd30-example.c **** 
+ 226              		.loc 1 23 3 is_stmt 1 view .LVU38
+ 227 0038 41F28831 		movw	r1, #5000
+ 228 003c FFF7FEFF 		bl	osTimerStart
+ 229              	.LVL25:
+  25:../../applications/examples/scd30-example/src/scd30-example.c ****   co2_timer_id = osTimerCreate(osTimer(co2_Tim), osTimerPeriodic, NULL);
+ 230              		.loc 1 25 3 view .LVU39
+ 231 0040 094B     		ldr	r3, .L16+8
+ 232 0042 0093     		str	r3, [sp]
+  26:../../applications/examples/scd30-example/src/scd30-example.c ****   osTimerStart(co2_timer_id, co2_timer * 1000);
+ARM GAS  /tmp/ccJdlOsm.s 			page 7
+
+
+ 233              		.loc 1 26 3 view .LVU40
+  26:../../applications/examples/scd30-example/src/scd30-example.c ****   osTimerStart(co2_timer_id, co2_timer * 1000);
+ 234              		.loc 1 26 18 is_stmt 0 view .LVU41
+ 235 0044 0022     		movs	r2, #0
+ 236 0046 0121     		movs	r1, #1
+ 237 0048 6846     		mov	r0, sp
+ 238 004a FFF7FEFF 		bl	osTimerCreate
+ 239              	.LVL26:
+  26:../../applications/examples/scd30-example/src/scd30-example.c ****   osTimerStart(co2_timer_id, co2_timer * 1000);
+ 240              		.loc 1 26 16 view .LVU42
+ 241 004e 074B     		ldr	r3, .L16+12
+ 242 0050 1860     		str	r0, [r3]
+  27:../../applications/examples/scd30-example/src/scd30-example.c **** 
+ 243              		.loc 1 27 3 is_stmt 1 view .LVU43
+ 244 0052 41F28831 		movw	r1, #5000
+ 245 0056 FFF7FEFF 		bl	osTimerStart
+ 246              	.LVL27:
+  29:../../applications/examples/scd30-example/src/scd30-example.c **** 
+ 247              		.loc 1 29 3 view .LVU44
+ 248 005a FFF7FEFF 		bl	osKernelStart
+ 249              	.LVL28:
+ 250              	.L14:
+  31:../../applications/examples/scd30-example/src/scd30-example.c ****   {
+ 251              		.loc 1 31 3 discriminator 1 view .LVU45
+  33:../../applications/examples/scd30-example/src/scd30-example.c **** }
+ 252              		.loc 1 33 3 discriminator 1 view .LVU46
+  31:../../applications/examples/scd30-example/src/scd30-example.c ****   {
+ 253              		.loc 1 31 9 discriminator 1 view .LVU47
+ 254 005e FEE7     		b	.L14
+ 255              	.L17:
+ 256              		.align	2
+ 257              	.L16:
+ 258 0060 00000000 		.word	IWDG_feed
+ 259 0064 00000000 		.word	iwdgTimId
+ 260 0068 00000000 		.word	co2_measurement
+ 261 006c 00000000 		.word	co2_timer_id
+ 262              		.cfi_endproc
+ 263              	.LFE131:
+ 265              		.comm	relative_humidity,4,4
+ 266              		.comm	temperature,4,4
+ 267              		.comm	co2_ppm,4,4
+ 268              		.comm	co2_timer_id,4,4
+ 269              		.comm	iwdgTimId,4,4
+ 270              		.comm	P3_header,44,4
+ 271              		.comm	P2_header,44,4
+ 272              		.comm	P1_header,44,4
+ 273              		.comm	stackversion_patch,1,1
+ 274              		.comm	stackversion_minor,1,1
+ 275              		.comm	stackversion_major,1,1
+ 276              		.comm	appversion_patch,1,1
+ 277              		.comm	appversion_minor,1,1
+ 278              		.comm	appversion_major,1,1
+ 279              		.comm	short_UID,8,8
+ 280              		.comm	octa_uid,8,8
+ 281              		.comm	float_union,4,4
+ 282              		.comm	uint16LittleEndian,2,4
+ 283              		.comm	int16LittleEndian,2,4
+ARM GAS  /tmp/ccJdlOsm.s 			page 8
+
+
+ 284              		.comm	uint32LittleEndian,4,4
+ 285              		.comm	int32LittleEndian,4,4
+ 286              		.comm	rtosprintHandle,4,4
+ 287              		.comm	hrtc,36,4
+ 288              		.comm	FLASH_SPI,100,4
+ 289              		.comm	P3_SPI,100,4
+ 290              		.comm	P2_SPI,100,4
+ 291              		.comm	P1_SPI,100,4
+ 292              		.comm	P3_I2C,76,4
+ 293              		.comm	P2_I2C,76,4
+ 294              		.comm	P1_I2C,76,4
+ 295              		.comm	common_I2C,76,4
+ 296              		.comm	P3_UART,120,4
+ 297              		.comm	P2_UART,120,4
+ 298              		.comm	P1_UART,120,4
+ 299              		.comm	FTDI_UART,120,4
+ 300              		.comm	BLE_UART,120,4
+ 301              		.comm	USB_UART,120,4
+ 302              		.comm	hiwdg,16,4
+ 303              		.comm	P3_DIO6,8,4
+ 304              		.comm	P3_DIO5,8,4
+ 305              		.comm	P3_DIO4,8,4
+ 306              		.comm	P3_DIO3,8,4
+ 307              		.comm	P3_DIO2,8,4
+ 308              		.comm	P3_DIO1,8,4
+ 309              		.comm	P2_DIO6,8,4
+ 310              		.comm	P2_DIO5,8,4
+ 311              		.comm	P2_DIO4,8,4
+ 312              		.comm	P2_DIO3,8,4
+ 313              		.comm	P2_DIO2,8,4
+ 314              		.comm	P2_DIO1,8,4
+ 315              		.comm	P1_DIO6,8,4
+ 316              		.comm	P1_DIO5,8,4
+ 317              		.comm	P1_DIO4,8,4
+ 318              		.comm	P1_DIO3,8,4
+ 319              		.comm	P1_DIO2,8,4
+ 320              		.comm	P1_DIO1,8,4
+ 321              		.comm	htim6,64,4
+ 322              		.comm	htim1,64,4
+ 323              		.text
+ 324              	.Letext0:
+ 325              		.file 2 "/usr/arm-none-eabi/include/machine/_default_types.h"
+ 326              		.file 3 "/usr/arm-none-eabi/include/sys/_stdint.h"
+ 327              		.file 4 "../../core/ST/CMSIS/Include/core_cm4.h"
+ 328              		.file 5 "../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/system_stm32l4xx.h"
+ 329              		.file 6 "../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/stm32l496xx.h"
+ 330              		.file 7 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h"
+ 331              		.file 8 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_dma.h"
+ 332              		.file 9 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_i2c.h"
+ 333              		.file 10 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_iwdg.h"
+ 334              		.file 11 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rtc.h"
+ 335              		.file 12 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_spi.h"
+ 336              		.file 13 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_tim.h"
+ 337              		.file 14 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h"
+ 338              		.file 15 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h"
+ 339              		.file 16 "../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/include/task.h"
+ 340              		.file 17 "../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/include/timers.h"
+ARM GAS  /tmp/ccJdlOsm.s 			page 9
+
+
+ 341              		.file 18 "../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h"
+ 342              		.file 19 "../../core/platform/octa/inc/sysclock.h"
+ 343              		.file 20 "../../core/platform/octa/inc/gpio.h"
+ 344              		.file 21 "../../core/platform/octa/inc/iwdg.h"
+ 345              		.file 22 "../../core/platform/octa/inc/uart.h"
+ 346              		.file 23 "../../core/platform/octa/inc/i2c.h"
+ 347              		.file 24 "../../core/platform/octa/inc/spi.h"
+ 348              		.file 25 "../../core/platform/octa/inc/rtc.h"
+ 349              		.file 26 "../../core/platform/octa/inc/rtosincludes.h"
+ 350              		.file 27 "/usr/arm-none-eabi/include/sys/lock.h"
+ 351              		.file 28 "/usr/arm-none-eabi/include/sys/_types.h"
+ 352              		.file 29 "/usr/lib/gcc/arm-none-eabi/9.2.1/include/stddef.h"
+ 353              		.file 30 "/usr/arm-none-eabi/include/sys/reent.h"
+ 354              		.file 31 "../../core/platform/common/inc/datatypes.h"
+ 355              		.file 32 "../../core/platform/octa/inc/platform.h"
+ 356              		.file 33 "../../applications/examples/scd30-example/inc/scd30-example.h"
+ 357              		.file 34 "/usr/arm-none-eabi/include/stdlib.h"
+ 358              		.file 35 "../../shields/SCD30/inc/scd30.h"
+ 359              		.file 36 "/usr/arm-none-eabi/include/stdio.h"
+ 360              		.file 37 "../../shields/SCD30/inc/sensirion_i2c.h"
+ 361              		.file 38 "<built-in>"
+ARM GAS  /tmp/ccJdlOsm.s 			page 10
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 scd30-example.c
+     /tmp/ccJdlOsm.s:18     .rodata.co2_measurement.str1.4:0000000000000000 $d
+     /tmp/ccJdlOsm.s:34     .text.co2_measurement:0000000000000000 $t
+     /tmp/ccJdlOsm.s:42     .text.co2_measurement:0000000000000000 co2_measurement
+     /tmp/ccJdlOsm.s:159    .text.co2_measurement:0000000000000078 $d
+                            *COM*:0000000000000004 relative_humidity
+                            *COM*:0000000000000004 temperature
+                            *COM*:0000000000000004 co2_ppm
+     /tmp/ccJdlOsm.s:170    .text.main:0000000000000000 $t
+     /tmp/ccJdlOsm.s:177    .text.main:0000000000000000 main
+     /tmp/ccJdlOsm.s:258    .text.main:0000000000000060 $d
+                            *COM*:0000000000000004 iwdgTimId
+                            *COM*:0000000000000004 co2_timer_id
+                            *COM*:000000000000002c P3_header
+                            *COM*:000000000000002c P2_header
+                            *COM*:000000000000002c P1_header
+                            *COM*:0000000000000001 stackversion_patch
+                            *COM*:0000000000000001 stackversion_minor
+                            *COM*:0000000000000001 stackversion_major
+                            *COM*:0000000000000001 appversion_patch
+                            *COM*:0000000000000001 appversion_minor
+                            *COM*:0000000000000001 appversion_major
+                            *COM*:0000000000000008 short_UID
+                            *COM*:0000000000000008 octa_uid
+                            *COM*:0000000000000004 float_union
+                            *COM*:0000000000000002 uint16LittleEndian
+                            *COM*:0000000000000002 int16LittleEndian
+                            *COM*:0000000000000004 uint32LittleEndian
+                            *COM*:0000000000000004 int32LittleEndian
+                            *COM*:0000000000000004 rtosprintHandle
+                            *COM*:0000000000000024 hrtc
+                            *COM*:0000000000000064 FLASH_SPI
+                            *COM*:0000000000000064 P3_SPI
+                            *COM*:0000000000000064 P2_SPI
+                            *COM*:0000000000000064 P1_SPI
+                            *COM*:000000000000004c P3_I2C
+                            *COM*:000000000000004c P2_I2C
+                            *COM*:000000000000004c P1_I2C
+                            *COM*:000000000000004c common_I2C
+                            *COM*:0000000000000078 P3_UART
+                            *COM*:0000000000000078 P2_UART
+                            *COM*:0000000000000078 P1_UART
+                            *COM*:0000000000000078 FTDI_UART
+                            *COM*:0000000000000078 BLE_UART
+                            *COM*:0000000000000078 USB_UART
+                            *COM*:0000000000000010 hiwdg
+                            *COM*:0000000000000008 P3_DIO6
+                            *COM*:0000000000000008 P3_DIO5
+                            *COM*:0000000000000008 P3_DIO4
+                            *COM*:0000000000000008 P3_DIO3
+                            *COM*:0000000000000008 P3_DIO2
+                            *COM*:0000000000000008 P3_DIO1
+                            *COM*:0000000000000008 P2_DIO6
+                            *COM*:0000000000000008 P2_DIO5
+                            *COM*:0000000000000008 P2_DIO4
+                            *COM*:0000000000000008 P2_DIO3
+ARM GAS  /tmp/ccJdlOsm.s 			page 11
+
+
+                            *COM*:0000000000000008 P2_DIO2
+                            *COM*:0000000000000008 P2_DIO1
+                            *COM*:0000000000000008 P1_DIO6
+                            *COM*:0000000000000008 P1_DIO5
+                            *COM*:0000000000000008 P1_DIO4
+                            *COM*:0000000000000008 P1_DIO3
+                            *COM*:0000000000000008 P1_DIO2
+                            *COM*:0000000000000008 P1_DIO1
+                            *COM*:0000000000000040 htim6
+                            *COM*:0000000000000040 htim1
+
+UNDEFINED SYMBOLS
+__aeabi_f2d
+scd30_probe
+scd30_get_data_ready
+scd30_read_measurement
+printf
+osDelay
+puts
+Initialize_Platform
+scd30_Initialize
+scd30_set_measurement_interval
+sensirion_sleep_usec
+scd30_start_periodic_measurement
+IWDG_feed
+osTimerCreate
+osTimerStart
+osKernelStart

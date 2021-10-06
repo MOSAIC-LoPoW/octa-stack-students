@@ -1,0 +1,528 @@
+ARM GAS  /tmp/cc8VqdTc.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 28, 1
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.file	"spi.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.text.FLASH_SPI_Init,"ax",%progbits
+  18              		.align	1
+  19              		.global	FLASH_SPI_Init
+  20              		.arch armv7e-m
+  21              		.syntax unified
+  22              		.thumb
+  23              		.thumb_func
+  24              		.fpu fpv4-sp-d16
+  26              	FLASH_SPI_Init:
+  27              	.LFB131:
+  28              		.file 1 "../../core/platform/octa_stm/src/spi.c"
+   1:../../core/platform/octa_stm/src/spi.c **** #include "spi.h"
+   2:../../core/platform/octa_stm/src/spi.c **** #include "platform.h"
+   3:../../core/platform/octa_stm/src/spi.c **** 
+   4:../../core/platform/octa_stm/src/spi.c **** void FLASH_SPI_Init(void)
+   5:../../core/platform/octa_stm/src/spi.c **** {
+  29              		.loc 1 5 1 view -0
+  30              		.cfi_startproc
+  31              		@ args = 0, pretend = 0, frame = 0
+  32              		@ frame_needed = 0, uses_anonymous_args = 0
+  33 0000 08B5     		push	{r3, lr}
+  34              	.LCFI0:
+  35              		.cfi_def_cfa_offset 8
+  36              		.cfi_offset 3, -8
+  37              		.cfi_offset 14, -4
+   6:../../core/platform/octa_stm/src/spi.c ****   FLASH_SPI.Instance = SPI3;
+  38              		.loc 1 6 3 view .LVU1
+  39              		.loc 1 6 22 is_stmt 0 view .LVU2
+  40 0002 1048     		ldr	r0, .L5
+  41 0004 104B     		ldr	r3, .L5+4
+  42 0006 0360     		str	r3, [r0]
+   7:../../core/platform/octa_stm/src/spi.c ****   FLASH_SPI.Init.Mode = SPI_MODE_MASTER;
+  43              		.loc 1 7 3 is_stmt 1 view .LVU3
+  44              		.loc 1 7 23 is_stmt 0 view .LVU4
+  45 0008 4FF48273 		mov	r3, #260
+  46 000c 4360     		str	r3, [r0, #4]
+   8:../../core/platform/octa_stm/src/spi.c ****   FLASH_SPI.Init.Direction = SPI_DIRECTION_2LINES;
+  47              		.loc 1 8 3 is_stmt 1 view .LVU5
+  48              		.loc 1 8 28 is_stmt 0 view .LVU6
+  49 000e 0023     		movs	r3, #0
+  50 0010 8360     		str	r3, [r0, #8]
+ARM GAS  /tmp/cc8VqdTc.s 			page 2
+
+
+   9:../../core/platform/octa_stm/src/spi.c ****   FLASH_SPI.Init.DataSize = SPI_DATASIZE_8BIT;
+  51              		.loc 1 9 3 is_stmt 1 view .LVU7
+  52              		.loc 1 9 27 is_stmt 0 view .LVU8
+  53 0012 4FF4E062 		mov	r2, #1792
+  54 0016 C260     		str	r2, [r0, #12]
+  10:../../core/platform/octa_stm/src/spi.c ****   FLASH_SPI.Init.CLKPolarity = SPI_POLARITY_LOW;
+  55              		.loc 1 10 3 is_stmt 1 view .LVU9
+  56              		.loc 1 10 30 is_stmt 0 view .LVU10
+  57 0018 0361     		str	r3, [r0, #16]
+  11:../../core/platform/octa_stm/src/spi.c ****   FLASH_SPI.Init.CLKPhase = SPI_PHASE_1EDGE;
+  58              		.loc 1 11 3 is_stmt 1 view .LVU11
+  59              		.loc 1 11 27 is_stmt 0 view .LVU12
+  60 001a 4361     		str	r3, [r0, #20]
+  12:../../core/platform/octa_stm/src/spi.c ****   FLASH_SPI.Init.NSS = SPI_NSS_SOFT;
+  61              		.loc 1 12 3 is_stmt 1 view .LVU13
+  62              		.loc 1 12 22 is_stmt 0 view .LVU14
+  63 001c 4FF40072 		mov	r2, #512
+  64 0020 8261     		str	r2, [r0, #24]
+  13:../../core/platform/octa_stm/src/spi.c ****   FLASH_SPI.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_64;
+  65              		.loc 1 13 3 is_stmt 1 view .LVU15
+  66              		.loc 1 13 36 is_stmt 0 view .LVU16
+  67 0022 2822     		movs	r2, #40
+  68 0024 C261     		str	r2, [r0, #28]
+  14:../../core/platform/octa_stm/src/spi.c ****   FLASH_SPI.Init.FirstBit = SPI_FIRSTBIT_MSB;
+  69              		.loc 1 14 3 is_stmt 1 view .LVU17
+  70              		.loc 1 14 27 is_stmt 0 view .LVU18
+  71 0026 0362     		str	r3, [r0, #32]
+  15:../../core/platform/octa_stm/src/spi.c ****   FLASH_SPI.Init.TIMode = SPI_TIMODE_DISABLE;
+  72              		.loc 1 15 3 is_stmt 1 view .LVU19
+  73              		.loc 1 15 25 is_stmt 0 view .LVU20
+  74 0028 4362     		str	r3, [r0, #36]
+  16:../../core/platform/octa_stm/src/spi.c ****   FLASH_SPI.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
+  75              		.loc 1 16 3 is_stmt 1 view .LVU21
+  76              		.loc 1 16 33 is_stmt 0 view .LVU22
+  77 002a 8362     		str	r3, [r0, #40]
+  17:../../core/platform/octa_stm/src/spi.c ****   FLASH_SPI.Init.CRCPolynomial = 7;
+  78              		.loc 1 17 3 is_stmt 1 view .LVU23
+  79              		.loc 1 17 32 is_stmt 0 view .LVU24
+  80 002c 0722     		movs	r2, #7
+  81 002e C262     		str	r2, [r0, #44]
+  18:../../core/platform/octa_stm/src/spi.c ****   FLASH_SPI.Init.CRCLength = SPI_CRC_LENGTH_8BIT;//SPI_CRC_LENGTH_DATASIZE;
+  82              		.loc 1 18 3 is_stmt 1 view .LVU25
+  83              		.loc 1 18 28 is_stmt 0 view .LVU26
+  84 0030 0122     		movs	r2, #1
+  85 0032 0263     		str	r2, [r0, #48]
+  19:../../core/platform/octa_stm/src/spi.c ****   FLASH_SPI.Init.NSSPMode = SPI_NSS_PULSE_DISABLE;//SPI_NSS_PULSE_ENABLE;
+  86              		.loc 1 19 3 is_stmt 1 view .LVU27
+  87              		.loc 1 19 27 is_stmt 0 view .LVU28
+  88 0034 4363     		str	r3, [r0, #52]
+  20:../../core/platform/octa_stm/src/spi.c ****   if (HAL_SPI_Init(&FLASH_SPI) != HAL_OK)
+  89              		.loc 1 20 3 is_stmt 1 view .LVU29
+  90              		.loc 1 20 7 is_stmt 0 view .LVU30
+  91 0036 FFF7FEFF 		bl	HAL_SPI_Init
+  92              	.LVL0:
+  93              		.loc 1 20 6 view .LVU31
+  94 003a 00B9     		cbnz	r0, .L4
+  95              	.L1:
+ARM GAS  /tmp/cc8VqdTc.s 			page 3
+
+
+  21:../../core/platform/octa_stm/src/spi.c ****   {
+  22:../../core/platform/octa_stm/src/spi.c ****      Error_Handler();
+  23:../../core/platform/octa_stm/src/spi.c ****   }
+  24:../../core/platform/octa_stm/src/spi.c **** }
+  96              		.loc 1 24 1 view .LVU32
+  97 003c 08BD     		pop	{r3, pc}
+  98              	.L4:
+  22:../../core/platform/octa_stm/src/spi.c ****   }
+  99              		.loc 1 22 6 is_stmt 1 view .LVU33
+ 100 003e FFF7FEFF 		bl	Error_Handler
+ 101              	.LVL1:
+ 102              		.loc 1 24 1 is_stmt 0 view .LVU34
+ 103 0042 FBE7     		b	.L1
+ 104              	.L6:
+ 105              		.align	2
+ 106              	.L5:
+ 107 0044 00000000 		.word	FLASH_SPI
+ 108 0048 003C0040 		.word	1073757184
+ 109              		.cfi_endproc
+ 110              	.LFE131:
+ 112              		.section	.text.P1_SPI_Init,"ax",%progbits
+ 113              		.align	1
+ 114              		.global	P1_SPI_Init
+ 115              		.syntax unified
+ 116              		.thumb
+ 117              		.thumb_func
+ 118              		.fpu fpv4-sp-d16
+ 120              	P1_SPI_Init:
+ 121              	.LFB132:
+  25:../../core/platform/octa_stm/src/spi.c **** 
+  26:../../core/platform/octa_stm/src/spi.c **** void P1_SPI_Init(void)
+  27:../../core/platform/octa_stm/src/spi.c **** {
+ 122              		.loc 1 27 1 is_stmt 1 view -0
+ 123              		.cfi_startproc
+ 124              		@ args = 0, pretend = 0, frame = 0
+ 125              		@ frame_needed = 0, uses_anonymous_args = 0
+ 126 0000 08B5     		push	{r3, lr}
+ 127              	.LCFI1:
+ 128              		.cfi_def_cfa_offset 8
+ 129              		.cfi_offset 3, -8
+ 130              		.cfi_offset 14, -4
+  28:../../core/platform/octa_stm/src/spi.c ****   P1_SPI.Instance = SPI1;
+ 131              		.loc 1 28 3 view .LVU36
+ 132              		.loc 1 28 19 is_stmt 0 view .LVU37
+ 133 0002 1048     		ldr	r0, .L11
+ 134 0004 104B     		ldr	r3, .L11+4
+ 135 0006 0360     		str	r3, [r0]
+  29:../../core/platform/octa_stm/src/spi.c ****   P1_SPI.Init.Mode = SPI_MODE_MASTER;
+ 136              		.loc 1 29 3 is_stmt 1 view .LVU38
+ 137              		.loc 1 29 20 is_stmt 0 view .LVU39
+ 138 0008 4FF48273 		mov	r3, #260
+ 139 000c 4360     		str	r3, [r0, #4]
+  30:../../core/platform/octa_stm/src/spi.c ****   P1_SPI.Init.Direction = SPI_DIRECTION_2LINES;
+ 140              		.loc 1 30 3 is_stmt 1 view .LVU40
+ 141              		.loc 1 30 25 is_stmt 0 view .LVU41
+ 142 000e 0023     		movs	r3, #0
+ 143 0010 8360     		str	r3, [r0, #8]
+ARM GAS  /tmp/cc8VqdTc.s 			page 4
+
+
+  31:../../core/platform/octa_stm/src/spi.c ****   P1_SPI.Init.DataSize = SPI_DATASIZE_4BIT;
+ 144              		.loc 1 31 3 is_stmt 1 view .LVU42
+ 145              		.loc 1 31 24 is_stmt 0 view .LVU43
+ 146 0012 4FF44072 		mov	r2, #768
+ 147 0016 C260     		str	r2, [r0, #12]
+  32:../../core/platform/octa_stm/src/spi.c ****   P1_SPI.Init.CLKPolarity = SPI_POLARITY_LOW;
+ 148              		.loc 1 32 3 is_stmt 1 view .LVU44
+ 149              		.loc 1 32 27 is_stmt 0 view .LVU45
+ 150 0018 0361     		str	r3, [r0, #16]
+  33:../../core/platform/octa_stm/src/spi.c ****   P1_SPI.Init.CLKPhase = SPI_PHASE_1EDGE;
+ 151              		.loc 1 33 3 is_stmt 1 view .LVU46
+ 152              		.loc 1 33 24 is_stmt 0 view .LVU47
+ 153 001a 4361     		str	r3, [r0, #20]
+  34:../../core/platform/octa_stm/src/spi.c ****   P1_SPI.Init.NSS = SPI_NSS_SOFT;
+ 154              		.loc 1 34 3 is_stmt 1 view .LVU48
+ 155              		.loc 1 34 19 is_stmt 0 view .LVU49
+ 156 001c 4FF40072 		mov	r2, #512
+ 157 0020 8261     		str	r2, [r0, #24]
+  35:../../core/platform/octa_stm/src/spi.c ****   P1_SPI.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_2;
+ 158              		.loc 1 35 3 is_stmt 1 view .LVU50
+ 159              		.loc 1 35 33 is_stmt 0 view .LVU51
+ 160 0022 C361     		str	r3, [r0, #28]
+  36:../../core/platform/octa_stm/src/spi.c ****   P1_SPI.Init.FirstBit = SPI_FIRSTBIT_MSB;
+ 161              		.loc 1 36 3 is_stmt 1 view .LVU52
+ 162              		.loc 1 36 24 is_stmt 0 view .LVU53
+ 163 0024 0362     		str	r3, [r0, #32]
+  37:../../core/platform/octa_stm/src/spi.c ****   P1_SPI.Init.TIMode = SPI_TIMODE_DISABLE;
+ 164              		.loc 1 37 3 is_stmt 1 view .LVU54
+ 165              		.loc 1 37 22 is_stmt 0 view .LVU55
+ 166 0026 4362     		str	r3, [r0, #36]
+  38:../../core/platform/octa_stm/src/spi.c ****   P1_SPI.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
+ 167              		.loc 1 38 3 is_stmt 1 view .LVU56
+ 168              		.loc 1 38 30 is_stmt 0 view .LVU57
+ 169 0028 8362     		str	r3, [r0, #40]
+  39:../../core/platform/octa_stm/src/spi.c ****   P1_SPI.Init.CRCPolynomial = 7;
+ 170              		.loc 1 39 3 is_stmt 1 view .LVU58
+ 171              		.loc 1 39 29 is_stmt 0 view .LVU59
+ 172 002a 0722     		movs	r2, #7
+ 173 002c C262     		str	r2, [r0, #44]
+  40:../../core/platform/octa_stm/src/spi.c ****   P1_SPI.Init.CRCLength = SPI_CRC_LENGTH_DATASIZE;
+ 174              		.loc 1 40 3 is_stmt 1 view .LVU60
+ 175              		.loc 1 40 25 is_stmt 0 view .LVU61
+ 176 002e 0363     		str	r3, [r0, #48]
+  41:../../core/platform/octa_stm/src/spi.c ****   P1_SPI.Init.NSSPMode = SPI_NSS_PULSE_ENABLE;
+ 177              		.loc 1 41 3 is_stmt 1 view .LVU62
+ 178              		.loc 1 41 24 is_stmt 0 view .LVU63
+ 179 0030 0823     		movs	r3, #8
+ 180 0032 4363     		str	r3, [r0, #52]
+  42:../../core/platform/octa_stm/src/spi.c ****   if (HAL_SPI_Init(&P1_SPI) != HAL_OK)
+ 181              		.loc 1 42 3 is_stmt 1 view .LVU64
+ 182              		.loc 1 42 7 is_stmt 0 view .LVU65
+ 183 0034 FFF7FEFF 		bl	HAL_SPI_Init
+ 184              	.LVL2:
+ 185              		.loc 1 42 6 view .LVU66
+ 186 0038 00B9     		cbnz	r0, .L10
+ 187              	.L7:
+  43:../../core/platform/octa_stm/src/spi.c ****   {
+ARM GAS  /tmp/cc8VqdTc.s 			page 5
+
+
+  44:../../core/platform/octa_stm/src/spi.c ****     Error_Handler();
+  45:../../core/platform/octa_stm/src/spi.c ****   }
+  46:../../core/platform/octa_stm/src/spi.c **** }
+ 188              		.loc 1 46 1 view .LVU67
+ 189 003a 08BD     		pop	{r3, pc}
+ 190              	.L10:
+  44:../../core/platform/octa_stm/src/spi.c ****   }
+ 191              		.loc 1 44 5 is_stmt 1 view .LVU68
+ 192 003c FFF7FEFF 		bl	Error_Handler
+ 193              	.LVL3:
+ 194              		.loc 1 46 1 is_stmt 0 view .LVU69
+ 195 0040 FBE7     		b	.L7
+ 196              	.L12:
+ 197 0042 00BF     		.align	2
+ 198              	.L11:
+ 199 0044 00000000 		.word	P1_SPI
+ 200 0048 00300140 		.word	1073819648
+ 201              		.cfi_endproc
+ 202              	.LFE132:
+ 204              		.section	.text.P2_SPI_Init,"ax",%progbits
+ 205              		.align	1
+ 206              		.global	P2_SPI_Init
+ 207              		.syntax unified
+ 208              		.thumb
+ 209              		.thumb_func
+ 210              		.fpu fpv4-sp-d16
+ 212              	P2_SPI_Init:
+ 213              	.LFB133:
+  47:../../core/platform/octa_stm/src/spi.c **** 
+  48:../../core/platform/octa_stm/src/spi.c **** void P2_SPI_Init(void)
+  49:../../core/platform/octa_stm/src/spi.c **** {
+ 214              		.loc 1 49 1 is_stmt 1 view -0
+ 215              		.cfi_startproc
+ 216              		@ args = 0, pretend = 0, frame = 0
+ 217              		@ frame_needed = 0, uses_anonymous_args = 0
+ 218 0000 08B5     		push	{r3, lr}
+ 219              	.LCFI2:
+ 220              		.cfi_def_cfa_offset 8
+ 221              		.cfi_offset 3, -8
+ 222              		.cfi_offset 14, -4
+  50:../../core/platform/octa_stm/src/spi.c ****   P2_SPI.Instance = SPI2;
+ 223              		.loc 1 50 3 view .LVU71
+ 224              		.loc 1 50 19 is_stmt 0 view .LVU72
+ 225 0002 1048     		ldr	r0, .L17
+ 226 0004 104B     		ldr	r3, .L17+4
+ 227 0006 0360     		str	r3, [r0]
+  51:../../core/platform/octa_stm/src/spi.c ****   P2_SPI.Init.Mode = SPI_MODE_MASTER;
+ 228              		.loc 1 51 3 is_stmt 1 view .LVU73
+ 229              		.loc 1 51 20 is_stmt 0 view .LVU74
+ 230 0008 4FF48273 		mov	r3, #260
+ 231 000c 4360     		str	r3, [r0, #4]
+  52:../../core/platform/octa_stm/src/spi.c ****   P2_SPI.Init.Direction = SPI_DIRECTION_2LINES;
+ 232              		.loc 1 52 3 is_stmt 1 view .LVU75
+ 233              		.loc 1 52 25 is_stmt 0 view .LVU76
+ 234 000e 0023     		movs	r3, #0
+ 235 0010 8360     		str	r3, [r0, #8]
+  53:../../core/platform/octa_stm/src/spi.c ****   P2_SPI.Init.DataSize = SPI_DATASIZE_4BIT;
+ARM GAS  /tmp/cc8VqdTc.s 			page 6
+
+
+ 236              		.loc 1 53 3 is_stmt 1 view .LVU77
+ 237              		.loc 1 53 24 is_stmt 0 view .LVU78
+ 238 0012 4FF44072 		mov	r2, #768
+ 239 0016 C260     		str	r2, [r0, #12]
+  54:../../core/platform/octa_stm/src/spi.c ****   P2_SPI.Init.CLKPolarity = SPI_POLARITY_LOW;
+ 240              		.loc 1 54 3 is_stmt 1 view .LVU79
+ 241              		.loc 1 54 27 is_stmt 0 view .LVU80
+ 242 0018 0361     		str	r3, [r0, #16]
+  55:../../core/platform/octa_stm/src/spi.c ****   P2_SPI.Init.CLKPhase = SPI_PHASE_1EDGE;
+ 243              		.loc 1 55 3 is_stmt 1 view .LVU81
+ 244              		.loc 1 55 24 is_stmt 0 view .LVU82
+ 245 001a 4361     		str	r3, [r0, #20]
+  56:../../core/platform/octa_stm/src/spi.c ****   P2_SPI.Init.NSS = SPI_NSS_SOFT;
+ 246              		.loc 1 56 3 is_stmt 1 view .LVU83
+ 247              		.loc 1 56 19 is_stmt 0 view .LVU84
+ 248 001c 4FF40072 		mov	r2, #512
+ 249 0020 8261     		str	r2, [r0, #24]
+  57:../../core/platform/octa_stm/src/spi.c ****   P2_SPI.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_2;
+ 250              		.loc 1 57 3 is_stmt 1 view .LVU85
+ 251              		.loc 1 57 33 is_stmt 0 view .LVU86
+ 252 0022 C361     		str	r3, [r0, #28]
+  58:../../core/platform/octa_stm/src/spi.c ****   P2_SPI.Init.FirstBit = SPI_FIRSTBIT_MSB;
+ 253              		.loc 1 58 3 is_stmt 1 view .LVU87
+ 254              		.loc 1 58 24 is_stmt 0 view .LVU88
+ 255 0024 0362     		str	r3, [r0, #32]
+  59:../../core/platform/octa_stm/src/spi.c ****   P2_SPI.Init.TIMode = SPI_TIMODE_DISABLE;
+ 256              		.loc 1 59 3 is_stmt 1 view .LVU89
+ 257              		.loc 1 59 22 is_stmt 0 view .LVU90
+ 258 0026 4362     		str	r3, [r0, #36]
+  60:../../core/platform/octa_stm/src/spi.c ****   P2_SPI.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
+ 259              		.loc 1 60 3 is_stmt 1 view .LVU91
+ 260              		.loc 1 60 30 is_stmt 0 view .LVU92
+ 261 0028 8362     		str	r3, [r0, #40]
+  61:../../core/platform/octa_stm/src/spi.c ****   P2_SPI.Init.CRCPolynomial = 7;
+ 262              		.loc 1 61 3 is_stmt 1 view .LVU93
+ 263              		.loc 1 61 29 is_stmt 0 view .LVU94
+ 264 002a 0722     		movs	r2, #7
+ 265 002c C262     		str	r2, [r0, #44]
+  62:../../core/platform/octa_stm/src/spi.c ****   P2_SPI.Init.CRCLength = SPI_CRC_LENGTH_DATASIZE;
+ 266              		.loc 1 62 3 is_stmt 1 view .LVU95
+ 267              		.loc 1 62 25 is_stmt 0 view .LVU96
+ 268 002e 0363     		str	r3, [r0, #48]
+  63:../../core/platform/octa_stm/src/spi.c ****   P2_SPI.Init.NSSPMode = SPI_NSS_PULSE_ENABLE;
+ 269              		.loc 1 63 3 is_stmt 1 view .LVU97
+ 270              		.loc 1 63 24 is_stmt 0 view .LVU98
+ 271 0030 0823     		movs	r3, #8
+ 272 0032 4363     		str	r3, [r0, #52]
+  64:../../core/platform/octa_stm/src/spi.c ****   if (HAL_SPI_Init(&P2_SPI) != HAL_OK)
+ 273              		.loc 1 64 3 is_stmt 1 view .LVU99
+ 274              		.loc 1 64 7 is_stmt 0 view .LVU100
+ 275 0034 FFF7FEFF 		bl	HAL_SPI_Init
+ 276              	.LVL4:
+ 277              		.loc 1 64 6 view .LVU101
+ 278 0038 00B9     		cbnz	r0, .L16
+ 279              	.L13:
+  65:../../core/platform/octa_stm/src/spi.c ****   {
+  66:../../core/platform/octa_stm/src/spi.c ****     Error_Handler();
+ARM GAS  /tmp/cc8VqdTc.s 			page 7
+
+
+  67:../../core/platform/octa_stm/src/spi.c ****   }
+  68:../../core/platform/octa_stm/src/spi.c **** }...
+ 280              		.loc 1 68 1 view .LVU102
+ 281 003a 08BD     		pop	{r3, pc}
+ 282              	.L16:
+  66:../../core/platform/octa_stm/src/spi.c ****     Error_Handler();
+ 283              		.loc 1 66 5 is_stmt 1 view .LVU103
+ 284 003c FFF7FEFF 		bl	Error_Handler
+ 285              	.LVL5:
+ 286              		.loc 1 68 1 is_stmt 0 view .LVU104
+ 287 0040 FBE7     		b	.L13
+ 288              	.L18:
+ 289 0042 00BF     		.align	2
+ 290              	.L17:
+ 291 0044 00000000 		.word	P2_SPI
+ 292 0048 00380040 		.word	1073756160
+ 293              		.cfi_endproc
+ 294              	.LFE133:
+ 296              		.comm	P3_header,44,4
+ 297              		.comm	P2_header,44,4
+ 298              		.comm	P1_header,44,4
+ 299              		.comm	stackversion_patch,1,1
+ 300              		.comm	stackversion_minor,1,1
+ 301              		.comm	stackversion_major,1,1
+ 302              		.comm	appversion_patch,1,1
+ 303              		.comm	appversion_minor,1,1
+ 304              		.comm	appversion_major,1,1
+ 305              		.comm	short_UID,8,8
+ 306              		.comm	octa_uid,8,8
+ 307              		.comm	float_union,4,4
+ 308              		.comm	uint16LittleEndian,2,4
+ 309              		.comm	int16LittleEndian,2,4
+ 310              		.comm	uint32LittleEndian,4,4
+ 311              		.comm	int32LittleEndian,4,4
+ 312              		.comm	rtosprintHandle,4,4
+ 313              		.comm	hrtc,36,4
+ 314              		.comm	P2_I2C,76,4
+ 315              		.comm	P1_I2C,76,4
+ 316              		.comm	common_I2C,76,4
+ 317              		.comm	P2_UART,120,4
+ 318              		.comm	P1_UART,120,4
+ 319              		.comm	RS232_UART,120,4
+ 320              		.comm	NBIOT_UART,120,4
+ 321              		.comm	USB_UART,120,4
+ 322              		.comm	hiwdg,16,4
+ 323              		.comm	NBIOT_Reset,8,4
+ 324              		.comm	P2_DIO6,8,4
+ 325              		.comm	P2_DIO5,8,4
+ 326              		.comm	P2_DIO4,8,4
+ 327              		.comm	P2_DIO3,8,4
+ 328              		.comm	P2_DIO2,8,4
+ 329              		.comm	P2_DIO1,8,4
+ 330              		.comm	P1_DIO6,8,4
+ 331              		.comm	P1_DIO5,8,4
+ 332              		.comm	P1_DIO4,8,4
+ 333              		.comm	P1_DIO3,8,4
+ 334              		.comm	P1_DIO2,8,4
+ARM GAS  /tmp/cc8VqdTc.s 			page 8
+
+
+ 335              		.comm	P1_DIO1,8,4
+ 336              		.comm	htim6,64,4
+ 337              		.comm	htim1,64,4
+ 338              		.comm	FLASH_SPI,100,4
+ 339              		.comm	P2_SPI,100,4
+ 340              		.comm	P1_SPI,100,4
+ 341              		.text
+ 342              	.Letext0:
+ 343              		.file 2 "/usr/arm-none-eabi/include/machine/_default_types.h"
+ 344              		.file 3 "/usr/arm-none-eabi/include/sys/_stdint.h"
+ 345              		.file 4 "../../core/ST/CMSIS/Include/core_cm4.h"
+ 346              		.file 5 "../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/system_stm32l4xx.h"
+ 347              		.file 6 "../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/stm32l496xx.h"
+ 348              		.file 7 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h"
+ 349              		.file 8 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_dma.h"
+ 350              		.file 9 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_i2c.h"
+ 351              		.file 10 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_iwdg.h"
+ 352              		.file 11 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rtc.h"
+ 353              		.file 12 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_spi.h"
+ 354              		.file 13 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_tim.h"
+ 355              		.file 14 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h"
+ 356              		.file 15 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h"
+ 357              		.file 16 "../../core/platform/octa_stm/inc/spi.h"
+ 358              		.file 17 "../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/include/task.h"
+ 359              		.file 18 "../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h"
+ 360              		.file 19 "../../core/platform/octa_stm/inc/sysclock.h"
+ 361              		.file 20 "../../core/platform/octa_stm/inc/gpio.h"
+ 362              		.file 21 "../../core/platform/octa_stm/inc/iwdg.h"
+ 363              		.file 22 "../../core/platform/octa_stm/inc/uart.h"
+ 364              		.file 23 "../../core/platform/octa_stm/inc/i2c.h"
+ 365              		.file 24 "../../core/platform/octa_stm/inc/rtc.h"
+ 366              		.file 25 "../../core/platform/octa_stm/inc/rtosincludes.h"
+ 367              		.file 26 "/usr/arm-none-eabi/include/sys/lock.h"
+ 368              		.file 27 "/usr/arm-none-eabi/include/sys/_types.h"
+ 369              		.file 28 "/usr/lib/gcc/arm-none-eabi/9.2.1/include/stddef.h"
+ 370              		.file 29 "/usr/arm-none-eabi/include/sys/reent.h"
+ 371              		.file 30 "../../core/platform/common/inc/datatypes.h"
+ 372              		.file 31 "../../core/platform/octa_stm/inc/platform.h"
+ 373              		.file 32 "../../core/platform/common/inc/error.h"
+ARM GAS  /tmp/cc8VqdTc.s 			page 9
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 spi.c
+     /tmp/cc8VqdTc.s:18     .text.FLASH_SPI_Init:0000000000000000 $t
+     /tmp/cc8VqdTc.s:26     .text.FLASH_SPI_Init:0000000000000000 FLASH_SPI_Init
+     /tmp/cc8VqdTc.s:107    .text.FLASH_SPI_Init:0000000000000044 $d
+                            *COM*:0000000000000064 FLASH_SPI
+     /tmp/cc8VqdTc.s:113    .text.P1_SPI_Init:0000000000000000 $t
+     /tmp/cc8VqdTc.s:120    .text.P1_SPI_Init:0000000000000000 P1_SPI_Init
+     /tmp/cc8VqdTc.s:199    .text.P1_SPI_Init:0000000000000044 $d
+                            *COM*:0000000000000064 P1_SPI
+     /tmp/cc8VqdTc.s:205    .text.P2_SPI_Init:0000000000000000 $t
+     /tmp/cc8VqdTc.s:212    .text.P2_SPI_Init:0000000000000000 P2_SPI_Init
+     /tmp/cc8VqdTc.s:291    .text.P2_SPI_Init:0000000000000044 $d
+                            *COM*:0000000000000064 P2_SPI
+                            *COM*:000000000000002c P3_header
+                            *COM*:000000000000002c P2_header
+                            *COM*:000000000000002c P1_header
+                            *COM*:0000000000000001 stackversion_patch
+                            *COM*:0000000000000001 stackversion_minor
+                            *COM*:0000000000000001 stackversion_major
+                            *COM*:0000000000000001 appversion_patch
+                            *COM*:0000000000000001 appversion_minor
+                            *COM*:0000000000000001 appversion_major
+                            *COM*:0000000000000008 short_UID
+                            *COM*:0000000000000008 octa_uid
+                            *COM*:0000000000000004 float_union
+                            *COM*:0000000000000002 uint16LittleEndian
+                            *COM*:0000000000000002 int16LittleEndian
+                            *COM*:0000000000000004 uint32LittleEndian
+                            *COM*:0000000000000004 int32LittleEndian
+                            *COM*:0000000000000004 rtosprintHandle
+                            *COM*:0000000000000024 hrtc
+                            *COM*:000000000000004c P2_I2C
+                            *COM*:000000000000004c P1_I2C
+                            *COM*:000000000000004c common_I2C
+                            *COM*:0000000000000078 P2_UART
+                            *COM*:0000000000000078 P1_UART
+                            *COM*:0000000000000078 RS232_UART
+                            *COM*:0000000000000078 NBIOT_UART
+                            *COM*:0000000000000078 USB_UART
+                            *COM*:0000000000000010 hiwdg
+                            *COM*:0000000000000008 NBIOT_Reset
+                            *COM*:0000000000000008 P2_DIO6
+                            *COM*:0000000000000008 P2_DIO5
+                            *COM*:0000000000000008 P2_DIO4
+                            *COM*:0000000000000008 P2_DIO3
+                            *COM*:0000000000000008 P2_DIO2
+                            *COM*:0000000000000008 P2_DIO1
+                            *COM*:0000000000000008 P1_DIO6
+                            *COM*:0000000000000008 P1_DIO5
+                            *COM*:0000000000000008 P1_DIO4
+                            *COM*:0000000000000008 P1_DIO3
+                            *COM*:0000000000000008 P1_DIO2
+                            *COM*:0000000000000008 P1_DIO1
+                            *COM*:0000000000000040 htim6
+                            *COM*:0000000000000040 htim1
+
+ARM GAS  /tmp/cc8VqdTc.s 			page 10
+
+
+UNDEFINED SYMBOLS
+HAL_SPI_Init
+Error_Handler

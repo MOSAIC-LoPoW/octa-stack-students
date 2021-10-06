@@ -43,6 +43,7 @@ index               | purpose                                                   
 #define OCTA_FLASH_OK           0
 
 uint8_t OCTA_FLASH_Initialize(SPI_HandleTypeDef *hspi);
+void OCTA_FLASH_ReInitialize(void);
 int OCTA_FLASH_open(const uint32_t aPageNr);
 int OCTA_FLASH_openConfigSector(void);
 int OCTA_FLASH_read(uint8_t *apData, const uint32_t aSize);

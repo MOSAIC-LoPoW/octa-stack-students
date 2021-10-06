@@ -1,0 +1,2482 @@
+ARM GAS  /tmp/cciN6141.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 28, 1
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.file	"octa-stm-example.c"
+  14              		.section	.rodata.str1.4,"aMS",%progbits,1
+  15              		.align	2
+  16              	.LC0:
+  17 0000 64656661 		.ascii	"defaultTask\000"
+  17      756C7454 
+  17      61736B00 
+  18              		.text
+  19              	.Ltext0:
+  20              		.cfi_sections	.debug_frame
+  21              		.section	.rodata.BTN1_Appcallback.str1.4,"aMS",%progbits,1
+  22              		.align	2
+  23              	.LC2:
+  24 0000 42544E31 		.ascii	"BTN1 pressed\015\012\000"
+  24      20707265 
+  24      73736564 
+  24      0D0A00
+  25              		.section	.text.BTN1_Appcallback,"ax",%progbits
+  26              		.align	1
+  27              		.global	BTN1_Appcallback
+  28              		.arch armv7e-m
+  29              		.syntax unified
+  30              		.thumb
+  31              		.thumb_func
+  32              		.fpu fpv4-sp-d16
+  34              	BTN1_Appcallback:
+  35              	.LFB134:
+  36              		.file 1 "../../../applications/examples/octa-stm-example/src/octa-stm-example.c"
+   1:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** #include "octa-stm-example.h"
+   2:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** #include "sht31.h"
+   3:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** #include "LSM303AGRSensor.h"
+   4:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** #include "TCS3472.h"
+   5:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** #include "octa-flash.h"
+   6:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** #include "bq35100.h"
+   7:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** 
+   8:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** #define sensor_timer    5
+   9:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** 
+  10:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** float SHTData[2];
+  11:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** bq35100_data_struct bq35100_data;
+  12:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** 
+  13:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** int main(void)
+  14:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** {
+  15:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   Initialize_Platform();
+  16:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** 
+  17:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   //enable sensor VCC
+ARM GAS  /tmp/cciN6141.s 			page 2
+
+
+  18:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   HAL_GPIO_WritePin(OCTA_VCC_SENSORS_Port, OCTA_VCC_SENSORS_Pin, GPIO_PIN_SET);
+  19:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** 
+  20:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   //SHT
+  21:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   setI2CInterface_SHT31(&common_I2C);
+  22:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   SHT31_begin();
+  23:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** 
+  24:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   //ACC-MAG
+  25:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   LSM303AGR_setI2CInterface(&common_I2C);
+  26:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   LSM303AGR_ACC_reset();
+  27:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** 	LSM303AGR_MAG_reset();
+  28:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   HAL_Delay(100);
+  29:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** 	LSM303AGR_init();
+  30:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** 
+  31:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   //lightsensor
+  32:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   TC3472_init(&common_I2C);
+  33:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** 
+  34:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   //BATTERY GAUGE
+  35:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   bq35100_init(&common_I2C);
+  36:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** 
+  37:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   //NB-IoT
+  38:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   // HAL_GPIO_WritePin(OCTA_VCC_NBIOT_Port, OCTA_VCC_NBIOT_Pin, GPIO_PIN_SET);
+  39:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   HAL_GPIO_WritePin(OCTA_NBIOT_UARTSWITCH_Port, OCTA_NBIOT_UARTSWITCH_Pin, GPIO_PIN_SET);
+  40:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   NBIOT_UART_Init(115200); 
+  41:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** 
+  42:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   //RS232
+  43:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   HAL_GPIO_WritePin(OCTA_STEPUP_GPIO_Port, OCTA_STEPUP_Pin, GPIO_PIN_SET);
+  44:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   RS232_UART_Init(9600);
+  45:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   uint8_t buff[20];
+  46:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   memset(buff, 0, 20);
+  47:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   HAL_Delay(3000);
+  48:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   IWDG_feed(NULL);
+  49:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   HAL_UART_AbortReceive(&RS232_UART);
+  50:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   HAL_StatusTypeDef statusrx = HAL_UART_Receive(&RS232_UART, (uint8_t *)buff, 20, 2500);
+  51:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   printINF("RS232: %s, statusrx %d \r\n", buff, statusrx);
+  52:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** 
+  53:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   //Flash
+  54:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   HAL_GPIO_WritePin(OCTA_VCC_FLASH_Port, OCTA_VCC_FLASH_Pin, GPIO_PIN_SET);
+  55:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   OCTA_FLASH_Initialize(&FLASH_SPI);
+  56:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** 
+  57:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   int retval = 0;
+  58:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   retval = OCTA_FLASH_erase4KBSectorFromPage(0);
+  59:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   if(retval != OCTA_FLASH_OK)
+  60:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   {
+  61:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****     printERR("Flash operation NOK: %d\r\n", retval);
+  62:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   }
+  63:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   //RW test  
+  64:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   uint8_t RWsuccess = OCTA_FLASH_TestRW(); 
+  65:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** 
+  66:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   //erase sector from page 7 should erase the entire first user sector, also the first 3 pages used
+  67:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   retval = OCTA_FLASH_erase4KBSectorFromPage(7);
+  68:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   if(retval != OCTA_FLASH_OK)
+  69:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   {
+  70:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****     printERR("Flash operation NOK: %d\r\n", retval);
+  71:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   }
+  72:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** 
+  73:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   //try again
+  74:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   RWsuccess = OCTA_FLASH_TestRW();
+ARM GAS  /tmp/cciN6141.s 			page 3
+
+
+  75:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** 
+  76:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   //write something to page 20 -> part of sector 2
+  77:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   OCTA_FLASH_open(20);
+  78:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   uint8_t buffer[256];
+  79:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   memset(buffer, 20, 256);
+  80:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   OCTA_FLASH_write(buffer, 256);
+  81:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   //read to check
+  82:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   uint8_t rx[256];
+  83:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   OCTA_FLASH_read(rx,256);
+  84:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   printDBG("sector 20: \r\n");
+  85:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   for(uint16_t i = 0; i<256; i++)
+  86:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****       printf("%d ", rx[i]); 
+  87:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   printf("\r\n");
+  88:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** 
+  89:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   //erase starting from page 16, should not affect RWtest when running again (==sector 2)
+  90:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   retval = OCTA_FLASH_erase4KBSectorFromPage(16);
+  91:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   if(retval != OCTA_FLASH_OK)
+  92:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   {
+  93:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****     printERR("Flash operation NOK: %d\r\n", retval);
+  94:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   }
+  95:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** 
+  96:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   //This should work again
+  97:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   RWsuccess = OCTA_FLASH_TestRW();
+  98:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** 
+  99:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   //This should be 255 now, sector 2 is erased
+ 100:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   OCTA_FLASH_open(20);
+ 101:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   OCTA_FLASH_read(rx,256);
+ 102:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   printDBG("sector 20: \r\n");
+ 103:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   for(uint16_t i = 0; i<256; i++)
+ 104:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****       printf("%d ", rx[i]); 
+ 105:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   printf("\r\n");
+ 106:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** 
+ 107:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   if(RWsuccess)
+ 108:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****       printINF("octa-flash RW test OK\r\n");
+ 109:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   else
+ 110:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****       printINF("octa-flash RW test NOK\r\n");
+ 111:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** 
+ 112:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   osThreadDef(defaultTask, StartDefaultTask, osPriorityLow, 0, 512);
+ 113:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
+ 114:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** 
+ 115:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   //feed IWDG every 5 seconds
+ 116:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   IWDG_feed(NULL);
+ 117:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   osTimerDef(iwdgTim, IWDG_feed);
+ 118:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   iwdgTimId = osTimerCreate(osTimer(iwdgTim), osTimerPeriodic, NULL);
+ 119:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   osTimerStart(iwdgTimId, 5 * 1000);
+ 120:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** 
+ 121:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   osTimerDef(temp_hum_Tim, temp_hum_measurement);
+ 122:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   temp_hum_timer_id = osTimerCreate(osTimer(temp_hum_Tim), osTimerPeriodic, NULL);
+ 123:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   osTimerStart(temp_hum_timer_id, sensor_timer * 1000);
+ 124:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** 
+ 125:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   osTimerDef(accsensor_Tim, accelerometer_measurement);
+ 126:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   accelerometer_timer_id = osTimerCreate(osTimer(accsensor_Tim), osTimerPeriodic, NULL);
+ 127:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   osTimerStart(accelerometer_timer_id, sensor_timer * 1000);
+ 128:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** 
+ 129:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   osTimerDef(magsensor_Tim, magnetometer_measurement);
+ 130:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   magnetometer_timer_id = osTimerCreate(osTimer(magsensor_Tim), osTimerPeriodic, NULL);
+ 131:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   osTimerStart(magnetometer_timer_id, sensor_timer * 1000);
+ARM GAS  /tmp/cciN6141.s 			page 4
+
+
+ 132:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** 
+ 133:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   osTimerDef(lightsensor_Tim, lightsensor_measurement);
+ 134:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   lightsensor_timer_id = osTimerCreate(osTimer(lightsensor_Tim), osTimerPeriodic, NULL);
+ 135:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   osTimerStart(lightsensor_timer_id, sensor_timer * 1000);
+ 136:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** 
+ 137:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   osTimerDef(colorsensor_Tim, RGBsensor_measurement);
+ 138:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   colorsensor_timer_id = osTimerCreate(osTimer(colorsensor_Tim), osTimerPeriodic, NULL);
+ 139:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   osTimerStart(colorsensor_timer_id, sensor_timer * 1000);
+ 140:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** 
+ 141:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   osTimerDef(battery_sensor_Tim, BatterySensor_measurement);
+ 142:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   battery_sensor_timer_id = osTimerCreate(osTimer(battery_sensor_Tim), osTimerPeriodic, NULL);
+ 143:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   osTimerStart(battery_sensor_timer_id, sensor_timer*3 * 1000);
+ 144:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** 
+ 145:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   // MUTEX
+ 146:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   osMutexDef(txMutex);
+ 147:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   i2cMutexId = osMutexCreate(osMutex(txMutex));
+ 148:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** 
+ 149:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   // Enable button interrupt for test mode
+ 150:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   B1_enable_interrupt();
+ 151:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   GPIO_SetApplicationCallback(&BTN1_Appcallback, (uint16_t)OCTA_BTN1_Pin);
+ 152:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** 
+ 153:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   // Enable button interrupt for flash offloading
+ 154:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   B2_enable_interrupt();
+ 155:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   GPIO_SetApplicationCallback(&BTN2_Appcallback, (uint16_t)OCTA_BTN2_Pin);
+ 156:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** 
+ 157:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   osKernelStart();
+ 158:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** 
+ 159:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   while (1)
+ 160:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   {
+ 161:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   }
+ 162:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** }
+ 163:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** 
+ 164:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** void B1_enable_interrupt()
+ 165:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** {
+ 166:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****     GPIO_InitTypeDef GPIO_InitStruct = {0};
+ 167:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****     GPIO_InitStruct.Pin = OCTA_BTN1_Pin;
+ 168:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****     GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
+ 169:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****     GPIO_InitStruct.Pull = GPIO_PULLUP;
+ 170:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****     HAL_GPIO_Init(OCTA_BTN1_GPIO_Port, &GPIO_InitStruct);
+ 171:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** 
+ 172:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****     //enable the interrupt
+ 173:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****     HAL_NVIC_SetPriority(EXTI15_10_IRQn, 7, 0);		
+ 174:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****     HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
+ 175:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** }
+ 176:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** 
+ 177:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** void B2_enable_interrupt()
+ 178:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** {
+ 179:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****     GPIO_InitTypeDef GPIO_InitStruct = {0};
+ 180:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****     GPIO_InitStruct.Pin = OCTA_BTN2_Pin;
+ 181:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****     GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
+ 182:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****     GPIO_InitStruct.Pull = GPIO_PULLUP;
+ 183:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****     HAL_GPIO_Init(OCTA_BTN2_GPIO_Port, &GPIO_InitStruct);
+ 184:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** 
+ 185:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****     //enable the interrupt
+ 186:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****     HAL_NVIC_SetPriority(EXTI15_10_IRQn, 7, 0);		
+ 187:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****     HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
+ 188:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** }
+ARM GAS  /tmp/cciN6141.s 			page 5
+
+
+ 189:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** 
+ 190:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** void BTN1_Appcallback(void)
+ 191:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** {
+  37              		.loc 1 191 1 view -0
+  38              		.cfi_startproc
+  39              		@ args = 0, pretend = 0, frame = 0
+  40              		@ frame_needed = 0, uses_anonymous_args = 0
+  41 0000 08B5     		push	{r3, lr}
+  42              	.LCFI0:
+  43              		.cfi_def_cfa_offset 8
+  44              		.cfi_offset 3, -8
+  45              		.cfi_offset 14, -4
+ 192:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****     printINF("BTN1 pressed\r\n");
+  46              		.loc 1 192 5 view .LVU1
+  47 0002 0248     		ldr	r0, .L3
+  48 0004 FFF7FEFF 		bl	printINF
+  49              	.LVL0:
+ 193:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** }
+  50              		.loc 1 193 1 is_stmt 0 view .LVU2
+  51 0008 08BD     		pop	{r3, pc}
+  52              	.L4:
+  53 000a 00BF     		.align	2
+  54              	.L3:
+  55 000c 00000000 		.word	.LC2
+  56              		.cfi_endproc
+  57              	.LFE134:
+  59              		.section	.rodata.BTN2_Appcallback.str1.4,"aMS",%progbits,1
+  60              		.align	2
+  61              	.LC3:
+  62 0000 42544E32 		.ascii	"BTN2 pressed\015\012\000"
+  62      20707265 
+  62      73736564 
+  62      0D0A00
+  63              		.section	.text.BTN2_Appcallback,"ax",%progbits
+  64              		.align	1
+  65              		.global	BTN2_Appcallback
+  66              		.syntax unified
+  67              		.thumb
+  68              		.thumb_func
+  69              		.fpu fpv4-sp-d16
+  71              	BTN2_Appcallback:
+  72              	.LFB135:
+ 194:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** 
+ 195:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** void BTN2_Appcallback(void)
+ 196:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** {
+  73              		.loc 1 196 1 is_stmt 1 view -0
+  74              		.cfi_startproc
+  75              		@ args = 0, pretend = 0, frame = 0
+  76              		@ frame_needed = 0, uses_anonymous_args = 0
+  77 0000 08B5     		push	{r3, lr}
+  78              	.LCFI1:
+  79              		.cfi_def_cfa_offset 8
+  80              		.cfi_offset 3, -8
+  81              		.cfi_offset 14, -4
+ 197:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****     printINF("BTN2 pressed\r\n");
+  82              		.loc 1 197 5 view .LVU4
+  83 0002 0248     		ldr	r0, .L7
+ARM GAS  /tmp/cciN6141.s 			page 6
+
+
+  84 0004 FFF7FEFF 		bl	printINF
+  85              	.LVL1:
+ 198:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** }
+  86              		.loc 1 198 1 is_stmt 0 view .LVU5
+  87 0008 08BD     		pop	{r3, pc}
+  88              	.L8:
+  89 000a 00BF     		.align	2
+  90              	.L7:
+  91 000c 00000000 		.word	.LC3
+  92              		.cfi_endproc
+  93              	.LFE135:
+  95              		.section	.rodata.StartDefaultTask.str1.4,"aMS",%progbits,1
+  96              		.align	2
+  97              	.LC4:
+  98 0000 41542B43 		.ascii	"AT+CGMI\015\012\000"
+  98      474D490D 
+  98      0A00
+  99 000a 0000     		.align	2
+ 100              	.LC5:
+ 101 000c 4E4F5244 		.ascii	"NORDIC CGMI: %s, statustx %d, statusrx %d\015\012\000"
+ 101      49432043 
+ 101      474D493A 
+ 101      2025732C 
+ 101      20737461 
+ 102              		.section	.text.StartDefaultTask,"ax",%progbits
+ 103              		.align	1
+ 104              		.global	StartDefaultTask
+ 105              		.syntax unified
+ 106              		.thumb
+ 107              		.thumb_func
+ 108              		.fpu fpv4-sp-d16
+ 110              	StartDefaultTask:
+ 111              	.LFB136:
+ 199:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** 
+ 200:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** void StartDefaultTask(void const *argument)
+ 201:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** {
+ 112              		.loc 1 201 1 is_stmt 1 view -0
+ 113              		.cfi_startproc
+ 114              		@ args = 0, pretend = 0, frame = 32
+ 115              		@ frame_needed = 0, uses_anonymous_args = 0
+ 116              	.LVL2:
+ 117              		.loc 1 201 1 is_stmt 0 view .LVU7
+ 118 0000 30B5     		push	{r4, r5, lr}
+ 119              	.LCFI2:
+ 120              		.cfi_def_cfa_offset 12
+ 121              		.cfi_offset 4, -12
+ 122              		.cfi_offset 5, -8
+ 123              		.cfi_offset 14, -4
+ 124 0002 89B0     		sub	sp, sp, #36
+ 125              	.LCFI3:
+ 126              		.cfi_def_cfa_offset 48
+ 127              	.LVL3:
+ 128              	.L10:
+ 202:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   for (;;)
+ 129              		.loc 1 202 3 is_stmt 1 discriminator 1 view .LVU8
+ 130              	.LBB2:
+ 203:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   {
+ARM GAS  /tmp/cciN6141.s 			page 7
+
+
+ 204:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****     const char* cmd = "AT+CGMI\r\n";
+ 131              		.loc 1 204 5 discriminator 1 view .LVU9
+ 205:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****     uint8_t buff[25];
+ 132              		.loc 1 205 5 discriminator 1 view .LVU10
+ 206:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****     memset(buff, 0, 25);
+ 133              		.loc 1 206 5 discriminator 1 view .LVU11
+ 134 0004 0023     		movs	r3, #0
+ 135 0006 0193     		str	r3, [sp, #4]
+ 136 0008 0293     		str	r3, [sp, #8]
+ 137 000a 0393     		str	r3, [sp, #12]
+ 138 000c 0493     		str	r3, [sp, #16]
+ 139 000e 0593     		str	r3, [sp, #20]
+ 140 0010 0693     		str	r3, [sp, #24]
+ 141 0012 8DF81C30 		strb	r3, [sp, #28]
+ 207:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****     HAL_StatusTypeDef statustx,statusrx;
+ 142              		.loc 1 207 5 discriminator 1 view .LVU12
+ 208:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****     statustx = HAL_UART_Transmit(&NBIOT_UART, (uint8_t *)cmd, strlen(cmd), 300);
+ 143              		.loc 1 208 5 discriminator 1 view .LVU13
+ 144              		.loc 1 208 16 is_stmt 0 discriminator 1 view .LVU14
+ 145 0016 174D     		ldr	r5, .L12
+ 146 0018 4FF49673 		mov	r3, #300
+ 147 001c 0922     		movs	r2, #9
+ 148 001e 1649     		ldr	r1, .L12+4
+ 149 0020 2846     		mov	r0, r5
+ 150 0022 FFF7FEFF 		bl	HAL_UART_Transmit
+ 151              	.LVL4:
+ 152 0026 0446     		mov	r4, r0
+ 153              	.LVL5:
+ 209:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****     HAL_UART_AbortReceive(&NBIOT_UART);
+ 154              		.loc 1 209 5 is_stmt 1 discriminator 1 view .LVU15
+ 155 0028 2846     		mov	r0, r5
+ 156 002a FFF7FEFF 		bl	HAL_UART_AbortReceive
+ 157              	.LVL6:
+ 210:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****     statusrx = HAL_UART_Receive(&NBIOT_UART, (uint8_t *)buff, 25, 1000);
+ 158              		.loc 1 210 5 discriminator 1 view .LVU16
+ 159              		.loc 1 210 16 is_stmt 0 discriminator 1 view .LVU17
+ 160 002e 4FF47A73 		mov	r3, #1000
+ 161 0032 1922     		movs	r2, #25
+ 162 0034 01A9     		add	r1, sp, #4
+ 163 0036 2846     		mov	r0, r5
+ 164 0038 FFF7FEFF 		bl	HAL_UART_Receive
+ 165              	.LVL7:
+ 166 003c 0346     		mov	r3, r0
+ 167              	.LVL8:
+ 211:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****     printINF("NORDIC CGMI: %s, statustx %d, statusrx %d\r\n", buff, statustx, statusrx);
+ 168              		.loc 1 211 5 is_stmt 1 discriminator 1 view .LVU18
+ 169 003e 2246     		mov	r2, r4
+ 170 0040 01A9     		add	r1, sp, #4
+ 171 0042 0E48     		ldr	r0, .L12+8
+ 172 0044 FFF7FEFF 		bl	printINF
+ 173              	.LVL9:
+ 212:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** 
+ 213:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****     HAL_GPIO_TogglePin(OCTA_RLED_GPIO_Port, OCTA_RLED_Pin);
+ 174              		.loc 1 213 5 discriminator 1 view .LVU19
+ 175 0048 0D4C     		ldr	r4, .L12+12
+ 176              	.LVL10:
+ 177              		.loc 1 213 5 is_stmt 0 discriminator 1 view .LVU20
+ARM GAS  /tmp/cciN6141.s 			page 8
+
+
+ 178 004a 4FF40061 		mov	r1, #2048
+ 179 004e 2046     		mov	r0, r4
+ 180 0050 FFF7FEFF 		bl	HAL_GPIO_TogglePin
+ 181              	.LVL11:
+ 214:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****     HAL_GPIO_TogglePin(OCTA_GLED_GPIO_Port, OCTA_GLED_Pin);
+ 182              		.loc 1 214 5 is_stmt 1 discriminator 1 view .LVU21
+ 183 0054 4FF48041 		mov	r1, #16384
+ 184 0058 2046     		mov	r0, r4
+ 185 005a FFF7FEFF 		bl	HAL_GPIO_TogglePin
+ 186              	.LVL12:
+ 215:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****     HAL_GPIO_TogglePin(OCTA_BLED_GPIO_Port, OCTA_BLED_Pin);
+ 187              		.loc 1 215 5 discriminator 1 view .LVU22
+ 188 005e 4FF40051 		mov	r1, #8192
+ 189 0062 2046     		mov	r0, r4
+ 190 0064 FFF7FEFF 		bl	HAL_GPIO_TogglePin
+ 191              	.LVL13:
+ 216:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****     osDelay(3000);
+ 192              		.loc 1 216 5 discriminator 1 view .LVU23
+ 193 0068 40F6B830 		movw	r0, #3000
+ 194 006c FFF7FEFF 		bl	osDelay
+ 195              	.LVL14:
+ 196              	.LBE2:
+ 202:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   {
+ 197              		.loc 1 202 9 discriminator 1 view .LVU24
+ 198 0070 C8E7     		b	.L10
+ 199              	.L13:
+ 200 0072 00BF     		.align	2
+ 201              	.L12:
+ 202 0074 00000000 		.word	NBIOT_UART
+ 203 0078 00000000 		.word	.LC4
+ 204 007c 0C000000 		.word	.LC5
+ 205 0080 00100048 		.word	1207963648
+ 206              		.cfi_endproc
+ 207              	.LFE136:
+ 209              		.section	.rodata.BatterySensor_measurement.str1.4,"aMS",%progbits,1
+ 210              		.align	2
+ 211              	.LC6:
+ 212 0000 62713335 		.ascii	"bq35100 temp %d, volts %d, current %d, acc capacity"
+ 212      31303020 
+ 212      74656D70 
+ 212      2025642C 
+ 212      20766F6C 
+ 213 0033 2025640D 		.ascii	" %d\015\012\000"
+ 213      0A00
+ 214              		.section	.text.BatterySensor_measurement,"ax",%progbits
+ 215              		.align	1
+ 216              		.global	BatterySensor_measurement
+ 217              		.syntax unified
+ 218              		.thumb
+ 219              		.thumb_func
+ 220              		.fpu fpv4-sp-d16
+ 222              	BatterySensor_measurement:
+ 223              	.LFB145:
+ 217:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   }
+ 218:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** }
+ 219:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** 
+ 220:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** void temp_hum_measurement(void)
+ARM GAS  /tmp/cciN6141.s 			page 9
+
+
+ 221:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** {
+ 222:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   osMutexWait(i2cMutexId, osWaitForever);
+ 223:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   SHT31_get_temp_hum(SHTData);
+ 224:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   osMutexRelease(i2cMutexId);
+ 225:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   print_temp_hum();
+ 226:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** }
+ 227:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** 
+ 228:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** void print_temp_hum(void)
+ 229:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** {
+ 230:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   printINF("Temperature: %.2f degC \r\n", SHTData[0]);
+ 231:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   printINF("Humidity: %.2f %% \r\n", SHTData[1]);
+ 232:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** }
+ 233:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** 
+ 234:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** void accelerometer_measurement(void){
+ 235:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** 	uint16_t accDataRaw[3];
+ 236:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   osMutexWait(i2cMutexId, osWaitForever);
+ 237:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   LSM303AGR_ACC_readAccelerationRawData(accDataRaw);
+ 238:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   osMutexRelease(i2cMutexId);
+ 239:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   print_accelerometer(accDataRaw);
+ 240:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** }
+ 241:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** 
+ 242:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** void magnetometer_measurement(void){
+ 243:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   uint16_t magDataRaw[3];
+ 244:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   osMutexWait(i2cMutexId, osWaitForever);
+ 245:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   LSM303AGR_MAG_readMagneticRawData(magDataRaw);
+ 246:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   osMutexRelease(i2cMutexId);
+ 247:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   print_magnetometer(magDataRaw);
+ 248:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** }
+ 249:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** 
+ 250:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** void print_accelerometer(uint16_t data[]){
+ 251:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   printINF("Accelerometer data: X: %d Y: %d Z: %d \r\n", data[0], data[1], data[2]);
+ 252:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** }
+ 253:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** void print_magnetometer(uint16_t data[]){
+ 254:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   printINF("Magnetometer data: X: %d Y: %d Z: %d \r\n", data[0], data[1], data[2]);
+ 255:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** }
+ 256:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** 
+ 257:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** void lightsensor_measurement(void){
+ 258:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   osMutexWait(i2cMutexId, osWaitForever);
+ 259:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   int clear_light = getClearData();
+ 260:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   osMutexRelease(i2cMutexId);
+ 261:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   print_light_intensity(clear_light);
+ 262:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** }
+ 263:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** 
+ 264:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** void RGBsensor_measurement(void){
+ 265:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   struct RGBvalues RGB = {0,0,0};
+ 266:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   turnOnLED();
+ 267:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   HAL_Delay(250);
+ 268:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   osMutexWait(i2cMutexId, osWaitForever);
+ 269:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   RGB.red = getRedData();
+ 270:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   RGB.green = getGreenData();
+ 271:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   RGB.blue = getBlueData();
+ 272:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   osMutexRelease(i2cMutexId);
+ 273:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   turnOffLED();
+ 274:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   print_color(RGB);
+ 275:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** }
+ 276:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** 
+ 277:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** void BatterySensor_measurement(void)
+ARM GAS  /tmp/cciN6141.s 			page 10
+
+
+ 278:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** {
+ 224              		.loc 1 278 1 view -0
+ 225              		.cfi_startproc
+ 226              		@ args = 0, pretend = 0, frame = 0
+ 227              		@ frame_needed = 0, uses_anonymous_args = 0
+ 228 0000 10B5     		push	{r4, lr}
+ 229              	.LCFI4:
+ 230              		.cfi_def_cfa_offset 8
+ 231              		.cfi_offset 4, -8
+ 232              		.cfi_offset 14, -4
+ 233 0002 82B0     		sub	sp, sp, #8
+ 234              	.LCFI5:
+ 235              		.cfi_def_cfa_offset 16
+ 279:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   bq35100_read_acc_data(&bq35100_data);
+ 236              		.loc 1 279 3 view .LVU26
+ 237 0004 074C     		ldr	r4, .L16
+ 238 0006 2046     		mov	r0, r4
+ 239 0008 FFF7FEFF 		bl	bq35100_read_acc_data
+ 240              	.LVL15:
+ 280:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   printINF("bq35100 temp %d, volts %d, current %d, acc capacity %d\r\n", bq35100_data.temp, bq35100
+ 241              		.loc 1 280 3 view .LVU27
+ 242 000c 6368     		ldr	r3, [r4, #4]
+ 243 000e 0093     		str	r3, [sp]
+ 244 0010 B4F90830 		ldrsh	r3, [r4, #8]
+ 245 0014 B4F90220 		ldrsh	r2, [r4, #2]
+ 246 0018 2188     		ldrh	r1, [r4]
+ 247 001a 0348     		ldr	r0, .L16+4
+ 248 001c FFF7FEFF 		bl	printINF
+ 249              	.LVL16:
+ 281:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** }
+ 250              		.loc 1 281 1 is_stmt 0 view .LVU28
+ 251 0020 02B0     		add	sp, sp, #8
+ 252              	.LCFI6:
+ 253              		.cfi_def_cfa_offset 8
+ 254              		@ sp needed
+ 255 0022 10BD     		pop	{r4, pc}
+ 256              	.L17:
+ 257              		.align	2
+ 258              	.L16:
+ 259 0024 00000000 		.word	bq35100_data
+ 260 0028 00000000 		.word	.LC6
+ 261              		.cfi_endproc
+ 262              	.LFE145:
+ 264              		.section	.text.B1_enable_interrupt,"ax",%progbits
+ 265              		.align	1
+ 266              		.global	B1_enable_interrupt
+ 267              		.syntax unified
+ 268              		.thumb
+ 269              		.thumb_func
+ 270              		.fpu fpv4-sp-d16
+ 272              	B1_enable_interrupt:
+ 273              	.LFB132:
+ 165:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****     GPIO_InitTypeDef GPIO_InitStruct = {0};
+ 274              		.loc 1 165 1 is_stmt 1 view -0
+ 275              		.cfi_startproc
+ 276              		@ args = 0, pretend = 0, frame = 24
+ 277              		@ frame_needed = 0, uses_anonymous_args = 0
+ARM GAS  /tmp/cciN6141.s 			page 11
+
+
+ 278 0000 10B5     		push	{r4, lr}
+ 279              	.LCFI7:
+ 280              		.cfi_def_cfa_offset 8
+ 281              		.cfi_offset 4, -8
+ 282              		.cfi_offset 14, -4
+ 283 0002 86B0     		sub	sp, sp, #24
+ 284              	.LCFI8:
+ 285              		.cfi_def_cfa_offset 32
+ 166:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****     GPIO_InitStruct.Pin = OCTA_BTN1_Pin;
+ 286              		.loc 1 166 5 view .LVU30
+ 166:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****     GPIO_InitStruct.Pin = OCTA_BTN1_Pin;
+ 287              		.loc 1 166 22 is_stmt 0 view .LVU31
+ 288 0004 0024     		movs	r4, #0
+ 289 0006 0494     		str	r4, [sp, #16]
+ 290 0008 0594     		str	r4, [sp, #20]
+ 167:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****     GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
+ 291              		.loc 1 167 5 is_stmt 1 view .LVU32
+ 167:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****     GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
+ 292              		.loc 1 167 25 is_stmt 0 view .LVU33
+ 293 000a 4FF48053 		mov	r3, #4096
+ 294 000e 0193     		str	r3, [sp, #4]
+ 168:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****     GPIO_InitStruct.Pull = GPIO_PULLUP;
+ 295              		.loc 1 168 5 is_stmt 1 view .LVU34
+ 168:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****     GPIO_InitStruct.Pull = GPIO_PULLUP;
+ 296              		.loc 1 168 26 is_stmt 0 view .LVU35
+ 297 0010 084B     		ldr	r3, .L20
+ 298 0012 0293     		str	r3, [sp, #8]
+ 169:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****     HAL_GPIO_Init(OCTA_BTN1_GPIO_Port, &GPIO_InitStruct);
+ 299              		.loc 1 169 5 is_stmt 1 view .LVU36
+ 169:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****     HAL_GPIO_Init(OCTA_BTN1_GPIO_Port, &GPIO_InitStruct);
+ 300              		.loc 1 169 26 is_stmt 0 view .LVU37
+ 301 0014 0123     		movs	r3, #1
+ 302 0016 0393     		str	r3, [sp, #12]
+ 170:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** 
+ 303              		.loc 1 170 5 is_stmt 1 view .LVU38
+ 304 0018 01A9     		add	r1, sp, #4
+ 305 001a 0748     		ldr	r0, .L20+4
+ 306 001c FFF7FEFF 		bl	HAL_GPIO_Init
+ 307              	.LVL17:
+ 173:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****     HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
+ 308              		.loc 1 173 5 view .LVU39
+ 309 0020 2246     		mov	r2, r4
+ 310 0022 0721     		movs	r1, #7
+ 311 0024 2820     		movs	r0, #40
+ 312 0026 FFF7FEFF 		bl	HAL_NVIC_SetPriority
+ 313              	.LVL18:
+ 174:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** }
+ 314              		.loc 1 174 5 view .LVU40
+ 315 002a 2820     		movs	r0, #40
+ 316 002c FFF7FEFF 		bl	HAL_NVIC_EnableIRQ
+ 317              	.LVL19:
+ 175:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** 
+ 318              		.loc 1 175 1 is_stmt 0 view .LVU41
+ 319 0030 06B0     		add	sp, sp, #24
+ 320              	.LCFI9:
+ 321              		.cfi_def_cfa_offset 8
+ 322              		@ sp needed
+ARM GAS  /tmp/cciN6141.s 			page 12
+
+
+ 323 0032 10BD     		pop	{r4, pc}
+ 324              	.L21:
+ 325              		.align	2
+ 326              	.L20:
+ 327 0034 00001110 		.word	269549568
+ 328 0038 00100048 		.word	1207963648
+ 329              		.cfi_endproc
+ 330              	.LFE132:
+ 332              		.section	.text.B2_enable_interrupt,"ax",%progbits
+ 333              		.align	1
+ 334              		.global	B2_enable_interrupt
+ 335              		.syntax unified
+ 336              		.thumb
+ 337              		.thumb_func
+ 338              		.fpu fpv4-sp-d16
+ 340              	B2_enable_interrupt:
+ 341              	.LFB133:
+ 178:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****     GPIO_InitTypeDef GPIO_InitStruct = {0};
+ 342              		.loc 1 178 1 is_stmt 1 view -0
+ 343              		.cfi_startproc
+ 344              		@ args = 0, pretend = 0, frame = 24
+ 345              		@ frame_needed = 0, uses_anonymous_args = 0
+ 346 0000 10B5     		push	{r4, lr}
+ 347              	.LCFI10:
+ 348              		.cfi_def_cfa_offset 8
+ 349              		.cfi_offset 4, -8
+ 350              		.cfi_offset 14, -4
+ 351 0002 86B0     		sub	sp, sp, #24
+ 352              	.LCFI11:
+ 353              		.cfi_def_cfa_offset 32
+ 179:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****     GPIO_InitStruct.Pin = OCTA_BTN2_Pin;
+ 354              		.loc 1 179 5 view .LVU43
+ 179:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****     GPIO_InitStruct.Pin = OCTA_BTN2_Pin;
+ 355              		.loc 1 179 22 is_stmt 0 view .LVU44
+ 356 0004 0024     		movs	r4, #0
+ 357 0006 0494     		str	r4, [sp, #16]
+ 358 0008 0594     		str	r4, [sp, #20]
+ 180:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****     GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
+ 359              		.loc 1 180 5 is_stmt 1 view .LVU45
+ 180:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****     GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
+ 360              		.loc 1 180 25 is_stmt 0 view .LVU46
+ 361 000a 4FF40043 		mov	r3, #32768
+ 362 000e 0193     		str	r3, [sp, #4]
+ 181:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****     GPIO_InitStruct.Pull = GPIO_PULLUP;
+ 363              		.loc 1 181 5 is_stmt 1 view .LVU47
+ 181:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****     GPIO_InitStruct.Pull = GPIO_PULLUP;
+ 364              		.loc 1 181 26 is_stmt 0 view .LVU48
+ 365 0010 084B     		ldr	r3, .L24
+ 366 0012 0293     		str	r3, [sp, #8]
+ 182:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****     HAL_GPIO_Init(OCTA_BTN2_GPIO_Port, &GPIO_InitStruct);
+ 367              		.loc 1 182 5 is_stmt 1 view .LVU49
+ 182:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****     HAL_GPIO_Init(OCTA_BTN2_GPIO_Port, &GPIO_InitStruct);
+ 368              		.loc 1 182 26 is_stmt 0 view .LVU50
+ 369 0014 0123     		movs	r3, #1
+ 370 0016 0393     		str	r3, [sp, #12]
+ 183:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** 
+ 371              		.loc 1 183 5 is_stmt 1 view .LVU51
+ARM GAS  /tmp/cciN6141.s 			page 13
+
+
+ 372 0018 01A9     		add	r1, sp, #4
+ 373 001a 0748     		ldr	r0, .L24+4
+ 374 001c FFF7FEFF 		bl	HAL_GPIO_Init
+ 375              	.LVL20:
+ 186:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****     HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
+ 376              		.loc 1 186 5 view .LVU52
+ 377 0020 2246     		mov	r2, r4
+ 378 0022 0721     		movs	r1, #7
+ 379 0024 2820     		movs	r0, #40
+ 380 0026 FFF7FEFF 		bl	HAL_NVIC_SetPriority
+ 381              	.LVL21:
+ 187:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** }
+ 382              		.loc 1 187 5 view .LVU53
+ 383 002a 2820     		movs	r0, #40
+ 384 002c FFF7FEFF 		bl	HAL_NVIC_EnableIRQ
+ 385              	.LVL22:
+ 188:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** 
+ 386              		.loc 1 188 1 is_stmt 0 view .LVU54
+ 387 0030 06B0     		add	sp, sp, #24
+ 388              	.LCFI12:
+ 389              		.cfi_def_cfa_offset 8
+ 390              		@ sp needed
+ 391 0032 10BD     		pop	{r4, pc}
+ 392              	.L25:
+ 393              		.align	2
+ 394              	.L24:
+ 395 0034 00001110 		.word	269549568
+ 396 0038 00100048 		.word	1207963648
+ 397              		.cfi_endproc
+ 398              	.LFE133:
+ 400              		.section	.rodata.main.str1.4,"aMS",%progbits,1
+ 401              		.align	2
+ 402              	.LC7:
+ 403 0000 52533233 		.ascii	"RS232: %s, statusrx %d \015\012\000"
+ 403      323A2025 
+ 403      732C2073 
+ 403      74617475 
+ 403      73727820 
+ 404 001a 0000     		.align	2
+ 405              	.LC8:
+ 406 001c 466C6173 		.ascii	"Flash operation NOK: %d\015\012\000"
+ 406      68206F70 
+ 406      65726174 
+ 406      696F6E20 
+ 406      4E4F4B3A 
+ 407 0036 0000     		.align	2
+ 408              	.LC9:
+ 409 0038 73656374 		.ascii	"sector 20: \015\012\000"
+ 409      6F722032 
+ 409      303A200D 
+ 409      0A00
+ 410 0046 0000     		.align	2
+ 411              	.LC10:
+ 412 0048 25642000 		.ascii	"%d \000"
+ 413              		.align	2
+ 414              	.LC11:
+ 415 004c 0D00     		.ascii	"\015\000"
+ARM GAS  /tmp/cciN6141.s 			page 14
+
+
+ 416 004e 0000     		.align	2
+ 417              	.LC12:
+ 418 0050 6F637461 		.ascii	"octa-flash RW test OK\015\012\000"
+ 418      2D666C61 
+ 418      73682052 
+ 418      57207465 
+ 418      7374204F 
+ 419              		.align	2
+ 420              	.LC13:
+ 421 0068 6F637461 		.ascii	"octa-flash RW test NOK\015\012\000"
+ 421      2D666C61 
+ 421      73682052 
+ 421      57207465 
+ 421      7374204E 
+ 422              		.section	.text.main,"ax",%progbits
+ 423              		.align	1
+ 424              		.global	main
+ 425              		.syntax unified
+ 426              		.thumb
+ 427              		.thumb_func
+ 428              		.fpu fpv4-sp-d16
+ 430              	main:
+ 431              	.LFB131:
+  14:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   Initialize_Platform();
+ 432              		.loc 1 14 1 is_stmt 1 view -0
+ 433              		.cfi_startproc
+ 434              		@ args = 0, pretend = 0, frame = 584
+ 435              		@ frame_needed = 0, uses_anonymous_args = 0
+ 436 0000 30B5     		push	{r4, r5, lr}
+ 437              	.LCFI13:
+ 438              		.cfi_def_cfa_offset 12
+ 439              		.cfi_offset 4, -12
+ 440              		.cfi_offset 5, -8
+ 441              		.cfi_offset 14, -4
+ 442 0002 ADF5137D 		sub	sp, sp, #588
+ 443              	.LCFI14:
+ 444              		.cfi_def_cfa_offset 600
+  15:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** 
+ 445              		.loc 1 15 3 view .LVU56
+ 446 0006 FFF7FEFF 		bl	Initialize_Platform
+ 447              	.LVL23:
+  18:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** 
+ 448              		.loc 1 18 3 view .LVU57
+ 449 000a 0122     		movs	r2, #1
+ 450 000c 4FF40061 		mov	r1, #2048
+ 451 0010 4FF09040 		mov	r0, #1207959552
+ 452 0014 FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 453              	.LVL24:
+  21:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   SHT31_begin();
+ 454              		.loc 1 21 3 view .LVU58
+ 455 0018 9D4C     		ldr	r4, .L41
+ 456 001a 2046     		mov	r0, r4
+ 457 001c FFF7FEFF 		bl	setI2CInterface_SHT31
+ 458              	.LVL25:
+  22:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** 
+ 459              		.loc 1 22 3 view .LVU59
+ 460 0020 FFF7FEFF 		bl	SHT31_begin
+ARM GAS  /tmp/cciN6141.s 			page 15
+
+
+ 461              	.LVL26:
+  25:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   LSM303AGR_ACC_reset();
+ 462              		.loc 1 25 3 view .LVU60
+ 463 0024 2046     		mov	r0, r4
+ 464 0026 FFF7FEFF 		bl	LSM303AGR_setI2CInterface
+ 465              	.LVL27:
+  26:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** 	LSM303AGR_MAG_reset();
+ 466              		.loc 1 26 3 view .LVU61
+ 467 002a FFF7FEFF 		bl	LSM303AGR_ACC_reset
+ 468              	.LVL28:
+  27:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   HAL_Delay(100);
+ 469              		.loc 1 27 2 view .LVU62
+ 470 002e FFF7FEFF 		bl	LSM303AGR_MAG_reset
+ 471              	.LVL29:
+  28:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** 	LSM303AGR_init();
+ 472              		.loc 1 28 3 view .LVU63
+ 473 0032 6420     		movs	r0, #100
+ 474 0034 FFF7FEFF 		bl	HAL_Delay
+ 475              	.LVL30:
+  29:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** 
+ 476              		.loc 1 29 2 view .LVU64
+ 477 0038 FFF7FEFF 		bl	LSM303AGR_init
+ 478              	.LVL31:
+  32:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** 
+ 479              		.loc 1 32 3 view .LVU65
+ 480 003c 2046     		mov	r0, r4
+ 481 003e FFF7FEFF 		bl	TC3472_init
+ 482              	.LVL32:
+  35:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** 
+ 483              		.loc 1 35 3 view .LVU66
+ 484 0042 2046     		mov	r0, r4
+ 485 0044 FFF7FEFF 		bl	bq35100_init
+ 486              	.LVL33:
+  39:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   NBIOT_UART_Init(115200); 
+ 487              		.loc 1 39 3 view .LVU67
+ 488 0048 0122     		movs	r2, #1
+ 489 004a 0821     		movs	r1, #8
+ 490 004c 9148     		ldr	r0, .L41+4
+ 491 004e FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 492              	.LVL34:
+  40:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** 
+ 493              		.loc 1 40 3 view .LVU68
+ 494 0052 4FF4E130 		mov	r0, #115200
+ 495 0056 FFF7FEFF 		bl	NBIOT_UART_Init
+ 496              	.LVL35:
+  43:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   RS232_UART_Init(9600);
+ 497              		.loc 1 43 3 view .LVU69
+ 498 005a 0122     		movs	r2, #1
+ 499 005c 1021     		movs	r1, #16
+ 500 005e 8E48     		ldr	r0, .L41+8
+ 501 0060 FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 502              	.LVL36:
+  44:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   uint8_t buff[20];
+ 503              		.loc 1 44 3 view .LVU70
+ 504 0064 4FF41650 		mov	r0, #9600
+ 505 0068 FFF7FEFF 		bl	RS232_UART_Init
+ 506              	.LVL37:
+ARM GAS  /tmp/cciN6141.s 			page 16
+
+
+  45:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   memset(buff, 0, 20);
+ 507              		.loc 1 45 3 view .LVU71
+  46:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   HAL_Delay(3000);
+ 508              		.loc 1 46 3 view .LVU72
+ 509 006c 0024     		movs	r4, #0
+ 510 006e 8D94     		str	r4, [sp, #564]
+ 511 0070 8E94     		str	r4, [sp, #568]
+ 512 0072 8F94     		str	r4, [sp, #572]
+ 513 0074 9094     		str	r4, [sp, #576]
+ 514 0076 9194     		str	r4, [sp, #580]
+  47:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   IWDG_feed(NULL);
+ 515              		.loc 1 47 3 view .LVU73
+ 516 0078 40F6B830 		movw	r0, #3000
+ 517 007c FFF7FEFF 		bl	HAL_Delay
+ 518              	.LVL38:
+  48:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   HAL_UART_AbortReceive(&RS232_UART);
+ 519              		.loc 1 48 3 view .LVU74
+ 520 0080 2046     		mov	r0, r4
+ 521 0082 FFF7FEFF 		bl	IWDG_feed
+ 522              	.LVL39:
+  49:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   HAL_StatusTypeDef statusrx = HAL_UART_Receive(&RS232_UART, (uint8_t *)buff, 20, 2500);
+ 523              		.loc 1 49 3 view .LVU75
+ 524 0086 854D     		ldr	r5, .L41+12
+ 525 0088 2846     		mov	r0, r5
+ 526 008a FFF7FEFF 		bl	HAL_UART_AbortReceive
+ 527              	.LVL40:
+  50:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   printINF("RS232: %s, statusrx %d \r\n", buff, statusrx);
+ 528              		.loc 1 50 3 view .LVU76
+  50:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   printINF("RS232: %s, statusrx %d \r\n", buff, statusrx);
+ 529              		.loc 1 50 32 is_stmt 0 view .LVU77
+ 530 008e 40F6C413 		movw	r3, #2500
+ 531 0092 1422     		movs	r2, #20
+ 532 0094 8DA9     		add	r1, sp, #564
+ 533 0096 2846     		mov	r0, r5
+ 534 0098 FFF7FEFF 		bl	HAL_UART_Receive
+ 535              	.LVL41:
+ 536 009c 0246     		mov	r2, r0
+ 537              	.LVL42:
+  51:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** 
+ 538              		.loc 1 51 3 is_stmt 1 view .LVU78
+ 539 009e 8DA9     		add	r1, sp, #564
+ 540 00a0 7F48     		ldr	r0, .L41+16
+ 541 00a2 FFF7FEFF 		bl	printINF
+ 542              	.LVL43:
+  54:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   OCTA_FLASH_Initialize(&FLASH_SPI);
+ 543              		.loc 1 54 3 view .LVU79
+ 544 00a6 0122     		movs	r2, #1
+ 545 00a8 4FF48061 		mov	r1, #1024
+ 546 00ac 7D48     		ldr	r0, .L41+20
+ 547 00ae FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 548              	.LVL44:
+  55:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** 
+ 549              		.loc 1 55 3 view .LVU80
+ 550 00b2 7D48     		ldr	r0, .L41+24
+ 551 00b4 FFF7FEFF 		bl	OCTA_FLASH_Initialize
+ 552              	.LVL45:
+  57:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   retval = OCTA_FLASH_erase4KBSectorFromPage(0);
+ARM GAS  /tmp/cciN6141.s 			page 17
+
+
+ 553              		.loc 1 57 3 view .LVU81
+  58:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   if(retval != OCTA_FLASH_OK)
+ 554              		.loc 1 58 3 view .LVU82
+  58:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   if(retval != OCTA_FLASH_OK)
+ 555              		.loc 1 58 12 is_stmt 0 view .LVU83
+ 556 00b8 2046     		mov	r0, r4
+ 557 00ba FFF7FEFF 		bl	OCTA_FLASH_erase4KBSectorFromPage
+ 558              	.LVL46:
+  59:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   {
+ 559              		.loc 1 59 3 is_stmt 1 view .LVU84
+  59:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   {
+ 560              		.loc 1 59 5 is_stmt 0 view .LVU85
+ 561 00be 00BB     		cbnz	r0, .L38
+ 562              	.LVL47:
+ 563              	.L27:
+  64:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** 
+ 564              		.loc 1 64 3 is_stmt 1 view .LVU86
+  64:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** 
+ 565              		.loc 1 64 23 is_stmt 0 view .LVU87
+ 566 00c0 FFF7FEFF 		bl	OCTA_FLASH_TestRW
+ 567              	.LVL48:
+  67:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   if(retval != OCTA_FLASH_OK)
+ 568              		.loc 1 67 3 is_stmt 1 view .LVU88
+  67:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   if(retval != OCTA_FLASH_OK)
+ 569              		.loc 1 67 12 is_stmt 0 view .LVU89
+ 570 00c4 0720     		movs	r0, #7
+ 571 00c6 FFF7FEFF 		bl	OCTA_FLASH_erase4KBSectorFromPage
+ 572              	.LVL49:
+  68:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   {
+ 573              		.loc 1 68 3 is_stmt 1 view .LVU90
+  68:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   {
+ 574              		.loc 1 68 5 is_stmt 0 view .LVU91
+ 575 00ca 0146     		mov	r1, r0
+ 576 00cc F0B9     		cbnz	r0, .L39
+ 577              	.LVL50:
+ 578              	.L28:
+  74:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** 
+ 579              		.loc 1 74 3 is_stmt 1 view .LVU92
+  74:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** 
+ 580              		.loc 1 74 15 is_stmt 0 view .LVU93
+ 581 00ce FFF7FEFF 		bl	OCTA_FLASH_TestRW
+ 582              	.LVL51:
+  77:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   uint8_t buffer[256];
+ 583              		.loc 1 77 3 is_stmt 1 view .LVU94
+ 584 00d2 1420     		movs	r0, #20
+ 585 00d4 FFF7FEFF 		bl	OCTA_FLASH_open
+ 586              	.LVL52:
+  78:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   memset(buffer, 20, 256);
+ 587              		.loc 1 78 3 view .LVU95
+  79:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   OCTA_FLASH_write(buffer, 256);
+ 588              		.loc 1 79 3 view .LVU96
+ 589 00d8 4FF48072 		mov	r2, #256
+ 590 00dc 1421     		movs	r1, #20
+ 591 00de 4DA8     		add	r0, sp, #308
+ 592 00e0 FFF7FEFF 		bl	memset
+ 593              	.LVL53:
+  80:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   //read to check
+ARM GAS  /tmp/cciN6141.s 			page 18
+
+
+ 594              		.loc 1 80 3 view .LVU97
+ 595 00e4 4FF48071 		mov	r1, #256
+ 596 00e8 4DA8     		add	r0, sp, #308
+ 597 00ea FFF7FEFF 		bl	OCTA_FLASH_write
+ 598              	.LVL54:
+  82:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   OCTA_FLASH_read(rx,256);
+ 599              		.loc 1 82 3 view .LVU98
+  83:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   printDBG("sector 20: \r\n");
+ 600              		.loc 1 83 3 view .LVU99
+ 601 00ee 4FF48071 		mov	r1, #256
+ 602 00f2 0DA8     		add	r0, sp, #52
+ 603 00f4 FFF7FEFF 		bl	OCTA_FLASH_read
+ 604              	.LVL55:
+  84:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   for(uint16_t i = 0; i<256; i++)
+ 605              		.loc 1 84 3 view .LVU100
+ 606 00f8 6C48     		ldr	r0, .L41+28
+ 607 00fa FFF7FEFF 		bl	printDBG
+ 608              	.LVL56:
+  85:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****       printf("%d ", rx[i]); 
+ 609              		.loc 1 85 3 view .LVU101
+ 610              	.LBB3:
+  85:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****       printf("%d ", rx[i]); 
+ 611              		.loc 1 85 7 view .LVU102
+  85:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****       printf("%d ", rx[i]); 
+ 612              		.loc 1 85 16 is_stmt 0 view .LVU103
+ 613 00fe 0024     		movs	r4, #0
+  85:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****       printf("%d ", rx[i]); 
+ 614              		.loc 1 85 3 view .LVU104
+ 615 0100 0FE0     		b	.L29
+ 616              	.LVL57:
+ 617              	.L38:
+  85:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****       printf("%d ", rx[i]); 
+ 618              		.loc 1 85 3 view .LVU105
+ 619 0102 0146     		mov	r1, r0
+ 620              	.LBE3:
+  61:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   }
+ 621              		.loc 1 61 5 is_stmt 1 view .LVU106
+ 622 0104 6A48     		ldr	r0, .L41+32
+ 623              	.LVL58:
+  61:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   }
+ 624              		.loc 1 61 5 is_stmt 0 view .LVU107
+ 625 0106 FFF7FEFF 		bl	printERR
+ 626              	.LVL59:
+  61:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   }
+ 627              		.loc 1 61 5 view .LVU108
+ 628 010a D9E7     		b	.L27
+ 629              	.LVL60:
+ 630              	.L39:
+  70:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   }
+ 631              		.loc 1 70 5 is_stmt 1 view .LVU109
+ 632 010c 6848     		ldr	r0, .L41+32
+ 633              	.LVL61:
+  70:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   }
+ 634              		.loc 1 70 5 is_stmt 0 view .LVU110
+ 635 010e FFF7FEFF 		bl	printERR
+ 636              	.LVL62:
+  70:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   }
+ARM GAS  /tmp/cciN6141.s 			page 19
+
+
+ 637              		.loc 1 70 5 view .LVU111
+ 638 0112 DCE7     		b	.L28
+ 639              	.LVL63:
+ 640              	.L30:
+ 641              	.LBB4:
+  86:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   printf("\r\n");
+ 642              		.loc 1 86 7 is_stmt 1 discriminator 3 view .LVU112
+ 643 0114 0DAB     		add	r3, sp, #52
+ 644 0116 195D     		ldrb	r1, [r3, r4]	@ zero_extendqisi2
+ 645 0118 6648     		ldr	r0, .L41+36
+ 646 011a FFF7FEFF 		bl	printf
+ 647              	.LVL64:
+  85:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****       printf("%d ", rx[i]); 
+ 648              		.loc 1 85 30 discriminator 3 view .LVU113
+  85:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****       printf("%d ", rx[i]); 
+ 649              		.loc 1 85 31 is_stmt 0 discriminator 3 view .LVU114
+ 650 011e 0134     		adds	r4, r4, #1
+ 651              	.LVL65:
+  85:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****       printf("%d ", rx[i]); 
+ 652              		.loc 1 85 31 discriminator 3 view .LVU115
+ 653 0120 A4B2     		uxth	r4, r4
+ 654              	.LVL66:
+ 655              	.L29:
+  85:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****       printf("%d ", rx[i]); 
+ 656              		.loc 1 85 23 is_stmt 1 discriminator 1 view .LVU116
+  85:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****       printf("%d ", rx[i]); 
+ 657              		.loc 1 85 3 is_stmt 0 discriminator 1 view .LVU117
+ 658 0122 FF2C     		cmp	r4, #255
+ 659 0124 F6D9     		bls	.L30
+ 660              	.LBE4:
+  87:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** 
+ 661              		.loc 1 87 3 is_stmt 1 view .LVU118
+ 662 0126 6448     		ldr	r0, .L41+40
+ 663 0128 FFF7FEFF 		bl	puts
+ 664              	.LVL67:
+  90:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   if(retval != OCTA_FLASH_OK)
+ 665              		.loc 1 90 3 view .LVU119
+  90:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   if(retval != OCTA_FLASH_OK)
+ 666              		.loc 1 90 12 is_stmt 0 view .LVU120
+ 667 012c 1020     		movs	r0, #16
+ 668 012e FFF7FEFF 		bl	OCTA_FLASH_erase4KBSectorFromPage
+ 669              	.LVL68:
+  91:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   {
+ 670              		.loc 1 91 3 is_stmt 1 view .LVU121
+  91:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   {
+ 671              		.loc 1 91 5 is_stmt 0 view .LVU122
+ 672 0132 0146     		mov	r1, r0
+ 673 0134 78B9     		cbnz	r0, .L40
+ 674              	.LVL69:
+ 675              	.L31:
+  97:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** 
+ 676              		.loc 1 97 3 is_stmt 1 view .LVU123
+  97:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** 
+ 677              		.loc 1 97 15 is_stmt 0 view .LVU124
+ 678 0136 FFF7FEFF 		bl	OCTA_FLASH_TestRW
+ 679              	.LVL70:
+ 680 013a 0546     		mov	r5, r0
+ARM GAS  /tmp/cciN6141.s 			page 20
+
+
+ 681              	.LVL71:
+ 100:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   OCTA_FLASH_read(rx,256);
+ 682              		.loc 1 100 3 is_stmt 1 view .LVU125
+ 683 013c 1420     		movs	r0, #20
+ 684 013e FFF7FEFF 		bl	OCTA_FLASH_open
+ 685              	.LVL72:
+ 101:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   printDBG("sector 20: \r\n");
+ 686              		.loc 1 101 3 view .LVU126
+ 687 0142 4FF48071 		mov	r1, #256
+ 688 0146 0DA8     		add	r0, sp, #52
+ 689 0148 FFF7FEFF 		bl	OCTA_FLASH_read
+ 690              	.LVL73:
+ 102:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   for(uint16_t i = 0; i<256; i++)
+ 691              		.loc 1 102 3 view .LVU127
+ 692 014c 5748     		ldr	r0, .L41+28
+ 693 014e FFF7FEFF 		bl	printDBG
+ 694              	.LVL74:
+ 103:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****       printf("%d ", rx[i]); 
+ 695              		.loc 1 103 3 view .LVU128
+ 696              	.LBB5:
+ 103:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****       printf("%d ", rx[i]); 
+ 697              		.loc 1 103 7 view .LVU129
+ 103:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****       printf("%d ", rx[i]); 
+ 698              		.loc 1 103 16 is_stmt 0 view .LVU130
+ 699 0152 0024     		movs	r4, #0
+ 700              	.LVL75:
+ 103:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****       printf("%d ", rx[i]); 
+ 701              		.loc 1 103 3 view .LVU131
+ 702 0154 0AE0     		b	.L32
+ 703              	.LVL76:
+ 704              	.L40:
+ 103:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****       printf("%d ", rx[i]); 
+ 705              		.loc 1 103 3 view .LVU132
+ 706              	.LBE5:
+  93:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   }
+ 707              		.loc 1 93 5 is_stmt 1 view .LVU133
+ 708 0156 5648     		ldr	r0, .L41+32
+ 709              	.LVL77:
+  93:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   }
+ 710              		.loc 1 93 5 is_stmt 0 view .LVU134
+ 711 0158 FFF7FEFF 		bl	printERR
+ 712              	.LVL78:
+  93:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   }
+ 713              		.loc 1 93 5 view .LVU135
+ 714 015c EBE7     		b	.L31
+ 715              	.LVL79:
+ 716              	.L33:
+ 717              	.LBB6:
+ 104:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   printf("\r\n");
+ 718              		.loc 1 104 7 is_stmt 1 discriminator 3 view .LVU136
+ 719 015e 0DAB     		add	r3, sp, #52
+ 720 0160 195D     		ldrb	r1, [r3, r4]	@ zero_extendqisi2
+ 721 0162 5448     		ldr	r0, .L41+36
+ 722 0164 FFF7FEFF 		bl	printf
+ 723              	.LVL80:
+ 103:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****       printf("%d ", rx[i]); 
+ 724              		.loc 1 103 30 discriminator 3 view .LVU137
+ARM GAS  /tmp/cciN6141.s 			page 21
+
+
+ 103:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****       printf("%d ", rx[i]); 
+ 725              		.loc 1 103 31 is_stmt 0 discriminator 3 view .LVU138
+ 726 0168 0134     		adds	r4, r4, #1
+ 727              	.LVL81:
+ 103:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****       printf("%d ", rx[i]); 
+ 728              		.loc 1 103 31 discriminator 3 view .LVU139
+ 729 016a A4B2     		uxth	r4, r4
+ 730              	.LVL82:
+ 731              	.L32:
+ 103:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****       printf("%d ", rx[i]); 
+ 732              		.loc 1 103 23 is_stmt 1 discriminator 1 view .LVU140
+ 103:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****       printf("%d ", rx[i]); 
+ 733              		.loc 1 103 3 is_stmt 0 discriminator 1 view .LVU141
+ 734 016c FF2C     		cmp	r4, #255
+ 735 016e F6D9     		bls	.L33
+ 736              	.LBE6:
+ 105:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** 
+ 737              		.loc 1 105 3 is_stmt 1 view .LVU142
+ 738 0170 5148     		ldr	r0, .L41+40
+ 739 0172 FFF7FEFF 		bl	puts
+ 740              	.LVL83:
+ 107:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****       printINF("octa-flash RW test OK\r\n");
+ 741              		.loc 1 107 3 view .LVU143
+ 107:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****       printINF("octa-flash RW test OK\r\n");
+ 742              		.loc 1 107 5 is_stmt 0 view .LVU144
+ 743 0176 002D     		cmp	r5, #0
+ 744 0178 00F08580 		beq	.L34
+ 108:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   else
+ 745              		.loc 1 108 7 is_stmt 1 view .LVU145
+ 746 017c 4F48     		ldr	r0, .L41+44
+ 747 017e FFF7FEFF 		bl	printINF
+ 748              	.LVL84:
+ 749              	.L35:
+ 112:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
+ 750              		.loc 1 112 3 view .LVU146
+ 751 0182 08AC     		add	r4, sp, #32
+ 752              	.LVL85:
+ 112:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
+ 753              		.loc 1 112 3 is_stmt 0 view .LVU147
+ 754 0184 4E4D     		ldr	r5, .L41+48
+ 755              	.LVL86:
+ 112:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
+ 756              		.loc 1 112 3 view .LVU148
+ 757 0186 0FCD     		ldmia	r5!, {r0, r1, r2, r3}
+ 758 0188 0FC4     		stmia	r4!, {r0, r1, r2, r3}
+ 759 018a 2B68     		ldr	r3, [r5]
+ 760 018c 2360     		str	r3, [r4]
+ 113:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** 
+ 761              		.loc 1 113 3 is_stmt 1 view .LVU149
+ 113:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** 
+ 762              		.loc 1 113 23 is_stmt 0 view .LVU150
+ 763 018e 0021     		movs	r1, #0
+ 764 0190 08A8     		add	r0, sp, #32
+ 765 0192 FFF7FEFF 		bl	osThreadCreate
+ 766              	.LVL87:
+ 113:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** 
+ 767              		.loc 1 113 21 view .LVU151
+ARM GAS  /tmp/cciN6141.s 			page 22
+
+
+ 768 0196 4B4B     		ldr	r3, .L41+52
+ 769 0198 1860     		str	r0, [r3]
+ 116:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   osTimerDef(iwdgTim, IWDG_feed);
+ 770              		.loc 1 116 3 is_stmt 1 view .LVU152
+ 771 019a 0020     		movs	r0, #0
+ 772 019c FFF7FEFF 		bl	IWDG_feed
+ 773              	.LVL88:
+ 117:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   iwdgTimId = osTimerCreate(osTimer(iwdgTim), osTimerPeriodic, NULL);
+ 774              		.loc 1 117 3 view .LVU153
+ 775 01a0 494B     		ldr	r3, .L41+56
+ 776 01a2 0793     		str	r3, [sp, #28]
+ 118:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   osTimerStart(iwdgTimId, 5 * 1000);
+ 777              		.loc 1 118 3 view .LVU154
+ 118:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   osTimerStart(iwdgTimId, 5 * 1000);
+ 778              		.loc 1 118 15 is_stmt 0 view .LVU155
+ 779 01a4 0022     		movs	r2, #0
+ 780 01a6 0121     		movs	r1, #1
+ 781 01a8 07A8     		add	r0, sp, #28
+ 782 01aa FFF7FEFF 		bl	osTimerCreate
+ 783              	.LVL89:
+ 118:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   osTimerStart(iwdgTimId, 5 * 1000);
+ 784              		.loc 1 118 13 view .LVU156
+ 785 01ae 474B     		ldr	r3, .L41+60
+ 786 01b0 1860     		str	r0, [r3]
+ 119:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** 
+ 787              		.loc 1 119 3 is_stmt 1 view .LVU157
+ 788 01b2 41F28831 		movw	r1, #5000
+ 789 01b6 FFF7FEFF 		bl	osTimerStart
+ 790              	.LVL90:
+ 121:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   temp_hum_timer_id = osTimerCreate(osTimer(temp_hum_Tim), osTimerPeriodic, NULL);
+ 791              		.loc 1 121 3 view .LVU158
+ 792 01ba 454B     		ldr	r3, .L41+64
+ 793 01bc 0693     		str	r3, [sp, #24]
+ 122:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   osTimerStart(temp_hum_timer_id, sensor_timer * 1000);
+ 794              		.loc 1 122 3 view .LVU159
+ 122:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   osTimerStart(temp_hum_timer_id, sensor_timer * 1000);
+ 795              		.loc 1 122 23 is_stmt 0 view .LVU160
+ 796 01be 0022     		movs	r2, #0
+ 797 01c0 0121     		movs	r1, #1
+ 798 01c2 06A8     		add	r0, sp, #24
+ 799 01c4 FFF7FEFF 		bl	osTimerCreate
+ 800              	.LVL91:
+ 122:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   osTimerStart(temp_hum_timer_id, sensor_timer * 1000);
+ 801              		.loc 1 122 21 view .LVU161
+ 802 01c8 424B     		ldr	r3, .L41+68
+ 803 01ca 1860     		str	r0, [r3]
+ 123:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** 
+ 804              		.loc 1 123 3 is_stmt 1 view .LVU162
+ 805 01cc 41F28831 		movw	r1, #5000
+ 806 01d0 FFF7FEFF 		bl	osTimerStart
+ 807              	.LVL92:
+ 125:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   accelerometer_timer_id = osTimerCreate(osTimer(accsensor_Tim), osTimerPeriodic, NULL);
+ 808              		.loc 1 125 3 view .LVU163
+ 809 01d4 404B     		ldr	r3, .L41+72
+ 810 01d6 0593     		str	r3, [sp, #20]
+ 126:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   osTimerStart(accelerometer_timer_id, sensor_timer * 1000);
+ 811              		.loc 1 126 3 view .LVU164
+ARM GAS  /tmp/cciN6141.s 			page 23
+
+
+ 126:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   osTimerStart(accelerometer_timer_id, sensor_timer * 1000);
+ 812              		.loc 1 126 28 is_stmt 0 view .LVU165
+ 813 01d8 0022     		movs	r2, #0
+ 814 01da 0121     		movs	r1, #1
+ 815 01dc 05A8     		add	r0, sp, #20
+ 816 01de FFF7FEFF 		bl	osTimerCreate
+ 817              	.LVL93:
+ 126:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   osTimerStart(accelerometer_timer_id, sensor_timer * 1000);
+ 818              		.loc 1 126 26 view .LVU166
+ 819 01e2 3E4B     		ldr	r3, .L41+76
+ 820 01e4 1860     		str	r0, [r3]
+ 127:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** 
+ 821              		.loc 1 127 3 is_stmt 1 view .LVU167
+ 822 01e6 41F28831 		movw	r1, #5000
+ 823 01ea FFF7FEFF 		bl	osTimerStart
+ 824              	.LVL94:
+ 129:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   magnetometer_timer_id = osTimerCreate(osTimer(magsensor_Tim), osTimerPeriodic, NULL);
+ 825              		.loc 1 129 3 view .LVU168
+ 826 01ee 3C4B     		ldr	r3, .L41+80
+ 827 01f0 0493     		str	r3, [sp, #16]
+ 130:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   osTimerStart(magnetometer_timer_id, sensor_timer * 1000);
+ 828              		.loc 1 130 3 view .LVU169
+ 130:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   osTimerStart(magnetometer_timer_id, sensor_timer * 1000);
+ 829              		.loc 1 130 27 is_stmt 0 view .LVU170
+ 830 01f2 0022     		movs	r2, #0
+ 831 01f4 0121     		movs	r1, #1
+ 832 01f6 04A8     		add	r0, sp, #16
+ 833 01f8 FFF7FEFF 		bl	osTimerCreate
+ 834              	.LVL95:
+ 130:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   osTimerStart(magnetometer_timer_id, sensor_timer * 1000);
+ 835              		.loc 1 130 25 view .LVU171
+ 836 01fc 394B     		ldr	r3, .L41+84
+ 837 01fe 1860     		str	r0, [r3]
+ 131:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** 
+ 838              		.loc 1 131 3 is_stmt 1 view .LVU172
+ 839 0200 41F28831 		movw	r1, #5000
+ 840 0204 FFF7FEFF 		bl	osTimerStart
+ 841              	.LVL96:
+ 133:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   lightsensor_timer_id = osTimerCreate(osTimer(lightsensor_Tim), osTimerPeriodic, NULL);
+ 842              		.loc 1 133 3 view .LVU173
+ 843 0208 374B     		ldr	r3, .L41+88
+ 844 020a 0393     		str	r3, [sp, #12]
+ 134:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   osTimerStart(lightsensor_timer_id, sensor_timer * 1000);
+ 845              		.loc 1 134 3 view .LVU174
+ 134:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   osTimerStart(lightsensor_timer_id, sensor_timer * 1000);
+ 846              		.loc 1 134 26 is_stmt 0 view .LVU175
+ 847 020c 0022     		movs	r2, #0
+ 848 020e 0121     		movs	r1, #1
+ 849 0210 03A8     		add	r0, sp, #12
+ 850 0212 FFF7FEFF 		bl	osTimerCreate
+ 851              	.LVL97:
+ 134:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   osTimerStart(lightsensor_timer_id, sensor_timer * 1000);
+ 852              		.loc 1 134 24 view .LVU176
+ 853 0216 354B     		ldr	r3, .L41+92
+ 854 0218 1860     		str	r0, [r3]
+ 135:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** 
+ 855              		.loc 1 135 3 is_stmt 1 view .LVU177
+ARM GAS  /tmp/cciN6141.s 			page 24
+
+
+ 856 021a 41F28831 		movw	r1, #5000
+ 857 021e FFF7FEFF 		bl	osTimerStart
+ 858              	.LVL98:
+ 137:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   colorsensor_timer_id = osTimerCreate(osTimer(colorsensor_Tim), osTimerPeriodic, NULL);
+ 859              		.loc 1 137 3 view .LVU178
+ 860 0222 334B     		ldr	r3, .L41+96
+ 861 0224 0293     		str	r3, [sp, #8]
+ 138:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   osTimerStart(colorsensor_timer_id, sensor_timer * 1000);
+ 862              		.loc 1 138 3 view .LVU179
+ 138:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   osTimerStart(colorsensor_timer_id, sensor_timer * 1000);
+ 863              		.loc 1 138 26 is_stmt 0 view .LVU180
+ 864 0226 0022     		movs	r2, #0
+ 865 0228 0121     		movs	r1, #1
+ 866 022a 02A8     		add	r0, sp, #8
+ 867 022c FFF7FEFF 		bl	osTimerCreate
+ 868              	.LVL99:
+ 138:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   osTimerStart(colorsensor_timer_id, sensor_timer * 1000);
+ 869              		.loc 1 138 24 view .LVU181
+ 870 0230 304B     		ldr	r3, .L41+100
+ 871 0232 1860     		str	r0, [r3]
+ 139:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** 
+ 872              		.loc 1 139 3 is_stmt 1 view .LVU182
+ 873 0234 41F28831 		movw	r1, #5000
+ 874 0238 FFF7FEFF 		bl	osTimerStart
+ 875              	.LVL100:
+ 141:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   battery_sensor_timer_id = osTimerCreate(osTimer(battery_sensor_Tim), osTimerPeriodic, NULL);
+ 876              		.loc 1 141 3 view .LVU183
+ 877 023c 2E4B     		ldr	r3, .L41+104
+ 878 023e 0193     		str	r3, [sp, #4]
+ 142:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   osTimerStart(battery_sensor_timer_id, sensor_timer*3 * 1000);
+ 879              		.loc 1 142 3 view .LVU184
+ 142:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   osTimerStart(battery_sensor_timer_id, sensor_timer*3 * 1000);
+ 880              		.loc 1 142 29 is_stmt 0 view .LVU185
+ 881 0240 0022     		movs	r2, #0
+ 882 0242 0121     		movs	r1, #1
+ 883 0244 01A8     		add	r0, sp, #4
+ 884 0246 FFF7FEFF 		bl	osTimerCreate
+ 885              	.LVL101:
+ 142:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   osTimerStart(battery_sensor_timer_id, sensor_timer*3 * 1000);
+ 886              		.loc 1 142 27 view .LVU186
+ 887 024a 2C4B     		ldr	r3, .L41+108
+ 888 024c 1860     		str	r0, [r3]
+ 143:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** 
+ 889              		.loc 1 143 3 is_stmt 1 view .LVU187
+ 890 024e 43F69821 		movw	r1, #15000
+ 891 0252 FFF7FEFF 		bl	osTimerStart
+ 892              	.LVL102:
+ 146:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   i2cMutexId = osMutexCreate(osMutex(txMutex));
+ 893              		.loc 1 146 3 view .LVU188
+ 894 0256 0023     		movs	r3, #0
+ 895 0258 0093     		str	r3, [sp]
+ 147:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** 
+ 896              		.loc 1 147 3 view .LVU189
+ 147:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** 
+ 897              		.loc 1 147 16 is_stmt 0 view .LVU190
+ 898 025a 6846     		mov	r0, sp
+ 899 025c FFF7FEFF 		bl	osMutexCreate
+ARM GAS  /tmp/cciN6141.s 			page 25
+
+
+ 900              	.LVL103:
+ 147:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** 
+ 901              		.loc 1 147 14 view .LVU191
+ 902 0260 274B     		ldr	r3, .L41+112
+ 903 0262 1860     		str	r0, [r3]
+ 150:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   GPIO_SetApplicationCallback(&BTN1_Appcallback, (uint16_t)OCTA_BTN1_Pin);
+ 904              		.loc 1 150 3 is_stmt 1 view .LVU192
+ 905 0264 FFF7FEFF 		bl	B1_enable_interrupt
+ 906              	.LVL104:
+ 151:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** 
+ 907              		.loc 1 151 3 view .LVU193
+ 908 0268 4FF48051 		mov	r1, #4096
+ 909 026c 2548     		ldr	r0, .L41+116
+ 910 026e FFF7FEFF 		bl	GPIO_SetApplicationCallback
+ 911              	.LVL105:
+ 154:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   GPIO_SetApplicationCallback(&BTN2_Appcallback, (uint16_t)OCTA_BTN2_Pin);
+ 912              		.loc 1 154 3 view .LVU194
+ 913 0272 FFF7FEFF 		bl	B2_enable_interrupt
+ 914              	.LVL106:
+ 155:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** 
+ 915              		.loc 1 155 3 view .LVU195
+ 916 0276 4FF40041 		mov	r1, #32768
+ 917 027a 2348     		ldr	r0, .L41+120
+ 918 027c FFF7FEFF 		bl	GPIO_SetApplicationCallback
+ 919              	.LVL107:
+ 157:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** 
+ 920              		.loc 1 157 3 view .LVU196
+ 921 0280 FFF7FEFF 		bl	osKernelStart
+ 922              	.LVL108:
+ 923              	.L36:
+ 159:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   {
+ 924              		.loc 1 159 3 discriminator 1 view .LVU197
+ 161:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** }
+ 925              		.loc 1 161 3 discriminator 1 view .LVU198
+ 159:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   {
+ 926              		.loc 1 159 9 discriminator 1 view .LVU199
+ 927 0284 FEE7     		b	.L36
+ 928              	.LVL109:
+ 929              	.L34:
+ 110:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** 
+ 930              		.loc 1 110 7 view .LVU200
+ 931 0286 2148     		ldr	r0, .L41+124
+ 932 0288 FFF7FEFF 		bl	printINF
+ 933              	.LVL110:
+ 934 028c 79E7     		b	.L35
+ 935              	.L42:
+ 936 028e 00BF     		.align	2
+ 937              	.L41:
+ 938 0290 00000000 		.word	common_I2C
+ 939 0294 00080048 		.word	1207961600
+ 940 0298 00040048 		.word	1207960576
+ 941 029c 00000000 		.word	RS232_UART
+ 942 02a0 00000000 		.word	.LC7
+ 943 02a4 000C0048 		.word	1207962624
+ 944 02a8 00000000 		.word	FLASH_SPI
+ 945 02ac 38000000 		.word	.LC9
+ 946 02b0 1C000000 		.word	.LC8
+ARM GAS  /tmp/cciN6141.s 			page 26
+
+
+ 947 02b4 48000000 		.word	.LC10
+ 948 02b8 4C000000 		.word	.LC11
+ 949 02bc 50000000 		.word	.LC12
+ 950 02c0 00000000 		.word	.LANCHOR0
+ 951 02c4 00000000 		.word	defaultTaskHandle
+ 952 02c8 00000000 		.word	IWDG_feed
+ 953 02cc 00000000 		.word	iwdgTimId
+ 954 02d0 00000000 		.word	temp_hum_measurement
+ 955 02d4 00000000 		.word	temp_hum_timer_id
+ 956 02d8 00000000 		.word	accelerometer_measurement
+ 957 02dc 00000000 		.word	accelerometer_timer_id
+ 958 02e0 00000000 		.word	magnetometer_measurement
+ 959 02e4 00000000 		.word	magnetometer_timer_id
+ 960 02e8 00000000 		.word	lightsensor_measurement
+ 961 02ec 00000000 		.word	lightsensor_timer_id
+ 962 02f0 00000000 		.word	RGBsensor_measurement
+ 963 02f4 00000000 		.word	colorsensor_timer_id
+ 964 02f8 00000000 		.word	BatterySensor_measurement
+ 965 02fc 00000000 		.word	battery_sensor_timer_id
+ 966 0300 00000000 		.word	i2cMutexId
+ 967 0304 00000000 		.word	BTN1_Appcallback
+ 968 0308 00000000 		.word	BTN2_Appcallback
+ 969 030c 68000000 		.word	.LC13
+ 970              		.cfi_endproc
+ 971              	.LFE131:
+ 973              		.global	__aeabi_f2d
+ 974              		.section	.rodata.print_temp_hum.str1.4,"aMS",%progbits,1
+ 975              		.align	2
+ 976              	.LC15:
+ 977 0000 54656D70 		.ascii	"Temperature: %.2f degC \015\012\000"
+ 977      65726174 
+ 977      7572653A 
+ 977      20252E32 
+ 977      66206465 
+ 978 001a 0000     		.align	2
+ 979              	.LC16:
+ 980 001c 48756D69 		.ascii	"Humidity: %.2f %% \015\012\000"
+ 980      64697479 
+ 980      3A20252E 
+ 980      32662025 
+ 980      25200D0A 
+ 981              		.section	.text.print_temp_hum,"ax",%progbits
+ 982              		.align	1
+ 983              		.global	print_temp_hum
+ 984              		.syntax unified
+ 985              		.thumb
+ 986              		.thumb_func
+ 987              		.fpu fpv4-sp-d16
+ 989              	print_temp_hum:
+ 990              	.LFB138:
+ 229:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   printINF("Temperature: %.2f degC \r\n", SHTData[0]);
+ 991              		.loc 1 229 1 view -0
+ 992              		.cfi_startproc
+ 993              		@ args = 0, pretend = 0, frame = 0
+ 994              		@ frame_needed = 0, uses_anonymous_args = 0
+ 995 0000 10B5     		push	{r4, lr}
+ 996              	.LCFI15:
+ARM GAS  /tmp/cciN6141.s 			page 27
+
+
+ 997              		.cfi_def_cfa_offset 8
+ 998              		.cfi_offset 4, -8
+ 999              		.cfi_offset 14, -4
+ 230:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   printINF("Humidity: %.2f %% \r\n", SHTData[1]);
+ 1000              		.loc 1 230 3 view .LVU202
+ 230:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   printINF("Humidity: %.2f %% \r\n", SHTData[1]);
+ 1001              		.loc 1 230 50 is_stmt 0 view .LVU203
+ 1002 0002 094C     		ldr	r4, .L45
+ 230:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   printINF("Humidity: %.2f %% \r\n", SHTData[1]);
+ 1003              		.loc 1 230 3 view .LVU204
+ 1004 0004 2068     		ldr	r0, [r4]	@ float
+ 1005 0006 FFF7FEFF 		bl	__aeabi_f2d
+ 1006              	.LVL111:
+ 1007 000a 0246     		mov	r2, r0
+ 1008 000c 0B46     		mov	r3, r1
+ 1009 000e 0748     		ldr	r0, .L45+4
+ 1010 0010 FFF7FEFF 		bl	printINF
+ 1011              	.LVL112:
+ 231:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** }
+ 1012              		.loc 1 231 3 is_stmt 1 view .LVU205
+ 1013 0014 6068     		ldr	r0, [r4, #4]	@ float
+ 1014 0016 FFF7FEFF 		bl	__aeabi_f2d
+ 1015              	.LVL113:
+ 1016 001a 0246     		mov	r2, r0
+ 1017 001c 0B46     		mov	r3, r1
+ 1018 001e 0448     		ldr	r0, .L45+8
+ 1019 0020 FFF7FEFF 		bl	printINF
+ 1020              	.LVL114:
+ 232:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** 
+ 1021              		.loc 1 232 1 is_stmt 0 view .LVU206
+ 1022 0024 10BD     		pop	{r4, pc}
+ 1023              	.L46:
+ 1024 0026 00BF     		.align	2
+ 1025              	.L45:
+ 1026 0028 00000000 		.word	SHTData
+ 1027 002c 00000000 		.word	.LC15
+ 1028 0030 1C000000 		.word	.LC16
+ 1029              		.cfi_endproc
+ 1030              	.LFE138:
+ 1032              		.section	.text.temp_hum_measurement,"ax",%progbits
+ 1033              		.align	1
+ 1034              		.global	temp_hum_measurement
+ 1035              		.syntax unified
+ 1036              		.thumb
+ 1037              		.thumb_func
+ 1038              		.fpu fpv4-sp-d16
+ 1040              	temp_hum_measurement:
+ 1041              	.LFB137:
+ 221:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   osMutexWait(i2cMutexId, osWaitForever);
+ 1042              		.loc 1 221 1 is_stmt 1 view -0
+ 1043              		.cfi_startproc
+ 1044              		@ args = 0, pretend = 0, frame = 0
+ 1045              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1046 0000 10B5     		push	{r4, lr}
+ 1047              	.LCFI16:
+ 1048              		.cfi_def_cfa_offset 8
+ 1049              		.cfi_offset 4, -8
+ARM GAS  /tmp/cciN6141.s 			page 28
+
+
+ 1050              		.cfi_offset 14, -4
+ 222:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   SHT31_get_temp_hum(SHTData);
+ 1051              		.loc 1 222 3 view .LVU208
+ 1052 0002 074C     		ldr	r4, .L49
+ 1053 0004 4FF0FF31 		mov	r1, #-1
+ 1054 0008 2068     		ldr	r0, [r4]
+ 1055 000a FFF7FEFF 		bl	osMutexWait
+ 1056              	.LVL115:
+ 223:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   osMutexRelease(i2cMutexId);
+ 1057              		.loc 1 223 3 view .LVU209
+ 1058 000e 0548     		ldr	r0, .L49+4
+ 1059 0010 FFF7FEFF 		bl	SHT31_get_temp_hum
+ 1060              	.LVL116:
+ 224:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   print_temp_hum();
+ 1061              		.loc 1 224 3 view .LVU210
+ 1062 0014 2068     		ldr	r0, [r4]
+ 1063 0016 FFF7FEFF 		bl	osMutexRelease
+ 1064              	.LVL117:
+ 225:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** }
+ 1065              		.loc 1 225 3 view .LVU211
+ 1066 001a FFF7FEFF 		bl	print_temp_hum
+ 1067              	.LVL118:
+ 226:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** 
+ 1068              		.loc 1 226 1 is_stmt 0 view .LVU212
+ 1069 001e 10BD     		pop	{r4, pc}
+ 1070              	.L50:
+ 1071              		.align	2
+ 1072              	.L49:
+ 1073 0020 00000000 		.word	i2cMutexId
+ 1074 0024 00000000 		.word	SHTData
+ 1075              		.cfi_endproc
+ 1076              	.LFE137:
+ 1078              		.section	.rodata.print_accelerometer.str1.4,"aMS",%progbits,1
+ 1079              		.align	2
+ 1080              	.LC17:
+ 1081 0000 41636365 		.ascii	"Accelerometer data: X: %d Y: %d Z: %d \015\012\000"
+ 1081      6C65726F 
+ 1081      6D657465 
+ 1081      72206461 
+ 1081      74613A20 
+ 1082              		.section	.text.print_accelerometer,"ax",%progbits
+ 1083              		.align	1
+ 1084              		.global	print_accelerometer
+ 1085              		.syntax unified
+ 1086              		.thumb
+ 1087              		.thumb_func
+ 1088              		.fpu fpv4-sp-d16
+ 1090              	print_accelerometer:
+ 1091              	.LVL119:
+ 1092              	.LFB141:
+ 250:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   printINF("Accelerometer data: X: %d Y: %d Z: %d \r\n", data[0], data[1], data[2]);
+ 1093              		.loc 1 250 42 is_stmt 1 view -0
+ 1094              		.cfi_startproc
+ 1095              		@ args = 0, pretend = 0, frame = 0
+ 1096              		@ frame_needed = 0, uses_anonymous_args = 0
+ 250:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   printINF("Accelerometer data: X: %d Y: %d Z: %d \r\n", data[0], data[1], data[2]);
+ 1097              		.loc 1 250 42 is_stmt 0 view .LVU214
+ARM GAS  /tmp/cciN6141.s 			page 29
+
+
+ 1098 0000 08B5     		push	{r3, lr}
+ 1099              	.LCFI17:
+ 1100              		.cfi_def_cfa_offset 8
+ 1101              		.cfi_offset 3, -8
+ 1102              		.cfi_offset 14, -4
+ 251:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** }
+ 1103              		.loc 1 251 3 is_stmt 1 view .LVU215
+ 1104 0002 8388     		ldrh	r3, [r0, #4]
+ 1105 0004 4288     		ldrh	r2, [r0, #2]
+ 1106 0006 0188     		ldrh	r1, [r0]
+ 1107 0008 0148     		ldr	r0, .L53
+ 1108              	.LVL120:
+ 251:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** }
+ 1109              		.loc 1 251 3 is_stmt 0 view .LVU216
+ 1110 000a FFF7FEFF 		bl	printINF
+ 1111              	.LVL121:
+ 252:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** void print_magnetometer(uint16_t data[]){
+ 1112              		.loc 1 252 1 view .LVU217
+ 1113 000e 08BD     		pop	{r3, pc}
+ 1114              	.L54:
+ 1115              		.align	2
+ 1116              	.L53:
+ 1117 0010 00000000 		.word	.LC17
+ 1118              		.cfi_endproc
+ 1119              	.LFE141:
+ 1121              		.section	.text.accelerometer_measurement,"ax",%progbits
+ 1122              		.align	1
+ 1123              		.global	accelerometer_measurement
+ 1124              		.syntax unified
+ 1125              		.thumb
+ 1126              		.thumb_func
+ 1127              		.fpu fpv4-sp-d16
+ 1129              	accelerometer_measurement:
+ 1130              	.LFB139:
+ 234:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** 	uint16_t accDataRaw[3];
+ 1131              		.loc 1 234 37 is_stmt 1 view -0
+ 1132              		.cfi_startproc
+ 1133              		@ args = 0, pretend = 0, frame = 8
+ 1134              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1135 0000 10B5     		push	{r4, lr}
+ 1136              	.LCFI18:
+ 1137              		.cfi_def_cfa_offset 8
+ 1138              		.cfi_offset 4, -8
+ 1139              		.cfi_offset 14, -4
+ 1140 0002 82B0     		sub	sp, sp, #8
+ 1141              	.LCFI19:
+ 1142              		.cfi_def_cfa_offset 16
+ 235:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   osMutexWait(i2cMutexId, osWaitForever);
+ 1143              		.loc 1 235 2 view .LVU219
+ 236:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   LSM303AGR_ACC_readAccelerationRawData(accDataRaw);
+ 1144              		.loc 1 236 3 view .LVU220
+ 1145 0004 084C     		ldr	r4, .L57
+ 1146 0006 4FF0FF31 		mov	r1, #-1
+ 1147 000a 2068     		ldr	r0, [r4]
+ 1148 000c FFF7FEFF 		bl	osMutexWait
+ 1149              	.LVL122:
+ 237:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   osMutexRelease(i2cMutexId);
+ARM GAS  /tmp/cciN6141.s 			page 30
+
+
+ 1150              		.loc 1 237 3 view .LVU221
+ 1151 0010 6846     		mov	r0, sp
+ 1152 0012 FFF7FEFF 		bl	LSM303AGR_ACC_readAccelerationRawData
+ 1153              	.LVL123:
+ 238:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   print_accelerometer(accDataRaw);
+ 1154              		.loc 1 238 3 view .LVU222
+ 1155 0016 2068     		ldr	r0, [r4]
+ 1156 0018 FFF7FEFF 		bl	osMutexRelease
+ 1157              	.LVL124:
+ 239:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** }
+ 1158              		.loc 1 239 3 view .LVU223
+ 1159 001c 6846     		mov	r0, sp
+ 1160 001e FFF7FEFF 		bl	print_accelerometer
+ 1161              	.LVL125:
+ 240:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** 
+ 1162              		.loc 1 240 1 is_stmt 0 view .LVU224
+ 1163 0022 02B0     		add	sp, sp, #8
+ 1164              	.LCFI20:
+ 1165              		.cfi_def_cfa_offset 8
+ 1166              		@ sp needed
+ 1167 0024 10BD     		pop	{r4, pc}
+ 1168              	.L58:
+ 1169 0026 00BF     		.align	2
+ 1170              	.L57:
+ 1171 0028 00000000 		.word	i2cMutexId
+ 1172              		.cfi_endproc
+ 1173              	.LFE139:
+ 1175              		.section	.rodata.print_magnetometer.str1.4,"aMS",%progbits,1
+ 1176              		.align	2
+ 1177              	.LC18:
+ 1178 0000 4D61676E 		.ascii	"Magnetometer data: X: %d Y: %d Z: %d \015\012\000"
+ 1178      65746F6D 
+ 1178      65746572 
+ 1178      20646174 
+ 1178      613A2058 
+ 1179              		.section	.text.print_magnetometer,"ax",%progbits
+ 1180              		.align	1
+ 1181              		.global	print_magnetometer
+ 1182              		.syntax unified
+ 1183              		.thumb
+ 1184              		.thumb_func
+ 1185              		.fpu fpv4-sp-d16
+ 1187              	print_magnetometer:
+ 1188              	.LVL126:
+ 1189              	.LFB142:
+ 253:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   printINF("Magnetometer data: X: %d Y: %d Z: %d \r\n", data[0], data[1], data[2]);
+ 1190              		.loc 1 253 41 is_stmt 1 view -0
+ 1191              		.cfi_startproc
+ 1192              		@ args = 0, pretend = 0, frame = 0
+ 1193              		@ frame_needed = 0, uses_anonymous_args = 0
+ 253:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   printINF("Magnetometer data: X: %d Y: %d Z: %d \r\n", data[0], data[1], data[2]);
+ 1194              		.loc 1 253 41 is_stmt 0 view .LVU226
+ 1195 0000 08B5     		push	{r3, lr}
+ 1196              	.LCFI21:
+ 1197              		.cfi_def_cfa_offset 8
+ 1198              		.cfi_offset 3, -8
+ 1199              		.cfi_offset 14, -4
+ARM GAS  /tmp/cciN6141.s 			page 31
+
+
+ 254:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** }
+ 1200              		.loc 1 254 3 is_stmt 1 view .LVU227
+ 1201 0002 8388     		ldrh	r3, [r0, #4]
+ 1202 0004 4288     		ldrh	r2, [r0, #2]
+ 1203 0006 0188     		ldrh	r1, [r0]
+ 1204 0008 0148     		ldr	r0, .L61
+ 1205              	.LVL127:
+ 254:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** }
+ 1206              		.loc 1 254 3 is_stmt 0 view .LVU228
+ 1207 000a FFF7FEFF 		bl	printINF
+ 1208              	.LVL128:
+ 255:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** 
+ 1209              		.loc 1 255 1 view .LVU229
+ 1210 000e 08BD     		pop	{r3, pc}
+ 1211              	.L62:
+ 1212              		.align	2
+ 1213              	.L61:
+ 1214 0010 00000000 		.word	.LC18
+ 1215              		.cfi_endproc
+ 1216              	.LFE142:
+ 1218              		.section	.text.magnetometer_measurement,"ax",%progbits
+ 1219              		.align	1
+ 1220              		.global	magnetometer_measurement
+ 1221              		.syntax unified
+ 1222              		.thumb
+ 1223              		.thumb_func
+ 1224              		.fpu fpv4-sp-d16
+ 1226              	magnetometer_measurement:
+ 1227              	.LFB140:
+ 242:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   uint16_t magDataRaw[3];
+ 1228              		.loc 1 242 36 is_stmt 1 view -0
+ 1229              		.cfi_startproc
+ 1230              		@ args = 0, pretend = 0, frame = 8
+ 1231              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1232 0000 10B5     		push	{r4, lr}
+ 1233              	.LCFI22:
+ 1234              		.cfi_def_cfa_offset 8
+ 1235              		.cfi_offset 4, -8
+ 1236              		.cfi_offset 14, -4
+ 1237 0002 82B0     		sub	sp, sp, #8
+ 1238              	.LCFI23:
+ 1239              		.cfi_def_cfa_offset 16
+ 243:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   osMutexWait(i2cMutexId, osWaitForever);
+ 1240              		.loc 1 243 3 view .LVU231
+ 244:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   LSM303AGR_MAG_readMagneticRawData(magDataRaw);
+ 1241              		.loc 1 244 3 view .LVU232
+ 1242 0004 084C     		ldr	r4, .L65
+ 1243 0006 4FF0FF31 		mov	r1, #-1
+ 1244 000a 2068     		ldr	r0, [r4]
+ 1245 000c FFF7FEFF 		bl	osMutexWait
+ 1246              	.LVL129:
+ 245:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   osMutexRelease(i2cMutexId);
+ 1247              		.loc 1 245 3 view .LVU233
+ 1248 0010 6846     		mov	r0, sp
+ 1249 0012 FFF7FEFF 		bl	LSM303AGR_MAG_readMagneticRawData
+ 1250              	.LVL130:
+ 246:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   print_magnetometer(magDataRaw);
+ARM GAS  /tmp/cciN6141.s 			page 32
+
+
+ 1251              		.loc 1 246 3 view .LVU234
+ 1252 0016 2068     		ldr	r0, [r4]
+ 1253 0018 FFF7FEFF 		bl	osMutexRelease
+ 1254              	.LVL131:
+ 247:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** }
+ 1255              		.loc 1 247 3 view .LVU235
+ 1256 001c 6846     		mov	r0, sp
+ 1257 001e FFF7FEFF 		bl	print_magnetometer
+ 1258              	.LVL132:
+ 248:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** 
+ 1259              		.loc 1 248 1 is_stmt 0 view .LVU236
+ 1260 0022 02B0     		add	sp, sp, #8
+ 1261              	.LCFI24:
+ 1262              		.cfi_def_cfa_offset 8
+ 1263              		@ sp needed
+ 1264 0024 10BD     		pop	{r4, pc}
+ 1265              	.L66:
+ 1266 0026 00BF     		.align	2
+ 1267              	.L65:
+ 1268 0028 00000000 		.word	i2cMutexId
+ 1269              		.cfi_endproc
+ 1270              	.LFE140:
+ 1272              		.section	.rodata.print_light_intensity.str1.4,"aMS",%progbits,1
+ 1273              		.align	2
+ 1274              	.LC19:
+ 1275 0000 4C696768 		.ascii	"Light intensity: %d  lux \015\012\000"
+ 1275      7420696E 
+ 1275      74656E73 
+ 1275      6974793A 
+ 1275      20256420 
+ 1276              		.section	.text.print_light_intensity,"ax",%progbits
+ 1277              		.align	1
+ 1278              		.global	print_light_intensity
+ 1279              		.syntax unified
+ 1280              		.thumb
+ 1281              		.thumb_func
+ 1282              		.fpu fpv4-sp-d16
+ 1284              	print_light_intensity:
+ 1285              	.LVL133:
+ 1286              	.LFB146:
+ 282:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** 
+ 283:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** void print_light_intensity(int data)
+ 284:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** {
+ 1287              		.loc 1 284 1 is_stmt 1 view -0
+ 1288              		.cfi_startproc
+ 1289              		@ args = 0, pretend = 0, frame = 0
+ 1290              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1291              		.loc 1 284 1 is_stmt 0 view .LVU238
+ 1292 0000 08B5     		push	{r3, lr}
+ 1293              	.LCFI25:
+ 1294              		.cfi_def_cfa_offset 8
+ 1295              		.cfi_offset 3, -8
+ 1296              		.cfi_offset 14, -4
+ 1297 0002 0146     		mov	r1, r0
+ 285:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   printINF("Light intensity: %d  lux \r\n", data);
+ 1298              		.loc 1 285 3 is_stmt 1 view .LVU239
+ 1299 0004 0148     		ldr	r0, .L69
+ARM GAS  /tmp/cciN6141.s 			page 33
+
+
+ 1300              	.LVL134:
+ 1301              		.loc 1 285 3 is_stmt 0 view .LVU240
+ 1302 0006 FFF7FEFF 		bl	printINF
+ 1303              	.LVL135:
+ 286:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** }
+ 1304              		.loc 1 286 1 view .LVU241
+ 1305 000a 08BD     		pop	{r3, pc}
+ 1306              	.L70:
+ 1307              		.align	2
+ 1308              	.L69:
+ 1309 000c 00000000 		.word	.LC19
+ 1310              		.cfi_endproc
+ 1311              	.LFE146:
+ 1313              		.section	.text.lightsensor_measurement,"ax",%progbits
+ 1314              		.align	1
+ 1315              		.global	lightsensor_measurement
+ 1316              		.syntax unified
+ 1317              		.thumb
+ 1318              		.thumb_func
+ 1319              		.fpu fpv4-sp-d16
+ 1321              	lightsensor_measurement:
+ 1322              	.LFB143:
+ 257:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   osMutexWait(i2cMutexId, osWaitForever);
+ 1323              		.loc 1 257 35 is_stmt 1 view -0
+ 1324              		.cfi_startproc
+ 1325              		@ args = 0, pretend = 0, frame = 0
+ 1326              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1327 0000 38B5     		push	{r3, r4, r5, lr}
+ 1328              	.LCFI26:
+ 1329              		.cfi_def_cfa_offset 16
+ 1330              		.cfi_offset 3, -16
+ 1331              		.cfi_offset 4, -12
+ 1332              		.cfi_offset 5, -8
+ 1333              		.cfi_offset 14, -4
+ 258:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   int clear_light = getClearData();
+ 1334              		.loc 1 258 3 view .LVU243
+ 1335 0002 084D     		ldr	r5, .L73
+ 1336 0004 4FF0FF31 		mov	r1, #-1
+ 1337 0008 2868     		ldr	r0, [r5]
+ 1338 000a FFF7FEFF 		bl	osMutexWait
+ 1339              	.LVL136:
+ 259:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   osMutexRelease(i2cMutexId);
+ 1340              		.loc 1 259 3 view .LVU244
+ 259:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   osMutexRelease(i2cMutexId);
+ 1341              		.loc 1 259 21 is_stmt 0 view .LVU245
+ 1342 000e FFF7FEFF 		bl	getClearData
+ 1343              	.LVL137:
+ 1344 0012 0446     		mov	r4, r0
+ 1345              	.LVL138:
+ 260:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   print_light_intensity(clear_light);
+ 1346              		.loc 1 260 3 is_stmt 1 view .LVU246
+ 1347 0014 2868     		ldr	r0, [r5]
+ 1348              	.LVL139:
+ 260:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   print_light_intensity(clear_light);
+ 1349              		.loc 1 260 3 is_stmt 0 view .LVU247
+ 1350 0016 FFF7FEFF 		bl	osMutexRelease
+ 1351              	.LVL140:
+ARM GAS  /tmp/cciN6141.s 			page 34
+
+
+ 261:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** }
+ 1352              		.loc 1 261 3 is_stmt 1 view .LVU248
+ 1353 001a 2046     		mov	r0, r4
+ 1354 001c FFF7FEFF 		bl	print_light_intensity
+ 1355              	.LVL141:
+ 262:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** 
+ 1356              		.loc 1 262 1 is_stmt 0 view .LVU249
+ 1357 0020 38BD     		pop	{r3, r4, r5, pc}
+ 1358              	.LVL142:
+ 1359              	.L74:
+ 262:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** 
+ 1360              		.loc 1 262 1 view .LVU250
+ 1361 0022 00BF     		.align	2
+ 1362              	.L73:
+ 1363 0024 00000000 		.word	i2cMutexId
+ 1364              		.cfi_endproc
+ 1365              	.LFE143:
+ 1367              		.section	.rodata.print_color.str1.4,"aMS",%progbits,1
+ 1368              		.align	2
+ 1369              	.LC20:
+ 1370 0000 636F6C6F 		.ascii	"color red: %d , color green: %d, color blue: %d \015"
+ 1370      72207265 
+ 1370      643A2025 
+ 1370      64202C20 
+ 1370      636F6C6F 
+ 1371 0031 0A00     		.ascii	"\012\000"
+ 1372              		.section	.text.print_color,"ax",%progbits
+ 1373              		.align	1
+ 1374              		.global	print_color
+ 1375              		.syntax unified
+ 1376              		.thumb
+ 1377              		.thumb_func
+ 1378              		.fpu fpv4-sp-d16
+ 1380              	print_color:
+ 1381              	.LFB147:
+ 287:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** 
+ 288:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** void print_color(struct RGBvalues values)
+ 289:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** {
+ 1382              		.loc 1 289 1 is_stmt 1 view -0
+ 1383              		.cfi_startproc
+ 1384              		@ args = 0, pretend = 0, frame = 16
+ 1385              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1386 0000 00B5     		push	{lr}
+ 1387              	.LCFI27:
+ 1388              		.cfi_def_cfa_offset 4
+ 1389              		.cfi_offset 14, -4
+ 1390 0002 85B0     		sub	sp, sp, #20
+ 1391              	.LCFI28:
+ 1392              		.cfi_def_cfa_offset 24
+ 1393 0004 04AB     		add	r3, sp, #16
+ 1394 0006 03E90700 		stmdb	r3, {r0, r1, r2}
+ 290:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   printINF("color red: %d , color green: %d, color blue: %d \r\n", values.red, values.green, values
+ 1395              		.loc 1 290 3 view .LVU252
+ 1396 000a 039B     		ldr	r3, [sp, #12]
+ 1397 000c 029A     		ldr	r2, [sp, #8]
+ 1398 000e 0199     		ldr	r1, [sp, #4]
+ 1399 0010 0248     		ldr	r0, .L77
+ARM GAS  /tmp/cciN6141.s 			page 35
+
+
+ 1400 0012 FFF7FEFF 		bl	printINF
+ 1401              	.LVL143:
+ 291:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** }...
+ 1402              		.loc 1 291 1 is_stmt 0 view .LVU253
+ 1403 0016 05B0     		add	sp, sp, #20
+ 1404              	.LCFI29:
+ 1405              		.cfi_def_cfa_offset 4
+ 1406              		@ sp needed
+ 1407 0018 5DF804FB 		ldr	pc, [sp], #4
+ 1408              	.L78:
+ 1409              		.align	2
+ 1410              	.L77:
+ 1411 001c 00000000 		.word	.LC20
+ 1412              		.cfi_endproc
+ 1413              	.LFE147:
+ 1415              		.section	.text.RGBsensor_measurement,"ax",%progbits
+ 1416              		.align	1
+ 1417              		.global	RGBsensor_measurement
+ 1418              		.syntax unified
+ 1419              		.thumb
+ 1420              		.thumb_func
+ 1421              		.fpu fpv4-sp-d16
+ 1423              	RGBsensor_measurement:
+ 1424              	.LFB144:
+ 264:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** void RGBsensor_measurement(void){
+ 1425              		.loc 1 264 33 is_stmt 1 view -0
+ 1426              		.cfi_startproc
+ 1427              		@ args = 0, pretend = 0, frame = 16
+ 1428              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1429 0000 10B5     		push	{r4, lr}
+ 1430              	.LCFI30:
+ 1431              		.cfi_def_cfa_offset 8
+ 1432              		.cfi_offset 4, -8
+ 1433              		.cfi_offset 14, -4
+ 1434 0002 84B0     		sub	sp, sp, #16
+ 1435              	.LCFI31:
+ 1436              		.cfi_def_cfa_offset 24
+ 265:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   struct RGBvalues RGB = {0,0,0};
+ 1437              		.loc 1 265 3 view .LVU255
+ 266:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   turnOnLED();
+ 1438              		.loc 1 266 3 view .LVU256
+ 1439 0004 FFF7FEFF 		bl	turnOnLED
+ 1440              	.LVL144:
+ 267:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   HAL_Delay(250);
+ 1441              		.loc 1 267 3 view .LVU257
+ 1442 0008 FA20     		movs	r0, #250
+ 1443 000a FFF7FEFF 		bl	HAL_Delay
+ 1444              	.LVL145:
+ 268:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   osMutexWait(i2cMutexId, osWaitForever);
+ 1445              		.loc 1 268 3 view .LVU258
+ 1446 000e 0D4C     		ldr	r4, .L81
+ 1447 0010 4FF0FF31 		mov	r1, #-1
+ 1448 0014 2068     		ldr	r0, [r4]
+ 1449 0016 FFF7FEFF 		bl	osMutexWait
+ 1450              	.LVL146:
+ 269:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   RGB.red = getRedData();
+ 1451              		.loc 1 269 3 view .LVU259
+ARM GAS  /tmp/cciN6141.s 			page 36
+
+
+ 269:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   RGB.red = getRedData();
+ 1452              		.loc 1 269 13 is_stmt 0 view .LVU260
+ 1453 001a FFF7FEFF 		bl	getRedData
+ 1454              	.LVL147:
+ 269:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   RGB.red = getRedData();
+ 1455              		.loc 1 269 11 view .LVU261
+ 1456 001e 0190     		str	r0, [sp, #4]
+ 270:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   RGB.green = getGreenData();
+ 1457              		.loc 1 270 3 is_stmt 1 view .LVU262
+ 270:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   RGB.green = getGreenData();
+ 1458              		.loc 1 270 15 is_stmt 0 view .LVU263
+ 1459 0020 FFF7FEFF 		bl	getGreenData
+ 1460              	.LVL148:
+ 270:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   RGB.green = getGreenData();
+ 1461              		.loc 1 270 13 view .LVU264
+ 1462 0024 0290     		str	r0, [sp, #8]
+ 271:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   RGB.blue = getBlueData();
+ 1463              		.loc 1 271 3 is_stmt 1 view .LVU265
+ 271:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   RGB.blue = getBlueData();
+ 1464              		.loc 1 271 14 is_stmt 0 view .LVU266
+ 1465 0026 FFF7FEFF 		bl	getBlueData
+ 1466              	.LVL149:
+ 271:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   RGB.blue = getBlueData();
+ 1467              		.loc 1 271 12 view .LVU267
+ 1468 002a 0390     		str	r0, [sp, #12]
+ 272:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   osMutexRelease(i2cMutexId);
+ 1469              		.loc 1 272 3 is_stmt 1 view .LVU268
+ 1470 002c 2068     		ldr	r0, [r4]
+ 1471 002e FFF7FEFF 		bl	osMutexRelease
+ 1472              	.LVL150:
+ 273:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   turnOffLED();
+ 1473              		.loc 1 273 3 view .LVU269
+ 1474 0032 FFF7FEFF 		bl	turnOffLED
+ 1475              	.LVL151:
+ 274:../../../applications/examples/octa-stm-example/src/octa-stm-example.c ****   print_color(RGB);
+ 1476              		.loc 1 274 3 view .LVU270
+ 1477 0036 04AB     		add	r3, sp, #16
+ 1478 0038 13E90700 		ldmdb	r3, {r0, r1, r2}
+ 1479 003c FFF7FEFF 		bl	print_color
+ 1480              	.LVL152:
+ 275:../../../applications/examples/octa-stm-example/src/octa-stm-example.c **** }
+ 1481              		.loc 1 275 1 is_stmt 0 view .LVU271
+ 1482 0040 04B0     		add	sp, sp, #16
+ 1483              	.LCFI32:
+ 1484              		.cfi_def_cfa_offset 8
+ 1485              		@ sp needed
+ 1486 0042 10BD     		pop	{r4, pc}
+ 1487              	.L82:
+ 1488              		.align	2
+ 1489              	.L81:
+ 1490 0044 00000000 		.word	i2cMutexId
+ 1491              		.cfi_endproc
+ 1492              	.LFE144:
+ 1494              		.comm	bq35100_data,12,4
+ 1495              		.comm	SHTData,8,4
+ 1496              		.comm	hi2cLib,4,4
+ 1497              		.comm	temp,4,4
+ARM GAS  /tmp/cciN6141.s 			page 37
+
+
+ 1498              		.comm	humidity,4,4
+ 1499              		.comm	_i2caddr,1,1
+ 1500              		.comm	SHThi2cLib,4,4
+ 1501              		.comm	i2cMutexId,4,4
+ 1502              		.comm	battery_sensor_timer_id,4,4
+ 1503              		.comm	colorsensor_timer_id,4,4
+ 1504              		.comm	lightsensor_timer_id,4,4
+ 1505              		.comm	magnetometer_timer_id,4,4
+ 1506              		.comm	accelerometer_timer_id,4,4
+ 1507              		.comm	temp_hum_timer_id,4,4
+ 1508              		.comm	iwdgTimId,4,4
+ 1509              		.comm	defaultTaskHandle,4,4
+ 1510              		.comm	P3_header,44,4
+ 1511              		.comm	P2_header,44,4
+ 1512              		.comm	P1_header,44,4
+ 1513              		.comm	stackversion_patch,1,1
+ 1514              		.comm	stackversion_minor,1,1
+ 1515              		.comm	stackversion_major,1,1
+ 1516              		.comm	appversion_patch,1,1
+ 1517              		.comm	appversion_minor,1,1
+ 1518              		.comm	appversion_major,1,1
+ 1519              		.comm	short_UID,8,8
+ 1520              		.comm	hard_reset,1,1
+ 1521              		.comm	wd_reset,1,1
+ 1522              		.comm	octa_uid,8,8
+ 1523              		.comm	float_union,4,4
+ 1524              		.comm	uint16LittleEndian,2,4
+ 1525              		.comm	int16LittleEndian,2,4
+ 1526              		.comm	uint32LittleEndian,4,4
+ 1527              		.comm	int32LittleEndian,4,4
+ 1528              		.comm	rtosprintHandle,4,4
+ 1529              		.comm	hrtc,36,4
+ 1530              		.comm	FLASH_SPI,100,4
+ 1531              		.comm	P2_SPI,100,4
+ 1532              		.comm	P1_SPI,100,4
+ 1533              		.comm	P2_I2C,76,4
+ 1534              		.comm	P1_I2C,76,4
+ 1535              		.comm	common_I2C,76,4
+ 1536              		.comm	P2_UART,120,4
+ 1537              		.comm	P1_UART,120,4
+ 1538              		.comm	RS232_UART,120,4
+ 1539              		.comm	NBIOT_UART,120,4
+ 1540              		.comm	USB_UART,120,4
+ 1541              		.comm	hiwdg,16,4
+ 1542              		.comm	NBIOT_Reset,8,4
+ 1543              		.comm	P2_DIO6,8,4
+ 1544              		.comm	P2_DIO5,8,4
+ 1545              		.comm	P2_DIO4,8,4
+ 1546              		.comm	P2_DIO3,8,4
+ 1547              		.comm	P2_DIO2,8,4
+ 1548              		.comm	P2_DIO1,8,4
+ 1549              		.comm	P1_DIO6,8,4
+ 1550              		.comm	P1_DIO5,8,4
+ 1551              		.comm	P1_DIO4,8,4
+ 1552              		.comm	P1_DIO3,8,4
+ 1553              		.comm	P1_DIO2,8,4
+ 1554              		.comm	P1_DIO1,8,4
+ARM GAS  /tmp/cciN6141.s 			page 38
+
+
+ 1555              		.comm	htim6,64,4
+ 1556              		.comm	htim1,64,4
+ 1557              		.section	.rodata
+ 1558              		.align	2
+ 1559              		.set	.LANCHOR0,. + 0
+ 1560              	.LC14:
+ 1561 0000 00000000 		.word	.LC0
+ 1562 0004 00000000 		.word	StartDefaultTask
+ 1563 0008 FEFF     		.short	-2
+ 1564 000a 0000     		.space	2
+ 1565 000c 00000000 		.word	0
+ 1566 0010 00020000 		.word	512
+ 1567              		.text
+ 1568              	.Letext0:
+ 1569              		.file 2 "/usr/arm-none-eabi/include/machine/_default_types.h"
+ 1570              		.file 3 "/usr/arm-none-eabi/include/sys/_stdint.h"
+ 1571              		.file 4 "../../../core/ST/CMSIS/Include/core_cm4.h"
+ 1572              		.file 5 "../../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/system_stm32l4xx.h"
+ 1573              		.file 6 "../../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/stm32l496xx.h"
+ 1574              		.file 7 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h"
+ 1575              		.file 8 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_gpio.h"
+ 1576              		.file 9 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_dma.h"
+ 1577              		.file 10 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_i2c.h"
+ 1578              		.file 11 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_iwdg.h"
+ 1579              		.file 12 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rtc.h"
+ 1580              		.file 13 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_spi.h"
+ 1581              		.file 14 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_tim.h"
+ 1582              		.file 15 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h"
+ 1583              		.file 16 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h"
+ 1584              		.file 17 "../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/include/task.h"
+ 1585              		.file 18 "../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/include/timers.h"
+ 1586              		.file 19 "../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/include/queue.h"
+ 1587              		.file 20 "../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/include/semphr.h"
+ 1588              		.file 21 "../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h"
+ 1589              		.file 22 "../../../core/platform/octa_stm/inc/sysclock.h"
+ 1590              		.file 23 "../../../core/platform/octa_stm/inc/gpio.h"
+ 1591              		.file 24 "../../../core/platform/octa_stm/inc/iwdg.h"
+ 1592              		.file 25 "../../../core/platform/octa_stm/inc/uart.h"
+ 1593              		.file 26 "../../../core/platform/octa_stm/inc/i2c.h"
+ 1594              		.file 27 "../../../core/platform/octa_stm/inc/spi.h"
+ 1595              		.file 28 "../../../core/platform/octa_stm/inc/rtc.h"
+ 1596              		.file 29 "../../../core/platform/octa_stm/inc/rtosincludes.h"
+ 1597              		.file 30 "/usr/arm-none-eabi/include/sys/lock.h"
+ 1598              		.file 31 "/usr/arm-none-eabi/include/sys/_types.h"
+ 1599              		.file 32 "/usr/lib/gcc/arm-none-eabi/9.2.1/include/stddef.h"
+ 1600              		.file 33 "/usr/arm-none-eabi/include/sys/reent.h"
+ 1601              		.file 34 "../../../core/platform/common/inc/datatypes.h"
+ 1602              		.file 35 "../../../core/platform/octa_stm/inc/platform.h"
+ 1603              		.file 36 "../../../applications/examples/octa-stm-example/inc/octa-stm-example.h"
+ 1604              		.file 37 "../../../core/drivers/SHT31/inc/sht31.h"
+ 1605              		.file 38 "/usr/arm-none-eabi/include/stdlib.h"
+ 1606              		.file 39 "/usr/arm-none-eabi/include/math.h"
+ 1607              		.file 40 "../../../core/drivers/TCS3472/inc/TCS3472.h"
+ 1608              		.file 41 "../../../core/platform/octa_stm/drivers/BQ35100/inc/bq35100.h"
+ 1609              		.file 42 "../../../core/platform/common/inc/print.h"
+ 1610              		.file 43 "../../../core/drivers/LSM303AGR/inc/LSM303AGRSensor.h"
+ 1611              		.file 44 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_cortex.h"
+ARM GAS  /tmp/cciN6141.s 			page 39
+
+
+ 1612              		.file 45 "/usr/arm-none-eabi/include/stdio.h"
+ 1613              		.file 46 "../../../core/drivers/octa-flash/inc/octa-flash.h"
+ 1614              		.file 47 "/usr/arm-none-eabi/include/string.h"
+ 1615              		.file 48 "<built-in>"
+ARM GAS  /tmp/cciN6141.s 			page 40
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 octa-stm-example.c
+     /tmp/cciN6141.s:15     .rodata.str1.4:0000000000000000 $d
+     /tmp/cciN6141.s:22     .rodata.BTN1_Appcallback.str1.4:0000000000000000 $d
+     /tmp/cciN6141.s:26     .text.BTN1_Appcallback:0000000000000000 $t
+     /tmp/cciN6141.s:34     .text.BTN1_Appcallback:0000000000000000 BTN1_Appcallback
+     /tmp/cciN6141.s:55     .text.BTN1_Appcallback:000000000000000c $d
+     /tmp/cciN6141.s:60     .rodata.BTN2_Appcallback.str1.4:0000000000000000 $d
+     /tmp/cciN6141.s:64     .text.BTN2_Appcallback:0000000000000000 $t
+     /tmp/cciN6141.s:71     .text.BTN2_Appcallback:0000000000000000 BTN2_Appcallback
+     /tmp/cciN6141.s:91     .text.BTN2_Appcallback:000000000000000c $d
+     /tmp/cciN6141.s:96     .rodata.StartDefaultTask.str1.4:0000000000000000 $d
+     /tmp/cciN6141.s:103    .text.StartDefaultTask:0000000000000000 $t
+     /tmp/cciN6141.s:110    .text.StartDefaultTask:0000000000000000 StartDefaultTask
+     /tmp/cciN6141.s:202    .text.StartDefaultTask:0000000000000074 $d
+                            *COM*:0000000000000078 NBIOT_UART
+     /tmp/cciN6141.s:210    .rodata.BatterySensor_measurement.str1.4:0000000000000000 $d
+     /tmp/cciN6141.s:215    .text.BatterySensor_measurement:0000000000000000 $t
+     /tmp/cciN6141.s:222    .text.BatterySensor_measurement:0000000000000000 BatterySensor_measurement
+     /tmp/cciN6141.s:259    .text.BatterySensor_measurement:0000000000000024 $d
+                            *COM*:000000000000000c bq35100_data
+     /tmp/cciN6141.s:265    .text.B1_enable_interrupt:0000000000000000 $t
+     /tmp/cciN6141.s:272    .text.B1_enable_interrupt:0000000000000000 B1_enable_interrupt
+     /tmp/cciN6141.s:327    .text.B1_enable_interrupt:0000000000000034 $d
+     /tmp/cciN6141.s:333    .text.B2_enable_interrupt:0000000000000000 $t
+     /tmp/cciN6141.s:340    .text.B2_enable_interrupt:0000000000000000 B2_enable_interrupt
+     /tmp/cciN6141.s:395    .text.B2_enable_interrupt:0000000000000034 $d
+     /tmp/cciN6141.s:401    .rodata.main.str1.4:0000000000000000 $d
+     /tmp/cciN6141.s:423    .text.main:0000000000000000 $t
+     /tmp/cciN6141.s:430    .text.main:0000000000000000 main
+     /tmp/cciN6141.s:938    .text.main:0000000000000290 $d
+                            *COM*:000000000000004c common_I2C
+                            *COM*:0000000000000078 RS232_UART
+                            *COM*:0000000000000064 FLASH_SPI
+                            *COM*:0000000000000004 defaultTaskHandle
+                            *COM*:0000000000000004 iwdgTimId
+     /tmp/cciN6141.s:1040   .text.temp_hum_measurement:0000000000000000 temp_hum_measurement
+                            *COM*:0000000000000004 temp_hum_timer_id
+     /tmp/cciN6141.s:1129   .text.accelerometer_measurement:0000000000000000 accelerometer_measurement
+                            *COM*:0000000000000004 accelerometer_timer_id
+     /tmp/cciN6141.s:1226   .text.magnetometer_measurement:0000000000000000 magnetometer_measurement
+                            *COM*:0000000000000004 magnetometer_timer_id
+     /tmp/cciN6141.s:1321   .text.lightsensor_measurement:0000000000000000 lightsensor_measurement
+                            *COM*:0000000000000004 lightsensor_timer_id
+     /tmp/cciN6141.s:1423   .text.RGBsensor_measurement:0000000000000000 RGBsensor_measurement
+                            *COM*:0000000000000004 colorsensor_timer_id
+                            *COM*:0000000000000004 battery_sensor_timer_id
+                            *COM*:0000000000000004 i2cMutexId
+     /tmp/cciN6141.s:975    .rodata.print_temp_hum.str1.4:0000000000000000 $d
+     /tmp/cciN6141.s:982    .text.print_temp_hum:0000000000000000 $t
+     /tmp/cciN6141.s:989    .text.print_temp_hum:0000000000000000 print_temp_hum
+     /tmp/cciN6141.s:1026   .text.print_temp_hum:0000000000000028 $d
+                            *COM*:0000000000000008 SHTData
+     /tmp/cciN6141.s:1033   .text.temp_hum_measurement:0000000000000000 $t
+     /tmp/cciN6141.s:1073   .text.temp_hum_measurement:0000000000000020 $d
+     /tmp/cciN6141.s:1079   .rodata.print_accelerometer.str1.4:0000000000000000 $d
+     /tmp/cciN6141.s:1083   .text.print_accelerometer:0000000000000000 $t
+ARM GAS  /tmp/cciN6141.s 			page 41
+
+
+     /tmp/cciN6141.s:1090   .text.print_accelerometer:0000000000000000 print_accelerometer
+     /tmp/cciN6141.s:1117   .text.print_accelerometer:0000000000000010 $d
+     /tmp/cciN6141.s:1122   .text.accelerometer_measurement:0000000000000000 $t
+     /tmp/cciN6141.s:1171   .text.accelerometer_measurement:0000000000000028 $d
+     /tmp/cciN6141.s:1176   .rodata.print_magnetometer.str1.4:0000000000000000 $d
+     /tmp/cciN6141.s:1180   .text.print_magnetometer:0000000000000000 $t
+     /tmp/cciN6141.s:1187   .text.print_magnetometer:0000000000000000 print_magnetometer
+     /tmp/cciN6141.s:1214   .text.print_magnetometer:0000000000000010 $d
+     /tmp/cciN6141.s:1219   .text.magnetometer_measurement:0000000000000000 $t
+     /tmp/cciN6141.s:1268   .text.magnetometer_measurement:0000000000000028 $d
+     /tmp/cciN6141.s:1273   .rodata.print_light_intensity.str1.4:0000000000000000 $d
+     /tmp/cciN6141.s:1277   .text.print_light_intensity:0000000000000000 $t
+     /tmp/cciN6141.s:1284   .text.print_light_intensity:0000000000000000 print_light_intensity
+     /tmp/cciN6141.s:1309   .text.print_light_intensity:000000000000000c $d
+     /tmp/cciN6141.s:1314   .text.lightsensor_measurement:0000000000000000 $t
+     /tmp/cciN6141.s:1363   .text.lightsensor_measurement:0000000000000024 $d
+     /tmp/cciN6141.s:1368   .rodata.print_color.str1.4:0000000000000000 $d
+     /tmp/cciN6141.s:1373   .text.print_color:0000000000000000 $t
+     /tmp/cciN6141.s:1380   .text.print_color:0000000000000000 print_color
+     /tmp/cciN6141.s:1411   .text.print_color:000000000000001c $d
+     /tmp/cciN6141.s:1416   .text.RGBsensor_measurement:0000000000000000 $t
+     /tmp/cciN6141.s:1490   .text.RGBsensor_measurement:0000000000000044 $d
+                            *COM*:0000000000000004 hi2cLib
+                            *COM*:0000000000000004 temp
+                            *COM*:0000000000000004 humidity
+                            *COM*:0000000000000001 _i2caddr
+                            *COM*:0000000000000004 SHThi2cLib
+                            *COM*:000000000000002c P3_header
+                            *COM*:000000000000002c P2_header
+                            *COM*:000000000000002c P1_header
+                            *COM*:0000000000000001 stackversion_patch
+                            *COM*:0000000000000001 stackversion_minor
+                            *COM*:0000000000000001 stackversion_major
+                            *COM*:0000000000000001 appversion_patch
+                            *COM*:0000000000000001 appversion_minor
+                            *COM*:0000000000000001 appversion_major
+                            *COM*:0000000000000008 short_UID
+                            *COM*:0000000000000001 hard_reset
+                            *COM*:0000000000000001 wd_reset
+                            *COM*:0000000000000008 octa_uid
+                            *COM*:0000000000000004 float_union
+                            *COM*:0000000000000002 uint16LittleEndian
+                            *COM*:0000000000000002 int16LittleEndian
+                            *COM*:0000000000000004 uint32LittleEndian
+                            *COM*:0000000000000004 int32LittleEndian
+                            *COM*:0000000000000004 rtosprintHandle
+                            *COM*:0000000000000024 hrtc
+                            *COM*:0000000000000064 P2_SPI
+                            *COM*:0000000000000064 P1_SPI
+                            *COM*:000000000000004c P2_I2C
+                            *COM*:000000000000004c P1_I2C
+                            *COM*:0000000000000078 P2_UART
+                            *COM*:0000000000000078 P1_UART
+                            *COM*:0000000000000078 USB_UART
+                            *COM*:0000000000000010 hiwdg
+                            *COM*:0000000000000008 NBIOT_Reset
+                            *COM*:0000000000000008 P2_DIO6
+ARM GAS  /tmp/cciN6141.s 			page 42
+
+
+                            *COM*:0000000000000008 P2_DIO5
+                            *COM*:0000000000000008 P2_DIO4
+                            *COM*:0000000000000008 P2_DIO3
+                            *COM*:0000000000000008 P2_DIO2
+                            *COM*:0000000000000008 P2_DIO1
+                            *COM*:0000000000000008 P1_DIO6
+                            *COM*:0000000000000008 P1_DIO5
+                            *COM*:0000000000000008 P1_DIO4
+                            *COM*:0000000000000008 P1_DIO3
+                            *COM*:0000000000000008 P1_DIO2
+                            *COM*:0000000000000008 P1_DIO1
+                            *COM*:0000000000000040 htim6
+                            *COM*:0000000000000040 htim1
+     /tmp/cciN6141.s:1558   .rodata:0000000000000000 $d
+
+UNDEFINED SYMBOLS
+printINF
+HAL_UART_Transmit
+HAL_UART_AbortReceive
+HAL_UART_Receive
+HAL_GPIO_TogglePin
+osDelay
+bq35100_read_acc_data
+HAL_GPIO_Init
+HAL_NVIC_SetPriority
+HAL_NVIC_EnableIRQ
+Initialize_Platform
+HAL_GPIO_WritePin
+setI2CInterface_SHT31
+SHT31_begin
+LSM303AGR_setI2CInterface
+LSM303AGR_ACC_reset
+LSM303AGR_MAG_reset
+HAL_Delay
+LSM303AGR_init
+TC3472_init
+bq35100_init
+NBIOT_UART_Init
+RS232_UART_Init
+IWDG_feed
+OCTA_FLASH_Initialize
+OCTA_FLASH_erase4KBSectorFromPage
+OCTA_FLASH_TestRW
+OCTA_FLASH_open
+memset
+OCTA_FLASH_write
+OCTA_FLASH_read
+printDBG
+printERR
+printf
+puts
+osThreadCreate
+osTimerCreate
+osTimerStart
+osMutexCreate
+GPIO_SetApplicationCallback
+osKernelStart
+ARM GAS  /tmp/cciN6141.s 			page 43
+
+
+__aeabi_f2d
+osMutexWait
+SHT31_get_temp_hum
+osMutexRelease
+LSM303AGR_ACC_readAccelerationRawData
+LSM303AGR_MAG_readMagneticRawData
+getClearData
+turnOnLED
+getRedData
+getGreenData
+getBlueData
+turnOffLED

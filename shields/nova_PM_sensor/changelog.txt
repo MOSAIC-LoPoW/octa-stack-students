@@ -1,2 +1,0 @@
-nova_PM_sensor
-0.1.0: initial version

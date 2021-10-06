@@ -1,0 +1,999 @@
+ARM GAS  /tmp/cc6ldZp9.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 28, 1
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.file	"murata-dualstack-example-ns.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.text.Dualstack_ApplicationCallback,"ax",%progbits
+  18              		.align	1
+  19              		.global	Dualstack_ApplicationCallback
+  20              		.arch armv7e-m
+  21              		.syntax unified
+  22              		.thumb
+  23              		.thumb_func
+  24              		.fpu fpv4-sp-d16
+  26              	Dualstack_ApplicationCallback:
+  27              	.LFB135:
+  28              		.file 1 "../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c"
+   1:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c **** #include "murata-dualstack-example-ns.h"
+   2:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c **** #include "murata.h"
+   3:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c **** 
+   4:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c **** #define IWDG_INTERVAL           5    //seconds
+   5:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c **** #define LORAWAN_INTERVAL        60   //seconds
+   6:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c **** #define DASH7_INTERVAL          20  //seconds
+   7:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c **** #define MODULE_CHECK_INTERVAL   3600 //seconds
+   8:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c **** 
+   9:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c **** uint16_t LoRaWAN_Counter = 0;
+  10:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c **** uint16_t DASH7_Counter = 0;
+  11:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c **** uint8_t murata_init = 0;
+  12:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c **** uint64_t short_UID;
+  13:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c **** uint8_t murata_data_ready = 0;
+  14:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c **** 
+  15:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c **** int main(void)
+  16:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c **** {
+  17:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****   Initialize_Platform();
+  18:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****   
+  19:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****   // LORAWAN
+  20:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****   murata_init = Murata_Initialize(short_UID);
+  21:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****   UART_SetApplicationCallback(&Dualstack_ApplicationCallback, (uint8_t)MURATA_CONNECTOR);
+  22:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c **** 
+  23:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****   if (murata_init)
+  24:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****   {
+  25:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****     printINF("Murata dualstack module init OK\r\n\r\n");
+  26:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****   }
+  27:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****   
+  28:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****   /* Infinite loop */
+  29:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****   uint8_t counter = 0;
+  30:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****   uint8_t use_lora = 1;
+ARM GAS  /tmp/cc6ldZp9.s 			page 2
+
+
+  31:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****   
+  32:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****   while (1)
+  33:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****   { 
+  34:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****     IWDG_feed(NULL);
+  35:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c **** 
+  36:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****     if(murata_data_ready)
+  37:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****     {
+  38:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****       printINF("processing murata fifo\r\n");
+  39:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****       murata_data_ready = !Murata_process_fifo();
+  40:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****     }
+  41:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****     
+  42:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****     // SEND 5 D7 messages, every 10 sec.
+  43:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****     // Afterwards, send 3 LoRaWAN messages, every minute
+  44:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****     if(DASH7_Counter<5)
+  45:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****     {
+  46:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****       if(counter==DASH7_INTERVAL)
+  47:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****       {
+  48:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****         Dash7_send(NULL);
+  49:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****         counter = 0;
+  50:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****       }
+  51:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****     }
+  52:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****     else
+  53:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****     { 
+  54:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****       if(LoRaWAN_Counter == 0)
+  55:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****         Murata_LoRaWAN_Join();
+  56:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****       if(LoRaWAN_Counter<3)
+  57:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****       {
+  58:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****         if (counter == LORAWAN_INTERVAL)
+  59:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****         {
+  60:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****           LoRaWAN_send(NULL);
+  61:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****           counter = 0;
+  62:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****         }
+  63:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****       }
+  64:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****       if(LoRaWAN_Counter == 3)
+  65:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****       {
+  66:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****         //reset counters to restart flow
+  67:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****         DASH7_Counter = 0;
+  68:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****         LoRaWAN_Counter = 0;
+  69:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****       }
+  70:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****     }
+  71:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****    
+  72:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****     counter++;
+  73:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****     HAL_Delay(1000);
+  74:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****   }
+  75:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c **** }
+  76:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c **** 
+  77:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c **** void LoRaWAN_send(void const *argument)
+  78:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c **** {
+  79:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****   if (murata_init)
+  80:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****   {
+  81:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****     uint8_t loraMessage[5];
+  82:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****     uint8_t i = 0;
+  83:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****     //uint16 counter to uint8 array (little endian)
+  84:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****     //counter (large) type byte
+  85:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****     loraMessage[i++] = 0x14;
+  86:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****     loraMessage[i++] = LoRaWAN_Counter;
+  87:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****     loraMessage[i++] = LoRaWAN_Counter >> 8;
+ARM GAS  /tmp/cc6ldZp9.s 			page 3
+
+
+  88:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****     if(!Murata_LoRaWAN_Send((uint8_t *)loraMessage, i))
+  89:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****     {
+  90:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****       murata_init++;
+  91:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****       if(murata_init == 10)
+  92:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****         murata_init == 0;
+  93:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****     }
+  94:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****     else
+  95:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****     {
+  96:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****       murata_init = 1;
+  97:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****     }
+  98:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****     LoRaWAN_Counter++;
+  99:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****   }
+ 100:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****   else{
+ 101:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****     printINF("murata not initialized, not sending\r\n");
+ 102:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****   }
+ 103:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c **** }
+ 104:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c **** 
+ 105:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c **** void Dash7_send(void const *argument)
+ 106:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c **** {
+ 107:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****   if (murata_init)
+ 108:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****   {
+ 109:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****     uint8_t dash7Message[5];
+ 110:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****     uint8_t i = 0;
+ 111:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****     //uint16 counter to uint8 array (little endian)
+ 112:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****     //counter (large) type byte
+ 113:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****     dash7Message[i++] = 0x14;
+ 114:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****     dash7Message[i++] = DASH7_Counter;
+ 115:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****     dash7Message[i++] = DASH7_Counter >> 8;
+ 116:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****     if(!Murata_Dash7_Send((uint8_t *)dash7Message, i))
+ 117:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****     {
+ 118:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****       murata_init++;
+ 119:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****       if(murata_init == 10)
+ 120:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****         murata_init == 0;
+ 121:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****     }
+ 122:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****     else
+ 123:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****     {
+ 124:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****       murata_init = 1;
+ 125:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****     }
+ 126:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****     DASH7_Counter++;
+ 127:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****   }
+ 128:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****   else{
+ 129:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****     printINF("murata not initialized, not sending\r\n");
+ 130:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****   }
+ 131:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c **** }
+ 132:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c **** 
+ 133:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c **** void Dualstack_ApplicationCallback(void)
+ 134:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c **** {
+  29              		.loc 1 134 1 view -0
+  30              		.cfi_startproc
+  31              		@ args = 0, pretend = 0, frame = 0
+  32              		@ frame_needed = 0, uses_anonymous_args = 0
+  33              		@ link register save eliminated.
+ 135:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****   murata_data_ready = 1;
+  34              		.loc 1 135 3 view .LVU1
+  35              		.loc 1 135 21 is_stmt 0 view .LVU2
+  36 0000 014B     		ldr	r3, .L2
+  37 0002 0122     		movs	r2, #1
+ARM GAS  /tmp/cc6ldZp9.s 			page 4
+
+
+  38 0004 1A70     		strb	r2, [r3]
+ 136:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c **** }...
+  39              		.loc 1 136 1 view .LVU3
+  40 0006 7047     		bx	lr
+  41              	.L3:
+  42              		.align	2
+  43              	.L2:
+  44 0008 00000000 		.word	.LANCHOR0
+  45              		.cfi_endproc
+  46              	.LFE135:
+  48              		.section	.rodata.LoRaWAN_send.str1.4,"aMS",%progbits,1
+  49              		.align	2
+  50              	.LC0:
+  51 0000 6D757261 		.ascii	"murata not initialized, not sending\015\012\000"
+  51      7461206E 
+  51      6F742069 
+  51      6E697469 
+  51      616C697A 
+  52              		.section	.text.LoRaWAN_send,"ax",%progbits
+  53              		.align	1
+  54              		.global	LoRaWAN_send
+  55              		.syntax unified
+  56              		.thumb
+  57              		.thumb_func
+  58              		.fpu fpv4-sp-d16
+  60              	LoRaWAN_send:
+  61              	.LVL0:
+  62              	.LFB133:
+  78:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c **** {
+  63              		.loc 1 78 1 is_stmt 1 view -0
+  64              		.cfi_startproc
+  65              		@ args = 0, pretend = 0, frame = 8
+  66              		@ frame_needed = 0, uses_anonymous_args = 0
+  78:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c **** {
+  67              		.loc 1 78 1 is_stmt 0 view .LVU5
+  68 0000 00B5     		push	{lr}
+  69              	.LCFI0:
+  70              		.cfi_def_cfa_offset 4
+  71              		.cfi_offset 14, -4
+  72 0002 83B0     		sub	sp, sp, #12
+  73              	.LCFI1:
+  74              		.cfi_def_cfa_offset 16
+  79:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****   if (murata_init)
+  75              		.loc 1 79 3 is_stmt 1 view .LVU6
+  79:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****   if (murata_init)
+  76              		.loc 1 79 7 is_stmt 0 view .LVU7
+  77 0004 124B     		ldr	r3, .L10
+  78 0006 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+  79:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****   if (murata_init)
+  79              		.loc 1 79 6 view .LVU8
+  80 0008 EBB1     		cbz	r3, .L5
+  81              	.LBB2:
+  81:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****     uint8_t loraMessage[5];
+  82              		.loc 1 81 5 is_stmt 1 view .LVU9
+  82:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****     uint8_t i = 0;
+  83              		.loc 1 82 5 view .LVU10
+  84              	.LVL1:
+ARM GAS  /tmp/cc6ldZp9.s 			page 5
+
+
+  85:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****     loraMessage[i++] = 0x14;
+  85              		.loc 1 85 5 view .LVU11
+  85:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****     loraMessage[i++] = 0x14;
+  86              		.loc 1 85 22 is_stmt 0 view .LVU12
+  87 000a 1423     		movs	r3, #20
+  88 000c 8DF80030 		strb	r3, [sp]
+  86:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****     loraMessage[i++] = LoRaWAN_Counter;
+  89              		.loc 1 86 5 is_stmt 1 view .LVU13
+  86:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****     loraMessage[i++] = LoRaWAN_Counter;
+  90              		.loc 1 86 22 is_stmt 0 view .LVU14
+  91 0010 104B     		ldr	r3, .L10+4
+  92 0012 1B88     		ldrh	r3, [r3]
+  93              	.LVL2:
+  86:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****     loraMessage[i++] = LoRaWAN_Counter;
+  94              		.loc 1 86 22 view .LVU15
+  95 0014 8DF80130 		strb	r3, [sp, #1]
+  87:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****     loraMessage[i++] = LoRaWAN_Counter >> 8;
+  96              		.loc 1 87 5 is_stmt 1 view .LVU16
+  97              	.LVL3:
+  87:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****     loraMessage[i++] = LoRaWAN_Counter >> 8;
+  98              		.loc 1 87 22 is_stmt 0 view .LVU17
+  99 0018 1B0A     		lsrs	r3, r3, #8
+ 100 001a 8DF80230 		strb	r3, [sp, #2]
+  88:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****     if(!Murata_LoRaWAN_Send((uint8_t *)loraMessage, i))
+ 101              		.loc 1 88 5 is_stmt 1 view .LVU18
+  88:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****     if(!Murata_LoRaWAN_Send((uint8_t *)loraMessage, i))
+ 102              		.loc 1 88 9 is_stmt 0 view .LVU19
+ 103 001e 0321     		movs	r1, #3
+ 104 0020 6846     		mov	r0, sp
+ 105              	.LVL4:
+  88:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****     if(!Murata_LoRaWAN_Send((uint8_t *)loraMessage, i))
+ 106              		.loc 1 88 9 view .LVU20
+ 107 0022 FFF7FEFF 		bl	Murata_LoRaWAN_Send
+ 108              	.LVL5:
+  88:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****     if(!Murata_LoRaWAN_Send((uint8_t *)loraMessage, i))
+ 109              		.loc 1 88 7 view .LVU21
+ 110 0026 50B9     		cbnz	r0, .L6
+  90:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****       murata_init++;
+ 111              		.loc 1 90 7 is_stmt 1 view .LVU22
+  90:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****       murata_init++;
+ 112              		.loc 1 90 18 is_stmt 0 view .LVU23
+ 113 0028 094A     		ldr	r2, .L10
+ 114 002a 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 115 002c 0133     		adds	r3, r3, #1
+ 116 002e 1370     		strb	r3, [r2]
+  91:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****       if(murata_init == 10)
+ 117              		.loc 1 91 7 is_stmt 1 view .LVU24
+ 118              	.L7:
+  98:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****     LoRaWAN_Counter++;
+ 119              		.loc 1 98 5 discriminator 1 view .LVU25
+  98:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****     LoRaWAN_Counter++;
+ 120              		.loc 1 98 20 is_stmt 0 discriminator 1 view .LVU26
+ 121 0030 084A     		ldr	r2, .L10+4
+ 122 0032 1388     		ldrh	r3, [r2]
+ 123 0034 0133     		adds	r3, r3, #1
+ 124 0036 1380     		strh	r3, [r2]	@ movhi
+ 125              	.LVL6:
+ARM GAS  /tmp/cc6ldZp9.s 			page 6
+
+
+ 126              	.L4:
+  98:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****     LoRaWAN_Counter++;
+ 127              		.loc 1 98 20 discriminator 1 view .LVU27
+ 128              	.LBE2:
+ 103:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c **** }
+ 129              		.loc 1 103 1 view .LVU28
+ 130 0038 03B0     		add	sp, sp, #12
+ 131              	.LCFI2:
+ 132              		.cfi_remember_state
+ 133              		.cfi_def_cfa_offset 4
+ 134              		@ sp needed
+ 135 003a 5DF804FB 		ldr	pc, [sp], #4
+ 136              	.LVL7:
+ 137              	.L6:
+ 138              	.LCFI3:
+ 139              		.cfi_restore_state
+ 140              	.LBB3:
+  96:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****       murata_init = 1;
+ 141              		.loc 1 96 7 is_stmt 1 view .LVU29
+  96:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****       murata_init = 1;
+ 142              		.loc 1 96 19 is_stmt 0 view .LVU30
+ 143 003e 044B     		ldr	r3, .L10
+ 144 0040 0122     		movs	r2, #1
+ 145 0042 1A70     		strb	r2, [r3]
+ 146 0044 F4E7     		b	.L7
+ 147              	.LVL8:
+ 148              	.L5:
+  96:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****       murata_init = 1;
+ 149              		.loc 1 96 19 view .LVU31
+ 150              	.LBE3:
+ 101:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****     printINF("murata not initialized, not sending\r\n");
+ 151              		.loc 1 101 5 is_stmt 1 view .LVU32
+ 152 0046 0448     		ldr	r0, .L10+8
+ 153              	.LVL9:
+ 101:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****     printINF("murata not initialized, not sending\r\n");
+ 154              		.loc 1 101 5 is_stmt 0 view .LVU33
+ 155 0048 FFF7FEFF 		bl	printINF
+ 156              	.LVL10:
+ 103:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c **** }
+ 157              		.loc 1 103 1 view .LVU34
+ 158 004c F4E7     		b	.L4
+ 159              	.L11:
+ 160 004e 00BF     		.align	2
+ 161              	.L10:
+ 162 0050 00000000 		.word	.LANCHOR1
+ 163 0054 00000000 		.word	.LANCHOR2
+ 164 0058 00000000 		.word	.LC0
+ 165              		.cfi_endproc
+ 166              	.LFE133:
+ 168              		.section	.text.Dash7_send,"ax",%progbits
+ 169              		.align	1
+ 170              		.global	Dash7_send
+ 171              		.syntax unified
+ 172              		.thumb
+ 173              		.thumb_func
+ 174              		.fpu fpv4-sp-d16
+ 176              	Dash7_send:
+ARM GAS  /tmp/cc6ldZp9.s 			page 7
+
+
+ 177              	.LVL11:
+ 178              	.LFB134:
+ 106:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c **** {
+ 179              		.loc 1 106 1 is_stmt 1 view -0
+ 180              		.cfi_startproc
+ 181              		@ args = 0, pretend = 0, frame = 8
+ 182              		@ frame_needed = 0, uses_anonymous_args = 0
+ 106:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c **** {
+ 183              		.loc 1 106 1 is_stmt 0 view .LVU36
+ 184 0000 00B5     		push	{lr}
+ 185              	.LCFI4:
+ 186              		.cfi_def_cfa_offset 4
+ 187              		.cfi_offset 14, -4
+ 188 0002 83B0     		sub	sp, sp, #12
+ 189              	.LCFI5:
+ 190              		.cfi_def_cfa_offset 16
+ 107:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****   if (murata_init)
+ 191              		.loc 1 107 3 is_stmt 1 view .LVU37
+ 107:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****   if (murata_init)
+ 192              		.loc 1 107 7 is_stmt 0 view .LVU38
+ 193 0004 124B     		ldr	r3, .L18
+ 194 0006 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 107:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****   if (murata_init)
+ 195              		.loc 1 107 6 view .LVU39
+ 196 0008 EBB1     		cbz	r3, .L13
+ 197              	.LBB4:
+ 109:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****     uint8_t dash7Message[5];
+ 198              		.loc 1 109 5 is_stmt 1 view .LVU40
+ 110:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****     uint8_t i = 0;
+ 199              		.loc 1 110 5 view .LVU41
+ 200              	.LVL12:
+ 113:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****     dash7Message[i++] = 0x14;
+ 201              		.loc 1 113 5 view .LVU42
+ 113:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****     dash7Message[i++] = 0x14;
+ 202              		.loc 1 113 23 is_stmt 0 view .LVU43
+ 203 000a 1423     		movs	r3, #20
+ 204 000c 8DF80030 		strb	r3, [sp]
+ 114:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****     dash7Message[i++] = DASH7_Counter;
+ 205              		.loc 1 114 5 is_stmt 1 view .LVU44
+ 114:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****     dash7Message[i++] = DASH7_Counter;
+ 206              		.loc 1 114 23 is_stmt 0 view .LVU45
+ 207 0010 104B     		ldr	r3, .L18+4
+ 208 0012 1B88     		ldrh	r3, [r3]
+ 209              	.LVL13:
+ 114:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****     dash7Message[i++] = DASH7_Counter;
+ 210              		.loc 1 114 23 view .LVU46
+ 211 0014 8DF80130 		strb	r3, [sp, #1]
+ 115:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****     dash7Message[i++] = DASH7_Counter >> 8;
+ 212              		.loc 1 115 5 is_stmt 1 view .LVU47
+ 213              	.LVL14:
+ 115:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****     dash7Message[i++] = DASH7_Counter >> 8;
+ 214              		.loc 1 115 23 is_stmt 0 view .LVU48
+ 215 0018 1B0A     		lsrs	r3, r3, #8
+ 216 001a 8DF80230 		strb	r3, [sp, #2]
+ 116:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****     if(!Murata_Dash7_Send((uint8_t *)dash7Message, i))
+ 217              		.loc 1 116 5 is_stmt 1 view .LVU49
+ 116:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****     if(!Murata_Dash7_Send((uint8_t *)dash7Message, i))
+ARM GAS  /tmp/cc6ldZp9.s 			page 8
+
+
+ 218              		.loc 1 116 9 is_stmt 0 view .LVU50
+ 219 001e 0321     		movs	r1, #3
+ 220 0020 6846     		mov	r0, sp
+ 221              	.LVL15:
+ 116:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****     if(!Murata_Dash7_Send((uint8_t *)dash7Message, i))
+ 222              		.loc 1 116 9 view .LVU51
+ 223 0022 FFF7FEFF 		bl	Murata_Dash7_Send
+ 224              	.LVL16:
+ 116:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****     if(!Murata_Dash7_Send((uint8_t *)dash7Message, i))
+ 225              		.loc 1 116 7 view .LVU52
+ 226 0026 50B9     		cbnz	r0, .L14
+ 118:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****       murata_init++;
+ 227              		.loc 1 118 7 is_stmt 1 view .LVU53
+ 118:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****       murata_init++;
+ 228              		.loc 1 118 18 is_stmt 0 view .LVU54
+ 229 0028 094A     		ldr	r2, .L18
+ 230 002a 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 231 002c 0133     		adds	r3, r3, #1
+ 232 002e 1370     		strb	r3, [r2]
+ 119:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****       if(murata_init == 10)
+ 233              		.loc 1 119 7 is_stmt 1 view .LVU55
+ 234              	.L15:
+ 126:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****     DASH7_Counter++;
+ 235              		.loc 1 126 5 discriminator 1 view .LVU56
+ 126:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****     DASH7_Counter++;
+ 236              		.loc 1 126 18 is_stmt 0 discriminator 1 view .LVU57
+ 237 0030 084A     		ldr	r2, .L18+4
+ 238 0032 1388     		ldrh	r3, [r2]
+ 239 0034 0133     		adds	r3, r3, #1
+ 240 0036 1380     		strh	r3, [r2]	@ movhi
+ 241              	.LVL17:
+ 242              	.L12:
+ 126:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****     DASH7_Counter++;
+ 243              		.loc 1 126 18 discriminator 1 view .LVU58
+ 244              	.LBE4:
+ 131:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c **** }
+ 245              		.loc 1 131 1 view .LVU59
+ 246 0038 03B0     		add	sp, sp, #12
+ 247              	.LCFI6:
+ 248              		.cfi_remember_state
+ 249              		.cfi_def_cfa_offset 4
+ 250              		@ sp needed
+ 251 003a 5DF804FB 		ldr	pc, [sp], #4
+ 252              	.LVL18:
+ 253              	.L14:
+ 254              	.LCFI7:
+ 255              		.cfi_restore_state
+ 256              	.LBB5:
+ 124:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****       murata_init = 1;
+ 257              		.loc 1 124 7 is_stmt 1 view .LVU60
+ 124:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****       murata_init = 1;
+ 258              		.loc 1 124 19 is_stmt 0 view .LVU61
+ 259 003e 044B     		ldr	r3, .L18
+ 260 0040 0122     		movs	r2, #1
+ 261 0042 1A70     		strb	r2, [r3]
+ 262 0044 F4E7     		b	.L15
+ 263              	.LVL19:
+ARM GAS  /tmp/cc6ldZp9.s 			page 9
+
+
+ 264              	.L13:
+ 124:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****       murata_init = 1;
+ 265              		.loc 1 124 19 view .LVU62
+ 266              	.LBE5:
+ 129:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****     printINF("murata not initialized, not sending\r\n");
+ 267              		.loc 1 129 5 is_stmt 1 view .LVU63
+ 268 0046 0448     		ldr	r0, .L18+8
+ 269              	.LVL20:
+ 129:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****     printINF("murata not initialized, not sending\r\n");
+ 270              		.loc 1 129 5 is_stmt 0 view .LVU64
+ 271 0048 FFF7FEFF 		bl	printINF
+ 272              	.LVL21:
+ 131:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c **** }
+ 273              		.loc 1 131 1 view .LVU65
+ 274 004c F4E7     		b	.L12
+ 275              	.L19:
+ 276 004e 00BF     		.align	2
+ 277              	.L18:
+ 278 0050 00000000 		.word	.LANCHOR1
+ 279 0054 00000000 		.word	.LANCHOR3
+ 280 0058 00000000 		.word	.LC0
+ 281              		.cfi_endproc
+ 282              	.LFE134:
+ 284              		.section	.rodata.main.str1.4,"aMS",%progbits,1
+ 285              		.align	2
+ 286              	.LC1:
+ 287 0000 4D757261 		.ascii	"Murata dualstack module init OK\015\012\015\012\000"
+ 287      74612064 
+ 287      75616C73 
+ 287      7461636B 
+ 287      206D6F64 
+ 288              		.align	2
+ 289              	.LC2:
+ 290 0024 70726F63 		.ascii	"processing murata fifo\015\012\000"
+ 290      65737369 
+ 290      6E67206D 
+ 290      75726174 
+ 290      61206669 
+ 291              		.section	.text.main,"ax",%progbits
+ 292              		.align	1
+ 293              		.global	main
+ 294              		.syntax unified
+ 295              		.thumb
+ 296              		.thumb_func
+ 297              		.fpu fpv4-sp-d16
+ 299              	main:
+ 300              	.LFB132:
+  16:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c **** {
+ 301              		.loc 1 16 1 is_stmt 1 view -0
+ 302              		.cfi_startproc
+ 303              		@ args = 0, pretend = 0, frame = 0
+ 304              		@ frame_needed = 0, uses_anonymous_args = 0
+ 305 0000 10B5     		push	{r4, lr}
+ 306              	.LCFI8:
+ 307              		.cfi_def_cfa_offset 8
+ 308              		.cfi_offset 4, -8
+ 309              		.cfi_offset 14, -4
+ARM GAS  /tmp/cc6ldZp9.s 			page 10
+
+
+  17:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****   Initialize_Platform();
+ 310              		.loc 1 17 3 view .LVU67
+ 311 0002 FFF7FEFF 		bl	Initialize_Platform
+ 312              	.LVL22:
+  20:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****   murata_init = Murata_Initialize(short_UID);
+ 313              		.loc 1 20 3 view .LVU68
+  20:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****   murata_init = Murata_Initialize(short_UID);
+ 314              		.loc 1 20 17 is_stmt 0 view .LVU69
+ 315 0006 284B     		ldr	r3, .L34
+ 316 0008 D3E90001 		ldrd	r0, [r3]
+ 317 000c FFF7FEFF 		bl	Murata_Initialize
+ 318              	.LVL23:
+  20:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****   murata_init = Murata_Initialize(short_UID);
+ 319              		.loc 1 20 15 view .LVU70
+ 320 0010 264C     		ldr	r4, .L34+4
+ 321 0012 2070     		strb	r0, [r4]
+  21:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****   UART_SetApplicationCallback(&Dualstack_ApplicationCallback, (uint8_t)MURATA_CONNECTOR);
+ 322              		.loc 1 21 3 is_stmt 1 view .LVU71
+ 323 0014 0321     		movs	r1, #3
+ 324 0016 2648     		ldr	r0, .L34+8
+ 325 0018 FFF7FEFF 		bl	UART_SetApplicationCallback
+ 326              	.LVL24:
+  23:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****   if (murata_init)
+ 327              		.loc 1 23 3 view .LVU72
+  23:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****   if (murata_init)
+ 328              		.loc 1 23 7 is_stmt 0 view .LVU73
+ 329 001c 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+  23:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****   if (murata_init)
+ 330              		.loc 1 23 6 view .LVU74
+ 331 001e 0BB9     		cbnz	r3, .L29
+ 332              	.L21:
+  16:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c **** {
+ 333              		.loc 1 16 1 view .LVU75
+ 334 0020 0024     		movs	r4, #0
+ 335 0022 21E0     		b	.L27
+ 336              	.L29:
+  25:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****     printINF("Murata dualstack module init OK\r\n\r\n");
+ 337              		.loc 1 25 5 is_stmt 1 view .LVU76
+ 338 0024 2348     		ldr	r0, .L34+12
+ 339 0026 FFF7FEFF 		bl	printINF
+ 340              	.LVL25:
+ 341 002a F9E7     		b	.L21
+ 342              	.LVL26:
+ 343              	.L33:
+  38:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****       printINF("processing murata fifo\r\n");
+ 344              		.loc 1 38 7 view .LVU77
+ 345 002c 2248     		ldr	r0, .L34+16
+ 346 002e FFF7FEFF 		bl	printINF
+ 347              	.LVL27:
+  39:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****       murata_data_ready = !Murata_process_fifo();
+ 348              		.loc 1 39 7 view .LVU78
+  39:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****       murata_data_ready = !Murata_process_fifo();
+ 349              		.loc 1 39 28 is_stmt 0 view .LVU79
+ 350 0032 FFF7FEFF 		bl	Murata_process_fifo
+ 351              	.LVL28:
+  39:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****       murata_data_ready = !Murata_process_fifo();
+ 352              		.loc 1 39 27 view .LVU80
+ARM GAS  /tmp/cc6ldZp9.s 			page 11
+
+
+ 353 0036 B0FA80F0 		clz	r0, r0
+ 354 003a 4009     		lsrs	r0, r0, #5
+  39:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****       murata_data_ready = !Murata_process_fifo();
+ 355              		.loc 1 39 25 view .LVU81
+ 356 003c 1F4B     		ldr	r3, .L34+20
+ 357 003e 1870     		strb	r0, [r3]
+ 358 0040 19E0     		b	.L22
+ 359              	.L23:
+  54:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****       if(LoRaWAN_Counter == 0)
+ 360              		.loc 1 54 7 is_stmt 1 view .LVU82
+  54:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****       if(LoRaWAN_Counter == 0)
+ 361              		.loc 1 54 26 is_stmt 0 view .LVU83
+ 362 0042 1F4B     		ldr	r3, .L34+24
+ 363 0044 1B88     		ldrh	r3, [r3]
+  54:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****       if(LoRaWAN_Counter == 0)
+ 364              		.loc 1 54 9 view .LVU84
+ 365 0046 0BB3     		cbz	r3, .L30
+ 366              	.L25:
+  56:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****       if(LoRaWAN_Counter<3)
+ 367              		.loc 1 56 7 is_stmt 1 view .LVU85
+  56:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****       if(LoRaWAN_Counter<3)
+ 368              		.loc 1 56 25 is_stmt 0 view .LVU86
+ 369 0048 1D4B     		ldr	r3, .L34+24
+ 370 004a 1B88     		ldrh	r3, [r3]
+  56:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****       if(LoRaWAN_Counter<3)
+ 371              		.loc 1 56 9 view .LVU87
+ 372 004c 022B     		cmp	r3, #2
+ 373 004e 01D8     		bhi	.L26
+  58:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****         if (counter == LORAWAN_INTERVAL)
+ 374              		.loc 1 58 9 is_stmt 1 view .LVU88
+  58:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****         if (counter == LORAWAN_INTERVAL)
+ 375              		.loc 1 58 12 is_stmt 0 view .LVU89
+ 376 0050 3C2C     		cmp	r4, #60
+ 377 0052 1ED0     		beq	.L31
+ 378              	.LVL29:
+ 379              	.L26:
+  64:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****       if(LoRaWAN_Counter == 3)
+ 380              		.loc 1 64 7 is_stmt 1 view .LVU90
+  64:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****       if(LoRaWAN_Counter == 3)
+ 381              		.loc 1 64 26 is_stmt 0 view .LVU91
+ 382 0054 1A4B     		ldr	r3, .L34+24
+ 383 0056 1B88     		ldrh	r3, [r3]
+  64:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****       if(LoRaWAN_Counter == 3)
+ 384              		.loc 1 64 9 view .LVU92
+ 385 0058 032B     		cmp	r3, #3
+ 386 005a 1FD0     		beq	.L32
+ 387              	.LVL30:
+ 388              	.L24:
+  72:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****     counter++;
+ 389              		.loc 1 72 5 is_stmt 1 view .LVU93
+  72:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****     counter++;
+ 390              		.loc 1 72 12 is_stmt 0 view .LVU94
+ 391 005c 0134     		adds	r4, r4, #1
+ 392              	.LVL31:
+  72:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****     counter++;
+ 393              		.loc 1 72 12 view .LVU95
+ 394 005e E4B2     		uxtb	r4, r4
+ARM GAS  /tmp/cc6ldZp9.s 			page 12
+
+
+ 395              	.LVL32:
+  73:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****     HAL_Delay(1000);
+ 396              		.loc 1 73 5 is_stmt 1 view .LVU96
+ 397 0060 4FF47A70 		mov	r0, #1000
+ 398 0064 FFF7FEFF 		bl	HAL_Delay
+ 399              	.LVL33:
+  32:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****   while (1)
+ 400              		.loc 1 32 9 view .LVU97
+ 401              	.L27:
+  32:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****   while (1)
+ 402              		.loc 1 32 3 view .LVU98
+  34:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****     IWDG_feed(NULL);
+ 403              		.loc 1 34 5 view .LVU99
+ 404 0068 0020     		movs	r0, #0
+ 405 006a FFF7FEFF 		bl	IWDG_feed
+ 406              	.LVL34:
+  36:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****     if(murata_data_ready)
+ 407              		.loc 1 36 5 view .LVU100
+  36:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****     if(murata_data_ready)
+ 408              		.loc 1 36 8 is_stmt 0 view .LVU101
+ 409 006e 134B     		ldr	r3, .L34+20
+ 410 0070 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+  36:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****     if(murata_data_ready)
+ 411              		.loc 1 36 7 view .LVU102
+ 412 0072 002B     		cmp	r3, #0
+ 413 0074 DAD1     		bne	.L33
+ 414              	.L22:
+  44:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****     if(DASH7_Counter<5)
+ 415              		.loc 1 44 5 is_stmt 1 view .LVU103
+  44:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****     if(DASH7_Counter<5)
+ 416              		.loc 1 44 21 is_stmt 0 view .LVU104
+ 417 0076 134B     		ldr	r3, .L34+28
+ 418 0078 1B88     		ldrh	r3, [r3]
+  44:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****     if(DASH7_Counter<5)
+ 419              		.loc 1 44 7 view .LVU105
+ 420 007a 042B     		cmp	r3, #4
+ 421 007c E1D8     		bhi	.L23
+  46:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****       if(counter==DASH7_INTERVAL)
+ 422              		.loc 1 46 7 is_stmt 1 view .LVU106
+  46:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****       if(counter==DASH7_INTERVAL)
+ 423              		.loc 1 46 9 is_stmt 0 view .LVU107
+ 424 007e 142C     		cmp	r4, #20
+ 425 0080 ECD1     		bne	.L24
+  48:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****         Dash7_send(NULL);
+ 426              		.loc 1 48 9 is_stmt 1 view .LVU108
+ 427 0082 0020     		movs	r0, #0
+ 428 0084 FFF7FEFF 		bl	Dash7_send
+ 429              	.LVL35:
+  49:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****         counter = 0;
+ 430              		.loc 1 49 9 view .LVU109
+  49:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****         counter = 0;
+ 431              		.loc 1 49 17 is_stmt 0 view .LVU110
+ 432 0088 0024     		movs	r4, #0
+ 433 008a E7E7     		b	.L24
+ 434              	.LVL36:
+ 435              	.L30:
+  55:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****         Murata_LoRaWAN_Join();
+ARM GAS  /tmp/cc6ldZp9.s 			page 13
+
+
+ 436              		.loc 1 55 9 is_stmt 1 view .LVU111
+ 437 008c FFF7FEFF 		bl	Murata_LoRaWAN_Join
+ 438              	.LVL37:
+ 439 0090 DAE7     		b	.L25
+ 440              	.L31:
+  60:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****           LoRaWAN_send(NULL);
+ 441              		.loc 1 60 11 view .LVU112
+ 442 0092 0020     		movs	r0, #0
+ 443 0094 FFF7FEFF 		bl	LoRaWAN_send
+ 444              	.LVL38:
+  61:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****           counter = 0;
+ 445              		.loc 1 61 11 view .LVU113
+  61:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****           counter = 0;
+ 446              		.loc 1 61 19 is_stmt 0 view .LVU114
+ 447 0098 0024     		movs	r4, #0
+ 448 009a DBE7     		b	.L26
+ 449              	.LVL39:
+ 450              	.L32:
+  67:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****         DASH7_Counter = 0;
+ 451              		.loc 1 67 9 is_stmt 1 view .LVU115
+  67:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****         DASH7_Counter = 0;
+ 452              		.loc 1 67 23 is_stmt 0 view .LVU116
+ 453 009c 0023     		movs	r3, #0
+ 454 009e 094A     		ldr	r2, .L34+28
+ 455 00a0 1380     		strh	r3, [r2]	@ movhi
+  68:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****         LoRaWAN_Counter = 0;
+ 456              		.loc 1 68 9 is_stmt 1 view .LVU117
+  68:../../applications/examples/murata-dualstack-example-ns/src/murata-dualstack-example-ns.c ****         LoRaWAN_Counter = 0;
+ 457              		.loc 1 68 25 is_stmt 0 view .LVU118
+ 458 00a2 074A     		ldr	r2, .L34+24
+ 459 00a4 1380     		strh	r3, [r2]	@ movhi
+ 460 00a6 D9E7     		b	.L24
+ 461              	.L35:
+ 462              		.align	2
+ 463              	.L34:
+ 464 00a8 00000000 		.word	short_UID
+ 465 00ac 00000000 		.word	.LANCHOR1
+ 466 00b0 00000000 		.word	Dualstack_ApplicationCallback
+ 467 00b4 00000000 		.word	.LC1
+ 468 00b8 24000000 		.word	.LC2
+ 469 00bc 00000000 		.word	.LANCHOR0
+ 470 00c0 00000000 		.word	.LANCHOR2
+ 471 00c4 00000000 		.word	.LANCHOR3
+ 472              		.cfi_endproc
+ 473              	.LFE132:
+ 475              		.global	murata_data_ready
+ 476              		.global	murata_init
+ 477              		.global	DASH7_Counter
+ 478              		.global	LoRaWAN_Counter
+ 479              		.comm	threadToNotify,4,4
+ 480              		.comm	murata_reset_pin,4,4
+ 481              		.comm	murata_wakeup_pin,4,4
+ 482              		.comm	murata_rx_process_mutex_id,4,4
+ 483              		.comm	txMutexId,4,4
+ 484              		.comm	moduleCheckTimId,4,4
+ 485              		.comm	dash7TimId,4,4
+ 486              		.comm	loraWANTimId,4,4
+ARM GAS  /tmp/cc6ldZp9.s 			page 14
+
+
+ 487              		.comm	iwdgTimId,4,4
+ 488              		.comm	murata_rx_processing_handle,4,4
+ 489              		.comm	defaultTaskHandle,4,4
+ 490              		.comm	P3_header,44,4
+ 491              		.comm	P2_header,44,4
+ 492              		.comm	P1_header,44,4
+ 493              		.comm	stackversion_patch,1,1
+ 494              		.comm	stackversion_minor,1,1
+ 495              		.comm	stackversion_major,1,1
+ 496              		.comm	appversion_patch,1,1
+ 497              		.comm	appversion_minor,1,1
+ 498              		.comm	appversion_major,1,1
+ 499              		.comm	short_UID,8,8
+ 500              		.comm	octa_uid,8,8
+ 501              		.comm	float_union,4,4
+ 502              		.comm	int16LittleEndian,2,4
+ 503              		.comm	uint32LittleEndian,4,4
+ 504              		.comm	int32LittleEndian,4,4
+ 505              		.comm	hrtc,36,4
+ 506              		.comm	FLASH_SPI,100,4
+ 507              		.comm	P3_SPI,100,4
+ 508              		.comm	P2_SPI,100,4
+ 509              		.comm	P1_SPI,100,4
+ 510              		.comm	P3_I2C,76,4
+ 511              		.comm	P2_I2C,76,4
+ 512              		.comm	P1_I2C,76,4
+ 513              		.comm	common_I2C,76,4
+ 514              		.comm	P3_UART,120,4
+ 515              		.comm	P2_UART,120,4
+ 516              		.comm	P1_UART,120,4
+ 517              		.comm	FTDI_UART,120,4
+ 518              		.comm	BLE_UART,120,4
+ 519              		.comm	USB_UART,120,4
+ 520              		.comm	hiwdg,16,4
+ 521              		.comm	P3_DIO6,8,4
+ 522              		.comm	P3_DIO5,8,4
+ 523              		.comm	P3_DIO4,8,4
+ 524              		.comm	P3_DIO3,8,4
+ 525              		.comm	P3_DIO2,8,4
+ 526              		.comm	P3_DIO1,8,4
+ 527              		.comm	P2_DIO6,8,4
+ 528              		.comm	P2_DIO5,8,4
+ 529              		.comm	P2_DIO4,8,4
+ 530              		.comm	P2_DIO3,8,4
+ 531              		.comm	P2_DIO2,8,4
+ 532              		.comm	P2_DIO1,8,4
+ 533              		.comm	P1_DIO6,8,4
+ 534              		.comm	P1_DIO5,8,4
+ 535              		.comm	P1_DIO4,8,4
+ 536              		.comm	P1_DIO3,8,4
+ 537              		.comm	P1_DIO2,8,4
+ 538              		.comm	P1_DIO1,8,4
+ 539              		.comm	htim6,64,4
+ 540              		.comm	htim1,64,4
+ 541              		.section	.bss.DASH7_Counter,"aw",%nobits
+ 542              		.align	1
+ 543              		.set	.LANCHOR3,. + 0
+ARM GAS  /tmp/cc6ldZp9.s 			page 15
+
+
+ 546              	DASH7_Counter:
+ 547 0000 0000     		.space	2
+ 548              		.section	.bss.LoRaWAN_Counter,"aw",%nobits
+ 549              		.align	1
+ 550              		.set	.LANCHOR2,. + 0
+ 553              	LoRaWAN_Counter:
+ 554 0000 0000     		.space	2
+ 555              		.section	.bss.murata_data_ready,"aw",%nobits
+ 556              		.set	.LANCHOR0,. + 0
+ 559              	murata_data_ready:
+ 560 0000 00       		.space	1
+ 561              		.section	.bss.murata_init,"aw",%nobits
+ 562              		.set	.LANCHOR1,. + 0
+ 565              	murata_init:
+ 566 0000 00       		.space	1
+ 567              		.text
+ 568              	.Letext0:
+ 569              		.file 2 "/usr/arm-none-eabi/include/machine/_default_types.h"
+ 570              		.file 3 "/usr/arm-none-eabi/include/sys/_stdint.h"
+ 571              		.file 4 "../../core/ST/CMSIS/Include/core_cm4.h"
+ 572              		.file 5 "../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/system_stm32l4xx.h"
+ 573              		.file 6 "../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/stm32l496xx.h"
+ 574              		.file 7 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h"
+ 575              		.file 8 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_dma.h"
+ 576              		.file 9 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_i2c.h"
+ 577              		.file 10 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_iwdg.h"
+ 578              		.file 11 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rtc.h"
+ 579              		.file 12 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_spi.h"
+ 580              		.file 13 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_tim.h"
+ 581              		.file 14 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h"
+ 582              		.file 15 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h"
+ 583              		.file 16 "../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/include/task.h"
+ 584              		.file 17 "../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/include/timers.h"
+ 585              		.file 18 "../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/include/queue.h"
+ 586              		.file 19 "../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/include/semphr.h"
+ 587              		.file 20 "../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h"
+ 588              		.file 21 "../../core/platform/octa/inc/sysclock.h"
+ 589              		.file 22 "../../core/platform/octa/inc/gpio.h"
+ 590              		.file 23 "../../core/platform/octa/inc/iwdg.h"
+ 591              		.file 24 "../../core/platform/octa/inc/uart.h"
+ 592              		.file 25 "../../core/platform/octa/inc/i2c.h"
+ 593              		.file 26 "../../core/platform/octa/inc/spi.h"
+ 594              		.file 27 "../../core/platform/octa/inc/rtc.h"
+ 595              		.file 28 "/usr/arm-none-eabi/include/sys/lock.h"
+ 596              		.file 29 "/usr/arm-none-eabi/include/sys/_types.h"
+ 597              		.file 30 "/usr/lib/gcc/arm-none-eabi/9.2.1/include/stddef.h"
+ 598              		.file 31 "/usr/arm-none-eabi/include/sys/reent.h"
+ 599              		.file 32 "../../core/platform/common/inc/datatypes.h"
+ 600              		.file 33 "../../core/platform/octa/inc/platform.h"
+ 601              		.file 34 "../../applications/examples/murata-dualstack-example-ns/inc/murata-dualstack-example-ns.h"
+ 602              		.file 35 "../../shields/Murata-dualstack/inc/murata.h"
+ 603              		.file 36 "../../core/platform/common/inc/print.h"
+ARM GAS  /tmp/cc6ldZp9.s 			page 16
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 murata-dualstack-example-ns.c
+     /tmp/cc6ldZp9.s:18     .text.Dualstack_ApplicationCallback:0000000000000000 $t
+     /tmp/cc6ldZp9.s:26     .text.Dualstack_ApplicationCallback:0000000000000000 Dualstack_ApplicationCallback
+     /tmp/cc6ldZp9.s:44     .text.Dualstack_ApplicationCallback:0000000000000008 $d
+     /tmp/cc6ldZp9.s:49     .rodata.LoRaWAN_send.str1.4:0000000000000000 $d
+     /tmp/cc6ldZp9.s:53     .text.LoRaWAN_send:0000000000000000 $t
+     /tmp/cc6ldZp9.s:60     .text.LoRaWAN_send:0000000000000000 LoRaWAN_send
+     /tmp/cc6ldZp9.s:162    .text.LoRaWAN_send:0000000000000050 $d
+     /tmp/cc6ldZp9.s:169    .text.Dash7_send:0000000000000000 $t
+     /tmp/cc6ldZp9.s:176    .text.Dash7_send:0000000000000000 Dash7_send
+     /tmp/cc6ldZp9.s:278    .text.Dash7_send:0000000000000050 $d
+     /tmp/cc6ldZp9.s:285    .rodata.main.str1.4:0000000000000000 $d
+     /tmp/cc6ldZp9.s:292    .text.main:0000000000000000 $t
+     /tmp/cc6ldZp9.s:299    .text.main:0000000000000000 main
+     /tmp/cc6ldZp9.s:464    .text.main:00000000000000a8 $d
+                            *COM*:0000000000000008 short_UID
+     /tmp/cc6ldZp9.s:559    .bss.murata_data_ready:0000000000000000 murata_data_ready
+     /tmp/cc6ldZp9.s:565    .bss.murata_init:0000000000000000 murata_init
+     /tmp/cc6ldZp9.s:546    .bss.DASH7_Counter:0000000000000000 DASH7_Counter
+     /tmp/cc6ldZp9.s:553    .bss.LoRaWAN_Counter:0000000000000000 LoRaWAN_Counter
+                            *COM*:0000000000000004 threadToNotify
+                            *COM*:0000000000000004 murata_reset_pin
+                            *COM*:0000000000000004 murata_wakeup_pin
+                            *COM*:0000000000000004 murata_rx_process_mutex_id
+                            *COM*:0000000000000004 txMutexId
+                            *COM*:0000000000000004 moduleCheckTimId
+                            *COM*:0000000000000004 dash7TimId
+                            *COM*:0000000000000004 loraWANTimId
+                            *COM*:0000000000000004 iwdgTimId
+                            *COM*:0000000000000004 murata_rx_processing_handle
+                            *COM*:0000000000000004 defaultTaskHandle
+                            *COM*:000000000000002c P3_header
+                            *COM*:000000000000002c P2_header
+                            *COM*:000000000000002c P1_header
+                            *COM*:0000000000000001 stackversion_patch
+                            *COM*:0000000000000001 stackversion_minor
+                            *COM*:0000000000000001 stackversion_major
+                            *COM*:0000000000000001 appversion_patch
+                            *COM*:0000000000000001 appversion_minor
+                            *COM*:0000000000000001 appversion_major
+                            *COM*:0000000000000008 octa_uid
+                            *COM*:0000000000000004 float_union
+                            *COM*:0000000000000002 int16LittleEndian
+                            *COM*:0000000000000004 uint32LittleEndian
+                            *COM*:0000000000000004 int32LittleEndian
+                            *COM*:0000000000000024 hrtc
+                            *COM*:0000000000000064 FLASH_SPI
+                            *COM*:0000000000000064 P3_SPI
+                            *COM*:0000000000000064 P2_SPI
+                            *COM*:0000000000000064 P1_SPI
+                            *COM*:000000000000004c P3_I2C
+                            *COM*:000000000000004c P2_I2C
+                            *COM*:000000000000004c P1_I2C
+                            *COM*:000000000000004c common_I2C
+                            *COM*:0000000000000078 P3_UART
+                            *COM*:0000000000000078 P2_UART
+ARM GAS  /tmp/cc6ldZp9.s 			page 17
+
+
+                            *COM*:0000000000000078 P1_UART
+                            *COM*:0000000000000078 FTDI_UART
+                            *COM*:0000000000000078 BLE_UART
+                            *COM*:0000000000000078 USB_UART
+                            *COM*:0000000000000010 hiwdg
+                            *COM*:0000000000000008 P3_DIO6
+                            *COM*:0000000000000008 P3_DIO5
+                            *COM*:0000000000000008 P3_DIO4
+                            *COM*:0000000000000008 P3_DIO3
+                            *COM*:0000000000000008 P3_DIO2
+                            *COM*:0000000000000008 P3_DIO1
+                            *COM*:0000000000000008 P2_DIO6
+                            *COM*:0000000000000008 P2_DIO5
+                            *COM*:0000000000000008 P2_DIO4
+                            *COM*:0000000000000008 P2_DIO3
+                            *COM*:0000000000000008 P2_DIO2
+                            *COM*:0000000000000008 P2_DIO1
+                            *COM*:0000000000000008 P1_DIO6
+                            *COM*:0000000000000008 P1_DIO5
+                            *COM*:0000000000000008 P1_DIO4
+                            *COM*:0000000000000008 P1_DIO3
+                            *COM*:0000000000000008 P1_DIO2
+                            *COM*:0000000000000008 P1_DIO1
+                            *COM*:0000000000000040 htim6
+                            *COM*:0000000000000040 htim1
+     /tmp/cc6ldZp9.s:542    .bss.DASH7_Counter:0000000000000000 $d
+     /tmp/cc6ldZp9.s:549    .bss.LoRaWAN_Counter:0000000000000000 $d
+     /tmp/cc6ldZp9.s:560    .bss.murata_data_ready:0000000000000000 $d
+     /tmp/cc6ldZp9.s:566    .bss.murata_init:0000000000000000 $d
+
+UNDEFINED SYMBOLS
+Murata_LoRaWAN_Send
+printINF
+Murata_Dash7_Send
+Initialize_Platform
+Murata_Initialize
+UART_SetApplicationCallback
+Murata_process_fifo
+HAL_Delay
+IWDG_feed
+Murata_LoRaWAN_Join

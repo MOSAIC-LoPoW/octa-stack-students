@@ -1,0 +1,445 @@
+ARM GAS  /tmp/ccFNmB0P.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 28, 1
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.file	"iwdg.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.text.OCTA_IWDG_Init,"ax",%progbits
+  18              		.align	1
+  19              		.global	OCTA_IWDG_Init
+  20              		.arch armv7e-m
+  21              		.syntax unified
+  22              		.thumb
+  23              		.thumb_func
+  24              		.fpu fpv4-sp-d16
+  26              	OCTA_IWDG_Init:
+  27              	.LFB131:
+  28              		.file 1 "../../../core/platform/octa/src/iwdg.c"
+   1:../../../core/platform/octa/src/iwdg.c **** #include "iwdg.h"
+   2:../../../core/platform/octa/src/iwdg.c **** #include "platform.h"
+   3:../../../core/platform/octa/src/iwdg.c **** 
+   4:../../../core/platform/octa/src/iwdg.c **** void OCTA_IWDG_Init(void)
+   5:../../../core/platform/octa/src/iwdg.c **** {
+  29              		.loc 1 5 1 view -0
+  30              		.cfi_startproc
+  31              		@ args = 0, pretend = 0, frame = 40
+  32              		@ frame_needed = 0, uses_anonymous_args = 0
+  33 0000 00B5     		push	{lr}
+  34              	.LCFI0:
+  35              		.cfi_def_cfa_offset 4
+  36              		.cfi_offset 14, -4
+  37 0002 8BB0     		sub	sp, sp, #44
+  38              	.LCFI1:
+  39              		.cfi_def_cfa_offset 48
+   6:../../../core/platform/octa/src/iwdg.c ****   /*
+   7:../../../core/platform/octa/src/iwdg.c ****     check if bit 17 of USERConfig byte is set (IWDG_STOP = 1), if yes, set to 0
+   8:../../../core/platform/octa/src/iwdg.c ****       Bit 17 IWDG_STOP: Independent watchdog counter freeze in Stop mode
+   9:../../../core/platform/octa/src/iwdg.c ****           0: Independent watchdog counter is frozen in Stop mode
+  10:../../../core/platform/octa/src/iwdg.c ****           1: Independent watchdog counter is running in Stop mode
+  11:../../../core/platform/octa/src/iwdg.c ****   */
+  12:../../../core/platform/octa/src/iwdg.c ****   FLASH_OBProgramInitTypeDef OBInitStruct;
+  40              		.loc 1 12 3 view .LVU1
+  13:../../../core/platform/octa/src/iwdg.c ****   HAL_FLASHEx_OBGetConfig(&OBInitStruct);
+  41              		.loc 1 13 3 view .LVU2
+  42 0004 6846     		mov	r0, sp
+  43 0006 FFF7FEFF 		bl	HAL_FLASHEx_OBGetConfig
+  44              	.LVL0:
+  14:../../../core/platform/octa/src/iwdg.c ****   
+ARM GAS  /tmp/ccFNmB0P.s 			page 2
+
+
+  15:../../../core/platform/octa/src/iwdg.c ****   if(OBInitStruct.USERConfig & (1 << 17))
+  45              		.loc 1 15 3 view .LVU3
+  46              		.loc 1 15 5 is_stmt 0 view .LVU4
+  47 000a 069B     		ldr	r3, [sp, #24]
+  48 000c 13F4003F 		tst	r3, #131072
+  49 0010 0ED1     		bne	.L5
+  50              	.L2:
+  16:../../../core/platform/octa/src/iwdg.c ****   {
+  17:../../../core/platform/octa/src/iwdg.c ****       OBInitStruct.OptionType = OPTIONBYTE_USER;
+  18:../../../core/platform/octa/src/iwdg.c ****       OBInitStruct.WRPArea = OB_WRPAREA_BANK1_AREAA;
+  19:../../../core/platform/octa/src/iwdg.c ****       OBInitStruct.WRPStartOffset = 0;
+  20:../../../core/platform/octa/src/iwdg.c ****       OBInitStruct.WRPEndOffset = 0;
+  21:../../../core/platform/octa/src/iwdg.c ****       OBInitStruct.RDPLevel = OB_RDP_LEVEL_0;
+  22:../../../core/platform/octa/src/iwdg.c ****       OBInitStruct.USERType = OB_USER_IWDG_STOP;
+  23:../../../core/platform/octa/src/iwdg.c ****       OBInitStruct.USERConfig = OB_IWDG_STOP_FREEZE;
+  24:../../../core/platform/octa/src/iwdg.c ****       OBInitStruct.PCROPConfig = OB_PCROP_RDP_NOT_ERASE;
+  25:../../../core/platform/octa/src/iwdg.c ****       OBInitStruct.PCROPStartAddr = 0;
+  26:../../../core/platform/octa/src/iwdg.c ****       OBInitStruct.PCROPEndAddr = 0;
+  27:../../../core/platform/octa/src/iwdg.c **** 
+  28:../../../core/platform/octa/src/iwdg.c **** 
+  29:../../../core/platform/octa/src/iwdg.c ****       /* USER CODE BEGIN IWDG_Init 0 */
+  30:../../../core/platform/octa/src/iwdg.c ****       HAL_FLASH_Unlock();
+  31:../../../core/platform/octa/src/iwdg.c ****       HAL_FLASH_OB_Unlock();
+  32:../../../core/platform/octa/src/iwdg.c ****       HAL_FLASHEx_OBProgram(&OBInitStruct);
+  33:../../../core/platform/octa/src/iwdg.c ****       HAL_FLASH_OB_Lock();
+  34:../../../core/platform/octa/src/iwdg.c ****       HAL_FLASH_Lock();
+  35:../../../core/platform/octa/src/iwdg.c ****       HAL_FLASH_OB_Launch();
+  36:../../../core/platform/octa/src/iwdg.c ****   }
+  37:../../../core/platform/octa/src/iwdg.c ****   
+  38:../../../core/platform/octa/src/iwdg.c ****   hiwdg.Instance = IWDG;
+  51              		.loc 1 38 3 is_stmt 1 view .LVU5
+  52              		.loc 1 38 18 is_stmt 0 view .LVU6
+  53 0012 1748     		ldr	r0, .L7
+  54 0014 174B     		ldr	r3, .L7+4
+  55 0016 0360     		str	r3, [r0]
+  39:../../../core/platform/octa/src/iwdg.c ****   hiwdg.Init.Prescaler = IWDG_PRESCALER_256;
+  56              		.loc 1 39 3 is_stmt 1 view .LVU7
+  57              		.loc 1 39 24 is_stmt 0 view .LVU8
+  58 0018 0623     		movs	r3, #6
+  59 001a 4360     		str	r3, [r0, #4]
+  40:../../../core/platform/octa/src/iwdg.c ****   hiwdg.Init.Window = 4095;
+  60              		.loc 1 40 3 is_stmt 1 view .LVU9
+  61              		.loc 1 40 21 is_stmt 0 view .LVU10
+  62 001c 40F6FF73 		movw	r3, #4095
+  63 0020 C360     		str	r3, [r0, #12]
+  41:../../../core/platform/octa/src/iwdg.c ****   hiwdg.Init.Reload = 4095;
+  64              		.loc 1 41 3 is_stmt 1 view .LVU11
+  65              		.loc 1 41 21 is_stmt 0 view .LVU12
+  66 0022 8360     		str	r3, [r0, #8]
+  42:../../../core/platform/octa/src/iwdg.c ****   if (HAL_IWDG_Init(&hiwdg) != HAL_OK)
+  67              		.loc 1 42 3 is_stmt 1 view .LVU13
+  68              		.loc 1 42 7 is_stmt 0 view .LVU14
+  69 0024 FFF7FEFF 		bl	HAL_IWDG_Init
+  70              	.LVL1:
+  71              		.loc 1 42 6 view .LVU15
+  72 0028 F0B9     		cbnz	r0, .L6
+  73              	.L1:
+ARM GAS  /tmp/ccFNmB0P.s 			page 3
+
+
+  43:../../../core/platform/octa/src/iwdg.c ****   {
+  44:../../../core/platform/octa/src/iwdg.c ****     Error_Handler();
+  45:../../../core/platform/octa/src/iwdg.c ****   }
+  46:../../../core/platform/octa/src/iwdg.c **** }
+  74              		.loc 1 46 1 view .LVU16
+  75 002a 0BB0     		add	sp, sp, #44
+  76              	.LCFI2:
+  77              		.cfi_remember_state
+  78              		.cfi_def_cfa_offset 4
+  79              		@ sp needed
+  80 002c 5DF804FB 		ldr	pc, [sp], #4
+  81              	.L5:
+  82              	.LCFI3:
+  83              		.cfi_restore_state
+  17:../../../core/platform/octa/src/iwdg.c ****       OBInitStruct.WRPArea = OB_WRPAREA_BANK1_AREAA;
+  84              		.loc 1 17 7 is_stmt 1 view .LVU17
+  17:../../../core/platform/octa/src/iwdg.c ****       OBInitStruct.WRPArea = OB_WRPAREA_BANK1_AREAA;
+  85              		.loc 1 17 31 is_stmt 0 view .LVU18
+  86 0030 0423     		movs	r3, #4
+  87 0032 0093     		str	r3, [sp]
+  18:../../../core/platform/octa/src/iwdg.c ****       OBInitStruct.WRPStartOffset = 0;
+  88              		.loc 1 18 7 is_stmt 1 view .LVU19
+  18:../../../core/platform/octa/src/iwdg.c ****       OBInitStruct.WRPStartOffset = 0;
+  89              		.loc 1 18 28 is_stmt 0 view .LVU20
+  90 0034 0023     		movs	r3, #0
+  91 0036 0193     		str	r3, [sp, #4]
+  19:../../../core/platform/octa/src/iwdg.c ****       OBInitStruct.WRPEndOffset = 0;
+  92              		.loc 1 19 7 is_stmt 1 view .LVU21
+  19:../../../core/platform/octa/src/iwdg.c ****       OBInitStruct.WRPEndOffset = 0;
+  93              		.loc 1 19 35 is_stmt 0 view .LVU22
+  94 0038 0293     		str	r3, [sp, #8]
+  20:../../../core/platform/octa/src/iwdg.c ****       OBInitStruct.RDPLevel = OB_RDP_LEVEL_0;
+  95              		.loc 1 20 7 is_stmt 1 view .LVU23
+  20:../../../core/platform/octa/src/iwdg.c ****       OBInitStruct.RDPLevel = OB_RDP_LEVEL_0;
+  96              		.loc 1 20 33 is_stmt 0 view .LVU24
+  97 003a 0393     		str	r3, [sp, #12]
+  21:../../../core/platform/octa/src/iwdg.c ****       OBInitStruct.USERType = OB_USER_IWDG_STOP;
+  98              		.loc 1 21 7 is_stmt 1 view .LVU25
+  21:../../../core/platform/octa/src/iwdg.c ****       OBInitStruct.USERType = OB_USER_IWDG_STOP;
+  99              		.loc 1 21 29 is_stmt 0 view .LVU26
+ 100 003c AA22     		movs	r2, #170
+ 101 003e 0492     		str	r2, [sp, #16]
+  22:../../../core/platform/octa/src/iwdg.c ****       OBInitStruct.USERConfig = OB_IWDG_STOP_FREEZE;
+ 102              		.loc 1 22 7 is_stmt 1 view .LVU27
+  22:../../../core/platform/octa/src/iwdg.c ****       OBInitStruct.USERConfig = OB_IWDG_STOP_FREEZE;
+ 103              		.loc 1 22 29 is_stmt 0 view .LVU28
+ 104 0040 1022     		movs	r2, #16
+ 105 0042 0592     		str	r2, [sp, #20]
+  23:../../../core/platform/octa/src/iwdg.c ****       OBInitStruct.PCROPConfig = OB_PCROP_RDP_NOT_ERASE;
+ 106              		.loc 1 23 7 is_stmt 1 view .LVU29
+  23:../../../core/platform/octa/src/iwdg.c ****       OBInitStruct.PCROPConfig = OB_PCROP_RDP_NOT_ERASE;
+ 107              		.loc 1 23 31 is_stmt 0 view .LVU30
+ 108 0044 0693     		str	r3, [sp, #24]
+  24:../../../core/platform/octa/src/iwdg.c ****       OBInitStruct.PCROPStartAddr = 0;
+ 109              		.loc 1 24 7 is_stmt 1 view .LVU31
+  24:../../../core/platform/octa/src/iwdg.c ****       OBInitStruct.PCROPStartAddr = 0;
+ 110              		.loc 1 24 32 is_stmt 0 view .LVU32
+ARM GAS  /tmp/ccFNmB0P.s 			page 4
+
+
+ 111 0046 0793     		str	r3, [sp, #28]
+  25:../../../core/platform/octa/src/iwdg.c ****       OBInitStruct.PCROPEndAddr = 0;
+ 112              		.loc 1 25 7 is_stmt 1 view .LVU33
+  25:../../../core/platform/octa/src/iwdg.c ****       OBInitStruct.PCROPEndAddr = 0;
+ 113              		.loc 1 25 35 is_stmt 0 view .LVU34
+ 114 0048 0893     		str	r3, [sp, #32]
+  26:../../../core/platform/octa/src/iwdg.c **** 
+ 115              		.loc 1 26 7 is_stmt 1 view .LVU35
+  26:../../../core/platform/octa/src/iwdg.c **** 
+ 116              		.loc 1 26 33 is_stmt 0 view .LVU36
+ 117 004a 0993     		str	r3, [sp, #36]
+  30:../../../core/platform/octa/src/iwdg.c ****       HAL_FLASH_OB_Unlock();
+ 118              		.loc 1 30 7 is_stmt 1 view .LVU37
+ 119 004c FFF7FEFF 		bl	HAL_FLASH_Unlock
+ 120              	.LVL2:
+  31:../../../core/platform/octa/src/iwdg.c ****       HAL_FLASHEx_OBProgram(&OBInitStruct);
+ 121              		.loc 1 31 7 view .LVU38
+ 122 0050 FFF7FEFF 		bl	HAL_FLASH_OB_Unlock
+ 123              	.LVL3:
+  32:../../../core/platform/octa/src/iwdg.c ****       HAL_FLASH_OB_Lock();
+ 124              		.loc 1 32 7 view .LVU39
+ 125 0054 6846     		mov	r0, sp
+ 126 0056 FFF7FEFF 		bl	HAL_FLASHEx_OBProgram
+ 127              	.LVL4:
+  33:../../../core/platform/octa/src/iwdg.c ****       HAL_FLASH_Lock();
+ 128              		.loc 1 33 7 view .LVU40
+ 129 005a FFF7FEFF 		bl	HAL_FLASH_OB_Lock
+ 130              	.LVL5:
+  34:../../../core/platform/octa/src/iwdg.c ****       HAL_FLASH_OB_Launch();
+ 131              		.loc 1 34 7 view .LVU41
+ 132 005e FFF7FEFF 		bl	HAL_FLASH_Lock
+ 133              	.LVL6:
+  35:../../../core/platform/octa/src/iwdg.c ****   }
+ 134              		.loc 1 35 7 view .LVU42
+ 135 0062 FFF7FEFF 		bl	HAL_FLASH_OB_Launch
+ 136              	.LVL7:
+ 137 0066 D4E7     		b	.L2
+ 138              	.L6:
+  44:../../../core/platform/octa/src/iwdg.c ****   }
+ 139              		.loc 1 44 5 view .LVU43
+ 140 0068 FFF7FEFF 		bl	Error_Handler
+ 141              	.LVL8:
+ 142              		.loc 1 46 1 is_stmt 0 view .LVU44
+ 143 006c DDE7     		b	.L1
+ 144              	.L8:
+ 145 006e 00BF     		.align	2
+ 146              	.L7:
+ 147 0070 00000000 		.word	hiwdg
+ 148 0074 00300040 		.word	1073754112
+ 149              		.cfi_endproc
+ 150              	.LFE131:
+ 152              		.section	.text.IWDG_feed,"ax",%progbits
+ 153              		.align	1
+ 154              		.global	IWDG_feed
+ 155              		.syntax unified
+ 156              		.thumb
+ 157              		.thumb_func
+ARM GAS  /tmp/ccFNmB0P.s 			page 5
+
+
+ 158              		.fpu fpv4-sp-d16
+ 160              	IWDG_feed:
+ 161              	.LVL9:
+ 162              	.LFB132:
+  47:../../../core/platform/octa/src/iwdg.c **** 
+  48:../../../core/platform/octa/src/iwdg.c **** void IWDG_feed(void const *argument)
+  49:../../../core/platform/octa/src/iwdg.c **** {
+ 163              		.loc 1 49 1 is_stmt 1 view -0
+ 164              		.cfi_startproc
+ 165              		@ args = 0, pretend = 0, frame = 0
+ 166              		@ frame_needed = 0, uses_anonymous_args = 0
+ 167              		@ link register save eliminated.
+  50:../../../core/platform/octa/src/iwdg.c ****   WRITE_REG(IWDG->KR, IWDG_KEY_RELOAD);
+ 168              		.loc 1 50 3 view .LVU46
+ 169 0000 024B     		ldr	r3, .L10
+ 170 0002 4AF6AA22 		movw	r2, #43690
+ 171 0006 1A60     		str	r2, [r3]
+  51:../../../core/platform/octa/src/iwdg.c **** }...
+ 172              		.loc 1 51 1 is_stmt 0 view .LVU47
+ 173 0008 7047     		bx	lr
+ 174              	.L11:
+ 175 000a 00BF     		.align	2
+ 176              	.L10:
+ 177 000c 00300040 		.word	1073754112
+ 178              		.cfi_endproc
+ 179              	.LFE132:
+ 181              		.comm	P3_header,44,4
+ 182              		.comm	P2_header,44,4
+ 183              		.comm	P1_header,44,4
+ 184              		.comm	stackversion_patch,1,1
+ 185              		.comm	stackversion_minor,1,1
+ 186              		.comm	stackversion_major,1,1
+ 187              		.comm	appversion_patch,1,1
+ 188              		.comm	appversion_minor,1,1
+ 189              		.comm	appversion_major,1,1
+ 190              		.comm	short_UID,8,8
+ 191              		.comm	hard_reset,1,1
+ 192              		.comm	wd_reset,1,1
+ 193              		.comm	octa_uid,8,8
+ 194              		.comm	float_union,4,4
+ 195              		.comm	uint16LittleEndian,2,4
+ 196              		.comm	int16LittleEndian,2,4
+ 197              		.comm	uint32LittleEndian,4,4
+ 198              		.comm	int32LittleEndian,4,4
+ 199              		.comm	rtosprintHandle,4,4
+ 200              		.comm	hrtc,36,4
+ 201              		.comm	FLASH_SPI,100,4
+ 202              		.comm	P3_SPI,100,4
+ 203              		.comm	P2_SPI,100,4
+ 204              		.comm	P1_SPI,100,4
+ 205              		.comm	P3_I2C,76,4
+ 206              		.comm	P2_I2C,76,4
+ 207              		.comm	P1_I2C,76,4
+ 208              		.comm	common_I2C,76,4
+ 209              		.comm	P3_UART,120,4
+ 210              		.comm	P2_UART,120,4
+ 211              		.comm	P1_UART,120,4
+ARM GAS  /tmp/ccFNmB0P.s 			page 6
+
+
+ 212              		.comm	FTDI_UART,120,4
+ 213              		.comm	BLE_UART,120,4
+ 214              		.comm	USB_UART,120,4
+ 215              		.comm	P3_DIO6,8,4
+ 216              		.comm	P3_DIO5,8,4
+ 217              		.comm	P3_DIO4,8,4
+ 218              		.comm	P3_DIO3,8,4
+ 219              		.comm	P3_DIO2,8,4
+ 220              		.comm	P3_DIO1,8,4
+ 221              		.comm	P2_DIO6,8,4
+ 222              		.comm	P2_DIO5,8,4
+ 223              		.comm	P2_DIO4,8,4
+ 224              		.comm	P2_DIO3,8,4
+ 225              		.comm	P2_DIO2,8,4
+ 226              		.comm	P2_DIO1,8,4
+ 227              		.comm	P1_DIO6,8,4
+ 228              		.comm	P1_DIO5,8,4
+ 229              		.comm	P1_DIO4,8,4
+ 230              		.comm	P1_DIO3,8,4
+ 231              		.comm	P1_DIO2,8,4
+ 232              		.comm	P1_DIO1,8,4
+ 233              		.comm	htim6,64,4
+ 234              		.comm	htim1,64,4
+ 235              		.comm	hiwdg,16,4
+ 236              		.text
+ 237              	.Letext0:
+ 238              		.file 2 "/usr/arm-none-eabi/include/machine/_default_types.h"
+ 239              		.file 3 "/usr/arm-none-eabi/include/sys/_stdint.h"
+ 240              		.file 4 "../../../core/ST/CMSIS/Include/core_cm4.h"
+ 241              		.file 5 "../../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/system_stm32l4xx.h"
+ 242              		.file 6 "../../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/stm32l496xx.h"
+ 243              		.file 7 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h"
+ 244              		.file 8 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_dma.h"
+ 245              		.file 9 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_flash.h"
+ 246              		.file 10 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_i2c.h"
+ 247              		.file 11 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_iwdg.h"
+ 248              		.file 12 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rtc.h"
+ 249              		.file 13 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_spi.h"
+ 250              		.file 14 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_tim.h"
+ 251              		.file 15 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h"
+ 252              		.file 16 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h"
+ 253              		.file 17 "../../../core/platform/octa/inc/iwdg.h"
+ 254              		.file 18 "../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/include/task.h"
+ 255              		.file 19 "../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h"
+ 256              		.file 20 "../../../core/platform/octa/inc/sysclock.h"
+ 257              		.file 21 "../../../core/platform/octa/inc/gpio.h"
+ 258              		.file 22 "../../../core/platform/octa/inc/uart.h"
+ 259              		.file 23 "../../../core/platform/octa/inc/i2c.h"
+ 260              		.file 24 "../../../core/platform/octa/inc/spi.h"
+ 261              		.file 25 "../../../core/platform/octa/inc/rtc.h"
+ 262              		.file 26 "../../../core/platform/octa/inc/rtosincludes.h"
+ 263              		.file 27 "/usr/arm-none-eabi/include/sys/lock.h"
+ 264              		.file 28 "/usr/arm-none-eabi/include/sys/_types.h"
+ 265              		.file 29 "/usr/lib/gcc/arm-none-eabi/9.2.1/include/stddef.h"
+ 266              		.file 30 "/usr/arm-none-eabi/include/sys/reent.h"
+ 267              		.file 31 "../../../core/platform/common/inc/datatypes.h"
+ 268              		.file 32 "../../../core/platform/octa/inc/platform.h"
+ARM GAS  /tmp/ccFNmB0P.s 			page 7
+
+
+ 269              		.file 33 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_flash_ex.h"
+ 270              		.file 34 "../../../core/platform/common/inc/error.h"
+ARM GAS  /tmp/ccFNmB0P.s 			page 8
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 iwdg.c
+     /tmp/ccFNmB0P.s:18     .text.OCTA_IWDG_Init:0000000000000000 $t
+     /tmp/ccFNmB0P.s:26     .text.OCTA_IWDG_Init:0000000000000000 OCTA_IWDG_Init
+     /tmp/ccFNmB0P.s:147    .text.OCTA_IWDG_Init:0000000000000070 $d
+                            *COM*:0000000000000010 hiwdg
+     /tmp/ccFNmB0P.s:153    .text.IWDG_feed:0000000000000000 $t
+     /tmp/ccFNmB0P.s:160    .text.IWDG_feed:0000000000000000 IWDG_feed
+     /tmp/ccFNmB0P.s:177    .text.IWDG_feed:000000000000000c $d
+                            *COM*:000000000000002c P3_header
+                            *COM*:000000000000002c P2_header
+                            *COM*:000000000000002c P1_header
+                            *COM*:0000000000000001 stackversion_patch
+                            *COM*:0000000000000001 stackversion_minor
+                            *COM*:0000000000000001 stackversion_major
+                            *COM*:0000000000000001 appversion_patch
+                            *COM*:0000000000000001 appversion_minor
+                            *COM*:0000000000000001 appversion_major
+                            *COM*:0000000000000008 short_UID
+                            *COM*:0000000000000001 hard_reset
+                            *COM*:0000000000000001 wd_reset
+                            *COM*:0000000000000008 octa_uid
+                            *COM*:0000000000000004 float_union
+                            *COM*:0000000000000002 uint16LittleEndian
+                            *COM*:0000000000000002 int16LittleEndian
+                            *COM*:0000000000000004 uint32LittleEndian
+                            *COM*:0000000000000004 int32LittleEndian
+                            *COM*:0000000000000004 rtosprintHandle
+                            *COM*:0000000000000024 hrtc
+                            *COM*:0000000000000064 FLASH_SPI
+                            *COM*:0000000000000064 P3_SPI
+                            *COM*:0000000000000064 P2_SPI
+                            *COM*:0000000000000064 P1_SPI
+                            *COM*:000000000000004c P3_I2C
+                            *COM*:000000000000004c P2_I2C
+                            *COM*:000000000000004c P1_I2C
+                            *COM*:000000000000004c common_I2C
+                            *COM*:0000000000000078 P3_UART
+                            *COM*:0000000000000078 P2_UART
+                            *COM*:0000000000000078 P1_UART
+                            *COM*:0000000000000078 FTDI_UART
+                            *COM*:0000000000000078 BLE_UART
+                            *COM*:0000000000000078 USB_UART
+                            *COM*:0000000000000008 P3_DIO6
+                            *COM*:0000000000000008 P3_DIO5
+                            *COM*:0000000000000008 P3_DIO4
+                            *COM*:0000000000000008 P3_DIO3
+                            *COM*:0000000000000008 P3_DIO2
+                            *COM*:0000000000000008 P3_DIO1
+                            *COM*:0000000000000008 P2_DIO6
+                            *COM*:0000000000000008 P2_DIO5
+                            *COM*:0000000000000008 P2_DIO4
+                            *COM*:0000000000000008 P2_DIO3
+                            *COM*:0000000000000008 P2_DIO2
+                            *COM*:0000000000000008 P2_DIO1
+                            *COM*:0000000000000008 P1_DIO6
+                            *COM*:0000000000000008 P1_DIO5
+ARM GAS  /tmp/ccFNmB0P.s 			page 9
+
+
+                            *COM*:0000000000000008 P1_DIO4
+                            *COM*:0000000000000008 P1_DIO3
+                            *COM*:0000000000000008 P1_DIO2
+                            *COM*:0000000000000008 P1_DIO1
+                            *COM*:0000000000000040 htim6
+                            *COM*:0000000000000040 htim1
+
+UNDEFINED SYMBOLS
+HAL_FLASHEx_OBGetConfig
+HAL_IWDG_Init
+HAL_FLASH_Unlock
+HAL_FLASH_OB_Unlock
+HAL_FLASHEx_OBProgram
+HAL_FLASH_OB_Lock
+HAL_FLASH_Lock
+HAL_FLASH_OB_Launch
+Error_Handler

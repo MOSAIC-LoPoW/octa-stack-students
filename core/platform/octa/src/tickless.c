@@ -17,7 +17,7 @@
 #define lpCLOCK_INPUT_FREQUENCY 	( 1000UL )
 
 /* This is used to print message on the serial console. */
-#define TICKLESS_DEBUG              DEBUG
+//#define TICKLESS_DEBUG              DEBUG
 
 /*-----------------------------------------------------------*/
 

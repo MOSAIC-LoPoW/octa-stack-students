@@ -1,0 +1,1105 @@
+ARM GAS  /tmp/ccaQs3EY.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 28, 1
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.file	"gpio.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.text.OCTA_GPIO_Init,"ax",%progbits
+  18              		.align	1
+  19              		.global	OCTA_GPIO_Init
+  20              		.arch armv7e-m
+  21              		.syntax unified
+  22              		.thumb
+  23              		.thumb_func
+  24              		.fpu fpv4-sp-d16
+  26              	OCTA_GPIO_Init:
+  27              	.LFB128:
+  28              		.file 1 "../../core/platform/octa_stm/src/gpio.c"
+   1:../../core/platform/octa_stm/src/gpio.c **** #include "gpio.h"
+   2:../../core/platform/octa_stm/src/gpio.c **** #include "rtosincludes.h"
+   3:../../core/platform/octa_stm/src/gpio.c **** 
+   4:../../core/platform/octa_stm/src/gpio.c **** static void (*OCTA_BTN1_Pressed_Callback)(void) = 0;
+   5:../../core/platform/octa_stm/src/gpio.c **** static void (*OCTA_BTN2_Pressed_Callback)(void) = 0;
+   6:../../core/platform/octa_stm/src/gpio.c **** 
+   7:../../core/platform/octa_stm/src/gpio.c **** void OCTA_GPIO_Init(void)
+   8:../../core/platform/octa_stm/src/gpio.c **** {
+  29              		.loc 1 8 1 view -0
+  30              		.cfi_startproc
+  31              		@ args = 0, pretend = 0, frame = 40
+  32              		@ frame_needed = 0, uses_anonymous_args = 0
+  33 0000 2DE9F04F 		push	{r4, r5, r6, r7, r8, r9, r10, fp, lr}
+  34              	.LCFI0:
+  35              		.cfi_def_cfa_offset 36
+  36              		.cfi_offset 4, -36
+  37              		.cfi_offset 5, -32
+  38              		.cfi_offset 6, -28
+  39              		.cfi_offset 7, -24
+  40              		.cfi_offset 8, -20
+  41              		.cfi_offset 9, -16
+  42              		.cfi_offset 10, -12
+  43              		.cfi_offset 11, -8
+  44              		.cfi_offset 14, -4
+  45 0004 8BB0     		sub	sp, sp, #44
+  46              	.LCFI1:
+  47              		.cfi_def_cfa_offset 80
+   9:../../core/platform/octa_stm/src/gpio.c ****   GPIO_InitTypeDef GPIO_InitStruct = {0};
+  48              		.loc 1 9 3 view .LVU1
+  49              		.loc 1 9 20 is_stmt 0 view .LVU2
+ARM GAS  /tmp/ccaQs3EY.s 			page 2
+
+
+  50 0006 0024     		movs	r4, #0
+  51 0008 0594     		str	r4, [sp, #20]
+  52 000a 0694     		str	r4, [sp, #24]
+  53 000c 0794     		str	r4, [sp, #28]
+  54 000e 0894     		str	r4, [sp, #32]
+  55 0010 0994     		str	r4, [sp, #36]
+  10:../../core/platform/octa_stm/src/gpio.c **** 
+  11:../../core/platform/octa_stm/src/gpio.c ****   /* GPIO Ports Clock Enable */
+  12:../../core/platform/octa_stm/src/gpio.c ****   __HAL_RCC_GPIOA_CLK_ENABLE();
+  56              		.loc 1 12 3 is_stmt 1 view .LVU3
+  57              	.LBB2:
+  58              		.loc 1 12 3 view .LVU4
+  59              		.loc 1 12 3 view .LVU5
+  60 0012 994B     		ldr	r3, .L3
+  61 0014 DA6C     		ldr	r2, [r3, #76]
+  62 0016 42F00102 		orr	r2, r2, #1
+  63 001a DA64     		str	r2, [r3, #76]
+  64              		.loc 1 12 3 view .LVU6
+  65 001c DA6C     		ldr	r2, [r3, #76]
+  66 001e 02F00102 		and	r2, r2, #1
+  67 0022 0092     		str	r2, [sp]
+  68              		.loc 1 12 3 view .LVU7
+  69 0024 009A     		ldr	r2, [sp]
+  70              	.LBE2:
+  71              		.loc 1 12 3 view .LVU8
+  13:../../core/platform/octa_stm/src/gpio.c ****   __HAL_RCC_GPIOB_CLK_ENABLE();
+  72              		.loc 1 13 3 view .LVU9
+  73              	.LBB3:
+  74              		.loc 1 13 3 view .LVU10
+  75              		.loc 1 13 3 view .LVU11
+  76 0026 DA6C     		ldr	r2, [r3, #76]
+  77 0028 42F00202 		orr	r2, r2, #2
+  78 002c DA64     		str	r2, [r3, #76]
+  79              		.loc 1 13 3 view .LVU12
+  80 002e DA6C     		ldr	r2, [r3, #76]
+  81 0030 02F00202 		and	r2, r2, #2
+  82 0034 0192     		str	r2, [sp, #4]
+  83              		.loc 1 13 3 view .LVU13
+  84 0036 019A     		ldr	r2, [sp, #4]
+  85              	.LBE3:
+  86              		.loc 1 13 3 view .LVU14
+  14:../../core/platform/octa_stm/src/gpio.c ****   __HAL_RCC_GPIOC_CLK_ENABLE();
+  87              		.loc 1 14 3 view .LVU15
+  88              	.LBB4:
+  89              		.loc 1 14 3 view .LVU16
+  90              		.loc 1 14 3 view .LVU17
+  91 0038 DA6C     		ldr	r2, [r3, #76]
+  92 003a 42F00402 		orr	r2, r2, #4
+  93 003e DA64     		str	r2, [r3, #76]
+  94              		.loc 1 14 3 view .LVU18
+  95 0040 DA6C     		ldr	r2, [r3, #76]
+  96 0042 02F00402 		and	r2, r2, #4
+  97 0046 0292     		str	r2, [sp, #8]
+  98              		.loc 1 14 3 view .LVU19
+  99 0048 029A     		ldr	r2, [sp, #8]
+ 100              	.LBE4:
+ 101              		.loc 1 14 3 view .LVU20
+ARM GAS  /tmp/ccaQs3EY.s 			page 3
+
+
+  15:../../core/platform/octa_stm/src/gpio.c ****   __HAL_RCC_GPIOD_CLK_ENABLE();
+ 102              		.loc 1 15 3 view .LVU21
+ 103              	.LBB5:
+ 104              		.loc 1 15 3 view .LVU22
+ 105              		.loc 1 15 3 view .LVU23
+ 106 004a DA6C     		ldr	r2, [r3, #76]
+ 107 004c 42F00802 		orr	r2, r2, #8
+ 108 0050 DA64     		str	r2, [r3, #76]
+ 109              		.loc 1 15 3 view .LVU24
+ 110 0052 DA6C     		ldr	r2, [r3, #76]
+ 111 0054 02F00802 		and	r2, r2, #8
+ 112 0058 0392     		str	r2, [sp, #12]
+ 113              		.loc 1 15 3 view .LVU25
+ 114 005a 039A     		ldr	r2, [sp, #12]
+ 115              	.LBE5:
+ 116              		.loc 1 15 3 view .LVU26
+  16:../../core/platform/octa_stm/src/gpio.c ****   __HAL_RCC_GPIOE_CLK_ENABLE();
+ 117              		.loc 1 16 3 view .LVU27
+ 118              	.LBB6:
+ 119              		.loc 1 16 3 view .LVU28
+ 120              		.loc 1 16 3 view .LVU29
+ 121 005c DA6C     		ldr	r2, [r3, #76]
+ 122 005e 42F01002 		orr	r2, r2, #16
+ 123 0062 DA64     		str	r2, [r3, #76]
+ 124              		.loc 1 16 3 view .LVU30
+ 125 0064 DB6C     		ldr	r3, [r3, #76]
+ 126 0066 03F01003 		and	r3, r3, #16
+ 127 006a 0493     		str	r3, [sp, #16]
+ 128              		.loc 1 16 3 view .LVU31
+ 129 006c 049B     		ldr	r3, [sp, #16]
+ 130              	.LBE6:
+ 131              		.loc 1 16 3 view .LVU32
+  17:../../core/platform/octa_stm/src/gpio.c **** 
+  18:../../core/platform/octa_stm/src/gpio.c ****   HAL_PWREx_EnableVddIO2();
+ 132              		.loc 1 18 3 view .LVU33
+ 133 006e FFF7FEFF 		bl	HAL_PWREx_EnableVddIO2
+ 134              	.LVL0:
+  19:../../core/platform/octa_stm/src/gpio.c **** 
+  20:../../core/platform/octa_stm/src/gpio.c ****   //SWITCHES
+  21:../../core/platform/octa_stm/src/gpio.c ****   HAL_GPIO_WritePin(OCTA_VCC_SENSORS_Port, OCTA_VCC_SENSORS_Pin, GPIO_PIN_RESET);
+ 135              		.loc 1 21 3 view .LVU34
+ 136 0072 2246     		mov	r2, r4
+ 137 0074 4FF40061 		mov	r1, #2048
+ 138 0078 4FF09040 		mov	r0, #1207959552
+ 139 007c FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 140              	.LVL1:
+  22:../../core/platform/octa_stm/src/gpio.c ****   HAL_GPIO_WritePin(OCTA_VCC_FLASH_Port, OCTA_VCC_FLASH_Pin, GPIO_PIN_RESET);
+ 141              		.loc 1 22 3 view .LVU35
+ 142 0080 7E4E     		ldr	r6, .L3+4
+ 143 0082 2246     		mov	r2, r4
+ 144 0084 4FF48061 		mov	r1, #1024
+ 145 0088 3046     		mov	r0, r6
+ 146 008a FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 147              	.LVL2:
+  23:../../core/platform/octa_stm/src/gpio.c ****   HAL_GPIO_WritePin(OCTA_NBIOT_Reset_Port, OCTA_NBIOT_Reset_Pin, GPIO_PIN_SET);
+ 148              		.loc 1 23 3 view .LVU36
+ 149 008e 7C4D     		ldr	r5, .L3+8
+ARM GAS  /tmp/ccaQs3EY.s 			page 4
+
+
+ 150 0090 0122     		movs	r2, #1
+ 151 0092 0821     		movs	r1, #8
+ 152 0094 2846     		mov	r0, r5
+ 153 0096 FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 154              	.LVL3:
+  24:../../core/platform/octa_stm/src/gpio.c **** 
+  25:../../core/platform/octa_stm/src/gpio.c ****   HAL_GPIO_WritePin(P1_DIO1_GPIO_Port, P1_DIO1_Pin, GPIO_PIN_RESET);
+ 155              		.loc 1 25 3 view .LVU37
+ 156 009a 2246     		mov	r2, r4
+ 157 009c 2021     		movs	r1, #32
+ 158 009e 2846     		mov	r0, r5
+ 159 00a0 FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 160              	.LVL4:
+  26:../../core/platform/octa_stm/src/gpio.c ****   HAL_GPIO_WritePin(P1_DIO2_GPIO_Port, P1_DIO2_Pin, GPIO_PIN_RESET);
+ 161              		.loc 1 26 3 view .LVU38
+ 162 00a4 2246     		mov	r2, r4
+ 163 00a6 1021     		movs	r1, #16
+ 164 00a8 2846     		mov	r0, r5
+ 165 00aa FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 166              	.LVL5:
+  27:../../core/platform/octa_stm/src/gpio.c ****   HAL_GPIO_WritePin(P1_DIO3_GPIO_Port, P1_DIO3_Pin, GPIO_PIN_RESET);
+ 167              		.loc 1 27 3 view .LVU39
+ 168 00ae 754F     		ldr	r7, .L3+12
+ 169 00b0 2246     		mov	r2, r4
+ 170 00b2 0121     		movs	r1, #1
+ 171 00b4 3846     		mov	r0, r7
+ 172 00b6 FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 173              	.LVL6:
+  28:../../core/platform/octa_stm/src/gpio.c ****   HAL_GPIO_WritePin(P1_DIO4_GPIO_Port, P1_DIO4_Pin, GPIO_PIN_RESET);
+ 174              		.loc 1 28 3 view .LVU40
+ 175 00ba 2246     		mov	r2, r4
+ 176 00bc 0221     		movs	r1, #2
+ 177 00be 3846     		mov	r0, r7
+ 178 00c0 FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 179              	.LVL7:
+  29:../../core/platform/octa_stm/src/gpio.c ****   HAL_GPIO_WritePin(P1_DIO5_GPIO_Port, P1_DIO5_Pin, GPIO_PIN_RESET);
+ 180              		.loc 1 29 3 view .LVU41
+ 181 00c4 2246     		mov	r2, r4
+ 182 00c6 0421     		movs	r1, #4
+ 183 00c8 3846     		mov	r0, r7
+ 184 00ca FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 185              	.LVL8:
+  30:../../core/platform/octa_stm/src/gpio.c ****   HAL_GPIO_WritePin(P1_DIO6_GPIO_Port, P1_DIO6_Pin, GPIO_PIN_RESET);
+ 186              		.loc 1 30 3 view .LVU42
+ 187 00ce DFF8EC91 		ldr	r9, .L3+68
+ 188 00d2 2246     		mov	r2, r4
+ 189 00d4 8021     		movs	r1, #128
+ 190 00d6 4846     		mov	r0, r9
+ 191 00d8 FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 192              	.LVL9:
+  31:../../core/platform/octa_stm/src/gpio.c **** 
+  32:../../core/platform/octa_stm/src/gpio.c ****   HAL_GPIO_WritePin(P2_DIO1_GPIO_Port, P2_DIO1_Pin, GPIO_PIN_RESET);
+ 193              		.loc 1 32 3 view .LVU43
+ 194 00dc 2246     		mov	r2, r4
+ 195 00de 4FF40071 		mov	r1, #512
+ 196 00e2 3046     		mov	r0, r6
+ 197 00e4 FFF7FEFF 		bl	HAL_GPIO_WritePin
+ARM GAS  /tmp/ccaQs3EY.s 			page 5
+
+
+ 198              	.LVL10:
+  33:../../core/platform/octa_stm/src/gpio.c ****   HAL_GPIO_WritePin(P2_DIO2_GPIO_Port, P2_DIO2_Pin, GPIO_PIN_RESET);
+ 199              		.loc 1 33 3 view .LVU44
+ 200 00e8 2246     		mov	r2, r4
+ 201 00ea 4FF48071 		mov	r1, #256
+ 202 00ee 3046     		mov	r0, r6
+ 203 00f0 FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 204              	.LVL11:
+  34:../../core/platform/octa_stm/src/gpio.c ****   HAL_GPIO_WritePin(P2_DIO3_GPIO_Port, P2_DIO3_Pin, GPIO_PIN_RESET);
+ 205              		.loc 1 34 3 view .LVU45
+ 206 00f4 2246     		mov	r2, r4
+ 207 00f6 4FF48041 		mov	r1, #16384
+ 208 00fa 3046     		mov	r0, r6
+ 209 00fc FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 210              	.LVL12:
+  35:../../core/platform/octa_stm/src/gpio.c ****   HAL_GPIO_WritePin(P2_DIO4_GPIO_Port, P2_DIO4_Pin, GPIO_PIN_RESET);
+ 211              		.loc 1 35 3 view .LVU46
+ 212 0100 2246     		mov	r2, r4
+ 213 0102 4FF40041 		mov	r1, #32768
+ 214 0106 3046     		mov	r0, r6
+ 215 0108 FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 216              	.LVL13:
+  36:../../core/platform/octa_stm/src/gpio.c ****   HAL_GPIO_WritePin(P2_DIO5_GPIO_Port, P2_DIO5_Pin, GPIO_PIN_RESET);
+ 217              		.loc 1 36 3 view .LVU47
+ 218 010c 2246     		mov	r2, r4
+ 219 010e 4021     		movs	r1, #64
+ 220 0110 2846     		mov	r0, r5
+ 221 0112 FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 222              	.LVL14:
+  37:../../core/platform/octa_stm/src/gpio.c ****   HAL_GPIO_WritePin(P2_DIO6_GPIO_Port, P2_DIO6_Pin, GPIO_PIN_RESET);
+ 223              		.loc 1 37 3 view .LVU48
+ 224 0116 2246     		mov	r2, r4
+ 225 0118 8021     		movs	r1, #128
+ 226 011a 2846     		mov	r0, r5
+ 227 011c FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 228              	.LVL15:
+  38:../../core/platform/octa_stm/src/gpio.c **** 
+  39:../../core/platform/octa_stm/src/gpio.c ****   #if ENABLE_STEPUP
+  40:../../core/platform/octa_stm/src/gpio.c ****     HAL_GPIO_WritePin(OCTA_STEPUP_GPIO_Port, OCTA_STEPUP_Pin, GPIO_PIN_SET);
+  41:../../core/platform/octa_stm/src/gpio.c ****   #else
+  42:../../core/platform/octa_stm/src/gpio.c ****     HAL_GPIO_WritePin(OCTA_STEPUP_GPIO_Port, OCTA_STEPUP_Pin, GPIO_PIN_RESET);
+ 229              		.loc 1 42 5 view .LVU49
+ 230 0120 2246     		mov	r2, r4
+ 231 0122 1021     		movs	r1, #16
+ 232 0124 3846     		mov	r0, r7
+ 233 0126 FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 234              	.LVL16:
+  43:../../core/platform/octa_stm/src/gpio.c ****   #endif
+  44:../../core/platform/octa_stm/src/gpio.c **** 
+  45:../../core/platform/octa_stm/src/gpio.c ****   HAL_GPIO_WritePin(GPIOE, OCTA_GLED_Pin|OCTA_RLED_Pin|OCTA_BLED_Pin, GPIO_PIN_SET);
+ 235              		.loc 1 45 3 view .LVU50
+ 236 012a 0122     		movs	r2, #1
+ 237 012c 4FF4D041 		mov	r1, #26624
+ 238 0130 4846     		mov	r0, r9
+ 239 0132 FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 240              	.LVL17:
+  46:../../core/platform/octa_stm/src/gpio.c **** 
+ARM GAS  /tmp/ccaQs3EY.s 			page 6
+
+
+  47:../../core/platform/octa_stm/src/gpio.c ****   HAL_GPIO_WritePin(OCTA_FLASH_WP_Port, OCTA_FLASH_WP_Pin, GPIO_PIN_SET);
+ 241              		.loc 1 47 3 view .LVU51
+ 242 0136 0122     		movs	r2, #1
+ 243 0138 4FF40061 		mov	r1, #2048
+ 244 013c 3046     		mov	r0, r6
+ 245 013e FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 246              	.LVL18:
+  48:../../core/platform/octa_stm/src/gpio.c ****   HAL_GPIO_WritePin(OCTA_FLASH_HOLD_Port, OCTA_FLASH_HOLD_Pin, GPIO_PIN_SET);
+ 247              		.loc 1 48 3 view .LVU52
+ 248 0142 0122     		movs	r2, #1
+ 249 0144 4FF48071 		mov	r1, #256
+ 250 0148 2846     		mov	r0, r5
+ 251 014a FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 252              	.LVL19:
+  49:../../core/platform/octa_stm/src/gpio.c ****   HAL_GPIO_WritePin(OCTA_FLASH_CS_Port, OCTA_FLASH_CS_Pin, GPIO_PIN_SET);
+ 253              		.loc 1 49 3 view .LVU53
+ 254 014e 0122     		movs	r2, #1
+ 255 0150 4FF40041 		mov	r1, #32768
+ 256 0154 4FF09040 		mov	r0, #1207959552
+ 257 0158 FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 258              	.LVL20:
+  50:../../core/platform/octa_stm/src/gpio.c **** 
+  51:../../core/platform/octa_stm/src/gpio.c ****   //GPIO A
+  52:../../core/platform/octa_stm/src/gpio.c ****   GPIO_InitStruct.Pin = OCTA_VCC_SENSORS_Pin|OCTA_FLASH_CS_Pin;
+ 259              		.loc 1 52 3 view .LVU54
+ 260              		.loc 1 52 23 is_stmt 0 view .LVU55
+ 261 015c 4FF40843 		mov	r3, #34816
+ 262 0160 0593     		str	r3, [sp, #20]
+  53:../../core/platform/octa_stm/src/gpio.c ****   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+ 263              		.loc 1 53 3 is_stmt 1 view .LVU56
+ 264              		.loc 1 53 24 is_stmt 0 view .LVU57
+ 265 0162 4FF00108 		mov	r8, #1
+ 266 0166 CDF81880 		str	r8, [sp, #24]
+  54:../../core/platform/octa_stm/src/gpio.c ****   GPIO_InitStruct.Pull = GPIO_NOPULL;
+ 267              		.loc 1 54 3 is_stmt 1 view .LVU58
+ 268              		.loc 1 54 24 is_stmt 0 view .LVU59
+ 269 016a 0794     		str	r4, [sp, #28]
+  55:../../core/platform/octa_stm/src/gpio.c ****   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+ 270              		.loc 1 55 3 is_stmt 1 view .LVU60
+ 271              		.loc 1 55 25 is_stmt 0 view .LVU61
+ 272 016c 0894     		str	r4, [sp, #32]
+  56:../../core/platform/octa_stm/src/gpio.c ****   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+ 273              		.loc 1 56 3 is_stmt 1 view .LVU62
+ 274 016e 05A9     		add	r1, sp, #20
+ 275 0170 4FF09040 		mov	r0, #1207959552
+ 276 0174 FFF7FEFF 		bl	HAL_GPIO_Init
+ 277              	.LVL21:
+  57:../../core/platform/octa_stm/src/gpio.c **** 
+  58:../../core/platform/octa_stm/src/gpio.c ****   //GPIO B
+  59:../../core/platform/octa_stm/src/gpio.c ****   GPIO_InitStruct.Pin = P1_DIO3_Pin|P1_DIO4_Pin|P1_DIO5_Pin|OCTA_STEPUP_Pin;
+ 278              		.loc 1 59 3 view .LVU63
+ 279              		.loc 1 59 23 is_stmt 0 view .LVU64
+ 280 0178 1723     		movs	r3, #23
+ 281 017a 0593     		str	r3, [sp, #20]
+  60:../../core/platform/octa_stm/src/gpio.c ****   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+ 282              		.loc 1 60 3 is_stmt 1 view .LVU65
+ 283              		.loc 1 60 24 is_stmt 0 view .LVU66
+ARM GAS  /tmp/ccaQs3EY.s 			page 7
+
+
+ 284 017c CDF81880 		str	r8, [sp, #24]
+  61:../../core/platform/octa_stm/src/gpio.c ****   GPIO_InitStruct.Pull = GPIO_NOPULL;
+ 285              		.loc 1 61 3 is_stmt 1 view .LVU67
+ 286              		.loc 1 61 24 is_stmt 0 view .LVU68
+ 287 0180 0794     		str	r4, [sp, #28]
+  62:../../core/platform/octa_stm/src/gpio.c ****   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+ 288              		.loc 1 62 3 is_stmt 1 view .LVU69
+ 289              		.loc 1 62 25 is_stmt 0 view .LVU70
+ 290 0182 0894     		str	r4, [sp, #32]
+  63:../../core/platform/octa_stm/src/gpio.c ****   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+ 291              		.loc 1 63 3 is_stmt 1 view .LVU71
+ 292 0184 05A9     		add	r1, sp, #20
+ 293 0186 3846     		mov	r0, r7
+ 294 0188 FFF7FEFF 		bl	HAL_GPIO_Init
+ 295              	.LVL22:
+  64:../../core/platform/octa_stm/src/gpio.c **** 
+  65:../../core/platform/octa_stm/src/gpio.c ****   //GPIO C
+  66:../../core/platform/octa_stm/src/gpio.c ****   GPIO_InitStruct.Pin = P1_DIO1_Pin|P1_DIO2_Pin|P2_DIO5_Pin|P2_DIO6_Pin|OCTA_FLASH_HOLD_Pin|OCTA_NB
+ 296              		.loc 1 66 3 view .LVU72
+ 297              		.loc 1 66 23 is_stmt 0 view .LVU73
+ 298 018c 4FF4FC73 		mov	r3, #504
+ 299 0190 0593     		str	r3, [sp, #20]
+  67:../../core/platform/octa_stm/src/gpio.c ****   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+ 300              		.loc 1 67 3 is_stmt 1 view .LVU74
+ 301              		.loc 1 67 24 is_stmt 0 view .LVU75
+ 302 0192 CDF81880 		str	r8, [sp, #24]
+  68:../../core/platform/octa_stm/src/gpio.c ****   GPIO_InitStruct.Pull = GPIO_NOPULL;
+ 303              		.loc 1 68 3 is_stmt 1 view .LVU76
+ 304              		.loc 1 68 24 is_stmt 0 view .LVU77
+ 305 0196 0794     		str	r4, [sp, #28]
+  69:../../core/platform/octa_stm/src/gpio.c ****   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+ 306              		.loc 1 69 3 is_stmt 1 view .LVU78
+ 307              		.loc 1 69 25 is_stmt 0 view .LVU79
+ 308 0198 0894     		str	r4, [sp, #32]
+  70:../../core/platform/octa_stm/src/gpio.c ****   HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+ 309              		.loc 1 70 3 is_stmt 1 view .LVU80
+ 310 019a 05A9     		add	r1, sp, #20
+ 311 019c 2846     		mov	r0, r5
+ 312 019e FFF7FEFF 		bl	HAL_GPIO_Init
+ 313              	.LVL23:
+  71:../../core/platform/octa_stm/src/gpio.c **** 
+  72:../../core/platform/octa_stm/src/gpio.c ****   //GPIO D
+  73:../../core/platform/octa_stm/src/gpio.c ****   GPIO_InitStruct.Pin = P2_DIO1_Pin|P2_DIO2_Pin|P2_DIO3_Pin|P2_DIO4_Pin|OCTA_FLASH_WP_Pin|OCTA_VCC_
+ 314              		.loc 1 73 3 view .LVU81
+ 315              		.loc 1 73 23 is_stmt 0 view .LVU82
+ 316 01a2 4FF44F43 		mov	r3, #52992
+ 317 01a6 0593     		str	r3, [sp, #20]
+  74:../../core/platform/octa_stm/src/gpio.c ****   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+ 318              		.loc 1 74 3 is_stmt 1 view .LVU83
+ 319              		.loc 1 74 24 is_stmt 0 view .LVU84
+ 320 01a8 CDF81880 		str	r8, [sp, #24]
+  75:../../core/platform/octa_stm/src/gpio.c ****   GPIO_InitStruct.Pull = GPIO_NOPULL;
+ 321              		.loc 1 75 3 is_stmt 1 view .LVU85
+ 322              		.loc 1 75 24 is_stmt 0 view .LVU86
+ 323 01ac 0794     		str	r4, [sp, #28]
+  76:../../core/platform/octa_stm/src/gpio.c ****   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+ 324              		.loc 1 76 3 is_stmt 1 view .LVU87
+ARM GAS  /tmp/ccaQs3EY.s 			page 8
+
+
+ 325              		.loc 1 76 25 is_stmt 0 view .LVU88
+ 326 01ae 0894     		str	r4, [sp, #32]
+  77:../../core/platform/octa_stm/src/gpio.c ****   HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
+ 327              		.loc 1 77 3 is_stmt 1 view .LVU89
+ 328 01b0 05A9     		add	r1, sp, #20
+ 329 01b2 3046     		mov	r0, r6
+ 330 01b4 FFF7FEFF 		bl	HAL_GPIO_Init
+ 331              	.LVL24:
+  78:../../core/platform/octa_stm/src/gpio.c **** 
+  79:../../core/platform/octa_stm/src/gpio.c ****   //GPIO D
+  80:../../core/platform/octa_stm/src/gpio.c ****   GPIO_InitStruct.Pin = OCTA_GAUGE_ENABLE_Pin;
+ 332              		.loc 1 80 3 view .LVU90
+ 333              		.loc 1 80 23 is_stmt 0 view .LVU91
+ 334 01b8 4FF0040A 		mov	r10, #4
+ 335 01bc CDF814A0 		str	r10, [sp, #20]
+  81:../../core/platform/octa_stm/src/gpio.c ****   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+ 336              		.loc 1 81 3 is_stmt 1 view .LVU92
+ 337              		.loc 1 81 24 is_stmt 0 view .LVU93
+ 338 01c0 CDF81880 		str	r8, [sp, #24]
+  82:../../core/platform/octa_stm/src/gpio.c ****   GPIO_InitStruct.Pull = GPIO_PULLDOWN;
+ 339              		.loc 1 82 3 is_stmt 1 view .LVU94
+ 340              		.loc 1 82 24 is_stmt 0 view .LVU95
+ 341 01c4 4FF0020B 		mov	fp, #2
+ 342 01c8 CDF81CB0 		str	fp, [sp, #28]
+  83:../../core/platform/octa_stm/src/gpio.c ****   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+ 343              		.loc 1 83 3 is_stmt 1 view .LVU96
+ 344              		.loc 1 83 25 is_stmt 0 view .LVU97
+ 345 01cc 0894     		str	r4, [sp, #32]
+  84:../../core/platform/octa_stm/src/gpio.c ****   HAL_GPIO_Init(OCTA_GAUGE_ENABLE_Port, &GPIO_InitStruct);
+ 346              		.loc 1 84 3 is_stmt 1 view .LVU98
+ 347 01ce 05A9     		add	r1, sp, #20
+ 348 01d0 3046     		mov	r0, r6
+ 349 01d2 FFF7FEFF 		bl	HAL_GPIO_Init
+ 350              	.LVL25:
+  85:../../core/platform/octa_stm/src/gpio.c **** 
+  86:../../core/platform/octa_stm/src/gpio.c ****   //GPIO E
+  87:../../core/platform/octa_stm/src/gpio.c ****   GPIO_InitStruct.Pin = P1_DIO6_Pin|OCTA_GLED_Pin|OCTA_RLED_Pin|OCTA_BLED_Pin;
+ 351              		.loc 1 87 3 view .LVU99
+ 352              		.loc 1 87 23 is_stmt 0 view .LVU100
+ 353 01d6 4FF4D143 		mov	r3, #26752
+ 354 01da 0593     		str	r3, [sp, #20]
+  88:../../core/platform/octa_stm/src/gpio.c ****   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+ 355              		.loc 1 88 3 is_stmt 1 view .LVU101
+ 356              		.loc 1 88 24 is_stmt 0 view .LVU102
+ 357 01dc CDF81880 		str	r8, [sp, #24]
+  89:../../core/platform/octa_stm/src/gpio.c ****   GPIO_InitStruct.Pull = GPIO_NOPULL;
+ 358              		.loc 1 89 3 is_stmt 1 view .LVU103
+ 359              		.loc 1 89 24 is_stmt 0 view .LVU104
+ 360 01e0 0794     		str	r4, [sp, #28]
+  90:../../core/platform/octa_stm/src/gpio.c ****   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+ 361              		.loc 1 90 3 is_stmt 1 view .LVU105
+ 362              		.loc 1 90 25 is_stmt 0 view .LVU106
+ 363 01e2 0894     		str	r4, [sp, #32]
+  91:../../core/platform/octa_stm/src/gpio.c ****   HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
+ 364              		.loc 1 91 3 is_stmt 1 view .LVU107
+ 365 01e4 05A9     		add	r1, sp, #20
+ 366 01e6 4846     		mov	r0, r9
+ARM GAS  /tmp/ccaQs3EY.s 			page 9
+
+
+ 367 01e8 FFF7FEFF 		bl	HAL_GPIO_Init
+ 368              	.LVL26:
+  92:../../core/platform/octa_stm/src/gpio.c **** 
+  93:../../core/platform/octa_stm/src/gpio.c ****   //OCTA_BUTTONS
+  94:../../core/platform/octa_stm/src/gpio.c ****   GPIO_InitStruct.Pin = OCTA_BTN1_Pin|OCTA_BTN2_Pin;
+ 369              		.loc 1 94 3 view .LVU108
+ 370              		.loc 1 94 23 is_stmt 0 view .LVU109
+ 371 01ec 4FF41043 		mov	r3, #36864
+ 372 01f0 0593     		str	r3, [sp, #20]
+  95:../../core/platform/octa_stm/src/gpio.c ****   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+ 373              		.loc 1 95 3 is_stmt 1 view .LVU110
+ 374              		.loc 1 95 24 is_stmt 0 view .LVU111
+ 375 01f2 0694     		str	r4, [sp, #24]
+  96:../../core/platform/octa_stm/src/gpio.c ****   GPIO_InitStruct.Pull = GPIO_PULLUP;
+ 376              		.loc 1 96 3 is_stmt 1 view .LVU112
+ 377              		.loc 1 96 24 is_stmt 0 view .LVU113
+ 378 01f4 CDF81C80 		str	r8, [sp, #28]
+  97:../../core/platform/octa_stm/src/gpio.c ****   HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
+ 379              		.loc 1 97 3 is_stmt 1 view .LVU114
+ 380 01f8 05A9     		add	r1, sp, #20
+ 381 01fa 4846     		mov	r0, r9
+ 382 01fc FFF7FEFF 		bl	HAL_GPIO_Init
+ 383              	.LVL27:
+  98:../../core/platform/octa_stm/src/gpio.c **** 
+  99:../../core/platform/octa_stm/src/gpio.c ****   P1_DIO1.PORT = P1_DIO1_GPIO_Port;
+ 384              		.loc 1 99 3 view .LVU115
+ 385              		.loc 1 99 16 is_stmt 0 view .LVU116
+ 386 0200 214B     		ldr	r3, .L3+16
+ 387 0202 1D60     		str	r5, [r3]
+ 100:../../core/platform/octa_stm/src/gpio.c ****   P1_DIO1.PIN =  P1_DIO1_Pin;
+ 388              		.loc 1 100 3 is_stmt 1 view .LVU117
+ 389              		.loc 1 100 15 is_stmt 0 view .LVU118
+ 390 0204 2022     		movs	r2, #32
+ 391 0206 9A80     		strh	r2, [r3, #4]	@ movhi
+ 101:../../core/platform/octa_stm/src/gpio.c ****   P1_DIO2.PORT = P1_DIO2_GPIO_Port;
+ 392              		.loc 1 101 3 is_stmt 1 view .LVU119
+ 393              		.loc 1 101 16 is_stmt 0 view .LVU120
+ 394 0208 204B     		ldr	r3, .L3+20
+ 395 020a 1D60     		str	r5, [r3]
+ 102:../../core/platform/octa_stm/src/gpio.c ****   P1_DIO2.PIN = P1_DIO2_Pin;
+ 396              		.loc 1 102 3 is_stmt 1 view .LVU121
+ 397              		.loc 1 102 15 is_stmt 0 view .LVU122
+ 398 020c 1022     		movs	r2, #16
+ 399 020e 9A80     		strh	r2, [r3, #4]	@ movhi
+ 103:../../core/platform/octa_stm/src/gpio.c ****   P1_DIO3.PORT = P1_DIO3_GPIO_Port;
+ 400              		.loc 1 103 3 is_stmt 1 view .LVU123
+ 401              		.loc 1 103 16 is_stmt 0 view .LVU124
+ 402 0210 1F4B     		ldr	r3, .L3+24
+ 403 0212 1F60     		str	r7, [r3]
+ 104:../../core/platform/octa_stm/src/gpio.c ****   P1_DIO3.PIN = P1_DIO3_Pin;
+ 404              		.loc 1 104 3 is_stmt 1 view .LVU125
+ 405              		.loc 1 104 15 is_stmt 0 view .LVU126
+ 406 0214 A3F80480 		strh	r8, [r3, #4]	@ movhi
+ 105:../../core/platform/octa_stm/src/gpio.c ****   P1_DIO4.PORT = P1_DIO4_GPIO_Port;
+ 407              		.loc 1 105 3 is_stmt 1 view .LVU127
+ 408              		.loc 1 105 16 is_stmt 0 view .LVU128
+ 409 0218 1E4B     		ldr	r3, .L3+28
+ARM GAS  /tmp/ccaQs3EY.s 			page 10
+
+
+ 410 021a 1F60     		str	r7, [r3]
+ 106:../../core/platform/octa_stm/src/gpio.c ****   P1_DIO4.PIN = P1_DIO4_Pin;
+ 411              		.loc 1 106 3 is_stmt 1 view .LVU129
+ 412              		.loc 1 106 15 is_stmt 0 view .LVU130
+ 413 021c A3F804B0 		strh	fp, [r3, #4]	@ movhi
+ 107:../../core/platform/octa_stm/src/gpio.c ****   P1_DIO5.PORT = P1_DIO5_GPIO_Port;
+ 414              		.loc 1 107 3 is_stmt 1 view .LVU131
+ 415              		.loc 1 107 16 is_stmt 0 view .LVU132
+ 416 0220 1D4B     		ldr	r3, .L3+32
+ 417 0222 1F60     		str	r7, [r3]
+ 108:../../core/platform/octa_stm/src/gpio.c ****   P1_DIO5.PIN = P1_DIO5_Pin;
+ 418              		.loc 1 108 3 is_stmt 1 view .LVU133
+ 419              		.loc 1 108 15 is_stmt 0 view .LVU134
+ 420 0224 A3F804A0 		strh	r10, [r3, #4]	@ movhi
+ 109:../../core/platform/octa_stm/src/gpio.c ****   P1_DIO6.PORT = P1_DIO6_GPIO_Port;
+ 421              		.loc 1 109 3 is_stmt 1 view .LVU135
+ 422              		.loc 1 109 16 is_stmt 0 view .LVU136
+ 423 0228 1C4B     		ldr	r3, .L3+36
+ 424 022a C3F80090 		str	r9, [r3]
+ 110:../../core/platform/octa_stm/src/gpio.c ****   P1_DIO6.PIN = P1_DIO6_Pin;
+ 425              		.loc 1 110 3 is_stmt 1 view .LVU137
+ 426              		.loc 1 110 15 is_stmt 0 view .LVU138
+ 427 022e 8022     		movs	r2, #128
+ 428 0230 9A80     		strh	r2, [r3, #4]	@ movhi
+ 111:../../core/platform/octa_stm/src/gpio.c **** 
+ 112:../../core/platform/octa_stm/src/gpio.c ****   P2_DIO1.PORT = P2_DIO1_GPIO_Port;
+ 429              		.loc 1 112 3 is_stmt 1 view .LVU139
+ 430              		.loc 1 112 16 is_stmt 0 view .LVU140
+ 431 0232 1B4B     		ldr	r3, .L3+40
+ 432 0234 1E60     		str	r6, [r3]
+ 113:../../core/platform/octa_stm/src/gpio.c ****   P2_DIO1.PIN =  P2_DIO1_Pin;
+ 433              		.loc 1 113 3 is_stmt 1 view .LVU141
+ 434              		.loc 1 113 15 is_stmt 0 view .LVU142
+ 435 0236 4FF40071 		mov	r1, #512
+ 436 023a 9980     		strh	r1, [r3, #4]	@ movhi
+ 114:../../core/platform/octa_stm/src/gpio.c ****   P2_DIO2.PORT = P2_DIO2_GPIO_Port;
+ 437              		.loc 1 114 3 is_stmt 1 view .LVU143
+ 438              		.loc 1 114 16 is_stmt 0 view .LVU144
+ 439 023c 194B     		ldr	r3, .L3+44
+ 440 023e 1E60     		str	r6, [r3]
+ 115:../../core/platform/octa_stm/src/gpio.c ****   P2_DIO2.PIN = P2_DIO2_Pin;
+ 441              		.loc 1 115 3 is_stmt 1 view .LVU145
+ 442              		.loc 1 115 15 is_stmt 0 view .LVU146
+ 443 0240 4FF48071 		mov	r1, #256
+ 444 0244 9980     		strh	r1, [r3, #4]	@ movhi
+ 116:../../core/platform/octa_stm/src/gpio.c ****   P2_DIO3.PORT = P2_DIO3_GPIO_Port;
+ 445              		.loc 1 116 3 is_stmt 1 view .LVU147
+ 446              		.loc 1 116 16 is_stmt 0 view .LVU148
+ 447 0246 184B     		ldr	r3, .L3+48
+ 448 0248 1E60     		str	r6, [r3]
+ 117:../../core/platform/octa_stm/src/gpio.c ****   P2_DIO3.PIN = P2_DIO3_Pin;
+ 449              		.loc 1 117 3 is_stmt 1 view .LVU149
+ 450              		.loc 1 117 15 is_stmt 0 view .LVU150
+ 451 024a 4FF48041 		mov	r1, #16384
+ 452 024e 9980     		strh	r1, [r3, #4]	@ movhi
+ 118:../../core/platform/octa_stm/src/gpio.c ****   P2_DIO4.PORT = P2_DIO4_GPIO_Port;
+ 453              		.loc 1 118 3 is_stmt 1 view .LVU151
+ARM GAS  /tmp/ccaQs3EY.s 			page 11
+
+
+ 454              		.loc 1 118 16 is_stmt 0 view .LVU152
+ 455 0250 164B     		ldr	r3, .L3+52
+ 456 0252 1E60     		str	r6, [r3]
+ 119:../../core/platform/octa_stm/src/gpio.c ****   P2_DIO4.PIN = P2_DIO4_Pin;
+ 457              		.loc 1 119 3 is_stmt 1 view .LVU153
+ 458              		.loc 1 119 15 is_stmt 0 view .LVU154
+ 459 0254 4FF40041 		mov	r1, #32768
+ 460 0258 9980     		strh	r1, [r3, #4]	@ movhi
+ 120:../../core/platform/octa_stm/src/gpio.c ****   P2_DIO5.PORT = P2_DIO5_GPIO_Port;
+ 461              		.loc 1 120 3 is_stmt 1 view .LVU155
+ 462              		.loc 1 120 16 is_stmt 0 view .LVU156
+ 463 025a 154B     		ldr	r3, .L3+56
+ 464 025c 1D60     		str	r5, [r3]
+ 121:../../core/platform/octa_stm/src/gpio.c ****   P2_DIO5.PIN = P2_DIO5_Pin;
+ 465              		.loc 1 121 3 is_stmt 1 view .LVU157
+ 466              		.loc 1 121 15 is_stmt 0 view .LVU158
+ 467 025e 4021     		movs	r1, #64
+ 468 0260 9980     		strh	r1, [r3, #4]	@ movhi
+ 122:../../core/platform/octa_stm/src/gpio.c ****   P2_DIO6.PORT = P2_DIO6_GPIO_Port;
+ 469              		.loc 1 122 3 is_stmt 1 view .LVU159
+ 470              		.loc 1 122 16 is_stmt 0 view .LVU160
+ 471 0262 144B     		ldr	r3, .L3+60
+ 472 0264 1D60     		str	r5, [r3]
+ 123:../../core/platform/octa_stm/src/gpio.c ****   P2_DIO6.PIN = P2_DIO6_Pin;
+ 473              		.loc 1 123 3 is_stmt 1 view .LVU161
+ 474              		.loc 1 123 15 is_stmt 0 view .LVU162
+ 475 0266 9A80     		strh	r2, [r3, #4]	@ movhi
+ 124:../../core/platform/octa_stm/src/gpio.c **** 
+ 125:../../core/platform/octa_stm/src/gpio.c ****   NBIOT_Reset.PORT = OCTA_NBIOT_Reset_Port;
+ 476              		.loc 1 125 3 is_stmt 1 view .LVU163
+ 477              		.loc 1 125 20 is_stmt 0 view .LVU164
+ 478 0268 134B     		ldr	r3, .L3+64
+ 479 026a 1D60     		str	r5, [r3]
+ 126:../../core/platform/octa_stm/src/gpio.c ****   NBIOT_Reset.PIN = OCTA_NBIOT_Reset_Pin;
+ 480              		.loc 1 126 3 is_stmt 1 view .LVU165
+ 481              		.loc 1 126 19 is_stmt 0 view .LVU166
+ 482 026c 0822     		movs	r2, #8
+ 483 026e 9A80     		strh	r2, [r3, #4]	@ movhi
+ 127:../../core/platform/octa_stm/src/gpio.c **** }
+ 484              		.loc 1 127 1 view .LVU167
+ 485 0270 0BB0     		add	sp, sp, #44
+ 486              	.LCFI2:
+ 487              		.cfi_def_cfa_offset 36
+ 488              		@ sp needed
+ 489 0272 BDE8F08F 		pop	{r4, r5, r6, r7, r8, r9, r10, fp, pc}
+ 490              	.L4:
+ 491 0276 00BF     		.align	2
+ 492              	.L3:
+ 493 0278 00100240 		.word	1073876992
+ 494 027c 000C0048 		.word	1207962624
+ 495 0280 00080048 		.word	1207961600
+ 496 0284 00040048 		.word	1207960576
+ 497 0288 00000000 		.word	P1_DIO1
+ 498 028c 00000000 		.word	P1_DIO2
+ 499 0290 00000000 		.word	P1_DIO3
+ 500 0294 00000000 		.word	P1_DIO4
+ 501 0298 00000000 		.word	P1_DIO5
+ARM GAS  /tmp/ccaQs3EY.s 			page 12
+
+
+ 502 029c 00000000 		.word	P1_DIO6
+ 503 02a0 00000000 		.word	P2_DIO1
+ 504 02a4 00000000 		.word	P2_DIO2
+ 505 02a8 00000000 		.word	P2_DIO3
+ 506 02ac 00000000 		.word	P2_DIO4
+ 507 02b0 00000000 		.word	P2_DIO5
+ 508 02b4 00000000 		.word	P2_DIO6
+ 509 02b8 00000000 		.word	NBIOT_Reset
+ 510 02bc 00100048 		.word	1207963648
+ 511              		.cfi_endproc
+ 512              	.LFE128:
+ 514              		.section	.text.OCTA_GPIO_DeInit,"ax",%progbits
+ 515              		.align	1
+ 516              		.global	OCTA_GPIO_DeInit
+ 517              		.syntax unified
+ 518              		.thumb
+ 519              		.thumb_func
+ 520              		.fpu fpv4-sp-d16
+ 522              	OCTA_GPIO_DeInit:
+ 523              	.LFB129:
+ 128:../../core/platform/octa_stm/src/gpio.c **** 
+ 129:../../core/platform/octa_stm/src/gpio.c **** void OCTA_GPIO_DeInit(void)
+ 130:../../core/platform/octa_stm/src/gpio.c **** {
+ 524              		.loc 1 130 1 is_stmt 1 view -0
+ 525              		.cfi_startproc
+ 526              		@ args = 0, pretend = 0, frame = 24
+ 527              		@ frame_needed = 0, uses_anonymous_args = 0
+ 528 0000 00B5     		push	{lr}
+ 529              	.LCFI3:
+ 530              		.cfi_def_cfa_offset 4
+ 531              		.cfi_offset 14, -4
+ 532 0002 87B0     		sub	sp, sp, #28
+ 533              	.LCFI4:
+ 534              		.cfi_def_cfa_offset 32
+ 131:../../core/platform/octa_stm/src/gpio.c ****   GPIO_InitTypeDef GPIO_InitStruct;
+ 535              		.loc 1 131 3 view .LVU169
+ 132:../../core/platform/octa_stm/src/gpio.c ****   /* Configure all GPIO port pins in Analog Input mode (floating input trigger OFF) */
+ 133:../../core/platform/octa_stm/src/gpio.c ****   /* Note: Debug using ST-Link is not possible during the execution of this   */
+ 134:../../core/platform/octa_stm/src/gpio.c ****   /*       example because communication between ST-link and the device       */
+ 135:../../core/platform/octa_stm/src/gpio.c ****   /*       under test is done through UART. All GPIO pins are disabled (set   */
+ 136:../../core/platform/octa_stm/src/gpio.c ****   /*       to analog input mode) including  UART I/O pins.           */
+ 137:../../core/platform/octa_stm/src/gpio.c ****   GPIO_InitStruct.Pin = GPIO_PIN_All;
+ 536              		.loc 1 137 3 view .LVU170
+ 537              		.loc 1 137 23 is_stmt 0 view .LVU171
+ 538 0004 4FF6FF73 		movw	r3, #65535
+ 539 0008 0193     		str	r3, [sp, #4]
+ 138:../../core/platform/octa_stm/src/gpio.c ****   GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
+ 540              		.loc 1 138 3 is_stmt 1 view .LVU172
+ 541              		.loc 1 138 24 is_stmt 0 view .LVU173
+ 542 000a 0323     		movs	r3, #3
+ 543 000c 0293     		str	r3, [sp, #8]
+ 139:../../core/platform/octa_stm/src/gpio.c ****   GPIO_InitStruct.Pull = GPIO_PULLUP;
+ 544              		.loc 1 139 3 is_stmt 1 view .LVU174
+ 545              		.loc 1 139 24 is_stmt 0 view .LVU175
+ 546 000e 0123     		movs	r3, #1
+ 547 0010 0393     		str	r3, [sp, #12]
+ 140:../../core/platform/octa_stm/src/gpio.c ****   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+ARM GAS  /tmp/ccaQs3EY.s 			page 13
+
+
+ 548              		.loc 1 140 3 is_stmt 1 view .LVU176
+ 549 0012 01A9     		add	r1, sp, #4
+ 550 0014 1548     		ldr	r0, .L7
+ 551 0016 FFF7FEFF 		bl	HAL_GPIO_Init
+ 552              	.LVL28:
+ 141:../../core/platform/octa_stm/src/gpio.c ****   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct); 
+ 553              		.loc 1 141 3 view .LVU177
+ 554 001a 01A9     		add	r1, sp, #4
+ 555 001c 4FF09040 		mov	r0, #1207959552
+ 556 0020 FFF7FEFF 		bl	HAL_GPIO_Init
+ 557              	.LVL29:
+ 142:../../core/platform/octa_stm/src/gpio.c ****   HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+ 558              		.loc 1 142 3 view .LVU178
+ 559 0024 01A9     		add	r1, sp, #4
+ 560 0026 1248     		ldr	r0, .L7+4
+ 561 0028 FFF7FEFF 		bl	HAL_GPIO_Init
+ 562              	.LVL30:
+ 143:../../core/platform/octa_stm/src/gpio.c ****   HAL_GPIO_Init(GPIOD, &GPIO_InitStruct); 
+ 563              		.loc 1 143 3 view .LVU179
+ 564 002c 01A9     		add	r1, sp, #4
+ 565 002e 1148     		ldr	r0, .L7+8
+ 566 0030 FFF7FEFF 		bl	HAL_GPIO_Init
+ 567              	.LVL31:
+ 144:../../core/platform/octa_stm/src/gpio.c ****   HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
+ 568              		.loc 1 144 3 view .LVU180
+ 569 0034 01A9     		add	r1, sp, #4
+ 570 0036 1048     		ldr	r0, .L7+12
+ 571 0038 FFF7FEFF 		bl	HAL_GPIO_Init
+ 572              	.LVL32:
+ 145:../../core/platform/octa_stm/src/gpio.c **** 
+ 146:../../core/platform/octa_stm/src/gpio.c ****   //STEPUP
+ 147:../../core/platform/octa_stm/src/gpio.c ****   // GPIO_InitStruct.Pin = OCTA_STEPUP_Pin;
+ 148:../../core/platform/octa_stm/src/gpio.c ****   // GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+ 149:../../core/platform/octa_stm/src/gpio.c ****   // GPIO_InitStruct.Pull = GPIO_NOPULL;
+ 150:../../core/platform/octa_stm/src/gpio.c ****   // GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+ 151:../../core/platform/octa_stm/src/gpio.c ****   // HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+ 152:../../core/platform/octa_stm/src/gpio.c ****   // HAL_GPIO_WritePin(OCTA_STEPUP_GPIO_Port, OCTA_STEPUP_Pin, GPIO_PIN_SET);
+ 153:../../core/platform/octa_stm/src/gpio.c **** 
+ 154:../../core/platform/octa_stm/src/gpio.c ****   
+ 155:../../core/platform/octa_stm/src/gpio.c ****   #ifdef NB_IOT_CHIP_NORDIC
+ 156:../../core/platform/octa_stm/src/gpio.c ****     /*NB_IOT UART GPIO Configuration    
+ 157:../../core/platform/octa_stm/src/gpio.c ****     PA2     ------> LPUART1_TX
+ 158:../../core/platform/octa_stm/src/gpio.c ****     PA3     ------> LPUART1_RX 
+ 159:../../core/platform/octa_stm/src/gpio.c ****     */
+ 160:../../core/platform/octa_stm/src/gpio.c ****     GPIO_InitStruct.Pin = GPIO_PIN_2|GPIO_PIN_3;
+ 161:../../core/platform/octa_stm/src/gpio.c ****     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+ 162:../../core/platform/octa_stm/src/gpio.c ****     GPIO_InitStruct.Pull = GPIO_NOPULL;
+ 163:../../core/platform/octa_stm/src/gpio.c ****     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+ 164:../../core/platform/octa_stm/src/gpio.c ****     GPIO_InitStruct.Alternate = GPIO_AF8_LPUART1;
+ 165:../../core/platform/octa_stm/src/gpio.c ****     HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+ 166:../../core/platform/octa_stm/src/gpio.c ****   #endif
+ 167:../../core/platform/octa_stm/src/gpio.c ****     /* Disable GPIOs clock */
+ 168:../../core/platform/octa_stm/src/gpio.c ****     __HAL_RCC_GPIOA_CLK_DISABLE();
+ 573              		.loc 1 168 5 view .LVU181
+ 574 003c 0F4B     		ldr	r3, .L7+16
+ 575 003e DA6C     		ldr	r2, [r3, #76]
+ 576 0040 22F00102 		bic	r2, r2, #1
+ARM GAS  /tmp/ccaQs3EY.s 			page 14
+
+
+ 577 0044 DA64     		str	r2, [r3, #76]
+ 169:../../core/platform/octa_stm/src/gpio.c ****     __HAL_RCC_GPIOB_CLK_DISABLE();
+ 578              		.loc 1 169 5 view .LVU182
+ 579 0046 DA6C     		ldr	r2, [r3, #76]
+ 580 0048 22F00202 		bic	r2, r2, #2
+ 581 004c DA64     		str	r2, [r3, #76]
+ 170:../../core/platform/octa_stm/src/gpio.c ****     __HAL_RCC_GPIOC_CLK_DISABLE();
+ 582              		.loc 1 170 5 view .LVU183
+ 583 004e DA6C     		ldr	r2, [r3, #76]
+ 584 0050 22F00402 		bic	r2, r2, #4
+ 585 0054 DA64     		str	r2, [r3, #76]
+ 171:../../core/platform/octa_stm/src/gpio.c ****     __HAL_RCC_GPIOD_CLK_DISABLE();
+ 586              		.loc 1 171 5 view .LVU184
+ 587 0056 DA6C     		ldr	r2, [r3, #76]
+ 588 0058 22F00802 		bic	r2, r2, #8
+ 589 005c DA64     		str	r2, [r3, #76]
+ 172:../../core/platform/octa_stm/src/gpio.c ****     __HAL_RCC_GPIOE_CLK_DISABLE();
+ 590              		.loc 1 172 5 view .LVU185
+ 591 005e DA6C     		ldr	r2, [r3, #76]
+ 592 0060 22F01002 		bic	r2, r2, #16
+ 593 0064 DA64     		str	r2, [r3, #76]
+ 173:../../core/platform/octa_stm/src/gpio.c **** }
+ 594              		.loc 1 173 1 is_stmt 0 view .LVU186
+ 595 0066 07B0     		add	sp, sp, #28
+ 596              	.LCFI5:
+ 597              		.cfi_def_cfa_offset 4
+ 598              		@ sp needed
+ 599 0068 5DF804FB 		ldr	pc, [sp], #4
+ 600              	.L8:
+ 601              		.align	2
+ 602              	.L7:
+ 603 006c 00040048 		.word	1207960576
+ 604 0070 00080048 		.word	1207961600
+ 605 0074 000C0048 		.word	1207962624
+ 606 0078 00100048 		.word	1207963648
+ 607 007c 00100240 		.word	1073876992
+ 608              		.cfi_endproc
+ 609              	.LFE129:
+ 611              		.section	.rodata.HAL_GPIO_EXTI_Callback.str1.4,"aMS",%progbits,1
+ 612              		.align	2
+ 613              	.LC0:
+ 614 0000 4F435441 		.ascii	"OCTA BTN1 PRESSED\015\012\000"
+ 614      2042544E 
+ 614      31205052 
+ 614      45535345 
+ 614      440D0A00 
+ 615              		.align	2
+ 616              	.LC1:
+ 617 0014 4F435441 		.ascii	"OCTA BTN2 PRESSED\015\012\000"
+ 617      2042544E 
+ 617      32205052 
+ 617      45535345 
+ 617      440D0A00 
+ 618              		.section	.text.HAL_GPIO_EXTI_Callback,"ax",%progbits
+ 619              		.align	1
+ 620              		.global	HAL_GPIO_EXTI_Callback
+ 621              		.syntax unified
+ARM GAS  /tmp/ccaQs3EY.s 			page 15
+
+
+ 622              		.thumb
+ 623              		.thumb_func
+ 624              		.fpu fpv4-sp-d16
+ 626              	HAL_GPIO_EXTI_Callback:
+ 627              	.LVL33:
+ 628              	.LFB130:
+ 174:../../core/platform/octa_stm/src/gpio.c **** 
+ 175:../../core/platform/octa_stm/src/gpio.c **** void HAL_GPIO_EXTI_Callback(uint16_t gpioPinNumber) 
+ 176:../../core/platform/octa_stm/src/gpio.c **** {
+ 629              		.loc 1 176 1 is_stmt 1 view -0
+ 630              		.cfi_startproc
+ 631              		@ args = 0, pretend = 0, frame = 0
+ 632              		@ frame_needed = 0, uses_anonymous_args = 0
+ 633              		.loc 1 176 1 is_stmt 0 view .LVU188
+ 634 0000 10B5     		push	{r4, lr}
+ 635              	.LCFI6:
+ 636              		.cfi_def_cfa_offset 8
+ 637              		.cfi_offset 4, -8
+ 638              		.cfi_offset 14, -4
+ 639 0002 0446     		mov	r4, r0
+ 177:../../core/platform/octa_stm/src/gpio.c ****     // OCTA B1
+ 178:../../core/platform/octa_stm/src/gpio.c ****     if (gpioPinNumber==OCTA_BTN1_Pin) 
+ 640              		.loc 1 178 5 is_stmt 1 view .LVU189
+ 641              		.loc 1 178 8 is_stmt 0 view .LVU190
+ 642 0004 B0F5805F 		cmp	r0, #4096
+ 643 0008 03D0     		beq	.L13
+ 644              	.LVL34:
+ 645              	.L10:
+ 179:../../core/platform/octa_stm/src/gpio.c ****     {
+ 180:../../core/platform/octa_stm/src/gpio.c ****         printDBG("OCTA BTN1 PRESSED\r\n");
+ 181:../../core/platform/octa_stm/src/gpio.c ****         if(OCTA_BTN1_Pressed_Callback)
+ 182:../../core/platform/octa_stm/src/gpio.c ****           OCTA_BTN1_Pressed_Callback();
+ 183:../../core/platform/octa_stm/src/gpio.c ****     }
+ 184:../../core/platform/octa_stm/src/gpio.c ****     // OCTA B2
+ 185:../../core/platform/octa_stm/src/gpio.c ****     if (gpioPinNumber==OCTA_BTN2_Pin) 
+ 646              		.loc 1 185 5 is_stmt 1 view .LVU191
+ 647              		.loc 1 185 8 is_stmt 0 view .LVU192
+ 648 000a B4F5004F 		cmp	r4, #32768
+ 649 000e 09D0     		beq	.L14
+ 650              	.L9:
+ 186:../../core/platform/octa_stm/src/gpio.c ****     {
+ 187:../../core/platform/octa_stm/src/gpio.c ****         printDBG("OCTA BTN2 PRESSED\r\n");
+ 188:../../core/platform/octa_stm/src/gpio.c ****         #if DEBUG && PRINT_RTOS_STATS
+ 189:../../core/platform/octa_stm/src/gpio.c ****           //RESUME rtos print handle, which will print the stats once
+ 190:../../core/platform/octa_stm/src/gpio.c ****           if(osKernelRunning())
+ 191:../../core/platform/octa_stm/src/gpio.c ****             osThreadResume(rtosprintHandle);
+ 192:../../core/platform/octa_stm/src/gpio.c ****           else
+ 193:../../core/platform/octa_stm/src/gpio.c ****             printDBG("Kernel not running\r\n");
+ 194:../../core/platform/octa_stm/src/gpio.c ****         #endif
+ 195:../../core/platform/octa_stm/src/gpio.c ****         if(OCTA_BTN2_Pressed_Callback)
+ 196:../../core/platform/octa_stm/src/gpio.c ****           OCTA_BTN2_Pressed_Callback();
+ 197:../../core/platform/octa_stm/src/gpio.c ****     }
+ 198:../../core/platform/octa_stm/src/gpio.c **** }
+ 651              		.loc 1 198 1 view .LVU193
+ 652 0010 10BD     		pop	{r4, pc}
+ 653              	.LVL35:
+ 654              	.L13:
+ARM GAS  /tmp/ccaQs3EY.s 			page 16
+
+
+ 655              	.LBB7:
+ 180:../../core/platform/octa_stm/src/gpio.c ****         if(OCTA_BTN1_Pressed_Callback)
+ 656              		.loc 1 180 9 is_stmt 1 view .LVU194
+ 657 0012 0948     		ldr	r0, .L15
+ 658              	.LVL36:
+ 180:../../core/platform/octa_stm/src/gpio.c ****         if(OCTA_BTN1_Pressed_Callback)
+ 659              		.loc 1 180 9 is_stmt 0 view .LVU195
+ 660 0014 FFF7FEFF 		bl	printDBG
+ 661              	.LVL37:
+ 181:../../core/platform/octa_stm/src/gpio.c ****           OCTA_BTN1_Pressed_Callback();
+ 662              		.loc 1 181 9 is_stmt 1 view .LVU196
+ 181:../../core/platform/octa_stm/src/gpio.c ****           OCTA_BTN1_Pressed_Callback();
+ 663              		.loc 1 181 12 is_stmt 0 view .LVU197
+ 664 0018 084B     		ldr	r3, .L15+4
+ 665 001a 1B68     		ldr	r3, [r3]
+ 181:../../core/platform/octa_stm/src/gpio.c ****           OCTA_BTN1_Pressed_Callback();
+ 666              		.loc 1 181 11 view .LVU198
+ 667 001c 002B     		cmp	r3, #0
+ 668 001e F4D0     		beq	.L10
+ 182:../../core/platform/octa_stm/src/gpio.c ****     }
+ 669              		.loc 1 182 11 is_stmt 1 view .LVU199
+ 670 0020 9847     		blx	r3
+ 671              	.LVL38:
+ 672 0022 F2E7     		b	.L10
+ 673              	.L14:
+ 674              	.LBE7:
+ 675              	.LBB8:
+ 187:../../core/platform/octa_stm/src/gpio.c ****         #if DEBUG && PRINT_RTOS_STATS
+ 676              		.loc 1 187 9 view .LVU200
+ 677 0024 0648     		ldr	r0, .L15+8
+ 678 0026 FFF7FEFF 		bl	printDBG
+ 679              	.LVL39:
+ 195:../../core/platform/octa_stm/src/gpio.c ****           OCTA_BTN2_Pressed_Callback();
+ 680              		.loc 1 195 9 view .LVU201
+ 195:../../core/platform/octa_stm/src/gpio.c ****           OCTA_BTN2_Pressed_Callback();
+ 681              		.loc 1 195 12 is_stmt 0 view .LVU202
+ 682 002a 064B     		ldr	r3, .L15+12
+ 683 002c 1B68     		ldr	r3, [r3]
+ 195:../../core/platform/octa_stm/src/gpio.c ****           OCTA_BTN2_Pressed_Callback();
+ 684              		.loc 1 195 11 view .LVU203
+ 685 002e 002B     		cmp	r3, #0
+ 686 0030 EED0     		beq	.L9
+ 196:../../core/platform/octa_stm/src/gpio.c ****     }
+ 687              		.loc 1 196 11 is_stmt 1 view .LVU204
+ 688 0032 9847     		blx	r3
+ 689              	.LVL40:
+ 690              	.LBE8:
+ 691              		.loc 1 198 1 is_stmt 0 view .LVU205
+ 692 0034 ECE7     		b	.L9
+ 693              	.L16:
+ 694 0036 00BF     		.align	2
+ 695              	.L15:
+ 696 0038 00000000 		.word	.LC0
+ 697 003c 00000000 		.word	.LANCHOR0
+ 698 0040 14000000 		.word	.LC1
+ 699 0044 00000000 		.word	.LANCHOR1
+ 700              		.cfi_endproc
+ARM GAS  /tmp/ccaQs3EY.s 			page 17
+
+
+ 701              	.LFE130:
+ 703              		.section	.text.GPIO_SetApplicationCallback,"ax",%progbits
+ 704              		.align	1
+ 705              		.global	GPIO_SetApplicationCallback
+ 706              		.syntax unified
+ 707              		.thumb
+ 708              		.thumb_func
+ 709              		.fpu fpv4-sp-d16
+ 711              	GPIO_SetApplicationCallback:
+ 712              	.LVL41:
+ 713              	.LFB131:
+ 199:../../core/platform/octa_stm/src/gpio.c **** 
+ 200:../../core/platform/octa_stm/src/gpio.c **** void GPIO_SetApplicationCallback(void (*callback), uint16_t pinNumber)
+ 201:../../core/platform/octa_stm/src/gpio.c **** {
+ 714              		.loc 1 201 1 is_stmt 1 view -0
+ 715              		.cfi_startproc
+ 716              		@ args = 0, pretend = 0, frame = 0
+ 717              		@ frame_needed = 0, uses_anonymous_args = 0
+ 718              		@ link register save eliminated.
+ 202:../../core/platform/octa_stm/src/gpio.c ****   switch(pinNumber)
+ 719              		.loc 1 202 3 view .LVU207
+ 720 0000 B1F5805F 		cmp	r1, #4096
+ 721 0004 03D0     		beq	.L18
+ 722 0006 B1F5004F 		cmp	r1, #32768
+ 723 000a 03D0     		beq	.L19
+ 724 000c 7047     		bx	lr
+ 725              	.L18:
+ 203:../../core/platform/octa_stm/src/gpio.c ****   {
+ 204:../../core/platform/octa_stm/src/gpio.c ****     case OCTA_BTN1_Pin:
+ 205:../../core/platform/octa_stm/src/gpio.c ****       OCTA_BTN1_Pressed_Callback = callback;
+ 726              		.loc 1 205 7 view .LVU208
+ 727              		.loc 1 205 34 is_stmt 0 view .LVU209
+ 728 000e 034B     		ldr	r3, .L21
+ 729 0010 1860     		str	r0, [r3]
+ 206:../../core/platform/octa_stm/src/gpio.c ****       break;
+ 730              		.loc 1 206 7 is_stmt 1 view .LVU210
+ 731 0012 7047     		bx	lr
+ 732              	.L19:
+ 207:../../core/platform/octa_stm/src/gpio.c ****     case OCTA_BTN2_Pin:
+ 208:../../core/platform/octa_stm/src/gpio.c ****       OCTA_BTN2_Pressed_Callback = callback;
+ 733              		.loc 1 208 7 view .LVU211
+ 734              		.loc 1 208 34 is_stmt 0 view .LVU212
+ 735 0014 024B     		ldr	r3, .L21+4
+ 736 0016 1860     		str	r0, [r3]
+ 209:../../core/platform/octa_stm/src/gpio.c ****       break;
+ 737              		.loc 1 209 7 is_stmt 1 view .LVU213
+ 210:../../core/platform/octa_stm/src/gpio.c ****     default:
+ 211:../../core/platform/octa_stm/src/gpio.c ****       break;
+ 212:../../core/platform/octa_stm/src/gpio.c ****   }
+ 213:../../core/platform/octa_stm/src/gpio.c **** }...
+ 738              		.loc 1 213 1 is_stmt 0 view .LVU214
+ 739 0018 7047     		bx	lr
+ 740              	.L22:
+ 741 001a 00BF     		.align	2
+ 742              	.L21:
+ 743 001c 00000000 		.word	.LANCHOR0
+ 744 0020 00000000 		.word	.LANCHOR1
+ARM GAS  /tmp/ccaQs3EY.s 			page 18
+
+
+ 745              		.cfi_endproc
+ 746              	.LFE131:
+ 748              		.comm	rtosprintHandle,4,4
+ 749              		.comm	NBIOT_Reset,8,4
+ 750              		.comm	P2_DIO6,8,4
+ 751              		.comm	P2_DIO5,8,4
+ 752              		.comm	P2_DIO4,8,4
+ 753              		.comm	P2_DIO3,8,4
+ 754              		.comm	P2_DIO2,8,4
+ 755              		.comm	P2_DIO1,8,4
+ 756              		.comm	P1_DIO6,8,4
+ 757              		.comm	P1_DIO5,8,4
+ 758              		.comm	P1_DIO4,8,4
+ 759              		.comm	P1_DIO3,8,4
+ 760              		.comm	P1_DIO2,8,4
+ 761              		.comm	P1_DIO1,8,4
+ 762              		.section	.bss.OCTA_BTN1_Pressed_Callback,"aw",%nobits
+ 763              		.align	2
+ 764              		.set	.LANCHOR0,. + 0
+ 767              	OCTA_BTN1_Pressed_Callback:
+ 768 0000 00000000 		.space	4
+ 769              		.section	.bss.OCTA_BTN2_Pressed_Callback,"aw",%nobits
+ 770              		.align	2
+ 771              		.set	.LANCHOR1,. + 0
+ 774              	OCTA_BTN2_Pressed_Callback:
+ 775 0000 00000000 		.space	4
+ 776              		.text
+ 777              	.Letext0:
+ 778              		.file 2 "/usr/arm-none-eabi/include/machine/_default_types.h"
+ 779              		.file 3 "/usr/arm-none-eabi/include/sys/_stdint.h"
+ 780              		.file 4 "../../core/ST/CMSIS/Include/core_cm4.h"
+ 781              		.file 5 "../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/system_stm32l4xx.h"
+ 782              		.file 6 "../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/stm32l496xx.h"
+ 783              		.file 7 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_gpio.h"
+ 784              		.file 8 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h"
+ 785              		.file 9 "../../core/platform/octa_stm/inc/gpio.h"
+ 786              		.file 10 "../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/include/task.h"
+ 787              		.file 11 "../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h"
+ 788              		.file 12 "../../core/platform/octa_stm/inc/rtosincludes.h"
+ 789              		.file 13 "../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_pwr_ex.h"
+ARM GAS  /tmp/ccaQs3EY.s 			page 19
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 gpio.c
+     /tmp/ccaQs3EY.s:18     .text.OCTA_GPIO_Init:0000000000000000 $t
+     /tmp/ccaQs3EY.s:26     .text.OCTA_GPIO_Init:0000000000000000 OCTA_GPIO_Init
+     /tmp/ccaQs3EY.s:493    .text.OCTA_GPIO_Init:0000000000000278 $d
+                            *COM*:0000000000000008 P1_DIO1
+                            *COM*:0000000000000008 P1_DIO2
+                            *COM*:0000000000000008 P1_DIO3
+                            *COM*:0000000000000008 P1_DIO4
+                            *COM*:0000000000000008 P1_DIO5
+                            *COM*:0000000000000008 P1_DIO6
+                            *COM*:0000000000000008 P2_DIO1
+                            *COM*:0000000000000008 P2_DIO2
+                            *COM*:0000000000000008 P2_DIO3
+                            *COM*:0000000000000008 P2_DIO4
+                            *COM*:0000000000000008 P2_DIO5
+                            *COM*:0000000000000008 P2_DIO6
+                            *COM*:0000000000000008 NBIOT_Reset
+     /tmp/ccaQs3EY.s:515    .text.OCTA_GPIO_DeInit:0000000000000000 $t
+     /tmp/ccaQs3EY.s:522    .text.OCTA_GPIO_DeInit:0000000000000000 OCTA_GPIO_DeInit
+     /tmp/ccaQs3EY.s:603    .text.OCTA_GPIO_DeInit:000000000000006c $d
+     /tmp/ccaQs3EY.s:612    .rodata.HAL_GPIO_EXTI_Callback.str1.4:0000000000000000 $d
+     /tmp/ccaQs3EY.s:619    .text.HAL_GPIO_EXTI_Callback:0000000000000000 $t
+     /tmp/ccaQs3EY.s:626    .text.HAL_GPIO_EXTI_Callback:0000000000000000 HAL_GPIO_EXTI_Callback
+     /tmp/ccaQs3EY.s:696    .text.HAL_GPIO_EXTI_Callback:0000000000000038 $d
+     /tmp/ccaQs3EY.s:704    .text.GPIO_SetApplicationCallback:0000000000000000 $t
+     /tmp/ccaQs3EY.s:711    .text.GPIO_SetApplicationCallback:0000000000000000 GPIO_SetApplicationCallback
+     /tmp/ccaQs3EY.s:743    .text.GPIO_SetApplicationCallback:000000000000001c $d
+                            *COM*:0000000000000004 rtosprintHandle
+     /tmp/ccaQs3EY.s:763    .bss.OCTA_BTN1_Pressed_Callback:0000000000000000 $d
+     /tmp/ccaQs3EY.s:767    .bss.OCTA_BTN1_Pressed_Callback:0000000000000000 OCTA_BTN1_Pressed_Callback
+     /tmp/ccaQs3EY.s:770    .bss.OCTA_BTN2_Pressed_Callback:0000000000000000 $d
+     /tmp/ccaQs3EY.s:774    .bss.OCTA_BTN2_Pressed_Callback:0000000000000000 OCTA_BTN2_Pressed_Callback
+
+UNDEFINED SYMBOLS
+HAL_PWREx_EnableVddIO2
+HAL_GPIO_WritePin
+HAL_GPIO_Init
+printDBG
