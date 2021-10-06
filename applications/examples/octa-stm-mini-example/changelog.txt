@@ -1,6 +1,0 @@
-octa-stm-mini-example
-0.1.0: initial version
-0.1.1:  - added iim423xx
-        - added nordic9160
-0.1.2: fixed flash for octa-stm-mini platform
-0.1.3: using auto nb-iot provider selection

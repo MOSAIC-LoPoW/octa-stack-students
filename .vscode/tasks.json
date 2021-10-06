@@ -4,114 +4,10 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "make firmware hello-world",
-            "type": "shell",
-            // change the cd path to the current application path
-            "command": "cd applications/hello-world/; make",
-            "problemMatcher": [
-                "$gcc"
-            ],
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            }
-        },
-        {
-            "label": "make clean all firmware hello-world",
-            "type": "shell",
-            // change the cd path to the current application path
-            "command": "cd applications/hello-world/; make clean all",
-            "problemMatcher": [
-                "$gcc"
-            ],
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            }
-        },
-        {
-            "label": "make firmware no-scheduler-example",
-            "type": "shell",
-            // change the cd path to the current application path
-            "command" : "cd applications/no-scheduler-example/; make",
-            "problemMatcher": [
-                "$gcc"
-            ],
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            }
-        },
-        {
-            "label": "make clean all firmware no-scheduler-example",
-            "type": "shell",
-            // change the cd path to the current application path
-            "command" : "cd applications/no-scheduler-example/; make clean all",
-            "problemMatcher": [
-                "$gcc"
-            ],
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            }
-        },
-        {
-            "label": "make firmware temperature-humidity",
-            "type": "shell",
-            // change the cd path to the current application path
-            "command": "cd applications/temperature-humidity/; make",
-            "problemMatcher": [
-                "$gcc"
-            ],
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            }
-        },
-        {
-            "label": "make clean all firmware temperature-humidity",
-            "type": "shell",
-            // change the cd path to the current application path
-            "command": "cd applications/temperature-humidity/; make clean all",
-            "problemMatcher": [
-                "$gcc"
-            ],
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            }
-        },
-        {
-            "label": "make firmware lightsensor",
-            "type": "shell",
-            // change the cd path to the current application path
-            "command": "cd applications/lightsensor/; make",
-            "problemMatcher": [
-                "$gcc"
-            ],
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            }
-        },
-        {
-            "label": "make clean all firmware lightsensor",
-            "type": "shell",
-            // change the cd path to the current application path
-            "command": "cd applications/lightsensor/; make clean all",
-            "problemMatcher": [
-                "$gcc"
-            ],
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            }
-        },
-        {
             "label": "make firmware acc-mag-sensor",
             "type": "shell",
             // change the cd path to the current application path
-            "command": "cd applications/acc-mag-sensor/; make",
+            "command": "cd applications/examples/acc-mag-sensor/; make",
             "problemMatcher": [
                 "$gcc"
             ],
@@ -124,7 +20,7 @@
             "label": "make clean all firmware acc-mag-sensor",
             "type": "shell",
             // change the cd path to the current application path
-            "command": "cd applications/acc-mag-sensor/; make clean all",
+            "command": "cd applications/examples/acc-mag-sensor/; make clean all",
             "problemMatcher": [
                 "$gcc"
             ],
@@ -134,10 +30,10 @@
             }
         },
         {
-            "label": "make firmware lorawan-example",
+            "label": "make firmware batterylevel-example",
             "type": "shell",
             // change the cd path to the current application path
-            "command": "cd applications/lorawan-example/; make",
+            "command": "cd applications/examples/batterylevel-example/; make",
             "problemMatcher": [
                 "$gcc"
             ],
@@ -147,10 +43,10 @@
             }
         },
         {
-            "label": "make clean all firmware lorawan-example",
+            "label": "make clean all firmware batterylevel-example",
             "type": "shell",
             // change the cd path to the current application path
-            "command": "cd applications/lorawan-example/; make clean all",
+            "command": "cd applications/examples/batterylevel-example/; make clean all",
             "problemMatcher": [
                 "$gcc"
             ],
@@ -163,7 +59,7 @@
             "label": "make firmware gps-firefly-example",
             "type": "shell",
             // change the cd path to the current application path
-            "command": "cd applications/gps-firefly-example/; make",
+            "command": "cd applications/examples/gps-firefly-example/; make",
             "problemMatcher": [
                 "$gcc"
             ],
@@ -176,7 +72,7 @@
             "label": "make clean all firmware gps-firefly-example",
             "type": "shell",
             // change the cd path to the current application path
-            "command": "cd applications/gps-firefly-example/; make clean all",
+            "command": "cd applications/examples/gps-firefly-example/; make clean all",
             "problemMatcher": [
                 "$gcc"
             ],
@@ -186,10 +82,10 @@
             }
         },
         {
-            "label": "make firmware octa-flash-example",
+            "label": "make firmware hello-world",
             "type": "shell",
             // change the cd path to the current application path
-            "command": "cd applications/octa-flash-example/; make",
+            "command": "cd applications/examples/hello-world/; make",
             "problemMatcher": [
                 "$gcc"
             ],
@@ -199,10 +95,88 @@
             }
         },
         {
-            "label": "make clean all firmware octa-flash-example",
+            "label": "make clean all firmware hello-world",
             "type": "shell",
             // change the cd path to the current application path
-            "command": "cd applications/octa-flash-example/; make clean all",
+            "command": "cd applications/examples/hello-world/; make clean all",
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "make firmware lightsensor-example",
+            "type": "shell",
+            // change the cd path to the current application path
+            "command": "cd applications/examples/lightsensor-example/; make",
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "make clean all firmware lightsensor-example",
+            "type": "shell",
+            // change the cd path to the current application path
+            "command": "cd applications/examples/lightsensor-example/; make clean all",
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "make firmware lora-gps-example",
+            "type": "shell",
+            // change the cd path to the current application path
+            "command": "cd applications/examples/lora-gps-example/; make",
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "make clean all firmware lora-gps-example",
+            "type": "shell",
+            // change the cd path to the current application path
+            "command": "cd applications/examples/lora-gps-example/; make clean all",
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "make firmware murata-dualstack-example",
+            "type": "shell",
+            // change the cd path to the current application path
+            "command": "cd applications/examples/murata-dualstack-example/; make",
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "make clean all firmware murata-dualstack-example",
+            "type": "shell",
+            // change the cd path to the current application path
+            "command": "cd applications/examples/murata-dualstack-example/; make clean all",
             "problemMatcher": [
                 "$gcc"
             ],
@@ -215,7 +189,7 @@
             "label": "make firmware murata-dualstack-example-ns",
             "type": "shell",
             // change the cd path to the current application path
-            "command": "cd applications/murata-dualstack-example-ns/; make",
+            "command": "cd applications/examples/murata-dualstack-example-ns/; make",
             "problemMatcher": [
                 "$gcc"
             ],
@@ -228,7 +202,7 @@
             "label": "make clean all firmware murata-dualstack-example-ns",
             "type": "shell",
             // change the cd path to the current application path
-            "command": "cd applications/murata-dualstack-example-ns/; make clean all",
+            "command": "cd applications/examples/murata-dualstack-example-ns/; make clean all",
             "problemMatcher": [
                 "$gcc"
             ],
@@ -238,10 +212,10 @@
             }
         },
         {
-            "label": "make firmware acc-interrupt-led",
+            "label": "make firmware no-scheduler-example",
             "type": "shell",
             // change the cd path to the current application path
-            "command": "cd applications/acc-interrupt-led/; make",
+            "command" : "cd applications/examples/no-scheduler-example/; make",
             "problemMatcher": [
                 "$gcc"
             ],
@@ -251,10 +225,10 @@
             }
         },
         {
-            "label": "make clean all firmware acc-interrupt-led",
+            "label": "make clean all firmware no-scheduler-example",
             "type": "shell",
             // change the cd path to the current application path
-            "command": "cd applications/acc-interrupt-led/; make clean all",
+            "command" : "cd applications/examples/no-scheduler-example/; make clean all",
             "problemMatcher": [
                 "$gcc"
             ],
@@ -263,5 +237,83 @@
                 "isDefault": true
             }
         },
+        {
+            "label": "make firmware octa-flash-example",
+            "type": "shell",
+            // change the cd path to the current application path
+            "command": "cd applications/examples/octa-flash-example/; make",
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "make clean all firmware octa-flash-example",
+            "type": "shell",
+            // change the cd path to the current application path
+            "command": "cd applications/examples/octa-flash-example/; make clean all",
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "make firmware scd30-example",
+            "type": "shell",
+            // change the cd path to the current application path
+            "command": "cd applications/examples/scd30-example/; make",
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "make clean all firmware scd30-example",
+            "type": "shell",
+            // change the cd path to the current application path
+            "command": "cd applications/examples/scd30-example/ make clean all",
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "make firmware temperature-humidity",
+            "type": "shell",
+            // change the cd path to the current application path
+            "command": "cd applications/examples/temperature-humidity/; make",
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "make clean all firmware temperature-humidity",
+            "type": "shell",
+            // change the cd path to the current application path
+            "command": "cd applications/examples/temperature-humidity/; make clean all",
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        }
     ]
 }
