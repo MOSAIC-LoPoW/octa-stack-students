@@ -1,4 +1,4 @@
-ARM GAS  /tmp/ccVymvZB.s 			page 1
+ARM GAS  /tmp/cc1WMp6m.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -49,85 +49,85 @@ ARM GAS  /tmp/ccVymvZB.s 			page 1
   33      6F722041 
   34 0073 00       		.align	2
   35              	.LC5:
-  36 0074 41434B20 		.ascii	"ACK received for message counter %d\015\012\000"
-  36      72656365 
-  36      69766564 
-  36      20666F72 
-  36      206D6573 
-  37 009a 0000     		.align	2
+  36 0074 41434B20 		.ascii	"ACK for SEQ_NR: %d\015\012\000"
+  36      666F7220 
+  36      5345515F 
+  36      4E523A20 
+  36      25640D0A 
+  37 0089 000000   		.align	2
   38              	.LC6:
-  39 009c 44617461 		.ascii	"Data too short for INTERVAL_MULTIPLIER type.\015\012"
+  39 008c 44617461 		.ascii	"Data too short for INTERVAL_MULTIPLIER type.\015\012"
   39      20746F6F 
-ARM GAS  /tmp/ccVymvZB.s 			page 2
+ARM GAS  /tmp/cc1WMp6m.s 			page 2
 
 
   39      2073686F 
   39      72742066 
   39      6F722049 
-  40 00ca 00       		.ascii	"\000"
-  41 00cb 00       		.align	2
+  40 00ba 00       		.ascii	"\000"
+  41 00bb 00       		.align	2
   42              	.LC7:
-  43 00cc 4E657720 		.ascii	"New interval: %d and multiplier: %d\015\012\000"
+  43 00bc 4E657720 		.ascii	"New interval: %d and multiplier: %d\015\012\000"
   43      696E7465 
   43      7276616C 
   43      3A202564 
   43      20616E64 
-  44 00f2 0000     		.align	2
+  44 00e2 0000     		.align	2
   45              	.LC8:
-  46 00f4 44617461 		.ascii	"Data too short for DNS type.\015\012\000"
+  46 00e4 44617461 		.ascii	"Data too short for DNS type.\015\012\000"
   46      20746F6F 
   46      2073686F 
   46      72742066 
   46      6F722044 
-  47 0113 00       		.align	2
+  47 0103 00       		.align	2
   48              	.LC9:
-  49 0114 4E4F4E20 		.ascii	"NON EXISTING DNS URL ID\015\012\000"
+  49 0104 4E4F4E20 		.ascii	"NON EXISTING DNS URL ID\015\012\000"
   49      45584953 
   49      54494E47 
   49      20444E53 
   49      2055524C 
-  50 012e 0000     		.align	2
+  50 011e 0000     		.align	2
   51              	.LC10:
-  52 0130 4E657720 		.ascii	"New DNS URL id: %d\015\012\000"
+  52 0120 4E657720 		.ascii	"New DNS URL id: %d\015\012\000"
   52      444E5320 
   52      55524C20 
   52      69643A20 
   52      25640D0A 
-  53 0145 000000   		.align	2
+  53 0135 000000   		.align	2
   54              	.LC11:
-  55 0148 44617461 		.ascii	"Data too short for FLASH type.\015\012\000"
+  55 0138 44617461 		.ascii	"Data too short for FLASH type.\015\012\000"
   55      20746F6F 
   55      2073686F 
   55      72742066 
   55      6F722046 
-  56 0169 000000   		.align	2
+  56 0159 000000   		.align	2
   57              	.LC12:
-  58 016c 43757272 		.ascii	"Current Flash Index %d\015\012\000"
+  58 015c 43757272 		.ascii	"Current Flash Index %d\015\012\000"
   58      656E7420 
   58      466C6173 
   58      6820496E 
   58      64657820 
-  59 0185 000000   		.align	2
+  59 0175 000000   		.align	2
   60              	.LC13:
-  61 0188 44617461 		.ascii	"Data too short for LAST_KNOWN_TIMESTAMP type.\015\012"
+  61 0178 44617461 		.ascii	"Data too short for LAST_KNOWN_TIMESTAMP type.\015\012"
   61      20746F6F 
   61      2073686F 
   61      72742066 
   61      6F72204C 
-  62 01b7 00       		.ascii	"\000"
+  62 01a7 00       		.ascii	"\000"
   63              		.align	2
   64              	.LC14:
-  65 01b8 43757272 		.ascii	"Current last known timestamp %d\015\012\000"
-ARM GAS  /tmp/ccVymvZB.s 			page 3
+  65 01a8 43757272 		.ascii	"Current last known timestamp %d\015\012\000"
+ARM GAS  /tmp/cc1WMp6m.s 			page 3
 
 
   65      656E7420 
   65      6C617374 
   65      206B6E6F 
   65      776E2074 
-  66 01da 0000     		.align	2
+  66 01ca 0000     		.align	2
   67              	.LC15:
-  68 01dc 554E4B4E 		.ascii	"UNKNOWN OCTA PAYLOAD TYPE RECEIVED\015\012\000"
+  68 01cc 554E4B4E 		.ascii	"UNKNOWN OCTA PAYLOAD TYPE RECEIVED\015\012\000"
   68      4F574E20 
   68      4F435441 
   68      20504159 
@@ -178,7 +178,7 @@ ARM GAS  /tmp/ccVymvZB.s 			page 1
  104              		.loc 1 9 3 view .LVU3
   10:../../../core/platform/common/src/payloadparser.c ****   //set temp config to use current config params
   11:../../../core/platform/common/src/payloadparser.c ****   temp_config = *current_octa_configuration;
-ARM GAS  /tmp/ccVymvZB.s 			page 4
+ARM GAS  /tmp/cc1WMp6m.s 			page 4
 
 
  105              		.loc 1 11 3 view .LVU4
@@ -238,7 +238,7 @@ ARM GAS  /tmp/ccVymvZB.s 			page 1
   17:../../../core/platform/common/src/payloadparser.c ****     printf("\r\n");
  150              		.loc 1 17 5 is_stmt 1 view .LVU18
  151 003a 5448     		ldr	r0, .L32+8
-ARM GAS  /tmp/ccVymvZB.s 			page 5
+ARM GAS  /tmp/cc1WMp6m.s 			page 5
 
 
  152 003c FFF7FEFF 		bl	puts
@@ -298,7 +298,7 @@ ARM GAS  /tmp/ccVymvZB.s 			page 1
  187              		.loc 1 35 36 view .LVU31
  188 0068 494B     		ldr	r3, .L32+12
  189 006a 1970     		strb	r1, [r3]
-ARM GAS  /tmp/ccVymvZB.s 			page 6
+ARM GAS  /tmp/cc1WMp6m.s 			page 6
 
 
   36:../../../core/platform/common/src/payloadparser.c ****         uint32LittleEndian.byte[1] = buffer[index+2];
@@ -325,7 +325,7 @@ ARM GAS  /tmp/ccVymvZB.s 			page 1
  207 0078 1968     		ldr	r1, [r3]
  208              		.loc 1 39 36 view .LVU43
  209 007a 0391     		str	r1, [sp, #12]
-  40:../../../core/platform/common/src/payloadparser.c ****         printINF("ACK received for message counter %d\r\n", temp_config.last_msg_acked);
+  40:../../../core/platform/common/src/payloadparser.c ****         printINF("ACK for SEQ_NR: %d\r\n", temp_config.last_msg_acked);
  210              		.loc 1 40 9 is_stmt 1 view .LVU44
  211 007c 4548     		ldr	r0, .L32+16
  212 007e FFF7FEFF 		bl	printINF
@@ -358,7 +358,7 @@ ARM GAS  /tmp/ccVymvZB.s 			page 1
  234 008e 0120     		movs	r0, #1
  235 0090 6EE0     		b	.L5
  236              	.LVL15:
-ARM GAS  /tmp/ccVymvZB.s 			page 7
+ARM GAS  /tmp/cc1WMp6m.s 			page 7
 
 
  237              	.L25:
@@ -418,7 +418,7 @@ ARM GAS  /tmp/ccVymvZB.s 			page 1
   86:../../../core/platform/common/src/payloadparser.c ****         temp_config.flash_index = uint32LittleEndian.integer;
   87:../../../core/platform/common/src/payloadparser.c ****         printINF("Current Flash Index %d\r\n", temp_config.flash_index);
   88:../../../core/platform/common/src/payloadparser.c ****         index += 5;
-ARM GAS  /tmp/ccVymvZB.s 			page 8
+ARM GAS  /tmp/cc1WMp6m.s 			page 8
 
 
   89:../../../core/platform/common/src/payloadparser.c ****         break;
@@ -478,7 +478,7 @@ ARM GAS  /tmp/ccVymvZB.s 			page 1
  285 00be 0534     		adds	r4, r4, #5
  286              	.LVL17:
  287              		.loc 1 103 15 view .LVU76
-ARM GAS  /tmp/ccVymvZB.s 			page 9
+ARM GAS  /tmp/cc1WMp6m.s 			page 9
 
 
  288 00c0 A4B2     		uxth	r4, r4
@@ -538,7 +538,7 @@ ARM GAS  /tmp/ccVymvZB.s 			page 1
  326              		.loc 1 53 15 is_stmt 0 view .LVU92
  327 00e8 0334     		adds	r4, r4, #3
  328              	.LVL21:
-ARM GAS  /tmp/ccVymvZB.s 			page 10
+ARM GAS  /tmp/cc1WMp6m.s 			page 10
 
 
   53:../../../core/platform/common/src/payloadparser.c ****         break;
@@ -598,7 +598,7 @@ ARM GAS  /tmp/ccVymvZB.s 			page 1
  367              		.loc 1 73 15 is_stmt 0 view .LVU108
  368 0110 0234     		adds	r4, r4, #2
  369              	.LVL25:
-ARM GAS  /tmp/ccVymvZB.s 			page 11
+ARM GAS  /tmp/cc1WMp6m.s 			page 11
 
 
   73:../../../core/platform/common/src/payloadparser.c ****         break;
@@ -658,7 +658,7 @@ ARM GAS  /tmp/ccVymvZB.s 			page 1
  409 0132 5178     		ldrb	r1, [r2, #1]	@ zero_extendqisi2
   82:../../../core/platform/common/src/payloadparser.c ****         uint32LittleEndian.byte[1] = buffer[index+2];
  410              		.loc 1 82 36 view .LVU124
-ARM GAS  /tmp/ccVymvZB.s 			page 12
+ARM GAS  /tmp/cc1WMp6m.s 			page 12
 
 
  411 0134 164B     		ldr	r3, .L32+12
@@ -718,7 +718,7 @@ ARM GAS  /tmp/ccVymvZB.s 			page 1
   78:../../../core/platform/common/src/payloadparser.c ****           return PARSER_PARSE_ERROR;
  448              		.loc 1 78 11 view .LVU142
  449 0154 1948     		ldr	r0, .L32+56
-ARM GAS  /tmp/ccVymvZB.s 			page 13
+ARM GAS  /tmp/cc1WMp6m.s 			page 13
 
 
  450 0156 FFF7FEFF 		bl	printERR
@@ -778,7 +778,7 @@ ARM GAS  /tmp/ccVymvZB.s 			page 1
  110:../../../core/platform/common/src/payloadparser.c ****   return PARSER_OK;
  491              		.loc 1 110 3 is_stmt 1 view .LVU153
  110:../../../core/platform/common/src/payloadparser.c ****   return PARSER_OK;
-ARM GAS  /tmp/ccVymvZB.s 			page 14
+ARM GAS  /tmp/cc1WMp6m.s 			page 14
 
 
  492              		.loc 1 110 31 is_stmt 0 view .LVU154
@@ -808,17 +808,17 @@ ARM GAS  /tmp/ccVymvZB.s 			page 1
  512 0190 00000000 		.word	uint32LittleEndian
  513 0194 74000000 		.word	.LC5
  514 0198 40000000 		.word	.LC3
- 515 019c B8010000 		.word	.LC14
+ 515 019c A8010000 		.word	.LC14
  516 01a0 54000000 		.word	.LC4
- 517 01a4 CC000000 		.word	.LC7
- 518 01a8 9C000000 		.word	.LC6
- 519 01ac 30010000 		.word	.LC10
- 520 01b0 F4000000 		.word	.LC8
- 521 01b4 14010000 		.word	.LC9
- 522 01b8 6C010000 		.word	.LC12
- 523 01bc 48010000 		.word	.LC11
- 524 01c0 88010000 		.word	.LC13
- 525 01c4 DC010000 		.word	.LC15
+ 517 01a4 BC000000 		.word	.LC7
+ 518 01a8 8C000000 		.word	.LC6
+ 519 01ac 20010000 		.word	.LC10
+ 520 01b0 E4000000 		.word	.LC8
+ 521 01b4 04010000 		.word	.LC9
+ 522 01b8 5C010000 		.word	.LC12
+ 523 01bc 38010000 		.word	.LC11
+ 524 01c0 78010000 		.word	.LC13
+ 525 01c4 CC010000 		.word	.LC15
  526              		.cfi_endproc
  527              	.LFE0:
  529              		.section	.rodata.parse_octa_protocol_downlink.str1.4,"aMS",%progbits,1
@@ -838,7 +838,7 @@ ARM GAS  /tmp/ccVymvZB.s 			page 1
  536      796C6F61 
  536      6420454E 
  537 004e 0000     		.align	2
-ARM GAS  /tmp/ccVymvZB.s 			page 15
+ARM GAS  /tmp/cc1WMp6m.s 			page 15
 
 
  538              	.LC18:
@@ -847,142 +847,159 @@ ARM GAS  /tmp/ccVymvZB.s 			page 1
  539      2073686F 
  539      72742066 
  539      6F722054 
- 540              		.section	.text.parse_octa_protocol_downlink,"ax",%progbits
- 541              		.align	1
- 542              		.global	parse_octa_protocol_downlink
- 543              		.syntax unified
- 544              		.thumb
- 545              		.thumb_func
- 546              		.fpu fpv4-sp-d16
- 548              	parse_octa_protocol_downlink:
- 549              	.LVL39:
- 550              	.LFB1:
+ 540 0075 000000   		.align	2
+ 541              	.LC19:
+ 542 0078 55544320 		.ascii	"UTC Timestamp received: %d\015\012\000"
+ 542      54696D65 
+ 542      7374616D 
+ 542      70207265 
+ 542      63656976 
+ 543 0095 000000   		.align	2
+ 544              	.LC20:
+ 545 0098 5B706179 		.ascii	"[payloadparser:parse_octa_protocol_downlink] parsin"
+ 545      6C6F6164 
+ 545      70617273 
+ 545      65723A70 
+ 545      61727365 
+ 546 00cb 67204F4B 		.ascii	"g OK\015\012\000"
+ 546      0D0A00
+ 547              		.section	.text.parse_octa_protocol_downlink,"ax",%progbits
+ 548              		.align	1
+ 549              		.global	parse_octa_protocol_downlink
+ 550              		.syntax unified
+ 551              		.thumb
+ 552              		.thumb_func
+ 553              		.fpu fpv4-sp-d16
+ 555              	parse_octa_protocol_downlink:
+ 556              	.LVL39:
+ 557              	.LFB1:
  113:../../../core/platform/common/src/payloadparser.c **** 
  114:../../../core/platform/common/src/payloadparser.c **** uint8_t parse_octa_protocol_downlink(struct octa_configuration* current_octa_configuration, uint8_t
  115:../../../core/platform/common/src/payloadparser.c **** {
- 551              		.loc 1 115 1 is_stmt 1 view -0
- 552              		.cfi_startproc
- 553              		@ args = 0, pretend = 0, frame = 24
- 554              		@ frame_needed = 0, uses_anonymous_args = 0
- 555              		.loc 1 115 1 is_stmt 0 view .LVU160
- 556 0000 2DE9F041 		push	{r4, r5, r6, r7, r8, lr}
- 557              	.LCFI4:
- 558              		.cfi_def_cfa_offset 24
- 559              		.cfi_offset 4, -24
- 560              		.cfi_offset 5, -20
- 561              		.cfi_offset 6, -16
- 562              		.cfi_offset 7, -12
- 563              		.cfi_offset 8, -8
- 564              		.cfi_offset 14, -4
- 565 0004 86B0     		sub	sp, sp, #24
- 566              	.LCFI5:
- 567              		.cfi_def_cfa_offset 48
- 568 0006 0746     		mov	r7, r0
- 569 0008 0E46     		mov	r6, r1
- 570 000a 1546     		mov	r5, r2
+ 558              		.loc 1 115 1 is_stmt 1 view -0
+ 559              		.cfi_startproc
+ 560              		@ args = 0, pretend = 0, frame = 24
+ 561              		@ frame_needed = 0, uses_anonymous_args = 0
+ 562              		.loc 1 115 1 is_stmt 0 view .LVU160
+ 563 0000 2DE9F043 		push	{r4, r5, r6, r7, r8, r9, lr}
+ 564              	.LCFI4:
+ 565              		.cfi_def_cfa_offset 28
+ 566              		.cfi_offset 4, -28
+ 567              		.cfi_offset 5, -24
+ 568              		.cfi_offset 6, -20
+ 569              		.cfi_offset 7, -16
+ 570              		.cfi_offset 8, -12
+ 571              		.cfi_offset 9, -8
+ 572              		.cfi_offset 14, -4
+ 573 0004 87B0     		sub	sp, sp, #28
+ 574              	.LCFI5:
+ 575              		.cfi_def_cfa_offset 56
+ 576 0006 8146     		mov	r9, r0
+ 577 0008 0E46     		mov	r6, r1
+ 578 000a 1546     		mov	r5, r2
  116:../../../core/platform/common/src/payloadparser.c ****   uint16_t index = 0;
- 571              		.loc 1 116 3 is_stmt 1 view .LVU161
- 572              	.LVL40:
+ARM GAS  /tmp/cc1WMp6m.s 			page 16
+
+
+ 579              		.loc 1 116 3 is_stmt 1 view .LVU161
+ 580              	.LVL40:
  117:../../../core/platform/common/src/payloadparser.c ****   struct octa_configuration temp_config;
- 573              		.loc 1 117 3 view .LVU162
+ 581              		.loc 1 117 3 view .LVU162
  118:../../../core/platform/common/src/payloadparser.c ****   //set temp config to use current config params
  119:../../../core/platform/common/src/payloadparser.c ****   temp_config = *current_octa_configuration;
- 574              		.loc 1 119 3 view .LVU163
- 575              		.loc 1 119 15 is_stmt 0 view .LVU164
- 576 000c 01AC     		add	r4, sp, #4
- 577 000e 8446     		mov	ip, r0
- 578 0010 BCE80F00 		ldmia	ip!, {r0, r1, r2, r3}
- 579              	.LVL41:
- 580              		.loc 1 119 15 view .LVU165
- 581 0014 0FC4     		stmia	r4!, {r0, r1, r2, r3}
- 582 0016 DCF80030 		ldr	r3, [ip]
- 583 001a 2360     		str	r3, [r4]
+ 582              		.loc 1 119 3 view .LVU163
+ 583              		.loc 1 119 15 is_stmt 0 view .LVU164
+ 584 000c 01AC     		add	r4, sp, #4
+ 585 000e 8446     		mov	ip, r0
+ 586 0010 BCE80F00 		ldmia	ip!, {r0, r1, r2, r3}
+ 587              	.LVL41:
+ 588              		.loc 1 119 15 view .LVU165
+ 589 0014 0FC4     		stmia	r4!, {r0, r1, r2, r3}
+ 590 0016 DCF80030 		ldr	r3, [ip]
+ 591 001a 2360     		str	r3, [r4]
  120:../../../core/platform/common/src/payloadparser.c ****   printDBG("parsing octa protocol downlink with size %d\r\n", len);
-ARM GAS  /tmp/ccVymvZB.s 			page 16
-
-
- 584              		.loc 1 120 3 is_stmt 1 view .LVU166
- 585 001c A846     		mov	r8, r5
- 586 001e 2946     		mov	r1, r5
- 587 0020 3348     		ldr	r0, .L56
- 588 0022 FFF7FEFF 		bl	printDBG
- 589              	.LVL42:
+ 592              		.loc 1 120 3 is_stmt 1 view .LVU166
+ 593 001c A846     		mov	r8, r5
+ 594 001e 2946     		mov	r1, r5
+ 595 0020 3848     		ldr	r0, .L56
+ 596 0022 FFF7FEFF 		bl	printDBG
+ 597              	.LVL42:
  121:../../../core/platform/common/src/payloadparser.c ****   #if DEBUG
  122:../../../core/platform/common/src/payloadparser.c ****     for (uint16_t i = 0; i < len; ++i) {
- 590              		.loc 1 122 5 view .LVU167
- 591              	.LBB13:
- 592              		.loc 1 122 10 view .LVU168
- 593              		.loc 1 122 19 is_stmt 0 view .LVU169
- 594 0026 0024     		movs	r4, #0
- 595              	.LVL43:
- 596              	.L35:
- 597              		.loc 1 122 26 is_stmt 1 discriminator 1 view .LVU170
- 598              		.loc 1 122 5 is_stmt 0 discriminator 1 view .LVU171
- 599 0028 AC42     		cmp	r4, r5
- 600 002a 06D2     		bcs	.L50
- 601              	.LBB14:
+ 598              		.loc 1 122 5 view .LVU167
+ 599              	.LBB13:
+ 600              		.loc 1 122 10 view .LVU168
+ 601              		.loc 1 122 19 is_stmt 0 view .LVU169
+ 602 0026 0024     		movs	r4, #0
+ 603              	.LVL43:
+ 604              	.L35:
+ 605              		.loc 1 122 26 is_stmt 1 discriminator 1 view .LVU170
+ 606              		.loc 1 122 5 is_stmt 0 discriminator 1 view .LVU171
+ 607 0028 AC42     		cmp	r4, r5
+ 608 002a 06D2     		bcs	.L50
+ 609              	.LBB14:
  123:../../../core/platform/common/src/payloadparser.c ****       printf("%02x", buffer[i]);
- 602              		.loc 1 123 7 is_stmt 1 discriminator 3 view .LVU172
- 603 002c 315D     		ldrb	r1, [r6, r4]	@ zero_extendqisi2
- 604 002e 3148     		ldr	r0, .L56+4
- 605 0030 FFF7FEFF 		bl	printf
- 606              	.LVL44:
- 607              	.LBE14:
+ 610              		.loc 1 123 7 is_stmt 1 discriminator 3 view .LVU172
+ 611 002c 315D     		ldrb	r1, [r6, r4]	@ zero_extendqisi2
+ 612 002e 3648     		ldr	r0, .L56+4
+ 613 0030 FFF7FEFF 		bl	printf
+ 614              	.LVL44:
+ 615              	.LBE14:
  122:../../../core/platform/common/src/payloadparser.c ****       printf("%02x", buffer[i]);
- 608              		.loc 1 122 35 discriminator 3 view .LVU173
- 609 0034 0134     		adds	r4, r4, #1
- 610              	.LVL45:
+ 616              		.loc 1 122 35 discriminator 3 view .LVU173
+ 617 0034 0134     		adds	r4, r4, #1
+ 618              	.LVL45:
  122:../../../core/platform/common/src/payloadparser.c ****       printf("%02x", buffer[i]);
- 611              		.loc 1 122 35 is_stmt 0 discriminator 3 view .LVU174
- 612 0036 A4B2     		uxth	r4, r4
- 613              	.LVL46:
+ 619              		.loc 1 122 35 is_stmt 0 discriminator 3 view .LVU174
+ 620 0036 A4B2     		uxth	r4, r4
+ 621              	.LVL46:
  122:../../../core/platform/common/src/payloadparser.c ****       printf("%02x", buffer[i]);
- 614              		.loc 1 122 35 discriminator 3 view .LVU175
- 615 0038 F6E7     		b	.L35
- 616              	.L50:
+ 622              		.loc 1 122 35 discriminator 3 view .LVU175
+ 623 0038 F6E7     		b	.L35
+ 624              	.L50:
  122:../../../core/platform/common/src/payloadparser.c ****       printf("%02x", buffer[i]);
- 617              		.loc 1 122 35 discriminator 3 view .LVU176
- 618              	.LBE13:
+ARM GAS  /tmp/cc1WMp6m.s 			page 17
+
+
+ 625              		.loc 1 122 35 discriminator 3 view .LVU176
+ 626              	.LBE13:
  124:../../../core/platform/common/src/payloadparser.c ****     }
  125:../../../core/platform/common/src/payloadparser.c ****     printf("\r\n");
- 619              		.loc 1 125 5 is_stmt 1 view .LVU177
- 620 003a 2F48     		ldr	r0, .L56+8
- 621 003c FFF7FEFF 		bl	puts
- 622              	.LVL47:
+ 627              		.loc 1 125 5 is_stmt 1 view .LVU177
+ 628 003a 3448     		ldr	r0, .L56+8
+ 629 003c FFF7FEFF 		bl	puts
+ 630              	.LVL47:
  126:../../../core/platform/common/src/payloadparser.c ****   #endif
  127:../../../core/platform/common/src/payloadparser.c ****   if(len<1)
- 623              		.loc 1 127 3 view .LVU178
- 624              		.loc 1 127 5 is_stmt 0 view .LVU179
- 625 0040 85B1     		cbz	r5, .L51
+ 631              		.loc 1 127 3 view .LVU178
+ 632              		.loc 1 127 5 is_stmt 0 view .LVU179
+ 633 0040 85B1     		cbz	r5, .L51
  116:../../../core/platform/common/src/payloadparser.c ****   struct octa_configuration temp_config;
- 626              		.loc 1 116 12 view .LVU180
- 627 0042 0024     		movs	r4, #0
- 628              	.LVL48:
-ARM GAS  /tmp/ccVymvZB.s 			page 17
-
-
- 629              	.L37:
+ 634              		.loc 1 116 12 view .LVU180
+ 635 0042 0024     		movs	r4, #0
+ 636              	.LVL48:
+ 637              	.L37:
  128:../../../core/platform/common/src/payloadparser.c ****   {
  129:../../../core/platform/common/src/payloadparser.c ****     printERR("Buffer too short\r\n");
  130:../../../core/platform/common/src/payloadparser.c ****     return PARSER_TOO_SHORT;
  131:../../../core/platform/common/src/payloadparser.c ****   }
  132:../../../core/platform/common/src/payloadparser.c ****   while (index<len)
- 630              		.loc 1 132 9 is_stmt 1 view .LVU181
- 631 0044 AC42     		cmp	r4, r5
- 632 0046 4CD2     		bcs	.L52
+ 638              		.loc 1 132 9 is_stmt 1 view .LVU181
+ 639 0044 AC42     		cmp	r4, r5
+ 640 0046 52D2     		bcs	.L52
  133:../../../core/platform/common/src/payloadparser.c ****   {
  134:../../../core/platform/common/src/payloadparser.c ****     switch(buffer[index])
- 633              		.loc 1 134 5 view .LVU182
- 634              		.loc 1 134 18 is_stmt 0 view .LVU183
- 635 0048 2246     		mov	r2, r4
- 636 004a 335D     		ldrb	r3, [r6, r4]	@ zero_extendqisi2
- 637              		.loc 1 134 5 view .LVU184
- 638 004c 072B     		cmp	r3, #7
- 639 004e 0ED0     		beq	.L39
- 640 0050 FF2B     		cmp	r3, #255
- 641 0052 26D0     		beq	.L40
- 642 0054 5BB3     		cbz	r3, .L53
- 643              	.LBB15:
+ 641              		.loc 1 134 5 view .LVU182
+ 642              		.loc 1 134 18 is_stmt 0 view .LVU183
+ 643 0048 2246     		mov	r2, r4
+ 644 004a 335D     		ldrb	r3, [r6, r4]	@ zero_extendqisi2
+ 645              		.loc 1 134 5 view .LVU184
+ 646 004c 072B     		cmp	r3, #7
+ 647 004e 0ED0     		beq	.L39
+ 648 0050 FF2B     		cmp	r3, #255
+ 649 0052 26D0     		beq	.L40
+ 650 0054 5BB3     		cbz	r3, .L53
+ 651              	.LBB15:
  135:../../../core/platform/common/src/payloadparser.c ****     {
  136:../../../core/platform/common/src/payloadparser.c ****       case TYPE_HEADER_ACK:
  137:../../../core/platform/common/src/payloadparser.c ****         if(len < index+5)
@@ -996,11 +1013,14 @@ ARM GAS  /tmp/ccVymvZB.s 			page 1
  145:../../../core/platform/common/src/payloadparser.c ****         uint32LittleEndian.byte[2] = buffer[index+3];
  146:../../../core/platform/common/src/payloadparser.c ****         uint32LittleEndian.byte[3] = buffer[index+4];
  147:../../../core/platform/common/src/payloadparser.c ****         temp_config.last_msg_acked = uint32LittleEndian.integer;
- 148:../../../core/platform/common/src/payloadparser.c ****         printINF("ACK received for message counter %d\r\n", temp_config.last_msg_acked);
+ 148:../../../core/platform/common/src/payloadparser.c ****         printINF("ACK for SEQ_NR: %d\r\n", temp_config.last_msg_acked);
  149:../../../core/platform/common/src/payloadparser.c ****         index += 5;
  150:../../../core/platform/common/src/payloadparser.c ****         break;
  151:../../../core/platform/common/src/payloadparser.c ****       case TYPE_HEADER_END:
  152:../../../core/platform/common/src/payloadparser.c ****         printINF("Header of Payload END found\r\n");
+ARM GAS  /tmp/cc1WMp6m.s 			page 18
+
+
  153:../../../core/platform/common/src/payloadparser.c ****         index ++;
  154:../../../core/platform/common/src/payloadparser.c ****         break;
  155:../../../core/platform/common/src/payloadparser.c ****       case TYPE_PAYLOAD_TIMESTAMP:
@@ -1015,385 +1035,402 @@ ARM GAS  /tmp/ccVymvZB.s 			page 1
  164:../../../core/platform/common/src/payloadparser.c ****         uint32LittleEndian.byte[2] = buffer[index+3];
  165:../../../core/platform/common/src/payloadparser.c ****         uint32LittleEndian.byte[3] = buffer[index+4];
  166:../../../core/platform/common/src/payloadparser.c ****         temp_config.last_known_timestamp = uint32LittleEndian.integer;
- 167:../../../core/platform/common/src/payloadparser.c ****         printINF("Current last known timestamp %d\r\n", temp_config.last_known_timestamp);
- 168:../../../core/platform/common/src/payloadparser.c ****         index += 5;
- 169:../../../core/platform/common/src/payloadparser.c ****         break;
-ARM GAS  /tmp/ccVymvZB.s 			page 18
-
-
- 170:../../../core/platform/common/src/payloadparser.c ****       default:
- 171:../../../core/platform/common/src/payloadparser.c ****         printERR("UNKNOWN OCTA PAYLOAD TYPE RECEIVED\r\n");
- 644              		.loc 1 171 9 is_stmt 1 view .LVU185
- 645 0056 2948     		ldr	r0, .L56+12
- 646 0058 FFF7FEFF 		bl	printERR
- 647              	.LVL49:
- 172:../../../core/platform/common/src/payloadparser.c ****         return PARSER_UNKNOWN_TYPE;
- 648              		.loc 1 172 9 view .LVU186
- 649              		.loc 1 172 16 is_stmt 0 view .LVU187
- 650 005c 0320     		movs	r0, #3
- 651              	.LVL50:
- 652              	.L38:
- 653              		.loc 1 172 16 view .LVU188
- 654              	.LBE15:
- 173:../../../core/platform/common/src/payloadparser.c ****     }    
- 174:../../../core/platform/common/src/payloadparser.c ****   }
- 175:../../../core/platform/common/src/payloadparser.c ****   *current_octa_configuration = temp_config;
- 176:../../../core/platform/common/src/payloadparser.c ****   return PARSER_OK;
- 177:../../../core/platform/common/src/payloadparser.c **** }
- 655              		.loc 1 177 1 view .LVU189
- 656 005e 06B0     		add	sp, sp, #24
- 657              	.LCFI6:
- 658              		.cfi_remember_state
- 659              		.cfi_def_cfa_offset 24
- 660              		@ sp needed
- 661 0060 BDE8F081 		pop	{r4, r5, r6, r7, r8, pc}
- 662              	.LVL51:
- 663              	.L51:
- 664              	.LCFI7:
- 665              		.cfi_restore_state
- 666              	.LBB18:
+ 167:../../../core/platform/common/src/payloadparser.c ****         RTC_Set_Time_From_Unix(temp_config.last_known_timestamp);
+ 168:../../../core/platform/common/src/payloadparser.c ****         printINF("UTC Timestamp received: %d\r\n", temp_config.last_known_timestamp);
+ 169:../../../core/platform/common/src/payloadparser.c ****         RTC_Print_DateTime();
+ 170:../../../core/platform/common/src/payloadparser.c ****         index += 5;
+ 171:../../../core/platform/common/src/payloadparser.c ****         break;
+ 172:../../../core/platform/common/src/payloadparser.c ****       default:
+ 173:../../../core/platform/common/src/payloadparser.c ****         printERR("UNKNOWN OCTA PAYLOAD TYPE RECEIVED\r\n");
+ 652              		.loc 1 173 9 is_stmt 1 view .LVU185
+ 653 0056 2E48     		ldr	r0, .L56+12
+ 654 0058 FFF7FEFF 		bl	printERR
+ 655              	.LVL49:
+ 174:../../../core/platform/common/src/payloadparser.c ****         return PARSER_UNKNOWN_TYPE;
+ 656              		.loc 1 174 9 view .LVU186
+ 657              		.loc 1 174 16 is_stmt 0 view .LVU187
+ 658 005c 0320     		movs	r0, #3
+ 659              	.LVL50:
+ 660              	.L38:
+ 661              		.loc 1 174 16 view .LVU188
+ 662              	.LBE15:
+ 175:../../../core/platform/common/src/payloadparser.c ****     }    
+ 176:../../../core/platform/common/src/payloadparser.c ****   }
+ 177:../../../core/platform/common/src/payloadparser.c ****   *current_octa_configuration = temp_config;
+ 178:../../../core/platform/common/src/payloadparser.c ****   printINF("[payloadparser:parse_octa_protocol_downlink] parsing OK\r\n");
+ 179:../../../core/platform/common/src/payloadparser.c ****   return PARSER_OK;
+ 180:../../../core/platform/common/src/payloadparser.c **** }
+ 663              		.loc 1 180 1 view .LVU189
+ 664 005e 07B0     		add	sp, sp, #28
+ 665              	.LCFI6:
+ 666              		.cfi_remember_state
+ 667              		.cfi_def_cfa_offset 28
+ 668              		@ sp needed
+ 669 0060 BDE8F083 		pop	{r4, r5, r6, r7, r8, r9, pc}
+ 670              	.LVL51:
+ 671              	.L51:
+ 672              	.LCFI7:
+ 673              		.cfi_restore_state
+ 674              	.LBB18:
  129:../../../core/platform/common/src/payloadparser.c ****     return PARSER_TOO_SHORT;
- 667              		.loc 1 129 5 is_stmt 1 view .LVU190
- 668 0064 2648     		ldr	r0, .L56+16
- 669 0066 FFF7FEFF 		bl	printERR
- 670              	.LVL52:
+ 675              		.loc 1 129 5 is_stmt 1 view .LVU190
+ 676 0064 2B48     		ldr	r0, .L56+16
+ 677 0066 FFF7FEFF 		bl	printERR
+ 678              	.LVL52:
  130:../../../core/platform/common/src/payloadparser.c ****   }
- 671              		.loc 1 130 5 view .LVU191
- 130:../../../core/platform/common/src/payloadparser.c ****   }
- 672              		.loc 1 130 12 is_stmt 0 view .LVU192
- 673 006a 0120     		movs	r0, #1
- 674 006c F7E7     		b	.L38
- 675              	.LVL53:
- 676              	.L39:
- 130:../../../core/platform/common/src/payloadparser.c ****   }
- 677              		.loc 1 130 12 view .LVU193
- 678              	.LBE18:
- 679              	.LBB19:
- 137:../../../core/platform/common/src/payloadparser.c ****         {
- 680              		.loc 1 137 9 is_stmt 1 view .LVU194
- 137:../../../core/platform/common/src/payloadparser.c ****         {
- 681              		.loc 1 137 16 is_stmt 0 view .LVU195
- 682 006e 231D     		adds	r3, r4, #4
- 137:../../../core/platform/common/src/payloadparser.c ****         {
- 683              		.loc 1 137 11 view .LVU196
- 684 0070 9845     		cmp	r8, r3
- 685 0072 11DD     		ble	.L54
-ARM GAS  /tmp/ccVymvZB.s 			page 19
+ARM GAS  /tmp/cc1WMp6m.s 			page 19
 
 
+ 679              		.loc 1 130 5 view .LVU191
+ 130:../../../core/platform/common/src/payloadparser.c ****   }
+ 680              		.loc 1 130 12 is_stmt 0 view .LVU192
+ 681 006a 0120     		movs	r0, #1
+ 682 006c F7E7     		b	.L38
+ 683              	.LVL53:
+ 684              	.L39:
+ 130:../../../core/platform/common/src/payloadparser.c ****   }
+ 685              		.loc 1 130 12 view .LVU193
+ 686              	.LBE18:
+ 687              	.LBB19:
+ 137:../../../core/platform/common/src/payloadparser.c ****         {
+ 688              		.loc 1 137 9 is_stmt 1 view .LVU194
+ 137:../../../core/platform/common/src/payloadparser.c ****         {
+ 689              		.loc 1 137 16 is_stmt 0 view .LVU195
+ 690 006e 231D     		adds	r3, r4, #4
+ 137:../../../core/platform/common/src/payloadparser.c ****         {
+ 691              		.loc 1 137 11 view .LVU196
+ 692 0070 9845     		cmp	r8, r3
+ 693 0072 11DD     		ble	.L54
  143:../../../core/platform/common/src/payloadparser.c ****         uint32LittleEndian.byte[1] = buffer[index+2];
- 686              		.loc 1 143 9 is_stmt 1 view .LVU197
+ 694              		.loc 1 143 9 is_stmt 1 view .LVU197
  143:../../../core/platform/common/src/payloadparser.c ****         uint32LittleEndian.byte[1] = buffer[index+2];
- 687              		.loc 1 143 44 is_stmt 0 view .LVU198
- 688 0074 3244     		add	r2, r2, r6
- 689 0076 5178     		ldrb	r1, [r2, #1]	@ zero_extendqisi2
+ 695              		.loc 1 143 44 is_stmt 0 view .LVU198
+ 696 0074 3244     		add	r2, r2, r6
+ 697 0076 5178     		ldrb	r1, [r2, #1]	@ zero_extendqisi2
  143:../../../core/platform/common/src/payloadparser.c ****         uint32LittleEndian.byte[1] = buffer[index+2];
- 690              		.loc 1 143 36 view .LVU199
- 691 0078 224B     		ldr	r3, .L56+20
- 692 007a 1970     		strb	r1, [r3]
+ 698              		.loc 1 143 36 view .LVU199
+ 699 0078 274B     		ldr	r3, .L56+20
+ 700 007a 1970     		strb	r1, [r3]
  144:../../../core/platform/common/src/payloadparser.c ****         uint32LittleEndian.byte[2] = buffer[index+3];
- 693              		.loc 1 144 9 is_stmt 1 view .LVU200
+ 701              		.loc 1 144 9 is_stmt 1 view .LVU200
  144:../../../core/platform/common/src/payloadparser.c ****         uint32LittleEndian.byte[2] = buffer[index+3];
- 694              		.loc 1 144 44 is_stmt 0 view .LVU201
- 695 007c 9178     		ldrb	r1, [r2, #2]	@ zero_extendqisi2
+ 702              		.loc 1 144 44 is_stmt 0 view .LVU201
+ 703 007c 9178     		ldrb	r1, [r2, #2]	@ zero_extendqisi2
  144:../../../core/platform/common/src/payloadparser.c ****         uint32LittleEndian.byte[2] = buffer[index+3];
- 696              		.loc 1 144 36 view .LVU202
- 697 007e 5970     		strb	r1, [r3, #1]
+ 704              		.loc 1 144 36 view .LVU202
+ 705 007e 5970     		strb	r1, [r3, #1]
  145:../../../core/platform/common/src/payloadparser.c ****         uint32LittleEndian.byte[3] = buffer[index+4];
- 698              		.loc 1 145 9 is_stmt 1 view .LVU203
+ 706              		.loc 1 145 9 is_stmt 1 view .LVU203
  145:../../../core/platform/common/src/payloadparser.c ****         uint32LittleEndian.byte[3] = buffer[index+4];
- 699              		.loc 1 145 44 is_stmt 0 view .LVU204
- 700 0080 D178     		ldrb	r1, [r2, #3]	@ zero_extendqisi2
+ 707              		.loc 1 145 44 is_stmt 0 view .LVU204
+ 708 0080 D178     		ldrb	r1, [r2, #3]	@ zero_extendqisi2
  145:../../../core/platform/common/src/payloadparser.c ****         uint32LittleEndian.byte[3] = buffer[index+4];
- 701              		.loc 1 145 36 view .LVU205
- 702 0082 9970     		strb	r1, [r3, #2]
+ 709              		.loc 1 145 36 view .LVU205
+ 710 0082 9970     		strb	r1, [r3, #2]
  146:../../../core/platform/common/src/payloadparser.c ****         temp_config.last_msg_acked = uint32LittleEndian.integer;
- 703              		.loc 1 146 9 is_stmt 1 view .LVU206
+ 711              		.loc 1 146 9 is_stmt 1 view .LVU206
  146:../../../core/platform/common/src/payloadparser.c ****         temp_config.last_msg_acked = uint32LittleEndian.integer;
- 704              		.loc 1 146 44 is_stmt 0 view .LVU207
- 705 0084 1279     		ldrb	r2, [r2, #4]	@ zero_extendqisi2
+ 712              		.loc 1 146 44 is_stmt 0 view .LVU207
+ 713 0084 1279     		ldrb	r2, [r2, #4]	@ zero_extendqisi2
  146:../../../core/platform/common/src/payloadparser.c ****         temp_config.last_msg_acked = uint32LittleEndian.integer;
- 706              		.loc 1 146 36 view .LVU208
- 707 0086 DA70     		strb	r2, [r3, #3]
- 147:../../../core/platform/common/src/payloadparser.c ****         printINF("ACK received for message counter %d\r\n", temp_config.last_msg_acked);
- 708              		.loc 1 147 9 is_stmt 1 view .LVU209
- 147:../../../core/platform/common/src/payloadparser.c ****         printINF("ACK received for message counter %d\r\n", temp_config.last_msg_acked);
- 709              		.loc 1 147 56 is_stmt 0 view .LVU210
- 710 0088 1968     		ldr	r1, [r3]
- 147:../../../core/platform/common/src/payloadparser.c ****         printINF("ACK received for message counter %d\r\n", temp_config.last_msg_acked);
- 711              		.loc 1 147 36 view .LVU211
- 712 008a 0391     		str	r1, [sp, #12]
+ 714              		.loc 1 146 36 view .LVU208
+ 715 0086 DA70     		strb	r2, [r3, #3]
+ 147:../../../core/platform/common/src/payloadparser.c ****         printINF("ACK for SEQ_NR: %d\r\n", temp_config.last_msg_acked);
+ 716              		.loc 1 147 9 is_stmt 1 view .LVU209
+ 147:../../../core/platform/common/src/payloadparser.c ****         printINF("ACK for SEQ_NR: %d\r\n", temp_config.last_msg_acked);
+ARM GAS  /tmp/cc1WMp6m.s 			page 20
+
+
+ 717              		.loc 1 147 56 is_stmt 0 view .LVU210
+ 718 0088 1968     		ldr	r1, [r3]
+ 147:../../../core/platform/common/src/payloadparser.c ****         printINF("ACK for SEQ_NR: %d\r\n", temp_config.last_msg_acked);
+ 719              		.loc 1 147 36 view .LVU211
+ 720 008a 0391     		str	r1, [sp, #12]
  148:../../../core/platform/common/src/payloadparser.c ****         index += 5;
- 713              		.loc 1 148 9 is_stmt 1 view .LVU212
- 714 008c 1E48     		ldr	r0, .L56+24
- 715 008e FFF7FEFF 		bl	printINF
- 716              	.LVL54:
+ 721              		.loc 1 148 9 is_stmt 1 view .LVU212
+ 722 008c 2348     		ldr	r0, .L56+24
+ 723 008e FFF7FEFF 		bl	printINF
+ 724              	.LVL54:
  149:../../../core/platform/common/src/payloadparser.c ****         break;
- 717              		.loc 1 149 9 view .LVU213
+ 725              		.loc 1 149 9 view .LVU213
  149:../../../core/platform/common/src/payloadparser.c ****         break;
- 718              		.loc 1 149 15 is_stmt 0 view .LVU214
- 719 0092 0534     		adds	r4, r4, #5
- 720              	.LVL55:
+ 726              		.loc 1 149 15 is_stmt 0 view .LVU214
+ 727 0092 0534     		adds	r4, r4, #5
+ 728              	.LVL55:
  149:../../../core/platform/common/src/payloadparser.c ****         break;
- 721              		.loc 1 149 15 view .LVU215
- 722 0094 A4B2     		uxth	r4, r4
- 723              	.LVL56:
-ARM GAS  /tmp/ccVymvZB.s 			page 20
-
-
+ 729              		.loc 1 149 15 view .LVU215
+ 730 0094 A4B2     		uxth	r4, r4
+ 731              	.LVL56:
  150:../../../core/platform/common/src/payloadparser.c ****       case TYPE_HEADER_END:
- 724              		.loc 1 150 9 is_stmt 1 view .LVU216
- 725 0096 D5E7     		b	.L37
- 726              	.L54:
- 727              	.LBB16:
+ 732              		.loc 1 150 9 is_stmt 1 view .LVU216
+ 733 0096 D5E7     		b	.L37
+ 734              	.L54:
+ 735              	.LBB16:
  139:../../../core/platform/common/src/payloadparser.c ****           return PARSER_PARSE_ERROR;
- 728              		.loc 1 139 11 view .LVU217
- 729 0098 1C48     		ldr	r0, .L56+28
- 730 009a FFF7FEFF 		bl	printERR
- 731              	.LVL57:
+ 736              		.loc 1 139 11 view .LVU217
+ 737 0098 2148     		ldr	r0, .L56+28
+ 738 009a FFF7FEFF 		bl	printERR
+ 739              	.LVL57:
  140:../../../core/platform/common/src/payloadparser.c ****         }
- 732              		.loc 1 140 11 view .LVU218
+ 740              		.loc 1 140 11 view .LVU218
  140:../../../core/platform/common/src/payloadparser.c ****         }
- 733              		.loc 1 140 18 is_stmt 0 view .LVU219
- 734 009e 0220     		movs	r0, #2
- 735 00a0 DDE7     		b	.L38
- 736              	.L40:
- 737              	.LBE16:
+ 741              		.loc 1 140 18 is_stmt 0 view .LVU219
+ 742 009e 0220     		movs	r0, #2
+ 743 00a0 DDE7     		b	.L38
+ 744              	.L40:
+ 745              	.LBE16:
  152:../../../core/platform/common/src/payloadparser.c ****         index ++;
- 738              		.loc 1 152 9 is_stmt 1 view .LVU220
- 739 00a2 1B48     		ldr	r0, .L56+32
- 740 00a4 FFF7FEFF 		bl	printINF
- 741              	.LVL58:
+ 746              		.loc 1 152 9 is_stmt 1 view .LVU220
+ 747 00a2 2048     		ldr	r0, .L56+32
+ 748 00a4 FFF7FEFF 		bl	printINF
+ 749              	.LVL58:
  153:../../../core/platform/common/src/payloadparser.c ****         break;
- 742              		.loc 1 153 9 view .LVU221
+ 750              		.loc 1 153 9 view .LVU221
  153:../../../core/platform/common/src/payloadparser.c ****         break;
- 743              		.loc 1 153 15 is_stmt 0 view .LVU222
- 744 00a8 0134     		adds	r4, r4, #1
- 745              	.LVL59:
+ 751              		.loc 1 153 15 is_stmt 0 view .LVU222
+ 752 00a8 0134     		adds	r4, r4, #1
+ 753              	.LVL59:
  153:../../../core/platform/common/src/payloadparser.c ****         break;
- 746              		.loc 1 153 15 view .LVU223
- 747 00aa A4B2     		uxth	r4, r4
- 748              	.LVL60:
+ 754              		.loc 1 153 15 view .LVU223
+ 755 00aa A4B2     		uxth	r4, r4
+ 756              	.LVL60:
  154:../../../core/platform/common/src/payloadparser.c ****       case TYPE_PAYLOAD_TIMESTAMP:
- 749              		.loc 1 154 9 is_stmt 1 view .LVU224
- 750 00ac CAE7     		b	.L37
- 751              	.L53:
- 156:../../../core/platform/common/src/payloadparser.c ****         {
- 752              		.loc 1 156 9 view .LVU225
- 156:../../../core/platform/common/src/payloadparser.c ****         {
- 753              		.loc 1 156 16 is_stmt 0 view .LVU226
- 754 00ae 231D     		adds	r3, r4, #4
- 156:../../../core/platform/common/src/payloadparser.c ****         {
- 755              		.loc 1 156 11 view .LVU227
- 756 00b0 9845     		cmp	r8, r3
- 757 00b2 11DD     		ble	.L55
- 162:../../../core/platform/common/src/payloadparser.c ****         uint32LittleEndian.byte[1] = buffer[index+2];
- 758              		.loc 1 162 9 is_stmt 1 view .LVU228
- 162:../../../core/platform/common/src/payloadparser.c ****         uint32LittleEndian.byte[1] = buffer[index+2];
- 759              		.loc 1 162 44 is_stmt 0 view .LVU229
- 760 00b4 3244     		add	r2, r2, r6
- 761 00b6 5178     		ldrb	r1, [r2, #1]	@ zero_extendqisi2
- 162:../../../core/platform/common/src/payloadparser.c ****         uint32LittleEndian.byte[1] = buffer[index+2];
- 762              		.loc 1 162 36 view .LVU230
- 763 00b8 124B     		ldr	r3, .L56+20
- 764 00ba 1970     		strb	r1, [r3]
- 163:../../../core/platform/common/src/payloadparser.c ****         uint32LittleEndian.byte[2] = buffer[index+3];
-ARM GAS  /tmp/ccVymvZB.s 			page 21
+ 757              		.loc 1 154 9 is_stmt 1 view .LVU224
+ 758 00ac CAE7     		b	.L37
+ 759              	.L53:
+ARM GAS  /tmp/cc1WMp6m.s 			page 21
 
 
- 765              		.loc 1 163 9 is_stmt 1 view .LVU231
+ 156:../../../core/platform/common/src/payloadparser.c ****         {
+ 760              		.loc 1 156 9 view .LVU225
+ 156:../../../core/platform/common/src/payloadparser.c ****         {
+ 761              		.loc 1 156 16 is_stmt 0 view .LVU226
+ 762 00ae 231D     		adds	r3, r4, #4
+ 156:../../../core/platform/common/src/payloadparser.c ****         {
+ 763              		.loc 1 156 11 view .LVU227
+ 764 00b0 9845     		cmp	r8, r3
+ 765 00b2 17DD     		ble	.L55
+ 162:../../../core/platform/common/src/payloadparser.c ****         uint32LittleEndian.byte[1] = buffer[index+2];
+ 766              		.loc 1 162 9 is_stmt 1 view .LVU228
+ 162:../../../core/platform/common/src/payloadparser.c ****         uint32LittleEndian.byte[1] = buffer[index+2];
+ 767              		.loc 1 162 44 is_stmt 0 view .LVU229
+ 768 00b4 3244     		add	r2, r2, r6
+ 769 00b6 5178     		ldrb	r1, [r2, #1]	@ zero_extendqisi2
+ 162:../../../core/platform/common/src/payloadparser.c ****         uint32LittleEndian.byte[1] = buffer[index+2];
+ 770              		.loc 1 162 36 view .LVU230
+ 771 00b8 174B     		ldr	r3, .L56+20
+ 772 00ba 1970     		strb	r1, [r3]
  163:../../../core/platform/common/src/payloadparser.c ****         uint32LittleEndian.byte[2] = buffer[index+3];
- 766              		.loc 1 163 44 is_stmt 0 view .LVU232
- 767 00bc 9178     		ldrb	r1, [r2, #2]	@ zero_extendqisi2
+ 773              		.loc 1 163 9 is_stmt 1 view .LVU231
  163:../../../core/platform/common/src/payloadparser.c ****         uint32LittleEndian.byte[2] = buffer[index+3];
- 768              		.loc 1 163 36 view .LVU233
- 769 00be 5970     		strb	r1, [r3, #1]
+ 774              		.loc 1 163 44 is_stmt 0 view .LVU232
+ 775 00bc 9178     		ldrb	r1, [r2, #2]	@ zero_extendqisi2
+ 163:../../../core/platform/common/src/payloadparser.c ****         uint32LittleEndian.byte[2] = buffer[index+3];
+ 776              		.loc 1 163 36 view .LVU233
+ 777 00be 5970     		strb	r1, [r3, #1]
  164:../../../core/platform/common/src/payloadparser.c ****         uint32LittleEndian.byte[3] = buffer[index+4];
- 770              		.loc 1 164 9 is_stmt 1 view .LVU234
+ 778              		.loc 1 164 9 is_stmt 1 view .LVU234
  164:../../../core/platform/common/src/payloadparser.c ****         uint32LittleEndian.byte[3] = buffer[index+4];
- 771              		.loc 1 164 44 is_stmt 0 view .LVU235
- 772 00c0 D178     		ldrb	r1, [r2, #3]	@ zero_extendqisi2
+ 779              		.loc 1 164 44 is_stmt 0 view .LVU235
+ 780 00c0 D178     		ldrb	r1, [r2, #3]	@ zero_extendqisi2
  164:../../../core/platform/common/src/payloadparser.c ****         uint32LittleEndian.byte[3] = buffer[index+4];
- 773              		.loc 1 164 36 view .LVU236
- 774 00c2 9970     		strb	r1, [r3, #2]
+ 781              		.loc 1 164 36 view .LVU236
+ 782 00c2 9970     		strb	r1, [r3, #2]
  165:../../../core/platform/common/src/payloadparser.c ****         temp_config.last_known_timestamp = uint32LittleEndian.integer;
- 775              		.loc 1 165 9 is_stmt 1 view .LVU237
+ 783              		.loc 1 165 9 is_stmt 1 view .LVU237
  165:../../../core/platform/common/src/payloadparser.c ****         temp_config.last_known_timestamp = uint32LittleEndian.integer;
- 776              		.loc 1 165 44 is_stmt 0 view .LVU238
- 777 00c4 1279     		ldrb	r2, [r2, #4]	@ zero_extendqisi2
+ 784              		.loc 1 165 44 is_stmt 0 view .LVU238
+ 785 00c4 1279     		ldrb	r2, [r2, #4]	@ zero_extendqisi2
  165:../../../core/platform/common/src/payloadparser.c ****         temp_config.last_known_timestamp = uint32LittleEndian.integer;
- 778              		.loc 1 165 36 view .LVU239
- 779 00c6 DA70     		strb	r2, [r3, #3]
- 166:../../../core/platform/common/src/payloadparser.c ****         printINF("Current last known timestamp %d\r\n", temp_config.last_known_timestamp);
- 780              		.loc 1 166 9 is_stmt 1 view .LVU240
- 166:../../../core/platform/common/src/payloadparser.c ****         printINF("Current last known timestamp %d\r\n", temp_config.last_known_timestamp);
- 781              		.loc 1 166 62 is_stmt 0 view .LVU241
- 782 00c8 1968     		ldr	r1, [r3]
- 166:../../../core/platform/common/src/payloadparser.c ****         printINF("Current last known timestamp %d\r\n", temp_config.last_known_timestamp);
- 783              		.loc 1 166 42 view .LVU242
- 784 00ca 0591     		str	r1, [sp, #20]
- 167:../../../core/platform/common/src/payloadparser.c ****         index += 5;
- 785              		.loc 1 167 9 is_stmt 1 view .LVU243
- 786 00cc 1148     		ldr	r0, .L56+36
- 787 00ce FFF7FEFF 		bl	printINF
- 788              	.LVL61:
- 168:../../../core/platform/common/src/payloadparser.c ****         break;
- 789              		.loc 1 168 9 view .LVU244
- 168:../../../core/platform/common/src/payloadparser.c ****         break;
- 790              		.loc 1 168 15 is_stmt 0 view .LVU245
- 791 00d2 0534     		adds	r4, r4, #5
- 792              	.LVL62:
- 168:../../../core/platform/common/src/payloadparser.c ****         break;
- 793              		.loc 1 168 15 view .LVU246
- 794 00d4 A4B2     		uxth	r4, r4
- 795              	.LVL63:
- 169:../../../core/platform/common/src/payloadparser.c ****       default:
- 796              		.loc 1 169 9 is_stmt 1 view .LVU247
- 797 00d6 B5E7     		b	.L37
- 798              	.L55:
- 799              	.LBB17:
+ 786              		.loc 1 165 36 view .LVU239
+ 787 00c6 DA70     		strb	r2, [r3, #3]
+ 166:../../../core/platform/common/src/payloadparser.c ****         RTC_Set_Time_From_Unix(temp_config.last_known_timestamp);
+ 788              		.loc 1 166 9 is_stmt 1 view .LVU240
+ 166:../../../core/platform/common/src/payloadparser.c ****         RTC_Set_Time_From_Unix(temp_config.last_known_timestamp);
+ 789              		.loc 1 166 62 is_stmt 0 view .LVU241
+ 790 00c8 1F68     		ldr	r7, [r3]
+ 166:../../../core/platform/common/src/payloadparser.c ****         RTC_Set_Time_From_Unix(temp_config.last_known_timestamp);
+ 791              		.loc 1 166 42 view .LVU242
+ 792 00ca 0597     		str	r7, [sp, #20]
+ 167:../../../core/platform/common/src/payloadparser.c ****         printINF("UTC Timestamp received: %d\r\n", temp_config.last_known_timestamp);
+ 793              		.loc 1 167 9 is_stmt 1 view .LVU243
+ 794 00cc 3846     		mov	r0, r7
+ 795 00ce FFF7FEFF 		bl	RTC_Set_Time_From_Unix
+ 796              	.LVL61:
+ 168:../../../core/platform/common/src/payloadparser.c ****         RTC_Print_DateTime();
+ARM GAS  /tmp/cc1WMp6m.s 			page 22
+
+
+ 797              		.loc 1 168 9 view .LVU244
+ 798 00d2 3946     		mov	r1, r7
+ 799 00d4 1448     		ldr	r0, .L56+36
+ 800 00d6 FFF7FEFF 		bl	printINF
+ 801              	.LVL62:
+ 169:../../../core/platform/common/src/payloadparser.c ****         index += 5;
+ 802              		.loc 1 169 9 view .LVU245
+ 803 00da FFF7FEFF 		bl	RTC_Print_DateTime
+ 804              	.LVL63:
+ 170:../../../core/platform/common/src/payloadparser.c ****         break;
+ 805              		.loc 1 170 9 view .LVU246
+ 170:../../../core/platform/common/src/payloadparser.c ****         break;
+ 806              		.loc 1 170 15 is_stmt 0 view .LVU247
+ 807 00de 0534     		adds	r4, r4, #5
+ 808              	.LVL64:
+ 170:../../../core/platform/common/src/payloadparser.c ****         break;
+ 809              		.loc 1 170 15 view .LVU248
+ 810 00e0 A4B2     		uxth	r4, r4
+ 811              	.LVL65:
+ 171:../../../core/platform/common/src/payloadparser.c ****       default:
+ 812              		.loc 1 171 9 is_stmt 1 view .LVU249
+ 813 00e2 AFE7     		b	.L37
+ 814              	.L55:
+ 815              	.LBB17:
  158:../../../core/platform/common/src/payloadparser.c ****           return PARSER_PARSE_ERROR;
- 800              		.loc 1 158 11 view .LVU248
- 801 00d8 0F48     		ldr	r0, .L56+40
- 802 00da FFF7FEFF 		bl	printERR
- 803              	.LVL64:
- 159:../../../core/platform/common/src/payloadparser.c ****         }
-ARM GAS  /tmp/ccVymvZB.s 			page 22
-
-
- 804              		.loc 1 159 11 view .LVU249
- 159:../../../core/platform/common/src/payloadparser.c ****         }
- 805              		.loc 1 159 18 is_stmt 0 view .LVU250
- 806 00de 0220     		movs	r0, #2
- 807 00e0 BDE7     		b	.L38
- 808              	.L52:
- 159:../../../core/platform/common/src/payloadparser.c ****         }
- 809              		.loc 1 159 18 view .LVU251
- 810              	.LBE17:
- 811              	.LBE19:
- 175:../../../core/platform/common/src/payloadparser.c ****   return PARSER_OK;
- 812              		.loc 1 175 3 is_stmt 1 view .LVU252
- 175:../../../core/platform/common/src/payloadparser.c ****   return PARSER_OK;
- 813              		.loc 1 175 31 is_stmt 0 view .LVU253
- 814 00e2 01AC     		add	r4, sp, #4
- 815              	.LVL65:
- 175:../../../core/platform/common/src/payloadparser.c ****   return PARSER_OK;
- 816              		.loc 1 175 31 view .LVU254
- 817 00e4 0FCC     		ldmia	r4!, {r0, r1, r2, r3}
- 818 00e6 0FC7     		stmia	r7!, {r0, r1, r2, r3}
+ 816              		.loc 1 158 11 view .LVU250
+ 817 00e4 1148     		ldr	r0, .L56+40
+ 818 00e6 FFF7FEFF 		bl	printERR
  819              	.LVL66:
- 175:../../../core/platform/common/src/payloadparser.c ****   return PARSER_OK;
- 820              		.loc 1 175 31 view .LVU255
- 821 00e8 2368     		ldr	r3, [r4]
- 822 00ea 3B60     		str	r3, [r7]
- 176:../../../core/platform/common/src/payloadparser.c **** }
- 823              		.loc 1 176 3 is_stmt 1 view .LVU256
- 176:../../../core/platform/common/src/payloadparser.c **** }
- 824              		.loc 1 176 10 is_stmt 0 view .LVU257
- 825 00ec 0020     		movs	r0, #0
- 826 00ee B6E7     		b	.L38
- 827              	.L57:
- 828              		.align	2
- 829              	.L56:
- 830 00f0 00000000 		.word	.LC16
- 831 00f4 34000000 		.word	.LC1
- 832 00f8 3C000000 		.word	.LC2
- 833 00fc DC010000 		.word	.LC15
- 834 0100 40000000 		.word	.LC3
- 835 0104 00000000 		.word	uint32LittleEndian
- 836 0108 74000000 		.word	.LC5
- 837 010c 54000000 		.word	.LC4
- 838 0110 30000000 		.word	.LC17
- 839 0114 B8010000 		.word	.LC14
- 840 0118 50000000 		.word	.LC18
- 841              		.cfi_endproc
- 842              	.LFE1:
- 844              		.section	.text.parse_timestamp,"ax",%progbits
- 845              		.align	1
- 846              		.global	parse_timestamp
- 847              		.syntax unified
- 848              		.thumb
- 849              		.thumb_func
- 850              		.fpu fpv4-sp-d16
- 852              	parse_timestamp:
- 853              	.LVL67:
- 854              	.LFB2:
-ARM GAS  /tmp/ccVymvZB.s 			page 23
+ 159:../../../core/platform/common/src/payloadparser.c ****         }
+ 820              		.loc 1 159 11 view .LVU251
+ 159:../../../core/platform/common/src/payloadparser.c ****         }
+ 821              		.loc 1 159 18 is_stmt 0 view .LVU252
+ 822 00ea 0220     		movs	r0, #2
+ 823 00ec B7E7     		b	.L38
+ 824              	.L52:
+ 159:../../../core/platform/common/src/payloadparser.c ****         }
+ 825              		.loc 1 159 18 view .LVU253
+ 826              	.LBE17:
+ 827              	.LBE19:
+ 177:../../../core/platform/common/src/payloadparser.c ****   printINF("[payloadparser:parse_octa_protocol_downlink] parsing OK\r\n");
+ 828              		.loc 1 177 3 is_stmt 1 view .LVU254
+ 177:../../../core/platform/common/src/payloadparser.c ****   printINF("[payloadparser:parse_octa_protocol_downlink] parsing OK\r\n");
+ 829              		.loc 1 177 31 is_stmt 0 view .LVU255
+ 830 00ee 4F46     		mov	r7, r9
+ 831 00f0 01AC     		add	r4, sp, #4
+ 832              	.LVL67:
+ 177:../../../core/platform/common/src/payloadparser.c ****   printINF("[payloadparser:parse_octa_protocol_downlink] parsing OK\r\n");
+ 833              		.loc 1 177 31 view .LVU256
+ 834 00f2 0FCC     		ldmia	r4!, {r0, r1, r2, r3}
+ 835 00f4 0FC7     		stmia	r7!, {r0, r1, r2, r3}
+ 836 00f6 2368     		ldr	r3, [r4]
+ 837 00f8 3B60     		str	r3, [r7]
+ 178:../../../core/platform/common/src/payloadparser.c ****   return PARSER_OK;
+ 838              		.loc 1 178 3 is_stmt 1 view .LVU257
+ 839 00fa 0D48     		ldr	r0, .L56+44
+ 840 00fc FFF7FEFF 		bl	printINF
+ARM GAS  /tmp/cc1WMp6m.s 			page 23
 
 
- 178:../../../core/platform/common/src/payloadparser.c **** 
- 179:../../../core/platform/common/src/payloadparser.c **** uint32_t parse_timestamp(uint8_t* buffer)
- 180:../../../core/platform/common/src/payloadparser.c **** {
- 855              		.loc 1 180 1 is_stmt 1 view -0
- 856              		.cfi_startproc
- 857              		@ args = 0, pretend = 0, frame = 0
- 858              		@ frame_needed = 0, uses_anonymous_args = 0
- 859              		@ link register save eliminated.
- 181:../../../core/platform/common/src/payloadparser.c ****   uint32LittleEndian.byte[0] = buffer[0];
- 860              		.loc 1 181 3 view .LVU259
- 861              		.loc 1 181 38 is_stmt 0 view .LVU260
- 862 0000 0278     		ldrb	r2, [r0]	@ zero_extendqisi2
- 863              		.loc 1 181 30 view .LVU261
- 864 0002 054B     		ldr	r3, .L59
- 865 0004 1A70     		strb	r2, [r3]
- 182:../../../core/platform/common/src/payloadparser.c ****   uint32LittleEndian.byte[1] = buffer[1];
- 866              		.loc 1 182 3 is_stmt 1 view .LVU262
- 867              		.loc 1 182 30 is_stmt 0 view .LVU263
- 868 0006 4278     		ldrb	r2, [r0, #1]	@ zero_extendqisi2
- 869 0008 5A70     		strb	r2, [r3, #1]
- 183:../../../core/platform/common/src/payloadparser.c ****   uint32LittleEndian.byte[2] = buffer[2];
- 870              		.loc 1 183 3 is_stmt 1 view .LVU264
- 871              		.loc 1 183 30 is_stmt 0 view .LVU265
- 872 000a 8278     		ldrb	r2, [r0, #2]	@ zero_extendqisi2
- 873 000c 9A70     		strb	r2, [r3, #2]
- 184:../../../core/platform/common/src/payloadparser.c ****   uint32LittleEndian.byte[3] = buffer[3];
- 874              		.loc 1 184 3 is_stmt 1 view .LVU266
- 875              		.loc 1 184 30 is_stmt 0 view .LVU267
- 876 000e C278     		ldrb	r2, [r0, #3]	@ zero_extendqisi2
- 877 0010 DA70     		strb	r2, [r3, #3]
- 185:../../../core/platform/common/src/payloadparser.c ****   return uint32LittleEndian.integer;
- 878              		.loc 1 185 3 is_stmt 1 view .LVU268
- 186:../../../core/platform/common/src/payloadparser.c **** }...
- 879              		.loc 1 186 1 is_stmt 0 view .LVU269
- 880 0012 1868     		ldr	r0, [r3]
- 881              	.LVL68:
- 882              		.loc 1 186 1 view .LVU270
- 883 0014 7047     		bx	lr
- 884              	.L60:
- 885 0016 00BF     		.align	2
- 886              	.L59:
- 887 0018 00000000 		.word	uint32LittleEndian
- 888              		.cfi_endproc
- 889              	.LFE2:
- 891              		.comm	octa_uid,8,8
- 892              		.comm	float_union,4,4
- 893              		.comm	uint16LittleEndian,2,4
- 894              		.comm	int16LittleEndian,2,4
- 895              		.comm	uint32LittleEndian,4,4
- 896              		.comm	int32LittleEndian,4,4
- 897              		.text
- 898              	.Letext0:
- 899              		.file 2 "/usr/arm-none-eabi/include/machine/_default_types.h"
- 900              		.file 3 "/usr/arm-none-eabi/include/sys/_stdint.h"
- 901              		.file 4 "../../../core/platform/common/inc/datatypes.h"
- 902              		.file 5 "<built-in>"
-ARM GAS  /tmp/ccVymvZB.s 			page 24
+ 841              	.LVL68:
+ 179:../../../core/platform/common/src/payloadparser.c **** }
+ 842              		.loc 1 179 3 view .LVU258
+ 179:../../../core/platform/common/src/payloadparser.c **** }
+ 843              		.loc 1 179 10 is_stmt 0 view .LVU259
+ 844 0100 0020     		movs	r0, #0
+ 845 0102 ACE7     		b	.L38
+ 846              	.L57:
+ 847              		.align	2
+ 848              	.L56:
+ 849 0104 00000000 		.word	.LC16
+ 850 0108 34000000 		.word	.LC1
+ 851 010c 3C000000 		.word	.LC2
+ 852 0110 CC010000 		.word	.LC15
+ 853 0114 40000000 		.word	.LC3
+ 854 0118 00000000 		.word	uint32LittleEndian
+ 855 011c 74000000 		.word	.LC5
+ 856 0120 54000000 		.word	.LC4
+ 857 0124 30000000 		.word	.LC17
+ 858 0128 78000000 		.word	.LC19
+ 859 012c 50000000 		.word	.LC18
+ 860 0130 98000000 		.word	.LC20
+ 861              		.cfi_endproc
+ 862              	.LFE1:
+ 864              		.section	.text.parse_timestamp,"ax",%progbits
+ 865              		.align	1
+ 866              		.global	parse_timestamp
+ 867              		.syntax unified
+ 868              		.thumb
+ 869              		.thumb_func
+ 870              		.fpu fpv4-sp-d16
+ 872              	parse_timestamp:
+ 873              	.LVL69:
+ 874              	.LFB2:
+ 181:../../../core/platform/common/src/payloadparser.c **** 
+ 182:../../../core/platform/common/src/payloadparser.c **** uint32_t parse_timestamp(uint8_t* buffer)
+ 183:../../../core/platform/common/src/payloadparser.c **** {
+ 875              		.loc 1 183 1 is_stmt 1 view -0
+ 876              		.cfi_startproc
+ 877              		@ args = 0, pretend = 0, frame = 0
+ 878              		@ frame_needed = 0, uses_anonymous_args = 0
+ 879              		@ link register save eliminated.
+ 184:../../../core/platform/common/src/payloadparser.c ****   uint32LittleEndian.byte[0] = buffer[0];
+ 880              		.loc 1 184 3 view .LVU261
+ 881              		.loc 1 184 38 is_stmt 0 view .LVU262
+ 882 0000 0278     		ldrb	r2, [r0]	@ zero_extendqisi2
+ 883              		.loc 1 184 30 view .LVU263
+ 884 0002 054B     		ldr	r3, .L59
+ 885 0004 1A70     		strb	r2, [r3]
+ 185:../../../core/platform/common/src/payloadparser.c ****   uint32LittleEndian.byte[1] = buffer[1];
+ 886              		.loc 1 185 3 is_stmt 1 view .LVU264
+ 887              		.loc 1 185 30 is_stmt 0 view .LVU265
+ 888 0006 4278     		ldrb	r2, [r0, #1]	@ zero_extendqisi2
+ 889 0008 5A70     		strb	r2, [r3, #1]
+ 186:../../../core/platform/common/src/payloadparser.c ****   uint32LittleEndian.byte[2] = buffer[2];
+ 890              		.loc 1 186 3 is_stmt 1 view .LVU266
+ 891              		.loc 1 186 30 is_stmt 0 view .LVU267
+ARM GAS  /tmp/cc1WMp6m.s 			page 24
+
+
+ 892 000a 8278     		ldrb	r2, [r0, #2]	@ zero_extendqisi2
+ 893 000c 9A70     		strb	r2, [r3, #2]
+ 187:../../../core/platform/common/src/payloadparser.c ****   uint32LittleEndian.byte[3] = buffer[3];
+ 894              		.loc 1 187 3 is_stmt 1 view .LVU268
+ 895              		.loc 1 187 30 is_stmt 0 view .LVU269
+ 896 000e C278     		ldrb	r2, [r0, #3]	@ zero_extendqisi2
+ 897 0010 DA70     		strb	r2, [r3, #3]
+ 188:../../../core/platform/common/src/payloadparser.c ****   return uint32LittleEndian.integer;
+ 898              		.loc 1 188 3 is_stmt 1 view .LVU270
+ 189:../../../core/platform/common/src/payloadparser.c **** }...
+ 899              		.loc 1 189 1 is_stmt 0 view .LVU271
+ 900 0012 1868     		ldr	r0, [r3]
+ 901              	.LVL70:
+ 902              		.loc 1 189 1 view .LVU272
+ 903 0014 7047     		bx	lr
+ 904              	.L60:
+ 905 0016 00BF     		.align	2
+ 906              	.L59:
+ 907 0018 00000000 		.word	uint32LittleEndian
+ 908              		.cfi_endproc
+ 909              	.LFE2:
+ 911              		.comm	octa_uid,8,8
+ 912              		.comm	float_union,4,4
+ 913              		.comm	uint16LittleEndian,2,4
+ 914              		.comm	int16LittleEndian,2,4
+ 915              		.comm	uint32LittleEndian,4,4
+ 916              		.comm	int32LittleEndian,4,4
+ 917              		.text
+ 918              	.Letext0:
+ 919              		.file 2 "/home/matsdm/gcc-arm-none-eabi-9-2019-q4-major-x86_64-linux/gcc-arm-none-eabi-9-2019-q4-m
+ 920              		.file 3 "/home/matsdm/gcc-arm-none-eabi-9-2019-q4-major-x86_64-linux/gcc-arm-none-eabi-9-2019-q4-m
+ 921              		.file 4 "../../../core/platform/common/inc/datatypes.h"
+ 922              		.file 5 "<built-in>"
+ARM GAS  /tmp/cc1WMp6m.s 			page 25
 
 
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 payloadparser.c
-     /tmp/ccVymvZB.s:18     .rodata.parse_octa_configuration.str1.4:0000000000000000 $d
-     /tmp/ccVymvZB.s:70     .text.parse_octa_configuration:0000000000000000 $t
-     /tmp/ccVymvZB.s:78     .text.parse_octa_configuration:0000000000000000 parse_octa_configuration
-     /tmp/ccVymvZB.s:509    .text.parse_octa_configuration:0000000000000184 $d
+     /tmp/cc1WMp6m.s:18     .rodata.parse_octa_configuration.str1.4:0000000000000000 $d
+     /tmp/cc1WMp6m.s:70     .text.parse_octa_configuration:0000000000000000 $t
+     /tmp/cc1WMp6m.s:78     .text.parse_octa_configuration:0000000000000000 parse_octa_configuration
+     /tmp/cc1WMp6m.s:509    .text.parse_octa_configuration:0000000000000184 $d
                             *COM*:0000000000000004 uint32LittleEndian
-     /tmp/ccVymvZB.s:530    .rodata.parse_octa_protocol_downlink.str1.4:0000000000000000 $d
-     /tmp/ccVymvZB.s:541    .text.parse_octa_protocol_downlink:0000000000000000 $t
-     /tmp/ccVymvZB.s:548    .text.parse_octa_protocol_downlink:0000000000000000 parse_octa_protocol_downlink
-     /tmp/ccVymvZB.s:830    .text.parse_octa_protocol_downlink:00000000000000f0 $d
-     /tmp/ccVymvZB.s:845    .text.parse_timestamp:0000000000000000 $t
-     /tmp/ccVymvZB.s:852    .text.parse_timestamp:0000000000000000 parse_timestamp
-     /tmp/ccVymvZB.s:887    .text.parse_timestamp:0000000000000018 $d
+     /tmp/cc1WMp6m.s:530    .rodata.parse_octa_protocol_downlink.str1.4:0000000000000000 $d
+     /tmp/cc1WMp6m.s:548    .text.parse_octa_protocol_downlink:0000000000000000 $t
+     /tmp/cc1WMp6m.s:555    .text.parse_octa_protocol_downlink:0000000000000000 parse_octa_protocol_downlink
+     /tmp/cc1WMp6m.s:849    .text.parse_octa_protocol_downlink:0000000000000104 $d
+     /tmp/cc1WMp6m.s:865    .text.parse_timestamp:0000000000000000 $t
+     /tmp/cc1WMp6m.s:872    .text.parse_timestamp:0000000000000000 parse_timestamp
+     /tmp/cc1WMp6m.s:907    .text.parse_timestamp:0000000000000018 $d
                             *COM*:0000000000000008 octa_uid
                             *COM*:0000000000000004 float_union
                             *COM*:0000000000000002 uint16LittleEndian
@@ -1406,3 +1443,5 @@ printf
 puts
 printINF
 printERR
+RTC_Set_Time_From_Unix
+RTC_Print_DateTime

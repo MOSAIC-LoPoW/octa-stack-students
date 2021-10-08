@@ -290,10 +290,10 @@
             }
         },
         {
-            "label": "make firmware temperature-humidity",
+            "label": "make firmware temperature-humidity-example",
             "type": "shell",
             // change the cd path to the current application path
-            "command": "cd applications/examples/temperature-humidity/; make",
+            "command": "cd applications/examples/temperature-humidity-example/; make",
             "problemMatcher": [
                 "$gcc"
             ],
@@ -303,10 +303,10 @@
             }
         },
         {
-            "label": "make clean all firmware temperature-humidity",
+            "label": "make clean all firmware temperature-humidity-example",
             "type": "shell",
             // change the cd path to the current application path
-            "command": "cd applications/examples/temperature-humidity/; make clean all",
+            "command": "cd applications/examples/temperature-humidity-example/; make clean all",
             "problemMatcher": [
                 "$gcc"
             ],

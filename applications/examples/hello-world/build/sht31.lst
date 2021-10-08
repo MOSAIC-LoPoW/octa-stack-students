@@ -1,4 +1,4 @@
-ARM GAS  /tmp/ccRR90l9.s 			page 1
+ARM GAS  /tmp/ccpUeqXL.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  /tmp/ccRR90l9.s 			page 1
   39              		.loc 1 17 1 view .LVU3
   40 0004 7047     		bx	lr
   41              	.L3:
-ARM GAS  /tmp/ccRR90l9.s 			page 2
+ARM GAS  /tmp/ccpUeqXL.s 			page 2
 
 
   42 0006 00BF     		.align	2
@@ -118,7 +118,7 @@ ARM GAS  /tmp/ccRR90l9.s 			page 1
   93              	.L7:
   94 001e 00BF     		.align	2
   95              	.L6:
-ARM GAS  /tmp/ccRR90l9.s 			page 3
+ARM GAS  /tmp/ccpUeqXL.s 			page 3
 
 
   96 0020 00000000 		.word	SHThi2cLib
@@ -178,7 +178,7 @@ ARM GAS  /tmp/ccRR90l9.s 			page 1
  147              		@ sp needed
  148 001e 5DF804FB 		ldr	pc, [sp], #4
  149              	.L11:
-ARM GAS  /tmp/ccRR90l9.s 			page 4
+ARM GAS  /tmp/ccpUeqXL.s 			page 4
 
 
  150 0022 00BF     		.align	2
@@ -238,7 +238,7 @@ ARM GAS  /tmp/ccRR90l9.s 			page 1
  201              	.L15:
  202 001e 00BF     		.align	2
  203              	.L14:
-ARM GAS  /tmp/ccRR90l9.s 			page 5
+ARM GAS  /tmp/ccpUeqXL.s 			page 5
 
 
  204 0020 00000000 		.word	SHThi2cLib
@@ -298,7 +298,7 @@ ARM GAS  /tmp/ccRR90l9.s 			page 1
  243              		.loc 1 49 2 is_stmt 0 view .LVU37
  244 0012 FFF7FEFF 		bl	WRITE_REGISTER_SHT31
  245              	.LVL16:
-ARM GAS  /tmp/ccRR90l9.s 			page 6
+ARM GAS  /tmp/ccpUeqXL.s 			page 6
 
 
   50:../../../core/drivers/SHT31/src/sht31.c **** 
@@ -358,7 +358,7 @@ ARM GAS  /tmp/ccRR90l9.s 			page 1
  293              		.loc 1 58 34 view .LVU46
  294 001e 9DF80530 		ldrb	r3, [sp, #5]	@ zero_extendqisi2
  295              	.LVL20:
-ARM GAS  /tmp/ccRR90l9.s 			page 7
+ARM GAS  /tmp/ccpUeqXL.s 			page 7
 
 
   59:../../../core/drivers/SHT31/src/sht31.c **** 	return stat2;
@@ -418,7 +418,7 @@ ARM GAS  /tmp/ccRR90l9.s 			page 1
  347              		.loc 1 34 24 is_stmt 1 view -0
  348              		.cfi_startproc
  349              		@ args = 0, pretend = 0, frame = 0
-ARM GAS  /tmp/ccRR90l9.s 			page 8
+ARM GAS  /tmp/ccpUeqXL.s 			page 8
 
 
  350              		@ frame_needed = 0, uses_anonymous_args = 0
@@ -478,7 +478,7 @@ ARM GAS  /tmp/ccRR90l9.s 			page 1
   71:../../../core/drivers/SHT31/src/sht31.c **** }
  397              		.loc 1 71 1 view .LVU63
  398 000c 08BD     		pop	{r3, pc}
-ARM GAS  /tmp/ccRR90l9.s 			page 9
+ARM GAS  /tmp/ccpUeqXL.s 			page 9
 
 
  399              	.LVL27:
@@ -538,7 +538,7 @@ ARM GAS  /tmp/ccRR90l9.s 			page 1
  435              		.cfi_offset 14, -4
  436 0002 82B0     		sub	sp, sp, #8
  437              	.LCFI19:
-ARM GAS  /tmp/ccRR90l9.s 			page 10
+ARM GAS  /tmp/ccpUeqXL.s 			page 10
 
 
  438              		.cfi_def_cfa_offset 16
@@ -598,7 +598,7 @@ ARM GAS  /tmp/ccRR90l9.s 			page 1
  108:../../../core/drivers/SHT31/src/sht31.c **** 
  109:../../../core/drivers/SHT31/src/sht31.c **** 
  110:../../../core/drivers/SHT31/src/sht31.c ****  // Serial.print("ST = "); Serial.println(ST);
-ARM GAS  /tmp/ccRR90l9.s 			page 11
+ARM GAS  /tmp/ccpUeqXL.s 			page 11
 
 
  111:../../../core/drivers/SHT31/src/sht31.c ****   double stemp = ST;
@@ -658,7 +658,7 @@ ARM GAS  /tmp/ccRR90l9.s 			page 1
  518              		.loc 1 120 8 is_stmt 0 view .LVU101
  519 0068 05A3     		adr	r3, .L30
  520 006a D3E90023 		ldrd	r2, [r3]
-ARM GAS  /tmp/ccRR90l9.s 			page 12
+ARM GAS  /tmp/ccpUeqXL.s 			page 12
 
 
  521 006e FFF7FEFF 		bl	__aeabi_ddiv
@@ -718,7 +718,7 @@ ARM GAS  /tmp/ccRR90l9.s 			page 1
  570 0000 10B5     		push	{r4, lr}
  571              	.LCFI21:
  572              		.cfi_def_cfa_offset 8
-ARM GAS  /tmp/ccRR90l9.s 			page 13
+ARM GAS  /tmp/ccpUeqXL.s 			page 13
 
 
  573              		.cfi_offset 4, -8
@@ -778,7 +778,7 @@ ARM GAS  /tmp/ccRR90l9.s 			page 1
  620              		.loc 1 75 3 view .LVU118
   75:../../../core/drivers/SHT31/src/sht31.c **** 
  621              		.loc 1 75 9 is_stmt 0 view .LVU119
-ARM GAS  /tmp/ccRR90l9.s 			page 14
+ARM GAS  /tmp/ccpUeqXL.s 			page 14
 
 
  622 0002 FFF7FEFF 		bl	readTempHum
@@ -838,7 +838,7 @@ ARM GAS  /tmp/ccRR90l9.s 			page 1
  669 0006 18B1     		cbz	r0, .L44
   84:../../../core/drivers/SHT31/src/sht31.c **** }
  670              		.loc 1 84 3 is_stmt 1 view .LVU129
-ARM GAS  /tmp/ccRR90l9.s 			page 15
+ARM GAS  /tmp/ccpUeqXL.s 			page 15
 
 
   84:../../../core/drivers/SHT31/src/sht31.c **** }
@@ -898,7 +898,7 @@ ARM GAS  /tmp/ccRR90l9.s 			page 1
  718              		.loc 1 131 3 is_stmt 0 view .LVU137
  719 000a FFF7FEFF 		bl	writeCommand
  720              	.LVL55:
-ARM GAS  /tmp/ccRR90l9.s 			page 16
+ARM GAS  /tmp/ccpUeqXL.s 			page 16
 
 
  132:../../../core/drivers/SHT31/src/sht31.c ****   HAL_Delay(50);
@@ -958,7 +958,7 @@ ARM GAS  /tmp/ccRR90l9.s 			page 1
  148:../../../core/drivers/SHT31/src/sht31.c **** 
  149:../../../core/drivers/SHT31/src/sht31.c ****   return 1;
  759              		.loc 1 149 3 is_stmt 1 view .LVU157
-ARM GAS  /tmp/ccRR90l9.s 			page 17
+ARM GAS  /tmp/ccpUeqXL.s 			page 17
 
 
  150:../../../core/drivers/SHT31/src/sht31.c **** }
@@ -1018,7 +1018,7 @@ ARM GAS  /tmp/ccRR90l9.s 			page 1
  179:../../../core/drivers/SHT31/src/sht31.c ****   }
  180:../../../core/drivers/SHT31/src/sht31.c ****   return crc;
  181:../../../core/drivers/SHT31/src/sht31.c ****   */
-ARM GAS  /tmp/ccRR90l9.s 			page 18
+ARM GAS  /tmp/ccpUeqXL.s 			page 18
 
 
  182:../../../core/drivers/SHT31/src/sht31.c **** 	return 1;
@@ -1037,8 +1037,8 @@ ARM GAS  /tmp/ccRR90l9.s 			page 1
  799              		.comm	SHThi2cLib,4,4
  800              		.text
  801              	.Letext0:
- 802              		.file 2 "/usr/arm-none-eabi/include/machine/_default_types.h"
- 803              		.file 3 "/usr/arm-none-eabi/include/sys/_stdint.h"
+ 802              		.file 2 "/home/matsdm/gcc-arm-none-eabi-9-2019-q4-major-x86_64-linux/gcc-arm-none-eabi-9-2019-q4-m
+ 803              		.file 3 "/home/matsdm/gcc-arm-none-eabi-9-2019-q4-major-x86_64-linux/gcc-arm-none-eabi-9-2019-q4-m
  804              		.file 4 "../../../core/ST/CMSIS/Include/core_cm4.h"
  805              		.file 5 "../../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/system_stm32l4xx.h"
  806              		.file 6 "../../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/stm32l496xx.h"
@@ -1047,57 +1047,57 @@ ARM GAS  /tmp/ccRR90l9.s 			page 1
  809              		.file 9 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_i2c.h"
  810              		.file 10 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h"
  811              		.file 11 "../../../core/drivers/SHT31/inc/sht31.h"
- 812              		.file 12 "/usr/arm-none-eabi/include/sys/lock.h"
- 813              		.file 13 "/usr/arm-none-eabi/include/sys/_types.h"
- 814              		.file 14 "/usr/lib/gcc/arm-none-eabi/9.2.1/include/stddef.h"
- 815              		.file 15 "/usr/arm-none-eabi/include/sys/reent.h"
- 816              		.file 16 "/usr/arm-none-eabi/include/math.h"
-ARM GAS  /tmp/ccRR90l9.s 			page 19
+ 812              		.file 12 "/home/matsdm/gcc-arm-none-eabi-9-2019-q4-major-x86_64-linux/gcc-arm-none-eabi-9-2019-q4-
+ 813              		.file 13 "/home/matsdm/gcc-arm-none-eabi-9-2019-q4-major-x86_64-linux/gcc-arm-none-eabi-9-2019-q4-
+ 814              		.file 14 "/home/matsdm/gcc-arm-none-eabi-9-2019-q4-major-x86_64-linux/gcc-arm-none-eabi-9-2019-q4-
+ 815              		.file 15 "/home/matsdm/gcc-arm-none-eabi-9-2019-q4-major-x86_64-linux/gcc-arm-none-eabi-9-2019-q4-
+ 816              		.file 16 "/home/matsdm/gcc-arm-none-eabi-9-2019-q4-major-x86_64-linux/gcc-arm-none-eabi-9-2019-q4-
+ARM GAS  /tmp/ccpUeqXL.s 			page 19
 
 
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 sht31.c
-     /tmp/ccRR90l9.s:18     .text.setI2CInterface_SHT31:0000000000000000 $t
-     /tmp/ccRR90l9.s:26     .text.setI2CInterface_SHT31:0000000000000000 setI2CInterface_SHT31
-     /tmp/ccRR90l9.s:44     .text.setI2CInterface_SHT31:0000000000000008 $d
+     /tmp/ccpUeqXL.s:18     .text.setI2CInterface_SHT31:0000000000000000 $t
+     /tmp/ccpUeqXL.s:26     .text.setI2CInterface_SHT31:0000000000000000 setI2CInterface_SHT31
+     /tmp/ccpUeqXL.s:44     .text.setI2CInterface_SHT31:0000000000000008 $d
                             *COM*:0000000000000004 SHThi2cLib
-     /tmp/ccRR90l9.s:49     .text.WRITE_REGISTER_SHT31:0000000000000000 $t
-     /tmp/ccRR90l9.s:56     .text.WRITE_REGISTER_SHT31:0000000000000000 WRITE_REGISTER_SHT31
-     /tmp/ccRR90l9.s:96     .text.WRITE_REGISTER_SHT31:0000000000000020 $d
-     /tmp/ccRR90l9.s:101    .text.READ_REGISTER_SHT31:0000000000000000 $t
-     /tmp/ccRR90l9.s:108    .text.READ_REGISTER_SHT31:0000000000000000 READ_REGISTER_SHT31
-     /tmp/ccRR90l9.s:152    .text.READ_REGISTER_SHT31:0000000000000024 $d
-     /tmp/ccRR90l9.s:157    .text.READ_REG_SHT31:0000000000000000 $t
-     /tmp/ccRR90l9.s:164    .text.READ_REG_SHT31:0000000000000000 READ_REG_SHT31
-     /tmp/ccRR90l9.s:204    .text.READ_REG_SHT31:0000000000000020 $d
-     /tmp/ccRR90l9.s:209    .text.writeCommand:0000000000000000 $t
-     /tmp/ccRR90l9.s:216    .text.writeCommand:0000000000000000 writeCommand
-     /tmp/ccRR90l9.s:256    .text.readStatus:0000000000000000 $t
-     /tmp/ccRR90l9.s:263    .text.readStatus:0000000000000000 readStatus
-     /tmp/ccRR90l9.s:310    .text.SHT31_reset:0000000000000000 $t
-     /tmp/ccRR90l9.s:317    .text.SHT31_reset:0000000000000000 SHT31_reset
-     /tmp/ccRR90l9.s:338    .text.SHT31_begin:0000000000000000 $t
-     /tmp/ccRR90l9.s:345    .text.SHT31_begin:0000000000000000 SHT31_begin
-     /tmp/ccRR90l9.s:367    .text.heater:0000000000000000 $t
-     /tmp/ccRR90l9.s:374    .text.heater:0000000000000000 heater
-     /tmp/ccRR90l9.s:418    .text.readTempHum:0000000000000000 $t
-     /tmp/ccRR90l9.s:425    .text.readTempHum:0000000000000000 readTempHum
-     /tmp/ccRR90l9.s:543    .text.readTempHum:0000000000000080 $d
+     /tmp/ccpUeqXL.s:49     .text.WRITE_REGISTER_SHT31:0000000000000000 $t
+     /tmp/ccpUeqXL.s:56     .text.WRITE_REGISTER_SHT31:0000000000000000 WRITE_REGISTER_SHT31
+     /tmp/ccpUeqXL.s:96     .text.WRITE_REGISTER_SHT31:0000000000000020 $d
+     /tmp/ccpUeqXL.s:101    .text.READ_REGISTER_SHT31:0000000000000000 $t
+     /tmp/ccpUeqXL.s:108    .text.READ_REGISTER_SHT31:0000000000000000 READ_REGISTER_SHT31
+     /tmp/ccpUeqXL.s:152    .text.READ_REGISTER_SHT31:0000000000000024 $d
+     /tmp/ccpUeqXL.s:157    .text.READ_REG_SHT31:0000000000000000 $t
+     /tmp/ccpUeqXL.s:164    .text.READ_REG_SHT31:0000000000000000 READ_REG_SHT31
+     /tmp/ccpUeqXL.s:204    .text.READ_REG_SHT31:0000000000000020 $d
+     /tmp/ccpUeqXL.s:209    .text.writeCommand:0000000000000000 $t
+     /tmp/ccpUeqXL.s:216    .text.writeCommand:0000000000000000 writeCommand
+     /tmp/ccpUeqXL.s:256    .text.readStatus:0000000000000000 $t
+     /tmp/ccpUeqXL.s:263    .text.readStatus:0000000000000000 readStatus
+     /tmp/ccpUeqXL.s:310    .text.SHT31_reset:0000000000000000 $t
+     /tmp/ccpUeqXL.s:317    .text.SHT31_reset:0000000000000000 SHT31_reset
+     /tmp/ccpUeqXL.s:338    .text.SHT31_begin:0000000000000000 $t
+     /tmp/ccpUeqXL.s:345    .text.SHT31_begin:0000000000000000 SHT31_begin
+     /tmp/ccpUeqXL.s:367    .text.heater:0000000000000000 $t
+     /tmp/ccpUeqXL.s:374    .text.heater:0000000000000000 heater
+     /tmp/ccpUeqXL.s:418    .text.readTempHum:0000000000000000 $t
+     /tmp/ccpUeqXL.s:425    .text.readTempHum:0000000000000000 readTempHum
+     /tmp/ccpUeqXL.s:543    .text.readTempHum:0000000000000080 $d
                             *COM*:0000000000000004 temp
                             *COM*:0000000000000004 humidity
-     /tmp/ccRR90l9.s:555    .text.SHT31_get_temp_hum:0000000000000000 $t
-     /tmp/ccRR90l9.s:562    .text.SHT31_get_temp_hum:0000000000000000 SHT31_get_temp_hum
-     /tmp/ccRR90l9.s:596    .text.SHT31_get_temp_hum:0000000000000018 $d
-     /tmp/ccRR90l9.s:602    .text.readTemperature:0000000000000000 $t
-     /tmp/ccRR90l9.s:609    .text.readTemperature:0000000000000000 readTemperature
-     /tmp/ccRR90l9.s:640    .text.readTemperature:0000000000000018 $d
-     /tmp/ccRR90l9.s:646    .text.readHumidity:0000000000000000 $t
-     /tmp/ccRR90l9.s:653    .text.readHumidity:0000000000000000 readHumidity
-     /tmp/ccRR90l9.s:684    .text.readHumidity:0000000000000018 $d
-     /tmp/ccRR90l9.s:690    .text.readTempHum2:0000000000000000 $t
-     /tmp/ccRR90l9.s:697    .text.readTempHum2:0000000000000000 readTempHum2
-     /tmp/ccRR90l9.s:772    .text.crc8:0000000000000000 $t
-     /tmp/ccRR90l9.s:779    .text.crc8:0000000000000000 crc8
+     /tmp/ccpUeqXL.s:555    .text.SHT31_get_temp_hum:0000000000000000 $t
+     /tmp/ccpUeqXL.s:562    .text.SHT31_get_temp_hum:0000000000000000 SHT31_get_temp_hum
+     /tmp/ccpUeqXL.s:596    .text.SHT31_get_temp_hum:0000000000000018 $d
+     /tmp/ccpUeqXL.s:602    .text.readTemperature:0000000000000000 $t
+     /tmp/ccpUeqXL.s:609    .text.readTemperature:0000000000000000 readTemperature
+     /tmp/ccpUeqXL.s:640    .text.readTemperature:0000000000000018 $d
+     /tmp/ccpUeqXL.s:646    .text.readHumidity:0000000000000000 $t
+     /tmp/ccpUeqXL.s:653    .text.readHumidity:0000000000000000 readHumidity
+     /tmp/ccpUeqXL.s:684    .text.readHumidity:0000000000000018 $d
+     /tmp/ccpUeqXL.s:690    .text.readTempHum2:0000000000000000 $t
+     /tmp/ccpUeqXL.s:697    .text.readTempHum2:0000000000000000 readTempHum2
+     /tmp/ccpUeqXL.s:772    .text.crc8:0000000000000000 $t
+     /tmp/ccpUeqXL.s:779    .text.crc8:0000000000000000 crc8
                             *COM*:0000000000000001 _i2caddr
 
 UNDEFINED SYMBOLS

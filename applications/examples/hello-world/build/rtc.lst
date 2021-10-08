@@ -1,4 +1,4 @@
-ARM GAS  /tmp/ccP5Og7u.s 			page 1
+ARM GAS  /tmp/ccLe3M28.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  /tmp/ccP5Og7u.s 			page 1
   44 0004 1F48     		ldr	r0, .L9
   45 0006 204B     		ldr	r3, .L9+4
   46 0008 0360     		str	r3, [r0]
-ARM GAS  /tmp/ccP5Og7u.s 			page 2
+ARM GAS  /tmp/ccLe3M28.s 			page 2
 
 
   13:../../../core/platform/octa/src/rtc.c ****   hrtc.Init.HourFormat = RTC_HOURFORMAT_24;
@@ -118,7 +118,7 @@ ARM GAS  /tmp/ccP5Og7u.s 			page 1
   86              		.loc 1 27 17 is_stmt 0 view .LVU27
   87 002e 8DF80630 		strb	r3, [sp, #6]
   28:../../../core/platform/octa/src/rtc.c ****   sTime.DayLightSaving = RTC_DAYLIGHTSAVING_NONE;
-ARM GAS  /tmp/ccP5Og7u.s 			page 3
+ARM GAS  /tmp/ccLe3M28.s 			page 3
 
 
   88              		.loc 1 28 3 is_stmt 1 view .LVU28
@@ -178,7 +178,7 @@ ARM GAS  /tmp/ccP5Og7u.s 			page 1
  128 0060 0A4A     		ldr	r2, .L9+8
  129 0062 1368     		ldr	r3, [r2]
  130 0064 43F48013 		orr	r3, r3, #1048576
-ARM GAS  /tmp/ccP5Og7u.s 			page 4
+ARM GAS  /tmp/ccLe3M28.s 			page 4
 
 
  131 0068 1360     		str	r3, [r2]
@@ -238,7 +238,7 @@ ARM GAS  /tmp/ccP5Og7u.s 			page 1
  174              		.global	RTC_Set_Time_From_Unix
  175              		.syntax unified
  176              		.thumb
-ARM GAS  /tmp/ccP5Og7u.s 			page 5
+ARM GAS  /tmp/ccLe3M28.s 			page 5
 
 
  177              		.thumb_func
@@ -298,7 +298,7 @@ ARM GAS  /tmp/ccP5Og7u.s 			page 1
   63:../../../core/platform/octa/src/rtc.c ****   sdate.Year = stmU->tm_year - 100;
  213              		.loc 1 63 3 is_stmt 1 view .LVU62
  214              		.loc 1 63 20 is_stmt 0 view .LVU63
-ARM GAS  /tmp/ccP5Og7u.s 			page 6
+ARM GAS  /tmp/ccLe3M28.s 			page 6
 
 
  215 0010 4369     		ldr	r3, [r0, #20]
@@ -358,7 +358,7 @@ ARM GAS  /tmp/ccP5Og7u.s 			page 1
   73:../../../core/platform/octa/src/rtc.c ****   stime.Seconds = stmU->tm_sec;
  260              		.loc 1 73 3 is_stmt 1 view .LVU88
  261              		.loc 1 73 17 is_stmt 0 view .LVU89
-ARM GAS  /tmp/ccP5Og7u.s 			page 7
+ARM GAS  /tmp/ccLe3M28.s 			page 7
 
 
  262 0048 0078     		ldrb	r0, [r0]	@ zero_extendqisi2
@@ -418,7 +418,7 @@ ARM GAS  /tmp/ccP5Og7u.s 			page 1
  303 0072 2046     		mov	r0, r4
  304 0074 FFF7FEFF 		bl	HAL_RTC_SetDate
  305              	.LVL11:
-ARM GAS  /tmp/ccP5Og7u.s 			page 8
+ARM GAS  /tmp/ccLe3M28.s 			page 8
 
 
   82:../../../core/platform/octa/src/rtc.c ****   
@@ -478,7 +478,7 @@ ARM GAS  /tmp/ccP5Og7u.s 			page 1
  347              		.cfi_offset 4, -8
  348              		.cfi_offset 14, -4
  349 0002 90B0     		sub	sp, sp, #64
-ARM GAS  /tmp/ccP5Og7u.s 			page 9
+ARM GAS  /tmp/ccLe3M28.s 			page 9
 
 
  350              	.LCFI9:
@@ -538,7 +538,7 @@ ARM GAS  /tmp/ccP5Og7u.s 			page 1
  390 0030 9DF80430 		ldrb	r3, [sp, #4]	@ zero_extendqisi2
  391              		.loc 1 108 15 view .LVU123
  392 0034 0993     		str	r3, [sp, #36]
-ARM GAS  /tmp/ccP5Og7u.s 			page 10
+ARM GAS  /tmp/ccLe3M28.s 			page 10
 
 
  109:../../../core/platform/octa/src/rtc.c ****   stmT.tm_min=stime.Minutes;  
@@ -598,7 +598,7 @@ ARM GAS  /tmp/ccP5Og7u.s 			page 1
  438      4D2F4444 
  438      293A2025 
  439              		.align	2
-ARM GAS  /tmp/ccP5Og7u.s 			page 11
+ARM GAS  /tmp/ccLe3M28.s 			page 11
 
 
  440              	.LC4:
@@ -658,7 +658,7 @@ ARM GAS  /tmp/ccP5Og7u.s 			page 1
  483 001e 9DF81630 		ldrb	r3, [sp, #22]	@ zero_extendqisi2
  484 0022 9DF81520 		ldrb	r2, [sp, #21]	@ zero_extendqisi2
  485 0026 01F5FA61 		add	r1, r1, #2000
-ARM GAS  /tmp/ccP5Og7u.s 			page 12
+ARM GAS  /tmp/ccLe3M28.s 			page 12
 
 
  486 002a 0848     		ldr	r0, .L24+4
@@ -718,7 +718,7 @@ ARM GAS  /tmp/ccP5Og7u.s 			page 1
  534              		.loc 1 131 6 is_stmt 0 view .LVU151
  535 0002 024B     		ldr	r3, .L29
  536 0004 1B68     		ldr	r3, [r3]
-ARM GAS  /tmp/ccP5Og7u.s 			page 13
+ARM GAS  /tmp/ccLe3M28.s 			page 13
 
 
  537              		.loc 1 131 5 view .LVU152
@@ -778,7 +778,7 @@ ARM GAS  /tmp/ccP5Og7u.s 			page 1
  587              		.comm	appversion_patch,1,1
  588              		.comm	appversion_minor,1,1
  589              		.comm	appversion_major,1,1
-ARM GAS  /tmp/ccP5Og7u.s 			page 14
+ARM GAS  /tmp/ccLe3M28.s 			page 14
 
 
  590              		.comm	short_UID,8,8
@@ -834,11 +834,11 @@ ARM GAS  /tmp/ccP5Og7u.s 			page 1
  642 0000 00000000 		.space	4
  643              		.text
  644              	.Letext0:
- 645              		.file 2 "/usr/arm-none-eabi/include/machine/_default_types.h"
- 646              		.file 3 "/usr/arm-none-eabi/include/sys/_stdint.h"
+ 645              		.file 2 "/home/matsdm/gcc-arm-none-eabi-9-2019-q4-major-x86_64-linux/gcc-arm-none-eabi-9-2019-q4-m
+ 646              		.file 3 "/home/matsdm/gcc-arm-none-eabi-9-2019-q4-major-x86_64-linux/gcc-arm-none-eabi-9-2019-q4-m
  647              		.file 4 "../../../core/ST/CMSIS/Include/core_cm4.h"
  648              		.file 5 "../../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/system_stm32l4xx.h"
-ARM GAS  /tmp/ccP5Og7u.s 			page 15
+ARM GAS  /tmp/ccLe3M28.s 			page 15
 
 
  649              		.file 6 "../../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/stm32l496xx.h"
@@ -861,43 +861,43 @@ ARM GAS  /tmp/ccP5Og7u.s 			page 1
  666              		.file 23 "../../../core/platform/octa/inc/i2c.h"
  667              		.file 24 "../../../core/platform/octa/inc/spi.h"
  668              		.file 25 "../../../core/platform/octa/inc/rtosincludes.h"
- 669              		.file 26 "/usr/arm-none-eabi/include/sys/lock.h"
- 670              		.file 27 "/usr/arm-none-eabi/include/sys/_types.h"
- 671              		.file 28 "/usr/lib/gcc/arm-none-eabi/9.2.1/include/stddef.h"
- 672              		.file 29 "/usr/arm-none-eabi/include/sys/reent.h"
- 673              		.file 30 "/usr/arm-none-eabi/include/sys/_timeval.h"
+ 669              		.file 26 "/home/matsdm/gcc-arm-none-eabi-9-2019-q4-major-x86_64-linux/gcc-arm-none-eabi-9-2019-q4-
+ 670              		.file 27 "/home/matsdm/gcc-arm-none-eabi-9-2019-q4-major-x86_64-linux/gcc-arm-none-eabi-9-2019-q4-
+ 671              		.file 28 "/home/matsdm/gcc-arm-none-eabi-9-2019-q4-major-x86_64-linux/gcc-arm-none-eabi-9-2019-q4-
+ 672              		.file 29 "/home/matsdm/gcc-arm-none-eabi-9-2019-q4-major-x86_64-linux/gcc-arm-none-eabi-9-2019-q4-
+ 673              		.file 30 "/home/matsdm/gcc-arm-none-eabi-9-2019-q4-major-x86_64-linux/gcc-arm-none-eabi-9-2019-q4-
  674              		.file 31 "../../../core/platform/common/inc/datatypes.h"
  675              		.file 32 "../../../core/platform/octa/inc/platform.h"
- 676              		.file 33 "/usr/arm-none-eabi/include/time.h"
+ 676              		.file 33 "/home/matsdm/gcc-arm-none-eabi-9-2019-q4-major-x86_64-linux/gcc-arm-none-eabi-9-2019-q4-
  677              		.file 34 "../../../core/platform/common/inc/print.h"
  678              		.file 35 "../../../core/platform/common/inc/error.h"
-ARM GAS  /tmp/ccP5Og7u.s 			page 16
+ARM GAS  /tmp/ccLe3M28.s 			page 16
 
 
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 rtc.c
-     /tmp/ccP5Og7u.s:18     .text.RTC_Init:0000000000000000 $t
-     /tmp/ccP5Og7u.s:26     .text.RTC_Init:0000000000000000 RTC_Init
-     /tmp/ccP5Og7u.s:159    .text.RTC_Init:0000000000000084 $d
+     /tmp/ccLe3M28.s:18     .text.RTC_Init:0000000000000000 $t
+     /tmp/ccLe3M28.s:26     .text.RTC_Init:0000000000000000 RTC_Init
+     /tmp/ccLe3M28.s:159    .text.RTC_Init:0000000000000084 $d
                             *COM*:0000000000000024 hrtc
-     /tmp/ccP5Og7u.s:166    .rodata.RTC_Set_Time_From_Unix.str1.4:0000000000000000 $d
-     /tmp/ccP5Og7u.s:173    .text.RTC_Set_Time_From_Unix:0000000000000000 $t
-     /tmp/ccP5Og7u.s:180    .text.RTC_Set_Time_From_Unix:0000000000000000 RTC_Set_Time_From_Unix
-     /tmp/ccP5Og7u.s:320    .text.RTC_Set_Time_From_Unix:000000000000008c $d
-     /tmp/ccP5Og7u.s:327    .rodata.RTC_Time_To_Unix.str1.4:0000000000000000 $d
-     /tmp/ccP5Og7u.s:331    .text.RTC_Time_To_Unix:0000000000000000 $t
-     /tmp/ccP5Og7u.s:338    .text.RTC_Time_To_Unix:0000000000000000 RTC_Time_To_Unix
-     /tmp/ccP5Og7u.s:430    .text.RTC_Time_To_Unix:0000000000000058 $d
-     /tmp/ccP5Og7u.s:436    .rodata.RTC_Print_DateTime.str1.4:0000000000000000 $d
-     /tmp/ccP5Og7u.s:443    .text.RTC_Print_DateTime:0000000000000000 $t
-     /tmp/ccP5Og7u.s:450    .text.RTC_Print_DateTime:0000000000000000 RTC_Print_DateTime
-     /tmp/ccP5Og7u.s:505    .text.RTC_Print_DateTime:0000000000000048 $d
-     /tmp/ccP5Og7u.s:512    .text.HAL_RTCEx_WakeUpTimerEventCallback:0000000000000000 $t
-     /tmp/ccP5Og7u.s:519    .text.HAL_RTCEx_WakeUpTimerEventCallback:0000000000000000 HAL_RTCEx_WakeUpTimerEventCallback
-     /tmp/ccP5Og7u.s:548    .text.HAL_RTCEx_WakeUpTimerEventCallback:000000000000000c $d
-     /tmp/ccP5Og7u.s:553    .text.RTC_SetApplicationWakeupCallback:0000000000000000 $t
-     /tmp/ccP5Og7u.s:560    .text.RTC_SetApplicationWakeupCallback:0000000000000000 RTC_SetApplicationWakeupCallback
-     /tmp/ccP5Og7u.s:577    .text.RTC_SetApplicationWakeupCallback:0000000000000008 $d
+     /tmp/ccLe3M28.s:166    .rodata.RTC_Set_Time_From_Unix.str1.4:0000000000000000 $d
+     /tmp/ccLe3M28.s:173    .text.RTC_Set_Time_From_Unix:0000000000000000 $t
+     /tmp/ccLe3M28.s:180    .text.RTC_Set_Time_From_Unix:0000000000000000 RTC_Set_Time_From_Unix
+     /tmp/ccLe3M28.s:320    .text.RTC_Set_Time_From_Unix:000000000000008c $d
+     /tmp/ccLe3M28.s:327    .rodata.RTC_Time_To_Unix.str1.4:0000000000000000 $d
+     /tmp/ccLe3M28.s:331    .text.RTC_Time_To_Unix:0000000000000000 $t
+     /tmp/ccLe3M28.s:338    .text.RTC_Time_To_Unix:0000000000000000 RTC_Time_To_Unix
+     /tmp/ccLe3M28.s:430    .text.RTC_Time_To_Unix:0000000000000058 $d
+     /tmp/ccLe3M28.s:436    .rodata.RTC_Print_DateTime.str1.4:0000000000000000 $d
+     /tmp/ccLe3M28.s:443    .text.RTC_Print_DateTime:0000000000000000 $t
+     /tmp/ccLe3M28.s:450    .text.RTC_Print_DateTime:0000000000000000 RTC_Print_DateTime
+     /tmp/ccLe3M28.s:505    .text.RTC_Print_DateTime:0000000000000048 $d
+     /tmp/ccLe3M28.s:512    .text.HAL_RTCEx_WakeUpTimerEventCallback:0000000000000000 $t
+     /tmp/ccLe3M28.s:519    .text.HAL_RTCEx_WakeUpTimerEventCallback:0000000000000000 HAL_RTCEx_WakeUpTimerEventCallback
+     /tmp/ccLe3M28.s:548    .text.HAL_RTCEx_WakeUpTimerEventCallback:000000000000000c $d
+     /tmp/ccLe3M28.s:553    .text.RTC_SetApplicationWakeupCallback:0000000000000000 $t
+     /tmp/ccLe3M28.s:560    .text.RTC_SetApplicationWakeupCallback:0000000000000000 RTC_SetApplicationWakeupCallback
+     /tmp/ccLe3M28.s:577    .text.RTC_SetApplicationWakeupCallback:0000000000000008 $d
                             *COM*:000000000000002c P3_header
                             *COM*:000000000000002c P2_header
                             *COM*:000000000000002c P1_header
@@ -931,7 +931,7 @@ DEFINED SYMBOLS
                             *COM*:0000000000000078 FTDI_UART
                             *COM*:0000000000000078 BLE_UART
                             *COM*:0000000000000078 USB_UART
-ARM GAS  /tmp/ccP5Og7u.s 			page 17
+ARM GAS  /tmp/ccLe3M28.s 			page 17
 
 
                             *COM*:0000000000000010 hiwdg
@@ -955,8 +955,8 @@ DEFINED SYMBOLS
                             *COM*:0000000000000008 P1_DIO1
                             *COM*:0000000000000040 htim6
                             *COM*:0000000000000040 htim1
-     /tmp/ccP5Og7u.s:637    .bss.RTC_Wakeup_ApplicationCallback:0000000000000000 $d
-     /tmp/ccP5Og7u.s:641    .bss.RTC_Wakeup_ApplicationCallback:0000000000000000 RTC_Wakeup_ApplicationCallback
+     /tmp/ccLe3M28.s:637    .bss.RTC_Wakeup_ApplicationCallback:0000000000000000 $d
+     /tmp/ccLe3M28.s:641    .bss.RTC_Wakeup_ApplicationCallback:0000000000000000 RTC_Wakeup_ApplicationCallback
 
 UNDEFINED SYMBOLS
 HAL_RTC_Init

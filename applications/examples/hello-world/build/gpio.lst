@@ -1,4 +1,4 @@
-ARM GAS  /tmp/cccXRWcm.s 			page 1
+ARM GAS  /tmp/ccIrEdln.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  /tmp/cccXRWcm.s 			page 1
   47              		.cfi_def_cfa_offset 88
   10:../../../core/platform/octa/src/gpio.c ****   GPIO_InitTypeDef GPIO_InitStruct = {0};
   48              		.loc 1 10 3 view .LVU1
-ARM GAS  /tmp/cccXRWcm.s 			page 2
+ARM GAS  /tmp/ccIrEdln.s 			page 2
 
 
   49              		.loc 1 10 20 is_stmt 0 view .LVU2
@@ -118,7 +118,7 @@ ARM GAS  /tmp/cccXRWcm.s 			page 1
   98              		.loc 1 15 3 view .LVU19
   99 0048 029A     		ldr	r2, [sp, #8]
  100              	.LBE4:
-ARM GAS  /tmp/cccXRWcm.s 			page 3
+ARM GAS  /tmp/ccIrEdln.s 			page 3
 
 
  101              		.loc 1 15 3 view .LVU20
@@ -178,7 +178,7 @@ ARM GAS  /tmp/cccXRWcm.s 			page 1
  151 0080 DA6C     		ldr	r2, [r3, #76]
  152 0082 42F00802 		orr	r2, r2, #8
  153 0086 DA64     		str	r2, [r3, #76]
-ARM GAS  /tmp/cccXRWcm.s 			page 4
+ARM GAS  /tmp/ccIrEdln.s 			page 4
 
 
  154              		.loc 1 19 3 view .LVU42
@@ -238,7 +238,7 @@ ARM GAS  /tmp/cccXRWcm.s 			page 1
  192              		.loc 1 35 3 view .LVU50
  193 00ce 0122     		movs	r2, #1
  194 00d0 0221     		movs	r1, #2
-ARM GAS  /tmp/cccXRWcm.s 			page 5
+ARM GAS  /tmp/ccIrEdln.s 			page 5
 
 
  195 00d2 4FF09040 		mov	r0, #1207959552
@@ -298,7 +298,7 @@ ARM GAS  /tmp/cccXRWcm.s 			page 1
  238              		.loc 1 46 3 is_stmt 1 view .LVU63
  239 011e 07A9     		add	r1, sp, #28
  240 0120 2846     		mov	r0, r5
-ARM GAS  /tmp/cccXRWcm.s 			page 6
+ARM GAS  /tmp/ccIrEdln.s 			page 6
 
 
  241 0122 FFF7FEFF 		bl	HAL_GPIO_Init
@@ -358,7 +358,7 @@ ARM GAS  /tmp/cccXRWcm.s 			page 1
   61:../../../core/platform/octa/src/gpio.c ****   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
  281              		.loc 1 61 3 is_stmt 1 view .LVU82
  282              		.loc 1 61 24 is_stmt 0 view .LVU83
-ARM GAS  /tmp/cccXRWcm.s 			page 7
+ARM GAS  /tmp/ccIrEdln.s 			page 7
 
 
  283 0156 0896     		str	r6, [sp, #32]
@@ -418,7 +418,7 @@ ARM GAS  /tmp/cccXRWcm.s 			page 1
  323              		.loc 1 75 3 is_stmt 1 view .LVU104
  324              		.loc 1 75 25 is_stmt 0 view .LVU105
  325 0182 0A94     		str	r4, [sp, #40]
-ARM GAS  /tmp/cccXRWcm.s 			page 8
+ARM GAS  /tmp/ccIrEdln.s 			page 8
 
 
   76:../../../core/platform/octa/src/gpio.c ****   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
@@ -478,7 +478,7 @@ ARM GAS  /tmp/cccXRWcm.s 			page 1
  366 01b0 CDF81CA0 		str	r10, [sp, #28]
   90:../../../core/platform/octa/src/gpio.c ****   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
  367              		.loc 1 90 3 is_stmt 1 view .LVU125
-ARM GAS  /tmp/cccXRWcm.s 			page 9
+ARM GAS  /tmp/ccIrEdln.s 			page 9
 
 
  368              		.loc 1 90 24 is_stmt 0 view .LVU126
@@ -538,7 +538,7 @@ ARM GAS  /tmp/cccXRWcm.s 			page 1
  410              	.LVL21:
  103:../../../core/platform/octa/src/gpio.c **** 
  104:../../../core/platform/octa/src/gpio.c ****   P1_DIO1.PORT = P1_DIO1_GPIO_Port;
-ARM GAS  /tmp/cccXRWcm.s 			page 10
+ARM GAS  /tmp/ccIrEdln.s 			page 10
 
 
  411              		.loc 1 104 3 view .LVU143
@@ -598,7 +598,7 @@ ARM GAS  /tmp/cccXRWcm.s 			page 1
  455 0222 C4F80080 		str	r8, [r4]
  115:../../../core/platform/octa/src/gpio.c ****   P1_DIO6.PIN = P1_DIO6_Pin;
  456              		.loc 1 115 3 is_stmt 1 view .LVU165
-ARM GAS  /tmp/cccXRWcm.s 			page 11
+ARM GAS  /tmp/ccIrEdln.s 			page 11
 
 
  457              		.loc 1 115 15 is_stmt 0 view .LVU166
@@ -658,7 +658,7 @@ ARM GAS  /tmp/cccXRWcm.s 			page 1
  499 0258 1E4C     		ldr	r4, .L3+64
  500 025a 2560     		str	r5, [r4]
  128:../../../core/platform/octa/src/gpio.c ****   P2_DIO6.PIN = P2_DIO6_Pin;
-ARM GAS  /tmp/cccXRWcm.s 			page 12
+ARM GAS  /tmp/ccIrEdln.s 			page 12
 
 
  501              		.loc 1 128 3 is_stmt 1 view .LVU189
@@ -718,7 +718,7 @@ ARM GAS  /tmp/cccXRWcm.s 			page 1
  543 0284 194B     		ldr	r3, .L3+88
  544 0286 C3F80090 		str	r9, [r3]
  141:../../../core/platform/octa/src/gpio.c ****   P3_DIO6.PIN = P3_DIO6_Pin;
-ARM GAS  /tmp/cccXRWcm.s 			page 13
+ARM GAS  /tmp/ccIrEdln.s 			page 13
 
 
  545              		.loc 1 141 3 is_stmt 1 view .LVU213
@@ -778,7 +778,7 @@ ARM GAS  /tmp/cccXRWcm.s 			page 1
  597              		.loc 1 145 1 is_stmt 1 view -0
  598              		.cfi_startproc
  599              		@ args = 0, pretend = 0, frame = 24
-ARM GAS  /tmp/cccXRWcm.s 			page 14
+ARM GAS  /tmp/ccIrEdln.s 			page 14
 
 
  600              		@ frame_needed = 0, uses_anonymous_args = 0
@@ -838,7 +838,7 @@ ARM GAS  /tmp/cccXRWcm.s 			page 1
  640              	.LVL25:
  160:../../../core/platform/octa/src/gpio.c ****   HAL_GPIO_Init(GPIOE, &GPIO_InitStructure);
  641              		.loc 1 160 3 view .LVU228
-ARM GAS  /tmp/cccXRWcm.s 			page 15
+ARM GAS  /tmp/ccIrEdln.s 			page 15
 
 
  642 0034 01A9     		add	r1, sp, #4
@@ -898,7 +898,7 @@ ARM GAS  /tmp/cccXRWcm.s 			page 1
  685 0080 22F01002 		bic	r2, r2, #16
  686 0084 DA64     		str	r2, [r3, #76]
  172:../../../core/platform/octa/src/gpio.c ****   __HAL_RCC_GPIOF_CLK_DISABLE();  
-ARM GAS  /tmp/cccXRWcm.s 			page 16
+ARM GAS  /tmp/ccIrEdln.s 			page 16
 
 
  687              		.loc 1 172 3 view .LVU238
@@ -958,7 +958,7 @@ ARM GAS  /tmp/cccXRWcm.s 			page 1
  730      440D0A00 
  731              		.align	2
  732              	.LC2:
-ARM GAS  /tmp/cccXRWcm.s 			page 17
+ARM GAS  /tmp/ccIrEdln.s 			page 17
 
 
  733 0028 4E75636C 		.ascii	"Nucleo BTN1 PRESSED\015\012\000"
@@ -1018,7 +1018,7 @@ ARM GAS  /tmp/cccXRWcm.s 			page 1
  194:../../../core/platform/octa/src/gpio.c ****             osThreadResume(rtosprintHandle);
  195:../../../core/platform/octa/src/gpio.c ****           else
  196:../../../core/platform/octa/src/gpio.c ****             printDBG("Kernel not running\r\n");
-ARM GAS  /tmp/cccXRWcm.s 			page 18
+ARM GAS  /tmp/ccIrEdln.s 			page 18
 
 
  197:../../../core/platform/octa/src/gpio.c ****         #endif
@@ -1078,7 +1078,7 @@ ARM GAS  /tmp/cccXRWcm.s 			page 1
  801              		.loc 1 198 9 view .LVU259
  198:../../../core/platform/octa/src/gpio.c ****           OCTA_BTN2_Pressed_Callback();
  802              		.loc 1 198 12 is_stmt 0 view .LVU260
-ARM GAS  /tmp/cccXRWcm.s 			page 19
+ARM GAS  /tmp/ccIrEdln.s 			page 19
 
 
  803 002c 0A4B     		ldr	r3, .L17+12
@@ -1138,7 +1138,7 @@ ARM GAS  /tmp/cccXRWcm.s 			page 1
  852              	GPIO_SetApplicationCallback:
  853              	.LVL41:
  854              	.LFB131:
-ARM GAS  /tmp/cccXRWcm.s 			page 20
+ARM GAS  /tmp/ccIrEdln.s 			page 20
 
 
  209:../../../core/platform/octa/src/gpio.c **** 
@@ -1198,7 +1198,7 @@ ARM GAS  /tmp/cccXRWcm.s 			page 1
  221:../../../core/platform/octa/src/gpio.c ****       Nucleo_BTN1_Pressed_Callback = callback;
  885              		.loc 1 221 7 view .LVU278
  221:../../../core/platform/octa/src/gpio.c ****       Nucleo_BTN1_Pressed_Callback = callback;
-ARM GAS  /tmp/cccXRWcm.s 			page 21
+ARM GAS  /tmp/ccIrEdln.s 			page 21
 
 
  886              		.loc 1 221 36 is_stmt 0 view .LVU279
@@ -1252,13 +1252,13 @@ ARM GAS  /tmp/cccXRWcm.s 			page 1
  940 0000 00000000 		.space	4
  941              		.text
  942              	.Letext0:
- 943              		.file 2 "/usr/arm-none-eabi/include/machine/_default_types.h"
- 944              		.file 3 "/usr/arm-none-eabi/include/sys/_stdint.h"
+ 943              		.file 2 "/home/matsdm/gcc-arm-none-eabi-9-2019-q4-major-x86_64-linux/gcc-arm-none-eabi-9-2019-q4-m
+ 944              		.file 3 "/home/matsdm/gcc-arm-none-eabi-9-2019-q4-major-x86_64-linux/gcc-arm-none-eabi-9-2019-q4-m
  945              		.file 4 "../../../core/ST/CMSIS/Include/core_cm4.h"
  946              		.file 5 "../../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/system_stm32l4xx.h"
  947              		.file 6 "../../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/stm32l496xx.h"
  948              		.file 7 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_gpio.h"
-ARM GAS  /tmp/cccXRWcm.s 			page 22
+ARM GAS  /tmp/ccIrEdln.s 			page 22
 
 
  949              		.file 8 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h"
@@ -1267,14 +1267,14 @@ ARM GAS  /tmp/cccXRWcm.s 			page 1
  952              		.file 11 "../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h"
  953              		.file 12 "../../../core/platform/octa/inc/rtosincludes.h"
  954              		.file 13 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_pwr_ex.h"
-ARM GAS  /tmp/cccXRWcm.s 			page 23
+ARM GAS  /tmp/ccIrEdln.s 			page 23
 
 
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 gpio.c
-     /tmp/cccXRWcm.s:18     .text.OCTA_GPIO_Init:0000000000000000 $t
-     /tmp/cccXRWcm.s:26     .text.OCTA_GPIO_Init:0000000000000000 OCTA_GPIO_Init
-     /tmp/cccXRWcm.s:558    .text.OCTA_GPIO_Init:0000000000000294 $d
+     /tmp/ccIrEdln.s:18     .text.OCTA_GPIO_Init:0000000000000000 $t
+     /tmp/ccIrEdln.s:26     .text.OCTA_GPIO_Init:0000000000000000 OCTA_GPIO_Init
+     /tmp/ccIrEdln.s:558    .text.OCTA_GPIO_Init:0000000000000294 $d
                             *COM*:0000000000000008 P1_DIO1
                             *COM*:0000000000000008 P1_DIO2
                             *COM*:0000000000000008 P1_DIO3
@@ -1293,23 +1293,23 @@ DEFINED SYMBOLS
                             *COM*:0000000000000008 P3_DIO4
                             *COM*:0000000000000008 P3_DIO5
                             *COM*:0000000000000008 P3_DIO6
-     /tmp/cccXRWcm.s:588    .text.OCTA_GPIO_DeInit:0000000000000000 $t
-     /tmp/cccXRWcm.s:595    .text.OCTA_GPIO_DeInit:0000000000000000 OCTA_GPIO_DeInit
-     /tmp/cccXRWcm.s:712    .text.OCTA_GPIO_DeInit:00000000000000ac $d
-     /tmp/cccXRWcm.s:725    .rodata.HAL_GPIO_EXTI_Callback.str1.4:0000000000000000 $d
-     /tmp/cccXRWcm.s:735    .text.HAL_GPIO_EXTI_Callback:0000000000000000 $t
-     /tmp/cccXRWcm.s:742    .text.HAL_GPIO_EXTI_Callback:0000000000000000 HAL_GPIO_EXTI_Callback
-     /tmp/cccXRWcm.s:835    .text.HAL_GPIO_EXTI_Callback:000000000000004c $d
-     /tmp/cccXRWcm.s:845    .text.GPIO_SetApplicationCallback:0000000000000000 $t
-     /tmp/cccXRWcm.s:852    .text.GPIO_SetApplicationCallback:0000000000000000 GPIO_SetApplicationCallback
-     /tmp/cccXRWcm.s:895    .text.GPIO_SetApplicationCallback:0000000000000024 $d
+     /tmp/ccIrEdln.s:588    .text.OCTA_GPIO_DeInit:0000000000000000 $t
+     /tmp/ccIrEdln.s:595    .text.OCTA_GPIO_DeInit:0000000000000000 OCTA_GPIO_DeInit
+     /tmp/ccIrEdln.s:712    .text.OCTA_GPIO_DeInit:00000000000000ac $d
+     /tmp/ccIrEdln.s:725    .rodata.HAL_GPIO_EXTI_Callback.str1.4:0000000000000000 $d
+     /tmp/ccIrEdln.s:735    .text.HAL_GPIO_EXTI_Callback:0000000000000000 $t
+     /tmp/ccIrEdln.s:742    .text.HAL_GPIO_EXTI_Callback:0000000000000000 HAL_GPIO_EXTI_Callback
+     /tmp/ccIrEdln.s:835    .text.HAL_GPIO_EXTI_Callback:000000000000004c $d
+     /tmp/ccIrEdln.s:845    .text.GPIO_SetApplicationCallback:0000000000000000 $t
+     /tmp/ccIrEdln.s:852    .text.GPIO_SetApplicationCallback:0000000000000000 GPIO_SetApplicationCallback
+     /tmp/ccIrEdln.s:895    .text.GPIO_SetApplicationCallback:0000000000000024 $d
                             *COM*:0000000000000004 rtosprintHandle
-     /tmp/cccXRWcm.s:921    .bss.Nucleo_BTN1_Pressed_Callback:0000000000000000 $d
-     /tmp/cccXRWcm.s:925    .bss.Nucleo_BTN1_Pressed_Callback:0000000000000000 Nucleo_BTN1_Pressed_Callback
-     /tmp/cccXRWcm.s:928    .bss.OCTA_BTN1_Pressed_Callback:0000000000000000 $d
-     /tmp/cccXRWcm.s:932    .bss.OCTA_BTN1_Pressed_Callback:0000000000000000 OCTA_BTN1_Pressed_Callback
-     /tmp/cccXRWcm.s:935    .bss.OCTA_BTN2_Pressed_Callback:0000000000000000 $d
-     /tmp/cccXRWcm.s:939    .bss.OCTA_BTN2_Pressed_Callback:0000000000000000 OCTA_BTN2_Pressed_Callback
+     /tmp/ccIrEdln.s:921    .bss.Nucleo_BTN1_Pressed_Callback:0000000000000000 $d
+     /tmp/ccIrEdln.s:925    .bss.Nucleo_BTN1_Pressed_Callback:0000000000000000 Nucleo_BTN1_Pressed_Callback
+     /tmp/ccIrEdln.s:928    .bss.OCTA_BTN1_Pressed_Callback:0000000000000000 $d
+     /tmp/ccIrEdln.s:932    .bss.OCTA_BTN1_Pressed_Callback:0000000000000000 OCTA_BTN1_Pressed_Callback
+     /tmp/ccIrEdln.s:935    .bss.OCTA_BTN2_Pressed_Callback:0000000000000000 $d
+     /tmp/ccIrEdln.s:939    .bss.OCTA_BTN2_Pressed_Callback:0000000000000000 OCTA_BTN2_Pressed_Callback
 
 UNDEFINED SYMBOLS
 HAL_PWREx_EnableVddIO2

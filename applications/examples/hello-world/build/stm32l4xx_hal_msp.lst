@@ -1,4 +1,4 @@
-ARM GAS  /tmp/cctpDTpE.s 			page 1
+ARM GAS  /tmp/ccMbU6zB.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  /tmp/cctpDTpE.s 			page 1
   28:../../../core/platform/octa/src/stm32l4xx_hal_msp.c ****   * 4. This software, including modifications and/or derivative works of this 
   29:../../../core/platform/octa/src/stm32l4xx_hal_msp.c ****   *    software, must execute solely and exclusively on microcontroller or
   30:../../../core/platform/octa/src/stm32l4xx_hal_msp.c ****   *    microprocessor devices manufactured by or for STMicroelectronics.
-ARM GAS  /tmp/cctpDTpE.s 			page 2
+ARM GAS  /tmp/ccMbU6zB.s 			page 2
 
 
   31:../../../core/platform/octa/src/stm32l4xx_hal_msp.c ****   * 5. Redistribution and use of this software other than as permitted under 
@@ -118,7 +118,7 @@ ARM GAS  /tmp/cctpDTpE.s 			page 1
   85:../../../core/platform/octa/src/stm32l4xx_hal_msp.c **** 
   86:../../../core/platform/octa/src/stm32l4xx_hal_msp.c **** /* USER CODE END ExternalFunctions */
   87:../../../core/platform/octa/src/stm32l4xx_hal_msp.c **** 
-ARM GAS  /tmp/cctpDTpE.s 			page 3
+ARM GAS  /tmp/ccMbU6zB.s 			page 3
 
 
   88:../../../core/platform/octa/src/stm32l4xx_hal_msp.c **** /* USER CODE BEGIN 0 */
@@ -178,7 +178,7 @@ ARM GAS  /tmp/cctpDTpE.s 			page 1
   69              	.LBE3:
   70              		.loc 1 101 3 view .LVU12
  102:../../../core/platform/octa/src/stm32l4xx_hal_msp.c ****   __HAL_RCC_RTC_ENABLE();
-ARM GAS  /tmp/cctpDTpE.s 			page 4
+ARM GAS  /tmp/ccMbU6zB.s 			page 4
 
 
   71              		.loc 1 102 3 view .LVU13
@@ -238,7 +238,7 @@ ARM GAS  /tmp/cctpDTpE.s 			page 1
  114              		.cfi_offset 14, -4
  116:../../../core/platform/octa/src/stm32l4xx_hal_msp.c **** 
  117:../../../core/platform/octa/src/stm32l4xx_hal_msp.c ****   if(hrtc->Instance==RTC)
-ARM GAS  /tmp/cctpDTpE.s 			page 5
+ARM GAS  /tmp/ccMbU6zB.s 			page 5
 
 
  115              		.loc 1 117 3 is_stmt 1 view .LVU18
@@ -298,7 +298,7 @@ ARM GAS  /tmp/cctpDTpE.s 			page 1
  150 002c 00280040 		.word	1073752064
  151 0030 00100240 		.word	1073876992
  152              		.cfi_endproc
-ARM GAS  /tmp/cctpDTpE.s 			page 6
+ARM GAS  /tmp/ccMbU6zB.s 			page 6
 
 
  153              	.LFE124:
@@ -358,7 +358,7 @@ ARM GAS  /tmp/cctpDTpE.s 			page 1
  143:../../../core/platform/octa/src/stm32l4xx_hal_msp.c **** 
  189              		.loc 1 143 5 is_stmt 1 view .LVU33
  190 000c 064A     		ldr	r2, .L15+4
-ARM GAS  /tmp/cctpDTpE.s 			page 7
+ARM GAS  /tmp/ccMbU6zB.s 			page 7
 
 
  191 000e D2F89030 		ldr	r3, [r2, #144]
@@ -418,7 +418,7 @@ ARM GAS  /tmp/cctpDTpE.s 			page 1
  236              		.cfi_def_cfa_offset 80
  237 0004 0446     		mov	r4, r0
  162:../../../core/platform/octa/src/stm32l4xx_hal_msp.c **** 
-ARM GAS  /tmp/cctpDTpE.s 			page 8
+ARM GAS  /tmp/ccMbU6zB.s 			page 8
 
 
  163:../../../core/platform/octa/src/stm32l4xx_hal_msp.c ****   GPIO_InitTypeDef GPIO_InitStruct = {0};
@@ -478,7 +478,7 @@ ARM GAS  /tmp/cctpDTpE.s 			page 1
  192:../../../core/platform/octa/src/stm32l4xx_hal_msp.c **** 
  193:../../../core/platform/octa/src/stm32l4xx_hal_msp.c ****   /* USER CODE END I2C2_MspInit 0 */
  194:../../../core/platform/octa/src/stm32l4xx_hal_msp.c ****   
-ARM GAS  /tmp/cctpDTpE.s 			page 9
+ARM GAS  /tmp/ccMbU6zB.s 			page 9
 
 
  195:../../../core/platform/octa/src/stm32l4xx_hal_msp.c ****     __HAL_RCC_GPIOF_CLK_ENABLE();
@@ -538,7 +538,7 @@ ARM GAS  /tmp/cctpDTpE.s 			page 1
  274              	.L17:
  238:../../../core/platform/octa/src/stm32l4xx_hal_msp.c ****   {
  239:../../../core/platform/octa/src/stm32l4xx_hal_msp.c ****   /* USER CODE BEGIN I2C4_MspInit 0 */
-ARM GAS  /tmp/cctpDTpE.s 			page 10
+ARM GAS  /tmp/ccMbU6zB.s 			page 10
 
 
  240:../../../core/platform/octa/src/stm32l4xx_hal_msp.c **** 
@@ -598,7 +598,7 @@ ARM GAS  /tmp/cctpDTpE.s 			page 1
  294              		.loc 1 170 5 view .LVU56
  295 003c EB6C     		ldr	r3, [r5, #76]
  296 003e 03F00203 		and	r3, r3, #2
-ARM GAS  /tmp/cctpDTpE.s 			page 11
+ARM GAS  /tmp/ccMbU6zB.s 			page 11
 
 
  297 0042 0093     		str	r3, [sp]
@@ -658,7 +658,7 @@ ARM GAS  /tmp/cctpDTpE.s 			page 1
  334 0066 43F40013 		orr	r3, r3, #2097152
  335 006a AB65     		str	r3, [r5, #88]
  183:../../../core/platform/octa/src/stm32l4xx_hal_msp.c ****   /* USER CODE BEGIN I2C1_MspInit 1 */
-ARM GAS  /tmp/cctpDTpE.s 			page 12
+ARM GAS  /tmp/ccMbU6zB.s 			page 12
 
 
  336              		.loc 1 183 5 view .LVU74
@@ -718,7 +718,7 @@ ARM GAS  /tmp/cctpDTpE.s 			page 1
  375 0096 0B93     		str	r3, [sp, #44]
  203:../../../core/platform/octa/src/stm32l4xx_hal_msp.c ****     GPIO_InitStruct.Alternate = GPIO_AF4_I2C2;
  376              		.loc 1 203 5 is_stmt 1 view .LVU90
-ARM GAS  /tmp/cctpDTpE.s 			page 13
+ARM GAS  /tmp/ccMbU6zB.s 			page 13
 
 
  203:../../../core/platform/octa/src/stm32l4xx_hal_msp.c ****     GPIO_InitStruct.Alternate = GPIO_AF4_I2C2;
@@ -778,7 +778,7 @@ ARM GAS  /tmp/cctpDTpE.s 			page 1
  219:../../../core/platform/octa/src/stm32l4xx_hal_msp.c ****     /**I2C3 GPIO Configuration    
  417              		.loc 1 219 5 is_stmt 1 view .LVU105
  418 00c6 E36C     		ldr	r3, [r4, #76]
-ARM GAS  /tmp/cctpDTpE.s 			page 14
+ARM GAS  /tmp/ccMbU6zB.s 			page 14
 
 
  419 00c8 03F00403 		and	r3, r3, #4
@@ -838,7 +838,7 @@ ARM GAS  /tmp/cctpDTpE.s 			page 1
  456              		.loc 1 232 5 view .LVU122
  457 00f2 A36D     		ldr	r3, [r4, #88]
  458 00f4 03F40003 		and	r3, r3, #8388608
-ARM GAS  /tmp/cctpDTpE.s 			page 15
+ARM GAS  /tmp/ccMbU6zB.s 			page 15
 
 
  459 00f8 0593     		str	r3, [sp, #20]
@@ -898,7 +898,7 @@ ARM GAS  /tmp/cctpDTpE.s 			page 1
  244:../../../core/platform/octa/src/stm32l4xx_hal_msp.c ****     /**I2C4 GPIO Configuration    
  499              		.loc 1 244 5 view .LVU137
  249:../../../core/platform/octa/src/stm32l4xx_hal_msp.c ****     GPIO_InitStruct.Mode = GPIO_MODE_AF_OD;
-ARM GAS  /tmp/cctpDTpE.s 			page 16
+ARM GAS  /tmp/ccMbU6zB.s 			page 16
 
 
  500              		.loc 1 249 5 view .LVU138
@@ -958,7 +958,7 @@ ARM GAS  /tmp/cctpDTpE.s 			page 1
  536              		.loc 1 259 27 is_stmt 0 view .LVU156
  537 014c 0C95     		str	r5, [sp, #48]
  260:../../../core/platform/octa/src/stm32l4xx_hal_msp.c ****     HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
-ARM GAS  /tmp/cctpDTpE.s 			page 17
+ARM GAS  /tmp/ccMbU6zB.s 			page 17
 
 
  538              		.loc 1 260 5 is_stmt 1 view .LVU157
@@ -1018,7 +1018,7 @@ ARM GAS  /tmp/cctpDTpE.s 			page 1
  586              	HAL_I2C_MspDeInit:
  587              	.LVL27:
  588              	.LFB127:
-ARM GAS  /tmp/cctpDTpE.s 			page 18
+ARM GAS  /tmp/ccMbU6zB.s 			page 18
 
 
  271:../../../core/platform/octa/src/stm32l4xx_hal_msp.c **** 
@@ -1078,7 +1078,7 @@ ARM GAS  /tmp/cctpDTpE.s 			page 1
  614 0010 9342     		cmp	r3, r2
  615 0012 11D0     		beq	.L36
  300:../../../core/platform/octa/src/stm32l4xx_hal_msp.c ****   {
-ARM GAS  /tmp/cctpDTpE.s 			page 19
+ARM GAS  /tmp/ccMbU6zB.s 			page 19
 
 
  301:../../../core/platform/octa/src/stm32l4xx_hal_msp.c ****   /* USER CODE BEGIN I2C2_MspDeInit 0 */
@@ -1138,7 +1138,7 @@ ARM GAS  /tmp/cctpDTpE.s 			page 1
  344:../../../core/platform/octa/src/stm32l4xx_hal_msp.c ****     PF15     ------> I2C4_SDA
  345:../../../core/platform/octa/src/stm32l4xx_hal_msp.c ****     PB10     ------> I2C4_SCL 
  346:../../../core/platform/octa/src/stm32l4xx_hal_msp.c ****     */
-ARM GAS  /tmp/cctpDTpE.s 			page 20
+ARM GAS  /tmp/ccMbU6zB.s 			page 20
 
 
  347:../../../core/platform/octa/src/stm32l4xx_hal_msp.c ****     HAL_GPIO_DeInit(GPIOF, GPIO_PIN_15);
@@ -1198,7 +1198,7 @@ ARM GAS  /tmp/cctpDTpE.s 			page 1
  664 005c 1148     		ldr	r0, .L39+28
  665 005e FFF7FEFF 		bl	HAL_GPIO_DeInit
  666              	.LVL33:
-ARM GAS  /tmp/cctpDTpE.s 			page 21
+ARM GAS  /tmp/ccMbU6zB.s 			page 21
 
 
  667 0062 DDE7     		b	.L29
@@ -1258,7 +1258,7 @@ ARM GAS  /tmp/cctpDTpE.s 			page 1
  711              		.loc 1 365 1 is_stmt 1 view -0
  712              		.cfi_startproc
  713              		@ args = 0, pretend = 0, frame = 56
-ARM GAS  /tmp/cctpDTpE.s 			page 22
+ARM GAS  /tmp/ccMbU6zB.s 			page 22
 
 
  714              		@ frame_needed = 0, uses_anonymous_args = 0
@@ -1318,7 +1318,7 @@ ARM GAS  /tmp/cctpDTpE.s 			page 1
  392:../../../core/platform/octa/src/stm32l4xx_hal_msp.c ****   }
  393:../../../core/platform/octa/src/stm32l4xx_hal_msp.c ****   else if(huart->Instance==UART5)
  742              		.loc 1 393 8 is_stmt 1 view .LVU198
-ARM GAS  /tmp/cctpDTpE.s 			page 23
+ARM GAS  /tmp/ccMbU6zB.s 			page 23
 
 
  743              		.loc 1 393 10 is_stmt 0 view .LVU199
@@ -1378,7 +1378,7 @@ ARM GAS  /tmp/cctpDTpE.s 			page 1
  439:../../../core/platform/octa/src/stm32l4xx_hal_msp.c ****       */
  440:../../../core/platform/octa/src/stm32l4xx_hal_msp.c **** 
  441:../../../core/platform/octa/src/stm32l4xx_hal_msp.c ****       /* UART TX GPIO pin configuration  */
-ARM GAS  /tmp/cctpDTpE.s 			page 24
+ARM GAS  /tmp/ccMbU6zB.s 			page 24
 
 
  442:../../../core/platform/octa/src/stm32l4xx_hal_msp.c ****       GPIO_InitStruct.Pin       = GPIO_PIN_5|GPIO_PIN_6;
@@ -1438,7 +1438,7 @@ ARM GAS  /tmp/cctpDTpE.s 			page 1
  489:../../../core/platform/octa/src/stm32l4xx_hal_msp.c ****       PD8     ------> USART3_TX
  490:../../../core/platform/octa/src/stm32l4xx_hal_msp.c ****       PD9     ------> USART3_RX 
  491:../../../core/platform/octa/src/stm32l4xx_hal_msp.c ****       */
-ARM GAS  /tmp/cctpDTpE.s 			page 25
+ARM GAS  /tmp/ccMbU6zB.s 			page 25
 
 
  492:../../../core/platform/octa/src/stm32l4xx_hal_msp.c ****       GPIO_InitStruct.Pin = GPIO_PIN_8|GPIO_PIN_9;
@@ -1498,7 +1498,7 @@ ARM GAS  /tmp/cctpDTpE.s 			page 1
  791 0044 42F04002 		orr	r2, r2, #64
  792 0048 DA64     		str	r2, [r3, #76]
  376:../../../core/platform/octa/src/stm32l4xx_hal_msp.c ****     HAL_PWREx_EnableVddIO2();
-ARM GAS  /tmp/cctpDTpE.s 			page 26
+ARM GAS  /tmp/ccMbU6zB.s 			page 26
 
 
  793              		.loc 1 376 5 view .LVU214
@@ -1558,7 +1558,7 @@ ARM GAS  /tmp/cctpDTpE.s 			page 1
  832              		.loc 1 399 5 view .LVU229
  833              	.LBB15:
  399:../../../core/platform/octa/src/stm32l4xx_hal_msp.c ****   
-ARM GAS  /tmp/cctpDTpE.s 			page 27
+ARM GAS  /tmp/ccMbU6zB.s 			page 27
 
 
  834              		.loc 1 399 5 view .LVU230
@@ -1618,7 +1618,7 @@ ARM GAS  /tmp/cctpDTpE.s 			page 1
  402:../../../core/platform/octa/src/stm32l4xx_hal_msp.c ****     /**UART5 GPIO Configuration    
  874              		.loc 1 402 5 view .LVU245
  875 00ae 049B     		ldr	r3, [sp, #16]
-ARM GAS  /tmp/cctpDTpE.s 			page 28
+ARM GAS  /tmp/ccMbU6zB.s 			page 28
 
 
  876              	.LBE17:
@@ -1678,7 +1678,7 @@ ARM GAS  /tmp/cctpDTpE.s 			page 1
  912              		.loc 1 416 5 is_stmt 1 view .LVU263
  416:../../../core/platform/octa/src/stm32l4xx_hal_msp.c ****     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
  913              		.loc 1 416 26 is_stmt 0 view .LVU264
-ARM GAS  /tmp/cctpDTpE.s 			page 29
+ARM GAS  /tmp/ccMbU6zB.s 			page 29
 
 
  914 00d4 0B96     		str	r6, [sp, #44]
@@ -1738,7 +1738,7 @@ ARM GAS  /tmp/cctpDTpE.s 			page 1
  953 0100 DB6C     		ldr	r3, [r3, #76]
  954 0102 03F00103 		and	r3, r3, #1
  955 0106 0693     		str	r3, [sp, #24]
-ARM GAS  /tmp/cctpDTpE.s 			page 30
+ARM GAS  /tmp/ccMbU6zB.s 			page 30
 
 
  450:../../../core/platform/octa/src/stm32l4xx_hal_msp.c ****     
@@ -1798,7 +1798,7 @@ ARM GAS  /tmp/cctpDTpE.s 			page 1
  993              		.loc 1 473 5 view .LVU296
  994 012a 154B     		ldr	r3, .L51+16
  995 012c 9A6D     		ldr	r2, [r3, #88]
-ARM GAS  /tmp/cctpDTpE.s 			page 31
+ARM GAS  /tmp/ccMbU6zB.s 			page 31
 
 
  996 012e 42F48022 		orr	r2, r2, #262144
@@ -1858,7 +1858,7 @@ ARM GAS  /tmp/cctpDTpE.s 			page 1
  495:../../../core/platform/octa/src/stm32l4xx_hal_msp.c ****       GPIO_InitStruct.Alternate = GPIO_AF7_USART3;
  1034              		.loc 1 495 29 is_stmt 0 view .LVU313
  1035 015e 0323     		movs	r3, #3
-ARM GAS  /tmp/cctpDTpE.s 			page 32
+ARM GAS  /tmp/ccMbU6zB.s 			page 32
 
 
  1036 0160 0C93     		str	r3, [sp, #48]
@@ -1918,7 +1918,7 @@ ARM GAS  /tmp/cctpDTpE.s 			page 1
  1078              		@ frame_needed = 0, uses_anonymous_args = 0
  1079              		.loc 1 514 1 is_stmt 0 view .LVU320
  1080 0000 08B5     		push	{r3, lr}
-ARM GAS  /tmp/cctpDTpE.s 			page 33
+ARM GAS  /tmp/ccMbU6zB.s 			page 33
 
 
  1081              	.LCFI14:
@@ -1978,7 +1978,7 @@ ARM GAS  /tmp/cctpDTpE.s 			page 1
  553:../../../core/platform/octa/src/stm32l4xx_hal_msp.c ****   }
  554:../../../core/platform/octa/src/stm32l4xx_hal_msp.c ****   else if(huart->Instance==USART2)
  1097              		.loc 1 554 8 is_stmt 1 view .LVU326
-ARM GAS  /tmp/cctpDTpE.s 			page 34
+ARM GAS  /tmp/ccMbU6zB.s 			page 34
 
 
  1098              		.loc 1 554 10 is_stmt 0 view .LVU327
@@ -2038,7 +2038,7 @@ ARM GAS  /tmp/cctpDTpE.s 			page 1
  598:../../../core/platform/octa/src/stm32l4xx_hal_msp.c **** 
  599:../../../core/platform/octa/src/stm32l4xx_hal_msp.c **** }
  1109              		.loc 1 599 1 view .LVU330
-ARM GAS  /tmp/cctpDTpE.s 			page 35
+ARM GAS  /tmp/ccMbU6zB.s 			page 35
 
 
  1110 001c 08BD     		pop	{r3, pc}
@@ -2098,7 +2098,7 @@ ARM GAS  /tmp/cctpDTpE.s 			page 1
  1155 0064 4FF09040 		mov	r0, #1207959552
  1156              	.LVL61:
  574:../../../core/platform/octa/src/stm32l4xx_hal_msp.c ****     #endif
-ARM GAS  /tmp/cctpDTpE.s 			page 36
+ARM GAS  /tmp/ccMbU6zB.s 			page 36
 
 
  1157              		.loc 1 574 7 is_stmt 0 view .LVU340
@@ -2158,7 +2158,7 @@ ARM GAS  /tmp/cctpDTpE.s 			page 1
  1201              		.loc 1 608 1 is_stmt 1 view -0
  1202              		.cfi_startproc
  1203              		@ args = 0, pretend = 0, frame = 48
-ARM GAS  /tmp/cctpDTpE.s 			page 37
+ARM GAS  /tmp/ccMbU6zB.s 			page 37
 
 
  1204              		@ frame_needed = 0, uses_anonymous_args = 0
@@ -2218,7 +2218,7 @@ ARM GAS  /tmp/cctpDTpE.s 			page 1
  635:../../../core/platform/octa/src/stm32l4xx_hal_msp.c ****     HAL_NVIC_EnableIRQ(SPI1_IRQn);
  636:../../../core/platform/octa/src/stm32l4xx_hal_msp.c ****   /* USER CODE BEGIN SPI1_MspInit 1 */
  637:../../../core/platform/octa/src/stm32l4xx_hal_msp.c **** 
-ARM GAS  /tmp/cctpDTpE.s 			page 38
+ARM GAS  /tmp/ccMbU6zB.s 			page 38
 
 
  638:../../../core/platform/octa/src/stm32l4xx_hal_msp.c ****   /* USER CODE END SPI1_MspInit 1 */
@@ -2278,7 +2278,7 @@ ARM GAS  /tmp/cctpDTpE.s 			page 1
  680:../../../core/platform/octa/src/stm32l4xx_hal_msp.c ****     PA4     ------> SPI3_NSS
  681:../../../core/platform/octa/src/stm32l4xx_hal_msp.c ****     PB3 (JTDO/TRACESWO)     ------> SPI3_SCK
  682:../../../core/platform/octa/src/stm32l4xx_hal_msp.c ****     PB4 (NJTRST)     ------> SPI3_MISO
-ARM GAS  /tmp/cctpDTpE.s 			page 39
+ARM GAS  /tmp/ccMbU6zB.s 			page 39
 
 
  683:../../../core/platform/octa/src/stm32l4xx_hal_msp.c ****     PB5     ------> SPI3_MOSI 
@@ -2338,7 +2338,7 @@ ARM GAS  /tmp/cctpDTpE.s 			page 1
  1268 003a 009A     		ldr	r2, [sp]
  1269              	.LBE22:
  617:../../../core/platform/octa/src/stm32l4xx_hal_msp.c ****   
-ARM GAS  /tmp/cctpDTpE.s 			page 40
+ARM GAS  /tmp/ccMbU6zB.s 			page 40
 
 
  1270              		.loc 1 617 5 view .LVU362
@@ -2398,7 +2398,7 @@ ARM GAS  /tmp/cctpDTpE.s 			page 1
  1307 0064 07A9     		add	r1, sp, #28
  1308 0066 3E48     		ldr	r0, .L73+16
  1309              	.LVL69:
-ARM GAS  /tmp/cctpDTpE.s 			page 41
+ARM GAS  /tmp/ccMbU6zB.s 			page 41
 
 
  631:../../../core/platform/octa/src/stm32l4xx_hal_msp.c **** 
@@ -2458,7 +2458,7 @@ ARM GAS  /tmp/cctpDTpE.s 			page 1
  1351 009c 03F00803 		and	r3, r3, #8
  1352 00a0 0393     		str	r3, [sp, #12]
  648:../../../core/platform/octa/src/stm32l4xx_hal_msp.c ****     /**SPI2 GPIO Configuration    
-ARM GAS  /tmp/cctpDTpE.s 			page 42
+ARM GAS  /tmp/ccMbU6zB.s 			page 42
 
 
  1353              		.loc 1 648 5 view .LVU393
@@ -2518,7 +2518,7 @@ ARM GAS  /tmp/cctpDTpE.s 			page 1
  1392 00cc FFF7FEFF 		bl	HAL_NVIC_EnableIRQ
  1393              	.LVL77:
  1394 00d0 A8E7     		b	.L65
-ARM GAS  /tmp/cctpDTpE.s 			page 43
+ARM GAS  /tmp/ccMbU6zB.s 			page 43
 
 
  1395              	.LVL78:
@@ -2578,7 +2578,7 @@ ARM GAS  /tmp/cctpDTpE.s 			page 1
  1434 00fe DA64     		str	r2, [r3, #76]
  678:../../../core/platform/octa/src/stm32l4xx_hal_msp.c ****     /**SPI3 GPIO Configuration    
  1435              		.loc 1 678 5 view .LVU424
-ARM GAS  /tmp/cctpDTpE.s 			page 44
+ARM GAS  /tmp/ccMbU6zB.s 			page 44
 
 
  1436 0100 DB6C     		ldr	r3, [r3, #76]
@@ -2638,7 +2638,7 @@ ARM GAS  /tmp/cctpDTpE.s 			page 1
  693:../../../core/platform/octa/src/stm32l4xx_hal_msp.c ****     GPIO_InitStruct.Pull = GPIO_NOPULL;
  1474              		.loc 1 693 5 is_stmt 1 view .LVU441
  693:../../../core/platform/octa/src/stm32l4xx_hal_msp.c ****     GPIO_InitStruct.Pull = GPIO_NOPULL;
-ARM GAS  /tmp/cctpDTpE.s 			page 45
+ARM GAS  /tmp/ccMbU6zB.s 			page 45
 
 
  1475              		.loc 1 693 26 is_stmt 0 view .LVU442
@@ -2698,7 +2698,7 @@ ARM GAS  /tmp/cctpDTpE.s 			page 1
  1521              		.thumb_func
  1522              		.fpu fpv4-sp-d16
  1524              	HAL_SPI_MspDeInit:
-ARM GAS  /tmp/cctpDTpE.s 			page 46
+ARM GAS  /tmp/ccMbU6zB.s 			page 46
 
 
  1525              	.LVL84:
@@ -2758,7 +2758,7 @@ ARM GAS  /tmp/cctpDTpE.s 			page 1
  1545              		.loc 1 741 10 is_stmt 0 view .LVU459
  1546 000a 1C4A     		ldr	r2, .L83+4
  1547 000c 9342     		cmp	r3, r2
-ARM GAS  /tmp/cctpDTpE.s 			page 47
+ARM GAS  /tmp/ccMbU6zB.s 			page 47
 
 
  1548 000e 12D0     		beq	.L81
@@ -2818,7 +2818,7 @@ ARM GAS  /tmp/cctpDTpE.s 			page 1
  788:../../../core/platform/octa/src/stm32l4xx_hal_msp.c **** }
  1556              		.loc 1 788 1 view .LVU462
  1557 0016 08BD     		pop	{r3, pc}
-ARM GAS  /tmp/cctpDTpE.s 			page 48
+ARM GAS  /tmp/ccMbU6zB.s 			page 48
 
 
  1558              	.LVL86:
@@ -2878,7 +2878,7 @@ ARM GAS  /tmp/cctpDTpE.s 			page 1
  777:../../../core/platform/octa/src/stm32l4xx_hal_msp.c **** 
  1603              		.loc 1 777 5 view .LVU472
  1604 005e 1021     		movs	r1, #16
-ARM GAS  /tmp/cctpDTpE.s 			page 49
+ARM GAS  /tmp/ccMbU6zB.s 			page 49
 
 
  1605 0060 4FF09040 		mov	r0, #1207959552
@@ -2938,7 +2938,7 @@ ARM GAS  /tmp/cctpDTpE.s 			page 1
  1654              		.loc 1 792 15 is_stmt 0 view .LVU480
  1655 0002 0368     		ldr	r3, [r0]
  1656              		.loc 1 792 5 view .LVU481
-ARM GAS  /tmp/cctpDTpE.s 			page 50
+ARM GAS  /tmp/ccMbU6zB.s 			page 50
 
 
  1657 0004 0E4A     		ldr	r2, .L91
@@ -2998,7 +2998,7 @@ ARM GAS  /tmp/cctpDTpE.s 			page 1
  1684              		.loc 1 798 5 view .LVU488
  1685 001e 9B6D     		ldr	r3, [r3, #88]
  1686 0020 03F00203 		and	r3, r3, #2
-ARM GAS  /tmp/cctpDTpE.s 			page 51
+ARM GAS  /tmp/ccMbU6zB.s 			page 51
 
 
  1687 0024 0093     		str	r3, [sp]
@@ -3058,7 +3058,7 @@ ARM GAS  /tmp/cctpDTpE.s 			page 1
  1732              		.loc 1 818 1 is_stmt 1 view -0
  1733              		.cfi_startproc
  1734              		@ args = 0, pretend = 0, frame = 32
-ARM GAS  /tmp/cctpDTpE.s 			page 52
+ARM GAS  /tmp/ccMbU6zB.s 			page 52
 
 
  1735              		@ frame_needed = 0, uses_anonymous_args = 0
@@ -3118,7 +3118,7 @@ ARM GAS  /tmp/cctpDTpE.s 			page 1
  1766 001c 1ED0     		beq	.L98
  1767              	.LVL101:
  1768              	.L93:
-ARM GAS  /tmp/cctpDTpE.s 			page 53
+ARM GAS  /tmp/ccMbU6zB.s 			page 53
 
 
  842:../../../core/platform/octa/src/stm32l4xx_hal_msp.c ****   {
@@ -3178,7 +3178,7 @@ ARM GAS  /tmp/cctpDTpE.s 			page 1
  1792              		.loc 1 825 5 view .LVU512
  1793 0034 019B     		ldr	r3, [sp, #4]
  1794              	.LBE31:
-ARM GAS  /tmp/cctpDTpE.s 			page 54
+ARM GAS  /tmp/ccMbU6zB.s 			page 54
 
 
  825:../../../core/platform/octa/src/stm32l4xx_hal_msp.c ****     /**TIM3 GPIO Configuration
@@ -3238,7 +3238,7 @@ ARM GAS  /tmp/cctpDTpE.s 			page 1
  1833              		.loc 1 847 5 view .LVU528
  847:../../../core/platform/octa/src/stm32l4xx_hal_msp.c ****     /**TIM4 GPIO Configuration
  1834              		.loc 1 847 5 view .LVU529
-ARM GAS  /tmp/cctpDTpE.s 			page 55
+ARM GAS  /tmp/ccMbU6zB.s 			page 55
 
 
  1835 005c 144B     		ldr	r3, .L99+8
@@ -3298,7 +3298,7 @@ ARM GAS  /tmp/cctpDTpE.s 			page 1
  1873              		.loc 1 859 5 is_stmt 1 view .LVU545
  1874 008c 2246     		mov	r2, r4
  1875 008e 4FF48041 		mov	r1, #16384
-ARM GAS  /tmp/cctpDTpE.s 			page 56
+ARM GAS  /tmp/ccMbU6zB.s 			page 56
 
 
  1876 0092 2846     		mov	r0, r5
@@ -3358,7 +3358,7 @@ ARM GAS  /tmp/cctpDTpE.s 			page 1
  878:../../../core/platform/octa/src/stm32l4xx_hal_msp.c ****   /* USER CODE BEGIN TIM3_MspDeInit 0 */
  879:../../../core/platform/octa/src/stm32l4xx_hal_msp.c **** 
  880:../../../core/platform/octa/src/stm32l4xx_hal_msp.c ****   /* USER CODE END TIM3_MspDeInit 0 */
-ARM GAS  /tmp/cctpDTpE.s 			page 57
+ARM GAS  /tmp/ccMbU6zB.s 			page 57
 
 
  881:../../../core/platform/octa/src/stm32l4xx_hal_msp.c ****     /* Peripheral clock disable */
@@ -3414,11 +3414,11 @@ ARM GAS  /tmp/cctpDTpE.s 			page 1
  1950              	.LFE134:
  1952              		.text
  1953              	.Letext0:
- 1954              		.file 2 "/usr/arm-none-eabi/include/machine/_default_types.h"
- 1955              		.file 3 "/usr/arm-none-eabi/include/sys/_stdint.h"
+ 1954              		.file 2 "/home/matsdm/gcc-arm-none-eabi-9-2019-q4-major-x86_64-linux/gcc-arm-none-eabi-9-2019-q4-m
+ 1955              		.file 3 "/home/matsdm/gcc-arm-none-eabi-9-2019-q4-major-x86_64-linux/gcc-arm-none-eabi-9-2019-q4-m
  1956              		.file 4 "../../../core/ST/CMSIS/Include/core_cm4.h"
  1957              		.file 5 "../../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/system_stm32l4xx.h"
-ARM GAS  /tmp/cctpDTpE.s 			page 58
+ARM GAS  /tmp/ccMbU6zB.s 			page 58
 
 
  1958              		.file 6 "../../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/stm32l496xx.h"
@@ -3433,47 +3433,47 @@ ARM GAS  /tmp/cctpDTpE.s 			page 1
  1967              		.file 15 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h"
  1968              		.file 16 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_cortex.h"
  1969              		.file 17 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_pwr_ex.h"
-ARM GAS  /tmp/cctpDTpE.s 			page 59
+ARM GAS  /tmp/ccMbU6zB.s 			page 59
 
 
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 stm32l4xx_hal_msp.c
-     /tmp/cctpDTpE.s:18     .text.HAL_MspInit:0000000000000000 $t
-     /tmp/cctpDTpE.s:26     .text.HAL_MspInit:0000000000000000 HAL_MspInit
-     /tmp/cctpDTpE.s:90     .text.HAL_MspInit:0000000000000048 $d
-     /tmp/cctpDTpE.s:95     .text.HAL_RTC_MspInit:0000000000000000 $t
-     /tmp/cctpDTpE.s:102    .text.HAL_RTC_MspInit:0000000000000000 HAL_RTC_MspInit
-     /tmp/cctpDTpE.s:150    .text.HAL_RTC_MspInit:000000000000002c $d
-     /tmp/cctpDTpE.s:156    .text.HAL_RTC_MspDeInit:0000000000000000 $t
-     /tmp/cctpDTpE.s:163    .text.HAL_RTC_MspDeInit:0000000000000000 HAL_RTC_MspDeInit
-     /tmp/cctpDTpE.s:205    .text.HAL_RTC_MspDeInit:0000000000000024 $d
-     /tmp/cctpDTpE.s:211    .text.HAL_I2C_MspInit:0000000000000000 $t
-     /tmp/cctpDTpE.s:218    .text.HAL_I2C_MspInit:0000000000000000 HAL_I2C_MspInit
-     /tmp/cctpDTpE.s:567    .text.HAL_I2C_MspInit:0000000000000170 $d
-     /tmp/cctpDTpE.s:579    .text.HAL_I2C_MspDeInit:0000000000000000 $t
-     /tmp/cctpDTpE.s:586    .text.HAL_I2C_MspDeInit:0000000000000000 HAL_I2C_MspDeInit
-     /tmp/cctpDTpE.s:689    .text.HAL_I2C_MspDeInit:0000000000000088 $d
-     /tmp/cctpDTpE.s:701    .text.HAL_UART_MspInit:0000000000000000 $t
-     /tmp/cctpDTpE.s:708    .text.HAL_UART_MspInit:0000000000000000 HAL_UART_MspInit
-     /tmp/cctpDTpE.s:1053   .text.HAL_UART_MspInit:0000000000000170 $d
-     /tmp/cctpDTpE.s:1065   .text.HAL_UART_MspDeInit:0000000000000000 $t
-     /tmp/cctpDTpE.s:1072   .text.HAL_UART_MspDeInit:0000000000000000 HAL_UART_MspDeInit
-     /tmp/cctpDTpE.s:1180   .text.HAL_UART_MspDeInit:0000000000000088 $d
-     /tmp/cctpDTpE.s:1191   .text.HAL_SPI_MspInit:0000000000000000 $t
-     /tmp/cctpDTpE.s:1198   .text.HAL_SPI_MspInit:0000000000000000 HAL_SPI_MspInit
-     /tmp/cctpDTpE.s:1506   .text.HAL_SPI_MspInit:0000000000000150 $d
-     /tmp/cctpDTpE.s:1517   .text.HAL_SPI_MspDeInit:0000000000000000 $t
-     /tmp/cctpDTpE.s:1524   .text.HAL_SPI_MspDeInit:0000000000000000 HAL_SPI_MspDeInit
-     /tmp/cctpDTpE.s:1624   .text.HAL_SPI_MspDeInit:0000000000000078 $d
-     /tmp/cctpDTpE.s:1634   .text.HAL_TIM_Base_MspInit:0000000000000000 $t
-     /tmp/cctpDTpE.s:1641   .text.HAL_TIM_Base_MspInit:0000000000000000 HAL_TIM_Base_MspInit
-     /tmp/cctpDTpE.s:1715   .text.HAL_TIM_Base_MspInit:0000000000000040 $d
-     /tmp/cctpDTpE.s:1722   .text.HAL_TIM_MspPostInit:0000000000000000 $t
-     /tmp/cctpDTpE.s:1729   .text.HAL_TIM_MspPostInit:0000000000000000 HAL_TIM_MspPostInit
-     /tmp/cctpDTpE.s:1890   .text.HAL_TIM_MspPostInit:00000000000000a8 $d
-     /tmp/cctpDTpE.s:1899   .text.HAL_TIM_Base_MspDeInit:0000000000000000 $t
-     /tmp/cctpDTpE.s:1906   .text.HAL_TIM_Base_MspDeInit:0000000000000000 HAL_TIM_Base_MspDeInit
-     /tmp/cctpDTpE.s:1947   .text.HAL_TIM_Base_MspDeInit:000000000000002c $d
+     /tmp/ccMbU6zB.s:18     .text.HAL_MspInit:0000000000000000 $t
+     /tmp/ccMbU6zB.s:26     .text.HAL_MspInit:0000000000000000 HAL_MspInit
+     /tmp/ccMbU6zB.s:90     .text.HAL_MspInit:0000000000000048 $d
+     /tmp/ccMbU6zB.s:95     .text.HAL_RTC_MspInit:0000000000000000 $t
+     /tmp/ccMbU6zB.s:102    .text.HAL_RTC_MspInit:0000000000000000 HAL_RTC_MspInit
+     /tmp/ccMbU6zB.s:150    .text.HAL_RTC_MspInit:000000000000002c $d
+     /tmp/ccMbU6zB.s:156    .text.HAL_RTC_MspDeInit:0000000000000000 $t
+     /tmp/ccMbU6zB.s:163    .text.HAL_RTC_MspDeInit:0000000000000000 HAL_RTC_MspDeInit
+     /tmp/ccMbU6zB.s:205    .text.HAL_RTC_MspDeInit:0000000000000024 $d
+     /tmp/ccMbU6zB.s:211    .text.HAL_I2C_MspInit:0000000000000000 $t
+     /tmp/ccMbU6zB.s:218    .text.HAL_I2C_MspInit:0000000000000000 HAL_I2C_MspInit
+     /tmp/ccMbU6zB.s:567    .text.HAL_I2C_MspInit:0000000000000170 $d
+     /tmp/ccMbU6zB.s:579    .text.HAL_I2C_MspDeInit:0000000000000000 $t
+     /tmp/ccMbU6zB.s:586    .text.HAL_I2C_MspDeInit:0000000000000000 HAL_I2C_MspDeInit
+     /tmp/ccMbU6zB.s:689    .text.HAL_I2C_MspDeInit:0000000000000088 $d
+     /tmp/ccMbU6zB.s:701    .text.HAL_UART_MspInit:0000000000000000 $t
+     /tmp/ccMbU6zB.s:708    .text.HAL_UART_MspInit:0000000000000000 HAL_UART_MspInit
+     /tmp/ccMbU6zB.s:1053   .text.HAL_UART_MspInit:0000000000000170 $d
+     /tmp/ccMbU6zB.s:1065   .text.HAL_UART_MspDeInit:0000000000000000 $t
+     /tmp/ccMbU6zB.s:1072   .text.HAL_UART_MspDeInit:0000000000000000 HAL_UART_MspDeInit
+     /tmp/ccMbU6zB.s:1180   .text.HAL_UART_MspDeInit:0000000000000088 $d
+     /tmp/ccMbU6zB.s:1191   .text.HAL_SPI_MspInit:0000000000000000 $t
+     /tmp/ccMbU6zB.s:1198   .text.HAL_SPI_MspInit:0000000000000000 HAL_SPI_MspInit
+     /tmp/ccMbU6zB.s:1506   .text.HAL_SPI_MspInit:0000000000000150 $d
+     /tmp/ccMbU6zB.s:1517   .text.HAL_SPI_MspDeInit:0000000000000000 $t
+     /tmp/ccMbU6zB.s:1524   .text.HAL_SPI_MspDeInit:0000000000000000 HAL_SPI_MspDeInit
+     /tmp/ccMbU6zB.s:1624   .text.HAL_SPI_MspDeInit:0000000000000078 $d
+     /tmp/ccMbU6zB.s:1634   .text.HAL_TIM_Base_MspInit:0000000000000000 $t
+     /tmp/ccMbU6zB.s:1641   .text.HAL_TIM_Base_MspInit:0000000000000000 HAL_TIM_Base_MspInit
+     /tmp/ccMbU6zB.s:1715   .text.HAL_TIM_Base_MspInit:0000000000000040 $d
+     /tmp/ccMbU6zB.s:1722   .text.HAL_TIM_MspPostInit:0000000000000000 $t
+     /tmp/ccMbU6zB.s:1729   .text.HAL_TIM_MspPostInit:0000000000000000 HAL_TIM_MspPostInit
+     /tmp/ccMbU6zB.s:1890   .text.HAL_TIM_MspPostInit:00000000000000a8 $d
+     /tmp/ccMbU6zB.s:1899   .text.HAL_TIM_Base_MspDeInit:0000000000000000 $t
+     /tmp/ccMbU6zB.s:1906   .text.HAL_TIM_Base_MspDeInit:0000000000000000 HAL_TIM_Base_MspDeInit
+     /tmp/ccMbU6zB.s:1947   .text.HAL_TIM_Base_MspDeInit:000000000000002c $d
 
 UNDEFINED SYMBOLS
 HAL_NVIC_SetPriority

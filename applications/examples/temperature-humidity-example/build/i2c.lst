@@ -1,4 +1,4 @@
-ARM GAS  /tmp/ccnGhRkF.s 			page 1
+ARM GAS  /tmp/ccre6iFA.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  /tmp/ccnGhRkF.s 			page 1
   48              		.loc 1 8 31 is_stmt 0 view .LVU6
   49 000c 0023     		movs	r3, #0
   50 000e 8360     		str	r3, [r0, #8]
-ARM GAS  /tmp/ccnGhRkF.s 			page 2
+ARM GAS  /tmp/ccre6iFA.s 			page 2
 
 
    9:../../../core/platform/octa/src/i2c.c ****   common_I2C.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
@@ -118,7 +118,7 @@ ARM GAS  /tmp/ccnGhRkF.s 			page 1
   89 0030 0648     		ldr	r0, .L9
   90 0032 FFF7FEFF 		bl	HAL_I2CEx_ConfigDigitalFilter
   91              	.LVL2:
-ARM GAS  /tmp/ccnGhRkF.s 			page 3
+ARM GAS  /tmp/ccre6iFA.s 			page 3
 
 
   92              		.loc 1 24 6 view .LVU27
@@ -178,7 +178,7 @@ ARM GAS  /tmp/ccnGhRkF.s 			page 1
  138              		.cfi_def_cfa_offset 8
  139              		.cfi_offset 3, -8
  140              		.cfi_offset 14, -4
-ARM GAS  /tmp/ccnGhRkF.s 			page 4
+ARM GAS  /tmp/ccre6iFA.s 			page 4
 
 
   32:../../../core/platform/octa/src/i2c.c ****   P1_I2C.Instance = I2C3;
@@ -238,7 +238,7 @@ ARM GAS  /tmp/ccnGhRkF.s 			page 1
  181              		.loc 1 45 7 is_stmt 0 view .LVU56
  182 0024 0021     		movs	r1, #0
  183 0026 0948     		ldr	r0, .L19
-ARM GAS  /tmp/ccnGhRkF.s 			page 5
+ARM GAS  /tmp/ccre6iFA.s 			page 5
 
 
  184 0028 FFF7FEFF 		bl	HAL_I2CEx_ConfigAnalogFilter
@@ -298,7 +298,7 @@ ARM GAS  /tmp/ccnGhRkF.s 			page 1
  228              		.syntax unified
  229              		.thumb
  230              		.thumb_func
-ARM GAS  /tmp/ccnGhRkF.s 			page 6
+ARM GAS  /tmp/ccre6iFA.s 			page 6
 
 
  231              		.fpu fpv4-sp-d16
@@ -358,7 +358,7 @@ ARM GAS  /tmp/ccnGhRkF.s 			page 1
  274              		.loc 1 65 29 is_stmt 0 view .LVU84
  275 001c 0362     		str	r3, [r0, #32]
   66:../../../core/platform/octa/src/i2c.c ****   if (HAL_I2C_Init(&P2_I2C) != HAL_OK)
-ARM GAS  /tmp/ccnGhRkF.s 			page 7
+ARM GAS  /tmp/ccre6iFA.s 			page 7
 
 
  276              		.loc 1 66 3 is_stmt 1 view .LVU85
@@ -418,7 +418,7 @@ ARM GAS  /tmp/ccnGhRkF.s 			page 1
  315 0046 FFF7FEFF 		bl	Error_Handler
  316              	.LVL17:
  317              		.loc 1 78 1 is_stmt 0 view .LVU98
-ARM GAS  /tmp/ccnGhRkF.s 			page 8
+ARM GAS  /tmp/ccre6iFA.s 			page 8
 
 
  318 004a F5E7     		b	.L21
@@ -457,7 +457,7 @@ ARM GAS  /tmp/ccnGhRkF.s 			page 1
  349 0002 1248     		ldr	r0, .L39
  350 0004 124B     		ldr	r3, .L39+4
  351 0006 0360     		str	r3, [r0]
-  83:../../../core/platform/octa/src/i2c.c ****   P3_I2C.Init.Timing = 0x00101A26;
+  83:../../../core/platform/octa/src/i2c.c ****   P3_I2C.Init.Timing = 0x00101A26;//0x00505B89;//0x00201D2B;//0x00302334;//0x00200B28;
  352              		.loc 1 83 3 is_stmt 1 view .LVU102
  353              		.loc 1 83 22 is_stmt 0 view .LVU103
  354 0008 124B     		ldr	r3, .L39+8
@@ -478,7 +478,7 @@ ARM GAS  /tmp/ccnGhRkF.s 			page 1
  366 0014 0361     		str	r3, [r0, #16]
   87:../../../core/platform/octa/src/i2c.c ****   P3_I2C.Init.OwnAddress2 = 0;
  367              		.loc 1 87 3 is_stmt 1 view .LVU110
-ARM GAS  /tmp/ccnGhRkF.s 			page 9
+ARM GAS  /tmp/ccre6iFA.s 			page 9
 
 
  368              		.loc 1 87 27 is_stmt 0 view .LVU111
@@ -538,7 +538,7 @@ ARM GAS  /tmp/ccnGhRkF.s 			page 1
  406              	.L36:
   93:../../../core/platform/octa/src/i2c.c ****     Error_Handler();
  407              		.loc 1 93 5 is_stmt 1 view .LVU128
-ARM GAS  /tmp/ccnGhRkF.s 			page 10
+ARM GAS  /tmp/ccre6iFA.s 			page 10
 
 
  408 003a FFF7FEFF 		bl	Error_Handler
@@ -598,7 +598,7 @@ ARM GAS  /tmp/ccnGhRkF.s 			page 1
  461              		.comm	hiwdg,16,4
  462              		.comm	P3_DIO6,8,4
  463              		.comm	P3_DIO5,8,4
-ARM GAS  /tmp/ccnGhRkF.s 			page 11
+ARM GAS  /tmp/ccre6iFA.s 			page 11
 
 
  464              		.comm	P3_DIO4,8,4
@@ -625,8 +625,8 @@ ARM GAS  /tmp/ccnGhRkF.s 			page 1
  485              		.comm	common_I2C,76,4
  486              		.text
  487              	.Letext0:
- 488              		.file 2 "/usr/arm-none-eabi/include/machine/_default_types.h"
- 489              		.file 3 "/usr/arm-none-eabi/include/sys/_stdint.h"
+ 488              		.file 2 "/home/matsdm/gcc-arm-none-eabi-9-2019-q4-major-x86_64-linux/gcc-arm-none-eabi-9-2019-q4-m
+ 489              		.file 3 "/home/matsdm/gcc-arm-none-eabi-9-2019-q4-major-x86_64-linux/gcc-arm-none-eabi-9-2019-q4-m
  490              		.file 4 "../../../core/ST/CMSIS/Include/core_cm4.h"
  491              		.file 5 "../../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/system_stm32l4xx.h"
  492              		.file 6 "../../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/stm32l496xx.h"
@@ -649,34 +649,34 @@ ARM GAS  /tmp/ccnGhRkF.s 			page 1
  509              		.file 23 "../../../core/platform/octa/inc/spi.h"
  510              		.file 24 "../../../core/platform/octa/inc/rtc.h"
  511              		.file 25 "../../../core/platform/octa/inc/rtosincludes.h"
- 512              		.file 26 "/usr/arm-none-eabi/include/sys/lock.h"
- 513              		.file 27 "/usr/arm-none-eabi/include/sys/_types.h"
- 514              		.file 28 "/usr/lib/gcc/arm-none-eabi/9.2.1/include/stddef.h"
- 515              		.file 29 "/usr/arm-none-eabi/include/sys/reent.h"
+ 512              		.file 26 "/home/matsdm/gcc-arm-none-eabi-9-2019-q4-major-x86_64-linux/gcc-arm-none-eabi-9-2019-q4-
+ 513              		.file 27 "/home/matsdm/gcc-arm-none-eabi-9-2019-q4-major-x86_64-linux/gcc-arm-none-eabi-9-2019-q4-
+ 514              		.file 28 "/home/matsdm/gcc-arm-none-eabi-9-2019-q4-major-x86_64-linux/gcc-arm-none-eabi-9-2019-q4-
+ 515              		.file 29 "/home/matsdm/gcc-arm-none-eabi-9-2019-q4-major-x86_64-linux/gcc-arm-none-eabi-9-2019-q4-
  516              		.file 30 "../../../core/platform/common/inc/datatypes.h"
  517              		.file 31 "../../../core/platform/octa/inc/platform.h"
  518              		.file 32 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_i2c_ex.h"
  519              		.file 33 "../../../core/platform/common/inc/error.h"
-ARM GAS  /tmp/ccnGhRkF.s 			page 12
+ARM GAS  /tmp/ccre6iFA.s 			page 12
 
 
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 i2c.c
-     /tmp/ccnGhRkF.s:18     .text.common_I2C_Init:0000000000000000 $t
-     /tmp/ccnGhRkF.s:26     .text.common_I2C_Init:0000000000000000 common_I2C_Init
-     /tmp/ccnGhRkF.s:116    .text.common_I2C_Init:000000000000004c $d
+     /tmp/ccre6iFA.s:18     .text.common_I2C_Init:0000000000000000 $t
+     /tmp/ccre6iFA.s:26     .text.common_I2C_Init:0000000000000000 common_I2C_Init
+     /tmp/ccre6iFA.s:116    .text.common_I2C_Init:000000000000004c $d
                             *COM*:000000000000004c common_I2C
-     /tmp/ccnGhRkF.s:123    .text.P1_I2C_Init:0000000000000000 $t
-     /tmp/ccnGhRkF.s:130    .text.P1_I2C_Init:0000000000000000 P1_I2C_Init
-     /tmp/ccnGhRkF.s:219    .text.P1_I2C_Init:000000000000004c $d
+     /tmp/ccre6iFA.s:123    .text.P1_I2C_Init:0000000000000000 $t
+     /tmp/ccre6iFA.s:130    .text.P1_I2C_Init:0000000000000000 P1_I2C_Init
+     /tmp/ccre6iFA.s:219    .text.P1_I2C_Init:000000000000004c $d
                             *COM*:000000000000004c P1_I2C
-     /tmp/ccnGhRkF.s:226    .text.P2_I2C_Init:0000000000000000 $t
-     /tmp/ccnGhRkF.s:233    .text.P2_I2C_Init:0000000000000000 P2_I2C_Init
-     /tmp/ccnGhRkF.s:322    .text.P2_I2C_Init:000000000000004c $d
+     /tmp/ccre6iFA.s:226    .text.P2_I2C_Init:0000000000000000 $t
+     /tmp/ccre6iFA.s:233    .text.P2_I2C_Init:0000000000000000 P2_I2C_Init
+     /tmp/ccre6iFA.s:322    .text.P2_I2C_Init:000000000000004c $d
                             *COM*:000000000000004c P2_I2C
-     /tmp/ccnGhRkF.s:329    .text.P3_I2C_Init:0000000000000000 $t
-     /tmp/ccnGhRkF.s:336    .text.P3_I2C_Init:0000000000000000 P3_I2C_Init
-     /tmp/ccnGhRkF.s:425    .text.P3_I2C_Init:000000000000004c $d
+     /tmp/ccre6iFA.s:329    .text.P3_I2C_Init:0000000000000000 $t
+     /tmp/ccre6iFA.s:336    .text.P3_I2C_Init:0000000000000000 P3_I2C_Init
+     /tmp/ccre6iFA.s:425    .text.P3_I2C_Init:000000000000004c $d
                             *COM*:000000000000004c P3_I2C
                             *COM*:000000000000002c P3_header
                             *COM*:000000000000002c P2_header
@@ -717,7 +717,7 @@ DEFINED SYMBOLS
                             *COM*:0000000000000008 P3_DIO1
                             *COM*:0000000000000008 P2_DIO6
                             *COM*:0000000000000008 P2_DIO5
-ARM GAS  /tmp/ccnGhRkF.s 			page 13
+ARM GAS  /tmp/ccre6iFA.s 			page 13
 
 
                             *COM*:0000000000000008 P2_DIO4

@@ -1,4 +1,4 @@
-ARM GAS  /tmp/ccsEJhSn.s 			page 1
+ARM GAS  /tmp/cc819h9t.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  /tmp/ccsEJhSn.s 			page 1
   48              		.loc 1 8 25 is_stmt 0 view .LVU6
   49 000e 0023     		movs	r3, #0
   50 0010 8360     		str	r3, [r0, #8]
-ARM GAS  /tmp/ccsEJhSn.s 			page 2
+ARM GAS  /tmp/cc819h9t.s 			page 2
 
 
    9:../../../core/platform/octa/src/spi.c ****   P3_SPI.Init.DataSize = SPI_DATASIZE_4BIT;
@@ -118,7 +118,7 @@ ARM GAS  /tmp/ccsEJhSn.s 			page 1
   93 0038 00B9     		cbnz	r0, .L4
   94              	.L1:
   21:../../../core/platform/octa/src/spi.c ****   {
-ARM GAS  /tmp/ccsEJhSn.s 			page 3
+ARM GAS  /tmp/cc819h9t.s 			page 3
 
 
   22:../../../core/platform/octa/src/spi.c ****     Error_Handler();
@@ -178,7 +178,7 @@ ARM GAS  /tmp/ccsEJhSn.s 			page 1
  141 000e 0023     		movs	r3, #0
  142 0010 8360     		str	r3, [r0, #8]
   31:../../../core/platform/octa/src/spi.c ****   P2_SPI.Init.DataSize = SPI_DATASIZE_4BIT;
-ARM GAS  /tmp/ccsEJhSn.s 			page 4
+ARM GAS  /tmp/cc819h9t.s 			page 4
 
 
  143              		.loc 1 31 3 is_stmt 1 view .LVU42
@@ -238,7 +238,7 @@ ARM GAS  /tmp/ccsEJhSn.s 			page 1
  186              	.L7:
   43:../../../core/platform/octa/src/spi.c ****   {
   44:../../../core/platform/octa/src/spi.c ****     Error_Handler();
-ARM GAS  /tmp/ccsEJhSn.s 			page 5
+ARM GAS  /tmp/cc819h9t.s 			page 5
 
 
   45:../../../core/platform/octa/src/spi.c ****   }
@@ -298,7 +298,7 @@ ARM GAS  /tmp/ccsEJhSn.s 			page 1
  234 0010 8360     		str	r3, [r0, #8]
   53:../../../core/platform/octa/src/spi.c ****   P1_SPI.Init.DataSize = SPI_DATASIZE_4BIT;
  235              		.loc 1 53 3 is_stmt 1 view .LVU77
-ARM GAS  /tmp/ccsEJhSn.s 			page 6
+ARM GAS  /tmp/cc819h9t.s 			page 6
 
 
  236              		.loc 1 53 24 is_stmt 0 view .LVU78
@@ -358,7 +358,7 @@ ARM GAS  /tmp/ccsEJhSn.s 			page 1
   65:../../../core/platform/octa/src/spi.c ****   {
   66:../../../core/platform/octa/src/spi.c ****     Error_Handler();
   67:../../../core/platform/octa/src/spi.c ****   }
-ARM GAS  /tmp/ccsEJhSn.s 			page 7
+ARM GAS  /tmp/cc819h9t.s 			page 7
 
 
   68:../../../core/platform/octa/src/spi.c **** }
@@ -418,7 +418,7 @@ ARM GAS  /tmp/ccsEJhSn.s 			page 1
   75:../../../core/platform/octa/src/spi.c ****   FLASH_SPI.Init.DataSize = SPI_DATASIZE_8BIT;
  327              		.loc 1 75 3 is_stmt 1 view .LVU112
  328              		.loc 1 75 27 is_stmt 0 view .LVU113
-ARM GAS  /tmp/ccsEJhSn.s 			page 8
+ARM GAS  /tmp/cc819h9t.s 			page 8
 
 
  329 0012 4FF4E062 		mov	r2, #1792
@@ -478,7 +478,7 @@ ARM GAS  /tmp/ccsEJhSn.s 			page 1
   87:../../../core/platform/octa/src/spi.c ****   {
   88:../../../core/platform/octa/src/spi.c ****      Error_Handler();
   89:../../../core/platform/octa/src/spi.c ****   }
-ARM GAS  /tmp/ccsEJhSn.s 			page 9
+ARM GAS  /tmp/cc819h9t.s 			page 9
 
 
   90:../../../core/platform/octa/src/spi.c **** }...
@@ -538,7 +538,7 @@ ARM GAS  /tmp/ccsEJhSn.s 			page 1
  425              		.comm	P2_DIO6,8,4
  426              		.comm	P2_DIO5,8,4
  427              		.comm	P2_DIO4,8,4
-ARM GAS  /tmp/ccsEJhSn.s 			page 10
+ARM GAS  /tmp/cc819h9t.s 			page 10
 
 
  428              		.comm	P2_DIO3,8,4
@@ -558,8 +558,8 @@ ARM GAS  /tmp/ccsEJhSn.s 			page 1
  442              		.comm	P1_SPI,100,4
  443              		.text
  444              	.Letext0:
- 445              		.file 2 "/usr/arm-none-eabi/include/machine/_default_types.h"
- 446              		.file 3 "/usr/arm-none-eabi/include/sys/_stdint.h"
+ 445              		.file 2 "/home/matsdm/gcc-arm-none-eabi-9-2019-q4-major-x86_64-linux/gcc-arm-none-eabi-9-2019-q4-m
+ 446              		.file 3 "/home/matsdm/gcc-arm-none-eabi-9-2019-q4-major-x86_64-linux/gcc-arm-none-eabi-9-2019-q4-m
  447              		.file 4 "../../../core/ST/CMSIS/Include/core_cm4.h"
  448              		.file 5 "../../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/system_stm32l4xx.h"
  449              		.file 6 "../../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/stm32l496xx.h"
@@ -582,33 +582,33 @@ ARM GAS  /tmp/ccsEJhSn.s 			page 1
  466              		.file 23 "../../../core/platform/octa/inc/i2c.h"
  467              		.file 24 "../../../core/platform/octa/inc/rtc.h"
  468              		.file 25 "../../../core/platform/octa/inc/rtosincludes.h"
- 469              		.file 26 "/usr/arm-none-eabi/include/sys/lock.h"
- 470              		.file 27 "/usr/arm-none-eabi/include/sys/_types.h"
- 471              		.file 28 "/usr/lib/gcc/arm-none-eabi/9.2.1/include/stddef.h"
- 472              		.file 29 "/usr/arm-none-eabi/include/sys/reent.h"
+ 469              		.file 26 "/home/matsdm/gcc-arm-none-eabi-9-2019-q4-major-x86_64-linux/gcc-arm-none-eabi-9-2019-q4-
+ 470              		.file 27 "/home/matsdm/gcc-arm-none-eabi-9-2019-q4-major-x86_64-linux/gcc-arm-none-eabi-9-2019-q4-
+ 471              		.file 28 "/home/matsdm/gcc-arm-none-eabi-9-2019-q4-major-x86_64-linux/gcc-arm-none-eabi-9-2019-q4-
+ 472              		.file 29 "/home/matsdm/gcc-arm-none-eabi-9-2019-q4-major-x86_64-linux/gcc-arm-none-eabi-9-2019-q4-
  473              		.file 30 "../../../core/platform/common/inc/datatypes.h"
  474              		.file 31 "../../../core/platform/octa/inc/platform.h"
  475              		.file 32 "../../../core/platform/common/inc/error.h"
-ARM GAS  /tmp/ccsEJhSn.s 			page 11
+ARM GAS  /tmp/cc819h9t.s 			page 11
 
 
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 spi.c
-     /tmp/ccsEJhSn.s:18     .text.P3_SPI_Init:0000000000000000 $t
-     /tmp/ccsEJhSn.s:26     .text.P3_SPI_Init:0000000000000000 P3_SPI_Init
-     /tmp/ccsEJhSn.s:106    .text.P3_SPI_Init:0000000000000044 $d
+     /tmp/cc819h9t.s:18     .text.P3_SPI_Init:0000000000000000 $t
+     /tmp/cc819h9t.s:26     .text.P3_SPI_Init:0000000000000000 P3_SPI_Init
+     /tmp/cc819h9t.s:106    .text.P3_SPI_Init:0000000000000044 $d
                             *COM*:0000000000000064 P3_SPI
-     /tmp/ccsEJhSn.s:112    .text.P2_SPI_Init:0000000000000000 $t
-     /tmp/ccsEJhSn.s:119    .text.P2_SPI_Init:0000000000000000 P2_SPI_Init
-     /tmp/ccsEJhSn.s:198    .text.P2_SPI_Init:0000000000000044 $d
+     /tmp/cc819h9t.s:112    .text.P2_SPI_Init:0000000000000000 $t
+     /tmp/cc819h9t.s:119    .text.P2_SPI_Init:0000000000000000 P2_SPI_Init
+     /tmp/cc819h9t.s:198    .text.P2_SPI_Init:0000000000000044 $d
                             *COM*:0000000000000064 P2_SPI
-     /tmp/ccsEJhSn.s:204    .text.P1_SPI_Init:0000000000000000 $t
-     /tmp/ccsEJhSn.s:211    .text.P1_SPI_Init:0000000000000000 P1_SPI_Init
-     /tmp/ccsEJhSn.s:290    .text.P1_SPI_Init:0000000000000044 $d
+     /tmp/cc819h9t.s:204    .text.P1_SPI_Init:0000000000000000 $t
+     /tmp/cc819h9t.s:211    .text.P1_SPI_Init:0000000000000000 P1_SPI_Init
+     /tmp/cc819h9t.s:290    .text.P1_SPI_Init:0000000000000044 $d
                             *COM*:0000000000000064 P1_SPI
-     /tmp/ccsEJhSn.s:296    .text.FLASH_SPI_Init:0000000000000000 $t
-     /tmp/ccsEJhSn.s:303    .text.FLASH_SPI_Init:0000000000000000 FLASH_SPI_Init
-     /tmp/ccsEJhSn.s:383    .text.FLASH_SPI_Init:0000000000000044 $d
+     /tmp/cc819h9t.s:296    .text.FLASH_SPI_Init:0000000000000000 $t
+     /tmp/cc819h9t.s:303    .text.FLASH_SPI_Init:0000000000000000 FLASH_SPI_Init
+     /tmp/cc819h9t.s:383    .text.FLASH_SPI_Init:0000000000000044 $d
                             *COM*:0000000000000064 FLASH_SPI
                             *COM*:000000000000002c P3_header
                             *COM*:000000000000002c P2_header
@@ -649,7 +649,7 @@ DEFINED SYMBOLS
                             *COM*:0000000000000008 P3_DIO1
                             *COM*:0000000000000008 P2_DIO6
                             *COM*:0000000000000008 P2_DIO5
-ARM GAS  /tmp/ccsEJhSn.s 			page 12
+ARM GAS  /tmp/cc819h9t.s 			page 12
 
 
                             *COM*:0000000000000008 P2_DIO4

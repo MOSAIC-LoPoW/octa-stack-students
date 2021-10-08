@@ -45,6 +45,7 @@
  ../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_usart.h \
  ../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_usart_ex.h \
  ../../../core/platform/common/inc/datatypes.h \
+ ../../../core/platform/common/inc/payloadparser.h \
  ../../../core/platform/common/inc/flash_config.h
 
 ../../../core/platform/common/inc/payloadformat.h:
@@ -136,5 +137,7 @@
 ../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_usart_ex.h:
 
 ../../../core/platform/common/inc/datatypes.h:
+
+../../../core/platform/common/inc/payloadparser.h:
 
 ../../../core/platform/common/inc/flash_config.h:

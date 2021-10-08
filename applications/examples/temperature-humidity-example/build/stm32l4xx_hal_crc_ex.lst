@@ -1,4 +1,4 @@
-ARM GAS  /tmp/ccqMMNU9.s 			page 1
+ARM GAS  /tmp/ccpNvxqP.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  /tmp/ccqMMNU9.s 			page 1
   15:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_crc_ex.c ****          (+) Configure Input or Output data inversion
   16:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_crc_ex.c **** 
   17:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_crc_ex.c ****   @endverbatim
-ARM GAS  /tmp/ccqMMNU9.s 			page 2
+ARM GAS  /tmp/ccpNvxqP.s 			page 2
 
 
   18:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_crc_ex.c ****   ******************************************************************************
@@ -118,7 +118,7 @@ ARM GAS  /tmp/ccqMMNU9.s 			page 1
   72:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_crc_ex.c **** 
   73:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_crc_ex.c **** /** @defgroup CRCEx_Exported_Functions_Group1 Extended Initialization/de-initialization functions
   74:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_crc_ex.c ****   * @brief    Extended Initialization and Configuration functions.
-ARM GAS  /tmp/ccqMMNU9.s 			page 3
+ARM GAS  /tmp/ccpNvxqP.s 			page 3
 
 
   75:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_crc_ex.c ****   *
@@ -178,7 +178,7 @@ ARM GAS  /tmp/ccqMMNU9.s 			page 1
   52              		.loc 1 111 3 view .LVU4
   53 0006 1446     		mov	r4, r2
   54 0008 2AB1     		cbz	r2, .L2
-ARM GAS  /tmp/ccqMMNU9.s 			page 4
+ARM GAS  /tmp/ccpNvxqP.s 			page 4
 
 
   55              		.loc 1 111 3 is_stmt 0 discriminator 1 view .LVU5
@@ -238,7 +238,7 @@ ARM GAS  /tmp/ccqMMNU9.s 			page 1
   89 0030 DFE804F0 		tbb	[pc, r4]
   90              	.L7:
   91 0034 14       		.byte	(.L10-.L7)/2
-ARM GAS  /tmp/ccqMMNU9.s 			page 5
+ARM GAS  /tmp/ccpNvxqP.s 			page 5
 
 
   92 0035 26       		.byte	(.L11-.L7)/2
@@ -298,7 +298,7 @@ ARM GAS  /tmp/ccqMMNU9.s 			page 1
  129:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_crc_ex.c ****         status =   HAL_ERROR;
  130:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_crc_ex.c ****       }
  131:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_crc_ex.c ****       break;
-ARM GAS  /tmp/ccqMMNU9.s 			page 6
+ARM GAS  /tmp/ccpNvxqP.s 			page 6
 
 
  132:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_crc_ex.c ****     case CRC_POLYLENGTH_8B:
@@ -358,7 +358,7 @@ ARM GAS  /tmp/ccqMMNU9.s 			page 1
  159              		.loc 1 133 10 is_stmt 0 view .LVU30
  160 0070 072B     		cmp	r3, #7
  161 0072 F3D9     		bls	.L10
-ARM GAS  /tmp/ccqMMNU9.s 			page 7
+ARM GAS  /tmp/ccpNvxqP.s 			page 7
 
 
  135:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_crc_ex.c ****       }
@@ -418,7 +418,7 @@ ARM GAS  /tmp/ccqMMNU9.s 			page 1
  176:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_crc_ex.c **** {
  199              		.loc 1 176 1 is_stmt 1 view -0
  200              		.cfi_startproc
-ARM GAS  /tmp/ccqMMNU9.s 			page 8
+ARM GAS  /tmp/ccpNvxqP.s 			page 8
 
 
  201              		@ args = 0, pretend = 0, frame = 0
@@ -478,7 +478,7 @@ ARM GAS  /tmp/ccqMMNU9.s 			page 1
  241              		.loc 1 190 1 is_stmt 0 view .LVU49
  242 0028 0020     		movs	r0, #0
  243 002a 38BD     		pop	{r3, r4, r5, pc}
-ARM GAS  /tmp/ccqMMNU9.s 			page 9
+ARM GAS  /tmp/ccpNvxqP.s 			page 9
 
 
  244              	.LVL16:
@@ -538,7 +538,7 @@ ARM GAS  /tmp/ccqMMNU9.s 			page 1
  285              		.cfi_offset 14, -4
  286 0002 0446     		mov	r4, r0
  203:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_crc_ex.c ****   /* Check the parameters */
-ARM GAS  /tmp/ccqMMNU9.s 			page 10
+ARM GAS  /tmp/ccpNvxqP.s 			page 10
 
 
  204:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_crc_ex.c ****   assert_param(IS_CRC_OUTPUTDATA_INVERSION_MODE(OutputReverseMode));
@@ -598,7 +598,7 @@ ARM GAS  /tmp/ccqMMNU9.s 			page 1
  324 002c EEE7     		b	.L26
  325              	.L30:
  326 002e 00BF     		.align	2
-ARM GAS  /tmp/ccqMMNU9.s 			page 11
+ARM GAS  /tmp/ccpNvxqP.s 			page 11
 
 
  327              	.L29:
@@ -607,8 +607,8 @@ ARM GAS  /tmp/ccqMMNU9.s 			page 1
  330              	.LFE125:
  332              		.text
  333              	.Letext0:
- 334              		.file 2 "/usr/arm-none-eabi/include/machine/_default_types.h"
- 335              		.file 3 "/usr/arm-none-eabi/include/sys/_stdint.h"
+ 334              		.file 2 "/home/matsdm/gcc-arm-none-eabi-9-2019-q4-major-x86_64-linux/gcc-arm-none-eabi-9-2019-q4-m
+ 335              		.file 3 "/home/matsdm/gcc-arm-none-eabi-9-2019-q4-major-x86_64-linux/gcc-arm-none-eabi-9-2019-q4-m
  336              		.file 4 "../../../core/ST/CMSIS/Include/core_cm4.h"
  337              		.file 5 "../../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/system_stm32l4xx.h"
  338              		.file 6 "../../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/stm32l496xx.h"
@@ -616,24 +616,24 @@ ARM GAS  /tmp/ccqMMNU9.s 			page 1
  340              		.file 8 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_crc.h"
  341              		.file 9 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h"
  342              		.file 10 "../../../core/platform/octa/inc/stm32l4xx_hal_conf.h"
-ARM GAS  /tmp/ccqMMNU9.s 			page 12
+ARM GAS  /tmp/ccpNvxqP.s 			page 12
 
 
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 stm32l4xx_hal_crc_ex.c
-     /tmp/ccqMMNU9.s:18     .rodata.HAL_CRCEx_Polynomial_Set.str1.4:0000000000000000 $d
-     /tmp/ccqMMNU9.s:23     .text.HAL_CRCEx_Polynomial_Set:0000000000000000 $t
-     /tmp/ccqMMNU9.s:31     .text.HAL_CRCEx_Polynomial_Set:0000000000000000 HAL_CRCEx_Polynomial_Set
-     /tmp/ccqMMNU9.s:91     .text.HAL_CRCEx_Polynomial_Set:0000000000000034 $d
-     /tmp/ccqMMNU9.s:184    .text.HAL_CRCEx_Polynomial_Set:0000000000000088 $d
-     /tmp/ccqMMNU9.s:189    .text.HAL_CRCEx_Input_Data_Reverse:0000000000000000 $t
-     /tmp/ccqMMNU9.s:196    .text.HAL_CRCEx_Input_Data_Reverse:0000000000000000 HAL_CRCEx_Input_Data_Reverse
-     /tmp/ccqMMNU9.s:259    .text.HAL_CRCEx_Input_Data_Reverse:0000000000000038 $d
-     /tmp/ccqMMNU9.s:264    .text.HAL_CRCEx_Output_Data_Reverse:0000000000000000 $t
-     /tmp/ccqMMNU9.s:271    .text.HAL_CRCEx_Output_Data_Reverse:0000000000000000 HAL_CRCEx_Output_Data_Reverse
-     /tmp/ccqMMNU9.s:328    .text.HAL_CRCEx_Output_Data_Reverse:0000000000000030 $d
-     /tmp/ccqMMNU9.s:117    .text.HAL_CRCEx_Polynomial_Set:000000000000004d $d
-     /tmp/ccqMMNU9.s:117    .text.HAL_CRCEx_Polynomial_Set:000000000000004e $t
+     /tmp/ccpNvxqP.s:18     .rodata.HAL_CRCEx_Polynomial_Set.str1.4:0000000000000000 $d
+     /tmp/ccpNvxqP.s:23     .text.HAL_CRCEx_Polynomial_Set:0000000000000000 $t
+     /tmp/ccpNvxqP.s:31     .text.HAL_CRCEx_Polynomial_Set:0000000000000000 HAL_CRCEx_Polynomial_Set
+     /tmp/ccpNvxqP.s:91     .text.HAL_CRCEx_Polynomial_Set:0000000000000034 $d
+     /tmp/ccpNvxqP.s:184    .text.HAL_CRCEx_Polynomial_Set:0000000000000088 $d
+     /tmp/ccpNvxqP.s:189    .text.HAL_CRCEx_Input_Data_Reverse:0000000000000000 $t
+     /tmp/ccpNvxqP.s:196    .text.HAL_CRCEx_Input_Data_Reverse:0000000000000000 HAL_CRCEx_Input_Data_Reverse
+     /tmp/ccpNvxqP.s:259    .text.HAL_CRCEx_Input_Data_Reverse:0000000000000038 $d
+     /tmp/ccpNvxqP.s:264    .text.HAL_CRCEx_Output_Data_Reverse:0000000000000000 $t
+     /tmp/ccpNvxqP.s:271    .text.HAL_CRCEx_Output_Data_Reverse:0000000000000000 HAL_CRCEx_Output_Data_Reverse
+     /tmp/ccpNvxqP.s:328    .text.HAL_CRCEx_Output_Data_Reverse:0000000000000030 $d
+     /tmp/ccpNvxqP.s:117    .text.HAL_CRCEx_Polynomial_Set:000000000000004d $d
+     /tmp/ccpNvxqP.s:117    .text.HAL_CRCEx_Polynomial_Set:000000000000004e $t
 
 UNDEFINED SYMBOLS
 assert_failed

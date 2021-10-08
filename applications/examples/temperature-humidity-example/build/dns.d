@@ -74,6 +74,7 @@
  ../../../core/platform/common/inc/octa-protocol-types.h \
  ../../../core/platform/common/inc/assert.h \
  ../../../core/platform/common/inc/error.h \
+ ../../../core/platform/octa/inc/leds.h \
  ../../../core/platform/common/inc/datatypes.h
 
 ../../../core/drivers/DNS/inc/dns.h:
@@ -225,5 +226,7 @@
 ../../../core/platform/common/inc/assert.h:
 
 ../../../core/platform/common/inc/error.h:
+
+../../../core/platform/octa/inc/leds.h:
 
 ../../../core/platform/common/inc/datatypes.h:

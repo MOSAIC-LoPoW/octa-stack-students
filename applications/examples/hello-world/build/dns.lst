@@ -1,4 +1,4 @@
-ARM GAS  /tmp/ccvxxJEK.s 			page 1
+ARM GAS  /tmp/ccyzndwA.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  /tmp/ccvxxJEK.s 			page 1
   47              		.loc 1 9 12 is_stmt 0 view .LVU3
   48 0006 FFF7FEFF 		bl	strlen
   49              	.LVL1:
-ARM GAS  /tmp/ccvxxJEK.s 			page 2
+ARM GAS  /tmp/ccyzndwA.s 			page 2
 
 
   50              		.loc 1 9 49 view .LVU4
@@ -118,7 +118,7 @@ ARM GAS  /tmp/ccvxxJEK.s 			page 1
   92              		.loc 1 21 2 is_stmt 1 view .LVU26
   93              		.loc 1 21 9 is_stmt 0 view .LVU27
   94 0030 4372     		strb	r3, [r0, #9]
-ARM GAS  /tmp/ccvxxJEK.s 			page 3
+ARM GAS  /tmp/ccyzndwA.s 			page 3
 
 
   22:../../../core/drivers/DNS/src/dns.c **** 	buf[10] = 0x00;	// Additional RR (part 1)
@@ -178,7 +178,7 @@ ARM GAS  /tmp/ccvxxJEK.s 			page 1
   29:../../../core/drivers/DNS/src/dns.c **** 		len_pos = i;
  127              		.loc 1 29 11 view .LVU44
  128 0046 2746     		mov	r7, r4
-ARM GAS  /tmp/ccvxxJEK.s 			page 4
+ARM GAS  /tmp/ccyzndwA.s 			page 4
 
 
   29:../../../core/drivers/DNS/src/dns.c **** 		len_pos = i;
@@ -238,7 +238,7 @@ ARM GAS  /tmp/ccvxxJEK.s 			page 1
   43:../../../core/drivers/DNS/src/dns.c **** 	buf[i+1] = 0x00;
  168              		.loc 1 43 2 is_stmt 1 view .LVU59
  169              		.loc 1 43 5 is_stmt 0 view .LVU60
-ARM GAS  /tmp/ccvxxJEK.s 			page 5
+ARM GAS  /tmp/ccyzndwA.s 			page 5
 
 
  170 006c 621C     		adds	r2, r4, #1
@@ -298,7 +298,7 @@ ARM GAS  /tmp/ccvxxJEK.s 			page 1
  209      444E5320 
  209      616E7377 
  209      65722074 
-ARM GAS  /tmp/ccvxxJEK.s 			page 6
+ARM GAS  /tmp/ccyzndwA.s 			page 6
 
 
  210 008b 7274696E 		.ascii	"rting\015\012\000"
@@ -358,7 +358,7 @@ ARM GAS  /tmp/ccvxxJEK.s 			page 1
  256 0014 69D9     		bls	.L27
  257 0016 8246     		mov	r10, r0
  258              		.loc 1 57 25 discriminator 1 view .LVU83
-ARM GAS  /tmp/ccvxxJEK.s 			page 7
+ARM GAS  /tmp/ccyzndwA.s 			page 7
 
 
  259 0018 EB78     		ldrb	r3, [r5, #3]	@ zero_extendqisi2
@@ -418,7 +418,7 @@ ARM GAS  /tmp/ccvxxJEK.s 			page 1
  294 0034 002E     		cmp	r6, #0
  295 0036 F7D1     		bne	.L33
   68:../../../core/drivers/DNS/src/dns.c **** 			} else {
-ARM GAS  /tmp/ccvxxJEK.s 			page 8
+ARM GAS  /tmp/ccyzndwA.s 			page 8
 
 
   69:../../../core/drivers/DNS/src/dns.c **** 				// jump == 0, so that is the mark of the end of the request URL.
@@ -478,7 +478,7 @@ ARM GAS  /tmp/ccvxxJEK.s 			page 1
  328              		.loc 1 90 19 view .LVU112
  329 004e 09F10109 		add	r9, r9, #1
  330              	.LVL27:
-ARM GAS  /tmp/ccvxxJEK.s 			page 9
+ARM GAS  /tmp/ccyzndwA.s 			page 9
 
 
  331              	.L18:
@@ -538,7 +538,7 @@ ARM GAS  /tmp/ccvxxJEK.s 			page 1
  370 007a A742     		cmp	r7, r4
  371 007c F8DD     		ble	.L17
  372              	.LBB5:
-ARM GAS  /tmp/ccvxxJEK.s 			page 10
+ARM GAS  /tmp/ccyzndwA.s 			page 10
 
 
   83:../../../core/drivers/DNS/src/dns.c **** 								int l = 0;
@@ -598,7 +598,7 @@ ARM GAS  /tmp/ccvxxJEK.s 			page 1
  409 0098 1948     		ldr	r0, .L36+8
  410 009a FFF7FEFF 		bl	printDBG
  411              	.LVL39:
-ARM GAS  /tmp/ccvxxJEK.s 			page 11
+ARM GAS  /tmp/ccyzndwA.s 			page 11
 
 
  105:../../../core/drivers/DNS/src/dns.c **** 
@@ -658,7 +658,7 @@ ARM GAS  /tmp/ccvxxJEK.s 			page 1
  450 00bc FFF7FEFF 		bl	printDBG
  451              	.LVL44:
  115:../../../core/drivers/DNS/src/dns.c **** 						return 0;
-ARM GAS  /tmp/ccvxxJEK.s 			page 12
+ARM GAS  /tmp/ccyzndwA.s 			page 12
 
 
  452              		.loc 1 115 7 view .LVU160
@@ -718,7 +718,7 @@ ARM GAS  /tmp/ccvxxJEK.s 			page 1
  128:../../../core/drivers/DNS/src/dns.c ****                 address[c] = 0;
  484              		.loc 1 128 28 is_stmt 0 discriminator 3 view .LVU169
  485 00d8 0023     		movs	r3, #0
-ARM GAS  /tmp/ccvxxJEK.s 			page 13
+ARM GAS  /tmp/ccyzndwA.s 			page 13
 
 
  486 00da 0AF80930 		strb	r3, [r10, r9]
@@ -778,7 +778,7 @@ ARM GAS  /tmp/ccvxxJEK.s 			page 1
  535              		.comm	rtosprintHandle,4,4
  536              		.comm	hrtc,36,4
  537              		.comm	FLASH_SPI,100,4
-ARM GAS  /tmp/ccvxxJEK.s 			page 14
+ARM GAS  /tmp/ccyzndwA.s 			page 14
 
 
  538              		.comm	P3_SPI,100,4
@@ -817,8 +817,8 @@ ARM GAS  /tmp/ccvxxJEK.s 			page 1
  571              		.comm	htim1,64,4
  572              		.text
  573              	.Letext0:
- 574              		.file 2 "/usr/arm-none-eabi/include/machine/_default_types.h"
- 575              		.file 3 "/usr/arm-none-eabi/include/sys/_stdint.h"
+ 574              		.file 2 "/home/matsdm/gcc-arm-none-eabi-9-2019-q4-major-x86_64-linux/gcc-arm-none-eabi-9-2019-q4-m
+ 575              		.file 3 "/home/matsdm/gcc-arm-none-eabi-9-2019-q4-major-x86_64-linux/gcc-arm-none-eabi-9-2019-q4-m
  576              		.file 4 "../../../core/ST/CMSIS/Include/core_cm4.h"
  577              		.file 5 "../../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/system_stm32l4xx.h"
  578              		.file 6 "../../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/stm32l496xx.h"
@@ -838,33 +838,33 @@ ARM GAS  /tmp/ccvxxJEK.s 			page 1
  592              		.file 20 "../../../core/platform/octa/inc/iwdg.h"
  593              		.file 21 "../../../core/platform/octa/inc/uart.h"
  594              		.file 22 "../../../core/platform/octa/inc/i2c.h"
-ARM GAS  /tmp/ccvxxJEK.s 			page 15
+ARM GAS  /tmp/ccyzndwA.s 			page 15
 
 
  595              		.file 23 "../../../core/platform/octa/inc/spi.h"
  596              		.file 24 "../../../core/platform/octa/inc/rtc.h"
  597              		.file 25 "../../../core/platform/octa/inc/rtosincludes.h"
- 598              		.file 26 "/usr/arm-none-eabi/include/sys/lock.h"
- 599              		.file 27 "/usr/arm-none-eabi/include/sys/_types.h"
- 600              		.file 28 "/usr/lib/gcc/arm-none-eabi/9.2.1/include/stddef.h"
- 601              		.file 29 "/usr/arm-none-eabi/include/sys/reent.h"
+ 598              		.file 26 "/home/matsdm/gcc-arm-none-eabi-9-2019-q4-major-x86_64-linux/gcc-arm-none-eabi-9-2019-q4-
+ 599              		.file 27 "/home/matsdm/gcc-arm-none-eabi-9-2019-q4-major-x86_64-linux/gcc-arm-none-eabi-9-2019-q4-
+ 600              		.file 28 "/home/matsdm/gcc-arm-none-eabi-9-2019-q4-major-x86_64-linux/gcc-arm-none-eabi-9-2019-q4-
+ 601              		.file 29 "/home/matsdm/gcc-arm-none-eabi-9-2019-q4-major-x86_64-linux/gcc-arm-none-eabi-9-2019-q4-
  602              		.file 30 "../../../core/platform/common/inc/datatypes.h"
  603              		.file 31 "../../../core/platform/octa/inc/platform.h"
- 604              		.file 32 "/usr/arm-none-eabi/include/stdlib.h"
- 605              		.file 33 "/usr/arm-none-eabi/include/stdio.h"
+ 604              		.file 32 "/home/matsdm/gcc-arm-none-eabi-9-2019-q4-major-x86_64-linux/gcc-arm-none-eabi-9-2019-q4-
+ 605              		.file 33 "/home/matsdm/gcc-arm-none-eabi-9-2019-q4-major-x86_64-linux/gcc-arm-none-eabi-9-2019-q4-
  606              		.file 34 "../../../core/platform/common/inc/print.h"
- 607              		.file 35 "/usr/arm-none-eabi/include/string.h"
-ARM GAS  /tmp/ccvxxJEK.s 			page 16
+ 607              		.file 35 "/home/matsdm/gcc-arm-none-eabi-9-2019-q4-major-x86_64-linux/gcc-arm-none-eabi-9-2019-q4-
+ARM GAS  /tmp/ccyzndwA.s 			page 16
 
 
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 dns.c
-     /tmp/ccvxxJEK.s:18     .text.generateRequest:0000000000000000 $t
-     /tmp/ccvxxJEK.s:26     .text.generateRequest:0000000000000000 generateRequest
-     /tmp/ccvxxJEK.s:198    .rodata.parseReply.str1.4:0000000000000000 $d
-     /tmp/ccvxxJEK.s:212    .text.parseReply:0000000000000000 $t
-     /tmp/ccvxxJEK.s:219    .text.parseReply:0000000000000000 parseReply
-     /tmp/ccvxxJEK.s:510    .text.parseReply:00000000000000f8 $d
+     /tmp/ccyzndwA.s:18     .text.generateRequest:0000000000000000 $t
+     /tmp/ccyzndwA.s:26     .text.generateRequest:0000000000000000 generateRequest
+     /tmp/ccyzndwA.s:198    .rodata.parseReply.str1.4:0000000000000000 $d
+     /tmp/ccyzndwA.s:212    .text.parseReply:0000000000000000 $t
+     /tmp/ccyzndwA.s:219    .text.parseReply:0000000000000000 parseReply
+     /tmp/ccyzndwA.s:510    .text.parseReply:00000000000000f8 $d
                             *COM*:000000000000002c P3_header
                             *COM*:000000000000002c P2_header
                             *COM*:000000000000002c P1_header
@@ -914,7 +914,7 @@ DEFINED SYMBOLS
                             *COM*:0000000000000008 P2_DIO1
                             *COM*:0000000000000008 P1_DIO6
                             *COM*:0000000000000008 P1_DIO5
-ARM GAS  /tmp/ccvxxJEK.s 			page 17
+ARM GAS  /tmp/ccyzndwA.s 			page 17
 
 
                             *COM*:0000000000000008 P1_DIO4

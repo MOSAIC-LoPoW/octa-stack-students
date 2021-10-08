@@ -1,4 +1,4 @@
-ARM GAS  /tmp/cczpcD46.s 			page 1
+ARM GAS  /tmp/ccu6cHxZ.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  /tmp/cczpcD46.s 			page 1
   44 0004 1F48     		ldr	r0, .L9
   45 0006 204B     		ldr	r3, .L9+4
   46 0008 0360     		str	r3, [r0]
-ARM GAS  /tmp/cczpcD46.s 			page 2
+ARM GAS  /tmp/ccu6cHxZ.s 			page 2
 
 
   13:../../../core/platform/octa/src/rtc.c ****   hrtc.Init.HourFormat = RTC_HOURFORMAT_24;
@@ -118,7 +118,7 @@ ARM GAS  /tmp/cczpcD46.s 			page 1
   86              		.loc 1 27 17 is_stmt 0 view .LVU27
   87 002e 8DF80630 		strb	r3, [sp, #6]
   28:../../../core/platform/octa/src/rtc.c ****   sTime.DayLightSaving = RTC_DAYLIGHTSAVING_NONE;
-ARM GAS  /tmp/cczpcD46.s 			page 3
+ARM GAS  /tmp/ccu6cHxZ.s 			page 3
 
 
   88              		.loc 1 28 3 is_stmt 1 view .LVU28
@@ -178,7 +178,7 @@ ARM GAS  /tmp/cczpcD46.s 			page 1
  128 0060 0A4A     		ldr	r2, .L9+8
  129 0062 1368     		ldr	r3, [r2]
  130 0064 43F48013 		orr	r3, r3, #1048576
-ARM GAS  /tmp/cczpcD46.s 			page 4
+ARM GAS  /tmp/ccu6cHxZ.s 			page 4
 
 
  131 0068 1360     		str	r3, [r2]
@@ -238,7 +238,7 @@ ARM GAS  /tmp/cczpcD46.s 			page 1
  174              		.global	RTC_Set_Time_From_Unix
  175              		.syntax unified
  176              		.thumb
-ARM GAS  /tmp/cczpcD46.s 			page 5
+ARM GAS  /tmp/ccu6cHxZ.s 			page 5
 
 
  177              		.thumb_func
@@ -298,7 +298,7 @@ ARM GAS  /tmp/cczpcD46.s 			page 1
   63:../../../core/platform/octa/src/rtc.c ****   sdate.Year = stmU->tm_year - 100;
  213              		.loc 1 63 3 is_stmt 1 view .LVU62
  214              		.loc 1 63 20 is_stmt 0 view .LVU63
-ARM GAS  /tmp/cczpcD46.s 			page 6
+ARM GAS  /tmp/ccu6cHxZ.s 			page 6
 
 
  215 0010 4369     		ldr	r3, [r0, #20]
@@ -320,77 +320,79 @@ ARM GAS  /tmp/cczpcD46.s 			page 1
  229              		.loc 1 65 14 is_stmt 0 view .LVU71
  230 0022 057B     		ldrb	r5, [r0, #12]	@ zero_extendqisi2
  231 0024 8DF81E50 		strb	r5, [sp, #30]
-  66:../../../core/platform/octa/src/rtc.c ****   sdate.WeekDay = stmU->tm_wday;
+  66:../../../core/platform/octa/src/rtc.c ****   sdate.WeekDay = stmU->tm_wday + 1;
  232              		.loc 1 66 3 is_stmt 1 view .LVU72
  233              		.loc 1 66 23 is_stmt 0 view .LVU73
  234 0028 8269     		ldr	r2, [r0, #24]
- 235              		.loc 1 66 17 view .LVU74
- 236 002a 8DF81C20 		strb	r2, [sp, #28]
+ 235              		.loc 1 66 33 view .LVU74
+ 236 002a 0132     		adds	r2, r2, #1
+ 237              		.loc 1 66 17 view .LVU75
+ 238 002c 8DF81C20 		strb	r2, [sp, #28]
   67:../../../core/platform/octa/src/rtc.c ****   stime.DayLightSaving = RTC_DAYLIGHTSAVING_NONE;
- 237              		.loc 1 67 3 is_stmt 1 view .LVU75
- 238              		.loc 1 67 24 is_stmt 0 view .LVU76
- 239 002e 0594     		str	r4, [sp, #20]
+ 239              		.loc 1 67 3 is_stmt 1 view .LVU76
+ 240              		.loc 1 67 24 is_stmt 0 view .LVU77
+ 241 0030 0594     		str	r4, [sp, #20]
   68:../../../core/platform/octa/src/rtc.c ****   stime.SubSeconds = 0;
- 240              		.loc 1 68 3 is_stmt 1 view .LVU77
- 241              		.loc 1 68 20 is_stmt 0 view .LVU78
- 242 0030 0394     		str	r4, [sp, #12]
+ 242              		.loc 1 68 3 is_stmt 1 view .LVU78
+ 243              		.loc 1 68 20 is_stmt 0 view .LVU79
+ 244 0032 0394     		str	r4, [sp, #12]
   69:../../../core/platform/octa/src/rtc.c ****   stime.SecondFraction = 0;
- 243              		.loc 1 69 3 is_stmt 1 view .LVU79
- 244              		.loc 1 69 24 is_stmt 0 view .LVU80
- 245 0032 0494     		str	r4, [sp, #16]
+ 245              		.loc 1 69 3 is_stmt 1 view .LVU80
+ 246              		.loc 1 69 24 is_stmt 0 view .LVU81
+ 247 0034 0494     		str	r4, [sp, #16]
   70:../../../core/platform/octa/src/rtc.c ****   stime.StoreOperation = RTC_STOREOPERATION_SET;
- 246              		.loc 1 70 3 is_stmt 1 view .LVU81
- 247              		.loc 1 70 24 is_stmt 0 view .LVU82
- 248 0034 4FF48022 		mov	r2, #262144
- 249 0038 0692     		str	r2, [sp, #24]
+ 248              		.loc 1 70 3 is_stmt 1 view .LVU82
+ 249              		.loc 1 70 24 is_stmt 0 view .LVU83
+ 250 0036 4FF48022 		mov	r2, #262144
+ 251 003a 0692     		str	r2, [sp, #24]
   71:../../../core/platform/octa/src/rtc.c ****   stime.Hours = stmU->tm_hour;
- 250              		.loc 1 71 3 is_stmt 1 view .LVU83
- 251              		.loc 1 71 15 is_stmt 0 view .LVU84
- 252 003a 027A     		ldrb	r2, [r0, #8]	@ zero_extendqisi2
- 253 003c 8DF80820 		strb	r2, [sp, #8]
+ 252              		.loc 1 71 3 is_stmt 1 view .LVU84
+ 253              		.loc 1 71 15 is_stmt 0 view .LVU85
+ 254 003c 027A     		ldrb	r2, [r0, #8]	@ zero_extendqisi2
+ 255 003e 8DF80820 		strb	r2, [sp, #8]
   72:../../../core/platform/octa/src/rtc.c ****   stime.Minutes = stmU->tm_min;
- 254              		.loc 1 72 3 is_stmt 1 view .LVU85
- 255              		.loc 1 72 17 is_stmt 0 view .LVU86
- 256 0040 0179     		ldrb	r1, [r0, #4]	@ zero_extendqisi2
- 257 0042 8DF80910 		strb	r1, [sp, #9]
+ 256              		.loc 1 72 3 is_stmt 1 view .LVU86
+ 257              		.loc 1 72 17 is_stmt 0 view .LVU87
+ 258 0042 0179     		ldrb	r1, [r0, #4]	@ zero_extendqisi2
+ 259 0044 8DF80910 		strb	r1, [sp, #9]
   73:../../../core/platform/octa/src/rtc.c ****   stime.Seconds = stmU->tm_sec;
- 258              		.loc 1 73 3 is_stmt 1 view .LVU87
- 259              		.loc 1 73 17 is_stmt 0 view .LVU88
- 260 0046 0078     		ldrb	r0, [r0]	@ zero_extendqisi2
- 261              	.LVL9:
-ARM GAS  /tmp/cczpcD46.s 			page 7
+ 260              		.loc 1 73 3 is_stmt 1 view .LVU88
+ 261              		.loc 1 73 17 is_stmt 0 view .LVU89
+ARM GAS  /tmp/ccu6cHxZ.s 			page 7
 
 
- 262              		.loc 1 73 17 view .LVU89
- 263 0048 8DF80A00 		strb	r0, [sp, #10]
+ 262 0048 0078     		ldrb	r0, [r0]	@ zero_extendqisi2
+ 263              	.LVL9:
+ 264              		.loc 1 73 17 view .LVU90
+ 265 004a 8DF80A00 		strb	r0, [sp, #10]
   74:../../../core/platform/octa/src/rtc.c **** 
   75:../../../core/platform/octa/src/rtc.c ****   if(stime.Hours > 24 || stime.Minutes > 60 || stime.Seconds > 60 || sdate.Year > 4000 || sdate.Mon
- 264              		.loc 1 75 3 is_stmt 1 view .LVU90
- 265              		.loc 1 75 5 is_stmt 0 view .LVU91
- 266 004c 182A     		cmp	r2, #24
- 267 004e 07D8     		bhi	.L12
- 268              		.loc 1 75 23 discriminator 1 view .LVU92
- 269 0050 3C29     		cmp	r1, #60
- 270 0052 05D8     		bhi	.L12
- 271              		.loc 1 75 67 discriminator 2 view .LVU93
- 272 0054 3C28     		cmp	r0, #60
- 273 0056 03D8     		bhi	.L12
- 274              		.loc 1 75 88 discriminator 3 view .LVU94
- 275 0058 0C2B     		cmp	r3, #12
- 276 005a 01D8     		bhi	.L12
- 277              		.loc 1 75 108 discriminator 4 view .LVU95
- 278 005c 1F2D     		cmp	r5, #31
- 279 005e 04D9     		bls	.L13
- 280              	.L12:
+ 266              		.loc 1 75 3 is_stmt 1 view .LVU91
+ 267              		.loc 1 75 5 is_stmt 0 view .LVU92
+ 268 004e 182A     		cmp	r2, #24
+ 269 0050 07D8     		bhi	.L12
+ 270              		.loc 1 75 23 discriminator 1 view .LVU93
+ 271 0052 3C29     		cmp	r1, #60
+ 272 0054 05D8     		bhi	.L12
+ 273              		.loc 1 75 67 discriminator 2 view .LVU94
+ 274 0056 3C28     		cmp	r0, #60
+ 275 0058 03D8     		bhi	.L12
+ 276              		.loc 1 75 88 discriminator 3 view .LVU95
+ 277 005a 0C2B     		cmp	r3, #12
+ 278 005c 01D8     		bhi	.L12
+ 279              		.loc 1 75 108 discriminator 4 view .LVU96
+ 280 005e 1F2D     		cmp	r5, #31
+ 281 0060 04D9     		bls	.L13
+ 282              	.L12:
   76:../../../core/platform/octa/src/rtc.c ****   {
   77:../../../core/platform/octa/src/rtc.c ****     printERR("Invalid utc timestamp. not updating RTC\r\n");
- 281              		.loc 1 77 5 is_stmt 1 view .LVU96
- 282 0060 0948     		ldr	r0, .L16
- 283 0062 FFF7FEFF 		bl	printERR
- 284              	.LVL10:
+ 283              		.loc 1 77 5 is_stmt 1 view .LVU97
+ 284 0062 0A48     		ldr	r0, .L16
+ 285 0064 FFF7FEFF 		bl	printERR
+ 286              	.LVL10:
   78:../../../core/platform/octa/src/rtc.c ****     return;
- 285              		.loc 1 78 5 view .LVU97
- 286              	.L11:
+ 287              		.loc 1 78 5 view .LVU98
+ 288              	.L11:
   79:../../../core/platform/octa/src/rtc.c ****   }
   80:../../../core/platform/octa/src/rtc.c **** 
   81:../../../core/platform/octa/src/rtc.c ****   HAL_RTC_SetDate(&hrtc,&sdate,RTC_FORMAT_BIN);
@@ -398,65 +400,65 @@ ARM GAS  /tmp/cczpcD46.s 			page 1
   83:../../../core/platform/octa/src/rtc.c ****   
   84:../../../core/platform/octa/src/rtc.c ****   printDBG("RTC datetime updated\r\n");
   85:../../../core/platform/octa/src/rtc.c **** }
- 287              		.loc 1 85 1 is_stmt 0 view .LVU98
- 288 0066 09B0     		add	sp, sp, #36
- 289              	.LCFI6:
- 290              		.cfi_remember_state
- 291              		.cfi_def_cfa_offset 12
- 292              		@ sp needed
- 293 0068 30BD     		pop	{r4, r5, pc}
- 294              	.L13:
- 295              	.LCFI7:
- 296              		.cfi_restore_state
+ 289              		.loc 1 85 1 is_stmt 0 view .LVU99
+ 290 0068 09B0     		add	sp, sp, #36
+ 291              	.LCFI6:
+ 292              		.cfi_remember_state
+ 293              		.cfi_def_cfa_offset 12
+ 294              		@ sp needed
+ 295 006a 30BD     		pop	{r4, r5, pc}
+ 296              	.L13:
+ 297              	.LCFI7:
+ 298              		.cfi_restore_state
   81:../../../core/platform/octa/src/rtc.c ****   HAL_RTC_SetTime(&hrtc,&stime,RTC_FORMAT_BIN);
- 297              		.loc 1 81 3 is_stmt 1 view .LVU99
- 298 006a 084C     		ldr	r4, .L16+4
- 299 006c 0022     		movs	r2, #0
- 300 006e 07A9     		add	r1, sp, #28
- 301 0070 2046     		mov	r0, r4
- 302 0072 FFF7FEFF 		bl	HAL_RTC_SetDate
- 303              	.LVL11:
+ 299              		.loc 1 81 3 is_stmt 1 view .LVU100
+ 300 006c 084C     		ldr	r4, .L16+4
+ 301 006e 0022     		movs	r2, #0
+ 302 0070 07A9     		add	r1, sp, #28
+ 303 0072 2046     		mov	r0, r4
+ 304 0074 FFF7FEFF 		bl	HAL_RTC_SetDate
+ 305              	.LVL11:
+ARM GAS  /tmp/ccu6cHxZ.s 			page 8
+
+
   82:../../../core/platform/octa/src/rtc.c ****   
- 304              		.loc 1 82 3 view .LVU100
-ARM GAS  /tmp/cczpcD46.s 			page 8
-
-
- 305 0076 0022     		movs	r2, #0
- 306 0078 02A9     		add	r1, sp, #8
- 307 007a 2046     		mov	r0, r4
- 308 007c FFF7FEFF 		bl	HAL_RTC_SetTime
- 309              	.LVL12:
+ 306              		.loc 1 82 3 view .LVU101
+ 307 0078 0022     		movs	r2, #0
+ 308 007a 02A9     		add	r1, sp, #8
+ 309 007c 2046     		mov	r0, r4
+ 310 007e FFF7FEFF 		bl	HAL_RTC_SetTime
+ 311              	.LVL12:
   84:../../../core/platform/octa/src/rtc.c **** }
- 310              		.loc 1 84 3 view .LVU101
- 311 0080 0348     		ldr	r0, .L16+8
- 312 0082 FFF7FEFF 		bl	printDBG
- 313              	.LVL13:
- 314 0086 EEE7     		b	.L11
- 315              	.L17:
- 316              		.align	2
- 317              	.L16:
- 318 0088 00000000 		.word	.LC0
- 319 008c 00000000 		.word	hrtc
- 320 0090 2C000000 		.word	.LC1
- 321              		.cfi_endproc
- 322              	.LFE132:
- 324              		.section	.rodata.RTC_Time_To_Unix.str1.4,"aMS",%progbits,1
- 325              		.align	2
- 326              	.LC2:
- 327 0000 55544320 		.ascii	"UTC timestamp: %d \015\012\000"
- 327      74696D65 
- 327      7374616D 
- 327      703A2025 
- 327      64200D0A 
- 328              		.section	.text.RTC_Time_To_Unix,"ax",%progbits
- 329              		.align	1
- 330              		.global	RTC_Time_To_Unix
- 331              		.syntax unified
- 332              		.thumb
- 333              		.thumb_func
- 334              		.fpu fpv4-sp-d16
- 336              	RTC_Time_To_Unix:
- 337              	.LFB133:
+ 312              		.loc 1 84 3 view .LVU102
+ 313 0082 0448     		ldr	r0, .L16+8
+ 314 0084 FFF7FEFF 		bl	printDBG
+ 315              	.LVL13:
+ 316 0088 EEE7     		b	.L11
+ 317              	.L17:
+ 318 008a 00BF     		.align	2
+ 319              	.L16:
+ 320 008c 00000000 		.word	.LC0
+ 321 0090 00000000 		.word	hrtc
+ 322 0094 2C000000 		.word	.LC1
+ 323              		.cfi_endproc
+ 324              	.LFE132:
+ 326              		.section	.rodata.RTC_Time_To_Unix.str1.4,"aMS",%progbits,1
+ 327              		.align	2
+ 328              	.LC2:
+ 329 0000 55544320 		.ascii	"UTC timestamp: %d \015\012\000"
+ 329      74696D65 
+ 329      7374616D 
+ 329      703A2025 
+ 329      64200D0A 
+ 330              		.section	.text.RTC_Time_To_Unix,"ax",%progbits
+ 331              		.align	1
+ 332              		.global	RTC_Time_To_Unix
+ 333              		.syntax unified
+ 334              		.thumb
+ 335              		.thumb_func
+ 336              		.fpu fpv4-sp-d16
+ 338              	RTC_Time_To_Unix:
+ 339              	.LFB133:
   86:../../../core/platform/octa/src/rtc.c **** 
   87:../../../core/platform/octa/src/rtc.c **** /*
   88:../../../core/platform/octa/src/rtc.c **** * Description: Local time to generate Unix timestamps
@@ -466,436 +468,436 @@ ARM GAS  /tmp/cczpcD46.s 			page 1
   92:../../../core/platform/octa/src/rtc.c **** */
   93:../../../core/platform/octa/src/rtc.c **** uint32_t RTC_Time_To_Unix()
   94:../../../core/platform/octa/src/rtc.c **** {
- 338              		.loc 1 94 1 view -0
- 339              		.cfi_startproc
- 340              		@ args = 0, pretend = 0, frame = 64
- 341              		@ frame_needed = 0, uses_anonymous_args = 0
- 342 0000 10B5     		push	{r4, lr}
- 343              	.LCFI8:
- 344              		.cfi_def_cfa_offset 8
- 345              		.cfi_offset 4, -8
- 346              		.cfi_offset 14, -4
- 347 0002 90B0     		sub	sp, sp, #64
- 348              	.LCFI9:
- 349              		.cfi_def_cfa_offset 72
-ARM GAS  /tmp/cczpcD46.s 			page 9
+ 340              		.loc 1 94 1 view -0
+ 341              		.cfi_startproc
+ 342              		@ args = 0, pretend = 0, frame = 64
+ 343              		@ frame_needed = 0, uses_anonymous_args = 0
+ 344 0000 10B5     		push	{r4, lr}
+ 345              	.LCFI8:
+ 346              		.cfi_def_cfa_offset 8
+ 347              		.cfi_offset 4, -8
+ 348              		.cfi_offset 14, -4
+ 349 0002 90B0     		sub	sp, sp, #64
+ARM GAS  /tmp/ccu6cHxZ.s 			page 9
 
 
+ 350              	.LCFI9:
+ 351              		.cfi_def_cfa_offset 72
   95:../../../core/platform/octa/src/rtc.c ****   char buf[50];
- 350              		.loc 1 95 3 view .LVU103
+ 352              		.loc 1 95 3 view .LVU104
   96:../../../core/platform/octa/src/rtc.c ****           
   97:../../../core/platform/octa/src/rtc.c ****   struct tm stmT;
- 351              		.loc 1 97 3 view .LVU104
+ 353              		.loc 1 97 3 view .LVU105
   98:../../../core/platform/octa/src/rtc.c ****              
   99:../../../core/platform/octa/src/rtc.c ****   RTC_DateTypeDef sdate;
- 352              		.loc 1 99 3 view .LVU105
+ 354              		.loc 1 99 3 view .LVU106
  100:../../../core/platform/octa/src/rtc.c ****   RTC_TimeTypeDef stime;
- 353              		.loc 1 100 3 view .LVU106
+ 355              		.loc 1 100 3 view .LVU107
  101:../../../core/platform/octa/src/rtc.c ****   
  102:../../../core/platform/octa/src/rtc.c ****   HAL_RTC_GetTime(&hrtc, &stime, RTC_FORMAT_BIN);
- 354              		.loc 1 102 3 view .LVU107
- 355 0004 144C     		ldr	r4, .L20
- 356 0006 0022     		movs	r2, #0
- 357 0008 01A9     		add	r1, sp, #4
- 358 000a 2046     		mov	r0, r4
- 359 000c FFF7FEFF 		bl	HAL_RTC_GetTime
- 360              	.LVL14:
+ 356              		.loc 1 102 3 view .LVU108
+ 357 0004 144C     		ldr	r4, .L20
+ 358 0006 0022     		movs	r2, #0
+ 359 0008 01A9     		add	r1, sp, #4
+ 360 000a 2046     		mov	r0, r4
+ 361 000c FFF7FEFF 		bl	HAL_RTC_GetTime
+ 362              	.LVL14:
  103:../../../core/platform/octa/src/rtc.c ****   HAL_RTC_GetDate(&hrtc, &sdate, RTC_FORMAT_BIN);
- 361              		.loc 1 103 3 view .LVU108
- 362 0010 0022     		movs	r2, #0
- 363 0012 06A9     		add	r1, sp, #24
- 364 0014 2046     		mov	r0, r4
- 365 0016 FFF7FEFF 		bl	HAL_RTC_GetDate
- 366              	.LVL15:
+ 363              		.loc 1 103 3 view .LVU109
+ 364 0010 0022     		movs	r2, #0
+ 365 0012 06A9     		add	r1, sp, #24
+ 366 0014 2046     		mov	r0, r4
+ 367 0016 FFF7FEFF 		bl	HAL_RTC_GetDate
+ 368              	.LVL15:
  104:../../../core/platform/octa/src/rtc.c ****       
  105:../../../core/platform/octa/src/rtc.c ****   stmT.tm_year=sdate.Year+100;
- 367              		.loc 1 105 3 view .LVU109
- 368              		.loc 1 105 21 is_stmt 0 view .LVU110
- 369 001a 9DF81B30 		ldrb	r3, [sp, #27]	@ zero_extendqisi2
- 370              		.loc 1 105 26 view .LVU111
- 371 001e 6433     		adds	r3, r3, #100
- 372              		.loc 1 105 15 view .LVU112
- 373 0020 0C93     		str	r3, [sp, #48]
+ 369              		.loc 1 105 3 view .LVU110
+ 370              		.loc 1 105 21 is_stmt 0 view .LVU111
+ 371 001a 9DF81B30 		ldrb	r3, [sp, #27]	@ zero_extendqisi2
+ 372              		.loc 1 105 26 view .LVU112
+ 373 001e 6433     		adds	r3, r3, #100
+ 374              		.loc 1 105 15 view .LVU113
+ 375 0020 0C93     		str	r3, [sp, #48]
  106:../../../core/platform/octa/src/rtc.c ****   stmT.tm_mon=sdate.Month-1;  
- 374              		.loc 1 106 3 is_stmt 1 view .LVU113
- 375              		.loc 1 106 20 is_stmt 0 view .LVU114
- 376 0022 9DF81930 		ldrb	r3, [sp, #25]	@ zero_extendqisi2
- 377              		.loc 1 106 26 view .LVU115
- 378 0026 013B     		subs	r3, r3, #1
- 379              		.loc 1 106 14 view .LVU116
- 380 0028 0B93     		str	r3, [sp, #44]
+ 376              		.loc 1 106 3 is_stmt 1 view .LVU114
+ 377              		.loc 1 106 20 is_stmt 0 view .LVU115
+ 378 0022 9DF81930 		ldrb	r3, [sp, #25]	@ zero_extendqisi2
+ 379              		.loc 1 106 26 view .LVU116
+ 380 0026 013B     		subs	r3, r3, #1
+ 381              		.loc 1 106 14 view .LVU117
+ 382 0028 0B93     		str	r3, [sp, #44]
  107:../../../core/platform/octa/src/rtc.c ****   stmT.tm_mday=sdate.Date;  
- 381              		.loc 1 107 3 is_stmt 1 view .LVU117
- 382              		.loc 1 107 21 is_stmt 0 view .LVU118
- 383 002a 9DF81A30 		ldrb	r3, [sp, #26]	@ zero_extendqisi2
- 384              		.loc 1 107 15 view .LVU119
- 385 002e 0A93     		str	r3, [sp, #40]
+ 383              		.loc 1 107 3 is_stmt 1 view .LVU118
+ 384              		.loc 1 107 21 is_stmt 0 view .LVU119
+ 385 002a 9DF81A30 		ldrb	r3, [sp, #26]	@ zero_extendqisi2
+ 386              		.loc 1 107 15 view .LVU120
+ 387 002e 0A93     		str	r3, [sp, #40]
  108:../../../core/platform/octa/src/rtc.c ****   stmT.tm_hour=stime.Hours;  
- 386              		.loc 1 108 3 is_stmt 1 view .LVU120
- 387              		.loc 1 108 21 is_stmt 0 view .LVU121
- 388 0030 9DF80430 		ldrb	r3, [sp, #4]	@ zero_extendqisi2
- 389              		.loc 1 108 15 view .LVU122
- 390 0034 0993     		str	r3, [sp, #36]
+ 388              		.loc 1 108 3 is_stmt 1 view .LVU121
+ 389              		.loc 1 108 21 is_stmt 0 view .LVU122
+ 390 0030 9DF80430 		ldrb	r3, [sp, #4]	@ zero_extendqisi2
+ 391              		.loc 1 108 15 view .LVU123
+ 392 0034 0993     		str	r3, [sp, #36]
+ARM GAS  /tmp/ccu6cHxZ.s 			page 10
+
+
  109:../../../core/platform/octa/src/rtc.c ****   stmT.tm_min=stime.Minutes;  
- 391              		.loc 1 109 3 is_stmt 1 view .LVU123
-ARM GAS  /tmp/cczpcD46.s 			page 10
-
-
- 392              		.loc 1 109 20 is_stmt 0 view .LVU124
- 393 0036 9DF80530 		ldrb	r3, [sp, #5]	@ zero_extendqisi2
- 394              		.loc 1 109 14 view .LVU125
- 395 003a 0893     		str	r3, [sp, #32]
+ 393              		.loc 1 109 3 is_stmt 1 view .LVU124
+ 394              		.loc 1 109 20 is_stmt 0 view .LVU125
+ 395 0036 9DF80530 		ldrb	r3, [sp, #5]	@ zero_extendqisi2
+ 396              		.loc 1 109 14 view .LVU126
+ 397 003a 0893     		str	r3, [sp, #32]
  110:../../../core/platform/octa/src/rtc.c ****   stmT.tm_sec=stime.Seconds;  
- 396              		.loc 1 110 3 is_stmt 1 view .LVU126
- 397              		.loc 1 110 20 is_stmt 0 view .LVU127
- 398 003c 9DF80630 		ldrb	r3, [sp, #6]	@ zero_extendqisi2
- 399              		.loc 1 110 14 view .LVU128
- 400 0040 0793     		str	r3, [sp, #28]
+ 398              		.loc 1 110 3 is_stmt 1 view .LVU127
+ 399              		.loc 1 110 20 is_stmt 0 view .LVU128
+ 400 003c 9DF80630 		ldrb	r3, [sp, #6]	@ zero_extendqisi2
+ 401              		.loc 1 110 14 view .LVU129
+ 402 0040 0793     		str	r3, [sp, #28]
  111:../../../core/platform/octa/src/rtc.c ****           
  112:../../../core/platform/octa/src/rtc.c ****   uint32_t unixtimestamp = (uint32_t)mktime(&stmT);
- 401              		.loc 1 112 3 is_stmt 1 view .LVU129
- 402              		.loc 1 112 38 is_stmt 0 view .LVU130
- 403 0042 07A8     		add	r0, sp, #28
- 404 0044 FFF7FEFF 		bl	mktime
- 405              	.LVL16:
- 406 0048 0446     		mov	r4, r0
- 407              	.LVL17:
+ 403              		.loc 1 112 3 is_stmt 1 view .LVU130
+ 404              		.loc 1 112 38 is_stmt 0 view .LVU131
+ 405 0042 07A8     		add	r0, sp, #28
+ 406 0044 FFF7FEFF 		bl	mktime
+ 407              	.LVL16:
+ 408 0048 0446     		mov	r4, r0
+ 409              	.LVL17:
  113:../../../core/platform/octa/src/rtc.c ****   printDBG("UTC timestamp: %d \r\n",unixtimestamp);
- 408              		.loc 1 113 3 is_stmt 1 view .LVU131
- 409 004a 0146     		mov	r1, r0
- 410 004c 0348     		ldr	r0, .L20+4
- 411              	.LVL18:
- 412              		.loc 1 113 3 is_stmt 0 view .LVU132
- 413 004e FFF7FEFF 		bl	printDBG
- 414              	.LVL19:
+ 410              		.loc 1 113 3 is_stmt 1 view .LVU132
+ 411 004a 0146     		mov	r1, r0
+ 412 004c 0348     		ldr	r0, .L20+4
+ 413              	.LVL18:
+ 414              		.loc 1 113 3 is_stmt 0 view .LVU133
+ 415 004e FFF7FEFF 		bl	printDBG
+ 416              	.LVL19:
  114:../../../core/platform/octa/src/rtc.c ****   return unixtimestamp;
- 415              		.loc 1 114 3 is_stmt 1 view .LVU133
+ 417              		.loc 1 114 3 is_stmt 1 view .LVU134
  115:../../../core/platform/octa/src/rtc.c **** }
- 416              		.loc 1 115 1 is_stmt 0 view .LVU134
- 417 0052 2046     		mov	r0, r4
- 418 0054 10B0     		add	sp, sp, #64
- 419              	.LCFI10:
- 420              		.cfi_def_cfa_offset 8
- 421              		@ sp needed
- 422 0056 10BD     		pop	{r4, pc}
- 423              	.LVL20:
- 424              	.L21:
- 425              		.loc 1 115 1 view .LVU135
- 426              		.align	2
- 427              	.L20:
- 428 0058 00000000 		.word	hrtc
- 429 005c 00000000 		.word	.LC2
- 430              		.cfi_endproc
- 431              	.LFE133:
- 433              		.section	.rodata.RTC_Print_DateTime.str1.4,"aMS",%progbits,1
- 434              		.align	2
- 435              	.LC3:
- 436 0000 44617465 		.ascii	"Date (YYYY/MM/DD): %02d/%02d/%02d\015\012\000"
- 436      20285959 
- 436      59592F4D 
- 436      4D2F4444 
- 436      293A2025 
- 437              		.align	2
- 438              	.LC4:
- 439 0024 54696D65 		.ascii	"Time (HH:MM:SS): %02d:%02d:%02d\015\012\000"
-ARM GAS  /tmp/cczpcD46.s 			page 11
+ 418              		.loc 1 115 1 is_stmt 0 view .LVU135
+ 419 0052 2046     		mov	r0, r4
+ 420 0054 10B0     		add	sp, sp, #64
+ 421              	.LCFI10:
+ 422              		.cfi_def_cfa_offset 8
+ 423              		@ sp needed
+ 424 0056 10BD     		pop	{r4, pc}
+ 425              	.LVL20:
+ 426              	.L21:
+ 427              		.loc 1 115 1 view .LVU136
+ 428              		.align	2
+ 429              	.L20:
+ 430 0058 00000000 		.word	hrtc
+ 431 005c 00000000 		.word	.LC2
+ 432              		.cfi_endproc
+ 433              	.LFE133:
+ 435              		.section	.rodata.RTC_Print_DateTime.str1.4,"aMS",%progbits,1
+ 436              		.align	2
+ 437              	.LC3:
+ 438 0000 44617465 		.ascii	"Date (YYYY/MM/DD): %02d/%02d/%02d\015\012\000"
+ 438      20285959 
+ 438      59592F4D 
+ 438      4D2F4444 
+ 438      293A2025 
+ 439              		.align	2
+ARM GAS  /tmp/ccu6cHxZ.s 			page 11
 
 
- 439      20284848 
- 439      3A4D4D3A 
- 439      5353293A 
- 439      20253032 
- 440              		.section	.text.RTC_Print_DateTime,"ax",%progbits
- 441              		.align	1
- 442              		.global	RTC_Print_DateTime
- 443              		.syntax unified
- 444              		.thumb
- 445              		.thumb_func
- 446              		.fpu fpv4-sp-d16
- 448              	RTC_Print_DateTime:
- 449              	.LFB134:
+ 440              	.LC4:
+ 441 0024 54696D65 		.ascii	"Time (HH:MM:SS): %02d:%02d:%02d\015\012\000"
+ 441      20284848 
+ 441      3A4D4D3A 
+ 441      5353293A 
+ 441      20253032 
+ 442              		.section	.text.RTC_Print_DateTime,"ax",%progbits
+ 443              		.align	1
+ 444              		.global	RTC_Print_DateTime
+ 445              		.syntax unified
+ 446              		.thumb
+ 447              		.thumb_func
+ 448              		.fpu fpv4-sp-d16
+ 450              	RTC_Print_DateTime:
+ 451              	.LFB134:
  116:../../../core/platform/octa/src/rtc.c **** 
  117:../../../core/platform/octa/src/rtc.c **** void RTC_Print_DateTime()
  118:../../../core/platform/octa/src/rtc.c **** {
- 450              		.loc 1 118 1 is_stmt 1 view -0
- 451              		.cfi_startproc
- 452              		@ args = 0, pretend = 0, frame = 24
- 453              		@ frame_needed = 0, uses_anonymous_args = 0
- 454 0000 10B5     		push	{r4, lr}
- 455              	.LCFI11:
- 456              		.cfi_def_cfa_offset 8
- 457              		.cfi_offset 4, -8
- 458              		.cfi_offset 14, -4
- 459 0002 86B0     		sub	sp, sp, #24
- 460              	.LCFI12:
- 461              		.cfi_def_cfa_offset 32
+ 452              		.loc 1 118 1 is_stmt 1 view -0
+ 453              		.cfi_startproc
+ 454              		@ args = 0, pretend = 0, frame = 24
+ 455              		@ frame_needed = 0, uses_anonymous_args = 0
+ 456 0000 10B5     		push	{r4, lr}
+ 457              	.LCFI11:
+ 458              		.cfi_def_cfa_offset 8
+ 459              		.cfi_offset 4, -8
+ 460              		.cfi_offset 14, -4
+ 461 0002 86B0     		sub	sp, sp, #24
+ 462              	.LCFI12:
+ 463              		.cfi_def_cfa_offset 32
  119:../../../core/platform/octa/src/rtc.c ****   RTC_DateTypeDef sdate;
- 462              		.loc 1 119 3 view .LVU137
+ 464              		.loc 1 119 3 view .LVU138
  120:../../../core/platform/octa/src/rtc.c ****   RTC_TimeTypeDef stime;
- 463              		.loc 1 120 3 view .LVU138
+ 465              		.loc 1 120 3 view .LVU139
  121:../../../core/platform/octa/src/rtc.c ****   HAL_RTC_GetTime(&hrtc, &stime, RTC_FORMAT_BIN);
- 464              		.loc 1 121 3 view .LVU139
- 465 0004 104C     		ldr	r4, .L24
- 466 0006 0022     		movs	r2, #0
- 467 0008 6946     		mov	r1, sp
- 468 000a 2046     		mov	r0, r4
- 469 000c FFF7FEFF 		bl	HAL_RTC_GetTime
- 470              	.LVL21:
+ 466              		.loc 1 121 3 view .LVU140
+ 467 0004 104C     		ldr	r4, .L24
+ 468 0006 0022     		movs	r2, #0
+ 469 0008 6946     		mov	r1, sp
+ 470 000a 2046     		mov	r0, r4
+ 471 000c FFF7FEFF 		bl	HAL_RTC_GetTime
+ 472              	.LVL21:
  122:../../../core/platform/octa/src/rtc.c ****   HAL_RTC_GetDate(&hrtc, &sdate, RTC_FORMAT_BIN);
- 471              		.loc 1 122 3 view .LVU140
- 472 0010 0022     		movs	r2, #0
- 473 0012 05A9     		add	r1, sp, #20
- 474 0014 2046     		mov	r0, r4
- 475 0016 FFF7FEFF 		bl	HAL_RTC_GetDate
- 476              	.LVL22:
+ 473              		.loc 1 122 3 view .LVU141
+ 474 0010 0022     		movs	r2, #0
+ 475 0012 05A9     		add	r1, sp, #20
+ 476 0014 2046     		mov	r0, r4
+ 477 0016 FFF7FEFF 		bl	HAL_RTC_GetDate
+ 478              	.LVL22:
  123:../../../core/platform/octa/src/rtc.c ****   printDBG("Date (YYYY/MM/DD): %02d/%02d/%02d\r\n",2000 + sdate.Year, sdate.Month, sdate.Date);
- 477              		.loc 1 123 3 view .LVU141
- 478              		.loc 1 123 64 is_stmt 0 view .LVU142
- 479 001a 9DF81710 		ldrb	r1, [sp, #23]	@ zero_extendqisi2
- 480              		.loc 1 123 3 view .LVU143
- 481 001e 9DF81630 		ldrb	r3, [sp, #22]	@ zero_extendqisi2
- 482 0022 9DF81520 		ldrb	r2, [sp, #21]	@ zero_extendqisi2
- 483 0026 01F5FA61 		add	r1, r1, #2000
- 484 002a 0848     		ldr	r0, .L24+4
- 485 002c FFF7FEFF 		bl	printDBG
-ARM GAS  /tmp/cczpcD46.s 			page 12
+ 479              		.loc 1 123 3 view .LVU142
+ 480              		.loc 1 123 64 is_stmt 0 view .LVU143
+ 481 001a 9DF81710 		ldrb	r1, [sp, #23]	@ zero_extendqisi2
+ 482              		.loc 1 123 3 view .LVU144
+ 483 001e 9DF81630 		ldrb	r3, [sp, #22]	@ zero_extendqisi2
+ 484 0022 9DF81520 		ldrb	r2, [sp, #21]	@ zero_extendqisi2
+ 485 0026 01F5FA61 		add	r1, r1, #2000
+ARM GAS  /tmp/ccu6cHxZ.s 			page 12
 
 
- 486              	.LVL23:
+ 486 002a 0848     		ldr	r0, .L24+4
+ 487 002c FFF7FEFF 		bl	printDBG
+ 488              	.LVL23:
  124:../../../core/platform/octa/src/rtc.c ****   printDBG("Time (HH:MM:SS): %02d:%02d:%02d\r\n",stime.Hours, stime.Minutes, stime.Seconds); 
- 487              		.loc 1 124 3 is_stmt 1 view .LVU144
- 488 0030 9DF80230 		ldrb	r3, [sp, #2]	@ zero_extendqisi2
- 489 0034 9DF80120 		ldrb	r2, [sp, #1]	@ zero_extendqisi2
- 490 0038 9DF80010 		ldrb	r1, [sp]	@ zero_extendqisi2
- 491 003c 0448     		ldr	r0, .L24+8
- 492 003e FFF7FEFF 		bl	printDBG
- 493              	.LVL24:
+ 489              		.loc 1 124 3 is_stmt 1 view .LVU145
+ 490 0030 9DF80230 		ldrb	r3, [sp, #2]	@ zero_extendqisi2
+ 491 0034 9DF80120 		ldrb	r2, [sp, #1]	@ zero_extendqisi2
+ 492 0038 9DF80010 		ldrb	r1, [sp]	@ zero_extendqisi2
+ 493 003c 0448     		ldr	r0, .L24+8
+ 494 003e FFF7FEFF 		bl	printDBG
+ 495              	.LVL24:
  125:../../../core/platform/octa/src/rtc.c **** }
- 494              		.loc 1 125 1 is_stmt 0 view .LVU145
- 495 0042 06B0     		add	sp, sp, #24
- 496              	.LCFI13:
- 497              		.cfi_def_cfa_offset 8
- 498              		@ sp needed
- 499 0044 10BD     		pop	{r4, pc}
- 500              	.L25:
- 501 0046 00BF     		.align	2
- 502              	.L24:
- 503 0048 00000000 		.word	hrtc
- 504 004c 00000000 		.word	.LC3
- 505 0050 24000000 		.word	.LC4
- 506              		.cfi_endproc
- 507              	.LFE134:
- 509              		.section	.text.HAL_RTCEx_WakeUpTimerEventCallback,"ax",%progbits
- 510              		.align	1
- 511              		.global	HAL_RTCEx_WakeUpTimerEventCallback
- 512              		.syntax unified
- 513              		.thumb
- 514              		.thumb_func
- 515              		.fpu fpv4-sp-d16
- 517              	HAL_RTCEx_WakeUpTimerEventCallback:
- 518              	.LVL25:
- 519              	.LFB135:
+ 496              		.loc 1 125 1 is_stmt 0 view .LVU146
+ 497 0042 06B0     		add	sp, sp, #24
+ 498              	.LCFI13:
+ 499              		.cfi_def_cfa_offset 8
+ 500              		@ sp needed
+ 501 0044 10BD     		pop	{r4, pc}
+ 502              	.L25:
+ 503 0046 00BF     		.align	2
+ 504              	.L24:
+ 505 0048 00000000 		.word	hrtc
+ 506 004c 00000000 		.word	.LC3
+ 507 0050 24000000 		.word	.LC4
+ 508              		.cfi_endproc
+ 509              	.LFE134:
+ 511              		.section	.text.HAL_RTCEx_WakeUpTimerEventCallback,"ax",%progbits
+ 512              		.align	1
+ 513              		.global	HAL_RTCEx_WakeUpTimerEventCallback
+ 514              		.syntax unified
+ 515              		.thumb
+ 516              		.thumb_func
+ 517              		.fpu fpv4-sp-d16
+ 519              	HAL_RTCEx_WakeUpTimerEventCallback:
+ 520              	.LVL25:
+ 521              	.LFB135:
  126:../../../core/platform/octa/src/rtc.c **** 
  127:../../../core/platform/octa/src/rtc.c **** void HAL_RTCEx_WakeUpTimerEventCallback(RTC_HandleTypeDef *hrtc)
  128:../../../core/platform/octa/src/rtc.c **** {
- 520              		.loc 1 128 1 is_stmt 1 view -0
- 521              		.cfi_startproc
- 522              		@ args = 0, pretend = 0, frame = 0
- 523              		@ frame_needed = 0, uses_anonymous_args = 0
- 524              		.loc 1 128 1 is_stmt 0 view .LVU147
- 525 0000 08B5     		push	{r3, lr}
- 526              	.LCFI14:
- 527              		.cfi_def_cfa_offset 8
- 528              		.cfi_offset 3, -8
- 529              		.cfi_offset 14, -4
+ 522              		.loc 1 128 1 is_stmt 1 view -0
+ 523              		.cfi_startproc
+ 524              		@ args = 0, pretend = 0, frame = 0
+ 525              		@ frame_needed = 0, uses_anonymous_args = 0
+ 526              		.loc 1 128 1 is_stmt 0 view .LVU148
+ 527 0000 08B5     		push	{r3, lr}
+ 528              	.LCFI14:
+ 529              		.cfi_def_cfa_offset 8
+ 530              		.cfi_offset 3, -8
+ 531              		.cfi_offset 14, -4
  129:../../../core/platform/octa/src/rtc.c ****   /* Prevent unused argument(s) compilation warning */
  130:../../../core/platform/octa/src/rtc.c ****   UNUSED(hrtc);
- 530              		.loc 1 130 3 is_stmt 1 view .LVU148
+ 532              		.loc 1 130 3 is_stmt 1 view .LVU149
  131:../../../core/platform/octa/src/rtc.c ****   if(RTC_Wakeup_ApplicationCallback)
- 531              		.loc 1 131 3 view .LVU149
- 532              		.loc 1 131 6 is_stmt 0 view .LVU150
- 533 0002 024B     		ldr	r3, .L29
- 534 0004 1B68     		ldr	r3, [r3]
- 535              		.loc 1 131 5 view .LVU151
- 536 0006 03B1     		cbz	r3, .L26
-ARM GAS  /tmp/cczpcD46.s 			page 13
+ 533              		.loc 1 131 3 view .LVU150
+ 534              		.loc 1 131 6 is_stmt 0 view .LVU151
+ 535 0002 024B     		ldr	r3, .L29
+ 536 0004 1B68     		ldr	r3, [r3]
+ARM GAS  /tmp/ccu6cHxZ.s 			page 13
 
 
+ 537              		.loc 1 131 5 view .LVU152
+ 538 0006 03B1     		cbz	r3, .L26
  132:../../../core/platform/octa/src/rtc.c ****     RTC_Wakeup_ApplicationCallback();
- 537              		.loc 1 132 5 is_stmt 1 view .LVU152
- 538 0008 9847     		blx	r3
- 539              	.LVL26:
- 540              	.L26:
+ 539              		.loc 1 132 5 is_stmt 1 view .LVU153
+ 540 0008 9847     		blx	r3
+ 541              	.LVL26:
+ 542              	.L26:
  133:../../../core/platform/octa/src/rtc.c **** }
- 541              		.loc 1 133 1 is_stmt 0 view .LVU153
- 542 000a 08BD     		pop	{r3, pc}
- 543              	.L30:
- 544              		.align	2
- 545              	.L29:
- 546 000c 00000000 		.word	.LANCHOR0
- 547              		.cfi_endproc
- 548              	.LFE135:
- 550              		.section	.text.RTC_SetApplicationWakeupCallback,"ax",%progbits
- 551              		.align	1
- 552              		.global	RTC_SetApplicationWakeupCallback
- 553              		.syntax unified
- 554              		.thumb
- 555              		.thumb_func
- 556              		.fpu fpv4-sp-d16
- 558              	RTC_SetApplicationWakeupCallback:
- 559              	.LVL27:
- 560              	.LFB136:
+ 543              		.loc 1 133 1 is_stmt 0 view .LVU154
+ 544 000a 08BD     		pop	{r3, pc}
+ 545              	.L30:
+ 546              		.align	2
+ 547              	.L29:
+ 548 000c 00000000 		.word	.LANCHOR0
+ 549              		.cfi_endproc
+ 550              	.LFE135:
+ 552              		.section	.text.RTC_SetApplicationWakeupCallback,"ax",%progbits
+ 553              		.align	1
+ 554              		.global	RTC_SetApplicationWakeupCallback
+ 555              		.syntax unified
+ 556              		.thumb
+ 557              		.thumb_func
+ 558              		.fpu fpv4-sp-d16
+ 560              	RTC_SetApplicationWakeupCallback:
+ 561              	.LVL27:
+ 562              	.LFB136:
  134:../../../core/platform/octa/src/rtc.c **** 
  135:../../../core/platform/octa/src/rtc.c **** void RTC_SetApplicationWakeupCallback(void (*callback))
  136:../../../core/platform/octa/src/rtc.c **** {
- 561              		.loc 1 136 1 is_stmt 1 view -0
- 562              		.cfi_startproc
- 563              		@ args = 0, pretend = 0, frame = 0
- 564              		@ frame_needed = 0, uses_anonymous_args = 0
- 565              		@ link register save eliminated.
+ 563              		.loc 1 136 1 is_stmt 1 view -0
+ 564              		.cfi_startproc
+ 565              		@ args = 0, pretend = 0, frame = 0
+ 566              		@ frame_needed = 0, uses_anonymous_args = 0
+ 567              		@ link register save eliminated.
  137:../../../core/platform/octa/src/rtc.c ****   RTC_Wakeup_ApplicationCallback = callback;
- 566              		.loc 1 137 3 view .LVU155
- 567              		.loc 1 137 34 is_stmt 0 view .LVU156
- 568 0000 014B     		ldr	r3, .L32
- 569 0002 1860     		str	r0, [r3]
+ 568              		.loc 1 137 3 view .LVU156
+ 569              		.loc 1 137 34 is_stmt 0 view .LVU157
+ 570 0000 014B     		ldr	r3, .L32
+ 571 0002 1860     		str	r0, [r3]
  138:../../../core/platform/octa/src/rtc.c **** }...
- 570              		.loc 1 138 1 view .LVU157
- 571 0004 7047     		bx	lr
- 572              	.L33:
- 573 0006 00BF     		.align	2
- 574              	.L32:
- 575 0008 00000000 		.word	.LANCHOR0
- 576              		.cfi_endproc
- 577              	.LFE136:
- 579              		.comm	P3_header,44,4
- 580              		.comm	P2_header,44,4
- 581              		.comm	P1_header,44,4
- 582              		.comm	stackversion_patch,1,1
- 583              		.comm	stackversion_minor,1,1
- 584              		.comm	stackversion_major,1,1
- 585              		.comm	appversion_patch,1,1
- 586              		.comm	appversion_minor,1,1
- 587              		.comm	appversion_major,1,1
- 588              		.comm	short_UID,8,8
- 589              		.comm	hard_reset,1,1
-ARM GAS  /tmp/cczpcD46.s 			page 14
+ 572              		.loc 1 138 1 view .LVU158
+ 573 0004 7047     		bx	lr
+ 574              	.L33:
+ 575 0006 00BF     		.align	2
+ 576              	.L32:
+ 577 0008 00000000 		.word	.LANCHOR0
+ 578              		.cfi_endproc
+ 579              	.LFE136:
+ 581              		.comm	P3_header,44,4
+ 582              		.comm	P2_header,44,4
+ 583              		.comm	P1_header,44,4
+ 584              		.comm	stackversion_patch,1,1
+ 585              		.comm	stackversion_minor,1,1
+ 586              		.comm	stackversion_major,1,1
+ 587              		.comm	appversion_patch,1,1
+ 588              		.comm	appversion_minor,1,1
+ 589              		.comm	appversion_major,1,1
+ARM GAS  /tmp/ccu6cHxZ.s 			page 14
 
 
- 590              		.comm	wd_reset,1,1
- 591              		.comm	octa_uid,8,8
- 592              		.comm	float_union,4,4
- 593              		.comm	uint16LittleEndian,2,4
- 594              		.comm	int16LittleEndian,2,4
- 595              		.comm	uint32LittleEndian,4,4
- 596              		.comm	int32LittleEndian,4,4
- 597              		.comm	rtosprintHandle,4,4
- 598              		.comm	FLASH_SPI,100,4
- 599              		.comm	P3_SPI,100,4
- 600              		.comm	P2_SPI,100,4
- 601              		.comm	P1_SPI,100,4
- 602              		.comm	P3_I2C,76,4
- 603              		.comm	P2_I2C,76,4
- 604              		.comm	P1_I2C,76,4
- 605              		.comm	common_I2C,76,4
- 606              		.comm	P3_UART,120,4
- 607              		.comm	P2_UART,120,4
- 608              		.comm	P1_UART,120,4
- 609              		.comm	FTDI_UART,120,4
- 610              		.comm	BLE_UART,120,4
- 611              		.comm	USB_UART,120,4
- 612              		.comm	hiwdg,16,4
- 613              		.comm	P3_DIO6,8,4
- 614              		.comm	P3_DIO5,8,4
- 615              		.comm	P3_DIO4,8,4
- 616              		.comm	P3_DIO3,8,4
- 617              		.comm	P3_DIO2,8,4
- 618              		.comm	P3_DIO1,8,4
- 619              		.comm	P2_DIO6,8,4
- 620              		.comm	P2_DIO5,8,4
- 621              		.comm	P2_DIO4,8,4
- 622              		.comm	P2_DIO3,8,4
- 623              		.comm	P2_DIO2,8,4
- 624              		.comm	P2_DIO1,8,4
- 625              		.comm	P1_DIO6,8,4
- 626              		.comm	P1_DIO5,8,4
- 627              		.comm	P1_DIO4,8,4
- 628              		.comm	P1_DIO3,8,4
- 629              		.comm	P1_DIO2,8,4
- 630              		.comm	P1_DIO1,8,4
- 631              		.comm	htim6,64,4
- 632              		.comm	htim1,64,4
- 633              		.comm	hrtc,36,4
- 634              		.section	.bss.RTC_Wakeup_ApplicationCallback,"aw",%nobits
- 635              		.align	2
- 636              		.set	.LANCHOR0,. + 0
- 639              	RTC_Wakeup_ApplicationCallback:
- 640 0000 00000000 		.space	4
- 641              		.text
- 642              	.Letext0:
- 643              		.file 2 "/usr/arm-none-eabi/include/machine/_default_types.h"
- 644              		.file 3 "/usr/arm-none-eabi/include/sys/_stdint.h"
- 645              		.file 4 "../../../core/ST/CMSIS/Include/core_cm4.h"
- 646              		.file 5 "../../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/system_stm32l4xx.h"
- 647              		.file 6 "../../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/stm32l496xx.h"
- 648              		.file 7 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h"
-ARM GAS  /tmp/cczpcD46.s 			page 15
+ 590              		.comm	short_UID,8,8
+ 591              		.comm	hard_reset,1,1
+ 592              		.comm	wd_reset,1,1
+ 593              		.comm	octa_uid,8,8
+ 594              		.comm	float_union,4,4
+ 595              		.comm	uint16LittleEndian,2,4
+ 596              		.comm	int16LittleEndian,2,4
+ 597              		.comm	uint32LittleEndian,4,4
+ 598              		.comm	int32LittleEndian,4,4
+ 599              		.comm	rtosprintHandle,4,4
+ 600              		.comm	FLASH_SPI,100,4
+ 601              		.comm	P3_SPI,100,4
+ 602              		.comm	P2_SPI,100,4
+ 603              		.comm	P1_SPI,100,4
+ 604              		.comm	P3_I2C,76,4
+ 605              		.comm	P2_I2C,76,4
+ 606              		.comm	P1_I2C,76,4
+ 607              		.comm	common_I2C,76,4
+ 608              		.comm	P3_UART,120,4
+ 609              		.comm	P2_UART,120,4
+ 610              		.comm	P1_UART,120,4
+ 611              		.comm	FTDI_UART,120,4
+ 612              		.comm	BLE_UART,120,4
+ 613              		.comm	USB_UART,120,4
+ 614              		.comm	hiwdg,16,4
+ 615              		.comm	P3_DIO6,8,4
+ 616              		.comm	P3_DIO5,8,4
+ 617              		.comm	P3_DIO4,8,4
+ 618              		.comm	P3_DIO3,8,4
+ 619              		.comm	P3_DIO2,8,4
+ 620              		.comm	P3_DIO1,8,4
+ 621              		.comm	P2_DIO6,8,4
+ 622              		.comm	P2_DIO5,8,4
+ 623              		.comm	P2_DIO4,8,4
+ 624              		.comm	P2_DIO3,8,4
+ 625              		.comm	P2_DIO2,8,4
+ 626              		.comm	P2_DIO1,8,4
+ 627              		.comm	P1_DIO6,8,4
+ 628              		.comm	P1_DIO5,8,4
+ 629              		.comm	P1_DIO4,8,4
+ 630              		.comm	P1_DIO3,8,4
+ 631              		.comm	P1_DIO2,8,4
+ 632              		.comm	P1_DIO1,8,4
+ 633              		.comm	htim6,64,4
+ 634              		.comm	htim1,64,4
+ 635              		.comm	hrtc,36,4
+ 636              		.section	.bss.RTC_Wakeup_ApplicationCallback,"aw",%nobits
+ 637              		.align	2
+ 638              		.set	.LANCHOR0,. + 0
+ 641              	RTC_Wakeup_ApplicationCallback:
+ 642 0000 00000000 		.space	4
+ 643              		.text
+ 644              	.Letext0:
+ 645              		.file 2 "/home/matsdm/gcc-arm-none-eabi-9-2019-q4-major-x86_64-linux/gcc-arm-none-eabi-9-2019-q4-m
+ 646              		.file 3 "/home/matsdm/gcc-arm-none-eabi-9-2019-q4-major-x86_64-linux/gcc-arm-none-eabi-9-2019-q4-m
+ 647              		.file 4 "../../../core/ST/CMSIS/Include/core_cm4.h"
+ 648              		.file 5 "../../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/system_stm32l4xx.h"
+ARM GAS  /tmp/ccu6cHxZ.s 			page 15
 
 
- 649              		.file 8 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_dma.h"
- 650              		.file 9 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_i2c.h"
- 651              		.file 10 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_iwdg.h"
- 652              		.file 11 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rtc.h"
- 653              		.file 12 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_spi.h"
- 654              		.file 13 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_tim.h"
- 655              		.file 14 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h"
- 656              		.file 15 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h"
- 657              		.file 16 "../../../core/platform/octa/inc/rtc.h"
- 658              		.file 17 "../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/include/task.h"
- 659              		.file 18 "../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h"
- 660              		.file 19 "../../../core/platform/octa/inc/sysclock.h"
- 661              		.file 20 "../../../core/platform/octa/inc/gpio.h"
- 662              		.file 21 "../../../core/platform/octa/inc/iwdg.h"
- 663              		.file 22 "../../../core/platform/octa/inc/uart.h"
- 664              		.file 23 "../../../core/platform/octa/inc/i2c.h"
- 665              		.file 24 "../../../core/platform/octa/inc/spi.h"
- 666              		.file 25 "../../../core/platform/octa/inc/rtosincludes.h"
- 667              		.file 26 "/usr/arm-none-eabi/include/sys/lock.h"
- 668              		.file 27 "/usr/arm-none-eabi/include/sys/_types.h"
- 669              		.file 28 "/usr/lib/gcc/arm-none-eabi/9.2.1/include/stddef.h"
- 670              		.file 29 "/usr/arm-none-eabi/include/sys/reent.h"
- 671              		.file 30 "/usr/arm-none-eabi/include/sys/_timeval.h"
- 672              		.file 31 "../../../core/platform/common/inc/datatypes.h"
- 673              		.file 32 "../../../core/platform/octa/inc/platform.h"
- 674              		.file 33 "/usr/arm-none-eabi/include/time.h"
- 675              		.file 34 "../../../core/platform/common/inc/print.h"
- 676              		.file 35 "../../../core/platform/common/inc/error.h"
-ARM GAS  /tmp/cczpcD46.s 			page 16
+ 649              		.file 6 "../../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/stm32l496xx.h"
+ 650              		.file 7 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h"
+ 651              		.file 8 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_dma.h"
+ 652              		.file 9 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_i2c.h"
+ 653              		.file 10 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_iwdg.h"
+ 654              		.file 11 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rtc.h"
+ 655              		.file 12 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_spi.h"
+ 656              		.file 13 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_tim.h"
+ 657              		.file 14 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h"
+ 658              		.file 15 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h"
+ 659              		.file 16 "../../../core/platform/octa/inc/rtc.h"
+ 660              		.file 17 "../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/include/task.h"
+ 661              		.file 18 "../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h"
+ 662              		.file 19 "../../../core/platform/octa/inc/sysclock.h"
+ 663              		.file 20 "../../../core/platform/octa/inc/gpio.h"
+ 664              		.file 21 "../../../core/platform/octa/inc/iwdg.h"
+ 665              		.file 22 "../../../core/platform/octa/inc/uart.h"
+ 666              		.file 23 "../../../core/platform/octa/inc/i2c.h"
+ 667              		.file 24 "../../../core/platform/octa/inc/spi.h"
+ 668              		.file 25 "../../../core/platform/octa/inc/rtosincludes.h"
+ 669              		.file 26 "/home/matsdm/gcc-arm-none-eabi-9-2019-q4-major-x86_64-linux/gcc-arm-none-eabi-9-2019-q4-
+ 670              		.file 27 "/home/matsdm/gcc-arm-none-eabi-9-2019-q4-major-x86_64-linux/gcc-arm-none-eabi-9-2019-q4-
+ 671              		.file 28 "/home/matsdm/gcc-arm-none-eabi-9-2019-q4-major-x86_64-linux/gcc-arm-none-eabi-9-2019-q4-
+ 672              		.file 29 "/home/matsdm/gcc-arm-none-eabi-9-2019-q4-major-x86_64-linux/gcc-arm-none-eabi-9-2019-q4-
+ 673              		.file 30 "/home/matsdm/gcc-arm-none-eabi-9-2019-q4-major-x86_64-linux/gcc-arm-none-eabi-9-2019-q4-
+ 674              		.file 31 "../../../core/platform/common/inc/datatypes.h"
+ 675              		.file 32 "../../../core/platform/octa/inc/platform.h"
+ 676              		.file 33 "/home/matsdm/gcc-arm-none-eabi-9-2019-q4-major-x86_64-linux/gcc-arm-none-eabi-9-2019-q4-
+ 677              		.file 34 "../../../core/platform/common/inc/print.h"
+ 678              		.file 35 "../../../core/platform/common/inc/error.h"
+ARM GAS  /tmp/ccu6cHxZ.s 			page 16
 
 
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 rtc.c
-     /tmp/cczpcD46.s:18     .text.RTC_Init:0000000000000000 $t
-     /tmp/cczpcD46.s:26     .text.RTC_Init:0000000000000000 RTC_Init
-     /tmp/cczpcD46.s:159    .text.RTC_Init:0000000000000084 $d
+     /tmp/ccu6cHxZ.s:18     .text.RTC_Init:0000000000000000 $t
+     /tmp/ccu6cHxZ.s:26     .text.RTC_Init:0000000000000000 RTC_Init
+     /tmp/ccu6cHxZ.s:159    .text.RTC_Init:0000000000000084 $d
                             *COM*:0000000000000024 hrtc
-     /tmp/cczpcD46.s:166    .rodata.RTC_Set_Time_From_Unix.str1.4:0000000000000000 $d
-     /tmp/cczpcD46.s:173    .text.RTC_Set_Time_From_Unix:0000000000000000 $t
-     /tmp/cczpcD46.s:180    .text.RTC_Set_Time_From_Unix:0000000000000000 RTC_Set_Time_From_Unix
-     /tmp/cczpcD46.s:318    .text.RTC_Set_Time_From_Unix:0000000000000088 $d
-     /tmp/cczpcD46.s:325    .rodata.RTC_Time_To_Unix.str1.4:0000000000000000 $d
-     /tmp/cczpcD46.s:329    .text.RTC_Time_To_Unix:0000000000000000 $t
-     /tmp/cczpcD46.s:336    .text.RTC_Time_To_Unix:0000000000000000 RTC_Time_To_Unix
-     /tmp/cczpcD46.s:428    .text.RTC_Time_To_Unix:0000000000000058 $d
-     /tmp/cczpcD46.s:434    .rodata.RTC_Print_DateTime.str1.4:0000000000000000 $d
-     /tmp/cczpcD46.s:441    .text.RTC_Print_DateTime:0000000000000000 $t
-     /tmp/cczpcD46.s:448    .text.RTC_Print_DateTime:0000000000000000 RTC_Print_DateTime
-     /tmp/cczpcD46.s:503    .text.RTC_Print_DateTime:0000000000000048 $d
-     /tmp/cczpcD46.s:510    .text.HAL_RTCEx_WakeUpTimerEventCallback:0000000000000000 $t
-     /tmp/cczpcD46.s:517    .text.HAL_RTCEx_WakeUpTimerEventCallback:0000000000000000 HAL_RTCEx_WakeUpTimerEventCallback
-     /tmp/cczpcD46.s:546    .text.HAL_RTCEx_WakeUpTimerEventCallback:000000000000000c $d
-     /tmp/cczpcD46.s:551    .text.RTC_SetApplicationWakeupCallback:0000000000000000 $t
-     /tmp/cczpcD46.s:558    .text.RTC_SetApplicationWakeupCallback:0000000000000000 RTC_SetApplicationWakeupCallback
-     /tmp/cczpcD46.s:575    .text.RTC_SetApplicationWakeupCallback:0000000000000008 $d
+     /tmp/ccu6cHxZ.s:166    .rodata.RTC_Set_Time_From_Unix.str1.4:0000000000000000 $d
+     /tmp/ccu6cHxZ.s:173    .text.RTC_Set_Time_From_Unix:0000000000000000 $t
+     /tmp/ccu6cHxZ.s:180    .text.RTC_Set_Time_From_Unix:0000000000000000 RTC_Set_Time_From_Unix
+     /tmp/ccu6cHxZ.s:320    .text.RTC_Set_Time_From_Unix:000000000000008c $d
+     /tmp/ccu6cHxZ.s:327    .rodata.RTC_Time_To_Unix.str1.4:0000000000000000 $d
+     /tmp/ccu6cHxZ.s:331    .text.RTC_Time_To_Unix:0000000000000000 $t
+     /tmp/ccu6cHxZ.s:338    .text.RTC_Time_To_Unix:0000000000000000 RTC_Time_To_Unix
+     /tmp/ccu6cHxZ.s:430    .text.RTC_Time_To_Unix:0000000000000058 $d
+     /tmp/ccu6cHxZ.s:436    .rodata.RTC_Print_DateTime.str1.4:0000000000000000 $d
+     /tmp/ccu6cHxZ.s:443    .text.RTC_Print_DateTime:0000000000000000 $t
+     /tmp/ccu6cHxZ.s:450    .text.RTC_Print_DateTime:0000000000000000 RTC_Print_DateTime
+     /tmp/ccu6cHxZ.s:505    .text.RTC_Print_DateTime:0000000000000048 $d
+     /tmp/ccu6cHxZ.s:512    .text.HAL_RTCEx_WakeUpTimerEventCallback:0000000000000000 $t
+     /tmp/ccu6cHxZ.s:519    .text.HAL_RTCEx_WakeUpTimerEventCallback:0000000000000000 HAL_RTCEx_WakeUpTimerEventCallback
+     /tmp/ccu6cHxZ.s:548    .text.HAL_RTCEx_WakeUpTimerEventCallback:000000000000000c $d
+     /tmp/ccu6cHxZ.s:553    .text.RTC_SetApplicationWakeupCallback:0000000000000000 $t
+     /tmp/ccu6cHxZ.s:560    .text.RTC_SetApplicationWakeupCallback:0000000000000000 RTC_SetApplicationWakeupCallback
+     /tmp/ccu6cHxZ.s:577    .text.RTC_SetApplicationWakeupCallback:0000000000000008 $d
                             *COM*:000000000000002c P3_header
                             *COM*:000000000000002c P2_header
                             *COM*:000000000000002c P1_header
@@ -929,7 +931,7 @@ DEFINED SYMBOLS
                             *COM*:0000000000000078 FTDI_UART
                             *COM*:0000000000000078 BLE_UART
                             *COM*:0000000000000078 USB_UART
-ARM GAS  /tmp/cczpcD46.s 			page 17
+ARM GAS  /tmp/ccu6cHxZ.s 			page 17
 
 
                             *COM*:0000000000000010 hiwdg
@@ -953,8 +955,8 @@ DEFINED SYMBOLS
                             *COM*:0000000000000008 P1_DIO1
                             *COM*:0000000000000040 htim6
                             *COM*:0000000000000040 htim1
-     /tmp/cczpcD46.s:635    .bss.RTC_Wakeup_ApplicationCallback:0000000000000000 $d
-     /tmp/cczpcD46.s:639    .bss.RTC_Wakeup_ApplicationCallback:0000000000000000 RTC_Wakeup_ApplicationCallback
+     /tmp/ccu6cHxZ.s:637    .bss.RTC_Wakeup_ApplicationCallback:0000000000000000 $d
+     /tmp/ccu6cHxZ.s:641    .bss.RTC_Wakeup_ApplicationCallback:0000000000000000 RTC_Wakeup_ApplicationCallback
 
 UNDEFINED SYMBOLS
 HAL_RTC_Init

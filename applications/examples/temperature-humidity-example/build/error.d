@@ -74,6 +74,7 @@
  ../../../core/platform/common/inc/payloadformat.h \
  ../../../core/platform/common/inc/octa-protocol-types.h \
  ../../../core/platform/common/inc/assert.h \
+ ../../../core/platform/octa/inc/leds.h \
  ../../../core/platform/common/inc/datatypes.h
 
 ../../../core/platform/common/inc/error.h:
@@ -223,5 +224,7 @@
 ../../../core/platform/common/inc/octa-protocol-types.h:
 
 ../../../core/platform/common/inc/assert.h:
+
+../../../core/platform/octa/inc/leds.h:
 
 ../../../core/platform/common/inc/datatypes.h:

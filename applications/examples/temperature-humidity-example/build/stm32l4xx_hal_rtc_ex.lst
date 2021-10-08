@@ -1,4 +1,4 @@
-ARM GAS  /tmp/ccVCSFeK.s 			page 1
+ARM GAS  /tmp/ccL0YdON.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
   15:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****   ==============================================================================
   16:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****                   ##### How to use this driver #####
   17:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****   ==============================================================================
-ARM GAS  /tmp/ccVCSFeK.s 			page 2
+ARM GAS  /tmp/ccL0YdON.s 			page 2
 
 
   18:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****   [..]
@@ -118,7 +118,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
   72:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****      (+) Enable the RTC Tamper and configure the Tamper filter count, trigger Edge
   73:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****          or Level according to the Tamper filter (if equal to 0 Edge else Level)
   74:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****          value, sampling frequency, NoErase, MaskFlag,  precharge or discharge and
-ARM GAS  /tmp/ccVCSFeK.s 			page 3
+ARM GAS  /tmp/ccL0YdON.s 			page 3
 
 
   75:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****          Pull-UP using the HAL_RTCEx_SetTamper() function. You can configure RTC Tamper
@@ -178,7 +178,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
  129:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c **** 
  130:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c **** /** @addtogroup STM32L4xx_HAL_Driver
  131:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****   * @{
-ARM GAS  /tmp/ccVCSFeK.s 			page 4
+ARM GAS  /tmp/ccL0YdON.s 			page 4
 
 
  132:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****   */
@@ -238,7 +238,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
  186:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****  ===============================================================================
  187:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****                  ##### RTC TimeStamp and Tamper functions #####
  188:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****  ===============================================================================
-ARM GAS  /tmp/ccVCSFeK.s 			page 5
+ARM GAS  /tmp/ccL0YdON.s 			page 5
 
 
  189:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c **** 
@@ -298,7 +298,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
  220:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****   assert_param(IS_RTC_TIMESTAMP_PIN(RTC_TimeStampPin));
   58              		.loc 1 220 3 is_stmt 1 view .LVU5
   59 000e 56BB     		cbnz	r6, .L8
-ARM GAS  /tmp/ccVCSFeK.s 			page 6
+ARM GAS  /tmp/ccL0YdON.s 			page 6
 
 
   60              	.L3:
@@ -358,7 +358,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
  238:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****   /* Configure the Time Stamp TSEDGE and Enable bits */
  239:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****   hrtc->Instance->CR = (uint32_t)tmpreg;
   97              		.loc 1 239 3 discriminator 2 view .LVU23
-ARM GAS  /tmp/ccVCSFeK.s 			page 7
+ARM GAS  /tmp/ccL0YdON.s 			page 7
 
 
   98              		.loc 1 239 7 is_stmt 0 discriminator 2 view .LVU24
@@ -418,7 +418,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
  135              		.loc 1 219 3 discriminator 2 view .LVU40
  136 0060 FFF7FEFF 		bl	assert_failed
  137              	.LVL8:
-ARM GAS  /tmp/ccVCSFeK.s 			page 8
+ARM GAS  /tmp/ccL0YdON.s 			page 8
 
 
  219:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****   assert_param(IS_RTC_TIMESTAMP_PIN(RTC_TimeStampPin));
@@ -478,7 +478,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
  170              		.cfi_startproc
  171              		@ args = 0, pretend = 0, frame = 0
  172              		@ frame_needed = 0, uses_anonymous_args = 0
-ARM GAS  /tmp/ccVCSFeK.s 			page 9
+ARM GAS  /tmp/ccL0YdON.s 			page 9
 
 
  173              		.loc 1 274 1 is_stmt 0 view .LVU45
@@ -538,7 +538,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
  211              		.loc 1 290 27 is_stmt 0 discriminator 2 view .LVU58
  212 0026 2268     		ldr	r2, [r4]
  213              		.loc 1 290 37 discriminator 2 view .LVU59
-ARM GAS  /tmp/ccVCSFeK.s 			page 10
+ARM GAS  /tmp/ccL0YdON.s 			page 10
 
 
  214 0028 9368     		ldr	r3, [r2, #8]
@@ -598,7 +598,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
  252 005a 42F40022 		orr	r2, r2, #524288
  253 005e 1A60     		str	r2, [r3]
  307:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****   __HAL_RTC_TAMPER_TIMESTAMP_EXTI_ENABLE_RISING_EDGE();
-ARM GAS  /tmp/ccVCSFeK.s 			page 11
+ARM GAS  /tmp/ccL0YdON.s 			page 11
 
 
  254              		.loc 1 307 3 discriminator 2 view .LVU74
@@ -658,7 +658,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
  292 008a 0448     		ldr	r0, .L19+4
  293 008c FFF7FEFF 		bl	assert_failed
  294              	.LVL19:
-ARM GAS  /tmp/ccVCSFeK.s 			page 12
+ARM GAS  /tmp/ccL0YdON.s 			page 12
 
 
  295 0090 BFE7     		b	.L13
@@ -718,7 +718,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
  336 000e 0223     		movs	r3, #2
  337 0010 80F82130 		strb	r3, [r0, #33]
  333:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c **** 
-ARM GAS  /tmp/ccVCSFeK.s 			page 13
+ARM GAS  /tmp/ccL0YdON.s 			page 13
 
 
  334:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****   /* Disable the write protection for RTC registers */
@@ -778,7 +778,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
  376              		.loc 1 349 15 is_stmt 0 discriminator 2 view .LVU116
  377 003e 80F82120 		strb	r2, [r0, #33]
  350:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c **** 
-ARM GAS  /tmp/ccVCSFeK.s 			page 14
+ARM GAS  /tmp/ccL0YdON.s 			page 14
 
 
  351:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****   /* Process Unlocked */
@@ -838,7 +838,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
  417 0000 90F82030 		ldrb	r3, [r0, #32]	@ zero_extendqisi2
  418 0004 012B     		cmp	r3, #1
  419 0006 1AD0     		beq	.L26
-ARM GAS  /tmp/ccVCSFeK.s 			page 15
+ARM GAS  /tmp/ccL0YdON.s 			page 15
 
 
  420              		.loc 1 366 3 discriminator 2 view .LVU128
@@ -898,7 +898,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
  384:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c **** 
  385:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****   return HAL_OK;
  457              		.loc 1 385 3 discriminator 2 view .LVU145
-ARM GAS  /tmp/ccVCSFeK.s 			page 16
+ARM GAS  /tmp/ccL0YdON.s 			page 16
 
 
  458              		.loc 1 385 10 is_stmt 0 discriminator 2 view .LVU146
@@ -958,7 +958,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
  500 000e 0223     		movs	r3, #2
  501 0010 80F82130 		strb	r3, [r0, #33]
  399:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c **** 
-ARM GAS  /tmp/ccVCSFeK.s 			page 17
+ARM GAS  /tmp/ccL0YdON.s 			page 17
 
 
  400:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****   /* Disable the write protection for RTC registers */
@@ -1018,7 +1018,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
  540 003e 0220     		movs	r0, #2
  541              	.LVL34:
  415:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c **** }
-ARM GAS  /tmp/ccVCSFeK.s 			page 18
+ARM GAS  /tmp/ccL0YdON.s 			page 18
 
 
  542              		.loc 1 415 1 view .LVU174
@@ -1078,7 +1078,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
  580              	.LVL36:
  581              	.L31:
  434:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c **** 
-ARM GAS  /tmp/ccVCSFeK.s 			page 19
+ARM GAS  /tmp/ccL0YdON.s 			page 19
 
 
  435:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****   /* Get the TimeStamp time and date registers values */
@@ -1138,7 +1138,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
  623 0034 EB70     		strb	r3, [r5, #3]
  448:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****   sTimeStampDate->Month = (uint8_t)((tmpdate & (RTC_TSDR_MT | RTC_TSDR_MU)) >> RTC_TSDR_MU_Pos);
  624              		.loc 1 448 3 is_stmt 1 view .LVU202
-ARM GAS  /tmp/ccVCSFeK.s 			page 20
+ARM GAS  /tmp/ccL0YdON.s 			page 20
 
 
  625              		.loc 1 448 27 is_stmt 0 view .LVU203
@@ -1198,7 +1198,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
  657              		.loc 1 470 3 view .LVU215
  471:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c **** }
  658              		.loc 1 471 1 is_stmt 0 view .LVU216
-ARM GAS  /tmp/ccVCSFeK.s 			page 21
+ARM GAS  /tmp/ccL0YdON.s 			page 21
 
 
  659 0062 0020     		movs	r0, #0
@@ -1258,7 +1258,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
  698 008a 6878     		ldrb	r0, [r5, #1]	@ zero_extendqisi2
  699 008c FFF7FEFF 		bl	RTC_Bcd2ToByte
  700              	.LVL48:
-ARM GAS  /tmp/ccVCSFeK.s 			page 22
+ARM GAS  /tmp/ccL0YdON.s 			page 22
 
 
  461:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****     sTimeStampDate->Date = (uint8_t)RTC_Bcd2ToByte(sTimeStampDate->Date);
@@ -1318,7 +1318,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
  485:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c **** 
  486:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****   /* Clear the EXTI's Flag for RTC TimeStamp and Tamper */
  487:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****   __HAL_RTC_TAMPER_TIMESTAMP_EXTI_CLEAR_FLAG();
-ARM GAS  /tmp/ccVCSFeK.s 			page 23
+ARM GAS  /tmp/ccL0YdON.s 			page 23
 
 
  488:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c **** 
@@ -1378,7 +1378,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
  542:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****     HAL_RTCEx_Tamper3EventCallback(hrtc);
  543:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c **** #endif
  544:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****   }
-ARM GAS  /tmp/ccVCSFeK.s 			page 24
+ARM GAS  /tmp/ccL0YdON.s 			page 24
 
 
  545:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c **** 
@@ -1438,7 +1438,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
  599:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****     {
  600:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****       /* Clear the Tamper2 interrupt pending bit */
  601:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****       __HAL_RTC_TAMPER_CLEAR_FLAG(hrtc, RTC_FLAG_TAMP2F);
-ARM GAS  /tmp/ccVCSFeK.s 			page 25
+ARM GAS  /tmp/ccL0YdON.s 			page 25
 
 
  602:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c **** 
@@ -1498,7 +1498,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
  743              		.loc 1 649 1 is_stmt 0 view .LVU241
  744 0000 7047     		bx	lr
  745              		.cfi_endproc
-ARM GAS  /tmp/ccVCSFeK.s 			page 26
+ARM GAS  /tmp/ccL0YdON.s 			page 26
 
 
  746              	.LFE130:
@@ -1558,7 +1558,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
  663:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****     if(__HAL_RTC_TIMESTAMP_GET_FLAG(hrtc, RTC_FLAG_TSOVF) != 0U)
  789              		.loc 1 663 5 is_stmt 1 view .LVU251
  790              		.loc 1 663 8 is_stmt 0 view .LVU252
-ARM GAS  /tmp/ccVCSFeK.s 			page 27
+ARM GAS  /tmp/ccL0YdON.s 			page 27
 
 
  791 0016 DA68     		ldr	r2, [r3, #12]
@@ -1618,7 +1618,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
  826              		.loc 1 669 19 is_stmt 0 view .LVU267
  827 0044 0423     		movs	r3, #4
  828 0046 84F82130 		strb	r3, [r4, #33]
-ARM GAS  /tmp/ccVCSFeK.s 			page 28
+ARM GAS  /tmp/ccL0YdON.s 			page 28
 
 
  671:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****     }
@@ -1678,7 +1678,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
  704:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c **** @endverbatim
  705:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****   * @{
  706:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****   */
-ARM GAS  /tmp/ccVCSFeK.s 			page 29
+ARM GAS  /tmp/ccL0YdON.s 			page 29
 
 
  707:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c **** 
@@ -1738,7 +1738,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
  895 001e 0123     		movs	r3, #1
  896 0020 84F82030 		strb	r3, [r4, #32]
  897              		.loc 1 724 3 discriminator 2 view .LVU285
-ARM GAS  /tmp/ccVCSFeK.s 			page 30
+ARM GAS  /tmp/ccL0YdON.s 			page 30
 
 
  725:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c **** 
@@ -1798,7 +1798,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
  937 0050 FFF7FEFF 		bl	HAL_GetTick
  938              	.LVL60:
  939              		.loc 1 739 23 view .LVU304
-ARM GAS  /tmp/ccVCSFeK.s 			page 31
+ARM GAS  /tmp/ccL0YdON.s 			page 31
 
 
  940 0054 C01B     		subs	r0, r0, r7
@@ -1858,7 +1858,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
  979 0082 FFF7FEFF 		bl	assert_failed
  980              	.LVL65:
  981 0086 C6E7     		b	.L51
-ARM GAS  /tmp/ccVCSFeK.s 			page 32
+ARM GAS  /tmp/ccL0YdON.s 			page 32
 
 
  982              	.L53:
@@ -1918,7 +1918,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
  1019              		.loc 1 766 19 is_stmt 0 view .LVU336
  1020 00b4 0320     		movs	r0, #3
  1021 00b6 84F82100 		strb	r0, [r4, #33]
-ARM GAS  /tmp/ccVCSFeK.s 			page 33
+ARM GAS  /tmp/ccL0YdON.s 			page 33
 
 
  767:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c **** 
@@ -1978,7 +1978,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
  1055 00d2 9368     		ldr	r3, [r2, #8]
  1056 00d4 43F48063 		orr	r3, r3, #1024
  1057 00d8 9360     		str	r3, [r2, #8]
-ARM GAS  /tmp/ccVCSFeK.s 			page 34
+ARM GAS  /tmp/ccL0YdON.s 			page 34
 
 
  788:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c **** 
@@ -2038,7 +2038,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
  800:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c **** /**
  801:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****   * @brief  Set wake up timer with interrupt.
  802:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****   * @param  hrtc RTC handle
-ARM GAS  /tmp/ccVCSFeK.s 			page 35
+ARM GAS  /tmp/ccL0YdON.s 			page 35
 
 
  803:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****   * @param  WakeUpCounter Wake up counter
@@ -2098,7 +2098,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
  827:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c **** 
  828:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****   /* Process Locked */
  829:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****   __HAL_LOCK(hrtc);
-ARM GAS  /tmp/ccVCSFeK.s 			page 36
+ARM GAS  /tmp/ccL0YdON.s 			page 36
 
 
  1131              		.loc 1 829 3 view .LVU371
@@ -2158,7 +2158,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
  1172 0046 2368     		ldr	r3, [r4]
  1173 0048 DB68     		ldr	r3, [r3, #12]
  1174              		.loc 1 842 9 view .LVU390
-ARM GAS  /tmp/ccVCSFeK.s 			page 37
+ARM GAS  /tmp/ccL0YdON.s 			page 37
 
 
  1175 004a 13F0040F 		tst	r3, #4
@@ -2218,7 +2218,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
  821:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****   assert_param(IS_RTC_WAKEUP_COUNTER(WakeUpCounter));
  1215              		.loc 1 821 3 discriminator 2 view .LVU408
  1216 007a C9E7     		b	.L66
-ARM GAS  /tmp/ccVCSFeK.s 			page 38
+ARM GAS  /tmp/ccL0YdON.s 			page 38
 
 
  1217              	.L77:
@@ -2278,7 +2278,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
  1255              		.loc 1 868 23 view .LVU420
  1256 00b2 C01B     		subs	r0, r0, r7
  1257              		.loc 1 868 7 view .LVU421
-ARM GAS  /tmp/ccVCSFeK.s 			page 39
+ARM GAS  /tmp/ccL0YdON.s 			page 39
 
 
  1258 00b4 B0F57A7F 		cmp	r0, #1000
@@ -2338,7 +2338,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
  1288              	.LVL87:
  893:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****     CR_tmp &= (uint32_t)~RTC_CR_WUCKSEL;
  1289              		.loc 1 893 5 is_stmt 1 view .LVU437
-ARM GAS  /tmp/ccVCSFeK.s 			page 40
+ARM GAS  /tmp/ccL0YdON.s 			page 40
 
 
  1290              		.loc 1 893 12 is_stmt 0 view .LVU438
@@ -2398,7 +2398,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
  1317 00fa 9368     		ldr	r3, [r2, #8]
  1318 00fc 43F48063 		orr	r3, r3, #1024
  1319 0100 9360     		str	r3, [r2, #8]
-ARM GAS  /tmp/ccVCSFeK.s 			page 41
+ARM GAS  /tmp/ccL0YdON.s 			page 41
 
 
  921:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c **** 
@@ -2458,7 +2458,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
  932:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c **** 
  933:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c **** /**
  934:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****   * @brief  Deactivate wake up timer counter.
-ARM GAS  /tmp/ccVCSFeK.s 			page 42
+ARM GAS  /tmp/ccL0YdON.s 			page 42
 
 
  935:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****   * @param  hrtc RTC handle
@@ -2518,7 +2518,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
  1401              		.loc 1 951 3 discriminator 2 view .LVU471
  1402 0024 0268     		ldr	r2, [r0]
  1403 0026 9368     		ldr	r3, [r2, #8]
-ARM GAS  /tmp/ccVCSFeK.s 			page 43
+ARM GAS  /tmp/ccL0YdON.s 			page 43
 
 
  1404 0028 23F48063 		bic	r3, r3, #1024
@@ -2578,7 +2578,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
  1444 005a 0320     		movs	r0, #3
  1445 005c 84F82100 		strb	r0, [r4, #33]
  966:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c **** 
-ARM GAS  /tmp/ccVCSFeK.s 			page 44
+ARM GAS  /tmp/ccL0YdON.s 			page 44
 
 
  967:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****       /* Process Unlocked */
@@ -2638,7 +2638,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
  1481              		.cfi_endproc
  1482              	.LFE134:
  1484              		.section	.text.HAL_RTCEx_GetWakeUpTimer,"ax",%progbits
-ARM GAS  /tmp/ccVCSFeK.s 			page 45
+ARM GAS  /tmp/ccL0YdON.s 			page 45
 
 
  1485              		.align	1
@@ -2698,7 +2698,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
 1003:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****   /* Clear the EXTI's line Flag for RTC WakeUpTimer */
 1004:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****   __HAL_RTC_WAKEUPTIMER_EXTI_CLEAR_FLAG();
 1005:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c **** 
-ARM GAS  /tmp/ccVCSFeK.s 			page 46
+ARM GAS  /tmp/ccL0YdON.s 			page 46
 
 
 1006:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c **** 
@@ -2758,7 +2758,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
  1537              		.syntax unified
  1538              		.thumb
  1539              		.thumb_func
-ARM GAS  /tmp/ccVCSFeK.s 			page 47
+ARM GAS  /tmp/ccL0YdON.s 			page 47
 
 
  1540              		.fpu fpv4-sp-d16
@@ -2818,7 +2818,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
  1584              	.LVL105:
 1025:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c **** #endif /* USE_HAL_RTC_REGISTER_CALLBACKS */
  1585              		.loc 1 1025 5 is_stmt 0 view .LVU525
-ARM GAS  /tmp/ccVCSFeK.s 			page 48
+ARM GAS  /tmp/ccL0YdON.s 			page 48
 
 
  1586 002c F3E7     		b	.L91
@@ -2878,7 +2878,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
  1629              		.loc 1 1059 9 is_stmt 0 view .LVU533
  1630 000c 2368     		ldr	r3, [r4]
  1631 000e DA68     		ldr	r2, [r3, #12]
-ARM GAS  /tmp/ccVCSFeK.s 			page 49
+ARM GAS  /tmp/ccL0YdON.s 			page 49
 
 
  1632              		.loc 1 1059 8 view .LVU534
@@ -2938,7 +2938,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
 1077:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****   return HAL_OK;
  1669              		.loc 1 1077 3 is_stmt 1 view .LVU549
  1670              		.loc 1 1077 10 is_stmt 0 view .LVU550
-ARM GAS  /tmp/ccVCSFeK.s 			page 50
+ARM GAS  /tmp/ccL0YdON.s 			page 50
 
 
  1671 0042 0020     		movs	r0, #0
@@ -2998,7 +2998,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
 1115:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****   * @param  hrtc RTC handle
 1116:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****   * @param  SmoothCalibPeriod Select the Smooth Calibration Period.
 1117:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****   *          This parameter can be can be one of the following values :
-ARM GAS  /tmp/ccVCSFeK.s 			page 51
+ARM GAS  /tmp/ccL0YdON.s 			page 51
 
 
 1118:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****   *             @arg RTC_SMOOTHCALIB_PERIOD_32SEC: The smooth calibration period is 32s.
@@ -3058,7 +3058,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
  1723 0020 97BB     		cbnz	r7, .L115
  1724              	.L106:
 1139:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****   assert_param(IS_RTC_SMOOTH_CALIB_MINUS(SmoothCalibMinusPulsesValue));
-ARM GAS  /tmp/ccVCSFeK.s 			page 52
+ARM GAS  /tmp/ccL0YdON.s 			page 52
 
 
  1725              		.loc 1 1139 3 is_stmt 1 view .LVU561
@@ -3118,7 +3118,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
 1158:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****     /* check if a calibration is pending*/
 1159:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c **** #if defined(STM32L412xx) || defined(STM32L422xx)
 1160:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****     while((hrtc->Instance->ICSR & RTC_ICSR_RECALPF) != 0U)
-ARM GAS  /tmp/ccVCSFeK.s 			page 53
+ARM GAS  /tmp/ccL0YdON.s 			page 53
 
 
 1161:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c **** #else
@@ -3178,7 +3178,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
  1784 0072 0020     		movs	r0, #0
  1785 0074 84F82000 		strb	r0, [r4, #32]
  1786              		.loc 1 1191 3 view .LVU585
-ARM GAS  /tmp/ccVCSFeK.s 			page 54
+ARM GAS  /tmp/ccL0YdON.s 			page 54
 
 
 1192:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c **** 
@@ -3238,7 +3238,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
 1162:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c **** #endif
  1828              		.loc 1 1162 16 is_stmt 0 view .LVU598
  1829 00a6 2368     		ldr	r3, [r4]
-ARM GAS  /tmp/ccVCSFeK.s 			page 55
+ARM GAS  /tmp/ccL0YdON.s 			page 55
 
 
 1162:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c **** #endif
@@ -3298,7 +3298,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
  1867              	.L119:
  1868 00d6 00BF     		.align	2
  1869              	.L118:
-ARM GAS  /tmp/ccVCSFeK.s 			page 56
+ARM GAS  /tmp/ccL0YdON.s 			page 56
 
 
  1870 00d8 00000000 		.word	.LC0
@@ -3358,7 +3358,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
 1236:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****   * @brief  Configure the Synchronization Shift Control Settings.
 1237:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****   * @note   When REFCKON is set, firmware must not write to Shift control register.
 1238:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****   * @param  hrtc RTC handle
-ARM GAS  /tmp/ccVCSFeK.s 			page 57
+ARM GAS  /tmp/ccL0YdON.s 			page 57
 
 
 1239:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****   * @param  ShiftAdd1S Select to add or not 1 second to the time calendar.
@@ -3418,7 +3418,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
  1921 0020 84F82030 		strb	r3, [r4, #32]
  1922              		.loc 1 1256 3 discriminator 2 view .LVU625
 1257:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c **** 
-ARM GAS  /tmp/ccVCSFeK.s 			page 58
+ARM GAS  /tmp/ccL0YdON.s 			page 58
 
 
 1258:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****   hrtc->State = HAL_RTC_STATE_BUSY;
@@ -3478,7 +3478,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
 1273:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****       {
 1274:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****         /* Enable the write protection for RTC registers */
 1275:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****         __HAL_RTC_WRITEPROTECTION_ENABLE(hrtc);
-ARM GAS  /tmp/ccVCSFeK.s 			page 59
+ARM GAS  /tmp/ccL0YdON.s 			page 59
 
 
  1962              		.loc 1 1275 9 is_stmt 1 view .LVU643
@@ -3538,7 +3538,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
 1312:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****       __HAL_RTC_WRITEPROTECTION_ENABLE(hrtc);
 1313:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c **** 
 1314:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****       /* Change RTC state */
-ARM GAS  /tmp/ccVCSFeK.s 			page 60
+ARM GAS  /tmp/ccL0YdON.s 			page 60
 
 
 1315:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****       hrtc->State = HAL_RTC_STATE_ERROR;
@@ -3598,7 +3598,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
  2007              		.loc 1 1287 7 view .LVU660
  2008 0080 12F0100F 		tst	r2, #16
  2009 0084 20D1     		bne	.L126
-ARM GAS  /tmp/ccVCSFeK.s 			page 61
+ARM GAS  /tmp/ccL0YdON.s 			page 61
 
 
 1290:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c **** 
@@ -3658,7 +3658,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
  2045              		.loc 1 1295 12 is_stmt 0 view .LVU679
  2046 00a8 2046     		mov	r0, r4
  2047 00aa FFF7FEFF 		bl	HAL_RTC_WaitForSynchro
-ARM GAS  /tmp/ccVCSFeK.s 			page 62
+ARM GAS  /tmp/ccL0YdON.s 			page 62
 
 
  2048              	.LVL136:
@@ -3718,7 +3718,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
  2084 00d2 0023     		movs	r3, #0
  2085 00d4 84F82030 		strb	r3, [r4, #32]
 1318:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c **** 
-ARM GAS  /tmp/ccVCSFeK.s 			page 63
+ARM GAS  /tmp/ccL0YdON.s 			page 63
 
 
  2086              		.loc 1 1318 7 view .LVU698
@@ -3778,7 +3778,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
 1346:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****   /* Check the parameters */
 1347:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****   assert_param(IS_RTC_CALIB_OUTPUT(CalibOutput));
  2127              		.loc 1 1347 3 is_stmt 1 view .LVU704
-ARM GAS  /tmp/ccVCSFeK.s 			page 64
+ARM GAS  /tmp/ccL0YdON.s 			page 64
 
 
  2128 0004 0D46     		mov	r5, r1
@@ -3838,7 +3838,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
  2168              		.loc 1 1361 22 discriminator 2 view .LVU721
  2169 003a 8B68     		ldr	r3, [r1, #8]
  2170 003c 2B43     		orrs	r3, r3, r5
-ARM GAS  /tmp/ccVCSFeK.s 			page 65
+ARM GAS  /tmp/ccL0YdON.s 			page 65
 
 
  2171 003e 8B60     		str	r3, [r1, #8]
@@ -3898,7 +3898,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
 1350:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c **** 
  2208              		.loc 1 1350 3 view .LVU736
  2209 0068 0220     		movs	r0, #2
-ARM GAS  /tmp/ccVCSFeK.s 			page 66
+ARM GAS  /tmp/ccL0YdON.s 			page 66
 
 
  2210 006a F6E7     		b	.L138
@@ -3958,7 +3958,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
  2251 0018 5962     		str	r1, [r3, #36]
  2252              		.loc 1 1390 3 discriminator 2 view .LVU746
  2253 001a 0368     		ldr	r3, [r0]
-ARM GAS  /tmp/ccVCSFeK.s 			page 67
+ARM GAS  /tmp/ccL0YdON.s 			page 67
 
 
  2254 001c 5321     		movs	r1, #83
@@ -4018,7 +4018,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
  2294              		.global	HAL_RTCEx_SetRefClock
  2295              		.syntax unified
  2296              		.thumb
-ARM GAS  /tmp/ccVCSFeK.s 			page 68
+ARM GAS  /tmp/ccL0YdON.s 			page 68
 
 
  2297              		.thumb_func
@@ -4078,7 +4078,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
  2336              		.loc 1 1419 3 discriminator 2 view .LVU773
 1420:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c **** 
 1421:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****   /* Set Initialization mode */
-ARM GAS  /tmp/ccVCSFeK.s 			page 69
+ARM GAS  /tmp/ccL0YdON.s 			page 69
 
 
 1422:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****   if(RTC_EnterInitMode(hrtc) != HAL_OK)
@@ -4138,7 +4138,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
  2361              		.loc 1 1451 3 view .LVU784
  2362              		.loc 1 1451 15 is_stmt 0 view .LVU785
  2363 0044 0123     		movs	r3, #1
-ARM GAS  /tmp/ccVCSFeK.s 			page 70
+ARM GAS  /tmp/ccL0YdON.s 			page 70
 
 
  2364 0046 84F82130 		strb	r3, [r4, #33]
@@ -4198,7 +4198,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
  2401              		.loc 1 1414 3 view .LVU801
  2402 0068 0220     		movs	r0, #2
  2403              	.LVL153:
-ARM GAS  /tmp/ccVCSFeK.s 			page 71
+ARM GAS  /tmp/ccL0YdON.s 			page 71
 
 
  2404              		.loc 1 1457 1 view .LVU802
@@ -4258,7 +4258,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
  2444              		.loc 1 1472 3 is_stmt 1 discriminator 2 view .LVU811
  2445              		.loc 1 1472 3 discriminator 2 view .LVU812
  2446 0018 0368     		ldr	r3, [r0]
-ARM GAS  /tmp/ccVCSFeK.s 			page 72
+ARM GAS  /tmp/ccL0YdON.s 			page 72
 
 
  2447 001a CA22     		movs	r2, #202
@@ -4318,7 +4318,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
  2472              		.loc 1 1501 3 is_stmt 1 view .LVU822
  2473              		.loc 1 1501 3 view .LVU823
  2474 003e 2368     		ldr	r3, [r4]
-ARM GAS  /tmp/ccVCSFeK.s 			page 73
+ARM GAS  /tmp/ccL0YdON.s 			page 73
 
 
  2475 0040 FF22     		movs	r2, #255
@@ -4378,7 +4378,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
  2510 0064 0120     		movs	r0, #1
  2511 0066 F3E7     		b	.L157
  2512              	.LVL157:
-ARM GAS  /tmp/ccVCSFeK.s 			page 74
+ARM GAS  /tmp/ccL0YdON.s 			page 74
 
 
  2513              	.L159:
@@ -4438,7 +4438,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
  2554 0010 80F82130 		strb	r3, [r0, #33]
 1525:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c **** 
 1526:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****   /* Disable the write protection for RTC registers */
-ARM GAS  /tmp/ccVCSFeK.s 			page 75
+ARM GAS  /tmp/ccL0YdON.s 			page 75
 
 
 1527:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****   __HAL_RTC_WRITEPROTECTION_DISABLE(hrtc);
@@ -4498,7 +4498,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
 1522:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c **** 
  2594              		.loc 1 1522 3 view .LVU869
  2595 003e 0220     		movs	r0, #2
-ARM GAS  /tmp/ccVCSFeK.s 			page 76
+ARM GAS  /tmp/ccL0YdON.s 			page 76
 
 
  2596              	.LVL162:
@@ -4558,7 +4558,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
  2634 0016 CA21     		movs	r1, #202
  2635 0018 5962     		str	r1, [r3, #36]
  2636              		.loc 1 1559 3 discriminator 2 view .LVU880
-ARM GAS  /tmp/ccVCSFeK.s 			page 77
+ARM GAS  /tmp/ccL0YdON.s 			page 77
 
 
  2637 001a 0368     		ldr	r3, [r0]
@@ -4618,7 +4618,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
  2675              		.cfi_endproc
  2676              	.LFE146:
  2678              		.section	.text.HAL_RTCEx_AlarmBEventCallback,"ax",%progbits
-ARM GAS  /tmp/ccVCSFeK.s 			page 78
+ARM GAS  /tmp/ccL0YdON.s 			page 78
 
 
  2679              		.align	1
@@ -4678,7 +4678,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
  2701              		.align	1
  2702              		.global	HAL_RTCEx_PollForAlarmBEvent
  2703              		.syntax unified
-ARM GAS  /tmp/ccVCSFeK.s 			page 79
+ARM GAS  /tmp/ccL0YdON.s 			page 79
 
 
  2704              		.thumb
@@ -4738,7 +4738,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
 1623:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****     {
 1624:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****       if(((HAL_GetTick() - tickstart ) > Timeout)||(Timeout == 0U))
  2745              		.loc 1 1624 7 is_stmt 1 view .LVU912
-ARM GAS  /tmp/ccVCSFeK.s 			page 80
+ARM GAS  /tmp/ccL0YdON.s 			page 80
 
 
  2746              		.loc 1 1624 12 is_stmt 0 view .LVU913
@@ -4798,7 +4798,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
  2786              		.align	1
  2787              		.global	HAL_RTCEx_SetTamper
  2788              		.syntax unified
-ARM GAS  /tmp/ccVCSFeK.s 			page 81
+ARM GAS  /tmp/ccL0YdON.s 			page 81
 
 
  2789              		.thumb
@@ -4858,7 +4858,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
 1688:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****   assert_param(IS_RTC_TAMPER_ERASE_MODE(sTamper->NoErase));
 1689:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****   assert_param(IS_RTC_TAMPER_MASKFLAG_STATE(sTamper->MaskFlag));
 1690:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****   assert_param(IS_RTC_TAMPER_TIMESTAMPONTAMPER_DETECTION(sTamper->TimeStampOnTamperDetection));
-ARM GAS  /tmp/ccVCSFeK.s 			page 82
+ARM GAS  /tmp/ccL0YdON.s 			page 82
 
 
 1691:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****   assert_param(IS_RTC_TAMPER_FILTER(sTamper->Filter));
@@ -4918,7 +4918,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
 1745:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****   * @param  sTamper Pointer to Tamper Structure.
 1746:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****   * @retval HAL status
 1747:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****   */
-ARM GAS  /tmp/ccVCSFeK.s 			page 83
+ARM GAS  /tmp/ccL0YdON.s 			page 83
 
 
 1748:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c **** HAL_StatusTypeDef HAL_RTCEx_SetTamper(RTC_HandleTypeDef *hrtc, RTC_TamperTypeDef* sTamper)
@@ -4978,7 +4978,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
 1756:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****   assert_param(IS_RTC_TAMPER_MASKFLAG_STATE(sTamper->MaskFlag));
  2842              		.loc 1 1756 3 is_stmt 1 view .LVU940
  2843 0030 2369     		ldr	r3, [r4, #16]
-ARM GAS  /tmp/ccVCSFeK.s 			page 84
+ARM GAS  /tmp/ccL0YdON.s 			page 84
 
 
  2844 0032 B3F5802F 		cmp	r3, #262144
@@ -5038,7 +5038,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
  2895 0090 B3F5804F 		cmp	r3, #16384
  2896 0094 03D0     		beq	.L188
  2897              		.loc 1 1759 3 discriminator 3 view .LVU957
-ARM GAS  /tmp/ccVCSFeK.s 			page 85
+ARM GAS  /tmp/ccL0YdON.s 			page 85
 
 
  2898 0096 B3F5C04F 		cmp	r3, #24576
@@ -5098,7 +5098,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
  2940 00d4 A360     		str	r3, [r4, #8]
  2941              	.L192:
 1772:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****   }
-ARM GAS  /tmp/ccVCSFeK.s 			page 86
+ARM GAS  /tmp/ccL0YdON.s 			page 86
 
 
 1773:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c **** 
@@ -5158,7 +5158,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
  2978 0100 E368     		ldr	r3, [r4, #12]
  2979 0102 43F40003 		orr	r3, r3, #8388608
  2980 0106 E360     		str	r3, [r4, #12]
-ARM GAS  /tmp/ccVCSFeK.s 			page 87
+ARM GAS  /tmp/ccL0YdON.s 			page 87
 
 
  2981              	.L193:
@@ -5218,7 +5218,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
 1810:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****     {
 1811:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****       sTamper->MaskFlag |= RTC_TAMPCR_TAMP3MF;
  3016              		.loc 1 1811 7 is_stmt 1 view .LVU1009
-ARM GAS  /tmp/ccVCSFeK.s 			page 88
+ARM GAS  /tmp/ccL0YdON.s 			page 88
 
 
  3017              		.loc 1 1811 25 is_stmt 0 view .LVU1010
@@ -5278,7 +5278,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
  3059              		.loc 1 1820 7 is_stmt 0 view .LVU1030
  3060 015c 2C68     		ldr	r4, [r5]
  3061              	.LVL177:
-ARM GAS  /tmp/ccVCSFeK.s 			page 89
+ARM GAS  /tmp/ccL0YdON.s 			page 89
 
 
  3062              		.loc 1 1820 26 view .LVU1031
@@ -5338,7 +5338,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
  3104 0190 40F2DB61 		movw	r1, #1755
  3105 0194 1448     		ldr	r0, .L209
  3106 0196 FFF7FEFF 		bl	assert_failed
-ARM GAS  /tmp/ccVCSFeK.s 			page 90
+ARM GAS  /tmp/ccL0YdON.s 			page 90
 
 
  3107              	.LVL181:
@@ -5398,7 +5398,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
  3154 01e6 CCE7     		b	.L191
  3155              	.L210:
  3156              		.align	2
-ARM GAS  /tmp/ccVCSFeK.s 			page 91
+ARM GAS  /tmp/ccL0YdON.s 			page 91
 
 
  3157              	.L209:
@@ -5458,7 +5458,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
 1870:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****   /* Configure the tamper flags masking bit */
 1871:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****   if(sTamper->MaskFlag != RTC_TAMPERMASK_FLAG_DISABLE)
 1872:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****   {
-ARM GAS  /tmp/ccVCSFeK.s 			page 92
+ARM GAS  /tmp/ccL0YdON.s 			page 92
 
 
 1873:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****     tmpreg |= (sTamper->Tamper << TAMP_CR2_TAMP1MSK_Pos);
@@ -5518,7 +5518,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
  3182              		.cfi_offset 3, -16
  3183              		.cfi_offset 4, -12
  3184              		.cfi_offset 5, -8
-ARM GAS  /tmp/ccVCSFeK.s 			page 93
+ARM GAS  /tmp/ccL0YdON.s 			page 93
 
 
  3185              		.cfi_offset 14, -4
@@ -5578,7 +5578,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
  3232 0040 B3F5003F 		cmp	r3, #131072
  3233 0044 40F0BB80 		bne	.L235
  3234              	.L217:
-ARM GAS  /tmp/ccVCSFeK.s 			page 94
+ARM GAS  /tmp/ccL0YdON.s 			page 94
 
 
 1926:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****   assert_param(IS_RTC_TAMPER_MASKFLAG_STATE(sTamper->MaskFlag));
@@ -5638,7 +5638,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
  3285 00a2 B3F5005F 		cmp	r3, #8192
  3286 00a6 06D0     		beq	.L221
  3287              		.loc 1 1929 3 discriminator 2 view .LVU1086
-ARM GAS  /tmp/ccVCSFeK.s 			page 95
+ARM GAS  /tmp/ccL0YdON.s 			page 95
 
 
  3288 00a8 B3F5804F 		cmp	r3, #16384
@@ -5698,7 +5698,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
  3330              		.loc 1 1941 51 view .LVU1103
  3331 00ea 5B00     		lsls	r3, r3, #1
  3332              		.loc 1 1941 22 view .LVU1104
-ARM GAS  /tmp/ccVCSFeK.s 			page 96
+ARM GAS  /tmp/ccL0YdON.s 			page 96
 
 
  3333 00ec A360     		str	r3, [r4, #8]
@@ -5758,7 +5758,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
 1960:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****       sTamper->NoErase |= RTC_TAMPCR_TAMP3NOERASE;
  3369              		.loc 1 1960 7 is_stmt 1 view .LVU1121
  3370              		.loc 1 1960 24 is_stmt 0 view .LVU1122
-ARM GAS  /tmp/ccVCSFeK.s 			page 97
+ARM GAS  /tmp/ccL0YdON.s 			page 97
 
 
  3371 0118 E368     		ldr	r3, [r4, #12]
@@ -5818,7 +5818,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
  3406              		.loc 1 1979 7 is_stmt 0 view .LVU1138
  3407 0144 13F0200F 		tst	r3, #32
  3408 0148 03D0     		beq	.L229
-ARM GAS  /tmp/ccVCSFeK.s 			page 98
+ARM GAS  /tmp/ccL0YdON.s 			page 98
 
 
 1980:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****     {
@@ -5878,7 +5878,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
 1986:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****             (uint32_t)sTamper->MaskFlag | (uint32_t)sTamper->Filter | (uint32_t)sTamper->SamplingFr
  3452              		.loc 1 1986 10 view .LVU1160
  3453 0176 0B43     		orrs	r3, r3, r1
-ARM GAS  /tmp/ccVCSFeK.s 			page 99
+ARM GAS  /tmp/ccL0YdON.s 			page 99
 
 
  3454              	.LVL194:
@@ -5938,7 +5938,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
  3495              		.loc 1 2001 3 view .LVU1177
 2002:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c **** 
 2003:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****   return HAL_OK;
-ARM GAS  /tmp/ccVCSFeK.s 			page 100
+ARM GAS  /tmp/ccL0YdON.s 			page 100
 
 
  3496              		.loc 1 2003 3 view .LVU1178
@@ -5998,7 +5998,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
  3543              	.L240:
 1930:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****   assert_param(IS_RTC_TAMPER_TIMESTAMPONTAMPER_DETECTION(sTamper->TimeStampOnTamperDetection));
  3544              		.loc 1 1930 3 discriminator 2 view .LVU1186
-ARM GAS  /tmp/ccVCSFeK.s 			page 101
+ARM GAS  /tmp/ccL0YdON.s 			page 101
 
 
  3545 01fa 40F28A71 		movw	r1, #1930
@@ -6058,7 +6058,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
 2023:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****   assert_param(IS_RTC_TAMPER(Tamper));
 2024:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c **** 
 2025:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****   /* Disable the selected Tamper pin */
-ARM GAS  /tmp/ccVCSFeK.s 			page 102
+ARM GAS  /tmp/ccL0YdON.s 			page 102
 
 
 2026:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****   tamp->CR1 &= ~Tamper;
@@ -6118,7 +6118,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
  3608 0014 FFF7FEFF 		bl	assert_failed
  3609              	.LVL209:
  3610              	.L246:
-ARM GAS  /tmp/ccVCSFeK.s 			page 103
+ARM GAS  /tmp/ccL0YdON.s 			page 103
 
 
 2053:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c **** 
@@ -6178,7 +6178,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
 2070:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****   {
 2071:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****     /* Disable the Tamper2 interrupt */
 2072:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****     hrtc->Instance->TAMPCR &= ((uint32_t)~(RTC_IT_TAMP | RTC_IT_TAMP2));
-ARM GAS  /tmp/ccVCSFeK.s 			page 104
+ARM GAS  /tmp/ccL0YdON.s 			page 104
 
 
  3648              		.loc 1 2072 5 is_stmt 1 view .LVU1212
@@ -6238,7 +6238,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
  3685              		.loc 1 2055 3 view .LVU1227
  3686 0080 0220     		movs	r0, #2
  3687 0082 FCE7     		b	.L247
-ARM GAS  /tmp/ccVCSFeK.s 			page 105
+ARM GAS  /tmp/ccL0YdON.s 			page 105
 
 
  3688              	.L254:
@@ -6298,7 +6298,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
  3728              	.L257:
  3729              		.loc 1 2104 8 view .LVU1234
  3730              		.loc 1 2104 9 is_stmt 0 view .LVU1235
-ARM GAS  /tmp/ccVCSFeK.s 			page 106
+ARM GAS  /tmp/ccL0YdON.s 			page 106
 
 
  3731 000c 2368     		ldr	r3, [r4]
@@ -6358,7 +6358,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
  3769 003e 84F82130 		strb	r3, [r4, #33]
 2121:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c **** 
 2122:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****   return HAL_OK;
-ARM GAS  /tmp/ccVCSFeK.s 			page 107
+ARM GAS  /tmp/ccL0YdON.s 			page 107
 
 
  3770              		.loc 1 2122 3 is_stmt 1 view .LVU1251
@@ -6418,7 +6418,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
 2137:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****   while(__HAL_RTC_TAMPER_GET_FLAG(hrtc, RTC_FLAG_TAMP2F) == 0U)
  3812              		.loc 1 2137 3 is_stmt 1 view .LVU1260
  3813              	.L265:
-ARM GAS  /tmp/ccVCSFeK.s 			page 108
+ARM GAS  /tmp/ccL0YdON.s 			page 108
 
 
  3814              		.loc 1 2137 8 view .LVU1261
@@ -6478,7 +6478,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
  3852              		.loc 1 2153 15 is_stmt 0 view .LVU1277
  3853 003c 0123     		movs	r3, #1
  3854 003e 84F82130 		strb	r3, [r4, #33]
-ARM GAS  /tmp/ccVCSFeK.s 			page 109
+ARM GAS  /tmp/ccL0YdON.s 			page 109
 
 
 2154:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c **** 
@@ -6538,7 +6538,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
 2168:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c **** 
 2169:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****   /* Get the status of the Interrupt */
 2170:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****   while(__HAL_RTC_TAMPER_GET_FLAG(hrtc, RTC_FLAG_TAMP3F) == 0U)
-ARM GAS  /tmp/ccVCSFeK.s 			page 110
+ARM GAS  /tmp/ccL0YdON.s 			page 110
 
 
  3897              		.loc 1 2170 3 is_stmt 1 view .LVU1287
@@ -6598,7 +6598,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
 2184:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c **** 
 2185:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****   /* Change RTC state */
 2186:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****   hrtc->State = HAL_RTC_STATE_READY;
-ARM GAS  /tmp/ccVCSFeK.s 			page 111
+ARM GAS  /tmp/ccL0YdON.s 			page 111
 
 
  3938              		.loc 1 2186 3 view .LVU1303
@@ -6658,7 +6658,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
  3972              	.LFE155:
  3974              		.section	.text.HAL_RTCEx_Tamper2EventCallback,"ax",%progbits
  3975              		.align	1
-ARM GAS  /tmp/ccVCSFeK.s 			page 112
+ARM GAS  /tmp/ccL0YdON.s 			page 112
 
 
  3976              		.weak	HAL_RTCEx_Tamper2EventCallback
@@ -6718,7 +6718,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
  4008              		.cfi_startproc
  4009              		@ args = 0, pretend = 0, frame = 0
  4010              		@ frame_needed = 0, uses_anonymous_args = 0
-ARM GAS  /tmp/ccVCSFeK.s 			page 113
+ARM GAS  /tmp/ccL0YdON.s 			page 113
 
 
  4011              		@ link register save eliminated.
@@ -6778,7 +6778,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
  4052              		.loc 1 562 8 is_stmt 0 view .LVU1325
  4053 0016 DB68     		ldr	r3, [r3, #12]
  562:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****     {
-ARM GAS  /tmp/ccVCSFeK.s 			page 114
+ARM GAS  /tmp/ccL0YdON.s 			page 114
 
 
  4054              		.loc 1 562 7 view .LVU1326
@@ -6838,7 +6838,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
  4094 0048 0B40     		ands	r3, r3, r1
  614:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****   {
  4095              		.loc 1 614 6 view .LVU1341
-ARM GAS  /tmp/ccVCSFeK.s 			page 115
+ARM GAS  /tmp/ccL0YdON.s 			page 115
 
 
  4096 004a 1BB1     		cbz	r3, .L286
@@ -6898,7 +6898,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
  607:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c **** #endif /* (USE_HAL_RTC_REGISTER_CALLBACKS == 1) */
  4139              		.loc 1 607 7 view .LVU1353
  4140 008a 2046     		mov	r0, r4
-ARM GAS  /tmp/ccVCSFeK.s 			page 116
+ARM GAS  /tmp/ccL0YdON.s 			page 116
 
 
  4141 008c FFF7FEFF 		bl	HAL_RTCEx_Tamper2EventCallback
@@ -6958,7 +6958,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
 2257:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****        HAL_RTC_Init() function.
 2258:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****    (+) In that ine you can select to output tamper event on RTC pin.
 2259:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****   [..]
-ARM GAS  /tmp/ccVCSFeK.s 			page 117
+ARM GAS  /tmp/ccL0YdON.s 			page 117
 
 
 2260:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****    This subsection provides functions allowing to
@@ -7018,7 +7018,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
  4202              	.L295:
 2291:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c **** 
 2292:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****   tmp = (uint32_t)&(hrtc->Instance->BKP0R);
-ARM GAS  /tmp/ccVCSFeK.s 			page 118
+ARM GAS  /tmp/ccL0YdON.s 			page 118
 
 
  4203              		.loc 1 2292 3 view .LVU1360
@@ -7078,7 +7078,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
  4246              	.L298:
  4247 0030 00000000 		.word	.LC0
  4248              		.cfi_endproc
-ARM GAS  /tmp/ccVCSFeK.s 			page 119
+ARM GAS  /tmp/ccL0YdON.s 			page 119
 
 
  4249              	.LFE158:
@@ -7138,7 +7138,7 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
  4281              	.L301:
 2324:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c **** 
 2325:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c ****   tmp = (uint32_t)&(hrtc->Instance->BKP0R);
-ARM GAS  /tmp/ccVCSFeK.s 			page 120
+ARM GAS  /tmp/ccL0YdON.s 			page 120
 
 
  4282              		.loc 1 2325 3 view .LVU1379
@@ -7183,8 +7183,8 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
  4311              	.LFE159:
  4313              		.text
  4314              	.Letext0:
- 4315              		.file 2 "/usr/arm-none-eabi/include/machine/_default_types.h"
- 4316              		.file 3 "/usr/arm-none-eabi/include/sys/_stdint.h"
+ 4315              		.file 2 "/home/matsdm/gcc-arm-none-eabi-9-2019-q4-major-x86_64-linux/gcc-arm-none-eabi-9-2019-q4-m
+ 4316              		.file 3 "/home/matsdm/gcc-arm-none-eabi-9-2019-q4-major-x86_64-linux/gcc-arm-none-eabi-9-2019-q4-m
  4317              		.file 4 "../../../core/ST/CMSIS/Include/core_cm4.h"
  4318              		.file 5 "../../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/system_stm32l4xx.h"
  4319              		.file 6 "../../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/stm32l496xx.h"
@@ -7193,104 +7193,104 @@ ARM GAS  /tmp/ccVCSFeK.s 			page 1
  4322              		.file 9 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rtc_ex.h"
  4323              		.file 10 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h"
  4324              		.file 11 "../../../core/platform/octa/inc/stm32l4xx_hal_conf.h"
-ARM GAS  /tmp/ccVCSFeK.s 			page 121
+ARM GAS  /tmp/ccL0YdON.s 			page 121
 
 
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 stm32l4xx_hal_rtc_ex.c
-     /tmp/ccVCSFeK.s:18     .rodata.HAL_RTCEx_SetTimeStamp.str1.4:0000000000000000 $d
-     /tmp/ccVCSFeK.s:23     .text.HAL_RTCEx_SetTimeStamp:0000000000000000 $t
-     /tmp/ccVCSFeK.s:31     .text.HAL_RTCEx_SetTimeStamp:0000000000000000 HAL_RTCEx_SetTimeStamp
-     /tmp/ccVCSFeK.s:154    .text.HAL_RTCEx_SetTimeStamp:0000000000000074 $d
-     /tmp/ccVCSFeK.s:159    .text.HAL_RTCEx_SetTimeStamp_IT:0000000000000000 $t
-     /tmp/ccVCSFeK.s:166    .text.HAL_RTCEx_SetTimeStamp_IT:0000000000000000 HAL_RTCEx_SetTimeStamp_IT
-     /tmp/ccVCSFeK.s:303    .text.HAL_RTCEx_SetTimeStamp_IT:0000000000000098 $d
-     /tmp/ccVCSFeK.s:309    .text.HAL_RTCEx_DeactivateTimeStamp:0000000000000000 $t
-     /tmp/ccVCSFeK.s:316    .text.HAL_RTCEx_DeactivateTimeStamp:0000000000000000 HAL_RTCEx_DeactivateTimeStamp
-     /tmp/ccVCSFeK.s:400    .text.HAL_RTCEx_SetInternalTimeStamp:0000000000000000 $t
-     /tmp/ccVCSFeK.s:407    .text.HAL_RTCEx_SetInternalTimeStamp:0000000000000000 HAL_RTCEx_SetInternalTimeStamp
-     /tmp/ccVCSFeK.s:474    .text.HAL_RTCEx_DeactivateInternalTimeStamp:0000000000000000 $t
-     /tmp/ccVCSFeK.s:481    .text.HAL_RTCEx_DeactivateInternalTimeStamp:0000000000000000 HAL_RTCEx_DeactivateInternalTimeStamp
-     /tmp/ccVCSFeK.s:548    .text.HAL_RTCEx_GetTimeStamp:0000000000000000 $t
-     /tmp/ccVCSFeK.s:555    .text.HAL_RTCEx_GetTimeStamp:0000000000000000 HAL_RTCEx_GetTimeStamp
-     /tmp/ccVCSFeK.s:721    .text.HAL_RTCEx_GetTimeStamp:00000000000000a4 $d
-     /tmp/ccVCSFeK.s:727    .text.HAL_RTCEx_TimeStampEventCallback:0000000000000000 $t
-     /tmp/ccVCSFeK.s:734    .text.HAL_RTCEx_TimeStampEventCallback:0000000000000000 HAL_RTCEx_TimeStampEventCallback
-     /tmp/ccVCSFeK.s:749    .text.HAL_RTCEx_PollForTimeStampEvent:0000000000000000 $t
-     /tmp/ccVCSFeK.s:756    .text.HAL_RTCEx_PollForTimeStampEvent:0000000000000000 HAL_RTCEx_PollForTimeStampEvent
-     /tmp/ccVCSFeK.s:849    .text.HAL_RTCEx_SetWakeUpTimer:0000000000000000 $t
-     /tmp/ccVCSFeK.s:856    .text.HAL_RTCEx_SetWakeUpTimer:0000000000000000 HAL_RTCEx_SetWakeUpTimer
-     /tmp/ccVCSFeK.s:1086   .text.HAL_RTCEx_SetWakeUpTimer:00000000000000f4 $d
-     /tmp/ccVCSFeK.s:1091   .text.HAL_RTCEx_SetWakeUpTimer_IT:0000000000000000 $t
-     /tmp/ccVCSFeK.s:1098   .text.HAL_RTCEx_SetWakeUpTimer_IT:0000000000000000 HAL_RTCEx_SetWakeUpTimer_IT
-     /tmp/ccVCSFeK.s:1348   .text.HAL_RTCEx_SetWakeUpTimer_IT:000000000000011c $d
-     /tmp/ccVCSFeK.s:1354   .text.HAL_RTCEx_DeactivateWakeUpTimer:0000000000000000 $t
-     /tmp/ccVCSFeK.s:1361   .text.HAL_RTCEx_DeactivateWakeUpTimer:0000000000000000 HAL_RTCEx_DeactivateWakeUpTimer
-     /tmp/ccVCSFeK.s:1485   .text.HAL_RTCEx_GetWakeUpTimer:0000000000000000 $t
-     /tmp/ccVCSFeK.s:1492   .text.HAL_RTCEx_GetWakeUpTimer:0000000000000000 HAL_RTCEx_GetWakeUpTimer
-     /tmp/ccVCSFeK.s:1513   .text.HAL_RTCEx_WakeUpTimerEventCallback:0000000000000000 $t
-     /tmp/ccVCSFeK.s:1520   .text.HAL_RTCEx_WakeUpTimerEventCallback:0000000000000000 HAL_RTCEx_WakeUpTimerEventCallback
-     /tmp/ccVCSFeK.s:1535   .text.HAL_RTCEx_WakeUpTimerIRQHandler:0000000000000000 $t
-     /tmp/ccVCSFeK.s:1542   .text.HAL_RTCEx_WakeUpTimerIRQHandler:0000000000000000 HAL_RTCEx_WakeUpTimerIRQHandler
-     /tmp/ccVCSFeK.s:1590   .text.HAL_RTCEx_WakeUpTimerIRQHandler:0000000000000030 $d
-     /tmp/ccVCSFeK.s:1595   .text.HAL_RTCEx_PollForWakeUpTimerEvent:0000000000000000 $t
-     /tmp/ccVCSFeK.s:1602   .text.HAL_RTCEx_PollForWakeUpTimerEvent:0000000000000000 HAL_RTCEx_PollForWakeUpTimerEvent
-     /tmp/ccVCSFeK.s:1680   .text.HAL_RTCEx_SetSmoothCalib:0000000000000000 $t
-     /tmp/ccVCSFeK.s:1687   .text.HAL_RTCEx_SetSmoothCalib:0000000000000000 HAL_RTCEx_SetSmoothCalib
-     /tmp/ccVCSFeK.s:1870   .text.HAL_RTCEx_SetSmoothCalib:00000000000000d8 $d
-     /tmp/ccVCSFeK.s:1875   .text.HAL_RTCEx_SetSynchroShift:0000000000000000 $t
-     /tmp/ccVCSFeK.s:1882   .text.HAL_RTCEx_SetSynchroShift:0000000000000000 HAL_RTCEx_SetSynchroShift
-     /tmp/ccVCSFeK.s:2099   .text.HAL_RTCEx_SetSynchroShift:00000000000000e0 $d
-     /tmp/ccVCSFeK.s:2104   .text.HAL_RTCEx_SetCalibrationOutPut:0000000000000000 $t
-     /tmp/ccVCSFeK.s:2111   .text.HAL_RTCEx_SetCalibrationOutPut:0000000000000000 HAL_RTCEx_SetCalibrationOutPut
-     /tmp/ccVCSFeK.s:2214   .text.HAL_RTCEx_SetCalibrationOutPut:000000000000006c $d
-     /tmp/ccVCSFeK.s:2219   .text.HAL_RTCEx_DeactivateCalibrationOutPut:0000000000000000 $t
-     /tmp/ccVCSFeK.s:2226   .text.HAL_RTCEx_DeactivateCalibrationOutPut:0000000000000000 HAL_RTCEx_DeactivateCalibrationOutPut
-     /tmp/ccVCSFeK.s:2293   .text.HAL_RTCEx_SetRefClock:0000000000000000 $t
-     /tmp/ccVCSFeK.s:2300   .text.HAL_RTCEx_SetRefClock:0000000000000000 HAL_RTCEx_SetRefClock
-     /tmp/ccVCSFeK.s:2410   .text.HAL_RTCEx_DeactivateRefClock:0000000000000000 $t
-     /tmp/ccVCSFeK.s:2417   .text.HAL_RTCEx_DeactivateRefClock:0000000000000000 HAL_RTCEx_DeactivateRefClock
-     /tmp/ccVCSFeK.s:2527   .text.HAL_RTCEx_EnableBypassShadow:0000000000000000 $t
-     /tmp/ccVCSFeK.s:2534   .text.HAL_RTCEx_EnableBypassShadow:0000000000000000 HAL_RTCEx_EnableBypassShadow
-     /tmp/ccVCSFeK.s:2603   .text.HAL_RTCEx_DisableBypassShadow:0000000000000000 $t
-ARM GAS  /tmp/ccVCSFeK.s 			page 122
+     /tmp/ccL0YdON.s:18     .rodata.HAL_RTCEx_SetTimeStamp.str1.4:0000000000000000 $d
+     /tmp/ccL0YdON.s:23     .text.HAL_RTCEx_SetTimeStamp:0000000000000000 $t
+     /tmp/ccL0YdON.s:31     .text.HAL_RTCEx_SetTimeStamp:0000000000000000 HAL_RTCEx_SetTimeStamp
+     /tmp/ccL0YdON.s:154    .text.HAL_RTCEx_SetTimeStamp:0000000000000074 $d
+     /tmp/ccL0YdON.s:159    .text.HAL_RTCEx_SetTimeStamp_IT:0000000000000000 $t
+     /tmp/ccL0YdON.s:166    .text.HAL_RTCEx_SetTimeStamp_IT:0000000000000000 HAL_RTCEx_SetTimeStamp_IT
+     /tmp/ccL0YdON.s:303    .text.HAL_RTCEx_SetTimeStamp_IT:0000000000000098 $d
+     /tmp/ccL0YdON.s:309    .text.HAL_RTCEx_DeactivateTimeStamp:0000000000000000 $t
+     /tmp/ccL0YdON.s:316    .text.HAL_RTCEx_DeactivateTimeStamp:0000000000000000 HAL_RTCEx_DeactivateTimeStamp
+     /tmp/ccL0YdON.s:400    .text.HAL_RTCEx_SetInternalTimeStamp:0000000000000000 $t
+     /tmp/ccL0YdON.s:407    .text.HAL_RTCEx_SetInternalTimeStamp:0000000000000000 HAL_RTCEx_SetInternalTimeStamp
+     /tmp/ccL0YdON.s:474    .text.HAL_RTCEx_DeactivateInternalTimeStamp:0000000000000000 $t
+     /tmp/ccL0YdON.s:481    .text.HAL_RTCEx_DeactivateInternalTimeStamp:0000000000000000 HAL_RTCEx_DeactivateInternalTimeStamp
+     /tmp/ccL0YdON.s:548    .text.HAL_RTCEx_GetTimeStamp:0000000000000000 $t
+     /tmp/ccL0YdON.s:555    .text.HAL_RTCEx_GetTimeStamp:0000000000000000 HAL_RTCEx_GetTimeStamp
+     /tmp/ccL0YdON.s:721    .text.HAL_RTCEx_GetTimeStamp:00000000000000a4 $d
+     /tmp/ccL0YdON.s:727    .text.HAL_RTCEx_TimeStampEventCallback:0000000000000000 $t
+     /tmp/ccL0YdON.s:734    .text.HAL_RTCEx_TimeStampEventCallback:0000000000000000 HAL_RTCEx_TimeStampEventCallback
+     /tmp/ccL0YdON.s:749    .text.HAL_RTCEx_PollForTimeStampEvent:0000000000000000 $t
+     /tmp/ccL0YdON.s:756    .text.HAL_RTCEx_PollForTimeStampEvent:0000000000000000 HAL_RTCEx_PollForTimeStampEvent
+     /tmp/ccL0YdON.s:849    .text.HAL_RTCEx_SetWakeUpTimer:0000000000000000 $t
+     /tmp/ccL0YdON.s:856    .text.HAL_RTCEx_SetWakeUpTimer:0000000000000000 HAL_RTCEx_SetWakeUpTimer
+     /tmp/ccL0YdON.s:1086   .text.HAL_RTCEx_SetWakeUpTimer:00000000000000f4 $d
+     /tmp/ccL0YdON.s:1091   .text.HAL_RTCEx_SetWakeUpTimer_IT:0000000000000000 $t
+     /tmp/ccL0YdON.s:1098   .text.HAL_RTCEx_SetWakeUpTimer_IT:0000000000000000 HAL_RTCEx_SetWakeUpTimer_IT
+     /tmp/ccL0YdON.s:1348   .text.HAL_RTCEx_SetWakeUpTimer_IT:000000000000011c $d
+     /tmp/ccL0YdON.s:1354   .text.HAL_RTCEx_DeactivateWakeUpTimer:0000000000000000 $t
+     /tmp/ccL0YdON.s:1361   .text.HAL_RTCEx_DeactivateWakeUpTimer:0000000000000000 HAL_RTCEx_DeactivateWakeUpTimer
+     /tmp/ccL0YdON.s:1485   .text.HAL_RTCEx_GetWakeUpTimer:0000000000000000 $t
+     /tmp/ccL0YdON.s:1492   .text.HAL_RTCEx_GetWakeUpTimer:0000000000000000 HAL_RTCEx_GetWakeUpTimer
+     /tmp/ccL0YdON.s:1513   .text.HAL_RTCEx_WakeUpTimerEventCallback:0000000000000000 $t
+     /tmp/ccL0YdON.s:1520   .text.HAL_RTCEx_WakeUpTimerEventCallback:0000000000000000 HAL_RTCEx_WakeUpTimerEventCallback
+     /tmp/ccL0YdON.s:1535   .text.HAL_RTCEx_WakeUpTimerIRQHandler:0000000000000000 $t
+     /tmp/ccL0YdON.s:1542   .text.HAL_RTCEx_WakeUpTimerIRQHandler:0000000000000000 HAL_RTCEx_WakeUpTimerIRQHandler
+     /tmp/ccL0YdON.s:1590   .text.HAL_RTCEx_WakeUpTimerIRQHandler:0000000000000030 $d
+     /tmp/ccL0YdON.s:1595   .text.HAL_RTCEx_PollForWakeUpTimerEvent:0000000000000000 $t
+     /tmp/ccL0YdON.s:1602   .text.HAL_RTCEx_PollForWakeUpTimerEvent:0000000000000000 HAL_RTCEx_PollForWakeUpTimerEvent
+     /tmp/ccL0YdON.s:1680   .text.HAL_RTCEx_SetSmoothCalib:0000000000000000 $t
+     /tmp/ccL0YdON.s:1687   .text.HAL_RTCEx_SetSmoothCalib:0000000000000000 HAL_RTCEx_SetSmoothCalib
+     /tmp/ccL0YdON.s:1870   .text.HAL_RTCEx_SetSmoothCalib:00000000000000d8 $d
+     /tmp/ccL0YdON.s:1875   .text.HAL_RTCEx_SetSynchroShift:0000000000000000 $t
+     /tmp/ccL0YdON.s:1882   .text.HAL_RTCEx_SetSynchroShift:0000000000000000 HAL_RTCEx_SetSynchroShift
+     /tmp/ccL0YdON.s:2099   .text.HAL_RTCEx_SetSynchroShift:00000000000000e0 $d
+     /tmp/ccL0YdON.s:2104   .text.HAL_RTCEx_SetCalibrationOutPut:0000000000000000 $t
+     /tmp/ccL0YdON.s:2111   .text.HAL_RTCEx_SetCalibrationOutPut:0000000000000000 HAL_RTCEx_SetCalibrationOutPut
+     /tmp/ccL0YdON.s:2214   .text.HAL_RTCEx_SetCalibrationOutPut:000000000000006c $d
+     /tmp/ccL0YdON.s:2219   .text.HAL_RTCEx_DeactivateCalibrationOutPut:0000000000000000 $t
+     /tmp/ccL0YdON.s:2226   .text.HAL_RTCEx_DeactivateCalibrationOutPut:0000000000000000 HAL_RTCEx_DeactivateCalibrationOutPut
+     /tmp/ccL0YdON.s:2293   .text.HAL_RTCEx_SetRefClock:0000000000000000 $t
+     /tmp/ccL0YdON.s:2300   .text.HAL_RTCEx_SetRefClock:0000000000000000 HAL_RTCEx_SetRefClock
+     /tmp/ccL0YdON.s:2410   .text.HAL_RTCEx_DeactivateRefClock:0000000000000000 $t
+     /tmp/ccL0YdON.s:2417   .text.HAL_RTCEx_DeactivateRefClock:0000000000000000 HAL_RTCEx_DeactivateRefClock
+     /tmp/ccL0YdON.s:2527   .text.HAL_RTCEx_EnableBypassShadow:0000000000000000 $t
+     /tmp/ccL0YdON.s:2534   .text.HAL_RTCEx_EnableBypassShadow:0000000000000000 HAL_RTCEx_EnableBypassShadow
+     /tmp/ccL0YdON.s:2603   .text.HAL_RTCEx_DisableBypassShadow:0000000000000000 $t
+ARM GAS  /tmp/ccL0YdON.s 			page 122
 
 
-     /tmp/ccVCSFeK.s:2610   .text.HAL_RTCEx_DisableBypassShadow:0000000000000000 HAL_RTCEx_DisableBypassShadow
-     /tmp/ccVCSFeK.s:2679   .text.HAL_RTCEx_AlarmBEventCallback:0000000000000000 $t
-     /tmp/ccVCSFeK.s:2686   .text.HAL_RTCEx_AlarmBEventCallback:0000000000000000 HAL_RTCEx_AlarmBEventCallback
-     /tmp/ccVCSFeK.s:2701   .text.HAL_RTCEx_PollForAlarmBEvent:0000000000000000 $t
-     /tmp/ccVCSFeK.s:2708   .text.HAL_RTCEx_PollForAlarmBEvent:0000000000000000 HAL_RTCEx_PollForAlarmBEvent
-     /tmp/ccVCSFeK.s:2786   .text.HAL_RTCEx_SetTamper:0000000000000000 $t
-     /tmp/ccVCSFeK.s:2793   .text.HAL_RTCEx_SetTamper:0000000000000000 HAL_RTCEx_SetTamper
-     /tmp/ccVCSFeK.s:3158   .text.HAL_RTCEx_SetTamper:00000000000001e8 $d
-     /tmp/ccVCSFeK.s:3164   .text.HAL_RTCEx_SetTamper_IT:0000000000000000 $t
-     /tmp/ccVCSFeK.s:3171   .text.HAL_RTCEx_SetTamper_IT:0000000000000000 HAL_RTCEx_SetTamper_IT
-     /tmp/ccVCSFeK.s:3564   .text.HAL_RTCEx_SetTamper_IT:0000000000000218 $d
-     /tmp/ccVCSFeK.s:3571   .text.HAL_RTCEx_DeactivateTamper:0000000000000000 $t
-     /tmp/ccVCSFeK.s:3578   .text.HAL_RTCEx_DeactivateTamper:0000000000000000 HAL_RTCEx_DeactivateTamper
-     /tmp/ccVCSFeK.s:3691   .text.HAL_RTCEx_DeactivateTamper:0000000000000084 $d
-     /tmp/ccVCSFeK.s:3696   .text.HAL_RTCEx_PollForTamper1Event:0000000000000000 $t
-     /tmp/ccVCSFeK.s:3703   .text.HAL_RTCEx_PollForTamper1Event:0000000000000000 HAL_RTCEx_PollForTamper1Event
-     /tmp/ccVCSFeK.s:3781   .text.HAL_RTCEx_PollForTamper2Event:0000000000000000 $t
-     /tmp/ccVCSFeK.s:3788   .text.HAL_RTCEx_PollForTamper2Event:0000000000000000 HAL_RTCEx_PollForTamper2Event
-     /tmp/ccVCSFeK.s:3866   .text.HAL_RTCEx_PollForTamper3Event:0000000000000000 $t
-     /tmp/ccVCSFeK.s:3873   .text.HAL_RTCEx_PollForTamper3Event:0000000000000000 HAL_RTCEx_PollForTamper3Event
-     /tmp/ccVCSFeK.s:3953   .text.HAL_RTCEx_Tamper1EventCallback:0000000000000000 $t
-     /tmp/ccVCSFeK.s:3960   .text.HAL_RTCEx_Tamper1EventCallback:0000000000000000 HAL_RTCEx_Tamper1EventCallback
-     /tmp/ccVCSFeK.s:3975   .text.HAL_RTCEx_Tamper2EventCallback:0000000000000000 $t
-     /tmp/ccVCSFeK.s:3982   .text.HAL_RTCEx_Tamper2EventCallback:0000000000000000 HAL_RTCEx_Tamper2EventCallback
-     /tmp/ccVCSFeK.s:3997   .text.HAL_RTCEx_Tamper3EventCallback:0000000000000000 $t
-     /tmp/ccVCSFeK.s:4004   .text.HAL_RTCEx_Tamper3EventCallback:0000000000000000 HAL_RTCEx_Tamper3EventCallback
-     /tmp/ccVCSFeK.s:4019   .text.HAL_RTCEx_TamperTimeStampIRQHandler:0000000000000000 $t
-     /tmp/ccVCSFeK.s:4026   .text.HAL_RTCEx_TamperTimeStampIRQHandler:0000000000000000 HAL_RTCEx_TamperTimeStampIRQHandler
-     /tmp/ccVCSFeK.s:4161   .text.HAL_RTCEx_TamperTimeStampIRQHandler:00000000000000b0 $d
-     /tmp/ccVCSFeK.s:4169   .text.HAL_RTCEx_BKUPWrite:0000000000000000 $t
-     /tmp/ccVCSFeK.s:4176   .text.HAL_RTCEx_BKUPWrite:0000000000000000 HAL_RTCEx_BKUPWrite
-     /tmp/ccVCSFeK.s:4247   .text.HAL_RTCEx_BKUPWrite:0000000000000030 $d
-     /tmp/ccVCSFeK.s:4252   .text.HAL_RTCEx_BKUPRead:0000000000000000 $t
-     /tmp/ccVCSFeK.s:4259   .text.HAL_RTCEx_BKUPRead:0000000000000000 HAL_RTCEx_BKUPRead
-     /tmp/ccVCSFeK.s:4309   .text.HAL_RTCEx_BKUPRead:0000000000000020 $d
+     /tmp/ccL0YdON.s:2610   .text.HAL_RTCEx_DisableBypassShadow:0000000000000000 HAL_RTCEx_DisableBypassShadow
+     /tmp/ccL0YdON.s:2679   .text.HAL_RTCEx_AlarmBEventCallback:0000000000000000 $t
+     /tmp/ccL0YdON.s:2686   .text.HAL_RTCEx_AlarmBEventCallback:0000000000000000 HAL_RTCEx_AlarmBEventCallback
+     /tmp/ccL0YdON.s:2701   .text.HAL_RTCEx_PollForAlarmBEvent:0000000000000000 $t
+     /tmp/ccL0YdON.s:2708   .text.HAL_RTCEx_PollForAlarmBEvent:0000000000000000 HAL_RTCEx_PollForAlarmBEvent
+     /tmp/ccL0YdON.s:2786   .text.HAL_RTCEx_SetTamper:0000000000000000 $t
+     /tmp/ccL0YdON.s:2793   .text.HAL_RTCEx_SetTamper:0000000000000000 HAL_RTCEx_SetTamper
+     /tmp/ccL0YdON.s:3158   .text.HAL_RTCEx_SetTamper:00000000000001e8 $d
+     /tmp/ccL0YdON.s:3164   .text.HAL_RTCEx_SetTamper_IT:0000000000000000 $t
+     /tmp/ccL0YdON.s:3171   .text.HAL_RTCEx_SetTamper_IT:0000000000000000 HAL_RTCEx_SetTamper_IT
+     /tmp/ccL0YdON.s:3564   .text.HAL_RTCEx_SetTamper_IT:0000000000000218 $d
+     /tmp/ccL0YdON.s:3571   .text.HAL_RTCEx_DeactivateTamper:0000000000000000 $t
+     /tmp/ccL0YdON.s:3578   .text.HAL_RTCEx_DeactivateTamper:0000000000000000 HAL_RTCEx_DeactivateTamper
+     /tmp/ccL0YdON.s:3691   .text.HAL_RTCEx_DeactivateTamper:0000000000000084 $d
+     /tmp/ccL0YdON.s:3696   .text.HAL_RTCEx_PollForTamper1Event:0000000000000000 $t
+     /tmp/ccL0YdON.s:3703   .text.HAL_RTCEx_PollForTamper1Event:0000000000000000 HAL_RTCEx_PollForTamper1Event
+     /tmp/ccL0YdON.s:3781   .text.HAL_RTCEx_PollForTamper2Event:0000000000000000 $t
+     /tmp/ccL0YdON.s:3788   .text.HAL_RTCEx_PollForTamper2Event:0000000000000000 HAL_RTCEx_PollForTamper2Event
+     /tmp/ccL0YdON.s:3866   .text.HAL_RTCEx_PollForTamper3Event:0000000000000000 $t
+     /tmp/ccL0YdON.s:3873   .text.HAL_RTCEx_PollForTamper3Event:0000000000000000 HAL_RTCEx_PollForTamper3Event
+     /tmp/ccL0YdON.s:3953   .text.HAL_RTCEx_Tamper1EventCallback:0000000000000000 $t
+     /tmp/ccL0YdON.s:3960   .text.HAL_RTCEx_Tamper1EventCallback:0000000000000000 HAL_RTCEx_Tamper1EventCallback
+     /tmp/ccL0YdON.s:3975   .text.HAL_RTCEx_Tamper2EventCallback:0000000000000000 $t
+     /tmp/ccL0YdON.s:3982   .text.HAL_RTCEx_Tamper2EventCallback:0000000000000000 HAL_RTCEx_Tamper2EventCallback
+     /tmp/ccL0YdON.s:3997   .text.HAL_RTCEx_Tamper3EventCallback:0000000000000000 $t
+     /tmp/ccL0YdON.s:4004   .text.HAL_RTCEx_Tamper3EventCallback:0000000000000000 HAL_RTCEx_Tamper3EventCallback
+     /tmp/ccL0YdON.s:4019   .text.HAL_RTCEx_TamperTimeStampIRQHandler:0000000000000000 $t
+     /tmp/ccL0YdON.s:4026   .text.HAL_RTCEx_TamperTimeStampIRQHandler:0000000000000000 HAL_RTCEx_TamperTimeStampIRQHandler
+     /tmp/ccL0YdON.s:4161   .text.HAL_RTCEx_TamperTimeStampIRQHandler:00000000000000b0 $d
+     /tmp/ccL0YdON.s:4169   .text.HAL_RTCEx_BKUPWrite:0000000000000000 $t
+     /tmp/ccL0YdON.s:4176   .text.HAL_RTCEx_BKUPWrite:0000000000000000 HAL_RTCEx_BKUPWrite
+     /tmp/ccL0YdON.s:4247   .text.HAL_RTCEx_BKUPWrite:0000000000000030 $d
+     /tmp/ccL0YdON.s:4252   .text.HAL_RTCEx_BKUPRead:0000000000000000 $t
+     /tmp/ccL0YdON.s:4259   .text.HAL_RTCEx_BKUPRead:0000000000000000 HAL_RTCEx_BKUPRead
+     /tmp/ccL0YdON.s:4309   .text.HAL_RTCEx_BKUPRead:0000000000000020 $d
 
 UNDEFINED SYMBOLS
 assert_failed

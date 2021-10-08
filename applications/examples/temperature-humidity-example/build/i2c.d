@@ -75,6 +75,7 @@
  ../../../core/platform/common/inc/octa-protocol-types.h \
  ../../../core/platform/common/inc/assert.h \
  ../../../core/platform/common/inc/error.h \
+ ../../../core/platform/octa/inc/leds.h \
  ../../../core/platform/common/inc/datatypes.h
 
 ../../../core/platform/octa/inc/i2c.h:
@@ -226,5 +227,7 @@
 ../../../core/platform/common/inc/assert.h:
 
 ../../../core/platform/common/inc/error.h:
+
+../../../core/platform/octa/inc/leds.h:
 
 ../../../core/platform/common/inc/datatypes.h:

@@ -1,4 +1,4 @@
-ARM GAS  /tmp/ccd5dZU1.s 			page 1
+ARM GAS  /tmp/ccnhgcTt.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  /tmp/ccd5dZU1.s 			page 1
   15:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_cortex.c **** 
   16:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_cortex.c ****     [..]
   17:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_cortex.c ****     *** How to configure Interrupts using CORTEX HAL driver ***
-ARM GAS  /tmp/ccd5dZU1.s 			page 2
+ARM GAS  /tmp/ccnhgcTt.s 			page 2
 
 
   18:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_cortex.c ****     ===========================================================
@@ -118,7 +118,7 @@ ARM GAS  /tmp/ccd5dZU1.s 			page 1
   72:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_cortex.c ****       NVIC_PriorityGroup   | NVIC_IRQChannelPreemptionPriority | NVIC_IRQChannelSubPriority  |     
   73:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_cortex.c ****     ===============================================================================================
   74:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_cortex.c ****      NVIC_PRIORITYGROUP_0  |                0                  |            0-15             | 0 bi
-ARM GAS  /tmp/ccd5dZU1.s 			page 3
+ARM GAS  /tmp/ccnhgcTt.s 			page 3
 
 
   75:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_cortex.c ****                            |                                   |                             | 4 bi
@@ -178,7 +178,7 @@ ARM GAS  /tmp/ccd5dZU1.s 			page 1
  129:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_cortex.c ****   */
  130:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_cortex.c **** 
  131:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_cortex.c **** #ifdef HAL_CORTEX_MODULE_ENABLED
-ARM GAS  /tmp/ccd5dZU1.s 			page 4
+ARM GAS  /tmp/ccnhgcTt.s 			page 4
 
 
  132:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_cortex.c **** 
@@ -238,7 +238,7 @@ ARM GAS  /tmp/ccd5dZU1.s 			page 1
   39              		.loc 1 181 1 is_stmt 0 view .LVU1
   40 0000 10B5     		push	{r4, lr}
   41              	.LCFI0:
-ARM GAS  /tmp/ccd5dZU1.s 			page 5
+ARM GAS  /tmp/ccnhgcTt.s 			page 5
 
 
   42              		.cfi_def_cfa_offset 8
@@ -298,7 +298,7 @@ ARM GAS  /tmp/ccd5dZU1.s 			page 1
   36:../../../core/ST/CMSIS/Include/core_cm4.h ****  #pragma system_include         /* treat file as system include file for MISRA check */
   37:../../../core/ST/CMSIS/Include/core_cm4.h **** #elif defined(__ARMCC_VERSION) && (__ARMCC_VERSION >= 6010050)
   38:../../../core/ST/CMSIS/Include/core_cm4.h ****   #pragma clang system_header   /* treat file as system include file */
-ARM GAS  /tmp/ccd5dZU1.s 			page 6
+ARM GAS  /tmp/ccnhgcTt.s 			page 6
 
 
   39:../../../core/ST/CMSIS/Include/core_cm4.h **** #endif
@@ -358,7 +358,7 @@ ARM GAS  /tmp/ccd5dZU1.s 			page 1
   93:../../../core/ST/CMSIS/Include/core_cm4.h ****   #define __ASM            __asm                                      /*!< asm keyword for GNU Comp
   94:../../../core/ST/CMSIS/Include/core_cm4.h ****   #define __INLINE         inline                                     /*!< inline keyword for GNU C
   95:../../../core/ST/CMSIS/Include/core_cm4.h ****   #define __STATIC_INLINE  static inline
-ARM GAS  /tmp/ccd5dZU1.s 			page 7
+ARM GAS  /tmp/ccnhgcTt.s 			page 7
 
 
   96:../../../core/ST/CMSIS/Include/core_cm4.h **** 
@@ -418,7 +418,7 @@ ARM GAS  /tmp/ccd5dZU1.s 			page 1
  150:../../../core/ST/CMSIS/Include/core_cm4.h ****     #if (__FPU_PRESENT == 1U)
  151:../../../core/ST/CMSIS/Include/core_cm4.h ****       #define __FPU_USED       1U
  152:../../../core/ST/CMSIS/Include/core_cm4.h ****     #else
-ARM GAS  /tmp/ccd5dZU1.s 			page 8
+ARM GAS  /tmp/ccnhgcTt.s 			page 8
 
 
  153:../../../core/ST/CMSIS/Include/core_cm4.h ****       #error "Compiler generates FPU instructions for a device without an FPU (check __FPU_PRESENT)
@@ -478,7 +478,7 @@ ARM GAS  /tmp/ccd5dZU1.s 			page 1
  207:../../../core/ST/CMSIS/Include/core_cm4.h **** 
  208:../../../core/ST/CMSIS/Include/core_cm4.h **** #endif
  209:../../../core/ST/CMSIS/Include/core_cm4.h **** 
-ARM GAS  /tmp/ccd5dZU1.s 			page 9
+ARM GAS  /tmp/ccnhgcTt.s 			page 9
 
 
  210:../../../core/ST/CMSIS/Include/core_cm4.h **** #include "core_cmInstr.h"                /* Core Instruction Access */
@@ -538,7 +538,7 @@ ARM GAS  /tmp/ccd5dZU1.s 			page 1
  264:../../../core/ST/CMSIS/Include/core_cm4.h **** */
  265:../../../core/ST/CMSIS/Include/core_cm4.h **** #ifdef __cplusplus
  266:../../../core/ST/CMSIS/Include/core_cm4.h ****   #define   __I     volatile             /*!< Defines 'read only' permissions */
-ARM GAS  /tmp/ccd5dZU1.s 			page 10
+ARM GAS  /tmp/ccnhgcTt.s 			page 10
 
 
  267:../../../core/ST/CMSIS/Include/core_cm4.h **** #else
@@ -598,7 +598,7 @@ ARM GAS  /tmp/ccd5dZU1.s 			page 1
  321:../../../core/ST/CMSIS/Include/core_cm4.h ****   uint32_t w;                            /*!< Type      used for word access */
  322:../../../core/ST/CMSIS/Include/core_cm4.h **** } APSR_Type;
  323:../../../core/ST/CMSIS/Include/core_cm4.h **** 
-ARM GAS  /tmp/ccd5dZU1.s 			page 11
+ARM GAS  /tmp/ccnhgcTt.s 			page 11
 
 
  324:../../../core/ST/CMSIS/Include/core_cm4.h **** /* APSR Register Definitions */
@@ -658,7 +658,7 @@ ARM GAS  /tmp/ccd5dZU1.s 			page 1
  378:../../../core/ST/CMSIS/Include/core_cm4.h ****     uint32_t Z:1;                        /*!< bit:     30  Zero condition code flag */
  379:../../../core/ST/CMSIS/Include/core_cm4.h ****     uint32_t N:1;                        /*!< bit:     31  Negative condition code flag */
  380:../../../core/ST/CMSIS/Include/core_cm4.h ****   } b;                                   /*!< Structure used for bit  access */
-ARM GAS  /tmp/ccd5dZU1.s 			page 12
+ARM GAS  /tmp/ccnhgcTt.s 			page 12
 
 
  381:../../../core/ST/CMSIS/Include/core_cm4.h ****   uint32_t w;                            /*!< Type      used for word access */
@@ -718,7 +718,7 @@ ARM GAS  /tmp/ccd5dZU1.s 			page 1
  435:../../../core/ST/CMSIS/Include/core_cm4.h **** #define CONTROL_nPRIV_Pos                   0U                                            /*!< CONT
  436:../../../core/ST/CMSIS/Include/core_cm4.h **** #define CONTROL_nPRIV_Msk                  (1UL /*<< CONTROL_nPRIV_Pos*/)                 /*!< CONT
  437:../../../core/ST/CMSIS/Include/core_cm4.h **** 
-ARM GAS  /tmp/ccd5dZU1.s 			page 13
+ARM GAS  /tmp/ccnhgcTt.s 			page 13
 
 
  438:../../../core/ST/CMSIS/Include/core_cm4.h **** /*@} end of group CMSIS_CORE */
@@ -778,7 +778,7 @@ ARM GAS  /tmp/ccd5dZU1.s 			page 1
  492:../../../core/ST/CMSIS/Include/core_cm4.h ****   __IOM uint32_t CCR;                    /*!< Offset: 0x014 (R/W)  Configuration Control Register *
  493:../../../core/ST/CMSIS/Include/core_cm4.h ****   __IOM uint8_t  SHP[12U];               /*!< Offset: 0x018 (R/W)  System Handlers Priority Registe
  494:../../../core/ST/CMSIS/Include/core_cm4.h ****   __IOM uint32_t SHCSR;                  /*!< Offset: 0x024 (R/W)  System Handler Control and State
-ARM GAS  /tmp/ccd5dZU1.s 			page 14
+ARM GAS  /tmp/ccnhgcTt.s 			page 14
 
 
  495:../../../core/ST/CMSIS/Include/core_cm4.h ****   __IOM uint32_t CFSR;                   /*!< Offset: 0x028 (R/W)  Configurable Fault Status Regist
@@ -838,7 +838,7 @@ ARM GAS  /tmp/ccd5dZU1.s 			page 1
  549:../../../core/ST/CMSIS/Include/core_cm4.h **** #define SCB_ICSR_VECTPENDING_Msk           (0x1FFUL << SCB_ICSR_VECTPENDING_Pos)          /*!< SCB 
  550:../../../core/ST/CMSIS/Include/core_cm4.h **** 
  551:../../../core/ST/CMSIS/Include/core_cm4.h **** #define SCB_ICSR_RETTOBASE_Pos             11U                                            /*!< SCB 
-ARM GAS  /tmp/ccd5dZU1.s 			page 15
+ARM GAS  /tmp/ccnhgcTt.s 			page 15
 
 
  552:../../../core/ST/CMSIS/Include/core_cm4.h **** #define SCB_ICSR_RETTOBASE_Msk             (1UL << SCB_ICSR_RETTOBASE_Pos)                /*!< SCB 
@@ -898,7 +898,7 @@ ARM GAS  /tmp/ccd5dZU1.s 			page 1
  606:../../../core/ST/CMSIS/Include/core_cm4.h **** #define SCB_CCR_USERSETMPEND_Pos            1U                                            /*!< SCB 
  607:../../../core/ST/CMSIS/Include/core_cm4.h **** #define SCB_CCR_USERSETMPEND_Msk           (1UL << SCB_CCR_USERSETMPEND_Pos)              /*!< SCB 
  608:../../../core/ST/CMSIS/Include/core_cm4.h **** 
-ARM GAS  /tmp/ccd5dZU1.s 			page 16
+ARM GAS  /tmp/ccnhgcTt.s 			page 16
 
 
  609:../../../core/ST/CMSIS/Include/core_cm4.h **** #define SCB_CCR_NONBASETHRDENA_Pos          0U                                            /*!< SCB 
@@ -958,7 +958,7 @@ ARM GAS  /tmp/ccd5dZU1.s 			page 1
  663:../../../core/ST/CMSIS/Include/core_cm4.h **** #define SCB_CFSR_MEMFAULTSR_Msk            (0xFFUL /*<< SCB_CFSR_MEMFAULTSR_Pos*/)        /*!< SCB 
  664:../../../core/ST/CMSIS/Include/core_cm4.h **** 
  665:../../../core/ST/CMSIS/Include/core_cm4.h **** /* SCB Hard Fault Status Register Definitions */
-ARM GAS  /tmp/ccd5dZU1.s 			page 17
+ARM GAS  /tmp/ccnhgcTt.s 			page 17
 
 
  666:../../../core/ST/CMSIS/Include/core_cm4.h **** #define SCB_HFSR_DEBUGEVT_Pos              31U                                            /*!< SCB 
@@ -1018,7 +1018,7 @@ ARM GAS  /tmp/ccd5dZU1.s 			page 1
  720:../../../core/ST/CMSIS/Include/core_cm4.h **** #define SCnSCB_ACTLR_DISFPCA_Msk           (1UL << SCnSCB_ACTLR_DISFPCA_Pos)           /*!< ACTLR: 
  721:../../../core/ST/CMSIS/Include/core_cm4.h **** 
  722:../../../core/ST/CMSIS/Include/core_cm4.h **** #define SCnSCB_ACTLR_DISFOLD_Pos            2U                                         /*!< ACTLR: 
-ARM GAS  /tmp/ccd5dZU1.s 			page 18
+ARM GAS  /tmp/ccnhgcTt.s 			page 18
 
 
  723:../../../core/ST/CMSIS/Include/core_cm4.h **** #define SCnSCB_ACTLR_DISFOLD_Msk           (1UL << SCnSCB_ACTLR_DISFOLD_Pos)           /*!< ACTLR: 
@@ -1078,7 +1078,7 @@ ARM GAS  /tmp/ccd5dZU1.s 			page 1
  777:../../../core/ST/CMSIS/Include/core_cm4.h **** #define SysTick_CALIB_SKEW_Pos             30U                                            /*!< SysT
  778:../../../core/ST/CMSIS/Include/core_cm4.h **** #define SysTick_CALIB_SKEW_Msk             (1UL << SysTick_CALIB_SKEW_Pos)                /*!< SysT
  779:../../../core/ST/CMSIS/Include/core_cm4.h **** 
-ARM GAS  /tmp/ccd5dZU1.s 			page 19
+ARM GAS  /tmp/ccnhgcTt.s 			page 19
 
 
  780:../../../core/ST/CMSIS/Include/core_cm4.h **** #define SysTick_CALIB_TENMS_Pos             0U                                            /*!< SysT
@@ -1138,7 +1138,7 @@ ARM GAS  /tmp/ccd5dZU1.s 			page 1
  834:../../../core/ST/CMSIS/Include/core_cm4.h **** #define ITM_TPR_PRIVMASK_Msk               (0xFUL /*<< ITM_TPR_PRIVMASK_Pos*/)            /*!< ITM 
  835:../../../core/ST/CMSIS/Include/core_cm4.h **** 
  836:../../../core/ST/CMSIS/Include/core_cm4.h **** /* ITM Trace Control Register Definitions */
-ARM GAS  /tmp/ccd5dZU1.s 			page 20
+ARM GAS  /tmp/ccnhgcTt.s 			page 20
 
 
  837:../../../core/ST/CMSIS/Include/core_cm4.h **** #define ITM_TCR_BUSY_Pos                   23U                                            /*!< ITM 
@@ -1198,7 +1198,7 @@ ARM GAS  /tmp/ccd5dZU1.s 			page 1
  891:../../../core/ST/CMSIS/Include/core_cm4.h ****   \defgroup CMSIS_DWT     Data Watchpoint and Trace (DWT)
  892:../../../core/ST/CMSIS/Include/core_cm4.h ****   \brief    Type definitions for the Data Watchpoint and Trace (DWT)
  893:../../../core/ST/CMSIS/Include/core_cm4.h ****   @{
-ARM GAS  /tmp/ccd5dZU1.s 			page 21
+ARM GAS  /tmp/ccnhgcTt.s 			page 21
 
 
  894:../../../core/ST/CMSIS/Include/core_cm4.h ****  */
@@ -1258,7 +1258,7 @@ ARM GAS  /tmp/ccd5dZU1.s 			page 1
  948:../../../core/ST/CMSIS/Include/core_cm4.h **** #define DWT_CTRL_LSUEVTENA_Pos             20U                                         /*!< DWT CTR
  949:../../../core/ST/CMSIS/Include/core_cm4.h **** #define DWT_CTRL_LSUEVTENA_Msk             (0x1UL << DWT_CTRL_LSUEVTENA_Pos)           /*!< DWT CTR
  950:../../../core/ST/CMSIS/Include/core_cm4.h **** 
-ARM GAS  /tmp/ccd5dZU1.s 			page 22
+ARM GAS  /tmp/ccnhgcTt.s 			page 22
 
 
  951:../../../core/ST/CMSIS/Include/core_cm4.h **** #define DWT_CTRL_SLEEPEVTENA_Pos           19U                                         /*!< DWT CTR
@@ -1318,7 +1318,7 @@ ARM GAS  /tmp/ccd5dZU1.s 			page 1
 1005:../../../core/ST/CMSIS/Include/core_cm4.h **** /* DWT Comparator Function Register Definitions */
 1006:../../../core/ST/CMSIS/Include/core_cm4.h **** #define DWT_FUNCTION_MATCHED_Pos           24U                                         /*!< DWT FUN
 1007:../../../core/ST/CMSIS/Include/core_cm4.h **** #define DWT_FUNCTION_MATCHED_Msk           (0x1UL << DWT_FUNCTION_MATCHED_Pos)         /*!< DWT FUN
-ARM GAS  /tmp/ccd5dZU1.s 			page 23
+ARM GAS  /tmp/ccnhgcTt.s 			page 23
 
 
 1008:../../../core/ST/CMSIS/Include/core_cm4.h **** 
@@ -1378,7 +1378,7 @@ ARM GAS  /tmp/ccd5dZU1.s 			page 1
 1062:../../../core/ST/CMSIS/Include/core_cm4.h ****         uint32_t RESERVED4[1U];
 1063:../../../core/ST/CMSIS/Include/core_cm4.h ****   __IM  uint32_t ITATBCTR0;              /*!< Offset: 0xEF8 (R/ )  ITATBCTR0 */
 1064:../../../core/ST/CMSIS/Include/core_cm4.h ****   __IM  uint32_t FIFO1;                  /*!< Offset: 0xEFC (R/ )  Integration ITM Data */
-ARM GAS  /tmp/ccd5dZU1.s 			page 24
+ARM GAS  /tmp/ccnhgcTt.s 			page 24
 
 
 1065:../../../core/ST/CMSIS/Include/core_cm4.h ****   __IOM uint32_t ITCTRL;                 /*!< Offset: 0xF00 (R/W)  Integration Mode Control */
@@ -1438,7 +1438,7 @@ ARM GAS  /tmp/ccd5dZU1.s 			page 1
 1119:../../../core/ST/CMSIS/Include/core_cm4.h **** #define TPI_FIFO0_ETM2_Pos                 16U                                         /*!< TPI FIF
 1120:../../../core/ST/CMSIS/Include/core_cm4.h **** #define TPI_FIFO0_ETM2_Msk                 (0xFFUL << TPI_FIFO0_ETM2_Pos)              /*!< TPI FIF
 1121:../../../core/ST/CMSIS/Include/core_cm4.h **** 
-ARM GAS  /tmp/ccd5dZU1.s 			page 25
+ARM GAS  /tmp/ccnhgcTt.s 			page 25
 
 
 1122:../../../core/ST/CMSIS/Include/core_cm4.h **** #define TPI_FIFO0_ETM1_Pos                  8U                                         /*!< TPI FIF
@@ -1498,7 +1498,7 @@ ARM GAS  /tmp/ccd5dZU1.s 			page 1
 1176:../../../core/ST/CMSIS/Include/core_cm4.h **** #define TPI_DEVID_AsynClkIn_Msk            (0x1UL << TPI_DEVID_AsynClkIn_Pos)          /*!< TPI DEV
 1177:../../../core/ST/CMSIS/Include/core_cm4.h **** 
 1178:../../../core/ST/CMSIS/Include/core_cm4.h **** #define TPI_DEVID_NrTraceInput_Pos          0U                                         /*!< TPI DEV
-ARM GAS  /tmp/ccd5dZU1.s 			page 26
+ARM GAS  /tmp/ccnhgcTt.s 			page 26
 
 
 1179:../../../core/ST/CMSIS/Include/core_cm4.h **** #define TPI_DEVID_NrTraceInput_Msk         (0x1FUL /*<< TPI_DEVID_NrTraceInput_Pos*/)  /*!< TPI DEV
@@ -1558,7 +1558,7 @@ ARM GAS  /tmp/ccd5dZU1.s 			page 1
 1233:../../../core/ST/CMSIS/Include/core_cm4.h **** 
 1234:../../../core/ST/CMSIS/Include/core_cm4.h **** #define MPU_CTRL_ENABLE_Pos                 0U                                            /*!< MPU 
 1235:../../../core/ST/CMSIS/Include/core_cm4.h **** #define MPU_CTRL_ENABLE_Msk                (1UL /*<< MPU_CTRL_ENABLE_Pos*/)               /*!< MPU 
-ARM GAS  /tmp/ccd5dZU1.s 			page 27
+ARM GAS  /tmp/ccnhgcTt.s 			page 27
 
 
 1236:../../../core/ST/CMSIS/Include/core_cm4.h **** 
@@ -1618,7 +1618,7 @@ ARM GAS  /tmp/ccd5dZU1.s 			page 1
 1290:../../../core/ST/CMSIS/Include/core_cm4.h ****   \brief    Type definitions for the Floating Point Unit (FPU)
 1291:../../../core/ST/CMSIS/Include/core_cm4.h ****   @{
 1292:../../../core/ST/CMSIS/Include/core_cm4.h ****  */
-ARM GAS  /tmp/ccd5dZU1.s 			page 28
+ARM GAS  /tmp/ccnhgcTt.s 			page 28
 
 
 1293:../../../core/ST/CMSIS/Include/core_cm4.h **** 
@@ -1678,7 +1678,7 @@ ARM GAS  /tmp/ccd5dZU1.s 			page 1
 1347:../../../core/ST/CMSIS/Include/core_cm4.h **** #define FPU_FPDSCR_FZ_Msk                  (1UL << FPU_FPDSCR_FZ_Pos)                     /*!< FPDS
 1348:../../../core/ST/CMSIS/Include/core_cm4.h **** 
 1349:../../../core/ST/CMSIS/Include/core_cm4.h **** #define FPU_FPDSCR_RMode_Pos               22U                                            /*!< FPDS
-ARM GAS  /tmp/ccd5dZU1.s 			page 29
+ARM GAS  /tmp/ccnhgcTt.s 			page 29
 
 
 1350:../../../core/ST/CMSIS/Include/core_cm4.h **** #define FPU_FPDSCR_RMode_Msk               (3UL << FPU_FPDSCR_RMode_Pos)                  /*!< FPDS
@@ -1738,7 +1738,7 @@ ARM GAS  /tmp/ccd5dZU1.s 			page 1
 1404:../../../core/ST/CMSIS/Include/core_cm4.h **** typedef struct
 1405:../../../core/ST/CMSIS/Include/core_cm4.h **** {
 1406:../../../core/ST/CMSIS/Include/core_cm4.h ****   __IOM uint32_t DHCSR;                  /*!< Offset: 0x000 (R/W)  Debug Halting Control and Status
-ARM GAS  /tmp/ccd5dZU1.s 			page 30
+ARM GAS  /tmp/ccnhgcTt.s 			page 30
 
 
 1407:../../../core/ST/CMSIS/Include/core_cm4.h ****   __OM  uint32_t DCRSR;                  /*!< Offset: 0x004 ( /W)  Debug Core Register Selector Reg
@@ -1798,7 +1798,7 @@ ARM GAS  /tmp/ccd5dZU1.s 			page 1
 1461:../../../core/ST/CMSIS/Include/core_cm4.h **** #define CoreDebug_DEMCR_MON_REQ_Msk        (1UL << CoreDebug_DEMCR_MON_REQ_Pos)           /*!< Core
 1462:../../../core/ST/CMSIS/Include/core_cm4.h **** 
 1463:../../../core/ST/CMSIS/Include/core_cm4.h **** #define CoreDebug_DEMCR_MON_STEP_Pos       18U                                            /*!< Core
-ARM GAS  /tmp/ccd5dZU1.s 			page 31
+ARM GAS  /tmp/ccnhgcTt.s 			page 31
 
 
 1464:../../../core/ST/CMSIS/Include/core_cm4.h **** #define CoreDebug_DEMCR_MON_STEP_Msk       (1UL << CoreDebug_DEMCR_MON_STEP_Pos)          /*!< Core
@@ -1858,7 +1858,7 @@ ARM GAS  /tmp/ccd5dZU1.s 			page 1
 1518:../../../core/ST/CMSIS/Include/core_cm4.h ****   \return           Masked and shifted bit field value.
 1519:../../../core/ST/CMSIS/Include/core_cm4.h **** */
 1520:../../../core/ST/CMSIS/Include/core_cm4.h **** #define _FLD2VAL(field, value)    ((value & field ## _Msk) >> field ## _Pos)
-ARM GAS  /tmp/ccd5dZU1.s 			page 32
+ARM GAS  /tmp/ccnhgcTt.s 			page 32
 
 
 1521:../../../core/ST/CMSIS/Include/core_cm4.h **** 
@@ -1918,7 +1918,7 @@ ARM GAS  /tmp/ccd5dZU1.s 			page 1
 1575:../../../core/ST/CMSIS/Include/core_cm4.h **** */
 1576:../../../core/ST/CMSIS/Include/core_cm4.h **** 
 1577:../../../core/ST/CMSIS/Include/core_cm4.h **** 
-ARM GAS  /tmp/ccd5dZU1.s 			page 33
+ARM GAS  /tmp/ccnhgcTt.s 			page 33
 
 
 1578:../../../core/ST/CMSIS/Include/core_cm4.h **** 
@@ -1978,7 +1978,7 @@ ARM GAS  /tmp/ccd5dZU1.s 			page 1
   81              	.LVL6:
 1603:../../../core/ST/CMSIS/Include/core_cm4.h ****   reg_value  =  (reg_value                                   |
   82              		.loc 2 1603 14 view .LVU16
-ARM GAS  /tmp/ccd5dZU1.s 			page 34
+ARM GAS  /tmp/ccnhgcTt.s 			page 34
 
 
   83 001e 43F0BF63 		orr	r3, r3, #100139008
@@ -2038,7 +2038,7 @@ ARM GAS  /tmp/ccd5dZU1.s 			page 1
  199:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_cortex.c ****   *         A lower priority value indicates a higher priority.
  200:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_cortex.c ****   * @retval None
  201:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_cortex.c ****   */
-ARM GAS  /tmp/ccd5dZU1.s 			page 35
+ARM GAS  /tmp/ccnhgcTt.s 			page 35
 
 
  202:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_cortex.c **** void HAL_NVIC_SetPriority(IRQn_Type IRQn, uint32_t PreemptPriority, uint32_t SubPriority)
@@ -2098,7 +2098,7 @@ ARM GAS  /tmp/ccd5dZU1.s 			page 1
  158 0012 DB68     		ldr	r3, [r3, #12]
  159              		.loc 2 1617 11 view .LVU32
  160 0014 C3F30223 		ubfx	r3, r3, #8, #3
-ARM GAS  /tmp/ccd5dZU1.s 			page 36
+ARM GAS  /tmp/ccnhgcTt.s 			page 36
 
 
  161              	.LVL15:
@@ -2158,7 +2158,7 @@ ARM GAS  /tmp/ccd5dZU1.s 			page 1
 1663:../../../core/ST/CMSIS/Include/core_cm4.h ****   NVIC->ISPR[(((uint32_t)(int32_t)IRQn) >> 5UL)] = (uint32_t)(1UL << (((uint32_t)(int32_t)IRQn) & 0
 1664:../../../core/ST/CMSIS/Include/core_cm4.h **** }
 1665:../../../core/ST/CMSIS/Include/core_cm4.h **** 
-ARM GAS  /tmp/ccd5dZU1.s 			page 37
+ARM GAS  /tmp/ccnhgcTt.s 			page 37
 
 
 1666:../../../core/ST/CMSIS/Include/core_cm4.h **** 
@@ -2218,7 +2218,7 @@ ARM GAS  /tmp/ccd5dZU1.s 			page 1
 1720:../../../core/ST/CMSIS/Include/core_cm4.h **** __STATIC_INLINE uint32_t NVIC_GetPriority(IRQn_Type IRQn)
 1721:../../../core/ST/CMSIS/Include/core_cm4.h **** {
 1722:../../../core/ST/CMSIS/Include/core_cm4.h **** 
-ARM GAS  /tmp/ccd5dZU1.s 			page 38
+ARM GAS  /tmp/ccnhgcTt.s 			page 38
 
 
 1723:../../../core/ST/CMSIS/Include/core_cm4.h ****   if ((int32_t)(IRQn) < 0)
@@ -2278,7 +2278,7 @@ ARM GAS  /tmp/ccd5dZU1.s 			page 1
  190              		.loc 2 1754 3 is_stmt 1 view .LVU45
 1755:../../../core/ST/CMSIS/Include/core_cm4.h ****            ((PreemptPriority & (uint32_t)((1UL << (PreemptPriorityBits)) - 1UL)) << SubPriorityBits
  191              		.loc 2 1755 30 is_stmt 0 view .LVU46
-ARM GAS  /tmp/ccd5dZU1.s 			page 39
+ARM GAS  /tmp/ccnhgcTt.s 			page 39
 
 
  192 002a 4FF0FF32 		mov	r2, #-1
@@ -2338,7 +2338,7 @@ ARM GAS  /tmp/ccd5dZU1.s 			page 1
 1706:../../../core/ST/CMSIS/Include/core_cm4.h ****   }
  235              		.loc 2 1706 55 view .LVU62
  236              	.LBE54:
-ARM GAS  /tmp/ccd5dZU1.s 			page 40
+ARM GAS  /tmp/ccnhgcTt.s 			page 40
 
 
  237              	.LBE53:
@@ -2398,7 +2398,7 @@ ARM GAS  /tmp/ccd5dZU1.s 			page 1
 1702:../../../core/ST/CMSIS/Include/core_cm4.h ****   }
  280              		.loc 2 1702 57 view .LVU74
  281 0074 2401     		lsls	r4, r4, #4
-ARM GAS  /tmp/ccd5dZU1.s 			page 41
+ARM GAS  /tmp/ccnhgcTt.s 			page 41
 
 
  282              	.LVL35:
@@ -2458,7 +2458,7 @@ ARM GAS  /tmp/ccd5dZU1.s 			page 1
  322 0002 041E     		subs	r4, r0, #0
  323 0004 08DB     		blt	.L23
  324              	.LVL37:
-ARM GAS  /tmp/ccd5dZU1.s 			page 42
+ARM GAS  /tmp/ccnhgcTt.s 			page 42
 
 
  325              	.L21:
@@ -2518,7 +2518,7 @@ ARM GAS  /tmp/ccd5dZU1.s 			page 1
  367              		.align	1
  368              		.global	HAL_NVIC_DisableIRQ
  369              		.syntax unified
-ARM GAS  /tmp/ccd5dZU1.s 			page 43
+ARM GAS  /tmp/ccnhgcTt.s 			page 43
 
 
  370              		.thumb
@@ -2578,7 +2578,7 @@ ARM GAS  /tmp/ccd5dZU1.s 			page 1
  405 000e 9340     		lsls	r3, r3, r2
 1639:../../../core/ST/CMSIS/Include/core_cm4.h **** }
  406              		.loc 2 1639 50 view .LVU100
-ARM GAS  /tmp/ccd5dZU1.s 			page 44
+ARM GAS  /tmp/ccnhgcTt.s 			page 44
 
 
  407 0010 2034     		adds	r4, r4, #32
@@ -2638,7 +2638,7 @@ ARM GAS  /tmp/ccd5dZU1.s 			page 1
  450              	.LBB70:
  451              	.LBI70:
 1757:../../../core/ST/CMSIS/Include/core_cm4.h ****          );
-ARM GAS  /tmp/ccd5dZU1.s 			page 45
+ARM GAS  /tmp/ccnhgcTt.s 			page 45
 
 
 1758:../../../core/ST/CMSIS/Include/core_cm4.h **** }
@@ -2698,7 +2698,7 @@ ARM GAS  /tmp/ccd5dZU1.s 			page 1
   14:../../../core/ST/CMSIS/Include/cmsis_gcc.h ****    - Redistributions in binary form must reproduce the above copyright
   15:../../../core/ST/CMSIS/Include/cmsis_gcc.h ****      notice, this list of conditions and the following disclaimer in the
   16:../../../core/ST/CMSIS/Include/cmsis_gcc.h ****      documentation and/or other materials provided with the distribution.
-ARM GAS  /tmp/ccd5dZU1.s 			page 46
+ARM GAS  /tmp/ccnhgcTt.s 			page 46
 
 
   17:../../../core/ST/CMSIS/Include/cmsis_gcc.h ****    - Neither the name of ARM nor the names of its contributors may be used
@@ -2758,7 +2758,7 @@ ARM GAS  /tmp/ccd5dZU1.s 			page 1
   71:../../../core/ST/CMSIS/Include/cmsis_gcc.h ****   __ASM volatile ("cpsid i" : : : "memory");
   72:../../../core/ST/CMSIS/Include/cmsis_gcc.h **** }
   73:../../../core/ST/CMSIS/Include/cmsis_gcc.h **** 
-ARM GAS  /tmp/ccd5dZU1.s 			page 47
+ARM GAS  /tmp/ccnhgcTt.s 			page 47
 
 
   74:../../../core/ST/CMSIS/Include/cmsis_gcc.h **** 
@@ -2818,7 +2818,7 @@ ARM GAS  /tmp/ccd5dZU1.s 			page 1
  128:../../../core/ST/CMSIS/Include/cmsis_gcc.h **** /**
  129:../../../core/ST/CMSIS/Include/cmsis_gcc.h ****   \brief   Get xPSR Register
  130:../../../core/ST/CMSIS/Include/cmsis_gcc.h ****   \details Returns the content of the xPSR Register.
-ARM GAS  /tmp/ccd5dZU1.s 			page 48
+ARM GAS  /tmp/ccnhgcTt.s 			page 48
 
 
  131:../../../core/ST/CMSIS/Include/cmsis_gcc.h **** 
@@ -2878,7 +2878,7 @@ ARM GAS  /tmp/ccd5dZU1.s 			page 1
  185:../../../core/ST/CMSIS/Include/cmsis_gcc.h **** 
  186:../../../core/ST/CMSIS/Include/cmsis_gcc.h ****     \param [in]    topOfMainStack  Main Stack Pointer value to set
  187:../../../core/ST/CMSIS/Include/cmsis_gcc.h ****  */
-ARM GAS  /tmp/ccd5dZU1.s 			page 49
+ARM GAS  /tmp/ccnhgcTt.s 			page 49
 
 
  188:../../../core/ST/CMSIS/Include/cmsis_gcc.h **** __attribute__( ( always_inline ) ) __STATIC_INLINE void __set_MSP(uint32_t topOfMainStack)
@@ -2938,7 +2938,7 @@ ARM GAS  /tmp/ccd5dZU1.s 			page 1
  242:../../../core/ST/CMSIS/Include/cmsis_gcc.h **** 
  243:../../../core/ST/CMSIS/Include/cmsis_gcc.h **** /**
  244:../../../core/ST/CMSIS/Include/cmsis_gcc.h ****   \brief   Get Base Priority
-ARM GAS  /tmp/ccd5dZU1.s 			page 50
+ARM GAS  /tmp/ccnhgcTt.s 			page 50
 
 
  245:../../../core/ST/CMSIS/Include/cmsis_gcc.h ****   \details Returns the current value of the Base Priority register.
@@ -2998,7 +2998,7 @@ ARM GAS  /tmp/ccd5dZU1.s 			page 1
  299:../../../core/ST/CMSIS/Include/cmsis_gcc.h **** __attribute__( ( always_inline ) ) __STATIC_INLINE void __set_FAULTMASK(uint32_t faultMask)
  300:../../../core/ST/CMSIS/Include/cmsis_gcc.h **** {
  301:../../../core/ST/CMSIS/Include/cmsis_gcc.h ****   __ASM volatile ("MSR faultmask, %0" : : "r" (faultMask) : "memory");
-ARM GAS  /tmp/ccd5dZU1.s 			page 51
+ARM GAS  /tmp/ccnhgcTt.s 			page 51
 
 
  302:../../../core/ST/CMSIS/Include/cmsis_gcc.h **** }
@@ -3058,7 +3058,7 @@ ARM GAS  /tmp/ccd5dZU1.s 			page 1
  356:../../../core/ST/CMSIS/Include/cmsis_gcc.h **** */
  357:../../../core/ST/CMSIS/Include/cmsis_gcc.h **** 
  358:../../../core/ST/CMSIS/Include/cmsis_gcc.h **** /* Define macros for porting to both thumb1 and thumb2.
-ARM GAS  /tmp/ccd5dZU1.s 			page 52
+ARM GAS  /tmp/ccnhgcTt.s 			page 52
 
 
  359:../../../core/ST/CMSIS/Include/cmsis_gcc.h ****  * For thumb1, use low register (r0-r7), specified by constraint "l"
@@ -3118,7 +3118,7 @@ ARM GAS  /tmp/ccd5dZU1.s 			page 1
  413:../../../core/ST/CMSIS/Include/cmsis_gcc.h ****            so that all instructions following the ISB are fetched from cache or memory,
  414:../../../core/ST/CMSIS/Include/cmsis_gcc.h ****            after the instruction has been completed.
  415:../../../core/ST/CMSIS/Include/cmsis_gcc.h ****  */
-ARM GAS  /tmp/ccd5dZU1.s 			page 53
+ARM GAS  /tmp/ccnhgcTt.s 			page 53
 
 
  416:../../../core/ST/CMSIS/Include/cmsis_gcc.h **** __attribute__((always_inline)) __STATIC_INLINE void __ISB(void)
@@ -3178,7 +3178,7 @@ ARM GAS  /tmp/ccd5dZU1.s 			page 1
  490              		.thumb
  491              		.syntax unified
  492              	.L33:
-ARM GAS  /tmp/ccd5dZU1.s 			page 54
+ARM GAS  /tmp/ccnhgcTt.s 			page 54
 
 
  493              	.LBE75:
@@ -3238,7 +3238,7 @@ ARM GAS  /tmp/ccd5dZU1.s 			page 1
  532              		.loc 1 267 1 view -0
  533              		.cfi_startproc
  534              		@ args = 0, pretend = 0, frame = 0
-ARM GAS  /tmp/ccd5dZU1.s 			page 55
+ARM GAS  /tmp/ccnhgcTt.s 			page 55
 
 
  535              		@ frame_needed = 0, uses_anonymous_args = 0
@@ -3298,7 +3298,7 @@ ARM GAS  /tmp/ccd5dZU1.s 			page 1
  552 000a 5860     		str	r0, [r3, #4]
 1838:../../../core/ST/CMSIS/Include/core_cm4.h ****   NVIC_SetPriority (SysTick_IRQn, (1UL << __NVIC_PRIO_BITS) - 1UL); /* set Priority for Systick Int
  553              		.loc 2 1838 3 is_stmt 1 view .LVU131
-ARM GAS  /tmp/ccd5dZU1.s 			page 56
+ARM GAS  /tmp/ccnhgcTt.s 			page 56
 
 
  554              	.LVL50:
@@ -3358,7 +3358,7 @@ ARM GAS  /tmp/ccd5dZU1.s 			page 1
  595 0028 00ED00E0 		.word	-536810240
  596              		.cfi_endproc
  597              	.LFE128:
-ARM GAS  /tmp/ccd5dZU1.s 			page 57
+ARM GAS  /tmp/ccnhgcTt.s 			page 57
 
 
  599              		.section	.text.HAL_NVIC_GetPriorityGrouping,"ax",%progbits
@@ -3418,7 +3418,7 @@ ARM GAS  /tmp/ccd5dZU1.s 			page 1
  623              	.LBE83:
  624              	.LBE82:
  298:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_cortex.c **** }
-ARM GAS  /tmp/ccd5dZU1.s 			page 58
+ARM GAS  /tmp/ccnhgcTt.s 			page 58
 
 
  625              		.loc 1 298 1 view .LVU152
@@ -3478,7 +3478,7 @@ ARM GAS  /tmp/ccd5dZU1.s 			page 1
  657              		.cfi_offset 6, -12
  658              		.cfi_offset 7, -8
  659              		.cfi_offset 14, -4
-ARM GAS  /tmp/ccd5dZU1.s 			page 59
+ARM GAS  /tmp/ccnhgcTt.s 			page 59
 
 
  660 0002 0546     		mov	r5, r0
@@ -3538,7 +3538,7 @@ ARM GAS  /tmp/ccd5dZU1.s 			page 1
 1774:../../../core/ST/CMSIS/Include/core_cm4.h ****   uint32_t PreemptPriorityBits;
  700              		.loc 2 1774 12 is_stmt 0 view .LVU168
  701 0022 04F00701 		and	r1, r4, #7
-ARM GAS  /tmp/ccd5dZU1.s 			page 60
+ARM GAS  /tmp/ccnhgcTt.s 			page 60
 
 
  702              	.LVL59:
@@ -3598,7 +3598,7 @@ ARM GAS  /tmp/ccd5dZU1.s 			page 1
 1782:../../../core/ST/CMSIS/Include/core_cm4.h **** }
  740              		.loc 2 1782 53 view .LVU185
  741 004e 23EA0103 		bic	r3, r3, r1
-ARM GAS  /tmp/ccd5dZU1.s 			page 61
+ARM GAS  /tmp/ccnhgcTt.s 			page 61
 
 
  742              	.LVL66:
@@ -3658,7 +3658,7 @@ ARM GAS  /tmp/ccd5dZU1.s 			page 1
  784              	.LBB89:
 1779:../../../core/ST/CMSIS/Include/core_cm4.h **** 
  785              		.loc 2 1779 109 view .LVU198
-ARM GAS  /tmp/ccd5dZU1.s 			page 62
+ARM GAS  /tmp/ccnhgcTt.s 			page 62
 
 
  786 006e 0021     		movs	r1, #0
@@ -3718,7 +3718,7 @@ ARM GAS  /tmp/ccd5dZU1.s 			page 1
  826              		.loc 1 342 3 view .LVU203
  827              	.LBB92:
  828              	.LBI92:
-ARM GAS  /tmp/ccd5dZU1.s 			page 63
+ARM GAS  /tmp/ccnhgcTt.s 			page 63
 
 
 1661:../../../core/ST/CMSIS/Include/core_cm4.h **** {
@@ -3778,7 +3778,7 @@ ARM GAS  /tmp/ccd5dZU1.s 			page 1
  875              	HAL_NVIC_GetPendingIRQ:
  876              	.LVL82:
  877              	.LFB132:
-ARM GAS  /tmp/ccd5dZU1.s 			page 64
+ARM GAS  /tmp/ccnhgcTt.s 			page 64
 
 
  344:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_cortex.c **** 
@@ -3838,7 +3838,7 @@ ARM GAS  /tmp/ccd5dZU1.s 			page 1
  909 0014 E040     		lsrs	r0, r0, r4
 1652:../../../core/ST/CMSIS/Include/core_cm4.h **** }
  910              		.loc 2 1652 119 view .LVU224
-ARM GAS  /tmp/ccd5dZU1.s 			page 65
+ARM GAS  /tmp/ccnhgcTt.s 			page 65
 
 
  911              	.LBE95:
@@ -3898,7 +3898,7 @@ ARM GAS  /tmp/ccd5dZU1.s 			page 1
  954              		.cfi_offset 14, -4
  372:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_cortex.c ****   /* Check the parameters */
  373:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_cortex.c ****   assert_param(IS_NVIC_DEVICE_IRQ(IRQn));
-ARM GAS  /tmp/ccd5dZU1.s 			page 66
+ARM GAS  /tmp/ccnhgcTt.s 			page 66
 
 
  955              		.loc 1 373 3 is_stmt 1 view .LVU230
@@ -3958,7 +3958,7 @@ ARM GAS  /tmp/ccd5dZU1.s 			page 1
  996 0028 00E100E0 		.word	-536813312
  997 002c 00000000 		.word	.LC0
  998              		.cfi_endproc
-ARM GAS  /tmp/ccd5dZU1.s 			page 67
+ARM GAS  /tmp/ccnhgcTt.s 			page 67
 
 
  999              	.LFE133:
@@ -4018,7 +4018,7 @@ ARM GAS  /tmp/ccd5dZU1.s 			page 1
  1035              		.loc 2 1687 119 view .LVU250
  1036              	.LBE99:
  1037              	.LBE98:
-ARM GAS  /tmp/ccd5dZU1.s 			page 68
+ARM GAS  /tmp/ccnhgcTt.s 			page 68
 
 
  391:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_cortex.c **** }
@@ -4078,7 +4078,7 @@ ARM GAS  /tmp/ccd5dZU1.s 			page 1
  1079 000a 042C     		cmp	r4, #4
  1080 000c 0BD0     		beq	.L82
  406:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_cortex.c ****   {
-ARM GAS  /tmp/ccd5dZU1.s 			page 69
+ARM GAS  /tmp/ccnhgcTt.s 			page 69
 
 
  407:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_cortex.c ****     SysTick->CTRL |= SYSTICK_CLKSOURCE_HCLK;
@@ -4138,7 +4138,7 @@ ARM GAS  /tmp/ccd5dZU1.s 			page 1
  414:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_cortex.c **** 
  415:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_cortex.c **** /**
  416:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_cortex.c ****   * @brief  Handle SYSTICK interrupt request.
-ARM GAS  /tmp/ccd5dZU1.s 			page 70
+ARM GAS  /tmp/ccnhgcTt.s 			page 70
 
 
  417:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_cortex.c ****   * @retval None
@@ -4198,7 +4198,7 @@ ARM GAS  /tmp/ccd5dZU1.s 			page 1
  1163              		.section	.text.HAL_MPU_Disable,"ax",%progbits
  1164              		.align	1
  1165              		.global	HAL_MPU_Disable
-ARM GAS  /tmp/ccd5dZU1.s 			page 71
+ARM GAS  /tmp/ccnhgcTt.s 			page 71
 
 
  1166              		.syntax unified
@@ -4258,7 +4258,7 @@ ARM GAS  /tmp/ccd5dZU1.s 			page 1
  1197 000c 5362     		str	r3, [r2, #36]
  447:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_cortex.c ****   
  448:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_cortex.c ****   /* Disable the MPU and clear the control register*/
-ARM GAS  /tmp/ccd5dZU1.s 			page 72
+ARM GAS  /tmp/ccnhgcTt.s 			page 72
 
 
  449:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_cortex.c ****   MPU->CTRL = 0U;
@@ -4318,7 +4318,7 @@ ARM GAS  /tmp/ccd5dZU1.s 			page 1
  467:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_cortex.c ****   
  468:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_cortex.c ****   /* Enable fault exceptions */
  469:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_cortex.c ****   SCB->SHCSR |= SCB_SHCSR_MEMFAULTENA_Msk;
-ARM GAS  /tmp/ccd5dZU1.s 			page 73
+ARM GAS  /tmp/ccnhgcTt.s 			page 73
 
 
  1236              		.loc 1 469 3 is_stmt 1 view .LVU283
@@ -4378,7 +4378,7 @@ ARM GAS  /tmp/ccd5dZU1.s 			page 1
  1282              		.global	HAL_MPU_ConfigRegion
  1283              		.syntax unified
  1284              		.thumb
-ARM GAS  /tmp/ccd5dZU1.s 			page 74
+ARM GAS  /tmp/ccnhgcTt.s 			page 74
 
 
  1285              		.thumb_func
@@ -4438,7 +4438,7 @@ ARM GAS  /tmp/ccd5dZU1.s 			page 1
  1323 0018 002B     		cmp	r3, #0
  1324 001a 77D0     		beq	.L97
  492:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_cortex.c ****   {
-ARM GAS  /tmp/ccd5dZU1.s 			page 75
+ARM GAS  /tmp/ccnhgcTt.s 			page 75
 
 
  493:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_cortex.c ****     /* Check the parameters */
@@ -4498,7 +4498,7 @@ ARM GAS  /tmp/ccd5dZU1.s 			page 1
  1370 0054 1B2B     		cmp	r3, #27
  1371 0056 53D8     		bhi	.L117
  1372              	.L105:
-ARM GAS  /tmp/ccd5dZU1.s 			page 76
+ARM GAS  /tmp/ccnhgcTt.s 			page 76
 
 
  502:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_cortex.c **** 
@@ -4558,7 +4558,7 @@ ARM GAS  /tmp/ccd5dZU1.s 			page 1
  1410              		.loc 1 510 79 view .LVU331
  1411 0088 43EA4103 		orr	r3, r3, r1, lsl #1
  512:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_cortex.c ****                 ((uint32_t)MPU_Init->Enable             << MPU_RASR_ENABLE_Pos);
-ARM GAS  /tmp/ccd5dZU1.s 			page 77
+ARM GAS  /tmp/ccnhgcTt.s 			page 77
 
 
  1412              		.loc 1 512 36 view .LVU332
@@ -4618,7 +4618,7 @@ ARM GAS  /tmp/ccd5dZU1.s 			page 1
  1452              	.L112:
  496:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_cortex.c ****     assert_param(IS_MPU_ACCESS_SHAREABLE(MPU_Init->IsShareable));
  1453              		.loc 1 496 5 discriminator 1 view .LVU341
-ARM GAS  /tmp/ccd5dZU1.s 			page 78
+ARM GAS  /tmp/ccnhgcTt.s 			page 78
 
 
  1454 00c4 4FF4F871 		mov	r1, #496
@@ -4678,7 +4678,7 @@ ARM GAS  /tmp/ccd5dZU1.s 			page 1
  1500              		.loc 1 517 5 is_stmt 1 view .LVU349
  517:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_cortex.c ****   }
  1501              		.loc 1 517 15 is_stmt 0 view .LVU350
-ARM GAS  /tmp/ccd5dZU1.s 			page 79
+ARM GAS  /tmp/ccnhgcTt.s 			page 79
 
 
  1502 0112 1A61     		str	r2, [r3, #16]
@@ -4694,74 +4694,74 @@ ARM GAS  /tmp/ccd5dZU1.s 			page 1
  1513              		.text
  1514              	.Letext0:
  1515              		.file 4 "../../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/stm32l496xx.h"
- 1516              		.file 5 "/usr/arm-none-eabi/include/machine/_default_types.h"
- 1517              		.file 6 "/usr/arm-none-eabi/include/sys/_stdint.h"
+ 1516              		.file 5 "/home/matsdm/gcc-arm-none-eabi-9-2019-q4-major-x86_64-linux/gcc-arm-none-eabi-9-2019-q4-m
+ 1517              		.file 6 "/home/matsdm/gcc-arm-none-eabi-9-2019-q4-major-x86_64-linux/gcc-arm-none-eabi-9-2019-q4-m
  1518              		.file 7 "../../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/system_stm32l4xx.h"
  1519              		.file 8 "../../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/stm32l4xx.h"
  1520              		.file 9 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_cortex.h"
  1521              		.file 10 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h"
  1522              		.file 11 "../../../core/platform/octa/inc/stm32l4xx_hal_conf.h"
-ARM GAS  /tmp/ccd5dZU1.s 			page 80
+ARM GAS  /tmp/ccnhgcTt.s 			page 80
 
 
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 stm32l4xx_hal_cortex.c
-     /tmp/ccd5dZU1.s:18     .rodata.HAL_NVIC_SetPriorityGrouping.str1.4:0000000000000000 $d
-     /tmp/ccd5dZU1.s:23     .text.HAL_NVIC_SetPriorityGrouping:0000000000000000 $t
-     /tmp/ccd5dZU1.s:31     .text.HAL_NVIC_SetPriorityGrouping:0000000000000000 HAL_NVIC_SetPriorityGrouping
-     /tmp/ccd5dZU1.s:108    .text.HAL_NVIC_SetPriorityGrouping:0000000000000034 $d
-     /tmp/ccd5dZU1.s:114    .text.HAL_NVIC_SetPriority:0000000000000000 $t
-     /tmp/ccd5dZU1.s:121    .text.HAL_NVIC_SetPriority:0000000000000000 HAL_NVIC_SetPriority
-     /tmp/ccd5dZU1.s:292    .text.HAL_NVIC_SetPriority:0000000000000080 $d
-     /tmp/ccd5dZU1.s:301    .text.HAL_NVIC_EnableIRQ:0000000000000000 $t
-     /tmp/ccd5dZU1.s:308    .text.HAL_NVIC_EnableIRQ:0000000000000000 HAL_NVIC_EnableIRQ
-     /tmp/ccd5dZU1.s:361    .text.HAL_NVIC_EnableIRQ:0000000000000024 $d
-     /tmp/ccd5dZU1.s:367    .text.HAL_NVIC_DisableIRQ:0000000000000000 $t
-     /tmp/ccd5dZU1.s:374    .text.HAL_NVIC_DisableIRQ:0000000000000000 HAL_NVIC_DisableIRQ
-     /tmp/ccd5dZU1.s:428    .text.HAL_NVIC_DisableIRQ:0000000000000024 $d
-     /tmp/ccd5dZU1.s:434    .text.HAL_NVIC_SystemReset:0000000000000000 $t
-     /tmp/ccd5dZU1.s:441    .text.HAL_NVIC_SystemReset:0000000000000000 HAL_NVIC_SystemReset
-     /tmp/ccd5dZU1.s:512    .text.HAL_NVIC_SystemReset:000000000000001c $d
-     /tmp/ccd5dZU1.s:522    .text.HAL_SYSTICK_Config:0000000000000000 $t
-     /tmp/ccd5dZU1.s:529    .text.HAL_SYSTICK_Config:0000000000000000 HAL_SYSTICK_Config
-     /tmp/ccd5dZU1.s:594    .text.HAL_SYSTICK_Config:0000000000000024 $d
-     /tmp/ccd5dZU1.s:600    .text.HAL_NVIC_GetPriorityGrouping:0000000000000000 $t
-     /tmp/ccd5dZU1.s:607    .text.HAL_NVIC_GetPriorityGrouping:0000000000000000 HAL_NVIC_GetPriorityGrouping
-     /tmp/ccd5dZU1.s:631    .text.HAL_NVIC_GetPriorityGrouping:000000000000000c $d
-     /tmp/ccd5dZU1.s:636    .text.HAL_NVIC_GetPriority:0000000000000000 $t
-     /tmp/ccd5dZU1.s:643    .text.HAL_NVIC_GetPriority:0000000000000000 HAL_NVIC_GetPriority
-     /tmp/ccd5dZU1.s:793    .text.HAL_NVIC_GetPriority:0000000000000074 $d
-     /tmp/ccd5dZU1.s:801    .text.HAL_NVIC_SetPendingIRQ:0000000000000000 $t
-     /tmp/ccd5dZU1.s:808    .text.HAL_NVIC_SetPendingIRQ:0000000000000000 HAL_NVIC_SetPendingIRQ
-     /tmp/ccd5dZU1.s:862    .text.HAL_NVIC_SetPendingIRQ:0000000000000028 $d
-     /tmp/ccd5dZU1.s:868    .text.HAL_NVIC_GetPendingIRQ:0000000000000000 $t
-     /tmp/ccd5dZU1.s:875    .text.HAL_NVIC_GetPendingIRQ:0000000000000000 HAL_NVIC_GetPendingIRQ
-     /tmp/ccd5dZU1.s:929    .text.HAL_NVIC_GetPendingIRQ:0000000000000028 $d
-     /tmp/ccd5dZU1.s:935    .text.HAL_NVIC_ClearPendingIRQ:0000000000000000 $t
-     /tmp/ccd5dZU1.s:942    .text.HAL_NVIC_ClearPendingIRQ:0000000000000000 HAL_NVIC_ClearPendingIRQ
-     /tmp/ccd5dZU1.s:996    .text.HAL_NVIC_ClearPendingIRQ:0000000000000028 $d
-     /tmp/ccd5dZU1.s:1002   .text.HAL_NVIC_GetActive:0000000000000000 $t
-     /tmp/ccd5dZU1.s:1009   .text.HAL_NVIC_GetActive:0000000000000000 HAL_NVIC_GetActive
-     /tmp/ccd5dZU1.s:1044   .text.HAL_NVIC_GetActive:0000000000000018 $d
-     /tmp/ccd5dZU1.s:1049   .text.HAL_SYSTICK_CLKSourceConfig:0000000000000000 $t
-     /tmp/ccd5dZU1.s:1056   .text.HAL_SYSTICK_CLKSourceConfig:0000000000000000 HAL_SYSTICK_CLKSourceConfig
-     /tmp/ccd5dZU1.s:1111   .text.HAL_SYSTICK_CLKSourceConfig:0000000000000034 $d
-     /tmp/ccd5dZU1.s:1117   .text.HAL_SYSTICK_Callback:0000000000000000 $t
-     /tmp/ccd5dZU1.s:1124   .text.HAL_SYSTICK_Callback:0000000000000000 HAL_SYSTICK_Callback
-     /tmp/ccd5dZU1.s:1137   .text.HAL_SYSTICK_IRQHandler:0000000000000000 $t
-     /tmp/ccd5dZU1.s:1144   .text.HAL_SYSTICK_IRQHandler:0000000000000000 HAL_SYSTICK_IRQHandler
-     /tmp/ccd5dZU1.s:1164   .text.HAL_MPU_Disable:0000000000000000 $t
-     /tmp/ccd5dZU1.s:1171   .text.HAL_MPU_Disable:0000000000000000 HAL_MPU_Disable
-     /tmp/ccd5dZU1.s:1208   .text.HAL_MPU_Disable:0000000000000018 $d
-     /tmp/ccd5dZU1.s:1214   .text.HAL_MPU_Enable:0000000000000000 $t
-     /tmp/ccd5dZU1.s:1221   .text.HAL_MPU_Enable:0000000000000000 HAL_MPU_Enable
-     /tmp/ccd5dZU1.s:1275   .text.HAL_MPU_Enable:000000000000001c $d
-     /tmp/ccd5dZU1.s:1281   .text.HAL_MPU_ConfigRegion:0000000000000000 $t
-     /tmp/ccd5dZU1.s:1288   .text.HAL_MPU_ConfigRegion:0000000000000000 HAL_MPU_ConfigRegion
-     /tmp/ccd5dZU1.s:1508   .text.HAL_MPU_ConfigRegion:0000000000000118 $d
+     /tmp/ccnhgcTt.s:18     .rodata.HAL_NVIC_SetPriorityGrouping.str1.4:0000000000000000 $d
+     /tmp/ccnhgcTt.s:23     .text.HAL_NVIC_SetPriorityGrouping:0000000000000000 $t
+     /tmp/ccnhgcTt.s:31     .text.HAL_NVIC_SetPriorityGrouping:0000000000000000 HAL_NVIC_SetPriorityGrouping
+     /tmp/ccnhgcTt.s:108    .text.HAL_NVIC_SetPriorityGrouping:0000000000000034 $d
+     /tmp/ccnhgcTt.s:114    .text.HAL_NVIC_SetPriority:0000000000000000 $t
+     /tmp/ccnhgcTt.s:121    .text.HAL_NVIC_SetPriority:0000000000000000 HAL_NVIC_SetPriority
+     /tmp/ccnhgcTt.s:292    .text.HAL_NVIC_SetPriority:0000000000000080 $d
+     /tmp/ccnhgcTt.s:301    .text.HAL_NVIC_EnableIRQ:0000000000000000 $t
+     /tmp/ccnhgcTt.s:308    .text.HAL_NVIC_EnableIRQ:0000000000000000 HAL_NVIC_EnableIRQ
+     /tmp/ccnhgcTt.s:361    .text.HAL_NVIC_EnableIRQ:0000000000000024 $d
+     /tmp/ccnhgcTt.s:367    .text.HAL_NVIC_DisableIRQ:0000000000000000 $t
+     /tmp/ccnhgcTt.s:374    .text.HAL_NVIC_DisableIRQ:0000000000000000 HAL_NVIC_DisableIRQ
+     /tmp/ccnhgcTt.s:428    .text.HAL_NVIC_DisableIRQ:0000000000000024 $d
+     /tmp/ccnhgcTt.s:434    .text.HAL_NVIC_SystemReset:0000000000000000 $t
+     /tmp/ccnhgcTt.s:441    .text.HAL_NVIC_SystemReset:0000000000000000 HAL_NVIC_SystemReset
+     /tmp/ccnhgcTt.s:512    .text.HAL_NVIC_SystemReset:000000000000001c $d
+     /tmp/ccnhgcTt.s:522    .text.HAL_SYSTICK_Config:0000000000000000 $t
+     /tmp/ccnhgcTt.s:529    .text.HAL_SYSTICK_Config:0000000000000000 HAL_SYSTICK_Config
+     /tmp/ccnhgcTt.s:594    .text.HAL_SYSTICK_Config:0000000000000024 $d
+     /tmp/ccnhgcTt.s:600    .text.HAL_NVIC_GetPriorityGrouping:0000000000000000 $t
+     /tmp/ccnhgcTt.s:607    .text.HAL_NVIC_GetPriorityGrouping:0000000000000000 HAL_NVIC_GetPriorityGrouping
+     /tmp/ccnhgcTt.s:631    .text.HAL_NVIC_GetPriorityGrouping:000000000000000c $d
+     /tmp/ccnhgcTt.s:636    .text.HAL_NVIC_GetPriority:0000000000000000 $t
+     /tmp/ccnhgcTt.s:643    .text.HAL_NVIC_GetPriority:0000000000000000 HAL_NVIC_GetPriority
+     /tmp/ccnhgcTt.s:793    .text.HAL_NVIC_GetPriority:0000000000000074 $d
+     /tmp/ccnhgcTt.s:801    .text.HAL_NVIC_SetPendingIRQ:0000000000000000 $t
+     /tmp/ccnhgcTt.s:808    .text.HAL_NVIC_SetPendingIRQ:0000000000000000 HAL_NVIC_SetPendingIRQ
+     /tmp/ccnhgcTt.s:862    .text.HAL_NVIC_SetPendingIRQ:0000000000000028 $d
+     /tmp/ccnhgcTt.s:868    .text.HAL_NVIC_GetPendingIRQ:0000000000000000 $t
+     /tmp/ccnhgcTt.s:875    .text.HAL_NVIC_GetPendingIRQ:0000000000000000 HAL_NVIC_GetPendingIRQ
+     /tmp/ccnhgcTt.s:929    .text.HAL_NVIC_GetPendingIRQ:0000000000000028 $d
+     /tmp/ccnhgcTt.s:935    .text.HAL_NVIC_ClearPendingIRQ:0000000000000000 $t
+     /tmp/ccnhgcTt.s:942    .text.HAL_NVIC_ClearPendingIRQ:0000000000000000 HAL_NVIC_ClearPendingIRQ
+     /tmp/ccnhgcTt.s:996    .text.HAL_NVIC_ClearPendingIRQ:0000000000000028 $d
+     /tmp/ccnhgcTt.s:1002   .text.HAL_NVIC_GetActive:0000000000000000 $t
+     /tmp/ccnhgcTt.s:1009   .text.HAL_NVIC_GetActive:0000000000000000 HAL_NVIC_GetActive
+     /tmp/ccnhgcTt.s:1044   .text.HAL_NVIC_GetActive:0000000000000018 $d
+     /tmp/ccnhgcTt.s:1049   .text.HAL_SYSTICK_CLKSourceConfig:0000000000000000 $t
+     /tmp/ccnhgcTt.s:1056   .text.HAL_SYSTICK_CLKSourceConfig:0000000000000000 HAL_SYSTICK_CLKSourceConfig
+     /tmp/ccnhgcTt.s:1111   .text.HAL_SYSTICK_CLKSourceConfig:0000000000000034 $d
+     /tmp/ccnhgcTt.s:1117   .text.HAL_SYSTICK_Callback:0000000000000000 $t
+     /tmp/ccnhgcTt.s:1124   .text.HAL_SYSTICK_Callback:0000000000000000 HAL_SYSTICK_Callback
+     /tmp/ccnhgcTt.s:1137   .text.HAL_SYSTICK_IRQHandler:0000000000000000 $t
+     /tmp/ccnhgcTt.s:1144   .text.HAL_SYSTICK_IRQHandler:0000000000000000 HAL_SYSTICK_IRQHandler
+     /tmp/ccnhgcTt.s:1164   .text.HAL_MPU_Disable:0000000000000000 $t
+     /tmp/ccnhgcTt.s:1171   .text.HAL_MPU_Disable:0000000000000000 HAL_MPU_Disable
+     /tmp/ccnhgcTt.s:1208   .text.HAL_MPU_Disable:0000000000000018 $d
+     /tmp/ccnhgcTt.s:1214   .text.HAL_MPU_Enable:0000000000000000 $t
+     /tmp/ccnhgcTt.s:1221   .text.HAL_MPU_Enable:0000000000000000 HAL_MPU_Enable
+     /tmp/ccnhgcTt.s:1275   .text.HAL_MPU_Enable:000000000000001c $d
+     /tmp/ccnhgcTt.s:1281   .text.HAL_MPU_ConfigRegion:0000000000000000 $t
+     /tmp/ccnhgcTt.s:1288   .text.HAL_MPU_ConfigRegion:0000000000000000 HAL_MPU_ConfigRegion
+     /tmp/ccnhgcTt.s:1508   .text.HAL_MPU_ConfigRegion:0000000000000118 $d
 
 UNDEFINED SYMBOLS
-ARM GAS  /tmp/ccd5dZU1.s 			page 81
+ARM GAS  /tmp/ccnhgcTt.s 			page 81
 
 
 assert_failed

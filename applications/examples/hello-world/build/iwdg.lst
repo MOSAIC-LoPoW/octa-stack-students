@@ -1,4 +1,4 @@
-ARM GAS  /tmp/ccE5rwxd.s 			page 1
+ARM GAS  /tmp/ccdqASlg.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  /tmp/ccE5rwxd.s 			page 1
   43 0006 FFF7FEFF 		bl	HAL_FLASHEx_OBGetConfig
   44              	.LVL0:
   14:../../../core/platform/octa/src/iwdg.c ****   
-ARM GAS  /tmp/ccE5rwxd.s 			page 2
+ARM GAS  /tmp/ccdqASlg.s 			page 2
 
 
   15:../../../core/platform/octa/src/iwdg.c ****   if(OBInitStruct.USERConfig & (1 << 17))
@@ -118,7 +118,7 @@ ARM GAS  /tmp/ccE5rwxd.s 			page 1
   71              		.loc 1 42 6 view .LVU15
   72 0028 F0B9     		cbnz	r0, .L6
   73              	.L1:
-ARM GAS  /tmp/ccE5rwxd.s 			page 3
+ARM GAS  /tmp/ccdqASlg.s 			page 3
 
 
   43:../../../core/platform/octa/src/iwdg.c ****   {
@@ -178,7 +178,7 @@ ARM GAS  /tmp/ccE5rwxd.s 			page 1
  109              		.loc 1 24 7 is_stmt 1 view .LVU31
   24:../../../core/platform/octa/src/iwdg.c ****       OBInitStruct.PCROPStartAddr = 0;
  110              		.loc 1 24 32 is_stmt 0 view .LVU32
-ARM GAS  /tmp/ccE5rwxd.s 			page 4
+ARM GAS  /tmp/ccdqASlg.s 			page 4
 
 
  111 0046 0793     		str	r3, [sp, #28]
@@ -238,7 +238,7 @@ ARM GAS  /tmp/ccE5rwxd.s 			page 1
  155              		.syntax unified
  156              		.thumb
  157              		.thumb_func
-ARM GAS  /tmp/ccE5rwxd.s 			page 5
+ARM GAS  /tmp/ccdqASlg.s 			page 5
 
 
  158              		.fpu fpv4-sp-d16
@@ -298,7 +298,7 @@ ARM GAS  /tmp/ccE5rwxd.s 			page 1
  209              		.comm	P3_UART,120,4
  210              		.comm	P2_UART,120,4
  211              		.comm	P1_UART,120,4
-ARM GAS  /tmp/ccE5rwxd.s 			page 6
+ARM GAS  /tmp/ccdqASlg.s 			page 6
 
 
  212              		.comm	FTDI_UART,120,4
@@ -327,8 +327,8 @@ ARM GAS  /tmp/ccE5rwxd.s 			page 1
  235              		.comm	hiwdg,16,4
  236              		.text
  237              	.Letext0:
- 238              		.file 2 "/usr/arm-none-eabi/include/machine/_default_types.h"
- 239              		.file 3 "/usr/arm-none-eabi/include/sys/_stdint.h"
+ 238              		.file 2 "/home/matsdm/gcc-arm-none-eabi-9-2019-q4-major-x86_64-linux/gcc-arm-none-eabi-9-2019-q4-m
+ 239              		.file 3 "/home/matsdm/gcc-arm-none-eabi-9-2019-q4-major-x86_64-linux/gcc-arm-none-eabi-9-2019-q4-m
  240              		.file 4 "../../../core/ST/CMSIS/Include/core_cm4.h"
  241              		.file 5 "../../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/system_stm32l4xx.h"
  242              		.file 6 "../../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/stm32l496xx.h"
@@ -352,29 +352,29 @@ ARM GAS  /tmp/ccE5rwxd.s 			page 1
  260              		.file 24 "../../../core/platform/octa/inc/spi.h"
  261              		.file 25 "../../../core/platform/octa/inc/rtc.h"
  262              		.file 26 "../../../core/platform/octa/inc/rtosincludes.h"
- 263              		.file 27 "/usr/arm-none-eabi/include/sys/lock.h"
- 264              		.file 28 "/usr/arm-none-eabi/include/sys/_types.h"
- 265              		.file 29 "/usr/lib/gcc/arm-none-eabi/9.2.1/include/stddef.h"
- 266              		.file 30 "/usr/arm-none-eabi/include/sys/reent.h"
+ 263              		.file 27 "/home/matsdm/gcc-arm-none-eabi-9-2019-q4-major-x86_64-linux/gcc-arm-none-eabi-9-2019-q4-
+ 264              		.file 28 "/home/matsdm/gcc-arm-none-eabi-9-2019-q4-major-x86_64-linux/gcc-arm-none-eabi-9-2019-q4-
+ 265              		.file 29 "/home/matsdm/gcc-arm-none-eabi-9-2019-q4-major-x86_64-linux/gcc-arm-none-eabi-9-2019-q4-
+ 266              		.file 30 "/home/matsdm/gcc-arm-none-eabi-9-2019-q4-major-x86_64-linux/gcc-arm-none-eabi-9-2019-q4-
  267              		.file 31 "../../../core/platform/common/inc/datatypes.h"
  268              		.file 32 "../../../core/platform/octa/inc/platform.h"
-ARM GAS  /tmp/ccE5rwxd.s 			page 7
+ARM GAS  /tmp/ccdqASlg.s 			page 7
 
 
  269              		.file 33 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_flash_ex.h"
  270              		.file 34 "../../../core/platform/common/inc/error.h"
-ARM GAS  /tmp/ccE5rwxd.s 			page 8
+ARM GAS  /tmp/ccdqASlg.s 			page 8
 
 
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 iwdg.c
-     /tmp/ccE5rwxd.s:18     .text.OCTA_IWDG_Init:0000000000000000 $t
-     /tmp/ccE5rwxd.s:26     .text.OCTA_IWDG_Init:0000000000000000 OCTA_IWDG_Init
-     /tmp/ccE5rwxd.s:147    .text.OCTA_IWDG_Init:0000000000000070 $d
+     /tmp/ccdqASlg.s:18     .text.OCTA_IWDG_Init:0000000000000000 $t
+     /tmp/ccdqASlg.s:26     .text.OCTA_IWDG_Init:0000000000000000 OCTA_IWDG_Init
+     /tmp/ccdqASlg.s:147    .text.OCTA_IWDG_Init:0000000000000070 $d
                             *COM*:0000000000000010 hiwdg
-     /tmp/ccE5rwxd.s:153    .text.IWDG_feed:0000000000000000 $t
-     /tmp/ccE5rwxd.s:160    .text.IWDG_feed:0000000000000000 IWDG_feed
-     /tmp/ccE5rwxd.s:177    .text.IWDG_feed:000000000000000c $d
+     /tmp/ccdqASlg.s:153    .text.IWDG_feed:0000000000000000 $t
+     /tmp/ccdqASlg.s:160    .text.IWDG_feed:0000000000000000 IWDG_feed
+     /tmp/ccdqASlg.s:177    .text.IWDG_feed:000000000000000c $d
                             *COM*:000000000000002c P3_header
                             *COM*:000000000000002c P2_header
                             *COM*:000000000000002c P1_header
@@ -423,7 +423,7 @@ DEFINED SYMBOLS
                             *COM*:0000000000000008 P2_DIO1
                             *COM*:0000000000000008 P1_DIO6
                             *COM*:0000000000000008 P1_DIO5
-ARM GAS  /tmp/ccE5rwxd.s 			page 9
+ARM GAS  /tmp/ccdqASlg.s 			page 9
 
 
                             *COM*:0000000000000008 P1_DIO4

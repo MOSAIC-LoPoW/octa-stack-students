@@ -1,4 +1,4 @@
-ARM GAS  /tmp/ccO4Efvw.s 			page 1
+ARM GAS  /tmp/ccE3BzdB.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  /tmp/ccO4Efvw.s 			page 1
    9:../../../core/platform/octa/src/freertos.c ****    configCHECKFORSTACK_OVERFLOW is defined to 1 or 2. This hook function is
   10:../../../core/platform/octa/src/freertos.c ****    called if a stack overflow is detected. */
   11:../../../core/platform/octa/src/freertos.c ****   printERR("*****FreeRTOS stack overflow*****\r\n");
-ARM GAS  /tmp/ccO4Efvw.s 			page 2
+ARM GAS  /tmp/ccE3BzdB.s 			page 2
 
 
   44              		.loc 1 11 3 is_stmt 1 view .LVU2
@@ -118,7 +118,7 @@ ARM GAS  /tmp/ccO4Efvw.s 			page 1
   92 0002 FFF7FEFF 		bl	RTOS_print_stats
   93              	.LVL5:
   20:../../../core/platform/octa/src/freertos.c ****     osThreadSuspend(NULL);
-ARM GAS  /tmp/ccO4Efvw.s 			page 3
+ARM GAS  /tmp/ccE3BzdB.s 			page 3
 
 
   94              		.loc 1 20 5 discriminator 1 view .LVU10
@@ -178,7 +178,7 @@ ARM GAS  /tmp/ccO4Efvw.s 			page 1
   29:../../../core/platform/octa/src/freertos.c ****     /* At this point xTaskToNotify should not be NULL as a transmission was
   30:../../../core/platform/octa/src/freertos.c ****         in progress. */
   31:../../../core/platform/octa/src/freertos.c ****     configASSERT(xTaskToNotify != NULL);
-ARM GAS  /tmp/ccO4Efvw.s 			page 4
+ARM GAS  /tmp/ccE3BzdB.s 			page 4
 
 
  137              		.loc 1 31 5 view .LVU17
@@ -238,7 +238,7 @@ ARM GAS  /tmp/ccO4Efvw.s 			page 1
  178              		.cfi_restore_state
   31:../../../core/platform/octa/src/freertos.c **** 
  179              		.loc 1 31 5 is_stmt 1 discriminator 1 view .LVU26
-ARM GAS  /tmp/ccO4Efvw.s 			page 5
+ARM GAS  /tmp/ccE3BzdB.s 			page 5
 
 
  180 002c 1F21     		movs	r1, #31
@@ -298,7 +298,7 @@ ARM GAS  /tmp/ccO4Efvw.s 			page 1
  234              		.comm	P3_DIO1,8,4
  235              		.comm	P2_DIO6,8,4
  236              		.comm	P2_DIO5,8,4
-ARM GAS  /tmp/ccO4Efvw.s 			page 6
+ARM GAS  /tmp/ccE3BzdB.s 			page 6
 
 
  237              		.comm	P2_DIO4,8,4
@@ -316,8 +316,8 @@ ARM GAS  /tmp/ccO4Efvw.s 			page 1
  249              		.comm	rtosprintHandle,4,4
  250              		.text
  251              	.Letext0:
- 252              		.file 2 "/usr/arm-none-eabi/include/machine/_default_types.h"
- 253              		.file 3 "/usr/arm-none-eabi/include/sys/_stdint.h"
+ 252              		.file 2 "/home/matsdm/gcc-arm-none-eabi-9-2019-q4-major-x86_64-linux/gcc-arm-none-eabi-9-2019-q4-m
+ 253              		.file 3 "/home/matsdm/gcc-arm-none-eabi-9-2019-q4-major-x86_64-linux/gcc-arm-none-eabi-9-2019-q4-m
  254              		.file 4 "../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/portmacro.
  255              		.file 5 "../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/include/task.h"
  256              		.file 6 "../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h"
@@ -342,29 +342,29 @@ ARM GAS  /tmp/ccO4Efvw.s 			page 1
  275              		.file 25 "../../../core/platform/octa/inc/i2c.h"
  276              		.file 26 "../../../core/platform/octa/inc/spi.h"
  277              		.file 27 "../../../core/platform/octa/inc/rtc.h"
- 278              		.file 28 "/usr/arm-none-eabi/include/sys/lock.h"
- 279              		.file 29 "/usr/arm-none-eabi/include/sys/_types.h"
- 280              		.file 30 "/usr/lib/gcc/arm-none-eabi/9.2.1/include/stddef.h"
- 281              		.file 31 "/usr/arm-none-eabi/include/sys/reent.h"
+ 278              		.file 28 "/home/matsdm/gcc-arm-none-eabi-9-2019-q4-major-x86_64-linux/gcc-arm-none-eabi-9-2019-q4-
+ 279              		.file 29 "/home/matsdm/gcc-arm-none-eabi-9-2019-q4-major-x86_64-linux/gcc-arm-none-eabi-9-2019-q4-
+ 280              		.file 30 "/home/matsdm/gcc-arm-none-eabi-9-2019-q4-major-x86_64-linux/gcc-arm-none-eabi-9-2019-q4-
+ 281              		.file 31 "/home/matsdm/gcc-arm-none-eabi-9-2019-q4-major-x86_64-linux/gcc-arm-none-eabi-9-2019-q4-
  282              		.file 32 "../../../core/platform/common/inc/datatypes.h"
  283              		.file 33 "../../../core/platform/octa/inc/platform.h"
  284              		.file 34 "../../../core/platform/common/inc/assert.h"
  285              		.file 35 "../../../core/platform/common/inc/print.h"
-ARM GAS  /tmp/ccO4Efvw.s 			page 7
+ARM GAS  /tmp/ccE3BzdB.s 			page 7
 
 
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 freertos.c
-     /tmp/ccO4Efvw.s:18     .rodata.vApplicationStackOverflowHook.str1.4:0000000000000000 $d
-     /tmp/ccO4Efvw.s:22     .text.vApplicationStackOverflowHook:0000000000000000 $t
-     /tmp/ccO4Efvw.s:30     .text.vApplicationStackOverflowHook:0000000000000000 vApplicationStackOverflowHook
-     /tmp/ccO4Efvw.s:62     .text.vApplicationStackOverflowHook:000000000000000c $d
-     /tmp/ccO4Efvw.s:67     .text.RTOS_Print_Stats_Thread:0000000000000000 $t
-     /tmp/ccO4Efvw.s:74     .text.RTOS_Print_Stats_Thread:0000000000000000 RTOS_Print_Stats_Thread
-     /tmp/ccO4Efvw.s:104    .rodata.RTOS_Send_Notification.str1.4:0000000000000000 $d
-     /tmp/ccO4Efvw.s:108    .text.RTOS_Send_Notification:0000000000000000 $t
-     /tmp/ccO4Efvw.s:115    .text.RTOS_Send_Notification:0000000000000000 RTOS_Send_Notification
-     /tmp/ccO4Efvw.s:190    .text.RTOS_Send_Notification:0000000000000038 $d
+     /tmp/ccE3BzdB.s:18     .rodata.vApplicationStackOverflowHook.str1.4:0000000000000000 $d
+     /tmp/ccE3BzdB.s:22     .text.vApplicationStackOverflowHook:0000000000000000 $t
+     /tmp/ccE3BzdB.s:30     .text.vApplicationStackOverflowHook:0000000000000000 vApplicationStackOverflowHook
+     /tmp/ccE3BzdB.s:62     .text.vApplicationStackOverflowHook:000000000000000c $d
+     /tmp/ccE3BzdB.s:67     .text.RTOS_Print_Stats_Thread:0000000000000000 $t
+     /tmp/ccE3BzdB.s:74     .text.RTOS_Print_Stats_Thread:0000000000000000 RTOS_Print_Stats_Thread
+     /tmp/ccE3BzdB.s:104    .rodata.RTOS_Send_Notification.str1.4:0000000000000000 $d
+     /tmp/ccE3BzdB.s:108    .text.RTOS_Send_Notification:0000000000000000 $t
+     /tmp/ccE3BzdB.s:115    .text.RTOS_Send_Notification:0000000000000000 RTOS_Send_Notification
+     /tmp/ccE3BzdB.s:190    .text.RTOS_Send_Notification:0000000000000038 $d
                             *COM*:000000000000002c P3_header
                             *COM*:000000000000002c P2_header
                             *COM*:000000000000002c P1_header
@@ -410,7 +410,7 @@ DEFINED SYMBOLS
                             *COM*:0000000000000008 P2_DIO4
                             *COM*:0000000000000008 P2_DIO3
                             *COM*:0000000000000008 P2_DIO2
-ARM GAS  /tmp/ccO4Efvw.s 			page 8
+ARM GAS  /tmp/ccE3BzdB.s 			page 8
 
 
                             *COM*:0000000000000008 P2_DIO1

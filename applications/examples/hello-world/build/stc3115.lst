@@ -1,4 +1,4 @@
-ARM GAS  /tmp/ccEj6EN3.s 			page 1
+ARM GAS  /tmp/ccASXzsh.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  /tmp/ccEj6EN3.s 			page 1
   28:../../../core/platform/octa/drivers/STC3115/src/stc3115.c ****   ===============================================================================
   29:../../../core/platform/octa/drivers/STC3115/src/stc3115.c **** 
   30:../../../core/platform/octa/drivers/STC3115/src/stc3115.c **** 	This driver is dedicated to STC3115 battery monitoring IC management, it allows
-ARM GAS  /tmp/ccEj6EN3.s 			page 2
+ARM GAS  /tmp/ccASXzsh.s 			page 2
 
 
   31:../../../core/platform/octa/drivers/STC3115/src/stc3115.c **** 	the stc3115 to be configured, and used without external software.
@@ -118,7 +118,7 @@ ARM GAS  /tmp/ccEj6EN3.s 			page 1
   85:../../../core/platform/octa/drivers/STC3115/src/stc3115.c **** 					data by the driver
   86:../../../core/platform/octa/drivers/STC3115/src/stc3115.c **** 				- STC3115_BatteryData_TypeDef parameter is filled with STC3115 algorithm 
   87:../../../core/platform/octa/drivers/STC3115/src/stc3115.c **** 					results and returns the battery state to application
-ARM GAS  /tmp/ccEj6EN3.s 			page 3
+ARM GAS  /tmp/ccASXzsh.s 			page 3
 
 
   88:../../../core/platform/octa/drivers/STC3115/src/stc3115.c **** 				
@@ -178,7 +178,7 @@ ARM GAS  /tmp/ccEj6EN3.s 			page 1
  142:../../../core/platform/octa/drivers/STC3115/src/stc3115.c **** {
  143:../../../core/platform/octa/drivers/STC3115/src/stc3115.c ****   int value;
  144:../../../core/platform/octa/drivers/STC3115/src/stc3115.c ****   unsigned char data[2];
-ARM GAS  /tmp/ccEj6EN3.s 			page 4
+ARM GAS  /tmp/ccASXzsh.s 			page 4
 
 
  145:../../../core/platform/octa/drivers/STC3115/src/stc3115.c ****   int res;
@@ -238,7 +238,7 @@ ARM GAS  /tmp/ccEj6EN3.s 			page 1
  199:../../../core/platform/octa/drivers/STC3115/src/stc3115.c ****   }
  200:../../../core/platform/octa/drivers/STC3115/src/stc3115.c ****   else
  201:../../../core/platform/octa/drivers/STC3115/src/stc3115.c ****     value=-1;
-ARM GAS  /tmp/ccEj6EN3.s 			page 5
+ARM GAS  /tmp/ccASXzsh.s 			page 5
 
 
  202:../../../core/platform/octa/drivers/STC3115/src/stc3115.c **** 
@@ -298,7 +298,7 @@ ARM GAS  /tmp/ccEj6EN3.s 			page 1
  256:../../../core/platform/octa/drivers/STC3115/src/stc3115.c **** 
  257:../../../core/platform/octa/drivers/STC3115/src/stc3115.c ****   res = HAL_I2C_Mem_Read(hi2cLib, STC3115_SLAVE_ADDRESS_7BIT << 1, RegAddress, 1, (uint8_t *)data, 
  258:../../../core/platform/octa/drivers/STC3115/src/stc3115.c ****   
-ARM GAS  /tmp/ccEj6EN3.s 			page 6
+ARM GAS  /tmp/ccASXzsh.s 			page 6
 
 
  259:../../../core/platform/octa/drivers/STC3115/src/stc3115.c ****   return(res);
@@ -358,7 +358,7 @@ ARM GAS  /tmp/ccEj6EN3.s 			page 1
  313:../../../core/platform/octa/drivers/STC3115/src/stc3115.c ****   unsigned char RegAddress = 0;
  314:../../../core/platform/octa/drivers/STC3115/src/stc3115.c ****   unsigned char data8 = 0;
  315:../../../core/platform/octa/drivers/STC3115/src/stc3115.c ****   int status = 0;
-ARM GAS  /tmp/ccEj6EN3.s 			page 7
+ARM GAS  /tmp/ccASXzsh.s 			page 7
 
 
  316:../../../core/platform/octa/drivers/STC3115/src/stc3115.c **** 
@@ -418,7 +418,7 @@ ARM GAS  /tmp/ccEj6EN3.s 			page 1
  370:../../../core/platform/octa/drivers/STC3115/src/stc3115.c ****   STC3115_WriteByte(STC3115_REG_MODE, STC3115_REGMODE_DEFAULT_STANDBY);
  371:../../../core/platform/octa/drivers/STC3115/src/stc3115.c ****   
  372:../../../core/platform/octa/drivers/STC3115/src/stc3115.c ****   /* init OCV curve */
-ARM GAS  /tmp/ccEj6EN3.s 			page 8
+ARM GAS  /tmp/ccASXzsh.s 			page 8
 
 
  373:../../../core/platform/octa/drivers/STC3115/src/stc3115.c **** 	STC3115_WriteBytes((unsigned char*) ConfigData->OCVOffset, STC3115_REG_OCVTAB, STC3115_OCVTAB_SIZE
@@ -478,7 +478,7 @@ ARM GAS  /tmp/ccEj6EN3.s 			page 1
  427:../../../core/platform/octa/drivers/STC3115/src/stc3115.c **** 
  428:../../../core/platform/octa/drivers/STC3115/src/stc3115.c **** 	/* Check OCV integrity after reset: it must be above or equal to OCV min = 3300 (mV) + OCVOffset[0
  429:../../../core/platform/octa/drivers/STC3115/src/stc3115.c **** 	ocv_min = 6000 + OCVOffset[0];
-ARM GAS  /tmp/ccEj6EN3.s 			page 9
+ARM GAS  /tmp/ccASXzsh.s 			page 9
 
 
  430:../../../core/platform/octa/drivers/STC3115/src/stc3115.c **** 	if (ocv <= ocv_min) 
@@ -538,7 +538,7 @@ ARM GAS  /tmp/ccEj6EN3.s 			page 1
  484:../../../core/platform/octa/drivers/STC3115/src/stc3115.c ****   /* write 0x01 into the REG_CTRL to release IO0 pin open, */
  485:../../../core/platform/octa/drivers/STC3115/src/stc3115.c ****   STC3115_WriteByte(STC3115_REG_CTRL, 0x01);
  486:../../../core/platform/octa/drivers/STC3115/src/stc3115.c **** 
-ARM GAS  /tmp/ccEj6EN3.s 			page 10
+ARM GAS  /tmp/ccASXzsh.s 			page 10
 
 
  487:../../../core/platform/octa/drivers/STC3115/src/stc3115.c ****   /* write 0 into the REG_MODE register to put the STC3115 in standby mode */
@@ -598,7 +598,7 @@ ARM GAS  /tmp/ccEj6EN3.s 			page 1
   56              	.LFE137:
   58              		.section	.text.STC3115_CalcRamCRC8,"ax",%progbits
   59              		.align	1
-ARM GAS  /tmp/ccEj6EN3.s 			page 11
+ARM GAS  /tmp/ccASXzsh.s 			page 11
 
 
   60              		.syntax unified
@@ -658,7 +658,7 @@ ARM GAS  /tmp/ccEj6EN3.s 			page 1
  561:../../../core/platform/octa/drivers/STC3115/src/stc3115.c **** 
  562:../../../core/platform/octa/drivers/STC3115/src/stc3115.c ****   /* OCV */
  563:../../../core/platform/octa/drivers/STC3115/src/stc3115.c ****   value=data[14]; value = (value<<8) + data[13];
-ARM GAS  /tmp/ccEj6EN3.s 			page 12
+ARM GAS  /tmp/ccASXzsh.s 			page 12
 
 
  564:../../../core/platform/octa/drivers/STC3115/src/stc3115.c ****   value &= 0x3fff; /* mask unused bits */
@@ -718,7 +718,7 @@ ARM GAS  /tmp/ccEj6EN3.s 			page 1
   77              		.cfi_offset 4, -4
  609:../../../core/platform/octa/drivers/STC3115/src/stc3115.c ****   int crc=0;   /* initial value */
   78              		.loc 1 609 3 is_stmt 1 view .LVU13
-ARM GAS  /tmp/ccEj6EN3.s 			page 13
+ARM GAS  /tmp/ccASXzsh.s 			page 13
 
 
   79              	.LVL7:
@@ -778,7 +778,7 @@ ARM GAS  /tmp/ccEj6EN3.s 			page 1
  612:../../../core/platform/octa/drivers/STC3115/src/stc3115.c ****   {
  120              		.loc 1 612 3 is_stmt 0 discriminator 1 view .LVU33
  121 001e 8C42     		cmp	r4, r1
-ARM GAS  /tmp/ccEj6EN3.s 			page 14
+ARM GAS  /tmp/ccASXzsh.s 			page 14
 
 
  122 0020 03DA     		bge	.L10
@@ -838,7 +838,7 @@ ARM GAS  /tmp/ccEj6EN3.s 			page 1
  631:../../../core/platform/octa/drivers/STC3115/src/stc3115.c **** static int STC3115_UpdateRamCRC(void)
  632:../../../core/platform/octa/drivers/STC3115/src/stc3115.c **** {
  160              		.loc 1 632 1 is_stmt 1 view -0
-ARM GAS  /tmp/ccEj6EN3.s 			page 15
+ARM GAS  /tmp/ccASXzsh.s 			page 15
 
 
  161              		.cfi_startproc
@@ -898,7 +898,7 @@ ARM GAS  /tmp/ccEj6EN3.s 			page 1
  202              		@ args = 0, pretend = 0, frame = 0
  203              		@ frame_needed = 0, uses_anonymous_args = 0
  204              		.loc 1 647 1 is_stmt 0 view .LVU53
-ARM GAS  /tmp/ccEj6EN3.s 			page 16
+ARM GAS  /tmp/ccASXzsh.s 			page 16
 
 
  205 0000 08B5     		push	{r3, lr}
@@ -958,7 +958,7 @@ ARM GAS  /tmp/ccEj6EN3.s 			page 1
  246              		.loc 1 657 34 is_stmt 0 view .LVU71
  247 001e 0269     		ldr	r2, [r0, #16]
  248              		.loc 1 657 22 view .LVU72
-ARM GAS  /tmp/ccEj6EN3.s 			page 17
+ARM GAS  /tmp/ccASXzsh.s 			page 17
 
 
  249 0020 DA80     		strh	r2, [r3, #6]	@ movhi
@@ -1018,7 +1018,7 @@ ARM GAS  /tmp/ccEj6EN3.s 			page 1
  295 0012 8AB2     		uxth	r2, r1
  296 0014 E021     		movs	r1, #224
  297              	.LVL26:
-ARM GAS  /tmp/ccEj6EN3.s 			page 18
+ARM GAS  /tmp/ccASXzsh.s 			page 18
 
 
  257:../../../core/platform/octa/drivers/STC3115/src/stc3115.c ****   
@@ -1078,7 +1078,7 @@ ARM GAS  /tmp/ccEj6EN3.s 			page 1
  345              		.loc 1 588 1 view .LVU89
  346 000a 08BD     		pop	{r3, pc}
  347              		.cfi_endproc
-ARM GAS  /tmp/ccEj6EN3.s 			page 19
+ARM GAS  /tmp/ccASXzsh.s 			page 19
 
 
  348              	.LFE139:
@@ -1138,7 +1138,7 @@ ARM GAS  /tmp/ccEj6EN3.s 			page 1
  536:../../../core/platform/octa/drivers/STC3115/src/stc3115.c ****   BatteryData->HRSOC = value;     /* result in 1/512% */
  392              		.loc 1 536 13 is_stmt 0 view .LVU102
  393 0014 9DF80320 		ldrb	r2, [sp, #3]	@ zero_extendqisi2
-ARM GAS  /tmp/ccEj6EN3.s 			page 20
+ARM GAS  /tmp/ccASXzsh.s 			page 20
 
 
  394              	.LVL34:
@@ -1198,7 +1198,7 @@ ARM GAS  /tmp/ccEj6EN3.s 			page 1
  429              		.loc 1 545 13 is_stmt 0 view .LVU121
  430 003e 9DF80720 		ldrb	r2, [sp, #7]	@ zero_extendqisi2
  431              	.LVL39:
-ARM GAS  /tmp/ccEj6EN3.s 			page 21
+ARM GAS  /tmp/ccASXzsh.s 			page 21
 
 
  545:../../../core/platform/octa/drivers/STC3115/src/stc3115.c ****   value &= 0x3fff;   /* mask unused bits */
@@ -1258,7 +1258,7 @@ ARM GAS  /tmp/ccEj6EN3.s 			page 1
  468              		.loc 1 552 3 is_stmt 1 view .LVU139
  552:../../../core/platform/octa/drivers/STC3115/src/stc3115.c ****   if (value>=0x0800) value -= 0x1000;  /* convert to signed value */
  469              		.loc 1 552 9 is_stmt 0 view .LVU140
-ARM GAS  /tmp/ccEj6EN3.s 			page 22
+ARM GAS  /tmp/ccASXzsh.s 			page 22
 
 
  470 006e C3F30B00 		ubfx	r0, r3, #0, #12
@@ -1318,7 +1318,7 @@ ARM GAS  /tmp/ccEj6EN3.s 			page 1
  507 0096 5B00     		lsls	r3, r3, #1
  560:../../../core/platform/octa/drivers/STC3115/src/stc3115.c **** 
  508              		.loc 1 560 28 view .LVU158
-ARM GAS  /tmp/ccEj6EN3.s 			page 23
+ARM GAS  /tmp/ccASXzsh.s 			page 23
 
 
  509 0098 6361     		str	r3, [r4, #20]
@@ -1378,7 +1378,7 @@ ARM GAS  /tmp/ccEj6EN3.s 			page 1
  546              		.loc 1 567 9 view .LVU175
  547 00c0 8010     		asrs	r0, r0, #2
  548              	.LVL59:
-ARM GAS  /tmp/ccEj6EN3.s 			page 24
+ARM GAS  /tmp/ccASXzsh.s 			page 24
 
 
  568:../../../core/platform/octa/drivers/STC3115/src/stc3115.c ****   
@@ -1438,7 +1438,7 @@ ARM GAS  /tmp/ccEj6EN3.s 			page 1
  596              	.LCFI13:
  597              		.cfi_def_cfa_offset 32
  143:../../../core/platform/octa/drivers/STC3115/src/stc3115.c ****   unsigned char data[2];
-ARM GAS  /tmp/ccEj6EN3.s 			page 25
+ARM GAS  /tmp/ccASXzsh.s 			page 25
 
 
  598              		.loc 1 143 3 is_stmt 1 view .LVU185
@@ -1498,7 +1498,7 @@ ARM GAS  /tmp/ccEj6EN3.s 			page 1
  644              	.LVL67:
  645              	.LFB125:
  187:../../../core/platform/octa/drivers/STC3115/src/stc3115.c ****   int value;
-ARM GAS  /tmp/ccEj6EN3.s 			page 26
+ARM GAS  /tmp/ccASXzsh.s 			page 26
 
 
  646              		.loc 1 187 1 is_stmt 1 view -0
@@ -1558,7 +1558,7 @@ ARM GAS  /tmp/ccEj6EN3.s 			page 1
  687              		.loc 1 203 3 is_stmt 1 view .LVU209
  204:../../../core/platform/octa/drivers/STC3115/src/stc3115.c **** 
  688              		.loc 1 204 1 is_stmt 0 view .LVU210
-ARM GAS  /tmp/ccEj6EN3.s 			page 27
+ARM GAS  /tmp/ccASXzsh.s 			page 27
 
 
  689 0028 43EA0020 		orr	r0, r3, r0, lsl #8
@@ -1618,7 +1618,7 @@ ARM GAS  /tmp/ccEj6EN3.s 			page 1
  736              		.loc 1 299 3 is_stmt 1 view .LVU219
  299:../../../core/platform/octa/drivers/STC3115/src/stc3115.c **** 
  737              		.loc 1 299 9 is_stmt 0 view .LVU220
-ARM GAS  /tmp/ccEj6EN3.s 			page 28
+ARM GAS  /tmp/ccASXzsh.s 			page 28
 
 
  738 0012 C0F30E00 		ubfx	r0, r0, #0, #15
@@ -1678,7 +1678,7 @@ ARM GAS  /tmp/ccEj6EN3.s 			page 1
  785 0014 E021     		movs	r1, #224
  786              	.LVL78:
  273:../../../core/platform/octa/drivers/STC3115/src/stc3115.c **** 	
-ARM GAS  /tmp/ccEj6EN3.s 			page 29
+ARM GAS  /tmp/ccASXzsh.s 			page 29
 
 
  787              		.loc 1 273 9 view .LVU230
@@ -1738,7 +1738,7 @@ ARM GAS  /tmp/ccEj6EN3.s 			page 1
  835 000a 08BD     		pop	{r3, pc}
  836              		.cfi_endproc
  837              	.LFE140:
-ARM GAS  /tmp/ccEj6EN3.s 			page 30
+ARM GAS  /tmp/ccASXzsh.s 			page 30
 
 
  839              		.section	.text.STC3115_WriteByte,"ax",%progbits
@@ -1798,7 +1798,7 @@ ARM GAS  /tmp/ccEj6EN3.s 			page 1
  175:../../../core/platform/octa/drivers/STC3115/src/stc3115.c **** 
  884              		.loc 1 175 3 is_stmt 1 view .LVU249
  177:../../../core/platform/octa/drivers/STC3115/src/stc3115.c **** 
-ARM GAS  /tmp/ccEj6EN3.s 			page 31
+ARM GAS  /tmp/ccASXzsh.s 			page 31
 
 
  885              		.loc 1 177 1 is_stmt 0 view .LVU250
@@ -1858,7 +1858,7 @@ ARM GAS  /tmp/ccEj6EN3.s 			page 1
  935              		.align	1
  936              		.syntax unified
  937              		.thumb
-ARM GAS  /tmp/ccEj6EN3.s 			page 32
+ARM GAS  /tmp/ccASXzsh.s 			page 32
 
 
  938              		.thumb_func
@@ -1918,7 +1918,7 @@ ARM GAS  /tmp/ccEj6EN3.s 			page 1
  981 0024 0068     		ldr	r0, [r0]
  982 0026 FFF7FEFF 		bl	HAL_I2C_Mem_Write
  983              	.LVL92:
-ARM GAS  /tmp/ccEj6EN3.s 			page 33
+ARM GAS  /tmp/ccASXzsh.s 			page 33
 
 
  243:../../../core/platform/octa/drivers/STC3115/src/stc3115.c **** 
@@ -1978,7 +1978,7 @@ ARM GAS  /tmp/ccEj6EN3.s 			page 1
  1032              	.LVL96:
  376:../../../core/platform/octa/drivers/STC3115/src/stc3115.c ****      STC3115_WriteByte(STC3115_REG_ALARM_SOC,ConfigData->Alm_SOC*2); 
  1033              		.loc 1 376 3 view .LVU278
-ARM GAS  /tmp/ccEj6EN3.s 			page 34
+ARM GAS  /tmp/ccASXzsh.s 			page 34
 
 
  376:../../../core/platform/octa/drivers/STC3115/src/stc3115.c ****      STC3115_WriteByte(STC3115_REG_ALARM_SOC,ConfigData->Alm_SOC*2); 
@@ -2038,7 +2038,7 @@ ARM GAS  /tmp/ccEj6EN3.s 			page 1
  1071              		.loc 1 401 3 view .LVU295
  1072 0038 0321     		movs	r1, #3
  1073 003a 0120     		movs	r0, #1
-ARM GAS  /tmp/ccEj6EN3.s 			page 35
+ARM GAS  /tmp/ccASXzsh.s 			page 35
 
 
  1074 003c FFF7FEFF 		bl	STC3115_WriteByte
@@ -2098,7 +2098,7 @@ ARM GAS  /tmp/ccEj6EN3.s 			page 1
  1116              	.L77:
  387:../../../core/platform/octa/drivers/STC3115/src/stc3115.c ****     STC3115_WriteByte(STC3115_REG_CURRENT_THRES,value); 
  1117              		.loc 1 387 5 is_stmt 1 view .LVU308
-ARM GAS  /tmp/ccEj6EN3.s 			page 36
+ARM GAS  /tmp/ccASXzsh.s 			page 36
 
 
  387:../../../core/platform/octa/drivers/STC3115/src/stc3115.c ****     STC3115_WriteByte(STC3115_REG_CURRENT_THRES,value); 
@@ -2158,7 +2158,7 @@ ARM GAS  /tmp/ccEj6EN3.s 			page 1
  1165              	STC3115_Startup:
  1166              	.LVL111:
  1167              	.LFB134:
-ARM GAS  /tmp/ccEj6EN3.s 			page 37
+ARM GAS  /tmp/ccASXzsh.s 			page 37
 
 
  416:../../../core/platform/octa/drivers/STC3115/src/stc3115.c **** 	int res, HRSOC;
@@ -2218,7 +2218,7 @@ ARM GAS  /tmp/ccEj6EN3.s 			page 1
  1206 0018 9842     		cmp	r0, r3
  1207 001a 08DC     		bgt	.L82
  432:../../../core/platform/octa/drivers/STC3115/src/stc3115.c **** 		res = STC3115_WriteWord(STC3115_REG_SOC, HRSOC); //force both SOC and OCV to 0
-ARM GAS  /tmp/ccEj6EN3.s 			page 38
+ARM GAS  /tmp/ccASXzsh.s 			page 38
 
 
  1208              		.loc 1 432 3 is_stmt 1 view .LVU334
@@ -2278,7 +2278,7 @@ ARM GAS  /tmp/ccEj6EN3.s 			page 1
  1252              		.thumb_func
  1253              		.fpu fpv4-sp-d16
  1255              	STC3115_Restore:
-ARM GAS  /tmp/ccEj6EN3.s 			page 39
+ARM GAS  /tmp/ccASXzsh.s 			page 39
 
 
  1256              	.LVL125:
@@ -2338,7 +2338,7 @@ ARM GAS  /tmp/ccEj6EN3.s 			page 1
  1296 0020 10BD     		pop	{r4, pc}
  1297              	.LVL130:
  1298              	.L88:
-ARM GAS  /tmp/ccEj6EN3.s 			page 40
+ARM GAS  /tmp/ccASXzsh.s 			page 40
 
 
  469:../../../core/platform/octa/drivers/STC3115/src/stc3115.c **** 
@@ -2398,7 +2398,7 @@ ARM GAS  /tmp/ccEj6EN3.s 			page 1
  1346              		.loc 1 212 12 view .LVU368
  1347 001a 0648     		ldr	r0, .L91
  1348              	.LVL133:
-ARM GAS  /tmp/ccEj6EN3.s 			page 41
+ARM GAS  /tmp/ccASXzsh.s 			page 41
 
 
  212:../../../core/platform/octa/drivers/STC3115/src/stc3115.c ****   
@@ -2458,7 +2458,7 @@ ARM GAS  /tmp/ccEj6EN3.s 			page 1
  312:../../../core/platform/octa/drivers/STC3115/src/stc3115.c ****   unsigned char RegAddress = 0;
  1393              		.loc 1 312 1 is_stmt 1 view -0
  1394              		.cfi_startproc
-ARM GAS  /tmp/ccEj6EN3.s 			page 42
+ARM GAS  /tmp/ccASXzsh.s 			page 42
 
 
  1395              		@ args = 0, pretend = 0, frame = 0
@@ -2518,7 +2518,7 @@ ARM GAS  /tmp/ccEj6EN3.s 			page 1
  1438              		.cfi_endproc
  1439              	.LFE131:
  1441              		.section	.text.STC3115_GetRunningCounter,"ax",%progbits
-ARM GAS  /tmp/ccEj6EN3.s 			page 43
+ARM GAS  /tmp/ccASXzsh.s 			page 43
 
 
  1442              		.align	1
@@ -2578,7 +2578,7 @@ ARM GAS  /tmp/ccEj6EN3.s 			page 1
  1487              	.L100:
  1488              	.LCFI42:
  1489              		.cfi_restore_state
-ARM GAS  /tmp/ccEj6EN3.s 			page 44
+ARM GAS  /tmp/ccASXzsh.s 			page 44
 
 
  354:../../../core/platform/octa/drivers/STC3115/src/stc3115.c **** 
@@ -2638,7 +2638,7 @@ ARM GAS  /tmp/ccEj6EN3.s 			page 1
  678:../../../core/platform/octa/drivers/STC3115/src/stc3115.c ****   int OCVOffset[16] = OCV_OFFSET_TAB;
  1528              		.loc 1 678 3 view .LVU408
  1529              		.loc 1 678 7 is_stmt 0 view .LVU409
-ARM GAS  /tmp/ccEj6EN3.s 			page 45
+ARM GAS  /tmp/ccASXzsh.s 			page 45
 
 
  1530 000a 4022     		movs	r2, #64
@@ -2698,7 +2698,7 @@ ARM GAS  /tmp/ccEj6EN3.s 			page 1
  694:../../../core/platform/octa/drivers/STC3115/src/stc3115.c **** 	if(OCVOffset[loop] > 127) OCVOffset[loop] = 127;
  695:../../../core/platform/octa/drivers/STC3115/src/stc3115.c **** 	if(OCVOffset[loop] < -127) OCVOffset[loop] = -127;
  696:../../../core/platform/octa/drivers/STC3115/src/stc3115.c **** 	 ConfigData->OCVOffset[loop] = OCVOffset[loop];
-ARM GAS  /tmp/ccEj6EN3.s 			page 46
+ARM GAS  /tmp/ccASXzsh.s 			page 46
 
 
  1569              		.loc 1 696 3 is_stmt 1 discriminator 2 view .LVU427
@@ -2758,7 +2758,7 @@ ARM GAS  /tmp/ccEj6EN3.s 			page 1
  695:../../../core/platform/octa/drivers/STC3115/src/stc3115.c **** 	 ConfigData->OCVOffset[loop] = OCVOffset[loop];
  1610              		.loc 1 695 45 is_stmt 0 discriminator 1 view .LVU443
  1611 006e 6FF07E01 		mvn	r1, #126
-ARM GAS  /tmp/ccEj6EN3.s 			page 47
+ARM GAS  /tmp/ccASXzsh.s 			page 47
 
 
  1612 0072 10AA     		add	r2, sp, #64
@@ -2818,7 +2818,7 @@ ARM GAS  /tmp/ccEj6EN3.s 			page 1
  1639              		.loc 1 723 4 is_stmt 1 view .LVU455
  1640 0098 194C     		ldr	r4, .L112+4
  1641 009a 2046     		mov	r0, r4
-ARM GAS  /tmp/ccEj6EN3.s 			page 48
+ARM GAS  /tmp/ccASXzsh.s 			page 48
 
 
  1642 009c FFF7FEFF 		bl	STC3115_ReadRamData
@@ -2878,7 +2878,7 @@ ARM GAS  /tmp/ccEj6EN3.s 			page 1
  749:../../../core/platform/octa/drivers/STC3115/src/stc3115.c **** 		  {
  750:../../../core/platform/octa/drivers/STC3115/src/stc3115.c **** 				res=STC3115_Restore(ConfigData); /* recover from last SOC */
  751:../../../core/platform/octa/drivers/STC3115/src/stc3115.c **** 		  }
-ARM GAS  /tmp/ccEj6EN3.s 			page 49
+ARM GAS  /tmp/ccASXzsh.s 			page 49
 
 
  752:../../../core/platform/octa/drivers/STC3115/src/stc3115.c **** 	  }
@@ -2938,7 +2938,7 @@ ARM GAS  /tmp/ccEj6EN3.s 			page 1
  1708 00e6 2846     		mov	r0, r5
  1709 00e8 FFF7FEFF 		bl	STC3115_Startup
  1710              	.LVL162:
-ARM GAS  /tmp/ccEj6EN3.s 			page 50
+ARM GAS  /tmp/ccASXzsh.s 			page 50
 
 
  1711 00ec 0446     		mov	r4, r0
@@ -2998,7 +2998,7 @@ ARM GAS  /tmp/ccEj6EN3.s 			page 1
  1753              		.loc 1 773 3 view .LVU481
  774:../../../core/platform/octa/drivers/STC3115/src/stc3115.c **** 
  775:../../../core/platform/octa/drivers/STC3115/src/stc3115.c ****   /* reset RAM */
-ARM GAS  /tmp/ccEj6EN3.s 			page 51
+ARM GAS  /tmp/ccASXzsh.s 			page 51
 
 
  776:../../../core/platform/octa/drivers/STC3115/src/stc3115.c ****   RAMData.reg.TestWord=0;  
@@ -3058,7 +3058,7 @@ ARM GAS  /tmp/ccEj6EN3.s 			page 1
  1795              		.thumb
  1796              		.thumb_func
  1797              		.fpu fpv4-sp-d16
-ARM GAS  /tmp/ccEj6EN3.s 			page 52
+ARM GAS  /tmp/ccASXzsh.s 			page 52
 
 
  1799              	GasGauge_Stop:
@@ -3118,7 +3118,7 @@ ARM GAS  /tmp/ccEj6EN3.s 			page 1
  1830              	.LVL174:
  809:../../../core/platform/octa/drivers/STC3115/src/stc3115.c ****   if (res!=0) return (-1);  /* error */
  1831              		.loc 1 809 3 is_stmt 1 view .LVU504
-ARM GAS  /tmp/ccEj6EN3.s 			page 53
+ARM GAS  /tmp/ccASXzsh.s 			page 53
 
 
  1832              		.loc 1 809 6 is_stmt 0 view .LVU505
@@ -3178,7 +3178,7 @@ ARM GAS  /tmp/ccEj6EN3.s 			page 1
  1872 0004 0C46     		mov	r4, r1
  825:../../../core/platform/octa/drivers/STC3115/src/stc3115.c ****   int res;
  1873              		.loc 1 825 3 is_stmt 1 view .LVU510
-ARM GAS  /tmp/ccEj6EN3.s 			page 54
+ARM GAS  /tmp/ccASXzsh.s 			page 54
 
 
  826:../../../core/platform/octa/drivers/STC3115/src/stc3115.c **** 
@@ -3238,7 +3238,7 @@ ARM GAS  /tmp/ccEj6EN3.s 			page 1
  1913 0034 644B     		ldr	r3, .L153
  1914 0036 4922     		movs	r2, #73
  1915 0038 5A72     		strb	r2, [r3, #9]
-ARM GAS  /tmp/ccEj6EN3.s 			page 55
+ARM GAS  /tmp/ccASXzsh.s 			page 55
 
 
  1916              	.L130:
@@ -3298,7 +3298,7 @@ ARM GAS  /tmp/ccEj6EN3.s 			page 1
  868:../../../core/platform/octa/drivers/STC3115/src/stc3115.c **** 			STC3115_Startup(ConfigData);  /* if INIT state, initialize STC3115*/
  869:../../../core/platform/octa/drivers/STC3115/src/stc3115.c **** 		}
  870:../../../core/platform/octa/drivers/STC3115/src/stc3115.c **** 		
-ARM GAS  /tmp/ccEj6EN3.s 			page 56
+ARM GAS  /tmp/ccASXzsh.s 			page 56
 
 
  871:../../../core/platform/octa/drivers/STC3115/src/stc3115.c ****     RAMData.reg.STC3115_State = STC3115_INIT;
@@ -3358,7 +3358,7 @@ ARM GAS  /tmp/ccEj6EN3.s 			page 1
  894:../../../core/platform/octa/drivers/STC3115/src/stc3115.c ****   {
  895:../../../core/platform/octa/drivers/STC3115/src/stc3115.c ****   	BatteryData->ChargeValue = ConfigData->Cnom * BatteryData->SOC / MAX_SOC;
  1974              		.loc 1 895 4 is_stmt 1 view .LVU549
-ARM GAS  /tmp/ccEj6EN3.s 			page 57
+ARM GAS  /tmp/ccASXzsh.s 			page 57
 
 
  1975              		.loc 1 895 41 is_stmt 0 view .LVU550
@@ -3418,7 +3418,7 @@ ARM GAS  /tmp/ccEj6EN3.s 			page 1
  923:../../../core/platform/octa/drivers/STC3115/src/stc3115.c **** 			
  924:../../../core/platform/octa/drivers/STC3115/src/stc3115.c **** 			if(BatteryData->Current > APP_EOC_CURRENT && BatteryData->SOC > 990)
  925:../../../core/platform/octa/drivers/STC3115/src/stc3115.c **** 			{
-ARM GAS  /tmp/ccEj6EN3.s 			page 58
+ARM GAS  /tmp/ccASXzsh.s 			page 58
 
 
  926:../../../core/platform/octa/drivers/STC3115/src/stc3115.c **** 				BatteryData->SOC = 990;
@@ -3478,7 +3478,7 @@ ARM GAS  /tmp/ccEj6EN3.s 			page 1
  2023 00ba FFF7FEFF 		bl	STC3115_UpdateRamCRC
  2024              	.LVL185:
  959:../../../core/platform/octa/drivers/STC3115/src/stc3115.c **** 	  STC3115_WriteRamData(RAMData.db);
-ARM GAS  /tmp/ccEj6EN3.s 			page 59
+ARM GAS  /tmp/ccASXzsh.s 			page 59
 
 
  2025              		.loc 1 959 4 view .LVU571
@@ -3538,7 +3538,7 @@ ARM GAS  /tmp/ccEj6EN3.s 			page 1
  885:../../../core/platform/octa/drivers/STC3115/src/stc3115.c ****     {
  2064              		.loc 1 885 8 view .LVU584
  2065 00e6 042B     		cmp	r3, #4
-ARM GAS  /tmp/ccEj6EN3.s 			page 60
+ARM GAS  /tmp/ccASXzsh.s 			page 60
 
 
  2066 00e8 C5DD     		ble	.L136
@@ -3598,7 +3598,7 @@ ARM GAS  /tmp/ccEj6EN3.s 			page 1
  2104              		.loc 1 915 27 view .LVU600
  2105 0118 6362     		str	r3, [r4, #36]
  917:../../../core/platform/octa/drivers/STC3115/src/stc3115.c **** 	{  
-ARM GAS  /tmp/ccEj6EN3.s 			page 61
+ARM GAS  /tmp/ccASXzsh.s 			page 61
 
 
  2106              		.loc 1 917 2 is_stmt 1 view .LVU601
@@ -3658,7 +3658,7 @@ ARM GAS  /tmp/ccEj6EN3.s 			page 1
  911:../../../core/platform/octa/drivers/STC3115/src/stc3115.c **** 	}
  2144              		.loc 1 911 63 view .LVU618
  2145 0146 A3F6B833 		subw	r3, r3, #3000
-ARM GAS  /tmp/ccEj6EN3.s 			page 62
+ARM GAS  /tmp/ccASXzsh.s 			page 62
 
 
  911:../../../core/platform/octa/drivers/STC3115/src/stc3115.c **** 	}
@@ -3718,7 +3718,7 @@ ARM GAS  /tmp/ccEj6EN3.s 			page 1
  2186              		.loc 1 935 4 is_stmt 1 view .LVU632
  935:../../../core/platform/octa/drivers/STC3115/src/stc3115.c **** 				BatteryData->RemTime = -1; /* means no estimated time available */
  2187              		.loc 1 935 6 is_stmt 0 view .LVU633
-ARM GAS  /tmp/ccEj6EN3.s 			page 63
+ARM GAS  /tmp/ccASXzsh.s 			page 63
 
 
  2188 018a 002B     		cmp	r3, #0
@@ -3778,7 +3778,7 @@ ARM GAS  /tmp/ccEj6EN3.s 			page 1
  2226 01ba 72E7     		b	.L138
  2227              	.LVL196:
  2228              	.L150:
-ARM GAS  /tmp/ccEj6EN3.s 			page 64
+ARM GAS  /tmp/ccASXzsh.s 			page 64
 
 
  963:../../../core/platform/octa/drivers/STC3115/src/stc3115.c ****   else
@@ -3838,7 +3838,7 @@ ARM GAS  /tmp/ccEj6EN3.s 			page 1
  980:../../../core/platform/octa/drivers/STC3115/src/stc3115.c ****   /* Read the mode register*/
  981:../../../core/platform/octa/drivers/STC3115/src/stc3115.c ****   res = STC3115_ReadByte(STC3115_REG_MODE);
  2269              		.loc 1 981 3 view .LVU655
-ARM GAS  /tmp/ccEj6EN3.s 			page 65
+ARM GAS  /tmp/ccASXzsh.s 			page 65
 
 
  2270              		.loc 1 981 9 is_stmt 0 view .LVU656
@@ -3898,7 +3898,7 @@ ARM GAS  /tmp/ccEj6EN3.s 			page 1
  999:../../../core/platform/octa/drivers/STC3115/src/stc3115.c ****   int res;
  2309              		.loc 1 999 3 view .LVU664
 1000:../../../core/platform/octa/drivers/STC3115/src/stc3115.c ****   
-ARM GAS  /tmp/ccEj6EN3.s 			page 66
+ARM GAS  /tmp/ccASXzsh.s 			page 66
 
 
 1001:../../../core/platform/octa/drivers/STC3115/src/stc3115.c ****   /* Read the mode register*/
@@ -3958,7 +3958,7 @@ ARM GAS  /tmp/ccEj6EN3.s 			page 1
  2343              		@ frame_needed = 0, uses_anonymous_args = 0
  2344 0000 08B5     		push	{r3, lr}
  2345              	.LCFI52:
-ARM GAS  /tmp/ccEj6EN3.s 			page 67
+ARM GAS  /tmp/ccASXzsh.s 			page 67
 
 
  2346              		.cfi_def_cfa_offset 8
@@ -4018,7 +4018,7 @@ ARM GAS  /tmp/ccEj6EN3.s 			page 1
  2381              		.loc 1 1044 1 is_stmt 1 view -0
  2382              		.cfi_startproc
  2383              		@ args = 0, pretend = 0, frame = 0
-ARM GAS  /tmp/ccEj6EN3.s 			page 68
+ARM GAS  /tmp/ccASXzsh.s 			page 68
 
 
  2384              		@ frame_needed = 0, uses_anonymous_args = 0
@@ -4078,7 +4078,7 @@ ARM GAS  /tmp/ccEj6EN3.s 			page 1
 1065:../../../core/platform/octa/drivers/STC3115/src/stc3115.c **** *                             11 : SOC and voltage alarm
 1066:../../../core/platform/octa/drivers/STC3115/src/stc3115.c **** *******************************************************************************/
 1067:../../../core/platform/octa/drivers/STC3115/src/stc3115.c **** int STC3115_AlarmGet(void)
-ARM GAS  /tmp/ccEj6EN3.s 			page 69
+ARM GAS  /tmp/ccASXzsh.s 			page 69
 
 
 1068:../../../core/platform/octa/drivers/STC3115/src/stc3115.c **** {
@@ -4138,7 +4138,7 @@ ARM GAS  /tmp/ccEj6EN3.s 			page 1
 1084:../../../core/platform/octa/drivers/STC3115/src/stc3115.c **** * Input          : None
 1085:../../../core/platform/octa/drivers/STC3115/src/stc3115.c **** * Return         : error status (STC3115_OK, !STC3115_OK)
 1086:../../../core/platform/octa/drivers/STC3115/src/stc3115.c **** *******************************************************************************/
-ARM GAS  /tmp/ccEj6EN3.s 			page 70
+ARM GAS  /tmp/ccASXzsh.s 			page 70
 
 
 1087:../../../core/platform/octa/drivers/STC3115/src/stc3115.c **** int STC3115_AlarmClear(void)
@@ -4198,7 +4198,7 @@ ARM GAS  /tmp/ccEj6EN3.s 			page 1
  2496              		@ frame_needed = 0, uses_anonymous_args = 0
  2497              		.loc 1 1106 1 is_stmt 0 view .LVU709
  2498 0000 08B5     		push	{r3, lr}
-ARM GAS  /tmp/ccEj6EN3.s 			page 71
+ARM GAS  /tmp/ccASXzsh.s 			page 71
 
 
  2499              	.LCFI56:
@@ -4258,7 +4258,7 @@ ARM GAS  /tmp/ccEj6EN3.s 			page 1
  2543              		.thumb_func
  2544              		.fpu fpv4-sp-d16
  2546              	STC3115_AlarmSetSOCThreshold:
-ARM GAS  /tmp/ccEj6EN3.s 			page 72
+ARM GAS  /tmp/ccASXzsh.s 			page 72
 
 
  2547              	.LVL220:
@@ -4318,7 +4318,7 @@ ARM GAS  /tmp/ccEj6EN3.s 			page 1
  2586 0000 00000000 		.space	16
  2586      00000000 
  2586      00000000 
-ARM GAS  /tmp/ccEj6EN3.s 			page 73
+ARM GAS  /tmp/ccASXzsh.s 			page 73
 
 
  2586      00000000 
@@ -4329,8 +4329,8 @@ ARM GAS  /tmp/ccEj6EN3.s 			page 1
  2593 0000 00000000 		.space	4
  2594              		.text
  2595              	.Letext0:
- 2596              		.file 2 "/usr/arm-none-eabi/include/machine/_default_types.h"
- 2597              		.file 3 "/usr/arm-none-eabi/include/sys/_stdint.h"
+ 2596              		.file 2 "/home/matsdm/gcc-arm-none-eabi-9-2019-q4-major-x86_64-linux/gcc-arm-none-eabi-9-2019-q4-m
+ 2597              		.file 3 "/home/matsdm/gcc-arm-none-eabi-9-2019-q4-major-x86_64-linux/gcc-arm-none-eabi-9-2019-q4-m
  2598              		.file 4 "../../../core/ST/CMSIS/Include/core_cm4.h"
  2599              		.file 5 "../../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/system_stm32l4xx.h"
  2600              		.file 6 "../../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/stm32l496xx.h"
@@ -4340,101 +4340,101 @@ ARM GAS  /tmp/ccEj6EN3.s 			page 1
  2604              		.file 10 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h"
  2605              		.file 11 "../../../core/platform/octa/drivers/STC3115/inc/stc3115.h"
  2606              		.file 12 "<built-in>"
-ARM GAS  /tmp/ccEj6EN3.s 			page 74
+ARM GAS  /tmp/ccASXzsh.s 			page 74
 
 
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 stc3115.c
-     /tmp/ccEj6EN3.s:18     .text.STC3115_conv:0000000000000000 $t
-     /tmp/ccEj6EN3.s:25     .text.STC3115_conv:0000000000000000 STC3115_conv
-     /tmp/ccEj6EN3.s:59     .text.STC3115_CalcRamCRC8:0000000000000000 $t
-     /tmp/ccEj6EN3.s:65     .text.STC3115_CalcRamCRC8:0000000000000000 STC3115_CalcRamCRC8
-     /tmp/ccEj6EN3.s:152    .text.STC3115_UpdateRamCRC:0000000000000000 $t
-     /tmp/ccEj6EN3.s:158    .text.STC3115_UpdateRamCRC:0000000000000000 STC3115_UpdateRamCRC
-     /tmp/ccEj6EN3.s:186    .text.STC3115_UpdateRamCRC:0000000000000010 $d
-     /tmp/ccEj6EN3.s:191    .text.STC3115_InitRamData:0000000000000000 $t
-     /tmp/ccEj6EN3.s:197    .text.STC3115_InitRamData:0000000000000000 STC3115_InitRamData
-     /tmp/ccEj6EN3.s:258    .text.STC3115_InitRamData:0000000000000028 $d
-     /tmp/ccEj6EN3.s:263    .text.STC3115_ReadBytes:0000000000000000 $t
-     /tmp/ccEj6EN3.s:269    .text.STC3115_ReadBytes:0000000000000000 STC3115_ReadBytes
-     /tmp/ccEj6EN3.s:315    .text.STC3115_ReadBytes:0000000000000024 $d
-     /tmp/ccEj6EN3.s:320    .text.STC3115_ReadRamData:0000000000000000 $t
-     /tmp/ccEj6EN3.s:326    .text.STC3115_ReadRamData:0000000000000000 STC3115_ReadRamData
-     /tmp/ccEj6EN3.s:351    .text.STC3115_ReadBatteryData:0000000000000000 $t
-     /tmp/ccEj6EN3.s:357    .text.STC3115_ReadBatteryData:0000000000000000 STC3115_ReadBatteryData
-     /tmp/ccEj6EN3.s:577    .text.STC3115_ReadByte:0000000000000000 $t
-     /tmp/ccEj6EN3.s:583    .text.STC3115_ReadByte:0000000000000000 STC3115_ReadByte
-     /tmp/ccEj6EN3.s:632    .text.STC3115_ReadByte:0000000000000028 $d
-     /tmp/ccEj6EN3.s:637    .text.STC3115_ReadWord:0000000000000000 $t
-     /tmp/ccEj6EN3.s:643    .text.STC3115_ReadWord:0000000000000000 STC3115_ReadWord
-     /tmp/ccEj6EN3.s:700    .text.STC3115_ReadWord:0000000000000034 $d
-     /tmp/ccEj6EN3.s:705    .text.STC3115_GetStatusWord:0000000000000000 $t
-     /tmp/ccEj6EN3.s:711    .text.STC3115_GetStatusWord:0000000000000000 STC3115_GetStatusWord
-     /tmp/ccEj6EN3.s:752    .text.STC3115_WriteBytes:0000000000000000 $t
-     /tmp/ccEj6EN3.s:758    .text.STC3115_WriteBytes:0000000000000000 STC3115_WriteBytes
-     /tmp/ccEj6EN3.s:804    .text.STC3115_WriteBytes:0000000000000024 $d
-     /tmp/ccEj6EN3.s:809    .text.STC3115_WriteRamData:0000000000000000 $t
-     /tmp/ccEj6EN3.s:815    .text.STC3115_WriteRamData:0000000000000000 STC3115_WriteRamData
-     /tmp/ccEj6EN3.s:840    .text.STC3115_WriteByte:0000000000000000 $t
-     /tmp/ccEj6EN3.s:846    .text.STC3115_WriteByte:0000000000000000 STC3115_WriteByte
-     /tmp/ccEj6EN3.s:894    .text.STC3115_WriteByte:0000000000000028 $d
-     /tmp/ccEj6EN3.s:899    .text.STC3115_Powerdown:0000000000000000 $t
-     /tmp/ccEj6EN3.s:905    .text.STC3115_Powerdown:0000000000000000 STC3115_Powerdown
-     /tmp/ccEj6EN3.s:935    .text.STC3115_WriteWord:0000000000000000 $t
-     /tmp/ccEj6EN3.s:941    .text.STC3115_WriteWord:0000000000000000 STC3115_WriteWord
-     /tmp/ccEj6EN3.s:994    .text.STC3115_WriteWord:0000000000000030 $d
-     /tmp/ccEj6EN3.s:999    .text.STC3115_SetParamAndRun:0000000000000000 $t
-     /tmp/ccEj6EN3.s:1005   .text.STC3115_SetParamAndRun:0000000000000000 STC3115_SetParamAndRun
-     /tmp/ccEj6EN3.s:1154   .text.STC3115_SetParamAndRun:00000000000000a8 $d
-     /tmp/ccEj6EN3.s:1159   .text.STC3115_Startup:0000000000000000 $t
-     /tmp/ccEj6EN3.s:1165   .text.STC3115_Startup:0000000000000000 STC3115_Startup
-     /tmp/ccEj6EN3.s:1249   .text.STC3115_Restore:0000000000000000 $t
-     /tmp/ccEj6EN3.s:1255   .text.STC3115_Restore:0000000000000000 STC3115_Restore
-     /tmp/ccEj6EN3.s:1302   .text.STC3115_Restore:0000000000000024 $d
-     /tmp/ccEj6EN3.s:1307   .text.STC3115_ReadUnsignedWord:0000000000000000 $t
-     /tmp/ccEj6EN3.s:1314   .text.STC3115_ReadUnsignedWord:0000000000000000 STC3115_ReadUnsignedWord
-     /tmp/ccEj6EN3.s:1379   .text.STC3115_ReadUnsignedWord:0000000000000034 $d
-     /tmp/ccEj6EN3.s:1384   .text.STC3115_CheckI2cDeviceId:0000000000000000 $t
-     /tmp/ccEj6EN3.s:1391   .text.STC3115_CheckI2cDeviceId:0000000000000000 STC3115_CheckI2cDeviceId
-     /tmp/ccEj6EN3.s:1437   .text.STC3115_CheckI2cDeviceId:0000000000000028 $d
-     /tmp/ccEj6EN3.s:1442   .text.STC3115_GetRunningCounter:0000000000000000 $t
-     /tmp/ccEj6EN3.s:1449   .text.STC3115_GetRunningCounter:0000000000000000 STC3115_GetRunningCounter
-     /tmp/ccEj6EN3.s:1499   .text.GasGauge_Initialization:0000000000000000 $t
-ARM GAS  /tmp/ccEj6EN3.s 			page 75
+     /tmp/ccASXzsh.s:18     .text.STC3115_conv:0000000000000000 $t
+     /tmp/ccASXzsh.s:25     .text.STC3115_conv:0000000000000000 STC3115_conv
+     /tmp/ccASXzsh.s:59     .text.STC3115_CalcRamCRC8:0000000000000000 $t
+     /tmp/ccASXzsh.s:65     .text.STC3115_CalcRamCRC8:0000000000000000 STC3115_CalcRamCRC8
+     /tmp/ccASXzsh.s:152    .text.STC3115_UpdateRamCRC:0000000000000000 $t
+     /tmp/ccASXzsh.s:158    .text.STC3115_UpdateRamCRC:0000000000000000 STC3115_UpdateRamCRC
+     /tmp/ccASXzsh.s:186    .text.STC3115_UpdateRamCRC:0000000000000010 $d
+     /tmp/ccASXzsh.s:191    .text.STC3115_InitRamData:0000000000000000 $t
+     /tmp/ccASXzsh.s:197    .text.STC3115_InitRamData:0000000000000000 STC3115_InitRamData
+     /tmp/ccASXzsh.s:258    .text.STC3115_InitRamData:0000000000000028 $d
+     /tmp/ccASXzsh.s:263    .text.STC3115_ReadBytes:0000000000000000 $t
+     /tmp/ccASXzsh.s:269    .text.STC3115_ReadBytes:0000000000000000 STC3115_ReadBytes
+     /tmp/ccASXzsh.s:315    .text.STC3115_ReadBytes:0000000000000024 $d
+     /tmp/ccASXzsh.s:320    .text.STC3115_ReadRamData:0000000000000000 $t
+     /tmp/ccASXzsh.s:326    .text.STC3115_ReadRamData:0000000000000000 STC3115_ReadRamData
+     /tmp/ccASXzsh.s:351    .text.STC3115_ReadBatteryData:0000000000000000 $t
+     /tmp/ccASXzsh.s:357    .text.STC3115_ReadBatteryData:0000000000000000 STC3115_ReadBatteryData
+     /tmp/ccASXzsh.s:577    .text.STC3115_ReadByte:0000000000000000 $t
+     /tmp/ccASXzsh.s:583    .text.STC3115_ReadByte:0000000000000000 STC3115_ReadByte
+     /tmp/ccASXzsh.s:632    .text.STC3115_ReadByte:0000000000000028 $d
+     /tmp/ccASXzsh.s:637    .text.STC3115_ReadWord:0000000000000000 $t
+     /tmp/ccASXzsh.s:643    .text.STC3115_ReadWord:0000000000000000 STC3115_ReadWord
+     /tmp/ccASXzsh.s:700    .text.STC3115_ReadWord:0000000000000034 $d
+     /tmp/ccASXzsh.s:705    .text.STC3115_GetStatusWord:0000000000000000 $t
+     /tmp/ccASXzsh.s:711    .text.STC3115_GetStatusWord:0000000000000000 STC3115_GetStatusWord
+     /tmp/ccASXzsh.s:752    .text.STC3115_WriteBytes:0000000000000000 $t
+     /tmp/ccASXzsh.s:758    .text.STC3115_WriteBytes:0000000000000000 STC3115_WriteBytes
+     /tmp/ccASXzsh.s:804    .text.STC3115_WriteBytes:0000000000000024 $d
+     /tmp/ccASXzsh.s:809    .text.STC3115_WriteRamData:0000000000000000 $t
+     /tmp/ccASXzsh.s:815    .text.STC3115_WriteRamData:0000000000000000 STC3115_WriteRamData
+     /tmp/ccASXzsh.s:840    .text.STC3115_WriteByte:0000000000000000 $t
+     /tmp/ccASXzsh.s:846    .text.STC3115_WriteByte:0000000000000000 STC3115_WriteByte
+     /tmp/ccASXzsh.s:894    .text.STC3115_WriteByte:0000000000000028 $d
+     /tmp/ccASXzsh.s:899    .text.STC3115_Powerdown:0000000000000000 $t
+     /tmp/ccASXzsh.s:905    .text.STC3115_Powerdown:0000000000000000 STC3115_Powerdown
+     /tmp/ccASXzsh.s:935    .text.STC3115_WriteWord:0000000000000000 $t
+     /tmp/ccASXzsh.s:941    .text.STC3115_WriteWord:0000000000000000 STC3115_WriteWord
+     /tmp/ccASXzsh.s:994    .text.STC3115_WriteWord:0000000000000030 $d
+     /tmp/ccASXzsh.s:999    .text.STC3115_SetParamAndRun:0000000000000000 $t
+     /tmp/ccASXzsh.s:1005   .text.STC3115_SetParamAndRun:0000000000000000 STC3115_SetParamAndRun
+     /tmp/ccASXzsh.s:1154   .text.STC3115_SetParamAndRun:00000000000000a8 $d
+     /tmp/ccASXzsh.s:1159   .text.STC3115_Startup:0000000000000000 $t
+     /tmp/ccASXzsh.s:1165   .text.STC3115_Startup:0000000000000000 STC3115_Startup
+     /tmp/ccASXzsh.s:1249   .text.STC3115_Restore:0000000000000000 $t
+     /tmp/ccASXzsh.s:1255   .text.STC3115_Restore:0000000000000000 STC3115_Restore
+     /tmp/ccASXzsh.s:1302   .text.STC3115_Restore:0000000000000024 $d
+     /tmp/ccASXzsh.s:1307   .text.STC3115_ReadUnsignedWord:0000000000000000 $t
+     /tmp/ccASXzsh.s:1314   .text.STC3115_ReadUnsignedWord:0000000000000000 STC3115_ReadUnsignedWord
+     /tmp/ccASXzsh.s:1379   .text.STC3115_ReadUnsignedWord:0000000000000034 $d
+     /tmp/ccASXzsh.s:1384   .text.STC3115_CheckI2cDeviceId:0000000000000000 $t
+     /tmp/ccASXzsh.s:1391   .text.STC3115_CheckI2cDeviceId:0000000000000000 STC3115_CheckI2cDeviceId
+     /tmp/ccASXzsh.s:1437   .text.STC3115_CheckI2cDeviceId:0000000000000028 $d
+     /tmp/ccASXzsh.s:1442   .text.STC3115_GetRunningCounter:0000000000000000 $t
+     /tmp/ccASXzsh.s:1449   .text.STC3115_GetRunningCounter:0000000000000000 STC3115_GetRunningCounter
+     /tmp/ccASXzsh.s:1499   .text.GasGauge_Initialization:0000000000000000 $t
+ARM GAS  /tmp/ccASXzsh.s 			page 75
 
 
-     /tmp/ccEj6EN3.s:1506   .text.GasGauge_Initialization:0000000000000000 GasGauge_Initialization
-     /tmp/ccEj6EN3.s:1729   .text.GasGauge_Initialization:00000000000000fc $d
-     /tmp/ccEj6EN3.s:1735   .text.GasGauge_Reset:0000000000000000 $t
-     /tmp/ccEj6EN3.s:1742   .text.GasGauge_Reset:0000000000000000 GasGauge_Reset
-     /tmp/ccEj6EN3.s:1787   .text.GasGauge_Reset:000000000000001c $d
-     /tmp/ccEj6EN3.s:1792   .text.GasGauge_Stop:0000000000000000 $t
-     /tmp/ccEj6EN3.s:1799   .text.GasGauge_Stop:0000000000000000 GasGauge_Stop
-     /tmp/ccEj6EN3.s:1844   .text.GasGauge_Stop:0000000000000028 $d
-     /tmp/ccEj6EN3.s:1849   .text.GasGauge_Task:0000000000000000 $t
-     /tmp/ccEj6EN3.s:1856   .text.GasGauge_Task:0000000000000000 GasGauge_Task
-     /tmp/ccEj6EN3.s:2242   .text.GasGauge_Task:00000000000001c8 $d
-     /tmp/ccEj6EN3.s:2250   .text.STC3115_SetPowerSavingMode:0000000000000000 $t
-     /tmp/ccEj6EN3.s:2257   .text.STC3115_SetPowerSavingMode:0000000000000000 STC3115_SetPowerSavingMode
-     /tmp/ccEj6EN3.s:2291   .text.STC3115_StopPowerSavingMode:0000000000000000 $t
-     /tmp/ccEj6EN3.s:2298   .text.STC3115_StopPowerSavingMode:0000000000000000 STC3115_StopPowerSavingMode
-     /tmp/ccEj6EN3.s:2331   .text.STC3115_AlarmSet:0000000000000000 $t
-     /tmp/ccEj6EN3.s:2338   .text.STC3115_AlarmSet:0000000000000000 STC3115_AlarmSet
-     /tmp/ccEj6EN3.s:2372   .text.STC3115_AlarmStop:0000000000000000 $t
-     /tmp/ccEj6EN3.s:2379   .text.STC3115_AlarmStop:0000000000000000 STC3115_AlarmStop
-     /tmp/ccEj6EN3.s:2411   .text.STC3115_AlarmGet:0000000000000000 $t
-     /tmp/ccEj6EN3.s:2418   .text.STC3115_AlarmGet:0000000000000000 STC3115_AlarmGet
-     /tmp/ccEj6EN3.s:2451   .text.STC3115_AlarmClear:0000000000000000 $t
-     /tmp/ccEj6EN3.s:2458   .text.STC3115_AlarmClear:0000000000000000 STC3115_AlarmClear
-     /tmp/ccEj6EN3.s:2483   .text.STC3115_AlarmSetVoltageThreshold:0000000000000000 $t
-     /tmp/ccEj6EN3.s:2490   .text.STC3115_AlarmSetVoltageThreshold:0000000000000000 STC3115_AlarmSetVoltageThreshold
-     /tmp/ccEj6EN3.s:2534   .text.STC3115_AlarmSetVoltageThreshold:000000000000001c $d
-     /tmp/ccEj6EN3.s:2539   .text.STC3115_AlarmSetSOCThreshold:0000000000000000 $t
-     /tmp/ccEj6EN3.s:2546   .text.STC3115_AlarmSetSOCThreshold:0000000000000000 STC3115_AlarmSetSOCThreshold
-     /tmp/ccEj6EN3.s:2581   .bss.RAMData:0000000000000000 $d
-     /tmp/ccEj6EN3.s:2585   .bss.RAMData:0000000000000000 RAMData
-     /tmp/ccEj6EN3.s:2588   .bss.hi2cLib:0000000000000000 $d
-     /tmp/ccEj6EN3.s:2592   .bss.hi2cLib:0000000000000000 hi2cLib
+     /tmp/ccASXzsh.s:1506   .text.GasGauge_Initialization:0000000000000000 GasGauge_Initialization
+     /tmp/ccASXzsh.s:1729   .text.GasGauge_Initialization:00000000000000fc $d
+     /tmp/ccASXzsh.s:1735   .text.GasGauge_Reset:0000000000000000 $t
+     /tmp/ccASXzsh.s:1742   .text.GasGauge_Reset:0000000000000000 GasGauge_Reset
+     /tmp/ccASXzsh.s:1787   .text.GasGauge_Reset:000000000000001c $d
+     /tmp/ccASXzsh.s:1792   .text.GasGauge_Stop:0000000000000000 $t
+     /tmp/ccASXzsh.s:1799   .text.GasGauge_Stop:0000000000000000 GasGauge_Stop
+     /tmp/ccASXzsh.s:1844   .text.GasGauge_Stop:0000000000000028 $d
+     /tmp/ccASXzsh.s:1849   .text.GasGauge_Task:0000000000000000 $t
+     /tmp/ccASXzsh.s:1856   .text.GasGauge_Task:0000000000000000 GasGauge_Task
+     /tmp/ccASXzsh.s:2242   .text.GasGauge_Task:00000000000001c8 $d
+     /tmp/ccASXzsh.s:2250   .text.STC3115_SetPowerSavingMode:0000000000000000 $t
+     /tmp/ccASXzsh.s:2257   .text.STC3115_SetPowerSavingMode:0000000000000000 STC3115_SetPowerSavingMode
+     /tmp/ccASXzsh.s:2291   .text.STC3115_StopPowerSavingMode:0000000000000000 $t
+     /tmp/ccASXzsh.s:2298   .text.STC3115_StopPowerSavingMode:0000000000000000 STC3115_StopPowerSavingMode
+     /tmp/ccASXzsh.s:2331   .text.STC3115_AlarmSet:0000000000000000 $t
+     /tmp/ccASXzsh.s:2338   .text.STC3115_AlarmSet:0000000000000000 STC3115_AlarmSet
+     /tmp/ccASXzsh.s:2372   .text.STC3115_AlarmStop:0000000000000000 $t
+     /tmp/ccASXzsh.s:2379   .text.STC3115_AlarmStop:0000000000000000 STC3115_AlarmStop
+     /tmp/ccASXzsh.s:2411   .text.STC3115_AlarmGet:0000000000000000 $t
+     /tmp/ccASXzsh.s:2418   .text.STC3115_AlarmGet:0000000000000000 STC3115_AlarmGet
+     /tmp/ccASXzsh.s:2451   .text.STC3115_AlarmClear:0000000000000000 $t
+     /tmp/ccASXzsh.s:2458   .text.STC3115_AlarmClear:0000000000000000 STC3115_AlarmClear
+     /tmp/ccASXzsh.s:2483   .text.STC3115_AlarmSetVoltageThreshold:0000000000000000 $t
+     /tmp/ccASXzsh.s:2490   .text.STC3115_AlarmSetVoltageThreshold:0000000000000000 STC3115_AlarmSetVoltageThreshold
+     /tmp/ccASXzsh.s:2534   .text.STC3115_AlarmSetVoltageThreshold:000000000000001c $d
+     /tmp/ccASXzsh.s:2539   .text.STC3115_AlarmSetSOCThreshold:0000000000000000 $t
+     /tmp/ccASXzsh.s:2546   .text.STC3115_AlarmSetSOCThreshold:0000000000000000 STC3115_AlarmSetSOCThreshold
+     /tmp/ccASXzsh.s:2581   .bss.RAMData:0000000000000000 $d
+     /tmp/ccASXzsh.s:2585   .bss.RAMData:0000000000000000 RAMData
+     /tmp/ccASXzsh.s:2588   .bss.hi2cLib:0000000000000000 $d
+     /tmp/ccASXzsh.s:2592   .bss.hi2cLib:0000000000000000 hi2cLib
 
 UNDEFINED SYMBOLS
 HAL_I2C_Mem_Read

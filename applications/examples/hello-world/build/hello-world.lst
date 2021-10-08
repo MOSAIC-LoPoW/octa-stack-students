@@ -1,4 +1,4 @@
-ARM GAS  /tmp/cca7K8JC.s 			page 1
+ARM GAS  /tmp/cczH0Ndb.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  /tmp/cca7K8JC.s 			page 1
   22:../../../applications/examples/hello-world/src/hello-world.c ****   {
   23:../../../applications/examples/hello-world/src/hello-world.c ****   }
   24:../../../applications/examples/hello-world/src/hello-world.c **** }
-ARM GAS  /tmp/cca7K8JC.s 			page 2
+ARM GAS  /tmp/cczH0Ndb.s 			page 2
 
 
   25:../../../applications/examples/hello-world/src/hello-world.c **** 
@@ -118,7 +118,7 @@ ARM GAS  /tmp/cca7K8JC.s 			page 1
   80 0004 FFF7FEFF 		bl	Initialize_Platform
   81              	.LVL3:
    7:../../../applications/examples/hello-world/src/hello-world.c ****   defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
-ARM GAS  /tmp/cca7K8JC.s 			page 3
+ARM GAS  /tmp/cczH0Ndb.s 			page 3
 
 
   82              		.loc 1 7 3 view .LVU7
@@ -178,7 +178,7 @@ ARM GAS  /tmp/cca7K8JC.s 			page 1
  125 0048 FF20     		movs	r0, #255
  126 004a FFF7FEFF 		bl	OCTA_LED_set_rgb
  127              	.LVL9:
-ARM GAS  /tmp/cca7K8JC.s 			page 4
+ARM GAS  /tmp/cczH0Ndb.s 			page 4
 
 
   19:../../../applications/examples/hello-world/src/hello-world.c **** 
@@ -238,7 +238,7 @@ ARM GAS  /tmp/cca7K8JC.s 			page 1
  179              		.comm	FTDI_UART,120,4
  180              		.comm	BLE_UART,120,4
  181              		.comm	USB_UART,120,4
-ARM GAS  /tmp/cca7K8JC.s 			page 5
+ARM GAS  /tmp/cczH0Ndb.s 			page 5
 
 
  182              		.comm	hiwdg,16,4
@@ -274,8 +274,8 @@ ARM GAS  /tmp/cca7K8JC.s 			page 1
  212 0010 80000000 		.word	128
  213              		.text
  214              	.Letext0:
- 215              		.file 2 "/usr/arm-none-eabi/include/machine/_default_types.h"
- 216              		.file 3 "/usr/arm-none-eabi/include/sys/_stdint.h"
+ 215              		.file 2 "/home/matsdm/gcc-arm-none-eabi-9-2019-q4-major-x86_64-linux/gcc-arm-none-eabi-9-2019-q4-m
+ 216              		.file 3 "/home/matsdm/gcc-arm-none-eabi-9-2019-q4-major-x86_64-linux/gcc-arm-none-eabi-9-2019-q4-m
  217              		.file 4 "../../../core/ST/CMSIS/Include/core_cm4.h"
  218              		.file 5 "../../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/system_stm32l4xx.h"
  219              		.file 6 "../../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/stm32l496xx.h"
@@ -298,29 +298,29 @@ ARM GAS  /tmp/cca7K8JC.s 			page 1
  236              		.file 23 "../../../core/platform/octa/inc/i2c.h"
  237              		.file 24 "../../../core/platform/octa/inc/spi.h"
  238              		.file 25 "../../../core/platform/octa/inc/rtc.h"
-ARM GAS  /tmp/cca7K8JC.s 			page 6
+ARM GAS  /tmp/cczH0Ndb.s 			page 6
 
 
  239              		.file 26 "../../../core/platform/octa/inc/rtosincludes.h"
- 240              		.file 27 "/usr/arm-none-eabi/include/sys/lock.h"
- 241              		.file 28 "/usr/arm-none-eabi/include/sys/_types.h"
- 242              		.file 29 "/usr/lib/gcc/arm-none-eabi/9.2.1/include/stddef.h"
- 243              		.file 30 "/usr/arm-none-eabi/include/sys/reent.h"
+ 240              		.file 27 "/home/matsdm/gcc-arm-none-eabi-9-2019-q4-major-x86_64-linux/gcc-arm-none-eabi-9-2019-q4-
+ 241              		.file 28 "/home/matsdm/gcc-arm-none-eabi-9-2019-q4-major-x86_64-linux/gcc-arm-none-eabi-9-2019-q4-
+ 242              		.file 29 "/home/matsdm/gcc-arm-none-eabi-9-2019-q4-major-x86_64-linux/gcc-arm-none-eabi-9-2019-q4-
+ 243              		.file 30 "/home/matsdm/gcc-arm-none-eabi-9-2019-q4-major-x86_64-linux/gcc-arm-none-eabi-9-2019-q4-
  244              		.file 31 "../../../core/platform/common/inc/datatypes.h"
  245              		.file 32 "../../../core/platform/octa/inc/platform.h"
  246              		.file 33 "../../../applications/examples/hello-world/inc/hello-world.h"
  247              		.file 34 "../../../core/platform/octa/inc/leds.h"
-ARM GAS  /tmp/cca7K8JC.s 			page 7
+ARM GAS  /tmp/cczH0Ndb.s 			page 7
 
 
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 hello-world.c
-     /tmp/cca7K8JC.s:15     .rodata.str1.4:0000000000000000 $d
-     /tmp/cca7K8JC.s:22     .text.StartDefaultTask:0000000000000000 $t
-     /tmp/cca7K8JC.s:30     .text.StartDefaultTask:0000000000000000 StartDefaultTask
-     /tmp/cca7K8JC.s:58     .text.main:0000000000000000 $t
-     /tmp/cca7K8JC.s:65     .text.main:0000000000000000 main
-     /tmp/cca7K8JC.s:139    .text.main:0000000000000054 $d
+     /tmp/cczH0Ndb.s:15     .rodata.str1.4:0000000000000000 $d
+     /tmp/cczH0Ndb.s:22     .text.StartDefaultTask:0000000000000000 $t
+     /tmp/cczH0Ndb.s:30     .text.StartDefaultTask:0000000000000000 StartDefaultTask
+     /tmp/cczH0Ndb.s:58     .text.main:0000000000000000 $t
+     /tmp/cczH0Ndb.s:65     .text.main:0000000000000000 main
+     /tmp/cczH0Ndb.s:139    .text.main:0000000000000054 $d
                             *COM*:0000000000000004 defaultTaskHandle
                             *COM*:0000000000000004 iwdgTimId
                             *COM*:000000000000002c P3_header
@@ -370,7 +370,7 @@ DEFINED SYMBOLS
                             *COM*:0000000000000008 P2_DIO3
                             *COM*:0000000000000008 P2_DIO2
                             *COM*:0000000000000008 P2_DIO1
-ARM GAS  /tmp/cca7K8JC.s 			page 8
+ARM GAS  /tmp/cczH0Ndb.s 			page 8
 
 
                             *COM*:0000000000000008 P1_DIO6
@@ -381,7 +381,7 @@ DEFINED SYMBOLS
                             *COM*:0000000000000008 P1_DIO1
                             *COM*:0000000000000040 htim6
                             *COM*:0000000000000040 htim1
-     /tmp/cca7K8JC.s:204    .rodata:0000000000000000 $d
+     /tmp/cczH0Ndb.s:204    .rodata:0000000000000000 $d
 
 UNDEFINED SYMBOLS
 osDelay

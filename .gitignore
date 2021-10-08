@@ -1,3 +1,4 @@
 applications/*/build/*
+applications/*/*/build/*
 shields/Murata/inc/keys.h
 shields/NB-IoT/inc/SARAN21X_Params.h

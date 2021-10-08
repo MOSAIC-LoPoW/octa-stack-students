@@ -1,4 +1,4 @@
-ARM GAS  /tmp/cc7j76Ba.s 			page 1
+ARM GAS  /tmp/ccA1yA6C.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  /tmp/cc7j76Ba.s 			page 1
   27:../../../core/platform/octa/src/stm32l4xx_hal_timebase_tim.c ****   * 4. This software, including modifications and/or derivative works of this 
   28:../../../core/platform/octa/src/stm32l4xx_hal_timebase_tim.c ****   *    software, must execute solely and exclusively on microcontroller or
   29:../../../core/platform/octa/src/stm32l4xx_hal_timebase_tim.c ****   *    microprocessor devices manufactured by or for STMicroelectronics.
-ARM GAS  /tmp/cc7j76Ba.s 			page 2
+ARM GAS  /tmp/ccA1yA6C.s 			page 2
 
 
   30:../../../core/platform/octa/src/stm32l4xx_hal_timebase_tim.c ****   * 5. Redistribution and use of this software other than as permitted under 
@@ -118,7 +118,7 @@ ARM GAS  /tmp/cc7j76Ba.s 			page 1
   40              	.LCFI1:
   41              		.cfi_def_cfa_offset 40
   42 0004 0146     		mov	r1, r0
-ARM GAS  /tmp/cc7j76Ba.s 			page 3
+ARM GAS  /tmp/ccA1yA6C.s 			page 3
 
 
   74:../../../core/platform/octa/src/stm32l4xx_hal_timebase_tim.c ****   RCC_ClkInitTypeDef    clkconfig;
@@ -178,7 +178,7 @@ ARM GAS  /tmp/cc7j76Ba.s 			page 1
   91:../../../core/platform/octa/src/stm32l4xx_hal_timebase_tim.c ****   /* Compute TIM1 clock */
   92:../../../core/platform/octa/src/stm32l4xx_hal_timebase_tim.c ****   uwTimclock = HAL_RCC_GetPCLK2Freq();
   80              		.loc 1 92 3 view .LVU16
-ARM GAS  /tmp/cc7j76Ba.s 			page 4
+ARM GAS  /tmp/ccA1yA6C.s 			page 4
 
 
   81              		.loc 1 92 16 is_stmt 0 view .LVU17
@@ -238,7 +238,7 @@ ARM GAS  /tmp/cc7j76Ba.s 			page 1
  117 0052 FFF7FEFF 		bl	HAL_TIM_Base_Init
  118              	.LVL10:
  119              		.loc 1 110 5 view .LVU35
-ARM GAS  /tmp/cc7j76Ba.s 			page 5
+ARM GAS  /tmp/ccA1yA6C.s 			page 5
 
 
  120 0056 48B1     		cbz	r0, .L5
@@ -298,7 +298,7 @@ ARM GAS  /tmp/cc7j76Ba.s 			page 1
  163              		.fpu fpv4-sp-d16
  165              	HAL_SuspendTick:
  166              	.LFB124:
-ARM GAS  /tmp/cc7j76Ba.s 			page 6
+ARM GAS  /tmp/ccA1yA6C.s 			page 6
 
 
  121:../../../core/platform/octa/src/stm32l4xx_hal_timebase_tim.c **** 
@@ -358,7 +358,7 @@ ARM GAS  /tmp/cc7j76Ba.s 			page 1
  142:../../../core/platform/octa/src/stm32l4xx_hal_timebase_tim.c ****   /* Enable TIM1 Update interrupt */
  143:../../../core/platform/octa/src/stm32l4xx_hal_timebase_tim.c ****   __HAL_TIM_ENABLE_IT(&htim1, TIM_IT_UPDATE);
  202              		.loc 1 143 3 view .LVU46
-ARM GAS  /tmp/cc7j76Ba.s 			page 7
+ARM GAS  /tmp/ccA1yA6C.s 			page 7
 
 
  203 0000 034B     		ldr	r3, .L12
@@ -418,7 +418,7 @@ ARM GAS  /tmp/cc7j76Ba.s 			page 1
  242 0004 034B     		ldr	r3, .L18
  243 0006 9A42     		cmp	r2, r3
  244 0008 00D0     		beq	.L17
-ARM GAS  /tmp/cc7j76Ba.s 			page 8
+ARM GAS  /tmp/ccA1yA6C.s 			page 8
 
 
  245              	.LVL14:
@@ -449,8 +449,8 @@ ARM GAS  /tmp/cc7j76Ba.s 			page 1
  263              		.comm	htim1,64,4
  264              		.text
  265              	.Letext0:
- 266              		.file 2 "/usr/arm-none-eabi/include/machine/_default_types.h"
- 267              		.file 3 "/usr/arm-none-eabi/include/sys/_stdint.h"
+ 266              		.file 2 "/home/matsdm/gcc-arm-none-eabi-9-2019-q4-major-x86_64-linux/gcc-arm-none-eabi-9-2019-q4-m
+ 267              		.file 3 "/home/matsdm/gcc-arm-none-eabi-9-2019-q4-major-x86_64-linux/gcc-arm-none-eabi-9-2019-q4-m
  268              		.file 4 "../../../core/ST/CMSIS/Include/core_cm4.h"
  269              		.file 5 "../../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/system_stm32l4xx.h"
  270              		.file 6 "../../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/stm32l496xx.h"
@@ -460,24 +460,24 @@ ARM GAS  /tmp/cc7j76Ba.s 			page 1
  274              		.file 10 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_tim.h"
  275              		.file 11 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h"
  276              		.file 12 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_cortex.h"
-ARM GAS  /tmp/cc7j76Ba.s 			page 9
+ARM GAS  /tmp/ccA1yA6C.s 			page 9
 
 
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 stm32l4xx_hal_timebase_tim.c
-     /tmp/cc7j76Ba.s:18     .text.HAL_InitTick:0000000000000000 $t
-     /tmp/cc7j76Ba.s:26     .text.HAL_InitTick:0000000000000000 HAL_InitTick
-     /tmp/cc7j76Ba.s:150    .text.HAL_InitTick:0000000000000074 $d
+     /tmp/ccA1yA6C.s:18     .text.HAL_InitTick:0000000000000000 $t
+     /tmp/ccA1yA6C.s:26     .text.HAL_InitTick:0000000000000000 HAL_InitTick
+     /tmp/ccA1yA6C.s:150    .text.HAL_InitTick:0000000000000074 $d
                             *COM*:0000000000000040 htim1
-     /tmp/cc7j76Ba.s:158    .text.HAL_SuspendTick:0000000000000000 $t
-     /tmp/cc7j76Ba.s:165    .text.HAL_SuspendTick:0000000000000000 HAL_SuspendTick
-     /tmp/cc7j76Ba.s:183    .text.HAL_SuspendTick:0000000000000010 $d
-     /tmp/cc7j76Ba.s:188    .text.HAL_ResumeTick:0000000000000000 $t
-     /tmp/cc7j76Ba.s:195    .text.HAL_ResumeTick:0000000000000000 HAL_ResumeTick
-     /tmp/cc7j76Ba.s:213    .text.HAL_ResumeTick:0000000000000010 $d
-     /tmp/cc7j76Ba.s:218    .text.HAL_TIM_PeriodElapsedCallback:0000000000000000 $t
-     /tmp/cc7j76Ba.s:225    .text.HAL_TIM_PeriodElapsedCallback:0000000000000000 HAL_TIM_PeriodElapsedCallback
-     /tmp/cc7j76Ba.s:259    .text.HAL_TIM_PeriodElapsedCallback:0000000000000014 $d
+     /tmp/ccA1yA6C.s:158    .text.HAL_SuspendTick:0000000000000000 $t
+     /tmp/ccA1yA6C.s:165    .text.HAL_SuspendTick:0000000000000000 HAL_SuspendTick
+     /tmp/ccA1yA6C.s:183    .text.HAL_SuspendTick:0000000000000010 $d
+     /tmp/ccA1yA6C.s:188    .text.HAL_ResumeTick:0000000000000000 $t
+     /tmp/ccA1yA6C.s:195    .text.HAL_ResumeTick:0000000000000000 HAL_ResumeTick
+     /tmp/ccA1yA6C.s:213    .text.HAL_ResumeTick:0000000000000010 $d
+     /tmp/ccA1yA6C.s:218    .text.HAL_TIM_PeriodElapsedCallback:0000000000000000 $t
+     /tmp/ccA1yA6C.s:225    .text.HAL_TIM_PeriodElapsedCallback:0000000000000000 HAL_TIM_PeriodElapsedCallback
+     /tmp/ccA1yA6C.s:259    .text.HAL_TIM_PeriodElapsedCallback:0000000000000014 $d
 
 UNDEFINED SYMBOLS
 HAL_NVIC_SetPriority

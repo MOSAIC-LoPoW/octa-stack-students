@@ -1,4 +1,4 @@
-ARM GAS  /tmp/ccrp1g9z.s 			page 1
+ARM GAS  /tmp/ccATHmSO.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  /tmp/ccrp1g9z.s 			page 1
    9:../../../core/platform/octa/src/freertos.c ****    configCHECKFORSTACK_OVERFLOW is defined to 1 or 2. This hook function is
   10:../../../core/platform/octa/src/freertos.c ****    called if a stack overflow is detected. */
   11:../../../core/platform/octa/src/freertos.c ****   printERR("*****FreeRTOS stack overflow*****\r\n");
-ARM GAS  /tmp/ccrp1g9z.s 			page 2
+ARM GAS  /tmp/ccATHmSO.s 			page 2
 
 
   44              		.loc 1 11 3 is_stmt 1 view .LVU2
@@ -118,7 +118,7 @@ ARM GAS  /tmp/ccrp1g9z.s 			page 1
   81              		.loc 1 26 1 is_stmt 1 view -0
   82              		.cfi_startproc
   83              		@ args = 0, pretend = 0, frame = 8
-ARM GAS  /tmp/ccrp1g9z.s 			page 3
+ARM GAS  /tmp/ccATHmSO.s 			page 3
 
 
   84              		@ frame_needed = 0, uses_anonymous_args = 0
@@ -178,7 +178,7 @@ ARM GAS  /tmp/ccrp1g9z.s 			page 1
  121 0020 BFF34F8F 		dsb
  122              	@ 0 "" 2
  123              		.loc 1 43 5 discriminator 1 view .LVU17
-ARM GAS  /tmp/ccrp1g9z.s 			page 4
+ARM GAS  /tmp/ccATHmSO.s 			page 4
 
 
  124              	@ 43 "../../../core/platform/octa/src/freertos.c" 1
@@ -238,7 +238,7 @@ ARM GAS  /tmp/ccrp1g9z.s 			page 1
  171              		.align	2
  172              	.LC6:
  173 0024 52454144 		.ascii	"READY\000"
-ARM GAS  /tmp/ccrp1g9z.s 			page 5
+ARM GAS  /tmp/ccATHmSO.s 			page 5
 
 
  173      5900
@@ -298,7 +298,7 @@ ARM GAS  /tmp/ccrp1g9z.s 			page 1
  214              		.loc 1 56 24 is_stmt 0 view .LVU29
  215 0016 0548     		ldr	r0, .L20+8
  216 0018 7047     		bx	lr
-ARM GAS  /tmp/ccrp1g9z.s 			page 6
+ARM GAS  /tmp/ccATHmSO.s 			page 6
 
 
  217              	.L13:
@@ -358,7 +358,7 @@ ARM GAS  /tmp/ccrp1g9z.s 			page 1
  250              	.LC10:
  251 007c 09537461 		.ascii	"\011Status: %s\015\012\000"
  251      7475733A 
-ARM GAS  /tmp/ccrp1g9z.s 			page 7
+ARM GAS  /tmp/ccATHmSO.s 			page 7
 
 
  251      2025730D 
@@ -418,7 +418,7 @@ ARM GAS  /tmp/ccrp1g9z.s 			page 1
  290 0008 00EBC000 		add	r0, r0, r0, lsl #3
  291              		.loc 1 69 27 view .LVU40
  292 000c 8000     		lsls	r0, r0, #2
-ARM GAS  /tmp/ccrp1g9z.s 			page 8
+ARM GAS  /tmp/ccATHmSO.s 			page 8
 
 
  293 000e FFF7FEFF 		bl	pvPortMalloc
@@ -478,7 +478,7 @@ ARM GAS  /tmp/ccrp1g9z.s 			page 1
   82:../../../core/platform/octa/src/freertos.c **** 
   83:../../../core/platform/octa/src/freertos.c ****           printDBG("\tStatus: %s\r\n", pcConvertThreadState(pxTaskStatusArray[i].eCurrentState));
  335              		.loc 1 83 11 discriminator 3 view .LVU54
-ARM GAS  /tmp/ccrp1g9z.s 			page 9
+ARM GAS  /tmp/ccATHmSO.s 			page 9
 
 
  336 0046 207B     		ldrb	r0, [r4, #12]	@ zero_extendqisi2
@@ -538,7 +538,7 @@ ARM GAS  /tmp/ccrp1g9z.s 			page 1
  376              	.LCFI7:
  377              		.cfi_def_cfa_offset 16
  378              		@ sp needed
-ARM GAS  /tmp/ccrp1g9z.s 			page 10
+ARM GAS  /tmp/ccATHmSO.s 			page 10
 
 
  379 0078 70BD     		pop	{r4, r5, r6, pc}
@@ -598,7 +598,7 @@ ARM GAS  /tmp/ccrp1g9z.s 			page 1
  430              		.comm	P2_header,44,4
  431              		.comm	P1_header,44,4
  432              		.comm	stackversion_patch,1,1
-ARM GAS  /tmp/ccrp1g9z.s 			page 11
+ARM GAS  /tmp/ccATHmSO.s 			page 11
 
 
  433              		.comm	stackversion_minor,1,1
@@ -654,11 +654,11 @@ ARM GAS  /tmp/ccrp1g9z.s 			page 1
  483              		.comm	rtosprintHandle,4,4
  484              		.text
  485              	.Letext0:
- 486              		.file 2 "/usr/arm-none-eabi/include/machine/_default_types.h"
- 487              		.file 3 "/usr/arm-none-eabi/include/sys/_stdint.h"
+ 486              		.file 2 "/home/matsdm/gcc-arm-none-eabi-9-2019-q4-major-x86_64-linux/gcc-arm-none-eabi-9-2019-q4-m
+ 487              		.file 3 "/home/matsdm/gcc-arm-none-eabi-9-2019-q4-major-x86_64-linux/gcc-arm-none-eabi-9-2019-q4-m
  488              		.file 4 "../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/portmacro.
  489              		.file 5 "../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/include/task.h"
-ARM GAS  /tmp/ccrp1g9z.s 			page 12
+ARM GAS  /tmp/ccATHmSO.s 			page 12
 
 
  490              		.file 6 "../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h"
@@ -683,40 +683,40 @@ ARM GAS  /tmp/ccrp1g9z.s 			page 1
  509              		.file 25 "../../../core/platform/octa/inc/i2c.h"
  510              		.file 26 "../../../core/platform/octa/inc/spi.h"
  511              		.file 27 "../../../core/platform/octa/inc/rtc.h"
- 512              		.file 28 "/usr/arm-none-eabi/include/sys/lock.h"
- 513              		.file 29 "/usr/arm-none-eabi/include/sys/_types.h"
- 514              		.file 30 "/usr/lib/gcc/arm-none-eabi/9.2.1/include/stddef.h"
- 515              		.file 31 "/usr/arm-none-eabi/include/sys/reent.h"
+ 512              		.file 28 "/home/matsdm/gcc-arm-none-eabi-9-2019-q4-major-x86_64-linux/gcc-arm-none-eabi-9-2019-q4-
+ 513              		.file 29 "/home/matsdm/gcc-arm-none-eabi-9-2019-q4-major-x86_64-linux/gcc-arm-none-eabi-9-2019-q4-
+ 514              		.file 30 "/home/matsdm/gcc-arm-none-eabi-9-2019-q4-major-x86_64-linux/gcc-arm-none-eabi-9-2019-q4-
+ 515              		.file 31 "/home/matsdm/gcc-arm-none-eabi-9-2019-q4-major-x86_64-linux/gcc-arm-none-eabi-9-2019-q4-
  516              		.file 32 "../../../core/platform/common/inc/datatypes.h"
  517              		.file 33 "../../../core/platform/octa/inc/platform.h"
  518              		.file 34 "../../../core/platform/common/inc/print.h"
  519              		.file 35 "../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/include/portable.h"
  520              		.file 36 "../../../core/platform/common/inc/assert.h"
-ARM GAS  /tmp/ccrp1g9z.s 			page 13
+ARM GAS  /tmp/ccATHmSO.s 			page 13
 
 
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 freertos.c
-     /tmp/ccrp1g9z.s:18     .rodata.vApplicationStackOverflowHook.str1.4:0000000000000000 $d
-     /tmp/ccrp1g9z.s:22     .text.vApplicationStackOverflowHook:0000000000000000 $t
-     /tmp/ccrp1g9z.s:30     .text.vApplicationStackOverflowHook:0000000000000000 vApplicationStackOverflowHook
-     /tmp/ccrp1g9z.s:62     .text.vApplicationStackOverflowHook:000000000000000c $d
-     /tmp/ccrp1g9z.s:67     .rodata.RTOS_Send_Notification.str1.4:0000000000000000 $d
-     /tmp/ccrp1g9z.s:71     .text.RTOS_Send_Notification:0000000000000000 $t
-     /tmp/ccrp1g9z.s:78     .text.RTOS_Send_Notification:0000000000000000 RTOS_Send_Notification
-     /tmp/ccrp1g9z.s:153    .text.RTOS_Send_Notification:0000000000000038 $d
-     /tmp/ccrp1g9z.s:159    .rodata.pcConvertThreadState.str1.4:0000000000000000 $d
-     /tmp/ccrp1g9z.s:175    .text.pcConvertThreadState:0000000000000000 $t
-     /tmp/ccrp1g9z.s:182    .text.pcConvertThreadState:0000000000000000 pcConvertThreadState
-     /tmp/ccrp1g9z.s:198    .text.pcConvertThreadState:000000000000000a $d
-     /tmp/ccrp1g9z.s:202    .text.pcConvertThreadState:000000000000000e $t
-     /tmp/ccrp1g9z.s:230    .text.pcConvertThreadState:0000000000000024 $d
-     /tmp/ccrp1g9z.s:239    .rodata.RTOS_print_stats.str1.4:0000000000000000 $d
-     /tmp/ccrp1g9z.s:259    .text.RTOS_print_stats:0000000000000000 $t
-     /tmp/ccrp1g9z.s:266    .text.RTOS_print_stats:0000000000000000 RTOS_print_stats
-     /tmp/ccrp1g9z.s:383    .text.RTOS_print_stats:000000000000007c $d
-     /tmp/ccrp1g9z.s:393    .text.RTOS_Print_Stats_Thread:0000000000000000 $t
-     /tmp/ccrp1g9z.s:400    .text.RTOS_Print_Stats_Thread:0000000000000000 RTOS_Print_Stats_Thread
+     /tmp/ccATHmSO.s:18     .rodata.vApplicationStackOverflowHook.str1.4:0000000000000000 $d
+     /tmp/ccATHmSO.s:22     .text.vApplicationStackOverflowHook:0000000000000000 $t
+     /tmp/ccATHmSO.s:30     .text.vApplicationStackOverflowHook:0000000000000000 vApplicationStackOverflowHook
+     /tmp/ccATHmSO.s:62     .text.vApplicationStackOverflowHook:000000000000000c $d
+     /tmp/ccATHmSO.s:67     .rodata.RTOS_Send_Notification.str1.4:0000000000000000 $d
+     /tmp/ccATHmSO.s:71     .text.RTOS_Send_Notification:0000000000000000 $t
+     /tmp/ccATHmSO.s:78     .text.RTOS_Send_Notification:0000000000000000 RTOS_Send_Notification
+     /tmp/ccATHmSO.s:153    .text.RTOS_Send_Notification:0000000000000038 $d
+     /tmp/ccATHmSO.s:159    .rodata.pcConvertThreadState.str1.4:0000000000000000 $d
+     /tmp/ccATHmSO.s:175    .text.pcConvertThreadState:0000000000000000 $t
+     /tmp/ccATHmSO.s:182    .text.pcConvertThreadState:0000000000000000 pcConvertThreadState
+     /tmp/ccATHmSO.s:198    .text.pcConvertThreadState:000000000000000a $d
+     /tmp/ccATHmSO.s:202    .text.pcConvertThreadState:000000000000000e $t
+     /tmp/ccATHmSO.s:230    .text.pcConvertThreadState:0000000000000024 $d
+     /tmp/ccATHmSO.s:239    .rodata.RTOS_print_stats.str1.4:0000000000000000 $d
+     /tmp/ccATHmSO.s:259    .text.RTOS_print_stats:0000000000000000 $t
+     /tmp/ccATHmSO.s:266    .text.RTOS_print_stats:0000000000000000 RTOS_print_stats
+     /tmp/ccATHmSO.s:383    .text.RTOS_print_stats:000000000000007c $d
+     /tmp/ccATHmSO.s:393    .text.RTOS_Print_Stats_Thread:0000000000000000 $t
+     /tmp/ccATHmSO.s:400    .text.RTOS_Print_Stats_Thread:0000000000000000 RTOS_Print_Stats_Thread
                             *COM*:000000000000002c P3_header
                             *COM*:000000000000002c P2_header
                             *COM*:000000000000002c P1_header
@@ -752,7 +752,7 @@ DEFINED SYMBOLS
                             *COM*:0000000000000078 USB_UART
                             *COM*:0000000000000010 hiwdg
                             *COM*:0000000000000008 P3_DIO6
-ARM GAS  /tmp/ccrp1g9z.s 			page 14
+ARM GAS  /tmp/ccATHmSO.s 			page 14
 
 
                             *COM*:0000000000000008 P3_DIO5

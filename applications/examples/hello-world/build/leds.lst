@@ -1,4 +1,4 @@
-ARM GAS  /tmp/ccGMBvXj.s 			page 1
+ARM GAS  /tmp/ccSVhCTX.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  /tmp/ccGMBvXj.s 			page 1
   37              	.LCFI0:
   38              		.cfi_def_cfa_offset 4
   39              		.cfi_offset 4, -4
-ARM GAS  /tmp/ccGMBvXj.s 			page 2
+ARM GAS  /tmp/ccSVhCTX.s 			page 2
 
 
   20:../../../core/platform/octa/src/leds.c ****   htim4.Instance->CCR3 = 65535 - red*256;
@@ -118,7 +118,7 @@ ARM GAS  /tmp/ccGMBvXj.s 			page 1
   89              		.cfi_startproc
   90              		@ args = 0, pretend = 0, frame = 56
   91              		@ frame_needed = 0, uses_anonymous_args = 0
-ARM GAS  /tmp/ccGMBvXj.s 			page 3
+ARM GAS  /tmp/ccSVhCTX.s 			page 3
 
 
   92 0000 00B5     		push	{lr}
@@ -178,7 +178,7 @@ ARM GAS  /tmp/ccGMBvXj.s 			page 1
   42:../../../core/platform/octa/src/leds.c ****   htim3.Init.Period = 65535;
  131              		.loc 1 42 3 is_stmt 1 view .LVU27
  132              		.loc 1 42 21 is_stmt 0 view .LVU28
-ARM GAS  /tmp/ccGMBvXj.s 			page 4
+ARM GAS  /tmp/ccSVhCTX.s 			page 4
 
 
  133 002c 4FF6FF72 		movw	r2, #65535
@@ -238,7 +238,7 @@ ARM GAS  /tmp/ccGMBvXj.s 			page 1
  171 0054 0023     		movs	r3, #0
  172 0056 0793     		str	r3, [sp, #28]
   59:../../../core/platform/octa/src/leds.c ****   sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
-ARM GAS  /tmp/ccGMBvXj.s 			page 5
+ARM GAS  /tmp/ccSVhCTX.s 			page 5
 
 
  173              		.loc 1 59 3 is_stmt 1 view .LVU46
@@ -298,7 +298,7 @@ ARM GAS  /tmp/ccGMBvXj.s 			page 1
  211 007e FFF7FEFF 		bl	HAL_TIM_MspPostInit
  212              	.LVL8:
   76:../../../core/platform/octa/src/leds.c **** 
-ARM GAS  /tmp/ccGMBvXj.s 			page 6
+ARM GAS  /tmp/ccSVhCTX.s 			page 6
 
 
   77:../../../core/platform/octa/src/leds.c **** }
@@ -358,7 +358,7 @@ ARM GAS  /tmp/ccGMBvXj.s 			page 1
  261              	.LBE6:
  262              		.cfi_endproc
  263              	.LFE125:
-ARM GAS  /tmp/ccGMBvXj.s 			page 7
+ARM GAS  /tmp/ccSVhCTX.s 			page 7
 
 
  265              		.section	.text.MX_TIM4_Init,"ax",%progbits
@@ -418,7 +418,7 @@ ARM GAS  /tmp/ccGMBvXj.s 			page 1
  304 001c 0493     		str	r3, [sp, #16]
  305 001e 0593     		str	r3, [sp, #20]
  306 0020 0693     		str	r3, [sp, #24]
-ARM GAS  /tmp/ccGMBvXj.s 			page 8
+ARM GAS  /tmp/ccSVhCTX.s 			page 8
 
 
   94:../../../core/platform/octa/src/leds.c **** 
@@ -478,7 +478,7 @@ ARM GAS  /tmp/ccGMBvXj.s 			page 1
  345              		.loc 1 109 6 view .LVU95
  346 004a 30BB     		cbnz	r0, .L28
  347              	.L21:
-ARM GAS  /tmp/ccGMBvXj.s 			page 9
+ARM GAS  /tmp/ccSVhCTX.s 			page 9
 
 
  110:../../../core/platform/octa/src/leds.c ****   {
@@ -538,7 +538,7 @@ ARM GAS  /tmp/ccGMBvXj.s 			page 1
  385 006e 0493     		str	r3, [sp, #16]
  127:../../../core/platform/octa/src/leds.c ****   if (HAL_TIM_PWM_ConfigChannel(&htim4, &sConfigOC, TIM_CHANNEL_3) != HAL_OK)
  386              		.loc 1 127 3 is_stmt 1 view .LVU114
-ARM GAS  /tmp/ccGMBvXj.s 			page 10
+ARM GAS  /tmp/ccSVhCTX.s 			page 10
 
 
  387              		.loc 1 127 7 is_stmt 0 view .LVU115
@@ -598,7 +598,7 @@ ARM GAS  /tmp/ccGMBvXj.s 			page 1
  427              	.LBB8:
  111:../../../core/platform/octa/src/leds.c ****     Error_Handler();
  428              		.loc 1 111 5 view .LVU123
-ARM GAS  /tmp/ccGMBvXj.s 			page 11
+ARM GAS  /tmp/ccSVhCTX.s 			page 11
 
 
  429 009a FFF7FEFF 		bl	Error_Handler
@@ -658,7 +658,7 @@ ARM GAS  /tmp/ccGMBvXj.s 			page 1
  480              		.cfi_startproc
  481              		@ args = 0, pretend = 0, frame = 0
  482              		@ frame_needed = 0, uses_anonymous_args = 0
-ARM GAS  /tmp/ccGMBvXj.s 			page 12
+ARM GAS  /tmp/ccSVhCTX.s 			page 12
 
 
  483 0000 10B5     		push	{r4, lr}
@@ -714,11 +714,11 @@ ARM GAS  /tmp/ccGMBvXj.s 			page 1
  527              		.comm	htim3,64,4
  528              		.text
  529              	.Letext0:
- 530              		.file 2 "/usr/arm-none-eabi/include/machine/_default_types.h"
- 531              		.file 3 "/usr/arm-none-eabi/include/sys/_stdint.h"
+ 530              		.file 2 "/home/matsdm/gcc-arm-none-eabi-9-2019-q4-major-x86_64-linux/gcc-arm-none-eabi-9-2019-q4-m
+ 531              		.file 3 "/home/matsdm/gcc-arm-none-eabi-9-2019-q4-major-x86_64-linux/gcc-arm-none-eabi-9-2019-q4-m
  532              		.file 4 "../../../core/ST/CMSIS/Include/core_cm4.h"
  533              		.file 5 "../../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/system_stm32l4xx.h"
-ARM GAS  /tmp/ccGMBvXj.s 			page 13
+ARM GAS  /tmp/ccSVhCTX.s 			page 13
 
 
  534              		.file 6 "../../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/stm32l496xx.h"
@@ -727,25 +727,25 @@ ARM GAS  /tmp/ccGMBvXj.s 			page 1
  537              		.file 9 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_tim.h"
  538              		.file 10 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h"
  539              		.file 11 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_tim_ex.h"
-ARM GAS  /tmp/ccGMBvXj.s 			page 14
+ARM GAS  /tmp/ccSVhCTX.s 			page 14
 
 
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 leds.c
-     /tmp/ccGMBvXj.s:18     .text.OCTA_LED_set_rgb:0000000000000000 $t
-     /tmp/ccGMBvXj.s:26     .text.OCTA_LED_set_rgb:0000000000000000 OCTA_LED_set_rgb
-     /tmp/ccGMBvXj.s:73     .text.OCTA_LED_set_rgb:0000000000000028 $d
+     /tmp/ccSVhCTX.s:18     .text.OCTA_LED_set_rgb:0000000000000000 $t
+     /tmp/ccSVhCTX.s:26     .text.OCTA_LED_set_rgb:0000000000000000 OCTA_LED_set_rgb
+     /tmp/ccSVhCTX.s:73     .text.OCTA_LED_set_rgb:0000000000000028 $d
                             *COM*:0000000000000040 htim4
                             *COM*:0000000000000040 htim3
-     /tmp/ccGMBvXj.s:79     .text.MX_TIM3_Init:0000000000000000 $t
-     /tmp/ccGMBvXj.s:86     .text.MX_TIM3_Init:0000000000000000 MX_TIM3_Init
-     /tmp/ccGMBvXj.s:259    .text.MX_TIM3_Init:00000000000000a8 $d
-     /tmp/ccGMBvXj.s:266    .text.MX_TIM4_Init:0000000000000000 $t
-     /tmp/ccGMBvXj.s:273    .text.MX_TIM4_Init:0000000000000000 MX_TIM4_Init
-     /tmp/ccGMBvXj.s:463    .text.MX_TIM4_Init:00000000000000b8 $d
-     /tmp/ccGMBvXj.s:470    .text.OCTA_LED_PWM_Init:0000000000000000 $t
-     /tmp/ccGMBvXj.s:477    .text.OCTA_LED_PWM_Init:0000000000000000 OCTA_LED_PWM_Init
-     /tmp/ccGMBvXj.s:521    .text.OCTA_LED_PWM_Init:0000000000000030 $d
+     /tmp/ccSVhCTX.s:79     .text.MX_TIM3_Init:0000000000000000 $t
+     /tmp/ccSVhCTX.s:86     .text.MX_TIM3_Init:0000000000000000 MX_TIM3_Init
+     /tmp/ccSVhCTX.s:259    .text.MX_TIM3_Init:00000000000000a8 $d
+     /tmp/ccSVhCTX.s:266    .text.MX_TIM4_Init:0000000000000000 $t
+     /tmp/ccSVhCTX.s:273    .text.MX_TIM4_Init:0000000000000000 MX_TIM4_Init
+     /tmp/ccSVhCTX.s:463    .text.MX_TIM4_Init:00000000000000b8 $d
+     /tmp/ccSVhCTX.s:470    .text.OCTA_LED_PWM_Init:0000000000000000 $t
+     /tmp/ccSVhCTX.s:477    .text.OCTA_LED_PWM_Init:0000000000000000 OCTA_LED_PWM_Init
+     /tmp/ccSVhCTX.s:521    .text.OCTA_LED_PWM_Init:0000000000000030 $d
 
 UNDEFINED SYMBOLS
 HAL_TIM_Base_Init

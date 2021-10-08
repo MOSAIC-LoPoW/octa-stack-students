@@ -75,6 +75,7 @@
  ../../../core/platform/common/inc/octa-protocol-types.h \
  ../../../core/platform/common/inc/assert.h \
  ../../../core/platform/common/inc/error.h \
+ ../../../core/platform/octa/inc/leds.h \
  ../../../core/platform/common/inc/datatypes.h
 
 ../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h:
@@ -226,5 +227,7 @@
 ../../../core/platform/common/inc/assert.h:
 
 ../../../core/platform/common/inc/error.h:
+
+../../../core/platform/octa/inc/leds.h:
 
 ../../../core/platform/common/inc/datatypes.h:

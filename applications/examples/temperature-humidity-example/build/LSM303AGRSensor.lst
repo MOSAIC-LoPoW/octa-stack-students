@@ -1,4 +1,4 @@
-ARM GAS  /tmp/ccSukZY7.s 			page 1
+ARM GAS  /tmp/cc3C3drZ.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  /tmp/ccSukZY7.s 			page 1
   39              		.loc 1 17 1 view .LVU3
   40 0004 7047     		bx	lr
   41              	.L3:
-ARM GAS  /tmp/ccSukZY7.s 			page 2
+ARM GAS  /tmp/cc3C3drZ.s 			page 2
 
 
   42 0006 00BF     		.align	2
@@ -118,7 +118,7 @@ ARM GAS  /tmp/ccSukZY7.s 			page 1
   82              		.loc 1 33 3 is_stmt 0 view .LVU9
   83 0018 0092     		str	r2, [sp]
   84 001a 0246     		mov	r2, r0
-ARM GAS  /tmp/ccSukZY7.s 			page 3
+ARM GAS  /tmp/cc3C3drZ.s 			page 3
 
 
   85 001c 3221     		movs	r1, #50
@@ -178,7 +178,7 @@ ARM GAS  /tmp/ccSukZY7.s 			page 1
  125 0046 FFF7FEFF 		bl	HAL_I2C_Mem_Read
  126              	.LVL10:
   37:../../../core/drivers/LSM303AGR/src/LSM303AGRSensor.c **** 				LSM303AGR_reg, I2C_MEMADD_SIZE_8BIT, &LSM303AGR_data,
-ARM GAS  /tmp/ccSukZY7.s 			page 4
+ARM GAS  /tmp/cc3C3drZ.s 			page 4
 
 
  127              		.loc 1 37 3 view .LVU18
@@ -238,7 +238,7 @@ ARM GAS  /tmp/ccSukZY7.s 			page 1
  167 0012 0193     		str	r3, [sp, #4]
  168 0014 0DF11702 		add	r2, sp, #23
  169              	.LVL12:
-ARM GAS  /tmp/ccSukZY7.s 			page 5
+ARM GAS  /tmp/cc3C3drZ.s 			page 5
 
 
  170              		.loc 1 59 3 is_stmt 0 view .LVU24
@@ -298,7 +298,7 @@ ARM GAS  /tmp/ccSukZY7.s 			page 1
  210              	.LVL19:
   63:../../../core/drivers/LSM303AGR/src/LSM303AGRSensor.c **** 				LSM303AGR_reg, I2C_MEMADD_SIZE_8BIT, &LSM303AGR_data,
  211              		.loc 1 63 3 view .LVU32
-ARM GAS  /tmp/ccSukZY7.s 			page 6
+ARM GAS  /tmp/cc3C3drZ.s 			page 6
 
 
  212 0044 0068     		ldr	r0, [r0]
@@ -358,7 +358,7 @@ ARM GAS  /tmp/ccSukZY7.s 			page 1
   90:../../../core/drivers/LSM303AGR/src/LSM303AGRSensor.c **** 			| LSM303AGR_ACC_Y_EN | LSM303AGR_ACC_Z_EN;
   91:../../../core/drivers/LSM303AGR/src/LSM303AGRSensor.c **** 	LSM303AGR_writeRegister(LSM303AGR_ACC_CTRL_REG1, LSM303AGR_setting, 0);
  248              		.loc 1 91 2 is_stmt 1 view .LVU37
-ARM GAS  /tmp/ccSukZY7.s 			page 7
+ARM GAS  /tmp/cc3C3drZ.s 			page 7
 
 
  249 0008 0022     		movs	r2, #0
@@ -418,7 +418,7 @@ ARM GAS  /tmp/ccSukZY7.s 			page 1
  106:../../../core/drivers/LSM303AGR/src/LSM303AGRSensor.c **** }
  289              		.loc 1 106 1 is_stmt 0 view .LVU50
  290 0040 10BD     		pop	{r4, pc}
-ARM GAS  /tmp/ccSukZY7.s 			page 8
+ARM GAS  /tmp/cc3C3drZ.s 			page 8
 
 
  291              	.L19:
@@ -478,7 +478,7 @@ ARM GAS  /tmp/ccSukZY7.s 			page 1
  340              		.thumb
  341              		.thumb_func
  342              		.fpu fpv4-sp-d16
-ARM GAS  /tmp/ccSukZY7.s 			page 9
+ARM GAS  /tmp/cc3C3drZ.s 			page 9
 
 
  344              	LSM303AGR_MAG_reset:
@@ -538,7 +538,7 @@ ARM GAS  /tmp/ccSukZY7.s 			page 1
  385              		.cfi_startproc
  386              		@ args = 0, pretend = 0, frame = 0
  387              		@ frame_needed = 0, uses_anonymous_args = 0
-ARM GAS  /tmp/ccSukZY7.s 			page 10
+ARM GAS  /tmp/cc3C3drZ.s 			page 10
 
 
  388 0000 08B5     		push	{r3, lr}
@@ -598,7 +598,7 @@ ARM GAS  /tmp/ccSukZY7.s 			page 1
  431              		.loc 1 142 2 view .LVU67
  432              		.loc 1 142 20 is_stmt 0 view .LVU68
  433 0002 9221     		movs	r1, #146
-ARM GAS  /tmp/ccSukZY7.s 			page 11
+ARM GAS  /tmp/cc3C3drZ.s 			page 11
 
 
  434 0004 034B     		ldr	r3, .L34
@@ -658,7 +658,7 @@ ARM GAS  /tmp/ccSukZY7.s 			page 1
  478              	.LVL30:
  155:../../../core/drivers/LSM303AGR/src/LSM303AGRSensor.c **** 
  156:../../../core/drivers/LSM303AGR/src/LSM303AGRSensor.c **** }
-ARM GAS  /tmp/ccSukZY7.s 			page 12
+ARM GAS  /tmp/cc3C3drZ.s 			page 12
 
 
  479              		.loc 1 156 1 is_stmt 0 view .LVU75
@@ -718,7 +718,7 @@ ARM GAS  /tmp/ccSukZY7.s 			page 1
  524              	.LFE132:
  526              		.section	.text.LSM303AGR_ACC_readAccelerationData,"ax",%progbits
  527              		.align	1
-ARM GAS  /tmp/ccSukZY7.s 			page 13
+ARM GAS  /tmp/cc3C3drZ.s 			page 13
 
 
  528              		.global	LSM303AGR_ACC_readAccelerationData
@@ -778,7 +778,7 @@ ARM GAS  /tmp/ccSukZY7.s 			page 1
  183:../../../core/drivers/LSM303AGR/src/LSM303AGRSensor.c **** 	accRawData[0] = (accRegisterData[1] << 8)	| accRegisterData[0];
  568              		.loc 1 183 2 is_stmt 1 view .LVU85
  569              		.loc 1 183 34 is_stmt 0 view .LVU86
-ARM GAS  /tmp/ccSukZY7.s 			page 14
+ARM GAS  /tmp/cc3C3drZ.s 			page 14
 
 
  570 0022 6A78     		ldrb	r2, [r5, #1]	@ zero_extendqisi2
@@ -838,7 +838,7 @@ ARM GAS  /tmp/ccSukZY7.s 			page 1
  617              		.loc 1 190 46 view .LVU109
  618 0066 02FB03F3 		mul	r3, r2, r3
  619              		.loc 1 190 53 view .LVU110
-ARM GAS  /tmp/ccSukZY7.s 			page 15
+ARM GAS  /tmp/cc3C3drZ.s 			page 15
 
 
  620 006a 03F5FA73 		add	r3, r3, #500
@@ -898,7 +898,7 @@ ARM GAS  /tmp/ccSukZY7.s 			page 1
  196:../../../core/drivers/LSM303AGR/src/LSM303AGRSensor.c ****  * Reads the output registers of the magnetometer and applies the sensitivity
  197:../../../core/drivers/LSM303AGR/src/LSM303AGRSensor.c ****  * @param pData: a pointer to where the data needs to be stored
  198:../../../core/drivers/LSM303AGR/src/LSM303AGRSensor.c ****  */
-ARM GAS  /tmp/ccSukZY7.s 			page 16
+ARM GAS  /tmp/cc3C3drZ.s 			page 16
 
 
  199:../../../core/drivers/LSM303AGR/src/LSM303AGRSensor.c **** void LSM303AGR_MAG_readMagneticData(int32_t *pData) {
@@ -958,7 +958,7 @@ ARM GAS  /tmp/ccSukZY7.s 			page 1
  711 002c 1A4A     		ldr	r2, .L50+8
  712 002e 1380     		strh	r3, [r2]	@ movhi
  212:../../../core/drivers/LSM303AGR/src/LSM303AGRSensor.c **** 	magRawData[1] = (magRegisterData[3] << 8)
-ARM GAS  /tmp/ccSukZY7.s 			page 17
+ARM GAS  /tmp/cc3C3drZ.s 			page 17
 
 
  713              		.loc 1 212 2 is_stmt 1 view .LVU131
@@ -1018,7 +1018,7 @@ ARM GAS  /tmp/ccSukZY7.s 			page 1
  757 007c F8EEE77A 		vcvt.f32.s32	s15, s15
  758 0080 67EEA67A 		vmul.f32	s15, s15, s13
  759              		.loc 1 220 13 view .LVU153
-ARM GAS  /tmp/ccSukZY7.s 			page 18
+ARM GAS  /tmp/cc3C3drZ.s 			page 18
 
 
  760 0084 FDEEE77A 		vcvt.s32.f32	s15, s15
@@ -1078,7 +1078,7 @@ ARM GAS  /tmp/ccSukZY7.s 			page 1
  231:../../../core/drivers/LSM303AGR/src/LSM303AGRSensor.c **** 	//LSM303AGR_MAG_TEMP_DATA rawData;
  232:../../../core/drivers/LSM303AGR/src/LSM303AGRSensor.c **** 
  233:../../../core/drivers/LSM303AGR/src/LSM303AGRSensor.c **** 	HAL_I2C_Mem_Read(LSM303AGR_hi2c, LSM303AGR_MAG_I2C_ADDRESS,
-ARM GAS  /tmp/ccSukZY7.s 			page 19
+ARM GAS  /tmp/cc3C3drZ.s 			page 19
 
 
  806              		.loc 1 233 2 is_stmt 1 view .LVU159
@@ -1138,7 +1138,7 @@ ARM GAS  /tmp/ccSukZY7.s 			page 1
  848 003e AB80     		strh	r3, [r5, #4]	@ movhi
  243:../../../core/drivers/LSM303AGR/src/LSM303AGRSensor.c **** 
  244:../../../core/drivers/LSM303AGR/src/LSM303AGRSensor.c **** 
-ARM GAS  /tmp/ccSukZY7.s 			page 20
+ARM GAS  /tmp/cc3C3drZ.s 			page 20
 
 
  245:../../../core/drivers/LSM303AGR/src/LSM303AGRSensor.c **** }
@@ -1198,7 +1198,7 @@ ARM GAS  /tmp/ccSukZY7.s 			page 1
  894 000c 0623     		movs	r3, #6
  895 000e 0193     		str	r3, [sp, #4]
  896 0010 0C4C     		ldr	r4, .L58
-ARM GAS  /tmp/ccSukZY7.s 			page 21
+ARM GAS  /tmp/cc3C3drZ.s 			page 21
 
 
  897 0012 0094     		str	r4, [sp]
@@ -1258,7 +1258,7 @@ ARM GAS  /tmp/ccSukZY7.s 			page 1
  939 0042 30BD     		pop	{r4, r5, pc}
  940              	.LVL47:
  941              	.L59:
-ARM GAS  /tmp/ccSukZY7.s 			page 22
+ARM GAS  /tmp/cc3C3drZ.s 			page 22
 
 
  942              		.loc 1 267 1 view .LVU198
@@ -1276,8 +1276,8 @@ ARM GAS  /tmp/ccSukZY7.s 			page 1
  955              		.comm	LSM303AGR_setting,1,1
  956              		.text
  957              	.Letext0:
- 958              		.file 2 "/usr/arm-none-eabi/include/machine/_default_types.h"
- 959              		.file 3 "/usr/arm-none-eabi/include/sys/_stdint.h"
+ 958              		.file 2 "/home/matsdm/gcc-arm-none-eabi-9-2019-q4-major-x86_64-linux/gcc-arm-none-eabi-9-2019-q4-m
+ 959              		.file 3 "/home/matsdm/gcc-arm-none-eabi-9-2019-q4-major-x86_64-linux/gcc-arm-none-eabi-9-2019-q4-m
  960              		.file 4 "../../../core/ST/CMSIS/Include/core_cm4.h"
  961              		.file 5 "../../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/system_stm32l4xx.h"
  962              		.file 6 "../../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/stm32l496xx.h"
@@ -1285,59 +1285,59 @@ ARM GAS  /tmp/ccSukZY7.s 			page 1
  964              		.file 8 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_dma.h"
  965              		.file 9 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_i2c.h"
  966              		.file 10 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h"
-ARM GAS  /tmp/ccSukZY7.s 			page 23
+ARM GAS  /tmp/cc3C3drZ.s 			page 23
 
 
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 LSM303AGRSensor.c
-     /tmp/ccSukZY7.s:18     .text.LSM303AGR_setI2CInterface:0000000000000000 $t
-     /tmp/ccSukZY7.s:26     .text.LSM303AGR_setI2CInterface:0000000000000000 LSM303AGR_setI2CInterface
-     /tmp/ccSukZY7.s:44     .text.LSM303AGR_setI2CInterface:0000000000000008 $d
+     /tmp/cc3C3drZ.s:18     .text.LSM303AGR_setI2CInterface:0000000000000000 $t
+     /tmp/cc3C3drZ.s:26     .text.LSM303AGR_setI2CInterface:0000000000000000 LSM303AGR_setI2CInterface
+     /tmp/cc3C3drZ.s:44     .text.LSM303AGR_setI2CInterface:0000000000000008 $d
                             *COM*:0000000000000004 LSM303AGR_hi2c
-     /tmp/ccSukZY7.s:49     .text.LSM303AGR_readRegister:0000000000000000 $t
-     /tmp/ccSukZY7.s:56     .text.LSM303AGR_readRegister:0000000000000000 LSM303AGR_readRegister
-     /tmp/ccSukZY7.s:132    .text.LSM303AGR_readRegister:000000000000004c $d
-     /tmp/ccSukZY7.s:137    .text.LSM303AGR_writeRegister:0000000000000000 $t
-     /tmp/ccSukZY7.s:144    .text.LSM303AGR_writeRegister:0000000000000000 LSM303AGR_writeRegister
-     /tmp/ccSukZY7.s:220    .text.LSM303AGR_writeRegister:000000000000004c $d
-     /tmp/ccSukZY7.s:225    .text.LSM303AGR_init:0000000000000000 $t
-     /tmp/ccSukZY7.s:232    .text.LSM303AGR_init:0000000000000000 LSM303AGR_init
-     /tmp/ccSukZY7.s:294    .text.LSM303AGR_init:0000000000000044 $d
+     /tmp/cc3C3drZ.s:49     .text.LSM303AGR_readRegister:0000000000000000 $t
+     /tmp/cc3C3drZ.s:56     .text.LSM303AGR_readRegister:0000000000000000 LSM303AGR_readRegister
+     /tmp/cc3C3drZ.s:132    .text.LSM303AGR_readRegister:000000000000004c $d
+     /tmp/cc3C3drZ.s:137    .text.LSM303AGR_writeRegister:0000000000000000 $t
+     /tmp/cc3C3drZ.s:144    .text.LSM303AGR_writeRegister:0000000000000000 LSM303AGR_writeRegister
+     /tmp/cc3C3drZ.s:220    .text.LSM303AGR_writeRegister:000000000000004c $d
+     /tmp/cc3C3drZ.s:225    .text.LSM303AGR_init:0000000000000000 $t
+     /tmp/cc3C3drZ.s:232    .text.LSM303AGR_init:0000000000000000 LSM303AGR_init
+     /tmp/cc3C3drZ.s:294    .text.LSM303AGR_init:0000000000000044 $d
                             *COM*:0000000000000001 LSM303AGR_setting
-     /tmp/ccSukZY7.s:299    .text.LSM303AGR_ACC_reset:0000000000000000 $t
-     /tmp/ccSukZY7.s:306    .text.LSM303AGR_ACC_reset:0000000000000000 LSM303AGR_ACC_reset
-     /tmp/ccSukZY7.s:332    .text.LSM303AGR_ACC_reset:0000000000000014 $d
-     /tmp/ccSukZY7.s:337    .text.LSM303AGR_MAG_reset:0000000000000000 $t
-     /tmp/ccSukZY7.s:344    .text.LSM303AGR_MAG_reset:0000000000000000 LSM303AGR_MAG_reset
-     /tmp/ccSukZY7.s:370    .text.LSM303AGR_MAG_reset:0000000000000014 $d
-     /tmp/ccSukZY7.s:375    .text.LSM303AGR_powerDownAccelerometer:0000000000000000 $t
-     /tmp/ccSukZY7.s:382    .text.LSM303AGR_powerDownAccelerometer:0000000000000000 LSM303AGR_powerDownAccelerometer
-     /tmp/ccSukZY7.s:408    .text.LSM303AGR_powerDownAccelerometer:0000000000000014 $d
-     /tmp/ccSukZY7.s:413    .text.LSM303AGR_powerDownMagnetometer:0000000000000000 $t
-     /tmp/ccSukZY7.s:420    .text.LSM303AGR_powerDownMagnetometer:0000000000000000 LSM303AGR_powerDownMagnetometer
-     /tmp/ccSukZY7.s:446    .text.LSM303AGR_powerDownMagnetometer:0000000000000014 $d
-     /tmp/ccSukZY7.s:451    .text.LSM303AGR_wakeUpAccelerometer:0000000000000000 $t
-     /tmp/ccSukZY7.s:458    .text.LSM303AGR_wakeUpAccelerometer:0000000000000000 LSM303AGR_wakeUpAccelerometer
-     /tmp/ccSukZY7.s:484    .text.LSM303AGR_wakeUpAccelerometer:0000000000000014 $d
-     /tmp/ccSukZY7.s:489    .text.LSM303AGR_wakeUpMagnetometer:0000000000000000 $t
-     /tmp/ccSukZY7.s:496    .text.LSM303AGR_wakeUpMagnetometer:0000000000000000 LSM303AGR_wakeUpMagnetometer
-     /tmp/ccSukZY7.s:522    .text.LSM303AGR_wakeUpMagnetometer:0000000000000014 $d
-     /tmp/ccSukZY7.s:527    .text.LSM303AGR_ACC_readAccelerationData:0000000000000000 $t
-     /tmp/ccSukZY7.s:534    .text.LSM303AGR_ACC_readAccelerationData:0000000000000000 LSM303AGR_ACC_readAccelerationData
-     /tmp/ccSukZY7.s:653    .text.LSM303AGR_ACC_readAccelerationData:0000000000000098 $d
+     /tmp/cc3C3drZ.s:299    .text.LSM303AGR_ACC_reset:0000000000000000 $t
+     /tmp/cc3C3drZ.s:306    .text.LSM303AGR_ACC_reset:0000000000000000 LSM303AGR_ACC_reset
+     /tmp/cc3C3drZ.s:332    .text.LSM303AGR_ACC_reset:0000000000000014 $d
+     /tmp/cc3C3drZ.s:337    .text.LSM303AGR_MAG_reset:0000000000000000 $t
+     /tmp/cc3C3drZ.s:344    .text.LSM303AGR_MAG_reset:0000000000000000 LSM303AGR_MAG_reset
+     /tmp/cc3C3drZ.s:370    .text.LSM303AGR_MAG_reset:0000000000000014 $d
+     /tmp/cc3C3drZ.s:375    .text.LSM303AGR_powerDownAccelerometer:0000000000000000 $t
+     /tmp/cc3C3drZ.s:382    .text.LSM303AGR_powerDownAccelerometer:0000000000000000 LSM303AGR_powerDownAccelerometer
+     /tmp/cc3C3drZ.s:408    .text.LSM303AGR_powerDownAccelerometer:0000000000000014 $d
+     /tmp/cc3C3drZ.s:413    .text.LSM303AGR_powerDownMagnetometer:0000000000000000 $t
+     /tmp/cc3C3drZ.s:420    .text.LSM303AGR_powerDownMagnetometer:0000000000000000 LSM303AGR_powerDownMagnetometer
+     /tmp/cc3C3drZ.s:446    .text.LSM303AGR_powerDownMagnetometer:0000000000000014 $d
+     /tmp/cc3C3drZ.s:451    .text.LSM303AGR_wakeUpAccelerometer:0000000000000000 $t
+     /tmp/cc3C3drZ.s:458    .text.LSM303AGR_wakeUpAccelerometer:0000000000000000 LSM303AGR_wakeUpAccelerometer
+     /tmp/cc3C3drZ.s:484    .text.LSM303AGR_wakeUpAccelerometer:0000000000000014 $d
+     /tmp/cc3C3drZ.s:489    .text.LSM303AGR_wakeUpMagnetometer:0000000000000000 $t
+     /tmp/cc3C3drZ.s:496    .text.LSM303AGR_wakeUpMagnetometer:0000000000000000 LSM303AGR_wakeUpMagnetometer
+     /tmp/cc3C3drZ.s:522    .text.LSM303AGR_wakeUpMagnetometer:0000000000000014 $d
+     /tmp/cc3C3drZ.s:527    .text.LSM303AGR_ACC_readAccelerationData:0000000000000000 $t
+     /tmp/cc3C3drZ.s:534    .text.LSM303AGR_ACC_readAccelerationData:0000000000000000 LSM303AGR_ACC_readAccelerationData
+     /tmp/cc3C3drZ.s:653    .text.LSM303AGR_ACC_readAccelerationData:0000000000000098 $d
                             *COM*:0000000000000006 accRegisterData
                             *COM*:0000000000000006 accRawData
-     /tmp/ccSukZY7.s:661    .text.LSM303AGR_MAG_readMagneticData:0000000000000000 $t
-     /tmp/ccSukZY7.s:668    .text.LSM303AGR_MAG_readMagneticData:0000000000000000 LSM303AGR_MAG_readMagneticData
-     /tmp/ccSukZY7.s:774    .text.LSM303AGR_MAG_readMagneticData:0000000000000090 $d
+     /tmp/cc3C3drZ.s:661    .text.LSM303AGR_MAG_readMagneticData:0000000000000000 $t
+     /tmp/cc3C3drZ.s:668    .text.LSM303AGR_MAG_readMagneticData:0000000000000000 LSM303AGR_MAG_readMagneticData
+     /tmp/cc3C3drZ.s:774    .text.LSM303AGR_MAG_readMagneticData:0000000000000090 $d
                             *COM*:0000000000000006 magRegisterData
                             *COM*:0000000000000006 magRawData
-     /tmp/ccSukZY7.s:781    .text.LSM303AGR_MAG_readMagneticRawData:0000000000000000 $t
-     /tmp/ccSukZY7.s:788    .text.LSM303AGR_MAG_readMagneticRawData:0000000000000000 LSM303AGR_MAG_readMagneticRawData
-     /tmp/ccSukZY7.s:860    .text.LSM303AGR_MAG_readMagneticRawData:0000000000000044 $d
-     /tmp/ccSukZY7.s:866    .text.LSM303AGR_ACC_readAccelerationRawData:0000000000000000 $t
-     /tmp/ccSukZY7.s:873    .text.LSM303AGR_ACC_readAccelerationRawData:0000000000000000 LSM303AGR_ACC_readAccelerationRawData
-     /tmp/ccSukZY7.s:945    .text.LSM303AGR_ACC_readAccelerationRawData:0000000000000044 $d
+     /tmp/cc3C3drZ.s:781    .text.LSM303AGR_MAG_readMagneticRawData:0000000000000000 $t
+     /tmp/cc3C3drZ.s:788    .text.LSM303AGR_MAG_readMagneticRawData:0000000000000000 LSM303AGR_MAG_readMagneticRawData
+     /tmp/cc3C3drZ.s:860    .text.LSM303AGR_MAG_readMagneticRawData:0000000000000044 $d
+     /tmp/cc3C3drZ.s:866    .text.LSM303AGR_ACC_readAccelerationRawData:0000000000000000 $t
+     /tmp/cc3C3drZ.s:873    .text.LSM303AGR_ACC_readAccelerationRawData:0000000000000000 LSM303AGR_ACC_readAccelerationRawData
+     /tmp/cc3C3drZ.s:945    .text.LSM303AGR_ACC_readAccelerationRawData:0000000000000044 $d
 
 UNDEFINED SYMBOLS
 HAL_I2C_Mem_Read

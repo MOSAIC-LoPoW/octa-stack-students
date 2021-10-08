@@ -1,4 +1,4 @@
-ARM GAS  /tmp/ccXFrC8d.s 			page 1
+ARM GAS  /tmp/cc0JyJVZ.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  /tmp/ccXFrC8d.s 			page 1
   28:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c ****       (##) DMA1 or DMA2: __HAL_RCC_DMA1_CLK_ENABLE() or  __HAL_RCC_DMA2_CLK_ENABLE() ;
   29:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c ****       (##) DMAMUX1:      __HAL_RCC_DMAMUX1_CLK_ENABLE();
   30:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c **** 
-ARM GAS  /tmp/ccXFrC8d.s 			page 2
+ARM GAS  /tmp/cc0JyJVZ.s 			page 2
 
 
   31:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c ****    (#) Use HAL_DMA_GetState() function to return the DMA state and HAL_DMA_GetError() in case of er
@@ -118,7 +118,7 @@ ARM GAS  /tmp/ccXFrC8d.s 			page 1
   85:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c ****   *      this list of conditions and the following disclaimer in the documentation
   86:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c ****   *      and/or other materials provided with the distribution.
   87:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c ****   *   3. Neither the name of STMicroelectronics nor the names of its contributors
-ARM GAS  /tmp/ccXFrC8d.s 			page 3
+ARM GAS  /tmp/cc0JyJVZ.s 			page 3
 
 
   88:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c ****   *      may be used to endorse or promote products derived from this software
@@ -178,7 +178,7 @@ ARM GAS  /tmp/ccXFrC8d.s 			page 1
  142:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c **** 
  143:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c **** /** @defgroup DMA_Exported_Functions_Group1 Initialization and de-initialization functions
  144:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c ****  *  @brief   Initialization and de-initialization functions
-ARM GAS  /tmp/ccXFrC8d.s 			page 4
+ARM GAS  /tmp/cc0JyJVZ.s 			page 4
 
 
  145:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c ****  *
@@ -238,7 +238,7 @@ ARM GAS  /tmp/ccXFrC8d.s 			page 1
  199:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c ****   {
  200:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c ****     /* DMA2 */
  201:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c ****     hdma->ChannelIndex = (((uint32_t)hdma->Instance - (uint32_t)DMA2_Channel1) / ((uint32_t)DMA2_Ch
-ARM GAS  /tmp/ccXFrC8d.s 			page 5
+ARM GAS  /tmp/cc0JyJVZ.s 			page 5
 
 
  202:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c ****     hdma->DmaBaseAddress = DMA2;
@@ -298,7 +298,7 @@ ARM GAS  /tmp/ccXFrC8d.s 			page 1
  256:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c ****   }
  257:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c ****   else
  258:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c ****   {
-ARM GAS  /tmp/ccXFrC8d.s 			page 6
+ARM GAS  /tmp/cc0JyJVZ.s 			page 6
 
 
  259:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c ****     hdma->DMAmuxRequestGen = 0U;
@@ -358,7 +358,7 @@ ARM GAS  /tmp/ccXFrC8d.s 			page 1
  313:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c **** 
  314:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c ****   /* Check the DMA handle allocation */
  315:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c ****   if (NULL == hdma )
-ARM GAS  /tmp/ccXFrC8d.s 			page 7
+ARM GAS  /tmp/cc0JyJVZ.s 			page 7
 
 
  316:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c ****   {
@@ -418,7 +418,7 @@ ARM GAS  /tmp/ccXFrC8d.s 			page 1
  370:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c ****   /* Reset the DMAMUX channel that corresponds to the DMA channel */
  371:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c ****   hdma->DMAmuxChannel->CCR = 0;
  372:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c **** 
-ARM GAS  /tmp/ccXFrC8d.s 			page 8
+ARM GAS  /tmp/cc0JyJVZ.s 			page 8
 
 
  373:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c ****   /* Clear the DMAMUX synchro overrun flag */
@@ -478,7 +478,7 @@ ARM GAS  /tmp/ccXFrC8d.s 			page 1
  427:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c ****       (+) Configure the source, destination address and data length and Start DMA transfer
  428:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c ****       (+) Configure the source, destination address and data length and
  429:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c ****           Start DMA transfer with interrupt
-ARM GAS  /tmp/ccXFrC8d.s 			page 9
+ARM GAS  /tmp/cc0JyJVZ.s 			page 9
 
 
  430:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c ****       (+) Abort DMA transfer
@@ -538,7 +538,7 @@ ARM GAS  /tmp/ccXFrC8d.s 			page 1
  484:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c ****   *               the configuration information for the specified DMA Channel.
  485:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c ****   * @param  SrcAddress The source memory Buffer address
  486:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c ****   * @param  DstAddress The destination memory Buffer address
-ARM GAS  /tmp/ccXFrC8d.s 			page 10
+ARM GAS  /tmp/cc0JyJVZ.s 			page 10
 
 
  487:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c ****   * @param  DataLength The length of data to be transferred from source to destination
@@ -598,7 +598,7 @@ ARM GAS  /tmp/ccXFrC8d.s 			page 1
  541:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c **** #endif /* DMAMUX1 */
  542:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c **** 
  543:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c ****     /* Enable the Peripheral */
-ARM GAS  /tmp/ccXFrC8d.s 			page 11
+ARM GAS  /tmp/cc0JyJVZ.s 			page 11
 
 
  544:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c ****     __HAL_DMA_ENABLE(hdma);
@@ -658,7 +658,7 @@ ARM GAS  /tmp/ccXFrC8d.s 			page 1
  598:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c ****     hdma->DMAmuxRequestGenStatus->RGCFR = hdma->DMAmuxRequestGenStatusMask;
  599:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c ****   }
  600:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c **** 
-ARM GAS  /tmp/ccXFrC8d.s 			page 12
+ARM GAS  /tmp/cc0JyJVZ.s 			page 12
 
 
  601:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c **** #endif /* DMAMUX1 */
@@ -718,7 +718,7 @@ ARM GAS  /tmp/ccXFrC8d.s 			page 1
  655:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c ****     }
  656:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c **** 
  657:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c **** #else
-ARM GAS  /tmp/ccXFrC8d.s 			page 13
+ARM GAS  /tmp/cc0JyJVZ.s 			page 13
 
 
  658:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c ****     /* Clear all flags */
@@ -778,7 +778,7 @@ ARM GAS  /tmp/ccXFrC8d.s 			page 1
  712:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c ****   {
  713:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c ****     /* Half Transfer Complete flag */
  714:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c ****     temp = DMA_FLAG_HT1 << (hdma->ChannelIndex & 0x1cU);
-ARM GAS  /tmp/ccXFrC8d.s 			page 14
+ARM GAS  /tmp/cc0JyJVZ.s 			page 14
 
 
  715:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c ****   }
@@ -838,7 +838,7 @@ ARM GAS  /tmp/ccXFrC8d.s 			page 1
  769:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c ****       /* Clear the DMAMUX request generator overrun flag */
  770:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c ****       hdma->DMAmuxRequestGenStatus->RGCFR = hdma->DMAmuxRequestGenStatusMask;
  771:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c **** 
-ARM GAS  /tmp/ccXFrC8d.s 			page 15
+ARM GAS  /tmp/cc0JyJVZ.s 			page 15
 
 
  772:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c ****       /* Update error code */
@@ -898,7 +898,7 @@ ARM GAS  /tmp/ccXFrC8d.s 			page 1
  826:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c ****         /* Disable the half transfer interrupt */
  827:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c ****         __HAL_DMA_DISABLE_IT(hdma, DMA_IT_HT);
  828:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c ****       }
-ARM GAS  /tmp/ccXFrC8d.s 			page 16
+ARM GAS  /tmp/cc0JyJVZ.s 			page 16
 
 
  829:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c ****       /* Clear the half transfer complete flag */
@@ -958,7 +958,7 @@ ARM GAS  /tmp/ccXFrC8d.s 			page 1
  883:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c ****     /* Process Unlocked */
  884:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c ****     __HAL_UNLOCK(hdma);
  885:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c **** 
-ARM GAS  /tmp/ccXFrC8d.s 			page 17
+ARM GAS  /tmp/cc0JyJVZ.s 			page 17
 
 
  886:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c ****     if (hdma->XferErrorCallback != NULL)
@@ -1018,7 +1018,7 @@ ARM GAS  /tmp/ccXFrC8d.s 			page 1
  940:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c ****   }
  941:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c ****   else
  942:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c ****   {
-ARM GAS  /tmp/ccXFrC8d.s 			page 18
+ARM GAS  /tmp/cc0JyJVZ.s 			page 18
 
 
  943:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c ****     status = HAL_ERROR;
@@ -1078,7 +1078,7 @@ ARM GAS  /tmp/ccXFrC8d.s 			page 1
  997:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c ****     }
  998:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c ****   }
  999:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c ****   else
-ARM GAS  /tmp/ccXFrC8d.s 			page 19
+ARM GAS  /tmp/cc0JyJVZ.s 			page 19
 
 
 1000:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c ****   {
@@ -1138,7 +1138,7 @@ ARM GAS  /tmp/ccXFrC8d.s 			page 1
 1054:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c **** 
 1055:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c **** /**
 1056:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c ****   * @}
-ARM GAS  /tmp/ccXFrC8d.s 			page 20
+ARM GAS  /tmp/cc0JyJVZ.s 			page 20
 
 
 1057:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c ****   */
@@ -1198,7 +1198,7 @@ ARM GAS  /tmp/ccXFrC8d.s 			page 1
   49 000a 0124     		movs	r4, #1
   50 000c AC40     		lsls	r4, r4, r5
   51              		.loc 1 1090 30 view .LVU7
-ARM GAS  /tmp/ccXFrC8d.s 			page 21
+ARM GAS  /tmp/cc0JyJVZ.s 			page 21
 
 
   52 000e 7460     		str	r4, [r6, #4]
@@ -1258,7 +1258,7 @@ ARM GAS  /tmp/ccXFrC8d.s 			page 1
   83              		.cfi_restore 4
   84              		.cfi_def_cfa_offset 0
   85 0024 7047     		bx	lr
-ARM GAS  /tmp/ccXFrC8d.s 			page 22
+ARM GAS  /tmp/cc0JyJVZ.s 			page 22
 
 
   86              	.LVL3:
@@ -1318,7 +1318,7 @@ ARM GAS  /tmp/ccXFrC8d.s 			page 1
  174:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c ****   {
  127              		.loc 1 174 5 is_stmt 0 view .LVU30
  128 0000 0028     		cmp	r0, #0
-ARM GAS  /tmp/ccXFrC8d.s 			page 23
+ARM GAS  /tmp/cc0JyJVZ.s 			page 23
 
 
  129 0002 00F0F280 		beq	.L21
@@ -1378,7 +1378,7 @@ ARM GAS  /tmp/ccXFrC8d.s 			page 1
  173 0042 12D0     		beq	.L8
  180:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c ****   assert_param(IS_DMA_DIRECTION(hdma->Init.Direction));
  174              		.loc 1 180 3 discriminator 9 view .LVU41
-ARM GAS  /tmp/ccXFrC8d.s 			page 24
+ARM GAS  /tmp/cc0JyJVZ.s 			page 24
 
 
  175 0044 1432     		adds	r2, r2, #20
@@ -1438,7 +1438,7 @@ ARM GAS  /tmp/ccXFrC8d.s 			page 1
  218 0080 72D1     		bne	.L27
  219              	.L10:
  183:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c ****   assert_param(IS_DMA_PERIPHERAL_DATA_SIZE(hdma->Init.PeriphDataAlignment));
-ARM GAS  /tmp/ccXFrC8d.s 			page 25
+ARM GAS  /tmp/cc0JyJVZ.s 			page 25
 
 
  220              		.loc 1 183 3 is_stmt 1 view .LVU53
@@ -1498,7 +1498,7 @@ ARM GAS  /tmp/ccXFrC8d.s 			page 1
  262 00be B3F5005F 		cmp	r3, #8192
  263 00c2 02D0     		beq	.L15
  187:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c **** 
-ARM GAS  /tmp/ccXFrC8d.s 			page 26
+ARM GAS  /tmp/cc0JyJVZ.s 			page 26
 
 
  264              		.loc 1 187 3 discriminator 3 view .LVU66
@@ -1558,7 +1558,7 @@ ARM GAS  /tmp/ccXFrC8d.s 			page 1
  303 00f2 0A68     		ldr	r2, [r1]
  304              	.LVL8:
  212:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c ****                       DMA_CCR_MINC  | DMA_CCR_PINC   | DMA_CCR_CIRC   |
-ARM GAS  /tmp/ccXFrC8d.s 			page 27
+ARM GAS  /tmp/cc0JyJVZ.s 			page 27
 
 
  305              		.loc 1 212 3 is_stmt 1 view .LVU82
@@ -1618,7 +1618,7 @@ ARM GAS  /tmp/ccXFrC8d.s 			page 1
  223:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c **** 
  342              		.loc 1 223 3 is_stmt 1 view .LVU100
  223:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c **** 
-ARM GAS  /tmp/ccXFrC8d.s 			page 28
+ARM GAS  /tmp/cc0JyJVZ.s 			page 28
 
 
  343              		.loc 1 223 23 is_stmt 0 view .LVU101
@@ -1678,7 +1678,7 @@ ARM GAS  /tmp/ccXFrC8d.s 			page 1
  285:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c ****     }
  381              		.loc 1 285 82 view .LVU118
  382 0144 00F01C00 		and	r0, r0, #28
-ARM GAS  /tmp/ccXFrC8d.s 			page 29
+ARM GAS  /tmp/cc0JyJVZ.s 			page 29
 
 
  285:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c ****     }
@@ -1738,7 +1738,7 @@ ARM GAS  /tmp/ccXFrC8d.s 			page 1
  424 017a 87E7     		b	.L11
  425              	.L29:
  184:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c ****   assert_param(IS_DMA_MEMORY_DATA_SIZE(hdma->Init.MemDataAlignment));
-ARM GAS  /tmp/ccXFrC8d.s 			page 30
+ARM GAS  /tmp/cc0JyJVZ.s 			page 30
 
 
  426              		.loc 1 184 3 discriminator 3 view .LVU132
@@ -1798,7 +1798,7 @@ ARM GAS  /tmp/ccXFrC8d.s 			page 1
  471              		.loc 1 201 24 view .LVU141
  472 01bc 6364     		str	r3, [r4, #68]
  202:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c ****   }
-ARM GAS  /tmp/ccXFrC8d.s 			page 31
+ARM GAS  /tmp/cc0JyJVZ.s 			page 31
 
 
  473              		.loc 1 202 5 is_stmt 1 view .LVU142
@@ -1858,7 +1858,7 @@ ARM GAS  /tmp/ccXFrC8d.s 			page 1
  513              		.cfi_def_cfa_offset 0
  514              		.cfi_restore 4
  515              		.cfi_restore 14
-ARM GAS  /tmp/ccXFrC8d.s 			page 32
+ARM GAS  /tmp/cc0JyJVZ.s 			page 32
 
 
  176:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c ****   }
@@ -1918,7 +1918,7 @@ ARM GAS  /tmp/ccXFrC8d.s 			page 1
  565 000c 9342     		cmp	r3, r2
  566 000e 2CD0     		beq	.L39
  321:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c **** 
-ARM GAS  /tmp/ccXFrC8d.s 			page 33
+ARM GAS  /tmp/cc0JyJVZ.s 			page 33
 
 
  567              		.loc 1 321 3 is_stmt 0 discriminator 1 view .LVU164
@@ -1978,7 +1978,7 @@ ARM GAS  /tmp/ccXFrC8d.s 			page 1
  321:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c **** 
  611              		.loc 1 321 3 discriminator 12 view .LVU175
  612 0054 1432     		adds	r2, r2, #20
-ARM GAS  /tmp/ccXFrC8d.s 			page 34
+ARM GAS  /tmp/cc0JyJVZ.s 			page 34
 
 
  613 0056 9342     		cmp	r3, r2
@@ -2038,7 +2038,7 @@ ARM GAS  /tmp/ccXFrC8d.s 			page 1
  653 008c 224B     		ldr	r3, .L50+20
  654 008e 2364     		str	r3, [r4, #64]
  655              	.L41:
-ARM GAS  /tmp/ccXFrC8d.s 			page 35
+ARM GAS  /tmp/cc0JyJVZ.s 			page 35
 
 
  341:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c **** 
@@ -2098,7 +2098,7 @@ ARM GAS  /tmp/ccXFrC8d.s 			page 1
  693              	.L43:
  398:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c ****   hdma->XferHalfCpltCallback = NULL;
  694              		.loc 1 398 3 is_stmt 1 view .LVU207
-ARM GAS  /tmp/ccXFrC8d.s 			page 36
+ARM GAS  /tmp/cc0JyJVZ.s 			page 36
 
 
  398:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c ****   hdma->XferHalfCpltCallback = NULL;
@@ -2158,7 +2158,7 @@ ARM GAS  /tmp/ccXFrC8d.s 			page 1
  336:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c ****     hdma->DmaBaseAddress = DMA2;
  730              		.loc 1 336 135 view .LVU227
  731 00e0 9B00     		lsls	r3, r3, #2
-ARM GAS  /tmp/ccXFrC8d.s 			page 37
+ARM GAS  /tmp/cc0JyJVZ.s 			page 37
 
 
  336:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c ****     hdma->DmaBaseAddress = DMA2;
@@ -2218,7 +2218,7 @@ ARM GAS  /tmp/ccXFrC8d.s 			page 1
  775 011c A8040240 		.word	1073874088
  776 0120 F8FBFDBF 		.word	-1073873928
  777 0124 00040240 		.word	1073873920
-ARM GAS  /tmp/ccXFrC8d.s 			page 38
+ARM GAS  /tmp/cc0JyJVZ.s 			page 38
 
 
  778 0128 A8000240 		.word	1073873064
@@ -2278,7 +2278,7 @@ ARM GAS  /tmp/ccXFrC8d.s 			page 1
  826 0016 94F82430 		ldrb	r3, [r4, #36]	@ zero_extendqisi2
  827 001a 012B     		cmp	r3, #1
  828 001c 2CD0     		beq	.L56
-ARM GAS  /tmp/ccXFrC8d.s 			page 39
+ARM GAS  /tmp/cc0JyJVZ.s 			page 39
 
 
  455:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c **** 
@@ -2338,7 +2338,7 @@ ARM GAS  /tmp/ccXFrC8d.s 			page 1
  867              		.loc 1 460 17 is_stmt 0 view .LVU262
  868 0046 0223     		movs	r3, #2
  869 0048 84F82530 		strb	r3, [r4, #37]
-ARM GAS  /tmp/ccXFrC8d.s 			page 40
+ARM GAS  /tmp/cc0JyJVZ.s 			page 40
 
 
  461:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c **** 
@@ -2398,7 +2398,7 @@ ARM GAS  /tmp/ccXFrC8d.s 			page 1
  918              		@ args = 0, pretend = 0, frame = 0
  919              		@ frame_needed = 0, uses_anonymous_args = 0
  491:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c ****   HAL_StatusTypeDef status = HAL_OK;
-ARM GAS  /tmp/ccXFrC8d.s 			page 41
+ARM GAS  /tmp/cc0JyJVZ.s 			page 41
 
 
  920              		.loc 1 491 1 is_stmt 0 view .LVU271
@@ -2458,7 +2458,7 @@ ARM GAS  /tmp/ccXFrC8d.s 			page 1
  549:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c **** 
  963              		.loc 1 549 5 is_stmt 1 view .LVU283
  549:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c **** 
-ARM GAS  /tmp/ccXFrC8d.s 			page 42
+ARM GAS  /tmp/cc0JyJVZ.s 			page 42
 
 
  964              		.loc 1 549 5 view .LVU284
@@ -2518,7 +2518,7 @@ ARM GAS  /tmp/ccXFrC8d.s 			page 1
  1005 005a 3146     		mov	r1, r6
  1006 005c 2046     		mov	r0, r4
  1007 005e FFF7FEFF 		bl	DMA_SetConfig
-ARM GAS  /tmp/ccXFrC8d.s 			page 43
+ARM GAS  /tmp/cc0JyJVZ.s 			page 43
 
 
  1008              	.LVL56:
@@ -2578,7 +2578,7 @@ ARM GAS  /tmp/ccXFrC8d.s 			page 1
  1054              		.syntax unified
  1055              		.thumb
  1056              		.thumb_func
-ARM GAS  /tmp/ccXFrC8d.s 			page 44
+ARM GAS  /tmp/cc0JyJVZ.s 			page 44
 
 
  1057              		.fpu fpv4-sp-d16
@@ -2638,7 +2638,7 @@ ARM GAS  /tmp/ccXFrC8d.s 			page 1
  607:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c **** 
  1098              		.loc 1 607 3 is_stmt 1 view .LVU321
  607:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c **** 
-ARM GAS  /tmp/ccXFrC8d.s 			page 45
+ARM GAS  /tmp/cc0JyJVZ.s 			page 45
 
 
  1099              		.loc 1 607 3 view .LVU322
@@ -2698,7 +2698,7 @@ ARM GAS  /tmp/ccXFrC8d.s 			page 1
  1144 0008 022B     		cmp	r3, #2
  1145 000a 03D0     		beq	.L78
  625:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c **** 
-ARM GAS  /tmp/ccXFrC8d.s 			page 46
+ARM GAS  /tmp/cc0JyJVZ.s 			page 46
 
 
  1146              		.loc 1 625 5 is_stmt 1 view .LVU334
@@ -2758,7 +2758,7 @@ ARM GAS  /tmp/ccXFrC8d.s 			page 1
  1185 0038 80F82520 		strb	r2, [r0, #37]
  666:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c **** 
  1186              		.loc 1 666 5 is_stmt 1 view .LVU350
-ARM GAS  /tmp/ccXFrC8d.s 			page 47
+ARM GAS  /tmp/cc0JyJVZ.s 			page 47
 
 
  666:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c **** 
@@ -2818,7 +2818,7 @@ ARM GAS  /tmp/ccXFrC8d.s 			page 1
  1232              		.cfi_offset 4, -28
  1233              		.cfi_offset 5, -24
  1234              		.cfi_offset 6, -20
-ARM GAS  /tmp/ccXFrC8d.s 			page 48
+ARM GAS  /tmp/cc0JyJVZ.s 			page 48
 
 
  1235              		.cfi_offset 7, -16
@@ -2878,7 +2878,7 @@ ARM GAS  /tmp/ccXFrC8d.s 			page 1
  699:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c ****   {
  1273              		.loc 1 699 28 view .LVU378
  1274 0026 1B68     		ldr	r3, [r3]
-ARM GAS  /tmp/ccXFrC8d.s 			page 49
+ARM GAS  /tmp/cc0JyJVZ.s 			page 49
 
 
  699:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c ****   {
@@ -2938,7 +2938,7 @@ ARM GAS  /tmp/ccXFrC8d.s 			page 1
  1311              		.loc 1 722 66 view .LVU396
  1312 004c 6B6C     		ldr	r3, [r5, #68]
  722:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c ****     {
-ARM GAS  /tmp/ccXFrC8d.s 			page 50
+ARM GAS  /tmp/cc0JyJVZ.s 			page 50
 
 
  1313              		.loc 1 722 80 view .LVU397
@@ -2998,7 +2998,7 @@ ARM GAS  /tmp/ccXFrC8d.s 			page 1
  754:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c ****       }
  1351              		.loc 1 754 9 view .LVU414
  754:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c ****       }
-ARM GAS  /tmp/ccXFrC8d.s 			page 51
+ARM GAS  /tmp/cc0JyJVZ.s 			page 51
 
 
  1352              		.loc 1 754 16 is_stmt 0 view .LVU415
@@ -3058,7 +3058,7 @@ ARM GAS  /tmp/ccXFrC8d.s 			page 1
  1390              		.loc 1 733 7 is_stmt 1 view .LVU431
  733:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c **** 
  1391              		.loc 1 733 18 is_stmt 0 view .LVU432
-ARM GAS  /tmp/ccXFrC8d.s 			page 52
+ARM GAS  /tmp/cc0JyJVZ.s 			page 52
 
 
  1392 00a4 85F82500 		strb	r0, [r5, #37]
@@ -3118,7 +3118,7 @@ ARM GAS  /tmp/ccXFrC8d.s 			page 1
  1427              		.loc 1 806 10 is_stmt 0 view .LVU451
  1428 00ce A5E7     		b	.L84
  1429              	.L93:
-ARM GAS  /tmp/ccXFrC8d.s 			page 53
+ARM GAS  /tmp/cc0JyJVZ.s 			page 53
 
 
  800:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c ****   }
@@ -3178,7 +3178,7 @@ ARM GAS  /tmp/ccXFrC8d.s 			page 1
  1474              		.loc 1 818 28 is_stmt 0 view .LVU463
  1475 0006 0468     		ldr	r4, [r0]
  818:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c **** 
-ARM GAS  /tmp/ccXFrC8d.s 			page 54
+ARM GAS  /tmp/cc0JyJVZ.s 			page 54
 
 
  1476              		.loc 1 818 12 view .LVU464
@@ -3238,7 +3238,7 @@ ARM GAS  /tmp/ccXFrC8d.s 			page 1
  830:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c **** 
  1515              		.loc 1 830 34 view .LVU480
  1516 003a 4B60     		str	r3, [r1, #4]
-ARM GAS  /tmp/ccXFrC8d.s 			page 55
+ARM GAS  /tmp/cc0JyJVZ.s 			page 55
 
 
  835:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c ****       {
@@ -3298,7 +3298,7 @@ ARM GAS  /tmp/ccXFrC8d.s 			page 1
  1555              		.loc 1 854 5 is_stmt 1 view .LVU496
  854:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c **** 
  1556              		.loc 1 854 57 is_stmt 0 view .LVU497
-ARM GAS  /tmp/ccXFrC8d.s 			page 56
+ARM GAS  /tmp/cc0JyJVZ.s 			page 56
 
 
  1557 0068 436C     		ldr	r3, [r0, #68]
@@ -3358,7 +3358,7 @@ ARM GAS  /tmp/ccXFrC8d.s 			page 1
  1595 0094 D5D0     		beq	.L99
  872:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c **** 
  1596              		.loc 1 872 5 is_stmt 1 view .LVU514
-ARM GAS  /tmp/ccXFrC8d.s 			page 57
+ARM GAS  /tmp/cc0JyJVZ.s 			page 57
 
 
  1597 0096 2368     		ldr	r3, [r4]
@@ -3418,7 +3418,7 @@ ARM GAS  /tmp/ccXFrC8d.s 			page 1
  1633              		.loc 1 895 3 view .LVU532
  896:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c **** }
  1634              		.loc 1 896 3 view .LVU533
-ARM GAS  /tmp/ccXFrC8d.s 			page 58
+ARM GAS  /tmp/cc0JyJVZ.s 			page 58
 
 
  1635 00c2 BEE7     		b	.L99
@@ -3478,7 +3478,7 @@ ARM GAS  /tmp/ccXFrC8d.s 			page 1
  947:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c **** 
  1679              		.loc 1 947 3 is_stmt 1 view .LVU546
  947:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c **** 
-ARM GAS  /tmp/ccXFrC8d.s 			page 59
+ARM GAS  /tmp/cc0JyJVZ.s 			page 59
 
 
  1680              		.loc 1 947 3 view .LVU547
@@ -3538,7 +3538,7 @@ ARM GAS  /tmp/ccXFrC8d.s 			page 1
  1719              	.L111:
  929:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c ****            break;
  1720              		.loc 1 929 12 is_stmt 1 view .LVU563
-ARM GAS  /tmp/ccXFrC8d.s 			page 60
+ARM GAS  /tmp/cc0JyJVZ.s 			page 60
 
 
  929:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c ****            break;
@@ -3598,7 +3598,7 @@ ARM GAS  /tmp/ccXFrC8d.s 			page 1
  1763              		.loc 1 962 3 is_stmt 1 view .LVU577
  1764              	.LVL99:
  965:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c **** 
-ARM GAS  /tmp/ccXFrC8d.s 			page 61
+ARM GAS  /tmp/cc0JyJVZ.s 			page 61
 
 
  1765              		.loc 1 965 3 view .LVU578
@@ -3658,7 +3658,7 @@ ARM GAS  /tmp/ccXFrC8d.s 			page 1
  1805 002f 0D       		.byte	(.L122-.L121)/2
  1806 0030 10       		.byte	(.L120-.L121)/2
  1807 0031 00       		.p2align 1
-ARM GAS  /tmp/ccXFrC8d.s 			page 62
+ARM GAS  /tmp/cc0JyJVZ.s 			page 62
 
 
  1808              	.L125:
@@ -3718,7 +3718,7 @@ ARM GAS  /tmp/ccXFrC8d.s 			page 1
  989:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c ****            hdma->XferErrorCallback = NULL;
  1845              		.loc 1 989 39 is_stmt 0 view .LVU610
  1846 0050 1863     		str	r0, [r3, #48]
-ARM GAS  /tmp/ccXFrC8d.s 			page 63
+ARM GAS  /tmp/cc0JyJVZ.s 			page 63
 
 
  990:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c ****            hdma->XferAbortCallback = NULL;
@@ -3778,7 +3778,7 @@ ARM GAS  /tmp/ccXFrC8d.s 			page 1
  1893              		.syntax unified
  1894              		.thumb
  1895              		.thumb_func
-ARM GAS  /tmp/ccXFrC8d.s 			page 64
+ARM GAS  /tmp/cc0JyJVZ.s 			page 64
 
 
  1896              		.fpu fpv4-sp-d16
@@ -3804,8 +3804,8 @@ ARM GAS  /tmp/ccXFrC8d.s 			page 1
  1913              	.LFE134:
  1915              		.text
  1916              	.Letext0:
- 1917              		.file 2 "/usr/arm-none-eabi/include/machine/_default_types.h"
- 1918              		.file 3 "/usr/arm-none-eabi/include/sys/_stdint.h"
+ 1917              		.file 2 "/home/matsdm/gcc-arm-none-eabi-9-2019-q4-major-x86_64-linux/gcc-arm-none-eabi-9-2019-q4-m
+ 1918              		.file 3 "/home/matsdm/gcc-arm-none-eabi-9-2019-q4-major-x86_64-linux/gcc-arm-none-eabi-9-2019-q4-m
  1919              		.file 4 "../../../core/ST/CMSIS/Include/core_cm4.h"
  1920              		.file 5 "../../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/system_stm32l4xx.h"
  1921              		.file 6 "../../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/stm32l496xx.h"
@@ -3813,47 +3813,47 @@ ARM GAS  /tmp/ccXFrC8d.s 			page 1
  1923              		.file 8 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_dma.h"
  1924              		.file 9 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h"
  1925              		.file 10 "../../../core/platform/octa/inc/stm32l4xx_hal_conf.h"
-ARM GAS  /tmp/ccXFrC8d.s 			page 65
+ARM GAS  /tmp/cc0JyJVZ.s 			page 65
 
 
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 stm32l4xx_hal_dma.c
-     /tmp/ccXFrC8d.s:18     .text.DMA_SetConfig:0000000000000000 $t
-     /tmp/ccXFrC8d.s:25     .text.DMA_SetConfig:0000000000000000 DMA_SetConfig
-     /tmp/ccXFrC8d.s:106    .rodata.HAL_DMA_Init.str1.4:0000000000000000 $d
-     /tmp/ccXFrC8d.s:111    .text.HAL_DMA_Init:0000000000000000 $t
-     /tmp/ccXFrC8d.s:118    .text.HAL_DMA_Init:0000000000000000 HAL_DMA_Init
-     /tmp/ccXFrC8d.s:524    .text.HAL_DMA_Init:00000000000001f0 $d
-     /tmp/ccXFrC8d.s:537    .text.HAL_DMA_DeInit:0000000000000000 $t
-     /tmp/ccXFrC8d.s:544    .text.HAL_DMA_DeInit:0000000000000000 HAL_DMA_DeInit
-     /tmp/ccXFrC8d.s:769    .text.HAL_DMA_DeInit:0000000000000104 $d
-     /tmp/ccXFrC8d.s:783    .text.HAL_DMA_Start:0000000000000000 $t
-     /tmp/ccXFrC8d.s:790    .text.HAL_DMA_Start:0000000000000000 HAL_DMA_Start
-     /tmp/ccXFrC8d.s:901    .text.HAL_DMA_Start:000000000000007c $d
-     /tmp/ccXFrC8d.s:906    .text.HAL_DMA_Start_IT:0000000000000000 $t
-     /tmp/ccXFrC8d.s:913    .text.HAL_DMA_Start_IT:0000000000000000 HAL_DMA_Start_IT
-     /tmp/ccXFrC8d.s:1047   .text.HAL_DMA_Start_IT:0000000000000098 $d
-     /tmp/ccXFrC8d.s:1052   .text.HAL_DMA_Abort:0000000000000000 $t
-     /tmp/ccXFrC8d.s:1059   .text.HAL_DMA_Abort:0000000000000000 HAL_DMA_Abort
-     /tmp/ccXFrC8d.s:1117   .text.HAL_DMA_Abort_IT:0000000000000000 $t
-     /tmp/ccXFrC8d.s:1124   .text.HAL_DMA_Abort_IT:0000000000000000 HAL_DMA_Abort_IT
-     /tmp/ccXFrC8d.s:1213   .text.HAL_DMA_PollForTransfer:0000000000000000 $t
-     /tmp/ccXFrC8d.s:1220   .text.HAL_DMA_PollForTransfer:0000000000000000 HAL_DMA_PollForTransfer
-     /tmp/ccXFrC8d.s:1445   .text.HAL_DMA_IRQHandler:0000000000000000 $t
-     /tmp/ccXFrC8d.s:1452   .text.HAL_DMA_IRQHandler:0000000000000000 HAL_DMA_IRQHandler
-     /tmp/ccXFrC8d.s:1640   .text.HAL_DMA_RegisterCallback:0000000000000000 $t
-     /tmp/ccXFrC8d.s:1647   .text.HAL_DMA_RegisterCallback:0000000000000000 HAL_DMA_RegisterCallback
-     /tmp/ccXFrC8d.s:1696   .text.HAL_DMA_RegisterCallback:0000000000000026 $d
-     /tmp/ccXFrC8d.s:1700   .text.HAL_DMA_RegisterCallback:000000000000002a $t
-     /tmp/ccXFrC8d.s:1746   .text.HAL_DMA_UnRegisterCallback:0000000000000000 $t
-     /tmp/ccXFrC8d.s:1753   .text.HAL_DMA_UnRegisterCallback:0000000000000000 HAL_DMA_UnRegisterCallback
-     /tmp/ccXFrC8d.s:1802   .text.HAL_DMA_UnRegisterCallback:000000000000002c $d
-     /tmp/ccXFrC8d.s:1866   .text.HAL_DMA_GetState:0000000000000000 $t
-     /tmp/ccXFrC8d.s:1873   .text.HAL_DMA_GetState:0000000000000000 HAL_DMA_GetState
-     /tmp/ccXFrC8d.s:1891   .text.HAL_DMA_GetError:0000000000000000 $t
-     /tmp/ccXFrC8d.s:1898   .text.HAL_DMA_GetError:0000000000000000 HAL_DMA_GetError
-     /tmp/ccXFrC8d.s:1807   .text.HAL_DMA_UnRegisterCallback:0000000000000031 $d
-     /tmp/ccXFrC8d.s:1807   .text.HAL_DMA_UnRegisterCallback:0000000000000032 $t
+     /tmp/cc0JyJVZ.s:18     .text.DMA_SetConfig:0000000000000000 $t
+     /tmp/cc0JyJVZ.s:25     .text.DMA_SetConfig:0000000000000000 DMA_SetConfig
+     /tmp/cc0JyJVZ.s:106    .rodata.HAL_DMA_Init.str1.4:0000000000000000 $d
+     /tmp/cc0JyJVZ.s:111    .text.HAL_DMA_Init:0000000000000000 $t
+     /tmp/cc0JyJVZ.s:118    .text.HAL_DMA_Init:0000000000000000 HAL_DMA_Init
+     /tmp/cc0JyJVZ.s:524    .text.HAL_DMA_Init:00000000000001f0 $d
+     /tmp/cc0JyJVZ.s:537    .text.HAL_DMA_DeInit:0000000000000000 $t
+     /tmp/cc0JyJVZ.s:544    .text.HAL_DMA_DeInit:0000000000000000 HAL_DMA_DeInit
+     /tmp/cc0JyJVZ.s:769    .text.HAL_DMA_DeInit:0000000000000104 $d
+     /tmp/cc0JyJVZ.s:783    .text.HAL_DMA_Start:0000000000000000 $t
+     /tmp/cc0JyJVZ.s:790    .text.HAL_DMA_Start:0000000000000000 HAL_DMA_Start
+     /tmp/cc0JyJVZ.s:901    .text.HAL_DMA_Start:000000000000007c $d
+     /tmp/cc0JyJVZ.s:906    .text.HAL_DMA_Start_IT:0000000000000000 $t
+     /tmp/cc0JyJVZ.s:913    .text.HAL_DMA_Start_IT:0000000000000000 HAL_DMA_Start_IT
+     /tmp/cc0JyJVZ.s:1047   .text.HAL_DMA_Start_IT:0000000000000098 $d
+     /tmp/cc0JyJVZ.s:1052   .text.HAL_DMA_Abort:0000000000000000 $t
+     /tmp/cc0JyJVZ.s:1059   .text.HAL_DMA_Abort:0000000000000000 HAL_DMA_Abort
+     /tmp/cc0JyJVZ.s:1117   .text.HAL_DMA_Abort_IT:0000000000000000 $t
+     /tmp/cc0JyJVZ.s:1124   .text.HAL_DMA_Abort_IT:0000000000000000 HAL_DMA_Abort_IT
+     /tmp/cc0JyJVZ.s:1213   .text.HAL_DMA_PollForTransfer:0000000000000000 $t
+     /tmp/cc0JyJVZ.s:1220   .text.HAL_DMA_PollForTransfer:0000000000000000 HAL_DMA_PollForTransfer
+     /tmp/cc0JyJVZ.s:1445   .text.HAL_DMA_IRQHandler:0000000000000000 $t
+     /tmp/cc0JyJVZ.s:1452   .text.HAL_DMA_IRQHandler:0000000000000000 HAL_DMA_IRQHandler
+     /tmp/cc0JyJVZ.s:1640   .text.HAL_DMA_RegisterCallback:0000000000000000 $t
+     /tmp/cc0JyJVZ.s:1647   .text.HAL_DMA_RegisterCallback:0000000000000000 HAL_DMA_RegisterCallback
+     /tmp/cc0JyJVZ.s:1696   .text.HAL_DMA_RegisterCallback:0000000000000026 $d
+     /tmp/cc0JyJVZ.s:1700   .text.HAL_DMA_RegisterCallback:000000000000002a $t
+     /tmp/cc0JyJVZ.s:1746   .text.HAL_DMA_UnRegisterCallback:0000000000000000 $t
+     /tmp/cc0JyJVZ.s:1753   .text.HAL_DMA_UnRegisterCallback:0000000000000000 HAL_DMA_UnRegisterCallback
+     /tmp/cc0JyJVZ.s:1802   .text.HAL_DMA_UnRegisterCallback:000000000000002c $d
+     /tmp/cc0JyJVZ.s:1866   .text.HAL_DMA_GetState:0000000000000000 $t
+     /tmp/cc0JyJVZ.s:1873   .text.HAL_DMA_GetState:0000000000000000 HAL_DMA_GetState
+     /tmp/cc0JyJVZ.s:1891   .text.HAL_DMA_GetError:0000000000000000 $t
+     /tmp/cc0JyJVZ.s:1898   .text.HAL_DMA_GetError:0000000000000000 HAL_DMA_GetError
+     /tmp/cc0JyJVZ.s:1807   .text.HAL_DMA_UnRegisterCallback:0000000000000031 $d
+     /tmp/cc0JyJVZ.s:1807   .text.HAL_DMA_UnRegisterCallback:0000000000000032 $t
 
 UNDEFINED SYMBOLS
 assert_failed

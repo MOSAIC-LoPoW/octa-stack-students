@@ -1,4 +1,4 @@
-ARM GAS  /tmp/ccOBBpww.s 			page 1
+ARM GAS  /tmp/ccWiKqnI.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  /tmp/ccOBBpww.s 			page 1
   27:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_spi_ex.c ****   * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
   28:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_spi_ex.c ****   * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
   29:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_spi_ex.c ****   * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
-ARM GAS  /tmp/ccOBBpww.s 			page 2
+ARM GAS  /tmp/ccWiKqnI.s 			page 2
 
 
   30:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_spi_ex.c ****   * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
@@ -118,7 +118,7 @@ ARM GAS  /tmp/ccOBBpww.s 			page 1
   84:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_spi_ex.c ****         (++) HAL_SPIEx_FlushRxFifo()
   85:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_spi_ex.c **** 
   86:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_spi_ex.c **** @endverbatim
-ARM GAS  /tmp/ccOBBpww.s 			page 3
+ARM GAS  /tmp/ccWiKqnI.s 			page 3
 
 
   87:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_spi_ex.c ****   * @{
@@ -178,7 +178,7 @@ ARM GAS  /tmp/ccOBBpww.s 			page 1
   66 001a 0133     		adds	r3, r3, #1
   67              	.LVL2:
   68              		.loc 1 102 10 view .LVU16
-ARM GAS  /tmp/ccOBBpww.s 			page 4
+ARM GAS  /tmp/ccWiKqnI.s 			page 4
 
 
   69 001c DBB2     		uxtb	r3, r3
@@ -238,12 +238,12 @@ ARM GAS  /tmp/ccOBBpww.s 			page 1
  111              		.cfi_endproc
  112              	.LFE123:
  114              		.text
-ARM GAS  /tmp/ccOBBpww.s 			page 5
+ARM GAS  /tmp/ccWiKqnI.s 			page 5
 
 
  115              	.Letext0:
- 116              		.file 2 "/usr/arm-none-eabi/include/machine/_default_types.h"
- 117              		.file 3 "/usr/arm-none-eabi/include/sys/_stdint.h"
+ 116              		.file 2 "/home/matsdm/gcc-arm-none-eabi-9-2019-q4-major-x86_64-linux/gcc-arm-none-eabi-9-2019-q4-m
+ 117              		.file 3 "/home/matsdm/gcc-arm-none-eabi-9-2019-q4-major-x86_64-linux/gcc-arm-none-eabi-9-2019-q4-m
  118              		.file 4 "../../../core/ST/CMSIS/Include/core_cm4.h"
  119              		.file 5 "../../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/system_stm32l4xx.h"
  120              		.file 6 "../../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/stm32l496xx.h"
@@ -251,12 +251,12 @@ ARM GAS  /tmp/ccOBBpww.s 			page 1
  122              		.file 8 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_dma.h"
  123              		.file 9 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_spi.h"
  124              		.file 10 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h"
-ARM GAS  /tmp/ccOBBpww.s 			page 6
+ARM GAS  /tmp/ccWiKqnI.s 			page 6
 
 
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 stm32l4xx_hal_spi_ex.c
-     /tmp/ccOBBpww.s:18     .text.HAL_SPIEx_FlushRxFifo:0000000000000000 $t
-     /tmp/ccOBBpww.s:26     .text.HAL_SPIEx_FlushRxFifo:0000000000000000 HAL_SPIEx_FlushRxFifo
+     /tmp/ccWiKqnI.s:18     .text.HAL_SPIEx_FlushRxFifo:0000000000000000 $t
+     /tmp/ccWiKqnI.s:26     .text.HAL_SPIEx_FlushRxFifo:0000000000000000 HAL_SPIEx_FlushRxFifo
 
 NO UNDEFINED SYMBOLS
