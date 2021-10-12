@@ -1,4 +1,4 @@
-ARM GAS  /tmp/cceIFV5l.s 			page 1
+ARM GAS  /tmp/ccufAsKG.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  /tmp/cceIFV5l.s 			page 1
   38 0070 466C6173 		.ascii	"Flash after erase\015\012\000"
   38      68206166 
   38      74657220 
-ARM GAS  /tmp/cceIFV5l.s 			page 2
+ARM GAS  /tmp/ccufAsKG.s 			page 2
 
 
   38      65726173 
@@ -118,7 +118,7 @@ ARM GAS  /tmp/cceIFV5l.s 			page 1
   66              		.cfi_offset 4, -12
   67              		.cfi_offset 5, -8
   68              		.cfi_offset 14, -4
-ARM GAS  /tmp/cceIFV5l.s 			page 3
+ARM GAS  /tmp/ccufAsKG.s 			page 3
 
 
   69 0002 ADF5017D 		sub	sp, sp, #516
@@ -178,7 +178,7 @@ ARM GAS  /tmp/cceIFV5l.s 			page 1
  108              	.LVL7:
   34:../../../core/platform/common/src/flash_config.c ****   #if DEBUG
   35:../../../core/platform/common/src/flash_config.c ****     for (uint16_t i = 0; i < CONFIG_BUFFER_SIZE; ++i) {
-ARM GAS  /tmp/cceIFV5l.s 			page 4
+ARM GAS  /tmp/ccufAsKG.s 			page 4
 
 
  109              		.loc 1 35 5 view .LVU14
@@ -238,7 +238,7 @@ ARM GAS  /tmp/cceIFV5l.s 			page 1
  155              	.LVL15:
   35:../../../core/platform/common/src/flash_config.c ****       printf("%02x", flashBuffer[i]);
  156              		.loc 1 35 50 is_stmt 0 discriminator 3 view .LVU27
-ARM GAS  /tmp/cceIFV5l.s 			page 5
+ARM GAS  /tmp/ccufAsKG.s 			page 5
 
 
  157 0056 A4B2     		uxth	r4, r4
@@ -298,7 +298,7 @@ ARM GAS  /tmp/cceIFV5l.s 			page 1
  196 007e 1360     		str	r3, [r2]
   50:../../../core/platform/common/src/flash_config.c ****   flashBuffer[index++] = uint32LittleEndian.byte[0];
  197              		.loc 1 50 3 is_stmt 1 view .LVU45
-ARM GAS  /tmp/cceIFV5l.s 			page 6
+ARM GAS  /tmp/ccufAsKG.s 			page 6
 
 
  198              	.LVL21:
@@ -358,7 +358,7 @@ ARM GAS  /tmp/cceIFV5l.s 			page 1
  239              		.loc 1 63 3 is_stmt 1 view .LVU64
  240              	.LVL29:
  241              		.loc 1 63 24 is_stmt 0 view .LVU65
-ARM GAS  /tmp/cceIFV5l.s 			page 7
+ARM GAS  /tmp/ccufAsKG.s 			page 7
 
 
  242 00b4 C3F30721 		ubfx	r1, r3, #8, #8
@@ -418,7 +418,7 @@ ARM GAS  /tmp/cceIFV5l.s 			page 1
  284              		.loc 1 75 12 is_stmt 0 view .LVU84
  285 00f2 FFF7FEFF 		bl	OCTA_FLASH_eraseConfigSector
  286              	.LVL37:
-ARM GAS  /tmp/cceIFV5l.s 			page 8
+ARM GAS  /tmp/ccufAsKG.s 			page 8
 
 
   76:../../../core/platform/common/src/flash_config.c ****   if(retval != OCTA_FLASH_OK)
@@ -478,7 +478,7 @@ ARM GAS  /tmp/cceIFV5l.s 			page 1
   83:../../../core/platform/common/src/flash_config.c ****           osDelay(50);
  324              		.loc 1 83 11 view .LVU97
  325 0118 0028     		cmp	r0, #0
-ARM GAS  /tmp/cceIFV5l.s 			page 9
+ARM GAS  /tmp/ccufAsKG.s 			page 9
 
 
  326 011a F2D0     		beq	.L8
@@ -538,7 +538,7 @@ ARM GAS  /tmp/cceIFV5l.s 			page 1
  369              	.LVL50:
  370              	.L28:
  371              		.loc 1 96 5 view .LVU110
-ARM GAS  /tmp/cceIFV5l.s 			page 10
+ARM GAS  /tmp/ccufAsKG.s 			page 10
 
 
  372              	.LBE11:
@@ -598,7 +598,7 @@ ARM GAS  /tmp/cceIFV5l.s 			page 1
  412              	.LVL58:
  103:../../../core/platform/common/src/flash_config.c ****   #if DEBUG
  104:../../../core/platform/common/src/flash_config.c ****     for (uint16_t i = 0; i < CONFIG_BUFFER_SIZE; ++i) {
-ARM GAS  /tmp/cceIFV5l.s 			page 11
+ARM GAS  /tmp/ccufAsKG.s 			page 11
 
 
  413              		.loc 1 104 5 view .LVU122
@@ -658,7 +658,7 @@ ARM GAS  /tmp/cceIFV5l.s 			page 1
  112:../../../core/platform/common/src/flash_config.c ****   {
  113:../../../core/platform/common/src/flash_config.c ****     printERR("Flash operation NOK: %d\r\n", retval);
  456              		.loc 1 113 5 is_stmt 1 view .LVU136
-ARM GAS  /tmp/cceIFV5l.s 			page 12
+ARM GAS  /tmp/ccufAsKG.s 			page 12
 
 
  457 01a2 0146     		mov	r1, r0
@@ -718,7 +718,7 @@ ARM GAS  /tmp/cceIFV5l.s 			page 1
  495 01c8 FFF7FEFF 		bl	osDelay
  496              	.LVL72:
  497              	.LBE17:
-ARM GAS  /tmp/cceIFV5l.s 			page 13
+ARM GAS  /tmp/ccufAsKG.s 			page 13
 
 
  498 01cc F1E7     		b	.L17
@@ -778,7 +778,7 @@ ARM GAS  /tmp/cceIFV5l.s 			page 1
  541 01f8 0146     		mov	r1, r0
  542 01fa 0C48     		ldr	r0, .L31+8
  543              	.LVL80:
-ARM GAS  /tmp/cceIFV5l.s 			page 14
+ARM GAS  /tmp/ccufAsKG.s 			page 14
 
 
  127:../../../core/platform/common/src/flash_config.c ****   }
@@ -838,7 +838,7 @@ ARM GAS  /tmp/cceIFV5l.s 			page 1
  586 0222 00BF     		.align	2
  587              	.L31:
  588 0224 30000000 		.word	.LC2
-ARM GAS  /tmp/cceIFV5l.s 			page 15
+ARM GAS  /tmp/ccufAsKG.s 			page 15
 
 
  589 0228 00000000 		.word	.LC0
@@ -868,15 +868,15 @@ ARM GAS  /tmp/cceIFV5l.s 			page 1
  614              		.file 7 "../../../core/platform/common/inc/datatypes.h"
  615              		.file 8 "<built-in>"
  616              		.file 9 "../../../core/drivers/octa-flash/inc/octa-flash.h"
-ARM GAS  /tmp/cceIFV5l.s 			page 16
+ARM GAS  /tmp/ccufAsKG.s 			page 16
 
 
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 flash_config.c
-     /tmp/cceIFV5l.s:18     .rodata.update_flash_configuration.str1.4:0000000000000000 $d
-     /tmp/cceIFV5l.s:46     .text.update_flash_configuration:0000000000000000 $t
-     /tmp/cceIFV5l.s:54     .text.update_flash_configuration:0000000000000000 update_flash_configuration
-     /tmp/cceIFV5l.s:588    .text.update_flash_configuration:0000000000000224 $d
+     /tmp/ccufAsKG.s:18     .rodata.update_flash_configuration.str1.4:0000000000000000 $d
+     /tmp/ccufAsKG.s:46     .text.update_flash_configuration:0000000000000000 $t
+     /tmp/ccufAsKG.s:54     .text.update_flash_configuration:0000000000000000 update_flash_configuration
+     /tmp/ccufAsKG.s:588    .text.update_flash_configuration:0000000000000224 $d
                             *COM*:0000000000000004 uint32LittleEndian
                             *COM*:0000000000000008 octa_uid
                             *COM*:0000000000000004 float_union

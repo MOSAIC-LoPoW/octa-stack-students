@@ -1,4 +1,4 @@
-ARM GAS  /tmp/ccIIpPrg.s 			page 1
+ARM GAS  /tmp/ccwVSYHr.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  /tmp/ccIIpPrg.s 			page 1
   28:../../../core/platform/octa/src/octa.c ****     OCTA_IWDG_Init();
   29:../../../core/platform/octa/src/octa.c ****     FLASH_SPI_Init();
   30:../../../core/platform/octa/src/octa.c ****     common_I2C_Init();
-ARM GAS  /tmp/ccIIpPrg.s 			page 2
+ARM GAS  /tmp/ccwVSYHr.s 			page 2
 
 
   31:../../../core/platform/octa/src/octa.c ****     RTC_Init();
@@ -118,7 +118,7 @@ ARM GAS  /tmp/ccIIpPrg.s 			page 1
   41              		.loc 1 72 5 view .LVU2
   42 0006 FFF7FEFF 		bl	SystemClock_Config
   43              	.LVL1:
-ARM GAS  /tmp/ccIIpPrg.s 			page 3
+ARM GAS  /tmp/ccwVSYHr.s 			page 3
 
 
   73:../../../core/platform/octa/src/octa.c **** 
@@ -178,7 +178,7 @@ ARM GAS  /tmp/ccIIpPrg.s 			page 1
   92:../../../core/platform/octa/src/octa.c ****     HAL_UART_DeInit(&USB_UART);
   81              		.loc 1 92 5 view .LVU9
   82 0002 0648     		ldr	r0, .L5
-ARM GAS  /tmp/ccIIpPrg.s 			page 4
+ARM GAS  /tmp/ccwVSYHr.s 			page 4
 
 
   83 0004 FFF7FEFF 		bl	HAL_UART_DeInit
@@ -238,7 +238,7 @@ ARM GAS  /tmp/ccIIpPrg.s 			page 1
  127              		.loc 1 104 5 is_stmt 1 view .LVU17
  128              		.loc 1 104 26 is_stmt 0 view .LVU18
  129 0006 0A4A     		ldr	r2, .L8+4
-ARM GAS  /tmp/ccIIpPrg.s 			page 5
+ARM GAS  /tmp/ccwVSYHr.s 			page 5
 
 
  130 0008 5A60     		str	r2, [r3, #4]
@@ -298,7 +298,7 @@ ARM GAS  /tmp/ccIIpPrg.s 			page 1
  175 0048 00000000 		.word	P1_DIO4
  176 004c 00000000 		.word	P1_DIO5
  177 0050 00000000 		.word	P1_DIO6
-ARM GAS  /tmp/ccIIpPrg.s 			page 6
+ARM GAS  /tmp/ccwVSYHr.s 			page 6
 
 
  178              		.cfi_endproc
@@ -358,7 +358,7 @@ ARM GAS  /tmp/ccIIpPrg.s 			page 1
  220 0018 5A61     		str	r2, [r3, #20]
  128:../../../core/platform/octa/src/octa.c ****     P2_header.DIO3 = &P2_DIO3;
  221              		.loc 1 128 5 is_stmt 1 view .LVU49
-ARM GAS  /tmp/ccIIpPrg.s 			page 7
+ARM GAS  /tmp/ccwVSYHr.s 			page 7
 
 
  222              		.loc 1 128 20 is_stmt 0 view .LVU50
@@ -418,7 +418,7 @@ ARM GAS  /tmp/ccIIpPrg.s 			page 1
  270              		.loc 1 136 5 view .LVU59
  271              		.loc 1 136 22 is_stmt 0 view .LVU60
  272 0000 0A4B     		ldr	r3, .L14
-ARM GAS  /tmp/ccIIpPrg.s 			page 8
+ARM GAS  /tmp/ccwVSYHr.s 			page 8
 
 
  273 0002 0322     		movs	r2, #3
@@ -478,7 +478,7 @@ ARM GAS  /tmp/ccIIpPrg.s 			page 1
  312 002a 7047     		bx	lr
  313              	.L15:
  314              		.align	2
-ARM GAS  /tmp/ccIIpPrg.s 			page 9
+ARM GAS  /tmp/ccwVSYHr.s 			page 9
 
 
  315              	.L14:
@@ -538,7 +538,7 @@ ARM GAS  /tmp/ccIIpPrg.s 			page 1
  366 001a 00BF     		.align	2
  367              	.L18:
  368 001c 9075FF1F 		.word	536835472
-ARM GAS  /tmp/ccIIpPrg.s 			page 10
+ARM GAS  /tmp/ccwVSYHr.s 			page 10
 
 
  369 0020 9475FF1F 		.word	536835476
@@ -598,7 +598,7 @@ ARM GAS  /tmp/ccIIpPrg.s 			page 1
  172:../../../core/platform/octa/src/octa.c ****             break;
  173:../../../core/platform/octa/src/octa.c ****     }
  174:../../../core/platform/octa/src/octa.c **** }
-ARM GAS  /tmp/ccIIpPrg.s 			page 11
+ARM GAS  /tmp/ccwVSYHr.s 			page 11
 
 
  410              		.loc 1 174 1 view .LVU90
@@ -658,7 +658,7 @@ ARM GAS  /tmp/ccIIpPrg.s 			page 1
  177:../../../core/platform/octa/src/octa.c **** {
  458              		.loc 1 177 1 is_stmt 1 view -0
  459              		.cfi_startproc
-ARM GAS  /tmp/ccIIpPrg.s 			page 12
+ARM GAS  /tmp/ccwVSYHr.s 			page 12
 
 
  460              		@ args = 44, pretend = 16, frame = 0
@@ -718,7 +718,7 @@ ARM GAS  /tmp/ccIIpPrg.s 			page 1
  498 0024 FFF7FEFF 		bl	P1_I2C_Init
  499              	.LVL14:
  182:../../../core/platform/octa/src/octa.c ****         case 2:
-ARM GAS  /tmp/ccIIpPrg.s 			page 13
+ARM GAS  /tmp/ccwVSYHr.s 			page 13
 
 
  500              		.loc 1 182 13 view .LVU104
@@ -778,7 +778,7 @@ ARM GAS  /tmp/ccIIpPrg.s 			page 1
  548 0014 032B     		cmp	r3, #3
  549 0016 06D0     		beq	.L34
  550              	.L32:
-ARM GAS  /tmp/ccIIpPrg.s 			page 14
+ARM GAS  /tmp/ccwVSYHr.s 			page 14
 
 
  197:../../../core/platform/octa/src/octa.c ****     {
@@ -838,7 +838,7 @@ ARM GAS  /tmp/ccIIpPrg.s 			page 1
  584              		.section	.text.platform_getHeader,"ax",%progbits
  585              		.align	1
  586              		.global	platform_getHeader
-ARM GAS  /tmp/ccIIpPrg.s 			page 15
+ARM GAS  /tmp/ccwVSYHr.s 			page 15
 
 
  587              		.syntax unified
@@ -898,7 +898,7 @@ ARM GAS  /tmp/ccIIpPrg.s 			page 1
  228:../../../core/platform/octa/src/octa.c ****         struct OCTA_header invalid; 
  625              		.loc 1 228 9 is_stmt 1 view .LVU125
  229:../../../core/platform/octa/src/octa.c ****         invalid.active = 0;
-ARM GAS  /tmp/ccIIpPrg.s 			page 16
+ARM GAS  /tmp/ccwVSYHr.s 			page 16
 
 
  626              		.loc 1 229 9 view .LVU126
@@ -958,7 +958,7 @@ ARM GAS  /tmp/ccIIpPrg.s 			page 1
  671              	.L38:
  672              	.LCFI22:
  673              		.cfi_restore_state
-ARM GAS  /tmp/ccIIpPrg.s 			page 17
+ARM GAS  /tmp/ccwVSYHr.s 			page 17
 
 
  674              	.LBB3:
@@ -1018,7 +1018,7 @@ ARM GAS  /tmp/ccIIpPrg.s 			page 1
  718              	.LBE3:
  719              		.cfi_endproc
  720              	.LFE142:
-ARM GAS  /tmp/ccIIpPrg.s 			page 18
+ARM GAS  /tmp/ccwVSYHr.s 			page 18
 
 
  722              		.global	__aeabi_uldivmod
@@ -1078,7 +1078,7 @@ ARM GAS  /tmp/ccIIpPrg.s 			page 1
  765              		.loc 1 241 5 is_stmt 1 discriminator 1 view .LVU154
  242:../../../core/platform/octa/src/octa.c ****         *out = "0123456789"[hval % hbase];
  766              		.loc 1 242 9 discriminator 1 view .LVU155
-ARM GAS  /tmp/ccIIpPrg.s 			page 19
+ARM GAS  /tmp/ccwVSYHr.s 			page 19
 
 
  767              		.loc 1 242 34 is_stmt 0 discriminator 1 view .LVU156
@@ -1138,7 +1138,7 @@ ARM GAS  /tmp/ccIIpPrg.s 			page 1
  813              		.loc 1 250 1 is_stmt 0 view .LVU169
  814 004e A9F10200 		sub	r0, r9, #2
  815              	.LVL37:
-ARM GAS  /tmp/ccIIpPrg.s 			page 20
+ARM GAS  /tmp/ccwVSYHr.s 			page 20
 
 
  816              		.loc 1 250 1 view .LVU170
@@ -1186,8 +1186,8 @@ ARM GAS  /tmp/ccIIpPrg.s 			page 1
  844      00
  845 006d 000000   		.align	2
  846              	.LC7:
- 847 0070 302E352E 		.ascii	"0.5.7\000"
- 847      3700
+ 847 0070 302E352E 		.ascii	"0.5.8\000"
+ 847      3800
  848 0076 0000     		.align	2
  849              	.LC8:
  850 0078 53746163 		.ascii	"Stack version: %s\015\012\000"
@@ -1198,7 +1198,7 @@ ARM GAS  /tmp/ccIIpPrg.s 			page 1
  851              		.align	2
  852              	.LC9:
  853 008c 506C6174 		.ascii	"Platform: octa + nucleo\015\000"
-ARM GAS  /tmp/ccIIpPrg.s 			page 21
+ARM GAS  /tmp/ccwVSYHr.s 			page 21
 
 
  853      666F726D 
@@ -1258,7 +1258,7 @@ ARM GAS  /tmp/ccIIpPrg.s 			page 1
  883      2A2A2A2A 
  883      2A2A2A2A 
  884 014d 2A2A2A2A 		.ascii	"********\015\012\015\000"
-ARM GAS  /tmp/ccIIpPrg.s 			page 22
+ARM GAS  /tmp/ccwVSYHr.s 			page 22
 
 
  884      2A2A2A2A 
@@ -1318,7 +1318,7 @@ ARM GAS  /tmp/ccIIpPrg.s 			page 1
  260:../../../core/platform/octa/src/octa.c ****         printf("unknown application name & version\r\n");
  261:../../../core/platform/octa/src/octa.c ****     #endif
  262:../../../core/platform/octa/src/octa.c ****     #ifdef STACK_VERSION
-ARM GAS  /tmp/ccIIpPrg.s 			page 23
+ARM GAS  /tmp/ccwVSYHr.s 			page 23
 
 
  263:../../../core/platform/octa/src/octa.c ****         printf("Stack version: %s\r\n", STR(STACK_VERSION));
@@ -1378,7 +1378,7 @@ ARM GAS  /tmp/ccIIpPrg.s 			page 1
  286:../../../core/platform/octa/src/octa.c ****         printf(", lowpower mode %d", LOW_POWER);
  960              		.loc 1 286 9 view .LVU182
  961 005a 0021     		movs	r1, #0
-ARM GAS  /tmp/ccIIpPrg.s 			page 24
+ARM GAS  /tmp/ccwVSYHr.s 			page 24
 
 
  962 005c 4648     		ldr	r0, .L56+68
@@ -1438,7 +1438,7 @@ ARM GAS  /tmp/ccIIpPrg.s 			page 1
  996 008e 3F48     		ldr	r0, .L56+88
  997 0090 FFF7FEFF 		bl	printf
  998              	.LVL53:
-ARM GAS  /tmp/ccIIpPrg.s 			page 25
+ARM GAS  /tmp/ccwVSYHr.s 			page 25
 
 
  304:../../../core/platform/octa/src/octa.c ****     for (const char* p = UIDString; *p; ++p)
@@ -1498,7 +1498,7 @@ ARM GAS  /tmp/ccIIpPrg.s 			page 1
  346:../../../core/platform/octa/src/octa.c ****         printf("*   ROD at connector P%d, v%s\r\n", ROD_CONNECTOR, STR(ROD_VERSION));
  347:../../../core/platform/octa/src/octa.c ****     #endif
  348:../../../core/platform/octa/src/octa.c ****     #ifdef SIGFOX_CONNECTOR
-ARM GAS  /tmp/ccIIpPrg.s 			page 26
+ARM GAS  /tmp/ccwVSYHr.s 			page 26
 
 
  349:../../../core/platform/octa/src/octa.c ****         printf("*   SigFox at connector P%d, v%s\r\n", SIGFOX_CONNECTOR, STR(SIGFOX_VERSION));
@@ -1558,7 +1558,7 @@ ARM GAS  /tmp/ccIIpPrg.s 			page 1
  1039 00ca C820     		movs	r0, #200
  1040 00cc FFF7FEFF 		bl	HAL_Delay
  1041              	.LVL62:
-ARM GAS  /tmp/ccIIpPrg.s 			page 27
+ARM GAS  /tmp/ccwVSYHr.s 			page 27
 
 
  375:../../../core/platform/octa/src/octa.c ****     HAL_GPIO_TogglePin(OCTA_GLED_GPIO_Port, OCTA_GLED_Pin);
@@ -1618,7 +1618,7 @@ ARM GAS  /tmp/ccIIpPrg.s 			page 1
  1086 011e 0121     		movs	r1, #1
  1087 0120 2846     		mov	r0, r5
  1088 0122 FFF7FEFF 		bl	HAL_GPIO_TogglePin
-ARM GAS  /tmp/ccIIpPrg.s 			page 28
+ARM GAS  /tmp/ccwVSYHr.s 			page 28
 
 
  1089              	.LVL72:
@@ -1678,7 +1678,7 @@ ARM GAS  /tmp/ccIIpPrg.s 			page 1
  1138 001f 00       		.align	2
  1139              	.LC21:
  1140 0020 53746172 		.ascii	"Startup from power cycle\015\012\015\012\000"
-ARM GAS  /tmp/ccIIpPrg.s 			page 29
+ARM GAS  /tmp/ccwVSYHr.s 			page 29
 
 
  1140      74757020 
@@ -1738,7 +1738,7 @@ ARM GAS  /tmp/ccIIpPrg.s 			page 1
  1183 0022 FFF7FEFF 		bl	USB_UART_Init
  1184              	.LVL81:
   44:../../../core/platform/octa/src/octa.c ****     octa_uid.u64 = short_UID;
-ARM GAS  /tmp/ccIIpPrg.s 			page 30
+ARM GAS  /tmp/ccwVSYHr.s 			page 30
 
 
  1185              		.loc 1 44 5 view .LVU225
@@ -1798,7 +1798,7 @@ ARM GAS  /tmp/ccIIpPrg.s 			page 1
  1225 0066 FFF7FEFF 		bl	printINF
  1226              	.LVL84:
   56:../../../core/platform/octa/src/octa.c ****     }
-ARM GAS  /tmp/ccIIpPrg.s 			page 31
+ARM GAS  /tmp/ccwVSYHr.s 			page 31
 
 
  1227              		.loc 1 56 9 view .LVU240
@@ -1858,7 +1858,7 @@ ARM GAS  /tmp/ccIIpPrg.s 			page 1
  1276              		.cfi_def_cfa_offset 8
  1277              		.cfi_offset 3, -8
  1278              		.cfi_offset 14, -4
-ARM GAS  /tmp/ccIIpPrg.s 			page 32
+ARM GAS  /tmp/ccwVSYHr.s 			page 32
 
 
    9:../../../core/platform/octa/src/octa.c ****     //P1 UART, I2C, SPI & GPIO handles
@@ -1918,7 +1918,7 @@ ARM GAS  /tmp/ccIIpPrg.s 			page 1
  393:../../../core/platform/octa/src/octa.c **** 
  394:../../../core/platform/octa/src/octa.c **** void DeInitialize_Platform(void)
  395:../../../core/platform/octa/src/octa.c **** {
-ARM GAS  /tmp/ccIIpPrg.s 			page 33
+ARM GAS  /tmp/ccwVSYHr.s 			page 33
 
 
  1326              		.loc 1 395 1 view -0
@@ -1978,7 +1978,7 @@ ARM GAS  /tmp/ccIIpPrg.s 			page 1
  1371 0000 08B5     		push	{r3, lr}
  1372              	.LCFI30:
  1373              		.cfi_def_cfa_offset 8
-ARM GAS  /tmp/ccIIpPrg.s 			page 34
+ARM GAS  /tmp/ccwVSYHr.s 			page 34
 
 
  1374              		.cfi_offset 3, -8
@@ -2038,7 +2038,7 @@ ARM GAS  /tmp/ccIIpPrg.s 			page 1
  419:../../../core/platform/octa/src/octa.c **** }
  1418              		.loc 1 419 1 view .LVU272
  1419 0004 7047     		bx	lr
-ARM GAS  /tmp/ccIIpPrg.s 			page 35
+ARM GAS  /tmp/ccwVSYHr.s 			page 35
 
 
  1420              	.L79:
@@ -2098,7 +2098,7 @@ ARM GAS  /tmp/ccIIpPrg.s 			page 1
  1473              		.comm	int32LittleEndian,4,4
  1474              		.comm	rtosprintHandle,4,4
  1475              		.comm	hrtc,36,4
-ARM GAS  /tmp/ccIIpPrg.s 			page 36
+ARM GAS  /tmp/ccwVSYHr.s 			page 36
 
 
  1476              		.comm	FLASH_SPI,100,4
@@ -2158,7 +2158,7 @@ ARM GAS  /tmp/ccIIpPrg.s 			page 1
  1532              		.weak	SystemClock_Config
  1533              		.text
  1534              	.Letext0:
-ARM GAS  /tmp/ccIIpPrg.s 			page 37
+ARM GAS  /tmp/ccwVSYHr.s 			page 37
 
 
  1535              		.file 2 "/home/matsdm/gcc-arm-none-eabi-9-2019-q4-major-x86_64-linux/gcc-arm-none-eabi-9-2019-q4-m
@@ -2195,22 +2195,22 @@ ARM GAS  /tmp/ccIIpPrg.s 			page 1
  1566              		.file 33 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_gpio.h"
  1567              		.file 34 "../../../core/platform/common/inc/print.h"
  1568              		.file 35 "<built-in>"
-ARM GAS  /tmp/ccIIpPrg.s 			page 38
+ARM GAS  /tmp/ccwVSYHr.s 			page 38
 
 
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 octa.c
-     /tmp/ccIIpPrg.s:18     .text.OCTA_ReInitialize_Common_Peripherals:0000000000000000 $t
-     /tmp/ccIIpPrg.s:26     .text.OCTA_ReInitialize_Common_Peripherals:0000000000000000 OCTA_ReInitialize_Common_Peripherals
-     /tmp/ccIIpPrg.s:63     .text.OCTA_DeInitialize_Common_Peripherals:0000000000000000 $t
-     /tmp/ccIIpPrg.s:70     .text.OCTA_DeInitialize_Common_Peripherals:0000000000000000 OCTA_DeInitialize_Common_Peripherals
-     /tmp/ccIIpPrg.s:101    .text.OCTA_DeInitialize_Common_Peripherals:000000000000001c $d
+     /tmp/ccwVSYHr.s:18     .text.OCTA_ReInitialize_Common_Peripherals:0000000000000000 $t
+     /tmp/ccwVSYHr.s:26     .text.OCTA_ReInitialize_Common_Peripherals:0000000000000000 OCTA_ReInitialize_Common_Peripherals
+     /tmp/ccwVSYHr.s:63     .text.OCTA_DeInitialize_Common_Peripherals:0000000000000000 $t
+     /tmp/ccwVSYHr.s:70     .text.OCTA_DeInitialize_Common_Peripherals:0000000000000000 OCTA_DeInitialize_Common_Peripherals
+     /tmp/ccwVSYHr.s:101    .text.OCTA_DeInitialize_Common_Peripherals:000000000000001c $d
                             *COM*:0000000000000078 USB_UART
                             *COM*:000000000000004c common_I2C
                             *COM*:0000000000000064 FLASH_SPI
-     /tmp/ccIIpPrg.s:108    .text.OCTA_Initialize_P1_Peripherals:0000000000000000 $t
-     /tmp/ccIIpPrg.s:115    .text.OCTA_Initialize_P1_Peripherals:0000000000000000 OCTA_Initialize_P1_Peripherals
-     /tmp/ccIIpPrg.s:168    .text.OCTA_Initialize_P1_Peripherals:000000000000002c $d
+     /tmp/ccwVSYHr.s:108    .text.OCTA_Initialize_P1_Peripherals:0000000000000000 $t
+     /tmp/ccwVSYHr.s:115    .text.OCTA_Initialize_P1_Peripherals:0000000000000000 OCTA_Initialize_P1_Peripherals
+     /tmp/ccwVSYHr.s:168    .text.OCTA_Initialize_P1_Peripherals:000000000000002c $d
                             *COM*:000000000000002c P1_header
                             *COM*:0000000000000078 P1_UART
                             *COM*:000000000000004c P1_I2C
@@ -2221,9 +2221,9 @@ DEFINED SYMBOLS
                             *COM*:0000000000000008 P1_DIO4
                             *COM*:0000000000000008 P1_DIO5
                             *COM*:0000000000000008 P1_DIO6
-     /tmp/ccIIpPrg.s:182    .text.OCTA_Initialize_P2_Peripherals:0000000000000000 $t
-     /tmp/ccIIpPrg.s:189    .text.OCTA_Initialize_P2_Peripherals:0000000000000000 OCTA_Initialize_P2_Peripherals
-     /tmp/ccIIpPrg.s:242    .text.OCTA_Initialize_P2_Peripherals:000000000000002c $d
+     /tmp/ccwVSYHr.s:182    .text.OCTA_Initialize_P2_Peripherals:0000000000000000 $t
+     /tmp/ccwVSYHr.s:189    .text.OCTA_Initialize_P2_Peripherals:0000000000000000 OCTA_Initialize_P2_Peripherals
+     /tmp/ccwVSYHr.s:242    .text.OCTA_Initialize_P2_Peripherals:000000000000002c $d
                             *COM*:000000000000002c P2_header
                             *COM*:0000000000000078 P2_UART
                             *COM*:000000000000004c P2_I2C
@@ -2234,9 +2234,9 @@ DEFINED SYMBOLS
                             *COM*:0000000000000008 P2_DIO4
                             *COM*:0000000000000008 P2_DIO5
                             *COM*:0000000000000008 P2_DIO6
-     /tmp/ccIIpPrg.s:256    .text.OCTA_Initialize_P3_Peripherals:0000000000000000 $t
-     /tmp/ccIIpPrg.s:263    .text.OCTA_Initialize_P3_Peripherals:0000000000000000 OCTA_Initialize_P3_Peripherals
-     /tmp/ccIIpPrg.s:316    .text.OCTA_Initialize_P3_Peripherals:000000000000002c $d
+     /tmp/ccwVSYHr.s:256    .text.OCTA_Initialize_P3_Peripherals:0000000000000000 $t
+     /tmp/ccwVSYHr.s:263    .text.OCTA_Initialize_P3_Peripherals:0000000000000000 OCTA_Initialize_P3_Peripherals
+     /tmp/ccwVSYHr.s:316    .text.OCTA_Initialize_P3_Peripherals:000000000000002c $d
                             *COM*:000000000000002c P3_header
                             *COM*:0000000000000078 P3_UART
                             *COM*:000000000000004c P3_I2C
@@ -2247,30 +2247,30 @@ DEFINED SYMBOLS
                             *COM*:0000000000000008 P3_DIO4
                             *COM*:0000000000000008 P3_DIO5
                             *COM*:0000000000000008 P3_DIO6
-     /tmp/ccIIpPrg.s:330    .text.get_UID:0000000000000000 $t
-     /tmp/ccIIpPrg.s:337    .text.get_UID:0000000000000000 get_UID
-     /tmp/ccIIpPrg.s:368    .text.get_UID:000000000000001c $d
-     /tmp/ccIIpPrg.s:374    .text.platform_initialize_UART:0000000000000000 $t
-     /tmp/ccIIpPrg.s:381    .text.platform_initialize_UART:0000000000000000 platform_initialize_UART
-     /tmp/ccIIpPrg.s:449    .text.platform_initialize_I2C:0000000000000000 $t
-     /tmp/ccIIpPrg.s:456    .text.platform_initialize_I2C:0000000000000000 platform_initialize_I2C
-     /tmp/ccIIpPrg.s:519    .text.platform_initialize_SPI:0000000000000000 $t
-ARM GAS  /tmp/ccIIpPrg.s 			page 39
+     /tmp/ccwVSYHr.s:330    .text.get_UID:0000000000000000 $t
+     /tmp/ccwVSYHr.s:337    .text.get_UID:0000000000000000 get_UID
+     /tmp/ccwVSYHr.s:368    .text.get_UID:000000000000001c $d
+     /tmp/ccwVSYHr.s:374    .text.platform_initialize_UART:0000000000000000 $t
+     /tmp/ccwVSYHr.s:381    .text.platform_initialize_UART:0000000000000000 platform_initialize_UART
+     /tmp/ccwVSYHr.s:449    .text.platform_initialize_I2C:0000000000000000 $t
+     /tmp/ccwVSYHr.s:456    .text.platform_initialize_I2C:0000000000000000 platform_initialize_I2C
+     /tmp/ccwVSYHr.s:519    .text.platform_initialize_SPI:0000000000000000 $t
+ARM GAS  /tmp/ccwVSYHr.s 			page 39
 
 
-     /tmp/ccIIpPrg.s:526    .text.platform_initialize_SPI:0000000000000000 platform_initialize_SPI
-     /tmp/ccIIpPrg.s:581    .rodata.platform_getHeader.str1.4:0000000000000000 $d
-     /tmp/ccIIpPrg.s:585    .text.platform_getHeader:0000000000000000 $t
-     /tmp/ccIIpPrg.s:592    .text.platform_getHeader:0000000000000000 platform_getHeader
-     /tmp/ccIIpPrg.s:714    .text.platform_getHeader:000000000000008c $d
-     /tmp/ccIIpPrg.s:724    .rodata.ullx.str1.4:0000000000000000 $d
-     /tmp/ccIIpPrg.s:728    .text.ullx:0000000000000000 $t
-     /tmp/ccIIpPrg.s:735    .text.ullx:0000000000000000 ullx
-     /tmp/ccIIpPrg.s:823    .text.ullx:0000000000000058 $d
-     /tmp/ccIIpPrg.s:829    .rodata.printWelcome.str1.4:0000000000000000 $d
-     /tmp/ccIIpPrg.s:886    .text.printWelcome:0000000000000000 $t
-     /tmp/ccIIpPrg.s:893    .text.printWelcome:0000000000000000 printWelcome
-     /tmp/ccIIpPrg.s:1104   .text.printWelcome:0000000000000134 $d
+     /tmp/ccwVSYHr.s:526    .text.platform_initialize_SPI:0000000000000000 platform_initialize_SPI
+     /tmp/ccwVSYHr.s:581    .rodata.platform_getHeader.str1.4:0000000000000000 $d
+     /tmp/ccwVSYHr.s:585    .text.platform_getHeader:0000000000000000 $t
+     /tmp/ccwVSYHr.s:592    .text.platform_getHeader:0000000000000000 platform_getHeader
+     /tmp/ccwVSYHr.s:714    .text.platform_getHeader:000000000000008c $d
+     /tmp/ccwVSYHr.s:724    .rodata.ullx.str1.4:0000000000000000 $d
+     /tmp/ccwVSYHr.s:728    .text.ullx:0000000000000000 $t
+     /tmp/ccwVSYHr.s:735    .text.ullx:0000000000000000 ullx
+     /tmp/ccwVSYHr.s:823    .text.ullx:0000000000000058 $d
+     /tmp/ccwVSYHr.s:829    .rodata.printWelcome.str1.4:0000000000000000 $d
+     /tmp/ccwVSYHr.s:886    .text.printWelcome:0000000000000000 $t
+     /tmp/ccwVSYHr.s:893    .text.printWelcome:0000000000000000 printWelcome
+     /tmp/ccwVSYHr.s:1104   .text.printWelcome:0000000000000134 $d
                             *COM*:0000000000000001 appversion_patch
                             *COM*:0000000000000001 appversion_minor
                             *COM*:0000000000000001 appversion_major
@@ -2278,29 +2278,29 @@ DEFINED SYMBOLS
                             *COM*:0000000000000001 stackversion_minor
                             *COM*:0000000000000001 stackversion_major
                             *COM*:0000000000000008 short_UID
-     /tmp/ccIIpPrg.s:1135   .rodata.OCTA_Initialize_Common_Peripherals.str1.4:0000000000000000 $d
-     /tmp/ccIIpPrg.s:1142   .text.OCTA_Initialize_Common_Peripherals:0000000000000000 $t
-     /tmp/ccIIpPrg.s:1149   .text.OCTA_Initialize_Common_Peripherals:0000000000000000 OCTA_Initialize_Common_Peripherals
-     /tmp/ccIIpPrg.s:1250   .text.OCTA_Initialize_Common_Peripherals:0000000000000080 $d
+     /tmp/ccwVSYHr.s:1135   .rodata.OCTA_Initialize_Common_Peripherals.str1.4:0000000000000000 $d
+     /tmp/ccwVSYHr.s:1142   .text.OCTA_Initialize_Common_Peripherals:0000000000000000 $t
+     /tmp/ccwVSYHr.s:1149   .text.OCTA_Initialize_Common_Peripherals:0000000000000000 OCTA_Initialize_Common_Peripherals
+     /tmp/ccwVSYHr.s:1250   .text.OCTA_Initialize_Common_Peripherals:0000000000000080 $d
                             *COM*:0000000000000008 octa_uid
                             *COM*:0000000000000001 wd_reset
                             *COM*:0000000000000001 hard_reset
-     /tmp/ccIIpPrg.s:1261   .text.Initialize_Platform:0000000000000000 $t
-     /tmp/ccIIpPrg.s:1268   .text.Initialize_Platform:0000000000000000 Initialize_Platform
-     /tmp/ccIIpPrg.s:1297   .text.vApplicationIdleHook:0000000000000000 $t
-     /tmp/ccIIpPrg.s:1304   .text.vApplicationIdleHook:0000000000000000 vApplicationIdleHook
-     /tmp/ccIIpPrg.s:1317   .text.DeInitialize_Platform:0000000000000000 $t
-     /tmp/ccIIpPrg.s:1324   .text.DeInitialize_Platform:0000000000000000 DeInitialize_Platform
-     /tmp/ccIIpPrg.s:1353   .text.DeInitialize_Platform:0000000000000010 $d
-     /tmp/ccIIpPrg.s:1358   .text.ReInitialize_Platform:0000000000000000 $t
-     /tmp/ccIIpPrg.s:1365   .text.ReInitialize_Platform:0000000000000000 ReInitialize_Platform
-     /tmp/ccIIpPrg.s:1394   .text.ReInitialize_Platform:0000000000000010 $d
-     /tmp/ccIIpPrg.s:1399   .text.set_Application_DeInit_Function:0000000000000000 $t
-     /tmp/ccIIpPrg.s:1406   .text.set_Application_DeInit_Function:0000000000000000 set_Application_DeInit_Function
-     /tmp/ccIIpPrg.s:1423   .text.set_Application_DeInit_Function:0000000000000008 $d
-     /tmp/ccIIpPrg.s:1428   .text.set_Application_ReInit_Function:0000000000000000 $t
-     /tmp/ccIIpPrg.s:1435   .text.set_Application_ReInit_Function:0000000000000000 set_Application_ReInit_Function
-     /tmp/ccIIpPrg.s:1452   .text.set_Application_ReInit_Function:0000000000000008 $d
+     /tmp/ccwVSYHr.s:1261   .text.Initialize_Platform:0000000000000000 $t
+     /tmp/ccwVSYHr.s:1268   .text.Initialize_Platform:0000000000000000 Initialize_Platform
+     /tmp/ccwVSYHr.s:1297   .text.vApplicationIdleHook:0000000000000000 $t
+     /tmp/ccwVSYHr.s:1304   .text.vApplicationIdleHook:0000000000000000 vApplicationIdleHook
+     /tmp/ccwVSYHr.s:1317   .text.DeInitialize_Platform:0000000000000000 $t
+     /tmp/ccwVSYHr.s:1324   .text.DeInitialize_Platform:0000000000000000 DeInitialize_Platform
+     /tmp/ccwVSYHr.s:1353   .text.DeInitialize_Platform:0000000000000010 $d
+     /tmp/ccwVSYHr.s:1358   .text.ReInitialize_Platform:0000000000000000 $t
+     /tmp/ccwVSYHr.s:1365   .text.ReInitialize_Platform:0000000000000000 ReInitialize_Platform
+     /tmp/ccwVSYHr.s:1394   .text.ReInitialize_Platform:0000000000000010 $d
+     /tmp/ccwVSYHr.s:1399   .text.set_Application_DeInit_Function:0000000000000000 $t
+     /tmp/ccwVSYHr.s:1406   .text.set_Application_DeInit_Function:0000000000000000 set_Application_DeInit_Function
+     /tmp/ccwVSYHr.s:1423   .text.set_Application_DeInit_Function:0000000000000008 $d
+     /tmp/ccwVSYHr.s:1428   .text.set_Application_ReInit_Function:0000000000000000 $t
+     /tmp/ccwVSYHr.s:1435   .text.set_Application_ReInit_Function:0000000000000000 set_Application_ReInit_Function
+     /tmp/ccwVSYHr.s:1452   .text.set_Application_ReInit_Function:0000000000000008 $d
                             *COM*:0000000000000004 float_union
                             *COM*:0000000000000002 uint16LittleEndian
                             *COM*:0000000000000002 int16LittleEndian
@@ -2313,15 +2313,15 @@ DEFINED SYMBOLS
                             *COM*:0000000000000010 hiwdg
                             *COM*:0000000000000040 htim6
                             *COM*:0000000000000040 htim1
-     /tmp/ccIIpPrg.s:1512   .bss.DeInit_Application_Function:0000000000000000 $d
-     /tmp/ccIIpPrg.s:1516   .bss.DeInit_Application_Function:0000000000000000 DeInit_Application_Function
-ARM GAS  /tmp/ccIIpPrg.s 			page 40
+     /tmp/ccwVSYHr.s:1512   .bss.DeInit_Application_Function:0000000000000000 $d
+     /tmp/ccwVSYHr.s:1516   .bss.DeInit_Application_Function:0000000000000000 DeInit_Application_Function
+ARM GAS  /tmp/ccwVSYHr.s 			page 40
 
 
-     /tmp/ccIIpPrg.s:1519   .bss.ReInit_Application_Function:0000000000000000 $d
-     /tmp/ccIIpPrg.s:1523   .bss.ReInit_Application_Function:0000000000000000 ReInit_Application_Function
-     /tmp/ccIIpPrg.s:1526   .bss.buf.11729:0000000000000000 $d
-     /tmp/ccIIpPrg.s:1530   .bss.buf.11729:0000000000000000 buf.11729
+     /tmp/ccwVSYHr.s:1519   .bss.ReInit_Application_Function:0000000000000000 $d
+     /tmp/ccwVSYHr.s:1523   .bss.ReInit_Application_Function:0000000000000000 ReInit_Application_Function
+     /tmp/ccwVSYHr.s:1526   .bss.buf.11729:0000000000000000 $d
+     /tmp/ccwVSYHr.s:1530   .bss.buf.11729:0000000000000000 buf.11729
 
 UNDEFINED SYMBOLS
 HAL_Init

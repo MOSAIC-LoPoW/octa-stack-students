@@ -305,7 +305,7 @@ Discarded input sections
                 0x0000000000000000       0x20 ../../../applications/examples/hello-world/build/flash_config.o
  .debug_ranges  0x0000000000000000       0x88 ../../../applications/examples/hello-world/build/flash_config.o
  .debug_line    0x0000000000000000      0x51c ../../../applications/examples/hello-world/build/flash_config.o
- .debug_str     0x0000000000000000      0x499 ../../../applications/examples/hello-world/build/flash_config.o
+ .debug_str     0x0000000000000000      0x4a2 ../../../applications/examples/hello-world/build/flash_config.o
  .comment       0x0000000000000000       0x7a ../../../applications/examples/hello-world/build/flash_config.o
  .debug_frame   0x0000000000000000       0x38 ../../../applications/examples/hello-world/build/flash_config.o
  .ARM.attributes
@@ -330,7 +330,7 @@ Discarded input sections
                 0x0000000000000000       0x30 ../../../applications/examples/hello-world/build/payloadparser.o
  .debug_ranges  0x0000000000000000       0x50 ../../../applications/examples/hello-world/build/payloadparser.o
  .debug_line    0x0000000000000000      0x590 ../../../applications/examples/hello-world/build/payloadparser.o
- .debug_str     0x0000000000000000      0x3f7 ../../../applications/examples/hello-world/build/payloadparser.o
+ .debug_str     0x0000000000000000      0x400 ../../../applications/examples/hello-world/build/payloadparser.o
  .comment       0x0000000000000000       0x7a ../../../applications/examples/hello-world/build/payloadparser.o
  .debug_frame   0x0000000000000000       0x84 ../../../applications/examples/hello-world/build/payloadparser.o
  .ARM.attributes
@@ -625,7 +625,7 @@ Discarded input sections
                 0x0000000000000000       0x20 ../../../applications/examples/hello-world/build/stm32l4xx_hal_spi_ex.o
  .debug_ranges  0x0000000000000000       0x10 ../../../applications/examples/hello-world/build/stm32l4xx_hal_spi_ex.o
  .debug_line    0x0000000000000000      0x2e4 ../../../applications/examples/hello-world/build/stm32l4xx_hal_spi_ex.o
- .debug_str     0x0000000000000000      0x6ad ../../../applications/examples/hello-world/build/stm32l4xx_hal_spi_ex.o
+ .debug_str     0x0000000000000000      0x6b6 ../../../applications/examples/hello-world/build/stm32l4xx_hal_spi_ex.o
  .comment       0x0000000000000000       0x7a ../../../applications/examples/hello-world/build/stm32l4xx_hal_spi_ex.o
  .debug_frame   0x0000000000000000       0x30 ../../../applications/examples/hello-world/build/stm32l4xx_hal_spi_ex.o
  .ARM.attributes
@@ -1178,7 +1178,7 @@ Discarded input sections
                 0x0000000000000000       0x28 ../../../applications/examples/hello-world/build/stm32l4xx_hal_flash_ramfunc.o
  .debug_ranges  0x0000000000000000       0x18 ../../../applications/examples/hello-world/build/stm32l4xx_hal_flash_ramfunc.o
  .debug_line    0x0000000000000000      0x2a4 ../../../applications/examples/hello-world/build/stm32l4xx_hal_flash_ramfunc.o
- .debug_str     0x0000000000000000      0x504 ../../../applications/examples/hello-world/build/stm32l4xx_hal_flash_ramfunc.o
+ .debug_str     0x0000000000000000      0x50d ../../../applications/examples/hello-world/build/stm32l4xx_hal_flash_ramfunc.o
  .comment       0x0000000000000000       0x7a ../../../applications/examples/hello-world/build/stm32l4xx_hal_flash_ramfunc.o
  .debug_frame   0x0000000000000000       0x30 ../../../applications/examples/hello-world/build/stm32l4xx_hal_flash_ramfunc.o
  .ARM.attributes
@@ -1231,7 +1231,7 @@ Discarded input sections
  .debug_aranges
                 0x0000000000000000       0x18 ../../../applications/examples/hello-world/build/stm32l4xx_hal_dma_ex.o
  .debug_line    0x0000000000000000      0x1e5 ../../../applications/examples/hello-world/build/stm32l4xx_hal_dma_ex.o
- .debug_str     0x0000000000000000      0x271 ../../../applications/examples/hello-world/build/stm32l4xx_hal_dma_ex.o
+ .debug_str     0x0000000000000000      0x27a ../../../applications/examples/hello-world/build/stm32l4xx_hal_dma_ex.o
  .comment       0x0000000000000000       0x7a ../../../applications/examples/hello-world/build/stm32l4xx_hal_dma_ex.o
  .ARM.attributes
                 0x0000000000000000       0x39 ../../../applications/examples/hello-world/build/stm32l4xx_hal_dma_ex.o
@@ -1279,7 +1279,7 @@ Discarded input sections
                 0x0000000000000000       0x98 ../../../applications/examples/hello-world/build/stm32l4xx_hal_pwr.o
  .debug_ranges  0x0000000000000000       0x88 ../../../applications/examples/hello-world/build/stm32l4xx_hal_pwr.o
  .debug_line    0x0000000000000000      0x661 ../../../applications/examples/hello-world/build/stm32l4xx_hal_pwr.o
- .debug_str     0x0000000000000000      0x77f ../../../applications/examples/hello-world/build/stm32l4xx_hal_pwr.o
+ .debug_str     0x0000000000000000      0x788 ../../../applications/examples/hello-world/build/stm32l4xx_hal_pwr.o
  .comment       0x0000000000000000       0x7a ../../../applications/examples/hello-world/build/stm32l4xx_hal_pwr.o
  .debug_frame   0x0000000000000000      0x154 ../../../applications/examples/hello-world/build/stm32l4xx_hal_pwr.o
  .ARM.attributes
@@ -1420,7 +1420,7 @@ Discarded input sections
                 0x0000000000000000       0x60 ../../../applications/examples/hello-world/build/stm32l4xx_hal_crc.o
  .debug_ranges  0x0000000000000000       0x50 ../../../applications/examples/hello-world/build/stm32l4xx_hal_crc.o
  .debug_line    0x0000000000000000      0x770 ../../../applications/examples/hello-world/build/stm32l4xx_hal_crc.o
- .debug_str     0x0000000000000000      0x53c ../../../applications/examples/hello-world/build/stm32l4xx_hal_crc.o
+ .debug_str     0x0000000000000000      0x545 ../../../applications/examples/hello-world/build/stm32l4xx_hal_crc.o
  .comment       0x0000000000000000       0x7a ../../../applications/examples/hello-world/build/stm32l4xx_hal_crc.o
  .debug_frame   0x0000000000000000      0x124 ../../../applications/examples/hello-world/build/stm32l4xx_hal_crc.o
  .ARM.attributes
@@ -1443,7 +1443,7 @@ Discarded input sections
                 0x0000000000000000       0x30 ../../../applications/examples/hello-world/build/stm32l4xx_hal_crc_ex.o
  .debug_ranges  0x0000000000000000       0x20 ../../../applications/examples/hello-world/build/stm32l4xx_hal_crc_ex.o
  .debug_line    0x0000000000000000      0x3fc ../../../applications/examples/hello-world/build/stm32l4xx_hal_crc_ex.o
- .debug_str     0x0000000000000000      0x4f6 ../../../applications/examples/hello-world/build/stm32l4xx_hal_crc_ex.o
+ .debug_str     0x0000000000000000      0x4ff ../../../applications/examples/hello-world/build/stm32l4xx_hal_crc_ex.o
  .comment       0x0000000000000000       0x7a ../../../applications/examples/hello-world/build/stm32l4xx_hal_crc_ex.o
  .debug_frame   0x0000000000000000       0x70 ../../../applications/examples/hello-world/build/stm32l4xx_hal_crc_ex.o
  .ARM.attributes
@@ -1562,7 +1562,7 @@ Discarded input sections
  .debug_aranges
                 0x0000000000000000       0x18 ../../../applications/examples/hello-world/build/croutine.o
  .debug_line    0x0000000000000000      0x166 ../../../applications/examples/hello-world/build/croutine.o
- .debug_str     0x0000000000000000      0x217 ../../../applications/examples/hello-world/build/croutine.o
+ .debug_str     0x0000000000000000      0x220 ../../../applications/examples/hello-world/build/croutine.o
  .comment       0x0000000000000000       0x7a ../../../applications/examples/hello-world/build/croutine.o
  .ARM.attributes
                 0x0000000000000000       0x39 ../../../applications/examples/hello-world/build/croutine.o
@@ -1602,7 +1602,7 @@ Discarded input sections
                 0x0000000000000000       0x78 ../../../applications/examples/hello-world/build/event_groups.o
  .debug_ranges  0x0000000000000000       0x88 ../../../applications/examples/hello-world/build/event_groups.o
  .debug_line    0x0000000000000000      0x917 ../../../applications/examples/hello-world/build/event_groups.o
- .debug_str     0x0000000000000000      0xadb ../../../applications/examples/hello-world/build/event_groups.o
+ .debug_str     0x0000000000000000      0xae4 ../../../applications/examples/hello-world/build/event_groups.o
  .comment       0x0000000000000000       0x7a ../../../applications/examples/hello-world/build/event_groups.o
  .debug_frame   0x0000000000000000      0x15c ../../../applications/examples/hello-world/build/event_groups.o
  .ARM.attributes
@@ -1709,7 +1709,7 @@ Discarded input sections
                 0x0000000000000000       0xd0 ../../../applications/examples/hello-world/build/stream_buffer.o
  .debug_ranges  0x0000000000000000       0xc0 ../../../applications/examples/hello-world/build/stream_buffer.o
  .debug_line    0x0000000000000000      0xf0c ../../../applications/examples/hello-world/build/stream_buffer.o
- .debug_str     0x0000000000000000      0xcf0 ../../../applications/examples/hello-world/build/stream_buffer.o
+ .debug_str     0x0000000000000000      0xcf9 ../../../applications/examples/hello-world/build/stream_buffer.o
  .comment       0x0000000000000000       0x7a ../../../applications/examples/hello-world/build/stream_buffer.o
  .debug_frame   0x0000000000000000      0x34c ../../../applications/examples/hello-world/build/stream_buffer.o
  .ARM.attributes
@@ -2179,7 +2179,7 @@ Discarded input sections
                 0x0000000000000000      0x120 ../../../applications/examples/hello-world/build/stc3115.o
  .debug_ranges  0x0000000000000000      0x110 ../../../applications/examples/hello-world/build/stc3115.o
  .debug_line    0x0000000000000000      0xed4 ../../../applications/examples/hello-world/build/stc3115.o
- .debug_str     0x0000000000000000      0xbd7 ../../../applications/examples/hello-world/build/stc3115.o
+ .debug_str     0x0000000000000000      0xbe0 ../../../applications/examples/hello-world/build/stc3115.o
  .comment       0x0000000000000000       0x7a ../../../applications/examples/hello-world/build/stc3115.o
  .debug_frame   0x0000000000000000      0x3c8 ../../../applications/examples/hello-world/build/stc3115.o
  .ARM.attributes
@@ -2200,7 +2200,7 @@ Discarded input sections
                 0x0000000000000000       0x28 ../../../applications/examples/hello-world/build/dns.o
  .debug_ranges  0x0000000000000000       0x48 ../../../applications/examples/hello-world/build/dns.o
  .debug_line    0x0000000000000000      0x81e ../../../applications/examples/hello-world/build/dns.o
- .debug_str     0x0000000000000000     0x1779 ../../../applications/examples/hello-world/build/dns.o
+ .debug_str     0x0000000000000000     0x1782 ../../../applications/examples/hello-world/build/dns.o
  .comment       0x0000000000000000       0x7a ../../../applications/examples/hello-world/build/dns.o
  .debug_frame   0x0000000000000000       0x74 ../../../applications/examples/hello-world/build/dns.o
  .ARM.attributes
@@ -2243,7 +2243,7 @@ Discarded input sections
                 0x0000000000000000       0x88 ../../../applications/examples/hello-world/build/LSM303AGRSensor.o
  .debug_ranges  0x0000000000000000       0x78 ../../../applications/examples/hello-world/build/LSM303AGRSensor.o
  .debug_line    0x0000000000000000      0x5b8 ../../../applications/examples/hello-world/build/LSM303AGRSensor.o
- .debug_str     0x0000000000000000      0x96e ../../../applications/examples/hello-world/build/LSM303AGRSensor.o
+ .debug_str     0x0000000000000000      0x977 ../../../applications/examples/hello-world/build/LSM303AGRSensor.o
  .comment       0x0000000000000000       0x7a ../../../applications/examples/hello-world/build/LSM303AGRSensor.o
  .debug_frame   0x0000000000000000      0x1b4 ../../../applications/examples/hello-world/build/LSM303AGRSensor.o
  .ARM.attributes
@@ -2307,7 +2307,7 @@ Discarded input sections
                 0x0000000000000000       0xb0 ../../../applications/examples/hello-world/build/octa-flash.o
  .debug_ranges  0x0000000000000000       0xa0 ../../../applications/examples/hello-world/build/octa-flash.o
  .debug_line    0x0000000000000000      0xe03 ../../../applications/examples/hello-world/build/octa-flash.o
- .debug_str     0x0000000000000000     0x1a6f ../../../applications/examples/hello-world/build/octa-flash.o
+ .debug_str     0x0000000000000000     0x1a78 ../../../applications/examples/hello-world/build/octa-flash.o
  .comment       0x0000000000000000       0x7a ../../../applications/examples/hello-world/build/octa-flash.o
  .debug_frame   0x0000000000000000      0x26c ../../../applications/examples/hello-world/build/octa-flash.o
  .ARM.attributes
@@ -2351,7 +2351,7 @@ Discarded input sections
                 0x0000000000000000       0x90 ../../../applications/examples/hello-world/build/sht31.o
  .debug_ranges  0x0000000000000000       0x80 ../../../applications/examples/hello-world/build/sht31.o
  .debug_line    0x0000000000000000      0x67f ../../../applications/examples/hello-world/build/sht31.o
- .debug_str     0x0000000000000000      0xcfa ../../../applications/examples/hello-world/build/sht31.o
+ .debug_str     0x0000000000000000      0xd03 ../../../applications/examples/hello-world/build/sht31.o
  .comment       0x0000000000000000       0x7a ../../../applications/examples/hello-world/build/sht31.o
  .debug_frame   0x0000000000000000      0x1a4 ../../../applications/examples/hello-world/build/sht31.o
  .ARM.attributes
@@ -2457,7 +2457,7 @@ Discarded input sections
                 0x0000000000000000      0x180 ../../../applications/examples/hello-world/build/TCS3472.o
  .debug_ranges  0x0000000000000000      0x170 ../../../applications/examples/hello-world/build/TCS3472.o
  .debug_line    0x0000000000000000     0x104c ../../../applications/examples/hello-world/build/TCS3472.o
- .debug_str     0x0000000000000000     0x1bb7 ../../../applications/examples/hello-world/build/TCS3472.o
+ .debug_str     0x0000000000000000     0x1bc0 ../../../applications/examples/hello-world/build/TCS3472.o
  .comment       0x0000000000000000       0x7a ../../../applications/examples/hello-world/build/TCS3472.o
  .debug_frame   0x0000000000000000      0x51c ../../../applications/examples/hello-world/build/TCS3472.o
  .ARM.attributes
@@ -4953,96 +4953,96 @@ OUTPUT(../../../applications/examples/hello-world/build/hello-world.elf elf32-li
  .debug_line    0x0000000000029c8f      0x394 ../../../applications/examples/hello-world/build/system_stm32l4xx.o
  .debug_line    0x000000000002a023       0x90 ../../../applications/examples/hello-world/build/startup_stm32l496xx.o
 
-.debug_str      0x0000000000000000     0xa417
- .debug_str     0x0000000000000000     0x172a ../../../applications/examples/hello-world/build/hello-world.o
-                                       0x1947 (size before relaxing)
- .debug_str     0x000000000000172a      0x105 ../../../applications/examples/hello-world/build/assert.o
-                                       0x17f2 (size before relaxing)
- .debug_str     0x000000000000182f       0x38 ../../../applications/examples/hello-world/build/error.o
-                                       0x17e7 (size before relaxing)
- .debug_str     0x0000000000001867       0x69 ../../../applications/examples/hello-world/build/print.o
-                                        0x1a5 (size before relaxing)
- .debug_str     0x00000000000018d0      0x8fa ../../../applications/examples/hello-world/build/stm32l4xx_hal_i2c.o
-                                       0x1029 (size before relaxing)
- .debug_str     0x00000000000021ca      0x251 ../../../applications/examples/hello-world/build/stm32l4xx_hal_i2c_ex.o
-                                        0x9b3 (size before relaxing)
- .debug_str     0x000000000000241b      0x57e ../../../applications/examples/hello-world/build/stm32l4xx_hal_spi.o
-                                        0xc4c (size before relaxing)
- .debug_str     0x0000000000002999       0x5e ../../../applications/examples/hello-world/build/stm32l4xx_hal_iwdg.o
-                                        0x34c (size before relaxing)
- .debug_str     0x00000000000029f7      0x6f1 ../../../applications/examples/hello-world/build/stm32l4xx_hal_uart.o
-                                        0xff0 (size before relaxing)
- .debug_str     0x00000000000030e8      0x18b ../../../applications/examples/hello-world/build/stm32l4xx_hal_uart_ex.o
-                                        0x969 (size before relaxing)
- .debug_str     0x0000000000003273      0xd83 ../../../applications/examples/hello-world/build/stm32l4xx_hal_tim.o
-                                       0x14ab (size before relaxing)
- .debug_str     0x0000000000003ff6      0x623 ../../../applications/examples/hello-world/build/stm32l4xx_hal_tim_ex.o
-                                        0xe76 (size before relaxing)
- .debug_str     0x0000000000004619      0x905 ../../../applications/examples/hello-world/build/stm32l4xx_hal.o
-                                        0xd55 (size before relaxing)
- .debug_str     0x0000000000004f1e      0x440 ../../../applications/examples/hello-world/build/stm32l4xx_hal_rcc.o
-                                        0x8e9 (size before relaxing)
- .debug_str     0x000000000000535e      0x7be ../../../applications/examples/hello-world/build/stm32l4xx_hal_rcc_ex.o
-                                        0xd9b (size before relaxing)
- .debug_str     0x0000000000005b1c      0x35d ../../../applications/examples/hello-world/build/stm32l4xx_hal_flash.o
-                                        0x6ef (size before relaxing)
- .debug_str     0x0000000000005e79      0x282 ../../../applications/examples/hello-world/build/stm32l4xx_hal_flash_ex.o
-                                        0x7b5 (size before relaxing)
- .debug_str     0x00000000000060fb      0x109 ../../../applications/examples/hello-world/build/stm32l4xx_hal_gpio.o
-                                        0x606 (size before relaxing)
- .debug_str     0x0000000000006204      0x23d ../../../applications/examples/hello-world/build/stm32l4xx_hal_dma.o
-                                        0x6fb (size before relaxing)
- .debug_str     0x0000000000006441      0x4b1 ../../../applications/examples/hello-world/build/stm32l4xx_hal_pwr_ex.o
-                                        0x89b (size before relaxing)
- .debug_str     0x00000000000068f2      0x356 ../../../applications/examples/hello-world/build/stm32l4xx_hal_cortex.o
-                                        0xd26 (size before relaxing)
- .debug_str     0x0000000000006c48      0x2de ../../../applications/examples/hello-world/build/stm32l4xx_hal_rtc.o
-                                        0x886 (size before relaxing)
- .debug_str     0x0000000000006f26      0x5a1 ../../../applications/examples/hello-world/build/stm32l4xx_hal_rtc_ex.o
-                                        0xc28 (size before relaxing)
- .debug_str     0x00000000000074c7      0x17e ../../../applications/examples/hello-world/build/list.o
-                                        0x738 (size before relaxing)
- .debug_str     0x0000000000007645      0x7a3 ../../../applications/examples/hello-world/build/queue.o
-                                        0xe97 (size before relaxing)
- .debug_str     0x0000000000007de8      0xbea ../../../applications/examples/hello-world/build/tasks.o
-                                       0x15b8 (size before relaxing)
- .debug_str     0x00000000000089d2      0x460 ../../../applications/examples/hello-world/build/timers.o
-                                        0xcff (size before relaxing)
- .debug_str     0x0000000000008e32      0x6f9 ../../../applications/examples/hello-world/build/cmsis_os.o
-                                       0x1317 (size before relaxing)
- .debug_str     0x000000000000952b      0x1e6 ../../../applications/examples/hello-world/build/heap_4.o
-                                        0x810 (size before relaxing)
- .debug_str     0x0000000000009711      0x18e ../../../applications/examples/hello-world/build/port.o
-                                        0x4cc (size before relaxing)
- .debug_str     0x000000000000989f       0x98 ../../../applications/examples/hello-world/build/freertos.o
-                                       0x1963 (size before relaxing)
- .debug_str     0x0000000000009937       0xe1 ../../../applications/examples/hello-world/build/gpio.o
-                                        0x637 (size before relaxing)
- .debug_str     0x0000000000009a18       0x5a ../../../applications/examples/hello-world/build/i2c.o
-                                       0x1787 (size before relaxing)
- .debug_str     0x0000000000009a72       0x43 ../../../applications/examples/hello-world/build/iwdg.o
-                                       0x1860 (size before relaxing)
- .debug_str     0x0000000000009ab5      0x2de ../../../applications/examples/hello-world/build/octa.o
-                                       0x1bda (size before relaxing)
- .debug_str     0x0000000000009d93      0x111 ../../../applications/examples/hello-world/build/rtc.o
-                                       0x19c4 (size before relaxing)
- .debug_str     0x0000000000009ea4       0x32 ../../../applications/examples/hello-world/build/spi.o
-                                       0x174b (size before relaxing)
- .debug_str     0x0000000000009ed6      0x1e9 ../../../applications/examples/hello-world/build/uart.o
-                                       0x1edb (size before relaxing)
- .debug_str     0x000000000000a0bf       0x76 ../../../applications/examples/hello-world/build/leds.o
-                                        0x8b5 (size before relaxing)
- .debug_str     0x000000000000a135       0x3e ../../../applications/examples/hello-world/build/stm32l4xx_hal_msp.o
-                                       0x1830 (size before relaxing)
- .debug_str     0x000000000000a173       0x63 ../../../applications/examples/hello-world/build/stm32l4xx_hal_timebase_tim.o
-                                        0xed2 (size before relaxing)
- .debug_str     0x000000000000a1d6      0x171 ../../../applications/examples/hello-world/build/stm32l4xx_it.o
-                                        0xfeb (size before relaxing)
- .debug_str     0x000000000000a347       0x3c ../../../applications/examples/hello-world/build/sysclock.o
-                                       0x1b8b (size before relaxing)
- .debug_str     0x000000000000a383       0x54 ../../../applications/examples/hello-world/build/system_stm32l4xx.o
-                                        0x458 (size before relaxing)
- .debug_str     0x000000000000a3d7       0x40 ../../../applications/examples/hello-world/build/startup_stm32l496xx.o
+.debug_str      0x0000000000000000     0xa420
+ .debug_str     0x0000000000000000     0x1733 ../../../applications/examples/hello-world/build/hello-world.o
+                                       0x1950 (size before relaxing)
+ .debug_str     0x0000000000001733      0x105 ../../../applications/examples/hello-world/build/assert.o
+                                       0x17fb (size before relaxing)
+ .debug_str     0x0000000000001838       0x38 ../../../applications/examples/hello-world/build/error.o
+                                       0x17f0 (size before relaxing)
+ .debug_str     0x0000000000001870       0x69 ../../../applications/examples/hello-world/build/print.o
+                                        0x1ae (size before relaxing)
+ .debug_str     0x00000000000018d9      0x8fa ../../../applications/examples/hello-world/build/stm32l4xx_hal_i2c.o
+                                       0x1032 (size before relaxing)
+ .debug_str     0x00000000000021d3      0x251 ../../../applications/examples/hello-world/build/stm32l4xx_hal_i2c_ex.o
+                                        0x9bc (size before relaxing)
+ .debug_str     0x0000000000002424      0x57e ../../../applications/examples/hello-world/build/stm32l4xx_hal_spi.o
+                                        0xc55 (size before relaxing)
+ .debug_str     0x00000000000029a2       0x5e ../../../applications/examples/hello-world/build/stm32l4xx_hal_iwdg.o
+                                        0x355 (size before relaxing)
+ .debug_str     0x0000000000002a00      0x6f1 ../../../applications/examples/hello-world/build/stm32l4xx_hal_uart.o
+                                        0xff9 (size before relaxing)
+ .debug_str     0x00000000000030f1      0x18b ../../../applications/examples/hello-world/build/stm32l4xx_hal_uart_ex.o
+                                        0x972 (size before relaxing)
+ .debug_str     0x000000000000327c      0xd83 ../../../applications/examples/hello-world/build/stm32l4xx_hal_tim.o
+                                       0x14b4 (size before relaxing)
+ .debug_str     0x0000000000003fff      0x623 ../../../applications/examples/hello-world/build/stm32l4xx_hal_tim_ex.o
+                                        0xe7f (size before relaxing)
+ .debug_str     0x0000000000004622      0x905 ../../../applications/examples/hello-world/build/stm32l4xx_hal.o
+                                        0xd5e (size before relaxing)
+ .debug_str     0x0000000000004f27      0x440 ../../../applications/examples/hello-world/build/stm32l4xx_hal_rcc.o
+                                        0x8f2 (size before relaxing)
+ .debug_str     0x0000000000005367      0x7be ../../../applications/examples/hello-world/build/stm32l4xx_hal_rcc_ex.o
+                                        0xda4 (size before relaxing)
+ .debug_str     0x0000000000005b25      0x35d ../../../applications/examples/hello-world/build/stm32l4xx_hal_flash.o
+                                        0x6f8 (size before relaxing)
+ .debug_str     0x0000000000005e82      0x282 ../../../applications/examples/hello-world/build/stm32l4xx_hal_flash_ex.o
+                                        0x7be (size before relaxing)
+ .debug_str     0x0000000000006104      0x109 ../../../applications/examples/hello-world/build/stm32l4xx_hal_gpio.o
+                                        0x60f (size before relaxing)
+ .debug_str     0x000000000000620d      0x23d ../../../applications/examples/hello-world/build/stm32l4xx_hal_dma.o
+                                        0x704 (size before relaxing)
+ .debug_str     0x000000000000644a      0x4b1 ../../../applications/examples/hello-world/build/stm32l4xx_hal_pwr_ex.o
+                                        0x8a4 (size before relaxing)
+ .debug_str     0x00000000000068fb      0x356 ../../../applications/examples/hello-world/build/stm32l4xx_hal_cortex.o
+                                        0xd2f (size before relaxing)
+ .debug_str     0x0000000000006c51      0x2de ../../../applications/examples/hello-world/build/stm32l4xx_hal_rtc.o
+                                        0x88f (size before relaxing)
+ .debug_str     0x0000000000006f2f      0x5a1 ../../../applications/examples/hello-world/build/stm32l4xx_hal_rtc_ex.o
+                                        0xc31 (size before relaxing)
+ .debug_str     0x00000000000074d0      0x17e ../../../applications/examples/hello-world/build/list.o
+                                        0x741 (size before relaxing)
+ .debug_str     0x000000000000764e      0x7a3 ../../../applications/examples/hello-world/build/queue.o
+                                        0xea0 (size before relaxing)
+ .debug_str     0x0000000000007df1      0xbea ../../../applications/examples/hello-world/build/tasks.o
+                                       0x15c1 (size before relaxing)
+ .debug_str     0x00000000000089db      0x460 ../../../applications/examples/hello-world/build/timers.o
+                                        0xd08 (size before relaxing)
+ .debug_str     0x0000000000008e3b      0x6f9 ../../../applications/examples/hello-world/build/cmsis_os.o
+                                       0x1320 (size before relaxing)
+ .debug_str     0x0000000000009534      0x1e6 ../../../applications/examples/hello-world/build/heap_4.o
+                                        0x819 (size before relaxing)
+ .debug_str     0x000000000000971a      0x18e ../../../applications/examples/hello-world/build/port.o
+                                        0x4d5 (size before relaxing)
+ .debug_str     0x00000000000098a8       0x98 ../../../applications/examples/hello-world/build/freertos.o
+                                       0x196c (size before relaxing)
+ .debug_str     0x0000000000009940       0xe1 ../../../applications/examples/hello-world/build/gpio.o
+                                        0x640 (size before relaxing)
+ .debug_str     0x0000000000009a21       0x5a ../../../applications/examples/hello-world/build/i2c.o
+                                       0x1790 (size before relaxing)
+ .debug_str     0x0000000000009a7b       0x43 ../../../applications/examples/hello-world/build/iwdg.o
+                                       0x1869 (size before relaxing)
+ .debug_str     0x0000000000009abe      0x2de ../../../applications/examples/hello-world/build/octa.o
+                                       0x1be3 (size before relaxing)
+ .debug_str     0x0000000000009d9c      0x111 ../../../applications/examples/hello-world/build/rtc.o
+                                       0x19cd (size before relaxing)
+ .debug_str     0x0000000000009ead       0x32 ../../../applications/examples/hello-world/build/spi.o
+                                       0x1754 (size before relaxing)
+ .debug_str     0x0000000000009edf      0x1e9 ../../../applications/examples/hello-world/build/uart.o
+                                       0x1ee4 (size before relaxing)
+ .debug_str     0x000000000000a0c8       0x76 ../../../applications/examples/hello-world/build/leds.o
+                                        0x8be (size before relaxing)
+ .debug_str     0x000000000000a13e       0x3e ../../../applications/examples/hello-world/build/stm32l4xx_hal_msp.o
+                                       0x1839 (size before relaxing)
+ .debug_str     0x000000000000a17c       0x63 ../../../applications/examples/hello-world/build/stm32l4xx_hal_timebase_tim.o
+                                        0xedb (size before relaxing)
+ .debug_str     0x000000000000a1df      0x171 ../../../applications/examples/hello-world/build/stm32l4xx_it.o
+                                        0xff4 (size before relaxing)
+ .debug_str     0x000000000000a350       0x3c ../../../applications/examples/hello-world/build/sysclock.o
+                                       0x1b94 (size before relaxing)
+ .debug_str     0x000000000000a38c       0x54 ../../../applications/examples/hello-world/build/system_stm32l4xx.o
+                                        0x461 (size before relaxing)
+ .debug_str     0x000000000000a3e0       0x40 ../../../applications/examples/hello-world/build/startup_stm32l496xx.o
                                          0x93 (size before relaxing)
 
 .comment        0x0000000000000000       0x79

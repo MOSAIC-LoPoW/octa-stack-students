@@ -1,4 +1,4 @@
-ARM GAS  /tmp/cceb3487.s 			page 1
+ARM GAS  /tmp/cchpNBld.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  /tmp/cceb3487.s 			page 1
   28:../../../core/drivers/octa-flash/src/octa-flash.c **** //One because it's only used to read a register
   29:../../../core/drivers/octa-flash/src/octa-flash.c **** uint8_t rxData[1];
   30:../../../core/drivers/octa-flash/src/octa-flash.c **** //Five, because the max amount of bytes is 5, in send4BCommand
-ARM GAS  /tmp/cceb3487.s 			page 2
+ARM GAS  /tmp/cchpNBld.s 			page 2
 
 
   31:../../../core/drivers/octa-flash/src/octa-flash.c **** uint8_t txData[5];
@@ -118,7 +118,7 @@ ARM GAS  /tmp/cceb3487.s 			page 1
   85:../../../core/drivers/octa-flash/src/octa-flash.c ****     #ifdef platform_octa_stm
   86:../../../core/drivers/octa-flash/src/octa-flash.c ****         printDBG("Entering 4B mode\r\n");
   87:../../../core/drivers/octa-flash/src/octa-flash.c ****         if(OCTA_FLASH_Enter_4B_Mode()!= OCTA_FLASH_OK)
-ARM GAS  /tmp/cceb3487.s 			page 3
+ARM GAS  /tmp/cchpNBld.s 			page 3
 
 
   88:../../../core/drivers/octa-flash/src/octa-flash.c ****             printERR("enter 4B mode NOK\r\n");
@@ -178,7 +178,7 @@ ARM GAS  /tmp/cceb3487.s 			page 1
  142:../../../core/drivers/octa-flash/src/octa-flash.c ****     * \returns  0 if successful
  143:../../../core/drivers/octa-flash/src/octa-flash.c ****     * \returns  E_WRITE_IN_PROGRESS if the flash is performing a write action.
  144:../../../core/drivers/octa-flash/src/octa-flash.c ****     * \returns  E_INVALID_PAGE_NR if aPageNr is invalid.
-ARM GAS  /tmp/cceb3487.s 			page 4
+ARM GAS  /tmp/cchpNBld.s 			page 4
 
 
  145:../../../core/drivers/octa-flash/src/octa-flash.c ****     */
@@ -238,7 +238,7 @@ ARM GAS  /tmp/cceb3487.s 			page 1
  199:../../../core/drivers/octa-flash/src/octa-flash.c ****     * \param    apData     Pointer to the uint8_t array with data to write.
  200:../../../core/drivers/octa-flash/src/octa-flash.c ****     * \param    aSize      The number of bytes to be written.
  201:../../../core/drivers/octa-flash/src/octa-flash.c ****     * \returns  The number of written bytes.
-ARM GAS  /tmp/cceb3487.s 			page 5
+ARM GAS  /tmp/cchpNBld.s 			page 5
 
 
  202:../../../core/drivers/octa-flash/src/octa-flash.c ****     * \returns  E_WRITE_IN_PROGRESS if the flash is performing a write action.
@@ -298,7 +298,7 @@ ARM GAS  /tmp/cceb3487.s 			page 1
  256:../../../core/drivers/octa-flash/src/octa-flash.c ****     }
  257:../../../core/drivers/octa-flash/src/octa-flash.c **** 
  258:../../../core/drivers/octa-flash/src/octa-flash.c ****     return (aSize-bytesLeftToWrite);
-ARM GAS  /tmp/cceb3487.s 			page 6
+ARM GAS  /tmp/cchpNBld.s 			page 6
 
 
  259:../../../core/drivers/octa-flash/src/octa-flash.c **** }
@@ -358,7 +358,7 @@ ARM GAS  /tmp/cceb3487.s 			page 1
  313:../../../core/drivers/octa-flash/src/octa-flash.c **** }
  314:../../../core/drivers/octa-flash/src/octa-flash.c **** 
  315:../../../core/drivers/octa-flash/src/octa-flash.c **** /**
-ARM GAS  /tmp/cceb3487.s 			page 7
+ARM GAS  /tmp/cchpNBld.s 			page 7
 
 
  316:../../../core/drivers/octa-flash/src/octa-flash.c ****     * \brief    Erases 256kb of data, starting from the given block.
@@ -418,7 +418,7 @@ ARM GAS  /tmp/cceb3487.s 			page 1
  370:../../../core/drivers/octa-flash/src/octa-flash.c ****     * \returns  E_SPI_ERROR if something went wrong during SPI communication.
  371:../../../core/drivers/octa-flash/src/octa-flash.c ****     */
  372:../../../core/drivers/octa-flash/src/octa-flash.c **** int OCTA_FLASH_erase4KBSectorFromPage(const uint32_t aPageNr)
-ARM GAS  /tmp/cceb3487.s 			page 8
+ARM GAS  /tmp/cchpNBld.s 			page 8
 
 
  373:../../../core/drivers/octa-flash/src/octa-flash.c **** {
@@ -478,7 +478,7 @@ ARM GAS  /tmp/cceb3487.s 			page 1
  427:../../../core/drivers/octa-flash/src/octa-flash.c ****         return E_WRITE_IN_PROGRESS;
  428:../../../core/drivers/octa-flash/src/octa-flash.c ****     }
  429:../../../core/drivers/octa-flash/src/octa-flash.c **** 
-ARM GAS  /tmp/cceb3487.s 			page 9
+ARM GAS  /tmp/cchpNBld.s 			page 9
 
 
  430:../../../core/drivers/octa-flash/src/octa-flash.c ****     //Setting write enable
@@ -538,7 +538,7 @@ ARM GAS  /tmp/cceb3487.s 			page 1
  484:../../../core/drivers/octa-flash/src/octa-flash.c ****     * \returns 0 if successful
  485:../../../core/drivers/octa-flash/src/octa-flash.c ****     * \returns  E_WRITE_IN_PROGRESS if the flash is performing a write action.
  486:../../../core/drivers/octa-flash/src/octa-flash.c ****     * \returns  E_SPI_ERROR if something went wrong during SPI communication.
-ARM GAS  /tmp/cceb3487.s 			page 10
+ARM GAS  /tmp/cchpNBld.s 			page 10
 
 
  487:../../../core/drivers/octa-flash/src/octa-flash.c ****     */
@@ -598,7 +598,7 @@ ARM GAS  /tmp/cceb3487.s 			page 1
  541:../../../core/drivers/octa-flash/src/octa-flash.c ****     if (OCTA_FLASH_isWriteInProgress())
  542:../../../core/drivers/octa-flash/src/octa-flash.c ****     {
  543:../../../core/drivers/octa-flash/src/octa-flash.c ****         return E_WRITE_IN_PROGRESS;
-ARM GAS  /tmp/cceb3487.s 			page 11
+ARM GAS  /tmp/cchpNBld.s 			page 11
 
 
  544:../../../core/drivers/octa-flash/src/octa-flash.c ****     }
@@ -658,7 +658,7 @@ ARM GAS  /tmp/cceb3487.s 			page 1
  598:../../../core/drivers/octa-flash/src/octa-flash.c ****     return OCTA_FLASH_OK;
  599:../../../core/drivers/octa-flash/src/octa-flash.c **** }
  600:../../../core/drivers/octa-flash/src/octa-flash.c **** 
-ARM GAS  /tmp/cceb3487.s 			page 12
+ARM GAS  /tmp/cchpNBld.s 			page 12
 
 
  601:../../../core/drivers/octa-flash/src/octa-flash.c **** /* Manually toggle enable pin, due to it not being a default SPI pin */
@@ -718,7 +718,7 @@ ARM GAS  /tmp/cceb3487.s 			page 1
   73 0002 0122     		movs	r2, #1
   74 0004 4FF40051 		mov	r1, #8192
   75 0008 0148     		ldr	r0, .L7
-ARM GAS  /tmp/cceb3487.s 			page 13
+ARM GAS  /tmp/cchpNBld.s 			page 13
 
 
   76 000a FFF7FEFF 		bl	HAL_GPIO_WritePin
@@ -778,7 +778,7 @@ ARM GAS  /tmp/cceb3487.s 			page 1
  113              	.LCFI2:
  114              		.cfi_def_cfa_offset 24
  115              		.cfi_offset 4, -24
-ARM GAS  /tmp/cceb3487.s 			page 14
+ARM GAS  /tmp/cchpNBld.s 			page 14
 
 
  116              		.cfi_offset 5, -20
@@ -838,7 +838,7 @@ ARM GAS  /tmp/cceb3487.s 			page 1
  157 0030 FFF7FEFF 		bl	OCTA_FLASH_Disable
  158              	.LVL5:
   54:../../../core/drivers/octa-flash/src/octa-flash.c ****     HAL_GPIO_WritePin(OCTA_FLASH_HOLD_Port, OCTA_FLASH_HOLD_Pin, GPIO_PIN_SET);
-ARM GAS  /tmp/cceb3487.s 			page 15
+ARM GAS  /tmp/cchpNBld.s 			page 15
 
 
  159              		.loc 1 54 5 view .LVU21
@@ -898,7 +898,7 @@ ARM GAS  /tmp/cceb3487.s 			page 1
  205 0078 00000000 		.word	mCurrentReadAddress
  206 007c 00000000 		.word	mCurrentWriteAddress
  207 0080 00000000 		.word	_initialised
-ARM GAS  /tmp/cceb3487.s 			page 16
+ARM GAS  /tmp/cchpNBld.s 			page 16
 
 
  208 0084 00000000 		.word	flashSPI
@@ -958,7 +958,7 @@ ARM GAS  /tmp/cceb3487.s 			page 1
  259              	.LFE132:
  261              		.section	.text.OCTA_FLASH_readReg,"ax",%progbits
  262              		.align	1
-ARM GAS  /tmp/cceb3487.s 			page 17
+ARM GAS  /tmp/cchpNBld.s 			page 17
 
 
  263              		.global	OCTA_FLASH_readReg
@@ -1018,7 +1018,7 @@ ARM GAS  /tmp/cceb3487.s 			page 1
  309 0026 2868     		ldr	r0, [r5]
  310 0028 FFF7FEFF 		bl	HAL_SPI_Transmit
  311              	.LVL16:
-ARM GAS  /tmp/cceb3487.s 			page 18
+ARM GAS  /tmp/cchpNBld.s 			page 18
 
 
  471:../../../core/drivers/octa-flash/src/octa-flash.c **** 
@@ -1078,7 +1078,7 @@ ARM GAS  /tmp/cceb3487.s 			page 1
  266:../../../core/drivers/octa-flash/src/octa-flash.c ****     HAL_Delay(SPI_WAIT);
  359              		.loc 1 266 1 is_stmt 1 view -0
  360              		.cfi_startproc
-ARM GAS  /tmp/cceb3487.s 			page 19
+ARM GAS  /tmp/cchpNBld.s 			page 19
 
 
  361              		@ args = 0, pretend = 0, frame = 8
@@ -1138,7 +1138,7 @@ ARM GAS  /tmp/cceb3487.s 			page 1
  405              	.LFE138:
  407              		.section	.text.OCTA_FLASH_open,"ax",%progbits
  408              		.align	1
-ARM GAS  /tmp/cceb3487.s 			page 20
+ARM GAS  /tmp/cchpNBld.s 			page 20
 
 
  409              		.global	OCTA_FLASH_open
@@ -1198,7 +1198,7 @@ ARM GAS  /tmp/cceb3487.s 			page 1
  452              	.LVL27:
  133:../../../core/drivers/octa-flash/src/octa-flash.c ****     mCurrentWriteAddress = newAddress;
  453              		.loc 1 133 5 is_stmt 1 view .LVU76
-ARM GAS  /tmp/cceb3487.s 			page 21
+ARM GAS  /tmp/cchpNBld.s 			page 21
 
 
  133:../../../core/drivers/octa-flash/src/octa-flash.c ****     mCurrentWriteAddress = newAddress;
@@ -1258,7 +1258,7 @@ ARM GAS  /tmp/cceb3487.s 			page 1
  502              		.cfi_offset 14, -4
  148:../../../core/drivers/octa-flash/src/octa-flash.c **** 
  503              		.loc 1 148 5 view .LVU85
-ARM GAS  /tmp/cceb3487.s 			page 22
+ARM GAS  /tmp/cchpNBld.s 			page 22
 
 
  504 0002 0A20     		movs	r0, #10
@@ -1318,7 +1318,7 @@ ARM GAS  /tmp/cceb3487.s 			page 1
  549              	.LVL34:
  550              	.LFB146:
  571:../../../core/drivers/octa-flash/src/octa-flash.c **** 
-ARM GAS  /tmp/cceb3487.s 			page 23
+ARM GAS  /tmp/cchpNBld.s 			page 23
 
 
  551              		.loc 1 571 1 is_stmt 1 view -0
@@ -1378,7 +1378,7 @@ ARM GAS  /tmp/cceb3487.s 			page 1
  584:../../../core/drivers/octa-flash/src/octa-flash.c ****     txData[index++] = (uint8_t)(address & 0x000000FF);
  591              		.loc 1 584 23 is_stmt 0 view .LVU112
  592 001a C4F30723 		ubfx	r3, r4, #8, #8
-ARM GAS  /tmp/cceb3487.s 			page 24
+ARM GAS  /tmp/cchpNBld.s 			page 24
 
 
  584:../../../core/drivers/octa-flash/src/octa-flash.c ****     txData[index++] = (uint8_t)(address & 0x000000FF);
@@ -1438,7 +1438,7 @@ ARM GAS  /tmp/cceb3487.s 			page 1
  636 0054 00000000 		.word	txData
  637 0058 00000000 		.word	flashSPI
  638              		.cfi_endproc
-ARM GAS  /tmp/cceb3487.s 			page 25
+ARM GAS  /tmp/cchpNBld.s 			page 25
 
 
  639              	.LFE146:
@@ -1498,7 +1498,7 @@ ARM GAS  /tmp/cceb3487.s 			page 1
  683              	.LVL50:
  182:../../../core/drivers/octa-flash/src/octa-flash.c ****     if (status!=0)
  684              		.loc 1 182 5 view .LVU132
-ARM GAS  /tmp/cceb3487.s 			page 26
+ARM GAS  /tmp/cchpNBld.s 			page 26
 
 
  182:../../../core/drivers/octa-flash/src/octa-flash.c ****     if (status!=0)
@@ -1558,7 +1558,7 @@ ARM GAS  /tmp/cceb3487.s 			page 1
  727              		.loc 1 185 9 is_stmt 0 view .LVU144
  728 004a FFF7FEFF 		bl	printDBG
  729              	.LVL57:
-ARM GAS  /tmp/cceb3487.s 			page 27
+ARM GAS  /tmp/cchpNBld.s 			page 27
 
 
  186:../../../core/drivers/octa-flash/src/octa-flash.c ****     }
@@ -1618,7 +1618,7 @@ ARM GAS  /tmp/cceb3487.s 			page 1
  777              		.loc 1 546 5 is_stmt 1 view .LVU153
  546:../../../core/drivers/octa-flash/src/octa-flash.c **** 
  778              		.loc 1 546 15 is_stmt 0 view .LVU154
-ARM GAS  /tmp/cceb3487.s 			page 28
+ARM GAS  /tmp/cchpNBld.s 			page 28
 
 
  779 000a 124D     		ldr	r5, .L59
@@ -1678,7 +1678,7 @@ ARM GAS  /tmp/cceb3487.s 			page 1
  553:../../../core/drivers/octa-flash/src/octa-flash.c ****     }
  822              		.loc 1 553 16 view .LVU166
  823 004c 6FF00200 		mvn	r0, #2
-ARM GAS  /tmp/cceb3487.s 			page 29
+ARM GAS  /tmp/cchpNBld.s 			page 29
 
 
  824 0050 F8E7     		b	.L54
@@ -1738,7 +1738,7 @@ ARM GAS  /tmp/cceb3487.s 			page 1
  872              		.cfi_endproc
  873              	.LFE133:
  875              		.section	.text.OCTA_FLASH_eraseFullFlash,"ax",%progbits
-ARM GAS  /tmp/cceb3487.s 			page 30
+ARM GAS  /tmp/cchpNBld.s 			page 30
 
 
  876              		.align	1
@@ -1798,7 +1798,7 @@ ARM GAS  /tmp/cceb3487.s 			page 1
  307:../../../core/drivers/octa-flash/src/octa-flash.c ****     {
  920              		.loc 1 307 5 is_stmt 1 view .LVU186
  307:../../../core/drivers/octa-flash/src/octa-flash.c ****     {
-ARM GAS  /tmp/cceb3487.s 			page 31
+ARM GAS  /tmp/cchpNBld.s 			page 31
 
 
  921              		.loc 1 307 9 is_stmt 0 view .LVU187
@@ -1858,7 +1858,7 @@ ARM GAS  /tmp/cceb3487.s 			page 1
  968              		.loc 1 329 5 is_stmt 1 view .LVU196
  329:../../../core/drivers/octa-flash/src/octa-flash.c ****     {
  969              		.loc 1 329 9 is_stmt 0 view .LVU197
-ARM GAS  /tmp/cceb3487.s 			page 32
+ARM GAS  /tmp/cchpNBld.s 			page 32
 
 
  970 000a FFF7FEFF 		bl	OCTA_FLASH_isWriteInProgress
@@ -1918,7 +1918,7 @@ ARM GAS  /tmp/cceb3487.s 			page 1
  1010 0046 0420     		movs	r0, #4
  1011 0048 FFF7FEFF 		bl	OCTA_FLASH_sendCommand
  1012              	.LVL79:
-ARM GAS  /tmp/cceb3487.s 			page 33
+ARM GAS  /tmp/cchpNBld.s 			page 33
 
 
  355:../../../core/drivers/octa-flash/src/octa-flash.c ****     {
@@ -1978,7 +1978,7 @@ ARM GAS  /tmp/cceb3487.s 			page 1
  1061 0004 0A20     		movs	r0, #10
  1062              	.LVL82:
  375:../../../core/drivers/octa-flash/src/octa-flash.c **** 
-ARM GAS  /tmp/cceb3487.s 			page 34
+ARM GAS  /tmp/cchpNBld.s 			page 34
 
 
  1063              		.loc 1 375 5 is_stmt 0 view .LVU220
@@ -2038,7 +2038,7 @@ ARM GAS  /tmp/cceb3487.s 			page 1
  1103              		.loc 1 400 5 view .LVU234
  1104 0042 FFF7FEFF 		bl	OCTA_FLASH_Disable
  1105              	.LVL87:
-ARM GAS  /tmp/cceb3487.s 			page 35
+ARM GAS  /tmp/cchpNBld.s 			page 35
 
 
  403:../../../core/drivers/octa-flash/src/octa-flash.c ****     {
@@ -2098,7 +2098,7 @@ ARM GAS  /tmp/cceb3487.s 			page 1
  1154              		.cfi_offset 14, -4
  423:../../../core/drivers/octa-flash/src/octa-flash.c **** 
  1155              		.loc 1 423 5 view .LVU243
-ARM GAS  /tmp/cceb3487.s 			page 36
+ARM GAS  /tmp/cchpNBld.s 			page 36
 
 
  1156 0002 0A20     		movs	r0, #10
@@ -2158,7 +2158,7 @@ ARM GAS  /tmp/cceb3487.s 			page 1
  446:../../../core/drivers/octa-flash/src/octa-flash.c ****     {
  1197              		.loc 1 446 8 view .LVU257
  1198 0040 10F1030F 		cmn	r0, #3
-ARM GAS  /tmp/cceb3487.s 			page 37
+ARM GAS  /tmp/cchpNBld.s 			page 37
 
 
  1199 0044 00D0     		beq	.L83
@@ -2218,7 +2218,7 @@ ARM GAS  /tmp/cceb3487.s 			page 1
  1246              	.LVL97:
  496:../../../core/drivers/octa-flash/src/octa-flash.c ****     {
  1247              		.loc 1 496 8 view .LVU267
-ARM GAS  /tmp/cceb3487.s 			page 38
+ARM GAS  /tmp/cchpNBld.s 			page 38
 
 
  1248 0010 10F1030F 		cmn	r0, #3
@@ -2278,7 +2278,7 @@ ARM GAS  /tmp/cceb3487.s 			page 1
  522:../../../core/drivers/octa-flash/src/octa-flash.c **** 
  1290              		.loc 1 522 26 is_stmt 0 view .LVU280
  1291 0058 0A4A     		ldr	r2, .L94
-ARM GAS  /tmp/cceb3487.s 			page 39
+ARM GAS  /tmp/cchpNBld.s 			page 39
 
 
  1292 005a 1368     		ldr	r3, [r2]
@@ -2338,7 +2338,7 @@ ARM GAS  /tmp/cceb3487.s 			page 1
  1337              		.thumb_func
  1338              		.fpu fpv4-sp-d16
  1340              	OCTA_FLASH_write:
-ARM GAS  /tmp/cceb3487.s 			page 40
+ARM GAS  /tmp/cchpNBld.s 			page 40
 
 
  1341              	.LVL103:
@@ -2398,7 +2398,7 @@ ARM GAS  /tmp/cceb3487.s 			page 1
  1383              		.loc 1 222 11 is_stmt 1 view .LVU299
  222:../../../core/drivers/octa-flash/src/octa-flash.c ****     {
  1384              		.loc 1 222 26 is_stmt 0 view .LVU300
-ARM GAS  /tmp/cceb3487.s 			page 41
+ARM GAS  /tmp/cchpNBld.s 			page 41
 
 
  1385 0020 1C4B     		ldr	r3, .L109+8
@@ -2458,7 +2458,7 @@ ARM GAS  /tmp/cceb3487.s 			page 1
  237:../../../core/drivers/octa-flash/src/octa-flash.c ****             return flushedBytes;
  1425              		.loc 1 237 13 is_stmt 0 view .LVU315
  1426 004c FFF7FEFF 		bl	printDBG
-ARM GAS  /tmp/cceb3487.s 			page 42
+ARM GAS  /tmp/cchpNBld.s 			page 42
 
 
  1427              	.LVL114:
@@ -2518,7 +2518,7 @@ ARM GAS  /tmp/cceb3487.s 			page 1
  1467 0074 0026     		movs	r6, #0
  1468 0076 F2E7     		b	.L101
  1469              	.LVL120:
-ARM GAS  /tmp/cceb3487.s 			page 43
+ARM GAS  /tmp/cchpNBld.s 			page 43
 
 
  1470              	.L102:
@@ -2578,7 +2578,7 @@ ARM GAS  /tmp/cceb3487.s 			page 1
  1512      204D4154 
  1512      43480D0A 
  1512      00
-ARM GAS  /tmp/cceb3487.s 			page 44
+ARM GAS  /tmp/cchpNBld.s 			page 44
 
 
  1513 0045 000000   		.align	2
@@ -2638,7 +2638,7 @@ ARM GAS  /tmp/cceb3487.s 			page 1
  1543              	.LCFI23:
  1544              		.cfi_def_cfa_offset 32
  1545              		.cfi_offset 3, -32
-ARM GAS  /tmp/cceb3487.s 			page 45
+ARM GAS  /tmp/cchpNBld.s 			page 45
 
 
  1546              		.cfi_offset 4, -28
@@ -2698,7 +2698,7 @@ ARM GAS  /tmp/cceb3487.s 			page 1
  1582              		.loc 1 638 13 is_stmt 1 discriminator 3 view .LVU347
  1583 0020 8E4B     		ldr	r3, .L156
  1584 0022 195D     		ldrb	r1, [r3, r4]	@ zero_extendqisi2
-ARM GAS  /tmp/cceb3487.s 			page 46
+ARM GAS  /tmp/cchpNBld.s 			page 46
 
 
  1585 0024 8F48     		ldr	r0, .L156+8
@@ -2758,7 +2758,7 @@ ARM GAS  /tmp/cceb3487.s 			page 1
  1626              	.LVL134:
  646:../../../core/drivers/octa-flash/src/octa-flash.c ****         for(i = 0; i<SIZE; i++)
  1627              		.loc 1 646 28 discriminator 3 view .LVU360
-ARM GAS  /tmp/cceb3487.s 			page 47
+ARM GAS  /tmp/cchpNBld.s 			page 47
 
 
  646:../../../core/drivers/octa-flash/src/octa-flash.c ****         for(i = 0; i<SIZE; i++)
@@ -2818,7 +2818,7 @@ ARM GAS  /tmp/cceb3487.s 			page 1
  656:../../../core/drivers/octa-flash/src/octa-flash.c ****     printDBG("Page0 after: \r\n");
  1668              		.loc 1 656 5 view .LVU373
  1669 008a 7A48     		ldr	r0, .L156+24
-ARM GAS  /tmp/cceb3487.s 			page 48
+ARM GAS  /tmp/cchpNBld.s 			page 48
 
 
  1670 008c FFF7FEFF 		bl	printDBG
@@ -2878,7 +2878,7 @@ ARM GAS  /tmp/cceb3487.s 			page 1
  1705              		.loc 1 660 13 view .LVU388
  1706 00a8 315D     		ldrb	r1, [r6, r4]	@ zero_extendqisi2
  1707 00aa 6E48     		ldr	r0, .L156+8
-ARM GAS  /tmp/cceb3487.s 			page 49
+ARM GAS  /tmp/cchpNBld.s 			page 49
 
 
  1708 00ac FFF7FEFF 		bl	printf
@@ -2938,7 +2938,7 @@ ARM GAS  /tmp/cceb3487.s 			page 1
  1746 00dc 07D8     		bhi	.L148
  678:../../../core/drivers/octa-flash/src/octa-flash.c ****             printf("%d ", rx[i]); 
  1747              		.loc 1 678 13 is_stmt 1 discriminator 3 view .LVU401
-ARM GAS  /tmp/cceb3487.s 			page 50
+ARM GAS  /tmp/cchpNBld.s 			page 50
 
 
  1748 00de 5F4B     		ldr	r3, .L156
@@ -2998,7 +2998,7 @@ ARM GAS  /tmp/cceb3487.s 			page 1
  1790 0112 FFF7FEFF 		bl	printf
  1791              	.LVL161:
  685:../../../core/drivers/octa-flash/src/octa-flash.c ****         for(i = 0; i<SIZE; i++)
-ARM GAS  /tmp/cceb3487.s 			page 51
+ARM GAS  /tmp/cchpNBld.s 			page 51
 
 
  1792              		.loc 1 685 28 discriminator 3 view .LVU414
@@ -3058,7 +3058,7 @@ ARM GAS  /tmp/cceb3487.s 			page 1
  1832              	.LVL168:
  695:../../../core/drivers/octa-flash/src/octa-flash.c ****     printDBG("Page1 after: \r\n");
  1833              		.loc 1 695 5 view .LVU427
-ARM GAS  /tmp/cceb3487.s 			page 52
+ARM GAS  /tmp/cchpNBld.s 			page 52
 
 
  1834 0148 4D48     		ldr	r0, .L156+36
@@ -3118,7 +3118,7 @@ ARM GAS  /tmp/cceb3487.s 			page 1
  699:../../../core/drivers/octa-flash/src/octa-flash.c ****         #endif
  1870              		.loc 1 699 13 view .LVU442
  1871 0166 395D     		ldrb	r1, [r7, r4]	@ zero_extendqisi2
-ARM GAS  /tmp/cceb3487.s 			page 53
+ARM GAS  /tmp/cchpNBld.s 			page 53
 
 
  1872 0168 3E48     		ldr	r0, .L156+8
@@ -3178,7 +3178,7 @@ ARM GAS  /tmp/cceb3487.s 			page 1
  1911 019a 07D8     		bhi	.L152
  716:../../../core/drivers/octa-flash/src/octa-flash.c ****             printf("%d ", rx[i]); 
  1912              		.loc 1 716 13 is_stmt 1 discriminator 3 view .LVU455
-ARM GAS  /tmp/cceb3487.s 			page 54
+ARM GAS  /tmp/cchpNBld.s 			page 54
 
 
  1913 019c 2F4B     		ldr	r3, .L156
@@ -3238,7 +3238,7 @@ ARM GAS  /tmp/cceb3487.s 			page 1
  1955 01d0 FFF7FEFF 		bl	printf
  1956              	.LVL188:
  723:../../../core/drivers/octa-flash/src/octa-flash.c ****         for(i = 0; i<SIZE; i++)
-ARM GAS  /tmp/cceb3487.s 			page 55
+ARM GAS  /tmp/cchpNBld.s 			page 55
 
 
  1957              		.loc 1 723 28 discriminator 3 view .LVU468
@@ -3298,7 +3298,7 @@ ARM GAS  /tmp/cceb3487.s 			page 1
  1997              	.LVL195:
  733:../../../core/drivers/octa-flash/src/octa-flash.c ****     printDBG("Page2 after: \r\n");
  1998              		.loc 1 733 5 view .LVU481
-ARM GAS  /tmp/cceb3487.s 			page 56
+ARM GAS  /tmp/cchpNBld.s 			page 56
 
 
  1999 0206 2048     		ldr	r0, .L156+44
@@ -3358,7 +3358,7 @@ ARM GAS  /tmp/cceb3487.s 			page 1
  737:../../../core/drivers/octa-flash/src/octa-flash.c ****         #endif
  2035              		.loc 1 737 13 view .LVU496
  2036 0226 395D     		ldrb	r1, [r7, r4]	@ zero_extendqisi2
-ARM GAS  /tmp/cceb3487.s 			page 57
+ARM GAS  /tmp/cchpNBld.s 			page 57
 
 
  2037 0228 0E48     		ldr	r0, .L156+8
@@ -3418,7 +3418,7 @@ ARM GAS  /tmp/cceb3487.s 			page 1
  2078 025a F9E7     		b	.L139
  2079              	.L157:
  2080              		.align	2
-ARM GAS  /tmp/cceb3487.s 			page 58
+ARM GAS  /tmp/cchpNBld.s 			page 58
 
 
  2081              	.L156:
@@ -3478,7 +3478,7 @@ ARM GAS  /tmp/cceb3487.s 			page 1
  2136              		.comm	P1_UART,120,4
  2137              		.comm	FTDI_UART,120,4
  2138              		.comm	BLE_UART,120,4
-ARM GAS  /tmp/cceb3487.s 			page 59
+ARM GAS  /tmp/cchpNBld.s 			page 59
 
 
  2139              		.comm	USB_UART,120,4
@@ -3538,7 +3538,7 @@ ARM GAS  /tmp/cceb3487.s 			page 1
  2189              		.file 14 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_tim.h"
  2190              		.file 15 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h"
  2191              		.file 16 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h"
-ARM GAS  /tmp/cceb3487.s 			page 60
+ARM GAS  /tmp/cchpNBld.s 			page 60
 
 
  2192              		.file 17 "../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/include/task.h"
@@ -3561,80 +3561,80 @@ ARM GAS  /tmp/cceb3487.s 			page 1
  2209              		.file 34 "/home/matsdm/gcc-arm-none-eabi-9-2019-q4-major-x86_64-linux/gcc-arm-none-eabi-9-2019-q4-
  2210              		.file 35 "<built-in>"
  2211              		.file 36 "/home/matsdm/gcc-arm-none-eabi-9-2019-q4-major-x86_64-linux/gcc-arm-none-eabi-9-2019-q4-
-ARM GAS  /tmp/cceb3487.s 			page 61
+ARM GAS  /tmp/cchpNBld.s 			page 61
 
 
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 octa-flash.c
-     /tmp/cceb3487.s:18     .text.OCTA_FLASH_Enable:0000000000000000 $t
-     /tmp/cceb3487.s:26     .text.OCTA_FLASH_Enable:0000000000000000 OCTA_FLASH_Enable
-     /tmp/cceb3487.s:49     .text.OCTA_FLASH_Enable:0000000000000010 $d
-     /tmp/cceb3487.s:54     .text.OCTA_FLASH_Disable:0000000000000000 $t
-     /tmp/cceb3487.s:61     .text.OCTA_FLASH_Disable:0000000000000000 OCTA_FLASH_Disable
-     /tmp/cceb3487.s:83     .text.OCTA_FLASH_Disable:0000000000000010 $d
-     /tmp/cceb3487.s:88     .rodata.OCTA_FLASH_Initialize.str1.4:0000000000000000 $d
-     /tmp/cceb3487.s:97     .text.OCTA_FLASH_Initialize:0000000000000000 $t
-     /tmp/cceb3487.s:104    .text.OCTA_FLASH_Initialize:0000000000000000 OCTA_FLASH_Initialize
-     /tmp/cceb3487.s:203    .text.OCTA_FLASH_Initialize:0000000000000070 $d
+     /tmp/cchpNBld.s:18     .text.OCTA_FLASH_Enable:0000000000000000 $t
+     /tmp/cchpNBld.s:26     .text.OCTA_FLASH_Enable:0000000000000000 OCTA_FLASH_Enable
+     /tmp/cchpNBld.s:49     .text.OCTA_FLASH_Enable:0000000000000010 $d
+     /tmp/cchpNBld.s:54     .text.OCTA_FLASH_Disable:0000000000000000 $t
+     /tmp/cchpNBld.s:61     .text.OCTA_FLASH_Disable:0000000000000000 OCTA_FLASH_Disable
+     /tmp/cchpNBld.s:83     .text.OCTA_FLASH_Disable:0000000000000010 $d
+     /tmp/cchpNBld.s:88     .rodata.OCTA_FLASH_Initialize.str1.4:0000000000000000 $d
+     /tmp/cchpNBld.s:97     .text.OCTA_FLASH_Initialize:0000000000000000 $t
+     /tmp/cchpNBld.s:104    .text.OCTA_FLASH_Initialize:0000000000000000 OCTA_FLASH_Initialize
+     /tmp/cchpNBld.s:203    .text.OCTA_FLASH_Initialize:0000000000000070 $d
                             *COM*:0000000000000002 mMemPageIndex
                             *COM*:0000000000000100 mMemPage
                             *COM*:0000000000000004 mCurrentReadAddress
                             *COM*:0000000000000004 mCurrentWriteAddress
                             *COM*:0000000000000001 _initialised
                             *COM*:0000000000000004 flashSPI
-     /tmp/cceb3487.s:218    .text.OCTA_FLASH_ReInitialize:0000000000000000 $t
-     /tmp/cceb3487.s:225    .text.OCTA_FLASH_ReInitialize:0000000000000000 OCTA_FLASH_ReInitialize
-     /tmp/cceb3487.s:257    .text.OCTA_FLASH_ReInitialize:0000000000000020 $d
-     /tmp/cceb3487.s:262    .text.OCTA_FLASH_readReg:0000000000000000 $t
-     /tmp/cceb3487.s:269    .text.OCTA_FLASH_readReg:0000000000000000 OCTA_FLASH_readReg
-     /tmp/cceb3487.s:343    .text.OCTA_FLASH_readReg:0000000000000054 $d
+     /tmp/cchpNBld.s:218    .text.OCTA_FLASH_ReInitialize:0000000000000000 $t
+     /tmp/cchpNBld.s:225    .text.OCTA_FLASH_ReInitialize:0000000000000000 OCTA_FLASH_ReInitialize
+     /tmp/cchpNBld.s:257    .text.OCTA_FLASH_ReInitialize:0000000000000020 $d
+     /tmp/cchpNBld.s:262    .text.OCTA_FLASH_readReg:0000000000000000 $t
+     /tmp/cchpNBld.s:269    .text.OCTA_FLASH_readReg:0000000000000000 OCTA_FLASH_readReg
+     /tmp/cchpNBld.s:343    .text.OCTA_FLASH_readReg:0000000000000054 $d
                             *COM*:0000000000000005 txData
                             *COM*:0000000000000001 rxData
-     /tmp/cceb3487.s:350    .text.OCTA_FLASH_isWriteInProgress:0000000000000000 $t
-     /tmp/cceb3487.s:357    .text.OCTA_FLASH_isWriteInProgress:0000000000000000 OCTA_FLASH_isWriteInProgress
-     /tmp/cceb3487.s:408    .text.OCTA_FLASH_open:0000000000000000 $t
-     /tmp/cceb3487.s:415    .text.OCTA_FLASH_open:0000000000000000 OCTA_FLASH_open
-     /tmp/cceb3487.s:478    .text.OCTA_FLASH_open:0000000000000030 $d
-     /tmp/cceb3487.s:485    .text.OCTA_FLASH_openConfigSector:0000000000000000 $t
-     /tmp/cceb3487.s:492    .text.OCTA_FLASH_openConfigSector:0000000000000000 OCTA_FLASH_openConfigSector
-     /tmp/cceb3487.s:535    .text.OCTA_FLASH_openConfigSector:0000000000000020 $d
-     /tmp/cceb3487.s:541    .text.OCTA_FLASH_send4BCommand:0000000000000000 $t
-     /tmp/cceb3487.s:548    .text.OCTA_FLASH_send4BCommand:0000000000000000 OCTA_FLASH_send4BCommand
-     /tmp/cceb3487.s:636    .text.OCTA_FLASH_send4BCommand:0000000000000054 $d
-     /tmp/cceb3487.s:642    .rodata.OCTA_FLASH_read.str1.4:0000000000000000 $d
-     /tmp/cceb3487.s:646    .text.OCTA_FLASH_read:0000000000000000 $t
-     /tmp/cceb3487.s:653    .text.OCTA_FLASH_read:0000000000000000 OCTA_FLASH_read
-     /tmp/cceb3487.s:741    .text.OCTA_FLASH_read:0000000000000058 $d
-     /tmp/cceb3487.s:748    .text.OCTA_FLASH_sendCommand:0000000000000000 $t
-     /tmp/cceb3487.s:755    .text.OCTA_FLASH_sendCommand:0000000000000000 OCTA_FLASH_sendCommand
-     /tmp/cceb3487.s:828    .text.OCTA_FLASH_sendCommand:0000000000000054 $d
-     /tmp/cceb3487.s:834    .text.OCTA_FLASH_Enter_4B_Mode:0000000000000000 $t
-     /tmp/cceb3487.s:841    .text.OCTA_FLASH_Enter_4B_Mode:0000000000000000 OCTA_FLASH_Enter_4B_Mode
-     /tmp/cceb3487.s:876    .text.OCTA_FLASH_eraseFullFlash:0000000000000000 $t
-     /tmp/cceb3487.s:883    .text.OCTA_FLASH_eraseFullFlash:0000000000000000 OCTA_FLASH_eraseFullFlash
-     /tmp/cceb3487.s:941    .text.OCTA_FLASH_erase265KBSectorFromPage:0000000000000000 $t
-     /tmp/cceb3487.s:948    .text.OCTA_FLASH_erase265KBSectorFromPage:0000000000000000 OCTA_FLASH_erase265KBSectorFromPage
-     /tmp/cceb3487.s:1033   .text.OCTA_FLASH_erase265KBSectorFromPage:0000000000000064 $d
-     /tmp/cceb3487.s:1039   .text.OCTA_FLASH_erase4KBSectorFromPage:0000000000000000 $t
-     /tmp/cceb3487.s:1046   .text.OCTA_FLASH_erase4KBSectorFromPage:0000000000000000 OCTA_FLASH_erase4KBSectorFromPage
-     /tmp/cceb3487.s:1131   .text.OCTA_FLASH_erase4KBSectorFromPage:0000000000000064 $d
-     /tmp/cceb3487.s:1137   .text.OCTA_FLASH_eraseConfigSector:0000000000000000 $t
-     /tmp/cceb3487.s:1144   .text.OCTA_FLASH_eraseConfigSector:0000000000000000 OCTA_FLASH_eraseConfigSector
-     /tmp/cceb3487.s:1212   .text.OCTA_FLASH_eraseConfigSector:0000000000000050 $d
-ARM GAS  /tmp/cceb3487.s 			page 62
+     /tmp/cchpNBld.s:350    .text.OCTA_FLASH_isWriteInProgress:0000000000000000 $t
+     /tmp/cchpNBld.s:357    .text.OCTA_FLASH_isWriteInProgress:0000000000000000 OCTA_FLASH_isWriteInProgress
+     /tmp/cchpNBld.s:408    .text.OCTA_FLASH_open:0000000000000000 $t
+     /tmp/cchpNBld.s:415    .text.OCTA_FLASH_open:0000000000000000 OCTA_FLASH_open
+     /tmp/cchpNBld.s:478    .text.OCTA_FLASH_open:0000000000000030 $d
+     /tmp/cchpNBld.s:485    .text.OCTA_FLASH_openConfigSector:0000000000000000 $t
+     /tmp/cchpNBld.s:492    .text.OCTA_FLASH_openConfigSector:0000000000000000 OCTA_FLASH_openConfigSector
+     /tmp/cchpNBld.s:535    .text.OCTA_FLASH_openConfigSector:0000000000000020 $d
+     /tmp/cchpNBld.s:541    .text.OCTA_FLASH_send4BCommand:0000000000000000 $t
+     /tmp/cchpNBld.s:548    .text.OCTA_FLASH_send4BCommand:0000000000000000 OCTA_FLASH_send4BCommand
+     /tmp/cchpNBld.s:636    .text.OCTA_FLASH_send4BCommand:0000000000000054 $d
+     /tmp/cchpNBld.s:642    .rodata.OCTA_FLASH_read.str1.4:0000000000000000 $d
+     /tmp/cchpNBld.s:646    .text.OCTA_FLASH_read:0000000000000000 $t
+     /tmp/cchpNBld.s:653    .text.OCTA_FLASH_read:0000000000000000 OCTA_FLASH_read
+     /tmp/cchpNBld.s:741    .text.OCTA_FLASH_read:0000000000000058 $d
+     /tmp/cchpNBld.s:748    .text.OCTA_FLASH_sendCommand:0000000000000000 $t
+     /tmp/cchpNBld.s:755    .text.OCTA_FLASH_sendCommand:0000000000000000 OCTA_FLASH_sendCommand
+     /tmp/cchpNBld.s:828    .text.OCTA_FLASH_sendCommand:0000000000000054 $d
+     /tmp/cchpNBld.s:834    .text.OCTA_FLASH_Enter_4B_Mode:0000000000000000 $t
+     /tmp/cchpNBld.s:841    .text.OCTA_FLASH_Enter_4B_Mode:0000000000000000 OCTA_FLASH_Enter_4B_Mode
+     /tmp/cchpNBld.s:876    .text.OCTA_FLASH_eraseFullFlash:0000000000000000 $t
+     /tmp/cchpNBld.s:883    .text.OCTA_FLASH_eraseFullFlash:0000000000000000 OCTA_FLASH_eraseFullFlash
+     /tmp/cchpNBld.s:941    .text.OCTA_FLASH_erase265KBSectorFromPage:0000000000000000 $t
+     /tmp/cchpNBld.s:948    .text.OCTA_FLASH_erase265KBSectorFromPage:0000000000000000 OCTA_FLASH_erase265KBSectorFromPage
+     /tmp/cchpNBld.s:1033   .text.OCTA_FLASH_erase265KBSectorFromPage:0000000000000064 $d
+     /tmp/cchpNBld.s:1039   .text.OCTA_FLASH_erase4KBSectorFromPage:0000000000000000 $t
+     /tmp/cchpNBld.s:1046   .text.OCTA_FLASH_erase4KBSectorFromPage:0000000000000000 OCTA_FLASH_erase4KBSectorFromPage
+     /tmp/cchpNBld.s:1131   .text.OCTA_FLASH_erase4KBSectorFromPage:0000000000000064 $d
+     /tmp/cchpNBld.s:1137   .text.OCTA_FLASH_eraseConfigSector:0000000000000000 $t
+     /tmp/cchpNBld.s:1144   .text.OCTA_FLASH_eraseConfigSector:0000000000000000 OCTA_FLASH_eraseConfigSector
+     /tmp/cchpNBld.s:1212   .text.OCTA_FLASH_eraseConfigSector:0000000000000050 $d
+ARM GAS  /tmp/cchpNBld.s 			page 62
 
 
-     /tmp/cceb3487.s:1217   .text.OCTA_FLASH_flush:0000000000000000 $t
-     /tmp/cceb3487.s:1224   .text.OCTA_FLASH_flush:0000000000000000 OCTA_FLASH_flush
-     /tmp/cceb3487.s:1321   .text.OCTA_FLASH_flush:0000000000000084 $d
-     /tmp/cceb3487.s:1329   .rodata.OCTA_FLASH_write.str1.4:0000000000000000 $d
-     /tmp/cceb3487.s:1333   .text.OCTA_FLASH_write:0000000000000000 $t
-     /tmp/cceb3487.s:1340   .text.OCTA_FLASH_write:0000000000000000 OCTA_FLASH_write
-     /tmp/cceb3487.s:1486   .text.OCTA_FLASH_write:000000000000008c $d
-     /tmp/cceb3487.s:1495   .rodata.OCTA_FLASH_TestRW.str1.4:0000000000000000 $d
-     /tmp/cceb3487.s:1529   .text.OCTA_FLASH_TestRW:0000000000000000 $t
-     /tmp/cceb3487.s:1536   .text.OCTA_FLASH_TestRW:0000000000000000 OCTA_FLASH_TestRW
-     /tmp/cceb3487.s:2082   .text.OCTA_FLASH_TestRW:000000000000025c $d
+     /tmp/cchpNBld.s:1217   .text.OCTA_FLASH_flush:0000000000000000 $t
+     /tmp/cchpNBld.s:1224   .text.OCTA_FLASH_flush:0000000000000000 OCTA_FLASH_flush
+     /tmp/cchpNBld.s:1321   .text.OCTA_FLASH_flush:0000000000000084 $d
+     /tmp/cchpNBld.s:1329   .rodata.OCTA_FLASH_write.str1.4:0000000000000000 $d
+     /tmp/cchpNBld.s:1333   .text.OCTA_FLASH_write:0000000000000000 $t
+     /tmp/cchpNBld.s:1340   .text.OCTA_FLASH_write:0000000000000000 OCTA_FLASH_write
+     /tmp/cchpNBld.s:1486   .text.OCTA_FLASH_write:000000000000008c $d
+     /tmp/cchpNBld.s:1495   .rodata.OCTA_FLASH_TestRW.str1.4:0000000000000000 $d
+     /tmp/cchpNBld.s:1529   .text.OCTA_FLASH_TestRW:0000000000000000 $t
+     /tmp/cchpNBld.s:1536   .text.OCTA_FLASH_TestRW:0000000000000000 OCTA_FLASH_TestRW
+     /tmp/cchpNBld.s:2082   .text.OCTA_FLASH_TestRW:000000000000025c $d
                             *COM*:000000000000002c P3_header
                             *COM*:000000000000002c P2_header
                             *COM*:000000000000002c P1_header
@@ -3681,7 +3681,7 @@ DEFINED SYMBOLS
                             *COM*:0000000000000008 P2_DIO4
                             *COM*:0000000000000008 P2_DIO3
                             *COM*:0000000000000008 P2_DIO2
-ARM GAS  /tmp/cceb3487.s 			page 63
+ARM GAS  /tmp/cchpNBld.s 			page 63
 
 
                             *COM*:0000000000000008 P2_DIO1
@@ -3693,10 +3693,10 @@ DEFINED SYMBOLS
                             *COM*:0000000000000008 P1_DIO1
                             *COM*:0000000000000040 htim6
                             *COM*:0000000000000040 htim1
-     /tmp/cceb3487.s:2162   .bss.rx.11786:0000000000000000 $d
-     /tmp/cceb3487.s:2166   .bss.rx.11786:0000000000000000 rx.11786
-     /tmp/cceb3487.s:2169   .bss.tx.11785:0000000000000000 $d
-     /tmp/cceb3487.s:2173   .bss.tx.11785:0000000000000000 tx.11785
+     /tmp/cchpNBld.s:2162   .bss.rx.11786:0000000000000000 $d
+     /tmp/cchpNBld.s:2166   .bss.rx.11786:0000000000000000 rx.11786
+     /tmp/cchpNBld.s:2169   .bss.tx.11785:0000000000000000 $d
+     /tmp/cchpNBld.s:2173   .bss.tx.11785:0000000000000000 tx.11785
 
 UNDEFINED SYMBOLS
 HAL_GPIO_WritePin

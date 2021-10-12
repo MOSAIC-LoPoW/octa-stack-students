@@ -1,4 +1,4 @@
-ARM GAS  /tmp/cckaAgxj.s 			page 1
+ARM GAS  /tmp/ccPwI8RU.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  /tmp/cckaAgxj.s 			page 1
   27:../../../core/drivers/TCS3472/src/TCS3472.c **** {
   28:../../../core/drivers/TCS3472/src/TCS3472.c **** 	hi2cLib=hi2c;
   29:../../../core/drivers/TCS3472/src/TCS3472.c ****     enablePowerAndRGBC();
-ARM GAS  /tmp/cckaAgxj.s 			page 2
+ARM GAS  /tmp/ccPwI8RU.s 			page 2
 
 
   30:../../../core/drivers/TCS3472/src/TCS3472.c **** 	setIntegrationTime(100);
@@ -118,7 +118,7 @@ ARM GAS  /tmp/cckaAgxj.s 			page 1
   79              	READ_REGISTER_TC3472:
   80              	.LVL4:
   81              	.LFB133:
-ARM GAS  /tmp/cckaAgxj.s 			page 3
+ARM GAS  /tmp/ccPwI8RU.s 			page 3
 
 
   37:../../../core/drivers/TCS3472/src/TCS3472.c **** uint8_t READ_REGISTER_TC3472(uint8_t buf[],uint8_t reg,uint8_t length)
@@ -178,7 +178,7 @@ ARM GAS  /tmp/cckaAgxj.s 			page 1
  132              		.thumb_func
  133              		.fpu fpv4-sp-d16
  135              	writeSingleRegister:
-ARM GAS  /tmp/cckaAgxj.s 			page 4
+ARM GAS  /tmp/ccPwI8RU.s 			page 4
 
 
  136              	.LVL9:
@@ -238,7 +238,7 @@ ARM GAS  /tmp/cckaAgxj.s 			page 1
  184              	.LVL13:
  185              	.LFB135:
   50:../../../core/drivers/TCS3472/src/TCS3472.c **** 
-ARM GAS  /tmp/cckaAgxj.s 			page 5
+ARM GAS  /tmp/ccPwI8RU.s 			page 5
 
 
   51:../../../core/drivers/TCS3472/src/TCS3472.c **** int writeMultipleRegisters( uint8_t address, uint8_t* data, int quantity ){
@@ -298,7 +298,7 @@ ARM GAS  /tmp/cckaAgxj.s 			page 1
   54:../../../core/drivers/TCS3472/src/TCS3472.c ****     for ( int i = 1; i <= quantity; i++ ){
  234              		.loc 1 54 38 is_stmt 0 discriminator 3 view .LVU43
  235 0028 0133     		adds	r3, r3, #1
-ARM GAS  /tmp/cckaAgxj.s 			page 6
+ARM GAS  /tmp/ccPwI8RU.s 			page 6
 
 
  236              	.LVL19:
@@ -358,7 +358,7 @@ ARM GAS  /tmp/cckaAgxj.s 			page 1
  283              		.cfi_offset 14, -4
  284 0002 83B0     		sub	sp, sp, #12
  285              	.LCFI13:
-ARM GAS  /tmp/cckaAgxj.s 			page 7
+ARM GAS  /tmp/ccPwI8RU.s 			page 7
 
 
  286              		.cfi_def_cfa_offset 16
@@ -418,7 +418,7 @@ ARM GAS  /tmp/cckaAgxj.s 			page 1
  331              		.loc 1 73 2 is_stmt 1 view .LVU63
  332              	.LVL28:
   74:../../../core/drivers/TCS3472/src/TCS3472.c ****     int ack=READ_REGISTER_TC3472(output,command,quantity);
-ARM GAS  /tmp/cckaAgxj.s 			page 8
+ARM GAS  /tmp/ccPwI8RU.s 			page 8
 
 
  333              		.loc 1 74 5 view .LVU64
@@ -478,7 +478,7 @@ ARM GAS  /tmp/cckaAgxj.s 			page 1
   82:../../../core/drivers/TCS3472/src/TCS3472.c **** 
   83:../../../core/drivers/TCS3472/src/TCS3472.c ****     readMultipleRegisters( CDATA, buffer, 8 );
  382              		.loc 1 83 5 is_stmt 1 view .LVU75
-ARM GAS  /tmp/cckaAgxj.s 			page 9
+ARM GAS  /tmp/ccPwI8RU.s 			page 9
 
 
  383 000c 0822     		movs	r2, #8
@@ -538,7 +538,7 @@ ARM GAS  /tmp/cckaAgxj.s 			page 1
  431 0050 10BD     		pop	{r4, pc}
  432              		.loc 1 89 1 view .LVU98
  433              		.cfi_endproc
-ARM GAS  /tmp/cckaAgxj.s 			page 10
+ARM GAS  /tmp/ccPwI8RU.s 			page 10
 
 
  434              	.LFE138:
@@ -598,7 +598,7 @@ ARM GAS  /tmp/cckaAgxj.s 			page 1
  483              		.cfi_endproc
  484              	.LFE139:
  486              		.section	.text.getRedData,"ax",%progbits
-ARM GAS  /tmp/cckaAgxj.s 			page 11
+ARM GAS  /tmp/ccPwI8RU.s 			page 11
 
 
  487              		.align	1
@@ -658,7 +658,7 @@ ARM GAS  /tmp/cckaAgxj.s 			page 1
  536              		.section	.text.getGreenData,"ax",%progbits
  537              		.align	1
  538              		.global	getGreenData
-ARM GAS  /tmp/cckaAgxj.s 			page 12
+ARM GAS  /tmp/ccPwI8RU.s 			page 12
 
 
  539              		.syntax unified
@@ -718,7 +718,7 @@ ARM GAS  /tmp/cckaAgxj.s 			page 1
  588              		.global	getBlueData
  589              		.syntax unified
  590              		.thumb
-ARM GAS  /tmp/cckaAgxj.s 			page 13
+ARM GAS  /tmp/ccPwI8RU.s 			page 13
 
 
  591              		.thumb_func
@@ -778,7 +778,7 @@ ARM GAS  /tmp/cckaAgxj.s 			page 1
  640              		.thumb
  641              		.thumb_func
  642              		.fpu fpv4-sp-d16
-ARM GAS  /tmp/cckaAgxj.s 			page 14
+ARM GAS  /tmp/ccPwI8RU.s 			page 14
 
 
  644              	enablePower:
@@ -838,7 +838,7 @@ ARM GAS  /tmp/cckaAgxj.s 			page 1
  691              		@ args = 0, pretend = 0, frame = 0
  692              		@ frame_needed = 0, uses_anonymous_args = 0
  693 0000 08B5     		push	{r3, lr}
-ARM GAS  /tmp/cckaAgxj.s 			page 15
+ARM GAS  /tmp/ccPwI8RU.s 			page 15
 
 
  694              	.LCFI32:
@@ -898,7 +898,7 @@ ARM GAS  /tmp/cckaAgxj.s 			page 1
  135:../../../core/drivers/TCS3472/src/TCS3472.c ****     uint8_t pon = enable << 7;
  742              		.loc 1 135 5 is_stmt 1 view .LVU162
  743              		.loc 1 135 13 is_stmt 0 view .LVU163
-ARM GAS  /tmp/cckaAgxj.s 			page 16
+ARM GAS  /tmp/ccPwI8RU.s 			page 16
 
 
  744 0008 C001     		lsls	r0, r0, #7
@@ -958,7 +958,7 @@ ARM GAS  /tmp/cckaAgxj.s 			page 1
  792              	.LVL61:
  793              		.loc 1 143 15 view .LVU177
  794 0010 FFF7FEFF 		bl	writeSingleRegister
-ARM GAS  /tmp/cckaAgxj.s 			page 17
+ARM GAS  /tmp/ccPwI8RU.s 			page 17
 
 
  795              	.LVL62:
@@ -1018,7 +1018,7 @@ ARM GAS  /tmp/cckaAgxj.s 			page 1
  843              		.global	isRGBCEnabled
  844              		.syntax unified
  845              		.thumb
-ARM GAS  /tmp/cckaAgxj.s 			page 18
+ARM GAS  /tmp/ccPwI8RU.s 			page 18
 
 
  846              		.thumb_func
@@ -1078,7 +1078,7 @@ ARM GAS  /tmp/cckaAgxj.s 			page 1
  894              		.cfi_offset 14, -4
  162:../../../core/drivers/TCS3472/src/TCS3472.c ****     uint8_t enable_old = readSingleRegister( ENABLE );
  895              		.loc 1 162 5 view .LVU198
-ARM GAS  /tmp/cckaAgxj.s 			page 19
+ARM GAS  /tmp/ccPwI8RU.s 			page 19
 
 
  896              		.loc 1 162 26 is_stmt 0 view .LVU199
@@ -1138,7 +1138,7 @@ ARM GAS  /tmp/cckaAgxj.s 			page 1
  171:../../../core/drivers/TCS3472/src/TCS3472.c ****     int ack = writeSingleRegister( ENABLE, enable_new );
  944              		.loc 1 171 5 view .LVU212
  945              		.loc 1 171 15 is_stmt 0 view .LVU213
-ARM GAS  /tmp/cckaAgxj.s 			page 20
+ARM GAS  /tmp/ccPwI8RU.s 			page 20
 
 
  946 0008 00F0FC01 		and	r1, r0, #252
@@ -1198,7 +1198,7 @@ ARM GAS  /tmp/cckaAgxj.s 			page 1
  179:../../../core/drivers/TCS3472/src/TCS3472.c ****     return ack;
  995              		.loc 1 179 5 is_stmt 1 view .LVU226
  180:../../../core/drivers/TCS3472/src/TCS3472.c **** }
-ARM GAS  /tmp/cckaAgxj.s 			page 21
+ARM GAS  /tmp/ccPwI8RU.s 			page 21
 
 
  996              		.loc 1 180 1 is_stmt 0 view .LVU227
@@ -1258,7 +1258,7 @@ ARM GAS  /tmp/cckaAgxj.s 			page 1
  1046              		.fpu fpv4-sp-d16
  1048              	isWaitEnabled:
  1049              	.LFB153:
-ARM GAS  /tmp/cckaAgxj.s 			page 22
+ARM GAS  /tmp/ccPwI8RU.s 			page 22
 
 
  188:../../../core/drivers/TCS3472/src/TCS3472.c **** 
@@ -1318,7 +1318,7 @@ ARM GAS  /tmp/cckaAgxj.s 			page 1
  1096 0002 0020     		movs	r0, #0
  1097 0004 FFF7FEFF 		bl	readSingleRegister
  1098              	.LVL84:
-ARM GAS  /tmp/cckaAgxj.s 			page 23
+ARM GAS  /tmp/ccPwI8RU.s 			page 23
 
 
  198:../../../core/drivers/TCS3472/src/TCS3472.c ****     uint8_t enable_new = enable_old | 16; // sets AIEN (bit 4) to 1
@@ -1378,7 +1378,7 @@ ARM GAS  /tmp/cckaAgxj.s 			page 1
  1146 000c 0020     		movs	r0, #0
  1147              	.LVL89:
  1148              		.loc 1 206 15 view .LVU262
-ARM GAS  /tmp/cckaAgxj.s 			page 24
+ARM GAS  /tmp/ccPwI8RU.s 			page 24
 
 
  1149 000e FFF7FEFF 		bl	writeSingleRegister
@@ -1438,7 +1438,7 @@ ARM GAS  /tmp/cckaAgxj.s 			page 1
  1197              		.global	readIntegrationTime
  1198              		.syntax unified
  1199              		.thumb
-ARM GAS  /tmp/cckaAgxj.s 			page 25
+ARM GAS  /tmp/ccPwI8RU.s 			page 25
 
 
  1200              		.thumb_func
@@ -1498,7 +1498,7 @@ ARM GAS  /tmp/cckaAgxj.s 			page 1
  1242 0028 33333333 		.word	858993459
  1243 002c 33330340 		.word	1073951539
  1244              		.cfi_endproc
-ARM GAS  /tmp/cckaAgxj.s 			page 26
+ARM GAS  /tmp/ccPwI8RU.s 			page 26
 
 
  1245              	.LFE158:
@@ -1558,7 +1558,7 @@ ARM GAS  /tmp/cckaAgxj.s 			page 1
  1280              		.loc 1 249 5 is_stmt 1 view .LVU289
  1281              		.loc 1 249 9 is_stmt 0 view .LVU290
  1282 0010 40F35800 		sbfx	r0, r0, #1, #25
-ARM GAS  /tmp/cckaAgxj.s 			page 27
+ARM GAS  /tmp/ccPwI8RU.s 			page 27
 
 
  1283              	.LVL103:
@@ -1618,7 +1618,7 @@ ARM GAS  /tmp/cckaAgxj.s 			page 1
  254:../../../core/drivers/TCS3472/src/TCS3472.c ****     }
  1322              		.loc 1 254 21 view .LVU305
  1323 0040 FFF7FEFF 		bl	__aeabi_i2d
-ARM GAS  /tmp/cckaAgxj.s 			page 28
+ARM GAS  /tmp/ccPwI8RU.s 			page 28
 
 
  1324              	.LVL111:
@@ -1678,7 +1678,7 @@ ARM GAS  /tmp/cckaAgxj.s 			page 1
  1374              	.LFE161:
  1376              		.section	.text.readLowInterruptThreshold,"ax",%progbits
  1377              		.align	1
-ARM GAS  /tmp/cckaAgxj.s 			page 29
+ARM GAS  /tmp/ccPwI8RU.s 			page 29
 
 
  1378              		.global	readLowInterruptThreshold
@@ -1738,7 +1738,7 @@ ARM GAS  /tmp/cckaAgxj.s 			page 1
  1427              		.align	1
  1428              		.global	readHighInterruptThreshold
  1429              		.syntax unified
-ARM GAS  /tmp/cckaAgxj.s 			page 30
+ARM GAS  /tmp/ccPwI8RU.s 			page 30
 
 
  1430              		.thumb
@@ -1798,7 +1798,7 @@ ARM GAS  /tmp/cckaAgxj.s 			page 1
  1479              		.syntax unified
  1480              		.thumb
  1481              		.thumb_func
-ARM GAS  /tmp/cckaAgxj.s 			page 31
+ARM GAS  /tmp/ccPwI8RU.s 			page 31
 
 
  1482              		.fpu fpv4-sp-d16
@@ -1858,7 +1858,7 @@ ARM GAS  /tmp/cckaAgxj.s 			page 1
  1530              		.thumb
  1531              		.thumb_func
  1532              		.fpu fpv4-sp-d16
-ARM GAS  /tmp/cckaAgxj.s 			page 32
+ARM GAS  /tmp/ccPwI8RU.s 			page 32
 
 
  1534              	setHighInterruptThreshold:
@@ -1918,7 +1918,7 @@ ARM GAS  /tmp/cckaAgxj.s 			page 1
  1581              		.thumb_func
  1582              		.fpu fpv4-sp-d16
  1584              	readInterruptPersistence:
-ARM GAS  /tmp/cckaAgxj.s 			page 33
+ARM GAS  /tmp/ccPwI8RU.s 			page 33
 
 
  1585              	.LFB166:
@@ -1978,7 +1978,7 @@ ARM GAS  /tmp/cckaAgxj.s 			page 1
  1631              		.loc 1 295 46 view .LVU364
  1632 0026 00E0     		b	.L80
  1633              	.LVL131:
-ARM GAS  /tmp/cckaAgxj.s 			page 34
+ARM GAS  /tmp/ccPwI8RU.s 			page 34
 
 
  1634              	.L94:
@@ -2038,7 +2038,7 @@ ARM GAS  /tmp/cckaAgxj.s 			page 1
  344:../../../core/drivers/TCS3472/src/TCS3472.c ****             persistence = 60;
  345:../../../core/drivers/TCS3472/src/TCS3472.c ****             break;
  346:../../../core/drivers/TCS3472/src/TCS3472.c ****         default:
-ARM GAS  /tmp/cckaAgxj.s 			page 35
+ARM GAS  /tmp/ccPwI8RU.s 			page 35
 
 
  347:../../../core/drivers/TCS3472/src/TCS3472.c ****             break;
@@ -2098,7 +2098,7 @@ ARM GAS  /tmp/cckaAgxj.s 			page 1
  1676              	.LVL140:
  324:../../../core/drivers/TCS3472/src/TCS3472.c ****         case 9:
  1677              		.loc 1 324 13 view .LVU384
-ARM GAS  /tmp/cckaAgxj.s 			page 36
+ARM GAS  /tmp/ccPwI8RU.s 			page 36
 
 
  1678 003a F6E7     		b	.L80
@@ -2158,7 +2158,7 @@ ARM GAS  /tmp/cckaAgxj.s 			page 1
  1716              	.L85:
  338:../../../core/drivers/TCS3472/src/TCS3472.c ****             break;
  1717              		.loc 1 338 13 is_stmt 1 view .LVU401
-ARM GAS  /tmp/cckaAgxj.s 			page 37
+ARM GAS  /tmp/ccPwI8RU.s 			page 37
 
 
  339:../../../core/drivers/TCS3472/src/TCS3472.c ****         case 14:
@@ -2218,7 +2218,7 @@ ARM GAS  /tmp/cckaAgxj.s 			page 1
  1760              		@ frame_needed = 0, uses_anonymous_args = 0
  1761              		.loc 1 352 54 is_stmt 0 view .LVU415
  1762 0000 08B5     		push	{r3, lr}
-ARM GAS  /tmp/cckaAgxj.s 			page 38
+ARM GAS  /tmp/ccPwI8RU.s 			page 38
 
 
  1763              	.LCFI61:
@@ -2278,7 +2278,7 @@ ARM GAS  /tmp/cckaAgxj.s 			page 1
  1814 0031 42       		.byte	(.L116-.L100)/2
  1815 0032 2A       		.byte	(.L104-.L100)/2
  1816 0033 42       		.byte	(.L116-.L100)/2
-ARM GAS  /tmp/cckaAgxj.s 			page 39
+ARM GAS  /tmp/ccPwI8RU.s 			page 39
 
 
  1817 0034 42       		.byte	(.L116-.L100)/2
@@ -2338,7 +2338,7 @@ ARM GAS  /tmp/cckaAgxj.s 			page 1
  385:../../../core/drivers/TCS3472/src/TCS3472.c ****             break;
  386:../../../core/drivers/TCS3472/src/TCS3472.c ****         case 35:
  387:../../../core/drivers/TCS3472/src/TCS3472.c ****             pers_byte = 10;
-ARM GAS  /tmp/cckaAgxj.s 			page 40
+ARM GAS  /tmp/ccPwI8RU.s 			page 40
 
 
  388:../../../core/drivers/TCS3472/src/TCS3472.c ****             break;
@@ -2398,7 +2398,7 @@ ARM GAS  /tmp/cckaAgxj.s 			page 1
  1866 0056 0D21     		movs	r1, #13
  1867 0058 F9E7     		b	.L99
  1868              	.LVL162:
-ARM GAS  /tmp/cckaAgxj.s 			page 41
+ARM GAS  /tmp/ccPwI8RU.s 			page 41
 
 
  1869              	.L103:
@@ -2458,7 +2458,7 @@ ARM GAS  /tmp/cckaAgxj.s 			page 1
  1904              		.loc 1 408 5 view .LVU450
  381:../../../core/drivers/TCS3472/src/TCS3472.c ****             break;
  1905              		.loc 1 381 23 is_stmt 0 view .LVU451
-ARM GAS  /tmp/cckaAgxj.s 			page 42
+ARM GAS  /tmp/ccPwI8RU.s 			page 42
 
 
  1906 006a 0821     		movs	r1, #8
@@ -2518,7 +2518,7 @@ ARM GAS  /tmp/cckaAgxj.s 			page 1
  367:../../../core/drivers/TCS3472/src/TCS3472.c ****         case 5:
  1943              		.loc 1 367 13 view .LVU469
  408:../../../core/drivers/TCS3472/src/TCS3472.c ****         ack = writeSingleRegister( PERS, pers_byte );
-ARM GAS  /tmp/cckaAgxj.s 			page 43
+ARM GAS  /tmp/ccPwI8RU.s 			page 43
 
 
  1944              		.loc 1 408 5 view .LVU470
@@ -2578,7 +2578,7 @@ ARM GAS  /tmp/cckaAgxj.s 			page 1
  1987              	clearInterrupt:
  1988              	.LFB168:
  413:../../../core/drivers/TCS3472/src/TCS3472.c **** 
-ARM GAS  /tmp/cckaAgxj.s 			page 44
+ARM GAS  /tmp/ccPwI8RU.s 			page 44
 
 
  414:../../../core/drivers/TCS3472/src/TCS3472.c **** int  clearInterrupt(){
@@ -2638,7 +2638,7 @@ ARM GAS  /tmp/cckaAgxj.s 			page 1
  2036              	.LCFI65:
  2037              		.cfi_def_cfa_offset 8
  2038              		.cfi_offset 3, -8
-ARM GAS  /tmp/cckaAgxj.s 			page 45
+ARM GAS  /tmp/ccPwI8RU.s 			page 45
 
 
  2039              		.cfi_offset 14, -4
@@ -2698,7 +2698,7 @@ ARM GAS  /tmp/cckaAgxj.s 			page 1
  2069              		.loc 1 434 13 is_stmt 1 view .LVU501
  435:../../../core/drivers/TCS3472/src/TCS3472.c ****         case 3:
  2070              		.loc 1 435 13 view .LVU502
-ARM GAS  /tmp/cckaAgxj.s 			page 46
+ARM GAS  /tmp/ccPwI8RU.s 			page 46
 
 
  434:../../../core/drivers/TCS3472/src/TCS3472.c ****             break;
@@ -2758,7 +2758,7 @@ ARM GAS  /tmp/cckaAgxj.s 			page 1
  2114              	.LVL188:
  2115              	.LFB170:
  445:../../../core/drivers/TCS3472/src/TCS3472.c **** 
-ARM GAS  /tmp/cckaAgxj.s 			page 47
+ARM GAS  /tmp/ccPwI8RU.s 			page 47
 
 
  446:../../../core/drivers/TCS3472/src/TCS3472.c **** int  setRGBCGain( const int gain ){
@@ -2818,7 +2818,7 @@ ARM GAS  /tmp/cckaAgxj.s 			page 1
  468:../../../core/drivers/TCS3472/src/TCS3472.c ****     }
  469:../../../core/drivers/TCS3472/src/TCS3472.c ****     return ack;
  470:../../../core/drivers/TCS3472/src/TCS3472.c **** }
-ARM GAS  /tmp/cckaAgxj.s 			page 48
+ARM GAS  /tmp/ccPwI8RU.s 			page 48
 
 
  2147              		.loc 1 470 1 view .LVU525
@@ -2878,7 +2878,7 @@ ARM GAS  /tmp/cckaAgxj.s 			page 1
  2195              	.LFB171:
  471:../../../core/drivers/TCS3472/src/TCS3472.c **** 
  472:../../../core/drivers/TCS3472/src/TCS3472.c **** uint8_t  getDeviceID(){
-ARM GAS  /tmp/cckaAgxj.s 			page 49
+ARM GAS  /tmp/ccPwI8RU.s 			page 49
 
 
  2196              		.loc 1 472 23 is_stmt 1 view -0
@@ -2938,7 +2938,7 @@ ARM GAS  /tmp/cckaAgxj.s 			page 1
  2247              		.global	roundTowardsZero
  2248              		.syntax unified
  2249              		.thumb
-ARM GAS  /tmp/cckaAgxj.s 			page 50
+ARM GAS  /tmp/ccPwI8RU.s 			page 50
 
 
  2250              		.thumb_func
@@ -2998,7 +2998,7 @@ ARM GAS  /tmp/cckaAgxj.s 			page 1
  2300              	.LVL204:
  2301              	.L147:
  484:../../../core/drivers/TCS3472/src/TCS3472.c ****     }
-ARM GAS  /tmp/cckaAgxj.s 			page 51
+ARM GAS  /tmp/ccPwI8RU.s 			page 51
 
 
  485:../../../core/drivers/TCS3472/src/TCS3472.c ****     else{
@@ -3058,7 +3058,7 @@ ARM GAS  /tmp/cckaAgxj.s 			page 1
  218:../../../core/drivers/TCS3472/src/TCS3472.c ****     int ack = writeSingleRegister( ATIME, atime );
  2350              		.loc 1 218 51 is_stmt 0 view .LVU565
  2351 0008 FFF7FEFF 		bl	__aeabi_f2d
-ARM GAS  /tmp/cckaAgxj.s 			page 52
+ARM GAS  /tmp/ccPwI8RU.s 			page 52
 
 
  2352              	.LVL210:
@@ -3118,7 +3118,7 @@ ARM GAS  /tmp/cckaAgxj.s 			page 1
  2397              		.global	TC3472_init
  2398              		.syntax unified
  2399              		.thumb
-ARM GAS  /tmp/cckaAgxj.s 			page 53
+ARM GAS  /tmp/ccPwI8RU.s 			page 53
 
 
  2400              		.thumb_func
@@ -3178,7 +3178,7 @@ ARM GAS  /tmp/cckaAgxj.s 			page 1
  2450              	.LFB159:
  230:../../../core/drivers/TCS3472/src/TCS3472.c ****     int ack = 1;
  2451              		.loc 1 230 37 is_stmt 1 view -0
-ARM GAS  /tmp/cckaAgxj.s 			page 54
+ARM GAS  /tmp/ccPwI8RU.s 			page 54
 
 
  2452              		.cfi_startproc
@@ -3238,7 +3238,7 @@ ARM GAS  /tmp/cckaAgxj.s 			page 1
  2496 0032 2046     		mov	r0, r4
  2497 0034 2946     		mov	r1, r5
  2498 0036 FFF7FEFF 		bl	__aeabi_dcmpgt
-ARM GAS  /tmp/cckaAgxj.s 			page 55
+ARM GAS  /tmp/ccPwI8RU.s 			page 55
 
 
  2499              	.LVL225:
@@ -3298,7 +3298,7 @@ ARM GAS  /tmp/cckaAgxj.s 			page 1
  2543 0082 CDED017A 		vstr.32	s15, [sp, #4]	@ int
  2544 0086 9DF80410 		ldrb	r1, [sp, #4]	@ zero_extendqisi2
  2545              	.LVL233:
-ARM GAS  /tmp/cckaAgxj.s 			page 56
+ARM GAS  /tmp/ccPwI8RU.s 			page 56
 
 
  2546              	.L166:
@@ -3358,7 +3358,7 @@ ARM GAS  /tmp/cckaAgxj.s 			page 1
  2588 00c8 DFE7     		b	.L166
  2589              	.L183:
  241:../../../core/drivers/TCS3472/src/TCS3472.c ****     return ack;
-ARM GAS  /tmp/cckaAgxj.s 			page 57
+ARM GAS  /tmp/ccPwI8RU.s 			page 57
 
 
  2590              		.loc 1 241 18 discriminator 2 view .LVU615
@@ -3418,7 +3418,7 @@ ARM GAS  /tmp/cckaAgxj.s 			page 1
  2640              	.LFB174:
  490:../../../core/drivers/TCS3472/src/TCS3472.c **** 
  491:../../../core/drivers/TCS3472/src/TCS3472.c **** void turnOnLED(){
-ARM GAS  /tmp/cckaAgxj.s 			page 58
+ARM GAS  /tmp/ccPwI8RU.s 			page 58
 
 
  2641              		.loc 1 491 17 is_stmt 1 view -0
@@ -3478,7 +3478,7 @@ ARM GAS  /tmp/cckaAgxj.s 			page 1
  2689              	.LVL247:
  500:../../../core/drivers/TCS3472/src/TCS3472.c ****     #endif
  501:../../../core/drivers/TCS3472/src/TCS3472.c **** }...
-ARM GAS  /tmp/cckaAgxj.s 			page 59
+ARM GAS  /tmp/ccPwI8RU.s 			page 59
 
 
  2690              		.loc 1 501 1 is_stmt 0 view .LVU627
@@ -3538,7 +3538,7 @@ ARM GAS  /tmp/cckaAgxj.s 			page 1
  2745              		.comm	P2_DIO1,8,4
  2746              		.comm	P1_DIO6,8,4
  2747              		.comm	P1_DIO5,8,4
-ARM GAS  /tmp/cckaAgxj.s 			page 60
+ARM GAS  /tmp/ccPwI8RU.s 			page 60
 
 
  2748              		.comm	P1_DIO4,8,4
@@ -3584,119 +3584,119 @@ ARM GAS  /tmp/cckaAgxj.s 			page 1
  2788              		.file 33 "../../../core/platform/common/inc/datatypes.h"
  2789              		.file 34 "../../../core/platform/octa/inc/platform.h"
  2790              		.file 35 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_gpio.h"
-ARM GAS  /tmp/cckaAgxj.s 			page 61
+ARM GAS  /tmp/ccPwI8RU.s 			page 61
 
 
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 TCS3472.c
-     /tmp/cckaAgxj.s:18     .text.WRITE_REGISTER_TC3472:0000000000000000 $t
-     /tmp/cckaAgxj.s:26     .text.WRITE_REGISTER_TC3472:0000000000000000 WRITE_REGISTER_TC3472
-     /tmp/cckaAgxj.s:67     .text.WRITE_REGISTER_TC3472:0000000000000020 $d
+     /tmp/ccPwI8RU.s:18     .text.WRITE_REGISTER_TC3472:0000000000000000 $t
+     /tmp/ccPwI8RU.s:26     .text.WRITE_REGISTER_TC3472:0000000000000000 WRITE_REGISTER_TC3472
+     /tmp/ccPwI8RU.s:67     .text.WRITE_REGISTER_TC3472:0000000000000020 $d
                             *COM*:0000000000000004 hi2cLib
-     /tmp/cckaAgxj.s:72     .text.READ_REGISTER_TC3472:0000000000000000 $t
-     /tmp/cckaAgxj.s:79     .text.READ_REGISTER_TC3472:0000000000000000 READ_REGISTER_TC3472
-     /tmp/cckaAgxj.s:123    .text.READ_REGISTER_TC3472:0000000000000024 $d
-     /tmp/cckaAgxj.s:128    .text.writeSingleRegister:0000000000000000 $t
-     /tmp/cckaAgxj.s:135    .text.writeSingleRegister:0000000000000000 writeSingleRegister
-     /tmp/cckaAgxj.s:176    .text.writeMultipleRegisters:0000000000000000 $t
-     /tmp/cckaAgxj.s:183    .text.writeMultipleRegisters:0000000000000000 writeMultipleRegisters
-     /tmp/cckaAgxj.s:265    .text.readSingleRegister:0000000000000000 $t
-     /tmp/cckaAgxj.s:272    .text.readSingleRegister:0000000000000000 readSingleRegister
-     /tmp/cckaAgxj.s:310    .text.readMultipleRegisters:0000000000000000 $t
-     /tmp/cckaAgxj.s:317    .text.readMultipleRegisters:0000000000000000 readMultipleRegisters
-     /tmp/cckaAgxj.s:353    .text.getAllColors:0000000000000000 $t
-     /tmp/cckaAgxj.s:360    .text.getAllColors:0000000000000000 getAllColors
-     /tmp/cckaAgxj.s:437    .text.getClearData:0000000000000000 $t
-     /tmp/cckaAgxj.s:444    .text.getClearData:0000000000000000 getClearData
-     /tmp/cckaAgxj.s:487    .text.getRedData:0000000000000000 $t
-     /tmp/cckaAgxj.s:494    .text.getRedData:0000000000000000 getRedData
-     /tmp/cckaAgxj.s:537    .text.getGreenData:0000000000000000 $t
-     /tmp/cckaAgxj.s:544    .text.getGreenData:0000000000000000 getGreenData
-     /tmp/cckaAgxj.s:587    .text.getBlueData:0000000000000000 $t
-     /tmp/cckaAgxj.s:594    .text.getBlueData:0000000000000000 getBlueData
-     /tmp/cckaAgxj.s:637    .text.enablePower:0000000000000000 $t
-     /tmp/cckaAgxj.s:644    .text.enablePower:0000000000000000 enablePower
-     /tmp/cckaAgxj.s:680    .text.disablePower:0000000000000000 $t
-     /tmp/cckaAgxj.s:687    .text.disablePower:0000000000000000 disablePower
-     /tmp/cckaAgxj.s:719    .text.isPowerEnabled:0000000000000000 $t
-     /tmp/cckaAgxj.s:726    .text.isPowerEnabled:0000000000000000 isPowerEnabled
-     /tmp/cckaAgxj.s:760    .text.enableRGBC:0000000000000000 $t
-     /tmp/cckaAgxj.s:767    .text.enableRGBC:0000000000000000 enableRGBC
-     /tmp/cckaAgxj.s:803    .text.disableRGBC:0000000000000000 $t
-     /tmp/cckaAgxj.s:810    .text.disableRGBC:0000000000000000 disableRGBC
-     /tmp/cckaAgxj.s:842    .text.isRGBCEnabled:0000000000000000 $t
-     /tmp/cckaAgxj.s:849    .text.isRGBCEnabled:0000000000000000 isRGBCEnabled
-     /tmp/cckaAgxj.s:877    .text.enablePowerAndRGBC:0000000000000000 $t
-     /tmp/cckaAgxj.s:884    .text.enablePowerAndRGBC:0000000000000000 enablePowerAndRGBC
-     /tmp/cckaAgxj.s:920    .text.disablePowerAndRGBC:0000000000000000 $t
-     /tmp/cckaAgxj.s:927    .text.disablePowerAndRGBC:0000000000000000 disablePowerAndRGBC
-     /tmp/cckaAgxj.s:959    .text.enableWait:0000000000000000 $t
-     /tmp/cckaAgxj.s:966    .text.enableWait:0000000000000000 enableWait
-     /tmp/cckaAgxj.s:1002   .text.disableWait:0000000000000000 $t
-     /tmp/cckaAgxj.s:1009   .text.disableWait:0000000000000000 disableWait
-     /tmp/cckaAgxj.s:1041   .text.isWaitEnabled:0000000000000000 $t
-     /tmp/cckaAgxj.s:1048   .text.isWaitEnabled:0000000000000000 isWaitEnabled
-     /tmp/cckaAgxj.s:1076   .text.enableInterrupt:0000000000000000 $t
-     /tmp/cckaAgxj.s:1083   .text.enableInterrupt:0000000000000000 enableInterrupt
-     /tmp/cckaAgxj.s:1119   .text.disableInterrupt:0000000000000000 $t
-     /tmp/cckaAgxj.s:1126   .text.disableInterrupt:0000000000000000 disableInterrupt
-     /tmp/cckaAgxj.s:1158   .text.isInterruptEnabled:0000000000000000 $t
-     /tmp/cckaAgxj.s:1165   .text.isInterruptEnabled:0000000000000000 isInterruptEnabled
-     /tmp/cckaAgxj.s:1196   .text.readIntegrationTime:0000000000000000 $t
-     /tmp/cckaAgxj.s:1203   .text.readIntegrationTime:0000000000000000 readIntegrationTime
-ARM GAS  /tmp/cckaAgxj.s 			page 62
+     /tmp/ccPwI8RU.s:72     .text.READ_REGISTER_TC3472:0000000000000000 $t
+     /tmp/ccPwI8RU.s:79     .text.READ_REGISTER_TC3472:0000000000000000 READ_REGISTER_TC3472
+     /tmp/ccPwI8RU.s:123    .text.READ_REGISTER_TC3472:0000000000000024 $d
+     /tmp/ccPwI8RU.s:128    .text.writeSingleRegister:0000000000000000 $t
+     /tmp/ccPwI8RU.s:135    .text.writeSingleRegister:0000000000000000 writeSingleRegister
+     /tmp/ccPwI8RU.s:176    .text.writeMultipleRegisters:0000000000000000 $t
+     /tmp/ccPwI8RU.s:183    .text.writeMultipleRegisters:0000000000000000 writeMultipleRegisters
+     /tmp/ccPwI8RU.s:265    .text.readSingleRegister:0000000000000000 $t
+     /tmp/ccPwI8RU.s:272    .text.readSingleRegister:0000000000000000 readSingleRegister
+     /tmp/ccPwI8RU.s:310    .text.readMultipleRegisters:0000000000000000 $t
+     /tmp/ccPwI8RU.s:317    .text.readMultipleRegisters:0000000000000000 readMultipleRegisters
+     /tmp/ccPwI8RU.s:353    .text.getAllColors:0000000000000000 $t
+     /tmp/ccPwI8RU.s:360    .text.getAllColors:0000000000000000 getAllColors
+     /tmp/ccPwI8RU.s:437    .text.getClearData:0000000000000000 $t
+     /tmp/ccPwI8RU.s:444    .text.getClearData:0000000000000000 getClearData
+     /tmp/ccPwI8RU.s:487    .text.getRedData:0000000000000000 $t
+     /tmp/ccPwI8RU.s:494    .text.getRedData:0000000000000000 getRedData
+     /tmp/ccPwI8RU.s:537    .text.getGreenData:0000000000000000 $t
+     /tmp/ccPwI8RU.s:544    .text.getGreenData:0000000000000000 getGreenData
+     /tmp/ccPwI8RU.s:587    .text.getBlueData:0000000000000000 $t
+     /tmp/ccPwI8RU.s:594    .text.getBlueData:0000000000000000 getBlueData
+     /tmp/ccPwI8RU.s:637    .text.enablePower:0000000000000000 $t
+     /tmp/ccPwI8RU.s:644    .text.enablePower:0000000000000000 enablePower
+     /tmp/ccPwI8RU.s:680    .text.disablePower:0000000000000000 $t
+     /tmp/ccPwI8RU.s:687    .text.disablePower:0000000000000000 disablePower
+     /tmp/ccPwI8RU.s:719    .text.isPowerEnabled:0000000000000000 $t
+     /tmp/ccPwI8RU.s:726    .text.isPowerEnabled:0000000000000000 isPowerEnabled
+     /tmp/ccPwI8RU.s:760    .text.enableRGBC:0000000000000000 $t
+     /tmp/ccPwI8RU.s:767    .text.enableRGBC:0000000000000000 enableRGBC
+     /tmp/ccPwI8RU.s:803    .text.disableRGBC:0000000000000000 $t
+     /tmp/ccPwI8RU.s:810    .text.disableRGBC:0000000000000000 disableRGBC
+     /tmp/ccPwI8RU.s:842    .text.isRGBCEnabled:0000000000000000 $t
+     /tmp/ccPwI8RU.s:849    .text.isRGBCEnabled:0000000000000000 isRGBCEnabled
+     /tmp/ccPwI8RU.s:877    .text.enablePowerAndRGBC:0000000000000000 $t
+     /tmp/ccPwI8RU.s:884    .text.enablePowerAndRGBC:0000000000000000 enablePowerAndRGBC
+     /tmp/ccPwI8RU.s:920    .text.disablePowerAndRGBC:0000000000000000 $t
+     /tmp/ccPwI8RU.s:927    .text.disablePowerAndRGBC:0000000000000000 disablePowerAndRGBC
+     /tmp/ccPwI8RU.s:959    .text.enableWait:0000000000000000 $t
+     /tmp/ccPwI8RU.s:966    .text.enableWait:0000000000000000 enableWait
+     /tmp/ccPwI8RU.s:1002   .text.disableWait:0000000000000000 $t
+     /tmp/ccPwI8RU.s:1009   .text.disableWait:0000000000000000 disableWait
+     /tmp/ccPwI8RU.s:1041   .text.isWaitEnabled:0000000000000000 $t
+     /tmp/ccPwI8RU.s:1048   .text.isWaitEnabled:0000000000000000 isWaitEnabled
+     /tmp/ccPwI8RU.s:1076   .text.enableInterrupt:0000000000000000 $t
+     /tmp/ccPwI8RU.s:1083   .text.enableInterrupt:0000000000000000 enableInterrupt
+     /tmp/ccPwI8RU.s:1119   .text.disableInterrupt:0000000000000000 $t
+     /tmp/ccPwI8RU.s:1126   .text.disableInterrupt:0000000000000000 disableInterrupt
+     /tmp/ccPwI8RU.s:1158   .text.isInterruptEnabled:0000000000000000 $t
+     /tmp/ccPwI8RU.s:1165   .text.isInterruptEnabled:0000000000000000 isInterruptEnabled
+     /tmp/ccPwI8RU.s:1196   .text.readIntegrationTime:0000000000000000 $t
+     /tmp/ccPwI8RU.s:1203   .text.readIntegrationTime:0000000000000000 readIntegrationTime
+ARM GAS  /tmp/ccPwI8RU.s 			page 62
 
 
-     /tmp/cckaAgxj.s:1242   .text.readIntegrationTime:0000000000000028 $d
-     /tmp/cckaAgxj.s:1248   .text.readWaitTime:0000000000000000 $t
-     /tmp/cckaAgxj.s:1255   .text.readWaitTime:0000000000000000 readWaitTime
-     /tmp/cckaAgxj.s:1339   .text.readWaitTime:0000000000000058 $d
-     /tmp/cckaAgxj.s:1348   .text.readEnableRegister:0000000000000000 $t
-     /tmp/cckaAgxj.s:1355   .text.readEnableRegister:0000000000000000 readEnableRegister
-     /tmp/cckaAgxj.s:1377   .text.readLowInterruptThreshold:0000000000000000 $t
-     /tmp/cckaAgxj.s:1384   .text.readLowInterruptThreshold:0000000000000000 readLowInterruptThreshold
-     /tmp/cckaAgxj.s:1427   .text.readHighInterruptThreshold:0000000000000000 $t
-     /tmp/cckaAgxj.s:1434   .text.readHighInterruptThreshold:0000000000000000 readHighInterruptThreshold
-     /tmp/cckaAgxj.s:1477   .text.setLowInterruptThreshold:0000000000000000 $t
-     /tmp/cckaAgxj.s:1484   .text.setLowInterruptThreshold:0000000000000000 setLowInterruptThreshold
-     /tmp/cckaAgxj.s:1527   .text.setHighInterruptThreshold:0000000000000000 $t
-     /tmp/cckaAgxj.s:1534   .text.setHighInterruptThreshold:0000000000000000 setHighInterruptThreshold
-     /tmp/cckaAgxj.s:1577   .text.readInterruptPersistence:0000000000000000 $t
-     /tmp/cckaAgxj.s:1584   .text.readInterruptPersistence:0000000000000000 readInterruptPersistence
-     /tmp/cckaAgxj.s:1610   .text.readInterruptPersistence:0000000000000012 $d
-     /tmp/cckaAgxj.s:1626   .text.readInterruptPersistence:0000000000000022 $t
-     /tmp/cckaAgxj.s:1747   .text.setInterruptPersistence:0000000000000000 $t
-     /tmp/cckaAgxj.s:1754   .text.setInterruptPersistence:0000000000000000 setInterruptPersistence
-     /tmp/cckaAgxj.s:1775   .text.setInterruptPersistence:000000000000000a $d
-     /tmp/cckaAgxj.s:1980   .text.clearInterrupt:0000000000000000 $t
-     /tmp/cckaAgxj.s:1987   .text.clearInterrupt:0000000000000000 clearInterrupt
-     /tmp/cckaAgxj.s:2022   .text.readRGBCGain:0000000000000000 $t
-     /tmp/cckaAgxj.s:2029   .text.readRGBCGain:0000000000000000 readRGBCGain
-     /tmp/cckaAgxj.s:2055   .text.readRGBCGain:0000000000000012 $d
-     /tmp/cckaAgxj.s:2059   .text.readRGBCGain:0000000000000016 $t
-     /tmp/cckaAgxj.s:2106   .text.setRGBCGain:0000000000000000 $t
-     /tmp/cckaAgxj.s:2113   .text.setRGBCGain:0000000000000000 setRGBCGain
-     /tmp/cckaAgxj.s:2187   .text.getDeviceID:0000000000000000 $t
-     /tmp/cckaAgxj.s:2194   .text.getDeviceID:0000000000000000 getDeviceID
-     /tmp/cckaAgxj.s:2216   .text.readStatusRegister:0000000000000000 $t
-     /tmp/cckaAgxj.s:2223   .text.readStatusRegister:0000000000000000 readStatusRegister
-     /tmp/cckaAgxj.s:2246   .text.roundTowardsZero:0000000000000000 $t
-     /tmp/cckaAgxj.s:2253   .text.roundTowardsZero:0000000000000000 roundTowardsZero
-     /tmp/cckaAgxj.s:2326   .text.setIntegrationTime:0000000000000000 $t
-     /tmp/cckaAgxj.s:2333   .text.setIntegrationTime:0000000000000000 setIntegrationTime
-     /tmp/cckaAgxj.s:2389   .text.setIntegrationTime:0000000000000048 $d
-     /tmp/cckaAgxj.s:2396   .text.TC3472_init:0000000000000000 $t
-     /tmp/cckaAgxj.s:2403   .text.TC3472_init:0000000000000000 TC3472_init
-     /tmp/cckaAgxj.s:2432   .text.TC3472_init:0000000000000014 $d
-     /tmp/cckaAgxj.s:2441   .text.setWaitTime:0000000000000000 $t
-     /tmp/cckaAgxj.s:2448   .text.setWaitTime:0000000000000000 setWaitTime
-     /tmp/cckaAgxj.s:2617   .text.setWaitTime:00000000000000e0 $d
-     /tmp/cckaAgxj.s:2632   .text.turnOnLED:0000000000000000 $t
-     /tmp/cckaAgxj.s:2639   .text.turnOnLED:0000000000000000 turnOnLED
-     /tmp/cckaAgxj.s:2661   .text.turnOnLED:0000000000000010 $d
-     /tmp/cckaAgxj.s:2666   .text.turnOffLED:0000000000000000 $t
-     /tmp/cckaAgxj.s:2673   .text.turnOffLED:0000000000000000 turnOffLED
-     /tmp/cckaAgxj.s:2695   .text.turnOffLED:0000000000000010 $d
+     /tmp/ccPwI8RU.s:1242   .text.readIntegrationTime:0000000000000028 $d
+     /tmp/ccPwI8RU.s:1248   .text.readWaitTime:0000000000000000 $t
+     /tmp/ccPwI8RU.s:1255   .text.readWaitTime:0000000000000000 readWaitTime
+     /tmp/ccPwI8RU.s:1339   .text.readWaitTime:0000000000000058 $d
+     /tmp/ccPwI8RU.s:1348   .text.readEnableRegister:0000000000000000 $t
+     /tmp/ccPwI8RU.s:1355   .text.readEnableRegister:0000000000000000 readEnableRegister
+     /tmp/ccPwI8RU.s:1377   .text.readLowInterruptThreshold:0000000000000000 $t
+     /tmp/ccPwI8RU.s:1384   .text.readLowInterruptThreshold:0000000000000000 readLowInterruptThreshold
+     /tmp/ccPwI8RU.s:1427   .text.readHighInterruptThreshold:0000000000000000 $t
+     /tmp/ccPwI8RU.s:1434   .text.readHighInterruptThreshold:0000000000000000 readHighInterruptThreshold
+     /tmp/ccPwI8RU.s:1477   .text.setLowInterruptThreshold:0000000000000000 $t
+     /tmp/ccPwI8RU.s:1484   .text.setLowInterruptThreshold:0000000000000000 setLowInterruptThreshold
+     /tmp/ccPwI8RU.s:1527   .text.setHighInterruptThreshold:0000000000000000 $t
+     /tmp/ccPwI8RU.s:1534   .text.setHighInterruptThreshold:0000000000000000 setHighInterruptThreshold
+     /tmp/ccPwI8RU.s:1577   .text.readInterruptPersistence:0000000000000000 $t
+     /tmp/ccPwI8RU.s:1584   .text.readInterruptPersistence:0000000000000000 readInterruptPersistence
+     /tmp/ccPwI8RU.s:1610   .text.readInterruptPersistence:0000000000000012 $d
+     /tmp/ccPwI8RU.s:1626   .text.readInterruptPersistence:0000000000000022 $t
+     /tmp/ccPwI8RU.s:1747   .text.setInterruptPersistence:0000000000000000 $t
+     /tmp/ccPwI8RU.s:1754   .text.setInterruptPersistence:0000000000000000 setInterruptPersistence
+     /tmp/ccPwI8RU.s:1775   .text.setInterruptPersistence:000000000000000a $d
+     /tmp/ccPwI8RU.s:1980   .text.clearInterrupt:0000000000000000 $t
+     /tmp/ccPwI8RU.s:1987   .text.clearInterrupt:0000000000000000 clearInterrupt
+     /tmp/ccPwI8RU.s:2022   .text.readRGBCGain:0000000000000000 $t
+     /tmp/ccPwI8RU.s:2029   .text.readRGBCGain:0000000000000000 readRGBCGain
+     /tmp/ccPwI8RU.s:2055   .text.readRGBCGain:0000000000000012 $d
+     /tmp/ccPwI8RU.s:2059   .text.readRGBCGain:0000000000000016 $t
+     /tmp/ccPwI8RU.s:2106   .text.setRGBCGain:0000000000000000 $t
+     /tmp/ccPwI8RU.s:2113   .text.setRGBCGain:0000000000000000 setRGBCGain
+     /tmp/ccPwI8RU.s:2187   .text.getDeviceID:0000000000000000 $t
+     /tmp/ccPwI8RU.s:2194   .text.getDeviceID:0000000000000000 getDeviceID
+     /tmp/ccPwI8RU.s:2216   .text.readStatusRegister:0000000000000000 $t
+     /tmp/ccPwI8RU.s:2223   .text.readStatusRegister:0000000000000000 readStatusRegister
+     /tmp/ccPwI8RU.s:2246   .text.roundTowardsZero:0000000000000000 $t
+     /tmp/ccPwI8RU.s:2253   .text.roundTowardsZero:0000000000000000 roundTowardsZero
+     /tmp/ccPwI8RU.s:2326   .text.setIntegrationTime:0000000000000000 $t
+     /tmp/ccPwI8RU.s:2333   .text.setIntegrationTime:0000000000000000 setIntegrationTime
+     /tmp/ccPwI8RU.s:2389   .text.setIntegrationTime:0000000000000048 $d
+     /tmp/ccPwI8RU.s:2396   .text.TC3472_init:0000000000000000 $t
+     /tmp/ccPwI8RU.s:2403   .text.TC3472_init:0000000000000000 TC3472_init
+     /tmp/ccPwI8RU.s:2432   .text.TC3472_init:0000000000000014 $d
+     /tmp/ccPwI8RU.s:2441   .text.setWaitTime:0000000000000000 $t
+     /tmp/ccPwI8RU.s:2448   .text.setWaitTime:0000000000000000 setWaitTime
+     /tmp/ccPwI8RU.s:2617   .text.setWaitTime:00000000000000e0 $d
+     /tmp/ccPwI8RU.s:2632   .text.turnOnLED:0000000000000000 $t
+     /tmp/ccPwI8RU.s:2639   .text.turnOnLED:0000000000000000 turnOnLED
+     /tmp/ccPwI8RU.s:2661   .text.turnOnLED:0000000000000010 $d
+     /tmp/ccPwI8RU.s:2666   .text.turnOffLED:0000000000000000 $t
+     /tmp/ccPwI8RU.s:2673   .text.turnOffLED:0000000000000000 turnOffLED
+     /tmp/ccPwI8RU.s:2695   .text.turnOffLED:0000000000000010 $d
                             *COM*:000000000000002c P3_header
                             *COM*:000000000000002c P2_header
                             *COM*:000000000000002c P1_header
@@ -3704,7 +3704,7 @@ DEFINED SYMBOLS
                             *COM*:0000000000000001 stackversion_minor
                             *COM*:0000000000000001 stackversion_major
                             *COM*:0000000000000001 appversion_patch
-ARM GAS  /tmp/cckaAgxj.s 			page 63
+ARM GAS  /tmp/ccPwI8RU.s 			page 63
 
 
                             *COM*:0000000000000001 appversion_minor
@@ -3755,8 +3755,8 @@ DEFINED SYMBOLS
                             *COM*:0000000000000008 P1_DIO1
                             *COM*:0000000000000040 htim6
                             *COM*:0000000000000040 htim1
-     /tmp/cckaAgxj.s:1836   .text.setInterruptPersistence:0000000000000047 $d
-     /tmp/cckaAgxj.s:1836   .text.setInterruptPersistence:0000000000000048 $t
+     /tmp/ccPwI8RU.s:1836   .text.setInterruptPersistence:0000000000000047 $d
+     /tmp/ccPwI8RU.s:1836   .text.setInterruptPersistence:0000000000000048 $t
 
 UNDEFINED SYMBOLS
 HAL_I2C_Master_Transmit
@@ -3764,7 +3764,7 @@ HAL_I2C_Mem_Read
 __aeabi_i2d
 __aeabi_dmul
 __aeabi_d2f
-ARM GAS  /tmp/cckaAgxj.s 			page 64
+ARM GAS  /tmp/ccPwI8RU.s 			page 64
 
 
 __aeabi_f2d

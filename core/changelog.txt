@@ -45,3 +45,4 @@ octa-stack versions
 0.5.5: added PWM leds to octa platform, see leds.c/h files
 0.5.6: added octa-stm-mini platform to stack
 0.5.7: removed NB_IOT_PROVIDER from every app makefile using nordic9160, nonw using auto provider selection
+0.5.8: added -fcommon flag to core makefile, fixes compatibility with newer arm gcc compilers: https://gcc.gnu.org/gcc-10/porting_to.html

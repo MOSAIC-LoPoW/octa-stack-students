@@ -1,7 +1,7 @@
 ######################################
 # STACK VERSION (https://semver.org/)
 ######################################
-STACK_VERSION = 0.5.7
+STACK_VERSION = 0.5.8
 
 # Globally set default goal to `all`
 .DEFAULT_GOAL := all
@@ -92,7 +92,7 @@ AS_DEFS =
 # compile gcc flags
 ASFLAGS = $(MCU) $(AS_DEFS) $(AS_INCLUDES) $(OPT) -Wall -fdata-sections -ffunction-sections
 
-CFLAGS = $(MCU) $(C_DEFS) $(C_INCLUDES) $(OPT) -Wall -fdata-sections -ffunction-sections
+CFLAGS = $(MCU) $(C_DEFS) $(C_INCLUDES) $(OPT) -Wall -fdata-sections -ffunction-sections -fcommon
 
 ## DEBUG?
 CFLAGS += -g -gdwarf-2

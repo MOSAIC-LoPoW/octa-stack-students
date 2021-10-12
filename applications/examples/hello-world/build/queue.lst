@@ -1,4 +1,4 @@
-ARM GAS  /tmp/ccOuG2de.s 			page 1
+ARM GAS  /tmp/ccvz1dIV.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
   28:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** #include <stdlib.h>
   29:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** #include <string.h>
   30:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 
-ARM GAS  /tmp/ccOuG2de.s 			page 2
+ARM GAS  /tmp/ccvz1dIV.s 			page 2
 
 
   31:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** /* Defining MPU_WRAPPERS_INCLUDED_FROM_API_FILE prevents task.h from redefining
@@ -118,7 +118,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
   85:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c ****  * Items are queued by copy, not reference.  See the following link for the
   86:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c ****  * rationale: http://www.freertos.org/Embedded-RTOS-Queues.html
   87:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c ****  */
-ARM GAS  /tmp/ccOuG2de.s 			page 3
+ARM GAS  /tmp/ccvz1dIV.s 			page 3
 
 
   88:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** typedef struct QueueDefinition
@@ -178,7 +178,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
  142:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 		const char *pcQueueName; /*lint !e971 Unqualified char types are allowed for strings and single c
  143:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 		QueueHandle_t xHandle;
  144:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 	} xQueueRegistryItem;
-ARM GAS  /tmp/ccOuG2de.s 			page 4
+ARM GAS  /tmp/ccvz1dIV.s 			page 4
 
 
  145:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 
@@ -238,7 +238,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
  199:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** #endif
  200:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 
  201:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** /*
-ARM GAS  /tmp/ccOuG2de.s 			page 5
+ARM GAS  /tmp/ccvz1dIV.s 			page 5
 
 
  202:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c ****  * Called after a Queue_t structure has been allocated either statically or
@@ -298,7 +298,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
  256:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 		pxQueue->uxMessagesWaiting = ( UBaseType_t ) 0U;
  257:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 		pxQueue->pcWriteTo = pxQueue->pcHead;
  258:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 		pxQueue->u.pcReadFrom = pxQueue->pcHead + ( ( pxQueue->uxLength - ( UBaseType_t ) 1U ) * pxQueue-
-ARM GAS  /tmp/ccOuG2de.s 			page 6
+ARM GAS  /tmp/ccvz1dIV.s 			page 6
 
 
  259:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 		pxQueue->cRxLock = queueUNLOCKED;
@@ -358,7 +358,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
  313:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 		should not be provided if the item size is 0. */
  314:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 		configASSERT( !( ( pucQueueStorage != NULL ) && ( uxItemSize == 0 ) ) );
  315:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 		configASSERT( !( ( pucQueueStorage == NULL ) && ( uxItemSize != 0 ) ) );
-ARM GAS  /tmp/ccOuG2de.s 			page 7
+ARM GAS  /tmp/ccvz1dIV.s 			page 7
 
 
  316:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 
@@ -418,7 +418,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
  370:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 		}
  371:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 		else
  372:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 		{
-ARM GAS  /tmp/ccOuG2de.s 			page 8
+ARM GAS  /tmp/ccvz1dIV.s 			page 8
 
 
  373:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 			/* Allocate enough space to hold the maximum number of items that
@@ -478,7 +478,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
  427:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 
  428:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 	/* Initialise the queue members as described where the queue type is
  429:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 	defined. */
-ARM GAS  /tmp/ccOuG2de.s 			page 9
+ARM GAS  /tmp/ccvz1dIV.s 			page 9
 
 
  430:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 	pxNewQueue->uxLength = uxQueueLength;
@@ -538,7 +538,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
  484:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 	Queue_t *pxNewQueue;
  485:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 	const UBaseType_t uxMutexLength = ( UBaseType_t ) 1, uxMutexSize = ( UBaseType_t ) 0;
  486:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 
-ARM GAS  /tmp/ccOuG2de.s 			page 10
+ARM GAS  /tmp/ccvz1dIV.s 			page 10
 
 
  487:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 		pxNewQueue = ( Queue_t * ) xQueueGenericCreate( uxMutexLength, uxMutexSize, ucQueueType );
@@ -598,7 +598,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
  541:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 	} /*lint !e818 xSemaphore cannot be a pointer to const because it is a typedef. */
  542:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 
  543:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** #endif
-ARM GAS  /tmp/ccOuG2de.s 			page 11
+ARM GAS  /tmp/ccvz1dIV.s 			page 11
 
 
  544:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** /*-----------------------------------------------------------*/
@@ -658,7 +658,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
  598:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 			/* Has the recursive call count unwound to 0? */
  599:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 			if( pxMutex->u.uxRecursiveCallCount == ( UBaseType_t ) 0 )
  600:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 			{
-ARM GAS  /tmp/ccOuG2de.s 			page 12
+ARM GAS  /tmp/ccvz1dIV.s 			page 12
 
 
  601:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 				/* Return the mutex.  This will automatically unblock any other
@@ -718,7 +718,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
  655:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 				( pxMutex->u.uxRecursiveCallCount )++;
  656:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 			}
  657:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 			else
-ARM GAS  /tmp/ccOuG2de.s 			page 13
+ARM GAS  /tmp/ccvz1dIV.s 			page 13
 
 
  658:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 			{
@@ -778,7 +778,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
  712:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 			traceCREATE_COUNTING_SEMAPHORE();
  713:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 		}
  714:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 		else
-ARM GAS  /tmp/ccOuG2de.s 			page 14
+ARM GAS  /tmp/ccvz1dIV.s 			page 14
 
 
  715:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 		{
@@ -838,7 +838,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
  769:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 						{
  770:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 							mtCOVERAGE_TEST_MARKER();
  771:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 						}
-ARM GAS  /tmp/ccOuG2de.s 			page 15
+ARM GAS  /tmp/ccvz1dIV.s 			page 15
 
 
  772:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 					}
@@ -898,7 +898,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
  826:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 					{
  827:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 						/* This path is a special case that will only get
  828:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 						executed if the task was holding multiple mutexes and
-ARM GAS  /tmp/ccOuG2de.s 			page 16
+ARM GAS  /tmp/ccvz1dIV.s 			page 16
 
 
  829:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 						the mutexes were given back in an order that is
@@ -958,7 +958,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
  883:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 				traceBLOCKING_ON_QUEUE_SEND( pxQueue );
  884:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 				vTaskPlaceOnEventList( &( pxQueue->xTasksWaitingToSend ), xTicksToWait );
  885:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 
-ARM GAS  /tmp/ccOuG2de.s 			page 17
+ARM GAS  /tmp/ccvz1dIV.s 			page 17
 
 
  886:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 				/* Unlocking the queue means queue events can effect the
@@ -1018,7 +1018,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
  940:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 	assigned a priority above the configured maximum system call priority.
  941:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 	Only FreeRTOS functions that end in FromISR can be called from interrupts
  942:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 	that have been assigned a priority at or (logically) below the maximum
-ARM GAS  /tmp/ccOuG2de.s 			page 18
+ARM GAS  /tmp/ccvz1dIV.s 			page 18
 
 
  943:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 	system call	interrupt priority.  FreeRTOS maintains a separate interrupt
@@ -1078,7 +1078,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
  997:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 					{
  998:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 						if( listLIST_IS_EMPTY( &( pxQueue->xTasksWaitingToReceive ) ) == pdFALSE )
  999:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 						{
-ARM GAS  /tmp/ccOuG2de.s 			page 19
+ARM GAS  /tmp/ccvz1dIV.s 			page 19
 
 
 1000:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 							if( xTaskRemoveFromEventList( &( pxQueue->xTasksWaitingToReceive ) ) != pdFALSE )
@@ -1138,7 +1138,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
 1054:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 			{
 1055:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 				/* Increment the lock count so the task that unlocks the queue
 1056:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 				knows that data was posted while it was locked. */
-ARM GAS  /tmp/ccOuG2de.s 			page 20
+ARM GAS  /tmp/ccvz1dIV.s 			page 20
 
 
 1057:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 				pxQueue->cTxLock = ( int8_t ) ( cTxLock + 1 );
@@ -1198,7 +1198,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
 1111:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 	portASSERT_IF_INTERRUPT_PRIORITY_INVALID();
 1112:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 
 1113:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 	uxSavedInterruptStatus = portSET_INTERRUPT_MASK_FROM_ISR();
-ARM GAS  /tmp/ccOuG2de.s 			page 21
+ARM GAS  /tmp/ccvz1dIV.s 			page 21
 
 
 1114:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 	{
@@ -1258,7 +1258,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
 1168:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 								record that a context switch is required. */
 1169:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 								if( pxHigherPriorityTaskWoken != NULL )
 1170:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 								{
-ARM GAS  /tmp/ccOuG2de.s 			page 22
+ARM GAS  /tmp/ccvz1dIV.s 			page 22
 
 
 1171:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 									*pxHigherPriorityTaskWoken = pdTRUE;
@@ -1318,7 +1318,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
 1225:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 			xReturn = pdPASS;
 1226:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 		}
 1227:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 		else
-ARM GAS  /tmp/ccOuG2de.s 			page 23
+ARM GAS  /tmp/ccvz1dIV.s 			page 23
 
 
 1228:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 		{
@@ -1378,7 +1378,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
 1282:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 				{
 1283:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 					if( xTaskRemoveFromEventList( &( pxQueue->xTasksWaitingToSend ) ) != pdFALSE )
 1284:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 					{
-ARM GAS  /tmp/ccOuG2de.s 			page 24
+ARM GAS  /tmp/ccvz1dIV.s 			page 24
 
 
 1285:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 						queueYIELD_IF_USING_PREEMPTION();
@@ -1438,7 +1438,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
 1339:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 				traceBLOCKING_ON_QUEUE_RECEIVE( pxQueue );
 1340:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 				vTaskPlaceOnEventList( &( pxQueue->xTasksWaitingToReceive ), xTicksToWait );
 1341:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 				prvUnlockQueue( pxQueue );
-ARM GAS  /tmp/ccOuG2de.s 			page 25
+ARM GAS  /tmp/ccvz1dIV.s 			page 25
 
 
 1342:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 				if( xTaskResumeAll() == pdFALSE )
@@ -1498,7 +1498,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
 1396:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 
 1397:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 	/* Cannot block if the scheduler is suspended. */
 1398:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 	#if ( ( INCLUDE_xTaskGetSchedulerState == 1 ) || ( configUSE_TIMERS == 1 ) )
-ARM GAS  /tmp/ccOuG2de.s 			page 26
+ARM GAS  /tmp/ccvz1dIV.s 			page 26
 
 
 1399:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 	{
@@ -1558,7 +1558,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
 1453:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 					}
 1454:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 				}
 1455:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 				else
-ARM GAS  /tmp/ccOuG2de.s 			page 27
+ARM GAS  /tmp/ccvz1dIV.s 			page 27
 
 
 1456:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 				{
@@ -1618,7 +1618,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
 1510:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 			queue being empty is equivalent to the semaphore count being 0. */
 1511:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 			if( prvIsQueueEmpty( pxQueue ) != pdFALSE )
 1512:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 			{
-ARM GAS  /tmp/ccOuG2de.s 			page 28
+ARM GAS  /tmp/ccvz1dIV.s 			page 28
 
 
 1513:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 				traceBLOCKING_ON_QUEUE_RECEIVE( pxQueue );
@@ -1678,7 +1678,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
 1567:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 					test the mutex type again to check it is actually a mutex. */
 1568:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 					if( xInheritanceOccurred != pdFALSE )
 1569:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 					{
-ARM GAS  /tmp/ccOuG2de.s 			page 29
+ARM GAS  /tmp/ccvz1dIV.s 			page 29
 
 
 1570:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 						taskENTER_CRITICAL();
@@ -1738,7 +1738,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
 1624:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 
 1625:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 	for( ;; )
 1626:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 	{
-ARM GAS  /tmp/ccOuG2de.s 			page 30
+ARM GAS  /tmp/ccvz1dIV.s 			page 30
 
 
 1627:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 		taskENTER_CRITICAL();
@@ -1798,7 +1798,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
 1681:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 					configure the timeout structure ready to enter the blocked
 1682:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 					state. */
 1683:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 					vTaskInternalSetTimeOutState( &xTimeOut );
-ARM GAS  /tmp/ccOuG2de.s 			page 31
+ARM GAS  /tmp/ccvz1dIV.s 			page 31
 
 
 1684:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 					xEntryTimeSet = pdTRUE;
@@ -1858,7 +1858,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
 1738:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 				return errQUEUE_EMPTY;
 1739:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 			}
 1740:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 			else
-ARM GAS  /tmp/ccOuG2de.s 			page 32
+ARM GAS  /tmp/ccvz1dIV.s 			page 32
 
 
 1741:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 			{
@@ -1918,7 +1918,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
 1795:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 				{
 1796:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 					if( xTaskRemoveFromEventList( &( pxQueue->xTasksWaitingToSend ) ) != pdFALSE )
 1797:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 					{
-ARM GAS  /tmp/ccOuG2de.s 			page 33
+ARM GAS  /tmp/ccvz1dIV.s 			page 33
 
 
 1798:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 						/* The task waiting has a higher priority than us so
@@ -1978,7 +1978,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
 1852:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 	system call (or maximum API call) interrupt priority.  Interrupts that are
 1853:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 	above the maximum system call priority are kept permanently enabled, even
 1854:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 	when the RTOS kernel is in a critical section, but cannot make any calls to
-ARM GAS  /tmp/ccOuG2de.s 			page 34
+ARM GAS  /tmp/ccvz1dIV.s 			page 34
 
 
 1855:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 	FreeRTOS API functions.  If configASSERT() is defined in FreeRTOSConfig.h
@@ -2038,7 +2038,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
 1909:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 
 1910:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** UBaseType_t uxQueueSpacesAvailable( const QueueHandle_t xQueue )
 1911:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** {
-ARM GAS  /tmp/ccOuG2de.s 			page 35
+ARM GAS  /tmp/ccvz1dIV.s 			page 35
 
 
 1912:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** UBaseType_t uxReturn;
@@ -2098,7 +2098,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
 1966:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 		}
 1967:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 		else
 1968:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 		{
-ARM GAS  /tmp/ccOuG2de.s 			page 36
+ARM GAS  /tmp/ccvz1dIV.s 			page 36
 
 
 1969:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 			mtCOVERAGE_TEST_MARKER();
@@ -2158,7 +2158,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
 2016:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 	UBaseType_t uxHighestPriorityOfWaitingTasks;
   36              		.loc 1 2016 2 is_stmt 1 view .LVU2
 2017:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 
-ARM GAS  /tmp/ccOuG2de.s 			page 37
+ARM GAS  /tmp/ccvz1dIV.s 			page 37
 
 
 2018:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 		/* If a task waiting for a mutex causes the mutex holder to inherit a
@@ -2218,7 +2218,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
 2042:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** UBaseType_t uxMessagesWaiting;
 2043:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 
 2044:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 	/* This function is called from a critical section. */
-ARM GAS  /tmp/ccOuG2de.s 			page 38
+ARM GAS  /tmp/ccvz1dIV.s 			page 38
 
 
 2045:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 
@@ -2278,7 +2278,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
 2099:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 				--uxMessagesWaiting;
 2100:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 			}
 2101:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 			else
-ARM GAS  /tmp/ccOuG2de.s 			page 39
+ARM GAS  /tmp/ccvz1dIV.s 			page 39
 
 
 2102:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 			{
@@ -2338,7 +2338,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
 2156:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 				{
 2157:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 					if( prvNotifyQueueSetContainer( pxQueue, queueSEND_TO_BACK ) != pdFALSE )
 2158:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 					{
-ARM GAS  /tmp/ccOuG2de.s 			page 40
+ARM GAS  /tmp/ccvz1dIV.s 			page 40
 
 
 2159:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 						/* The queue is a member of a queue set, and posting to
@@ -2398,7 +2398,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
 2213:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 				}
 2214:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 			}
 2215:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 			#endif /* configUSE_QUEUE_SETS */
-ARM GAS  /tmp/ccOuG2de.s 			page 41
+ARM GAS  /tmp/ccvz1dIV.s 			page 41
 
 
 2216:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 
@@ -2458,7 +2458,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
 2270:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 	}
 2271:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 	taskEXIT_CRITICAL();
 2272:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 
-ARM GAS  /tmp/ccOuG2de.s 			page 42
+ARM GAS  /tmp/ccvz1dIV.s 			page 42
 
 
 2273:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 	return xReturn;
@@ -2518,7 +2518,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
 2304:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 		}
 2305:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 		else
 2306:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 		{
-ARM GAS  /tmp/ccOuG2de.s 			page 43
+ARM GAS  /tmp/ccvz1dIV.s 			page 43
 
 
 2307:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 			xReturn = pdFALSE;
@@ -2578,7 +2578,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
  135              		.loc 1 2260 2 view .LVU29
  136 0004 FFF7FEFF 		bl	vPortEnterCritical
  137              	.LVL11:
-ARM GAS  /tmp/ccOuG2de.s 			page 44
+ARM GAS  /tmp/ccvz1dIV.s 			page 44
 
 
 2262:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 		{
@@ -2638,7 +2638,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
  183              		.cfi_offset 5, -12
  184              		.cfi_offset 6, -8
  185              		.cfi_offset 14, -4
-ARM GAS  /tmp/ccOuG2de.s 			page 45
+ARM GAS  /tmp/ccvz1dIV.s 			page 45
 
 
  186 0002 0446     		mov	r4, r0
@@ -2698,7 +2698,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
  222              		.loc 1 2055 5 is_stmt 1 view .LVU58
 2055:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 				pxQueue->pxMutexHolder = NULL;
  223              		.loc 1 2055 15 is_stmt 0 view .LVU59
-ARM GAS  /tmp/ccOuG2de.s 			page 46
+ARM GAS  /tmp/ccvz1dIV.s 			page 46
 
 
  224 0018 4068     		ldr	r0, [r0, #4]
@@ -2758,7 +2758,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
 2071:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 		}
  262              		.loc 1 2071 23 view .LVU76
  263 003c A360     		str	r3, [r4, #8]
-ARM GAS  /tmp/ccOuG2de.s 			page 47
+ARM GAS  /tmp/ccvz1dIV.s 			page 47
 
 
 2041:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** UBaseType_t uxMessagesWaiting;
@@ -2818,7 +2818,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
  301 005e 022D     		cmp	r5, #2
  302 0060 01D0     		beq	.L23
 2041:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** UBaseType_t uxMessagesWaiting;
-ARM GAS  /tmp/ccOuG2de.s 			page 48
+ARM GAS  /tmp/ccvz1dIV.s 			page 48
 
 
  303              		.loc 1 2041 12 view .LVU94
@@ -2878,7 +2878,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
 2119:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 	if( pxQueue->uxItemSize != ( UBaseType_t ) 0 )
  348              		.loc 1 2119 1 view .LVU106
  349 0006 10B5     		push	{r4, lr}
-ARM GAS  /tmp/ccOuG2de.s 			page 49
+ARM GAS  /tmp/ccvz1dIV.s 			page 49
 
 
  350              	.LCFI3:
@@ -2938,7 +2938,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
  390 0022 7047     		bx	lr
  391              		.cfi_endproc
  392              	.LFE27:
-ARM GAS  /tmp/ccOuG2de.s 			page 50
+ARM GAS  /tmp/ccvz1dIV.s 			page 50
 
 
  394              		.section	.text.prvUnlockQueue,"ax",%progbits
@@ -2998,7 +2998,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
  438              		.loc 1 2217 4 is_stmt 0 view .LVU131
  439 0016 64B2     		sxtb	r4, r4
  440              	.LVL42:
-ARM GAS  /tmp/ccOuG2de.s 			page 51
+ARM GAS  /tmp/ccvz1dIV.s 			page 51
 
 
  441              	.L32:
@@ -3058,7 +3058,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
 2229:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 		{
  480              		.loc 1 2229 8 is_stmt 0 view .LVU147
  481 0042 03E0     		b	.L36
-ARM GAS  /tmp/ccOuG2de.s 			page 52
+ARM GAS  /tmp/ccvz1dIV.s 			page 52
 
 
  482              	.L42:
@@ -3118,7 +3118,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
  521              		.loc 1 2253 1 is_stmt 0 view .LVU162
  522 006c 38BD     		pop	{r3, r4, r5, pc}
 2253:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** /*-----------------------------------------------------------*/
-ARM GAS  /tmp/ccOuG2de.s 			page 53
+ARM GAS  /tmp/ccvz1dIV.s 			page 53
 
 
  523              		.loc 1 2253 1 view .LVU163
@@ -3178,7 +3178,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
  566              		.loc 1 255 3 view .LVU169
  255:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 		pxQueue->uxMessagesWaiting = ( UBaseType_t ) 0U;
  567              		.loc 1 255 28 is_stmt 0 view .LVU170
-ARM GAS  /tmp/ccOuG2de.s 			page 54
+ARM GAS  /tmp/ccvz1dIV.s 			page 54
 
 
  568 000c 2168     		ldr	r1, [r4]
@@ -3238,7 +3238,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
  602              		.loc 1 269 8 is_stmt 0 view .LVU190
  603 0032 2369     		ldr	r3, [r4, #16]
  269:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 			{
-ARM GAS  /tmp/ccOuG2de.s 			page 55
+ARM GAS  /tmp/ccvz1dIV.s 			page 55
 
 
  604              		.loc 1 269 6 view .LVU191
@@ -3298,7 +3298,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
  646              	@ 0 "" 2
  273:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 				}
  647              		.loc 1 273 6 view .LVU204
-ARM GAS  /tmp/ccOuG2de.s 			page 56
+ARM GAS  /tmp/ccvz1dIV.s 			page 56
 
 
  648              	@ 273 "../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c" 1
@@ -3358,7 +3358,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
  414:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 	{
  698              		.loc 1 414 2 view .LVU211
  414:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 	{
-ARM GAS  /tmp/ccOuG2de.s 			page 57
+ARM GAS  /tmp/ccvz1dIV.s 			page 57
 
 
  699              		.loc 1 414 4 is_stmt 0 view .LVU212
@@ -3418,7 +3418,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
  736              		.cfi_endproc
  737              	.LFE7:
  739              		.section	.text.xQueueGenericCreate,"ax",%progbits
-ARM GAS  /tmp/ccOuG2de.s 			page 58
+ARM GAS  /tmp/ccvz1dIV.s 			page 58
 
 
  740              		.align	1
@@ -3478,7 +3478,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
  784              		.loc 1 378 3 is_stmt 1 view .LVU240
  378:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 
  785              		.loc 1 378 30 is_stmt 0 view .LVU241
-ARM GAS  /tmp/ccOuG2de.s 			page 59
+ARM GAS  /tmp/ccvz1dIV.s 			page 59
 
 
  786 0012 5030     		adds	r0, r0, #80
@@ -3538,7 +3538,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
  828              		.loc 1 364 3 is_stmt 0 discriminator 1 view .LVU253
  829 0036 0348     		ldr	r0, .L63
  830              	.LVL82:
-ARM GAS  /tmp/ccOuG2de.s 			page 60
+ARM GAS  /tmp/ccvz1dIV.s 			page 60
 
 
  364:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 
@@ -3598,7 +3598,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
  880              		.loc 1 728 1 view .LVU260
  729:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 
  881              		.loc 1 729 1 view .LVU261
-ARM GAS  /tmp/ccOuG2de.s 			page 61
+ARM GAS  /tmp/ccvz1dIV.s 			page 61
 
 
  731:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 	configASSERT( !( ( pvItemToQueue == NULL ) && ( pxQueue->uxItemSize != ( UBaseType_t ) 0U ) ) );
@@ -3658,7 +3658,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
  925              	.LBB39:
  732:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 	configASSERT( !( ( xCopyPosition == queueOVERWRITE ) && ( pxQueue->uxLength != 1 ) ) );
  926              		.loc 1 732 2 is_stmt 1 view .LVU273
-ARM GAS  /tmp/ccOuG2de.s 			page 62
+ARM GAS  /tmp/ccvz1dIV.s 			page 62
 
 
  927 0034 4FF43771 		mov	r1, #732
@@ -3718,7 +3718,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
  970 0068 636A     		ldr	r3, [r4, #36]
  810:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 					{
  971              		.loc 1 810 8 view .LVU285
-ARM GAS  /tmp/ccOuG2de.s 			page 63
+ARM GAS  /tmp/ccvz1dIV.s 			page 63
 
 
  972 006a 6BB9     		cbnz	r3, .L88
@@ -3778,7 +3778,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
  812:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 						{
  1014              		.loc 1 812 11 is_stmt 0 view .LVU298
  1015 0088 04F12400 		add	r0, r4, #36
-ARM GAS  /tmp/ccOuG2de.s 			page 64
+ARM GAS  /tmp/ccvz1dIV.s 			page 64
 
 
  1016              	.LVL100:
@@ -3838,7 +3838,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
  1057 00b6 19E0     		b	.L77
  1058              	.LVL104:
  1059              	.L91:
-ARM GAS  /tmp/ccOuG2de.s 			page 65
+ARM GAS  /tmp/ccvz1dIV.s 			page 65
 
 
  876:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 
@@ -3898,7 +3898,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
  1099 00e6 DED0     		beq	.L89
  856:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 				{
  1100              		.loc 1 856 10 is_stmt 1 view .LVU327
-ARM GAS  /tmp/ccOuG2de.s 			page 66
+ARM GAS  /tmp/ccvz1dIV.s 			page 66
 
 
  856:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 				{
@@ -3958,7 +3958,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
  1142 0120 FFF7FEFF 		bl	prvIsQueueFull
  1143              	.LVL114:
  881:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 			{
-ARM GAS  /tmp/ccOuG2de.s 			page 67
+ARM GAS  /tmp/ccvz1dIV.s 			page 67
 
 
  1144              		.loc 1 881 6 view .LVU341
@@ -4018,7 +4018,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
  1186              		.loc 1 914 13 is_stmt 0 view .LVU353
  1187 0158 FFF7FEFF 		bl	xTaskResumeAll
  1188              	.LVL119:
-ARM GAS  /tmp/ccOuG2de.s 			page 68
+ARM GAS  /tmp/ccvz1dIV.s 			page 68
 
 
  916:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 			return errQUEUE_FULL;
@@ -4078,7 +4078,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
  464:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 
  1233              		.loc 1 464 39 is_stmt 0 view .LVU366
  1234 000a C160     		str	r1, [r0, #12]
-ARM GAS  /tmp/ccOuG2de.s 			page 69
+ARM GAS  /tmp/ccvz1dIV.s 			page 69
 
 
  466:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 
@@ -4138,7 +4138,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
  487:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 		prvInitialiseMutex( pxNewQueue );
  1281              		.loc 1 487 3 view .LVU377
  487:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 		prvInitialiseMutex( pxNewQueue );
-ARM GAS  /tmp/ccOuG2de.s 			page 70
+ARM GAS  /tmp/ccvz1dIV.s 			page 70
 
 
  1282              		.loc 1 487 30 is_stmt 0 view .LVU378
@@ -4198,7 +4198,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
  1331 0008 1D46     		mov	r5, r3
  925:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** UBaseType_t uxSavedInterruptStatus;
  1332              		.loc 1 925 1 is_stmt 1 view .LVU386
-ARM GAS  /tmp/ccOuG2de.s 			page 71
+ARM GAS  /tmp/ccvz1dIV.s 			page 71
 
 
  926:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** Queue_t * const pxQueue = ( Queue_t * ) xQueue;
@@ -4258,7 +4258,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
   26:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/portmacro.h ****  */
   27:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/portmacro.h **** 
   28:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/portmacro.h **** 
-ARM GAS  /tmp/ccOuG2de.s 			page 72
+ARM GAS  /tmp/ccvz1dIV.s 			page 72
 
 
   29:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/portmacro.h **** #ifndef PORTMACRO_H
@@ -4318,7 +4318,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
   83:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/portmacro.h **** 																				\
   84:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/portmacro.h **** 	/* Barriers are normally not required but do ensure the code is completely	\
   85:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/portmacro.h **** 	within the specified behaviour for the architecture. */						\
-ARM GAS  /tmp/ccOuG2de.s 			page 73
+ARM GAS  /tmp/ccvz1dIV.s 			page 73
 
 
   86:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/portmacro.h **** 	__asm volatile( "dsb" ::: "memory" );										\
@@ -4378,7 +4378,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
  140:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/portmacro.h **** 		#error configUSE_PORT_OPTIMISED_TASK_SELECTION can only be set to 1 when configMAX_PRIORITIES is 
  141:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/portmacro.h **** 	#endif
  142:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/portmacro.h **** 
-ARM GAS  /tmp/ccOuG2de.s 			page 74
+ARM GAS  /tmp/ccvz1dIV.s 			page 74
 
 
  143:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/portmacro.h **** 	/* Store/clear the ready priorities in a bit map. */
@@ -4438,7 +4438,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
  197:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/portmacro.h **** 		"	mov %0, %1												\n"	\
  198:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/portmacro.h **** 		"	msr basepri, %0											\n" \
  199:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/portmacro.h **** 		"	isb														\n" \
-ARM GAS  /tmp/ccOuG2de.s 			page 75
+ARM GAS  /tmp/ccvz1dIV.s 			page 75
 
 
  200:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/portmacro.h **** 		"	dsb														\n" \
@@ -4498,7 +4498,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
  1381 0030 9A42     		cmp	r2, r3
  1382 0032 1ED3     		bcc	.L107
  956:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 		{
-ARM GAS  /tmp/ccOuG2de.s 			page 76
+ARM GAS  /tmp/ccvz1dIV.s 			page 76
 
 
  1383              		.loc 1 956 58 discriminator 1 view .LVU403
@@ -4558,7 +4558,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
  1423              	.L116:
  1424              	.LBE46:
  930:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 	configASSERT( !( ( xCopyPosition == queueOVERWRITE ) && ( pxQueue->uxLength != 1 ) ) );
-ARM GAS  /tmp/ccOuG2de.s 			page 77
+ARM GAS  /tmp/ccvz1dIV.s 			page 77
 
 
  1425              		.loc 1 930 2 discriminator 2 view .LVU415
@@ -4618,7 +4618,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
  1468              		.loc 1 971 4 is_stmt 1 view .LVU426
  971:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 			{
  1469              		.loc 1 971 6 is_stmt 0 view .LVU427
-ARM GAS  /tmp/ccOuG2de.s 			page 78
+ARM GAS  /tmp/ccvz1dIV.s 			page 78
 
 
  1470 0082 B7F1FF3F 		cmp	r7, #-1
@@ -4678,7 +4678,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
  1508 00ac 0120     		movs	r0, #1
  1509 00ae C9F80000 		str	r0, [r9]
  1510 00b2 C2E7     		b	.L108
-ARM GAS  /tmp/ccOuG2de.s 			page 79
+ARM GAS  /tmp/ccvz1dIV.s 			page 79
 
 
  1511              	.L112:
@@ -4738,7 +4738,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
  1559              		.loc 1 1090 2 view .LVU451
  1560 0008 236C     		ldr	r3, [r4, #64]
  1561 000a 2BBB     		cbnz	r3, .L134
-ARM GAS  /tmp/ccOuG2de.s 			page 80
+ARM GAS  /tmp/ccvz1dIV.s 			page 80
 
 
  1562              	.L124:
@@ -4798,7 +4798,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
  1603 002e 2FD9     		bls	.L128
  1604              	.LBB53:
 1122:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 
-ARM GAS  /tmp/ccOuG2de.s 			page 81
+ARM GAS  /tmp/ccvz1dIV.s 			page 81
 
 
  1605              		.loc 1 1122 4 is_stmt 1 view .LVU465
@@ -4858,7 +4858,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
  1644              	.LVL161:
 1086:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 
  1645              		.loc 1 1086 2 discriminator 1 view .LVU481
-ARM GAS  /tmp/ccOuG2de.s 			page 82
+ARM GAS  /tmp/ccvz1dIV.s 			page 82
 
 
  1646 0052 FFF7FEFF 		bl	assert_failed
@@ -4918,7 +4918,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
  1689              		.loc 1 1193 7 is_stmt 1 view .LVU492
 1193:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 						{
  1690              		.loc 1 1193 11 is_stmt 0 view .LVU493
-ARM GAS  /tmp/ccOuG2de.s 			page 83
+ARM GAS  /tmp/ccvz1dIV.s 			page 83
 
 
  1691 007e 04F12400 		add	r0, r4, #36
@@ -4978,7 +4978,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
  1733              	.LVL171:
  1734              	.L130:
  1735              	.LBB62:
-ARM GAS  /tmp/ccOuG2de.s 			page 84
+ARM GAS  /tmp/ccvz1dIV.s 			page 84
 
 
  1736              	.LBB55:
@@ -5038,7 +5038,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
  1785              		.loc 1 1246 2 view .LVU514
  1786 0008 0446     		mov	r4, r0
  1787 000a 38B1     		cbz	r0, .L156
-ARM GAS  /tmp/ccOuG2de.s 			page 85
+ARM GAS  /tmp/ccvz1dIV.s 			page 85
 
 
  1788              	.LVL174:
@@ -5098,7 +5098,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
 1250:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 
  1832              		.loc 1 1250 2 is_stmt 0 view .LVU525
  1833              	.LBE64:
-ARM GAS  /tmp/ccOuG2de.s 			page 86
+ARM GAS  /tmp/ccvz1dIV.s 			page 86
 
 
  1834              	.LBB65:
@@ -5158,7 +5158,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
  1873              		.loc 1 1298 12 view .LVU540
  1874              	.LBE66:
 1377:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** /*-----------------------------------------------------------*/
-ARM GAS  /tmp/ccOuG2de.s 			page 87
+ARM GAS  /tmp/ccvz1dIV.s 			page 87
 
 
  1875              		.loc 1 1377 1 view .LVU541
@@ -5218,7 +5218,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
 1308:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 				}
  1919              		.loc 1 1308 13 is_stmt 0 view .LVU552
  1920 0082 0020     		movs	r0, #0
-ARM GAS  /tmp/ccOuG2de.s 			page 88
+ARM GAS  /tmp/ccvz1dIV.s 			page 88
 
 
  1921 0084 EAE7     		b	.L140
@@ -5278,7 +5278,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
 1366:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 			{
  1963              		.loc 1 1366 4 is_stmt 1 view .LVU565
 1366:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 			{
-ARM GAS  /tmp/ccOuG2de.s 			page 89
+ARM GAS  /tmp/ccvz1dIV.s 			page 89
 
 
  1964              		.loc 1 1366 8 is_stmt 0 view .LVU566
@@ -5338,7 +5338,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
  2003              		.loc 1 1329 3 view .LVU581
  2004 00d8 FFF7FEFF 		bl	vTaskSuspendAll
  2005              	.LVL203:
-ARM GAS  /tmp/ccOuG2de.s 			page 90
+ARM GAS  /tmp/ccvz1dIV.s 			page 90
 
 
 1330:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 
@@ -5398,7 +5398,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
  2047              		.loc 1 1341 5 view .LVU594
  2048 011c 2046     		mov	r0, r4
  2049 011e FFF7FEFF 		bl	prvUnlockQueue
-ARM GAS  /tmp/ccOuG2de.s 			page 91
+ARM GAS  /tmp/ccvz1dIV.s 			page 91
 
 
  2050              	.LVL209:
@@ -5458,7 +5458,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
 1381:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** BaseType_t xEntryTimeSet = pdFALSE;
  2098              		.loc 1 1381 1 is_stmt 1 view -0
  2099              		.cfi_startproc
-ARM GAS  /tmp/ccOuG2de.s 			page 92
+ARM GAS  /tmp/ccvz1dIV.s 			page 92
 
 
  2100              		@ args = 0, pretend = 0, frame = 16
@@ -5518,7 +5518,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
  2143              		.loc 1 1391 2 is_stmt 1 discriminator 1 view .LVU614
  2144 001e 40F26F51 		movw	r1, #1391
  2145              	.LVL216:
-ARM GAS  /tmp/ccOuG2de.s 			page 93
+ARM GAS  /tmp/ccvz1dIV.s 			page 93
 
 
 1391:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 
@@ -5578,7 +5578,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
  2187 0046 2368     		ldr	r3, [r4]
  2188              	.LVL223:
 1429:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 					{
-ARM GAS  /tmp/ccOuG2de.s 			page 94
+ARM GAS  /tmp/ccvz1dIV.s 			page 94
 
 
  2189              		.loc 1 1429 8 view .LVU628
@@ -5638,7 +5638,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
 1446:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 					{
  2230              		.loc 1 1446 6 is_stmt 1 view .LVU642
 1446:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 					{
-ARM GAS  /tmp/ccOuG2de.s 			page 95
+ARM GAS  /tmp/ccvz1dIV.s 			page 95
 
 
  2231              		.loc 1 1446 10 is_stmt 0 view .LVU643
@@ -5698,7 +5698,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
  2274 0092 F5E7     		b	.L178
  2275              	.L197:
  2276              	.LBE73:
-ARM GAS  /tmp/ccOuG2de.s 			page 96
+ARM GAS  /tmp/ccvz1dIV.s 			page 96
 
 
 1486:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 					xEntryTimeSet = pdTRUE;
@@ -5758,7 +5758,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
 1548:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 			}
  2319              		.loc 1 1548 5 view .LVU667
 1548:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 			}
-ARM GAS  /tmp/ccOuG2de.s 			page 97
+ARM GAS  /tmp/ccvz1dIV.s 			page 97
 
 
  2320              		.loc 1 1548 14 is_stmt 0 view .LVU668
@@ -5818,7 +5818,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
 1465:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 				{
  2360              		.loc 1 1465 7 view .LVU683
  2361 00ec 002B     		cmp	r3, #0
-ARM GAS  /tmp/ccOuG2de.s 			page 98
+ARM GAS  /tmp/ccvz1dIV.s 			page 98
 
 
  2362 00ee C6D0     		beq	.L196
@@ -5878,7 +5878,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
 1511:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 			{
  2404              		.loc 1 1511 4 is_stmt 1 view .LVU696
 1511:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 			{
-ARM GAS  /tmp/ccOuG2de.s 			page 99
+ARM GAS  /tmp/ccvz1dIV.s 			page 99
 
 
  2405              		.loc 1 1511 8 is_stmt 0 view .LVU697
@@ -5938,7 +5938,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
 1536:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 				}
  2446              		.loc 1 1536 6 view .LVU711
  2447              	@ 1536 "../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c" 1
-ARM GAS  /tmp/ccOuG2de.s 			page 100
+ARM GAS  /tmp/ccvz1dIV.s 			page 100
 
 
  2448 015c BFF36F8F 		isb
@@ -5998,7 +5998,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
  2488 017e F1E7     		b	.L186
  2489              	.L203:
  2490              		.align	2
-ARM GAS  /tmp/ccOuG2de.s 			page 101
+ARM GAS  /tmp/ccvz1dIV.s 			page 101
 
 
  2491              	.L202:
@@ -6058,7 +6058,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
  2538              		.loc 1 1616 3 view .LVU734
  2539 000e FFF7FEFF 		bl	xTaskGetSchedulerState
  2540              	.LVL265:
-ARM GAS  /tmp/ccOuG2de.s 			page 102
+ARM GAS  /tmp/ccvz1dIV.s 			page 102
 
 
  2541 0012 08B9     		cbnz	r0, .L207
@@ -6118,7 +6118,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
  2585 0044 E8E7     		b	.L207
  2586              	.LVL272:
  2587              	.L225:
-ARM GAS  /tmp/ccOuG2de.s 			page 103
+ARM GAS  /tmp/ccvz1dIV.s 			page 103
 
 
 1616:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 	}
@@ -6178,7 +6178,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
  2626              		@ sp needed
  2627 005e 70BD     		pop	{r4, r5, r6, pc}
  2628              	.LVL277:
-ARM GAS  /tmp/ccOuG2de.s 			page 104
+ARM GAS  /tmp/ccvz1dIV.s 			page 104
 
 
  2629              	.L223:
@@ -6238,7 +6238,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
  2671 0088 FFF7FEFF 		bl	vTaskInternalSetTimeOutState
  2672              	.LVL281:
 1684:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 				}
-ARM GAS  /tmp/ccOuG2de.s 			page 105
+ARM GAS  /tmp/ccvz1dIV.s 			page 105
 
 
  2673              		.loc 1 1684 6 view .LVU773
@@ -6298,7 +6298,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
  2714              		.loc 1 1735 6 view .LVU786
  2715 00bc 0028     		cmp	r0, #0
  2716 00be 3DD1     		bne	.L224
-ARM GAS  /tmp/ccOuG2de.s 			page 106
+ARM GAS  /tmp/ccvz1dIV.s 			page 106
 
 
  2717              	.LVL288:
@@ -6358,7 +6358,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
 1699:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 
  2756              		.loc 1 1699 3 view .LVU802
  2757 00e0 94F84430 		ldrb	r3, [r4, #68]	@ zero_extendqisi2
-ARM GAS  /tmp/ccOuG2de.s 			page 107
+ARM GAS  /tmp/ccvz1dIV.s 			page 107
 
 
  2758 00e4 5BB2     		sxtb	r3, r3
@@ -6418,7 +6418,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
  2799              		.loc 1 1711 9 is_stmt 0 view .LVU815
  2800 0122 FFF7FEFF 		bl	xTaskResumeAll
  2801              	.LVL301:
-ARM GAS  /tmp/ccOuG2de.s 			page 108
+ARM GAS  /tmp/ccvz1dIV.s 			page 108
 
 
 1711:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 				{
@@ -6478,7 +6478,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
  2850 0000 2DE9F843 		push	{r3, r4, r5, r6, r7, r8, r9, lr}
  2851              	.LCFI33:
  2852              		.cfi_def_cfa_offset 32
-ARM GAS  /tmp/ccOuG2de.s 			page 109
+ARM GAS  /tmp/ccvz1dIV.s 			page 109
 
 
  2853              		.cfi_offset 3, -32
@@ -6538,7 +6538,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
  223:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/portmacro.h **** }
  2896              		.loc 2 223 2 is_stmt 0 view .LVU835
  2897              		.thumb
-ARM GAS  /tmp/ccOuG2de.s 			page 110
+ARM GAS  /tmp/ccvz1dIV.s 			page 110
 
 
  2898              		.syntax unified
@@ -6598,7 +6598,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
  2940              		.loc 1 1755 2 is_stmt 0 discriminator 1 view .LVU849
  2941 0038 1948     		ldr	r0, .L247
  2942              	.LVL312:
-ARM GAS  /tmp/ccOuG2de.s 			page 111
+ARM GAS  /tmp/ccvz1dIV.s 			page 111
 
 
 1755:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 	configASSERT( !( ( pvBuffer == NULL ) && ( pxQueue->uxItemSize != ( UBaseType_t ) 0U ) ) );
@@ -6658,7 +6658,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
  2984              		.loc 1 1792 4 is_stmt 1 view .LVU862
 1792:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 			{
  2985              		.loc 1 1792 6 is_stmt 0 view .LVU863
-ARM GAS  /tmp/ccOuG2de.s 			page 112
+ARM GAS  /tmp/ccvz1dIV.s 			page 112
 
 
  2986 0066 B8F1FF3F 		cmp	r8, #-1
@@ -6718,7 +6718,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
  3024 0092 3060     		str	r0, [r6]
  3025 0094 CAE7     		b	.L235
  3026              	.L239:
-ARM GAS  /tmp/ccOuG2de.s 			page 113
+ARM GAS  /tmp/ccvz1dIV.s 			page 113
 
 
 1826:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 		}
@@ -6778,7 +6778,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
  3075 0006 A0B1     		cbz	r0, .L256
  3076              	.LVL325:
  3077              	.L250:
-ARM GAS  /tmp/ccOuG2de.s 			page 114
+ARM GAS  /tmp/ccvz1dIV.s 			page 114
 
 
 1848:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 	configASSERT( pxQueue->uxItemSize != 0 ); /* Can't peek a semaphore. */
@@ -6838,7 +6838,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
  3119              	.LVL328:
 1885:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 		}
  3120              		.loc 1 1885 46 is_stmt 1 view .LVU901
-ARM GAS  /tmp/ccOuG2de.s 			page 115
+ARM GAS  /tmp/ccvz1dIV.s 			page 115
 
 
 1888:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 
@@ -6898,7 +6898,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
  3166              	.L258:
 1848:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 	configASSERT( pxQueue->uxItemSize != 0 ); /* Can't peek a semaphore. */
  3167              		.loc 1 1848 2 is_stmt 0 view .LVU913
-ARM GAS  /tmp/ccOuG2de.s 			page 116
+ARM GAS  /tmp/ccvz1dIV.s 			page 116
 
 
  3168              	.LBE97:
@@ -6958,7 +6958,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
  3214              	.LVL340:
  3215              	.LFB18:
 1895:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** UBaseType_t uxReturn;
-ARM GAS  /tmp/ccOuG2de.s 			page 117
+ARM GAS  /tmp/ccvz1dIV.s 			page 117
 
 
  3216              		.loc 1 1895 1 is_stmt 1 view -0
@@ -7018,7 +7018,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
  3259              	.L266:
  3260 0020 00000000 		.word	.LC0
  3261              	.LBE99:
-ARM GAS  /tmp/ccOuG2de.s 			page 118
+ARM GAS  /tmp/ccvz1dIV.s 			page 118
 
 
  3262              		.cfi_endproc
@@ -7078,7 +7078,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
  3307              	.LVL352:
 1922:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 
  3308              		.loc 1 1922 2 is_stmt 1 view .LVU947
-ARM GAS  /tmp/ccOuG2de.s 			page 119
+ARM GAS  /tmp/ccvz1dIV.s 			page 119
 
 
  3309 0010 FFF7FEFF 		bl	vPortExitCritical
@@ -7138,7 +7138,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
  3357 0002 0446     		mov	r4, r0
  3358 0004 08B1     		cbz	r0, .L277
  3359              	.LVL358:
-ARM GAS  /tmp/ccOuG2de.s 			page 120
+ARM GAS  /tmp/ccvz1dIV.s 			page 120
 
 
  3360              	.L275:
@@ -7198,7 +7198,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
 1987:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 
  3407              		.loc 1 1987 2 view .LVU965
  3408 0002 7047     		bx	lr
-ARM GAS  /tmp/ccOuG2de.s 			page 121
+ARM GAS  /tmp/ccvz1dIV.s 			page 121
 
 
  3409              		.cfi_endproc
@@ -7258,7 +7258,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
  3459              	.LFE24:
  3461              		.section	.text.xQueueIsQueueEmptyFromISR,"ax",%progbits
  3462              		.align	1
-ARM GAS  /tmp/ccOuG2de.s 			page 122
+ARM GAS  /tmp/ccvz1dIV.s 			page 122
 
 
  3463              		.global	xQueueIsQueueEmptyFromISR
@@ -7318,7 +7318,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
  3507              	.LVL372:
  3508 0018 F5E7     		b	.L284
  3509              	.L286:
-ARM GAS  /tmp/ccOuG2de.s 			page 123
+ARM GAS  /tmp/ccvz1dIV.s 			page 123
 
 
  3510              	.LBE102:
@@ -7378,7 +7378,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
  3555 0008 E36B     		ldr	r3, [r4, #60]
  3556              		.loc 1 2321 4 view .LVU995
  3557 000a 9A42     		cmp	r2, r3
-ARM GAS  /tmp/ccOuG2de.s 			page 124
+ARM GAS  /tmp/ccvz1dIV.s 			page 124
 
 
  3558 000c 07D0     		beq	.L297
@@ -7438,7 +7438,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
  3600              	.LFB33:
 2332:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** /*-----------------------------------------------------------*/
 2333:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 
-ARM GAS  /tmp/ccOuG2de.s 			page 125
+ARM GAS  /tmp/ccvz1dIV.s 			page 125
 
 
 2334:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** #if ( configUSE_CO_ROUTINES == 1 )
@@ -7498,7 +7498,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
 2388:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 					else
 2389:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 					{
 2390:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 						mtCOVERAGE_TEST_MARKER();
-ARM GAS  /tmp/ccOuG2de.s 			page 126
+ARM GAS  /tmp/ccvz1dIV.s 			page 126
 
 
 2391:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 					}
@@ -7558,7 +7558,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
 2445:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 		}
 2446:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 		portENABLE_INTERRUPTS();
 2447:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 
-ARM GAS  /tmp/ccOuG2de.s 			page 127
+ARM GAS  /tmp/ccvz1dIV.s 			page 127
 
 
 2448:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 		portDISABLE_INTERRUPTS();
@@ -7618,7 +7618,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
 2502:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 
 2503:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 	BaseType_t xQueueCRSendFromISR( QueueHandle_t xQueue, const void *pvItemToQueue, BaseType_t xCoRou
 2504:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 	{
-ARM GAS  /tmp/ccOuG2de.s 			page 128
+ARM GAS  /tmp/ccvz1dIV.s 			page 128
 
 
 2505:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 	Queue_t * const pxQueue = ( Queue_t * ) xQueue;
@@ -7678,7 +7678,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
 2559:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 		{
 2560:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 			/* Copy the data from the queue. */
 2561:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 			pxQueue->u.pcReadFrom += pxQueue->uxItemSize;
-ARM GAS  /tmp/ccOuG2de.s 			page 129
+ARM GAS  /tmp/ccvz1dIV.s 			page 129
 
 
 2562:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 			if( pxQueue->u.pcReadFrom >= pxQueue->pcTail )
@@ -7738,7 +7738,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
  3604              		@ frame_needed = 0, uses_anonymous_args = 0
  3605              		@ link register save eliminated.
 2613:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 	UBaseType_t ux;
-ARM GAS  /tmp/ccOuG2de.s 			page 130
+ARM GAS  /tmp/ccvz1dIV.s 			page 130
 
 
  3606              		.loc 1 2613 2 view .LVU1004
@@ -7798,7 +7798,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
  3634 0016 42F83310 		str	r1, [r2, r3, lsl #3]
 2623:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 
  3635              		.loc 1 2623 5 is_stmt 1 view .LVU1018
-ARM GAS  /tmp/ccOuG2de.s 			page 131
+ARM GAS  /tmp/ccvz1dIV.s 			page 131
 
 
 2623:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 
@@ -7858,7 +7858,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
 2646:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 		removing entries from the registry while it is being searched. */
 2647:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 		for( ux = ( UBaseType_t ) 0U; ux < ( UBaseType_t ) configQUEUE_REGISTRY_SIZE; ux++ )
  3673              		.loc 1 2647 3 view .LVU1027
-ARM GAS  /tmp/ccOuG2de.s 			page 132
+ARM GAS  /tmp/ccvz1dIV.s 			page 132
 
 
  3674              		.loc 1 2647 11 is_stmt 0 view .LVU1028
@@ -7918,7 +7918,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
  3708 001e 0020     		movs	r0, #0
  3709              	.LVL390:
 2657:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 			}
-ARM GAS  /tmp/ccOuG2de.s 			page 133
+ARM GAS  /tmp/ccvz1dIV.s 			page 133
 
 
 2658:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 		}
@@ -7978,7 +7978,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
 2680:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 
 2681:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 				/* Set the handle to NULL to ensure the same queue handle cannot
 2682:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 				appear in the registry twice if it is added, removed, then
-ARM GAS  /tmp/ccOuG2de.s 			page 134
+ARM GAS  /tmp/ccvz1dIV.s 			page 134
 
 
 2683:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 				added again. */
@@ -8038,7 +8038,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
 2691:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 		}
 2692:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 
 2693:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 	} /*lint !e818 xQueue could not be pointer to const because it is a typedef. */
-ARM GAS  /tmp/ccOuG2de.s 			page 135
+ARM GAS  /tmp/ccvz1dIV.s 			page 135
 
 
  3777              		.loc 1 2693 2 is_stmt 0 view .LVU1063
@@ -8098,7 +8098,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
  3825              	.LVL401:
  3826              	.L327:
  3827              	.LBB104:
-ARM GAS  /tmp/ccOuG2de.s 			page 136
+ARM GAS  /tmp/ccvz1dIV.s 			page 136
 
 
 1944:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 	traceQUEUE_DELETE( pxQueue );
@@ -8158,7 +8158,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
 2704:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 		/* This function should not be called by application code hence the
 2705:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 		'Restricted' in its name.  It is not part of the public API.  It is
 2706:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 		designed for use by kernel code, and has special calling requirements.
-ARM GAS  /tmp/ccOuG2de.s 			page 137
+ARM GAS  /tmp/ccvz1dIV.s 			page 137
 
 
 2707:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 		It can result in vListInsert() being called on a list that can only
@@ -8218,7 +8218,7 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
  3903              	.LVL409:
  3904              	.L335:
 2718:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/queue.c **** 		if( pxQueue->uxMessagesWaiting == ( UBaseType_t ) 0U )
-ARM GAS  /tmp/ccOuG2de.s 			page 138
+ARM GAS  /tmp/ccvz1dIV.s 			page 138
 
 
  3905              		.loc 1 2718 3 is_stmt 1 discriminator 1 view .LVU1087
@@ -8258,99 +8258,99 @@ ARM GAS  /tmp/ccOuG2de.s 			page 1
  3938              		.file 13 "../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/include/queue.h"
  3939              		.file 14 "../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/include/portable.h"
  3940              		.file 15 "<built-in>"
-ARM GAS  /tmp/ccOuG2de.s 			page 139
+ARM GAS  /tmp/ccvz1dIV.s 			page 139
 
 
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 queue.c
-     /tmp/ccOuG2de.s:18     .text.prvGetDisinheritPriorityAfterTimeout:0000000000000000 $t
-     /tmp/ccOuG2de.s:25     .text.prvGetDisinheritPriorityAfterTimeout:0000000000000000 prvGetDisinheritPriorityAfterTimeout
-     /tmp/ccOuG2de.s:60     .text.prvIsQueueFull:0000000000000000 $t
-     /tmp/ccOuG2de.s:66     .text.prvIsQueueFull:0000000000000000 prvIsQueueFull
-     /tmp/ccOuG2de.s:114    .text.prvIsQueueEmpty:0000000000000000 $t
-     /tmp/ccOuG2de.s:120    .text.prvIsQueueEmpty:0000000000000000 prvIsQueueEmpty
-     /tmp/ccOuG2de.s:165    .text.prvCopyDataToQueue:0000000000000000 $t
-     /tmp/ccOuG2de.s:171    .text.prvCopyDataToQueue:0000000000000000 prvCopyDataToQueue
-     /tmp/ccOuG2de.s:328    .text.prvCopyDataFromQueue:0000000000000000 $t
-     /tmp/ccOuG2de.s:334    .text.prvCopyDataFromQueue:0000000000000000 prvCopyDataFromQueue
-     /tmp/ccOuG2de.s:395    .text.prvUnlockQueue:0000000000000000 $t
-     /tmp/ccOuG2de.s:401    .text.prvUnlockQueue:0000000000000000 prvUnlockQueue
-     /tmp/ccOuG2de.s:528    .rodata.xQueueGenericReset.str1.4:0000000000000000 $d
-     /tmp/ccOuG2de.s:533    .text.xQueueGenericReset:0000000000000000 $t
-     /tmp/ccOuG2de.s:540    .text.xQueueGenericReset:0000000000000000 xQueueGenericReset
-     /tmp/ccOuG2de.s:668    .text.xQueueGenericReset:0000000000000078 $d
-     /tmp/ccOuG2de.s:674    .text.prvInitialiseNewQueue:0000000000000000 $t
-     /tmp/ccOuG2de.s:680    .text.prvInitialiseNewQueue:0000000000000000 prvInitialiseNewQueue
-     /tmp/ccOuG2de.s:740    .text.xQueueGenericCreate:0000000000000000 $t
-     /tmp/ccOuG2de.s:747    .text.xQueueGenericCreate:0000000000000000 xQueueGenericCreate
-     /tmp/ccOuG2de.s:844    .text.xQueueGenericCreate:0000000000000044 $d
-     /tmp/ccOuG2de.s:849    .text.xQueueGenericSend:0000000000000000 $t
-     /tmp/ccOuG2de.s:856    .text.xQueueGenericSend:0000000000000000 xQueueGenericSend
-     /tmp/ccOuG2de.s:1197   .text.xQueueGenericSend:0000000000000160 $d
-     /tmp/ccOuG2de.s:1203   .text.prvInitialiseMutex:0000000000000000 $t
-     /tmp/ccOuG2de.s:1209   .text.prvInitialiseMutex:0000000000000000 prvInitialiseMutex
-     /tmp/ccOuG2de.s:1257   .text.xQueueCreateMutex:0000000000000000 $t
-     /tmp/ccOuG2de.s:1264   .text.xQueueCreateMutex:0000000000000000 xQueueCreateMutex
-     /tmp/ccOuG2de.s:1303   .text.xQueueGenericSendFromISR:0000000000000000 $t
-     /tmp/ccOuG2de.s:1310   .text.xQueueGenericSendFromISR:0000000000000000 xQueueGenericSendFromISR
-     /tmp/ccOuG2de.s:1521   .text.xQueueGenericSendFromISR:00000000000000bc $d
-     /tmp/ccOuG2de.s:1527   .text.xQueueGiveFromISR:0000000000000000 $t
-     /tmp/ccOuG2de.s:1534   .text.xQueueGiveFromISR:0000000000000000 xQueueGiveFromISR
-     /tmp/ccOuG2de.s:1746   .text.xQueueGiveFromISR:00000000000000a0 $d
-     /tmp/ccOuG2de.s:1753   .text.xQueueReceive:0000000000000000 $t
-     /tmp/ccOuG2de.s:1760   .text.xQueueReceive:0000000000000000 xQueueReceive
-     /tmp/ccOuG2de.s:2082   .text.xQueueReceive:0000000000000140 $d
-     /tmp/ccOuG2de.s:2088   .text.xQueueSemaphoreTake:0000000000000000 $t
-     /tmp/ccOuG2de.s:2095   .text.xQueueSemaphoreTake:0000000000000000 xQueueSemaphoreTake
-     /tmp/ccOuG2de.s:2492   .text.xQueueSemaphoreTake:0000000000000180 $d
-     /tmp/ccOuG2de.s:2498   .text.xQueuePeek:0000000000000000 $t
-     /tmp/ccOuG2de.s:2505   .text.xQueuePeek:0000000000000000 xQueuePeek
-     /tmp/ccOuG2de.s:2829   .text.xQueuePeek:0000000000000140 $d
-     /tmp/ccOuG2de.s:2835   .text.xQueueReceiveFromISR:0000000000000000 $t
-     /tmp/ccOuG2de.s:2842   .text.xQueueReceiveFromISR:0000000000000000 xQueueReceiveFromISR
-     /tmp/ccOuG2de.s:3036   .text.xQueueReceiveFromISR:00000000000000a0 $d
-     /tmp/ccOuG2de.s:3043   .text.xQueuePeekFromISR:0000000000000000 $t
-     /tmp/ccOuG2de.s:3050   .text.xQueuePeekFromISR:0000000000000000 xQueuePeekFromISR
-     /tmp/ccOuG2de.s:3201   .text.xQueuePeekFromISR:000000000000006c $d
-     /tmp/ccOuG2de.s:3206   .text.uxQueueMessagesWaiting:0000000000000000 $t
-     /tmp/ccOuG2de.s:3213   .text.uxQueueMessagesWaiting:0000000000000000 uxQueueMessagesWaiting
-     /tmp/ccOuG2de.s:3260   .text.uxQueueMessagesWaiting:0000000000000020 $d
-     /tmp/ccOuG2de.s:3266   .text.uxQueueSpacesAvailable:0000000000000000 $t
-     /tmp/ccOuG2de.s:3273   .text.uxQueueSpacesAvailable:0000000000000000 uxQueueSpacesAvailable
-     /tmp/ccOuG2de.s:3329   .text.uxQueueSpacesAvailable:0000000000000024 $d
-ARM GAS  /tmp/ccOuG2de.s 			page 140
+     /tmp/ccvz1dIV.s:18     .text.prvGetDisinheritPriorityAfterTimeout:0000000000000000 $t
+     /tmp/ccvz1dIV.s:25     .text.prvGetDisinheritPriorityAfterTimeout:0000000000000000 prvGetDisinheritPriorityAfterTimeout
+     /tmp/ccvz1dIV.s:60     .text.prvIsQueueFull:0000000000000000 $t
+     /tmp/ccvz1dIV.s:66     .text.prvIsQueueFull:0000000000000000 prvIsQueueFull
+     /tmp/ccvz1dIV.s:114    .text.prvIsQueueEmpty:0000000000000000 $t
+     /tmp/ccvz1dIV.s:120    .text.prvIsQueueEmpty:0000000000000000 prvIsQueueEmpty
+     /tmp/ccvz1dIV.s:165    .text.prvCopyDataToQueue:0000000000000000 $t
+     /tmp/ccvz1dIV.s:171    .text.prvCopyDataToQueue:0000000000000000 prvCopyDataToQueue
+     /tmp/ccvz1dIV.s:328    .text.prvCopyDataFromQueue:0000000000000000 $t
+     /tmp/ccvz1dIV.s:334    .text.prvCopyDataFromQueue:0000000000000000 prvCopyDataFromQueue
+     /tmp/ccvz1dIV.s:395    .text.prvUnlockQueue:0000000000000000 $t
+     /tmp/ccvz1dIV.s:401    .text.prvUnlockQueue:0000000000000000 prvUnlockQueue
+     /tmp/ccvz1dIV.s:528    .rodata.xQueueGenericReset.str1.4:0000000000000000 $d
+     /tmp/ccvz1dIV.s:533    .text.xQueueGenericReset:0000000000000000 $t
+     /tmp/ccvz1dIV.s:540    .text.xQueueGenericReset:0000000000000000 xQueueGenericReset
+     /tmp/ccvz1dIV.s:668    .text.xQueueGenericReset:0000000000000078 $d
+     /tmp/ccvz1dIV.s:674    .text.prvInitialiseNewQueue:0000000000000000 $t
+     /tmp/ccvz1dIV.s:680    .text.prvInitialiseNewQueue:0000000000000000 prvInitialiseNewQueue
+     /tmp/ccvz1dIV.s:740    .text.xQueueGenericCreate:0000000000000000 $t
+     /tmp/ccvz1dIV.s:747    .text.xQueueGenericCreate:0000000000000000 xQueueGenericCreate
+     /tmp/ccvz1dIV.s:844    .text.xQueueGenericCreate:0000000000000044 $d
+     /tmp/ccvz1dIV.s:849    .text.xQueueGenericSend:0000000000000000 $t
+     /tmp/ccvz1dIV.s:856    .text.xQueueGenericSend:0000000000000000 xQueueGenericSend
+     /tmp/ccvz1dIV.s:1197   .text.xQueueGenericSend:0000000000000160 $d
+     /tmp/ccvz1dIV.s:1203   .text.prvInitialiseMutex:0000000000000000 $t
+     /tmp/ccvz1dIV.s:1209   .text.prvInitialiseMutex:0000000000000000 prvInitialiseMutex
+     /tmp/ccvz1dIV.s:1257   .text.xQueueCreateMutex:0000000000000000 $t
+     /tmp/ccvz1dIV.s:1264   .text.xQueueCreateMutex:0000000000000000 xQueueCreateMutex
+     /tmp/ccvz1dIV.s:1303   .text.xQueueGenericSendFromISR:0000000000000000 $t
+     /tmp/ccvz1dIV.s:1310   .text.xQueueGenericSendFromISR:0000000000000000 xQueueGenericSendFromISR
+     /tmp/ccvz1dIV.s:1521   .text.xQueueGenericSendFromISR:00000000000000bc $d
+     /tmp/ccvz1dIV.s:1527   .text.xQueueGiveFromISR:0000000000000000 $t
+     /tmp/ccvz1dIV.s:1534   .text.xQueueGiveFromISR:0000000000000000 xQueueGiveFromISR
+     /tmp/ccvz1dIV.s:1746   .text.xQueueGiveFromISR:00000000000000a0 $d
+     /tmp/ccvz1dIV.s:1753   .text.xQueueReceive:0000000000000000 $t
+     /tmp/ccvz1dIV.s:1760   .text.xQueueReceive:0000000000000000 xQueueReceive
+     /tmp/ccvz1dIV.s:2082   .text.xQueueReceive:0000000000000140 $d
+     /tmp/ccvz1dIV.s:2088   .text.xQueueSemaphoreTake:0000000000000000 $t
+     /tmp/ccvz1dIV.s:2095   .text.xQueueSemaphoreTake:0000000000000000 xQueueSemaphoreTake
+     /tmp/ccvz1dIV.s:2492   .text.xQueueSemaphoreTake:0000000000000180 $d
+     /tmp/ccvz1dIV.s:2498   .text.xQueuePeek:0000000000000000 $t
+     /tmp/ccvz1dIV.s:2505   .text.xQueuePeek:0000000000000000 xQueuePeek
+     /tmp/ccvz1dIV.s:2829   .text.xQueuePeek:0000000000000140 $d
+     /tmp/ccvz1dIV.s:2835   .text.xQueueReceiveFromISR:0000000000000000 $t
+     /tmp/ccvz1dIV.s:2842   .text.xQueueReceiveFromISR:0000000000000000 xQueueReceiveFromISR
+     /tmp/ccvz1dIV.s:3036   .text.xQueueReceiveFromISR:00000000000000a0 $d
+     /tmp/ccvz1dIV.s:3043   .text.xQueuePeekFromISR:0000000000000000 $t
+     /tmp/ccvz1dIV.s:3050   .text.xQueuePeekFromISR:0000000000000000 xQueuePeekFromISR
+     /tmp/ccvz1dIV.s:3201   .text.xQueuePeekFromISR:000000000000006c $d
+     /tmp/ccvz1dIV.s:3206   .text.uxQueueMessagesWaiting:0000000000000000 $t
+     /tmp/ccvz1dIV.s:3213   .text.uxQueueMessagesWaiting:0000000000000000 uxQueueMessagesWaiting
+     /tmp/ccvz1dIV.s:3260   .text.uxQueueMessagesWaiting:0000000000000020 $d
+     /tmp/ccvz1dIV.s:3266   .text.uxQueueSpacesAvailable:0000000000000000 $t
+     /tmp/ccvz1dIV.s:3273   .text.uxQueueSpacesAvailable:0000000000000000 uxQueueSpacesAvailable
+     /tmp/ccvz1dIV.s:3329   .text.uxQueueSpacesAvailable:0000000000000024 $d
+ARM GAS  /tmp/ccvz1dIV.s 			page 140
 
 
-     /tmp/ccOuG2de.s:3335   .text.uxQueueMessagesWaitingFromISR:0000000000000000 $t
-     /tmp/ccOuG2de.s:3342   .text.uxQueueMessagesWaitingFromISR:0000000000000000 uxQueueMessagesWaitingFromISR
-     /tmp/ccOuG2de.s:3382   .text.uxQueueMessagesWaitingFromISR:0000000000000018 $d
-     /tmp/ccOuG2de.s:3388   .text.uxQueueGetQueueNumber:0000000000000000 $t
-     /tmp/ccOuG2de.s:3395   .text.uxQueueGetQueueNumber:0000000000000000 uxQueueGetQueueNumber
-     /tmp/ccOuG2de.s:3413   .text.vQueueSetQueueNumber:0000000000000000 $t
-     /tmp/ccOuG2de.s:3420   .text.vQueueSetQueueNumber:0000000000000000 vQueueSetQueueNumber
-     /tmp/ccOuG2de.s:3437   .text.ucQueueGetQueueType:0000000000000000 $t
-     /tmp/ccOuG2de.s:3444   .text.ucQueueGetQueueType:0000000000000000 ucQueueGetQueueType
-     /tmp/ccOuG2de.s:3462   .text.xQueueIsQueueEmptyFromISR:0000000000000000 $t
-     /tmp/ccOuG2de.s:3469   .text.xQueueIsQueueEmptyFromISR:0000000000000000 xQueueIsQueueEmptyFromISR
-     /tmp/ccOuG2de.s:3520   .text.xQueueIsQueueEmptyFromISR:0000000000000020 $d
-     /tmp/ccOuG2de.s:3525   .text.xQueueIsQueueFullFromISR:0000000000000000 $t
-     /tmp/ccOuG2de.s:3532   .text.xQueueIsQueueFullFromISR:0000000000000000 xQueueIsQueueFullFromISR
-     /tmp/ccOuG2de.s:3586   .text.xQueueIsQueueFullFromISR:0000000000000024 $d
-     /tmp/ccOuG2de.s:3591   .text.vQueueAddToRegistry:0000000000000000 $t
-     /tmp/ccOuG2de.s:3598   .text.vQueueAddToRegistry:0000000000000000 vQueueAddToRegistry
-     /tmp/ccOuG2de.s:3651   .text.vQueueAddToRegistry:0000000000000024 $d
+     /tmp/ccvz1dIV.s:3335   .text.uxQueueMessagesWaitingFromISR:0000000000000000 $t
+     /tmp/ccvz1dIV.s:3342   .text.uxQueueMessagesWaitingFromISR:0000000000000000 uxQueueMessagesWaitingFromISR
+     /tmp/ccvz1dIV.s:3382   .text.uxQueueMessagesWaitingFromISR:0000000000000018 $d
+     /tmp/ccvz1dIV.s:3388   .text.uxQueueGetQueueNumber:0000000000000000 $t
+     /tmp/ccvz1dIV.s:3395   .text.uxQueueGetQueueNumber:0000000000000000 uxQueueGetQueueNumber
+     /tmp/ccvz1dIV.s:3413   .text.vQueueSetQueueNumber:0000000000000000 $t
+     /tmp/ccvz1dIV.s:3420   .text.vQueueSetQueueNumber:0000000000000000 vQueueSetQueueNumber
+     /tmp/ccvz1dIV.s:3437   .text.ucQueueGetQueueType:0000000000000000 $t
+     /tmp/ccvz1dIV.s:3444   .text.ucQueueGetQueueType:0000000000000000 ucQueueGetQueueType
+     /tmp/ccvz1dIV.s:3462   .text.xQueueIsQueueEmptyFromISR:0000000000000000 $t
+     /tmp/ccvz1dIV.s:3469   .text.xQueueIsQueueEmptyFromISR:0000000000000000 xQueueIsQueueEmptyFromISR
+     /tmp/ccvz1dIV.s:3520   .text.xQueueIsQueueEmptyFromISR:0000000000000020 $d
+     /tmp/ccvz1dIV.s:3525   .text.xQueueIsQueueFullFromISR:0000000000000000 $t
+     /tmp/ccvz1dIV.s:3532   .text.xQueueIsQueueFullFromISR:0000000000000000 xQueueIsQueueFullFromISR
+     /tmp/ccvz1dIV.s:3586   .text.xQueueIsQueueFullFromISR:0000000000000024 $d
+     /tmp/ccvz1dIV.s:3591   .text.vQueueAddToRegistry:0000000000000000 $t
+     /tmp/ccvz1dIV.s:3598   .text.vQueueAddToRegistry:0000000000000000 vQueueAddToRegistry
+     /tmp/ccvz1dIV.s:3651   .text.vQueueAddToRegistry:0000000000000024 $d
                             *COM*:0000000000000040 xQueueRegistry
-     /tmp/ccOuG2de.s:3656   .text.pcQueueGetName:0000000000000000 $t
-     /tmp/ccOuG2de.s:3663   .text.pcQueueGetName:0000000000000000 pcQueueGetName
-     /tmp/ccOuG2de.s:3716   .text.pcQueueGetName:0000000000000024 $d
-     /tmp/ccOuG2de.s:3721   .text.vQueueUnregisterQueue:0000000000000000 $t
-     /tmp/ccOuG2de.s:3728   .text.vQueueUnregisterQueue:0000000000000000 vQueueUnregisterQueue
-     /tmp/ccOuG2de.s:3782   .text.vQueueUnregisterQueue:0000000000000028 $d
-     /tmp/ccOuG2de.s:3787   .text.vQueueDelete:0000000000000000 $t
-     /tmp/ccOuG2de.s:3794   .text.vQueueDelete:0000000000000000 vQueueDelete
-     /tmp/ccOuG2de.s:3839   .text.vQueueDelete:0000000000000020 $d
-     /tmp/ccOuG2de.s:3845   .text.vQueueWaitForMessageRestricted:0000000000000000 $t
-     /tmp/ccOuG2de.s:3852   .text.vQueueWaitForMessageRestricted:0000000000000000 vQueueWaitForMessageRestricted
+     /tmp/ccvz1dIV.s:3656   .text.pcQueueGetName:0000000000000000 $t
+     /tmp/ccvz1dIV.s:3663   .text.pcQueueGetName:0000000000000000 pcQueueGetName
+     /tmp/ccvz1dIV.s:3716   .text.pcQueueGetName:0000000000000024 $d
+     /tmp/ccvz1dIV.s:3721   .text.vQueueUnregisterQueue:0000000000000000 $t
+     /tmp/ccvz1dIV.s:3728   .text.vQueueUnregisterQueue:0000000000000000 vQueueUnregisterQueue
+     /tmp/ccvz1dIV.s:3782   .text.vQueueUnregisterQueue:0000000000000028 $d
+     /tmp/ccvz1dIV.s:3787   .text.vQueueDelete:0000000000000000 $t
+     /tmp/ccvz1dIV.s:3794   .text.vQueueDelete:0000000000000000 vQueueDelete
+     /tmp/ccvz1dIV.s:3839   .text.vQueueDelete:0000000000000020 $d
+     /tmp/ccvz1dIV.s:3845   .text.vQueueWaitForMessageRestricted:0000000000000000 $t
+     /tmp/ccvz1dIV.s:3852   .text.vQueueWaitForMessageRestricted:0000000000000000 vQueueWaitForMessageRestricted
 
 UNDEFINED SYMBOLS
 vPortEnterCritical

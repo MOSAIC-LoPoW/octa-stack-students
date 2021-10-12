@@ -1,4 +1,4 @@
-ARM GAS  /tmp/ccBUnLan.s 			page 1
+ARM GAS  /tmp/cc93n6xu.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  /tmp/ccBUnLan.s 			page 1
   51              		.cfi_offset 14, -20
   52 0004 83B0     		sub	sp, sp, #12
   53              	.LCFI2:
-ARM GAS  /tmp/ccBUnLan.s 			page 2
+ARM GAS  /tmp/cc93n6xu.s 			page 2
 
 
   54              		.cfi_def_cfa_offset 40
@@ -118,7 +118,7 @@ ARM GAS  /tmp/ccBUnLan.s 			page 1
  102              		.global	printERR
  103              		.syntax unified
  104              		.thumb
-ARM GAS  /tmp/ccBUnLan.s 			page 3
+ARM GAS  /tmp/cc93n6xu.s 			page 3
 
 
  105              		.thumb_func
@@ -178,7 +178,7 @@ ARM GAS  /tmp/ccBUnLan.s 			page 1
  151              		@ sp needed
  152 001e BDE83040 		pop	{r4, r5, lr}
  153              	.LCFI10:
-ARM GAS  /tmp/ccBUnLan.s 			page 4
+ARM GAS  /tmp/cc93n6xu.s 			page 4
 
 
  154              		.cfi_restore 14
@@ -238,7 +238,7 @@ ARM GAS  /tmp/ccBUnLan.s 			page 1
  206 0004 83B0     		sub	sp, sp, #12
  207              	.LCFI14:
  208              		.cfi_def_cfa_offset 40
-ARM GAS  /tmp/ccBUnLan.s 			page 5
+ARM GAS  /tmp/cc93n6xu.s 			page 5
 
 
  209 0006 06AC     		add	r4, sp, #24
@@ -294,23 +294,23 @@ ARM GAS  /tmp/ccBUnLan.s 			page 1
  251              	.Letext0:
  252              		.file 2 "/home/matsdm/gcc-arm-none-eabi-9-2019-q4-major-x86_64-linux/gcc-arm-none-eabi-9-2019-q4-m
  253              		.file 3 "<built-in>"
-ARM GAS  /tmp/ccBUnLan.s 			page 6
+ARM GAS  /tmp/cc93n6xu.s 			page 6
 
 
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 print.c
-     /tmp/ccBUnLan.s:18     .rodata.printINF.str1.4:0000000000000000 $d
-     /tmp/ccBUnLan.s:22     .text.printINF:0000000000000000 $t
-     /tmp/ccBUnLan.s:30     .text.printINF:0000000000000000 printINF
-     /tmp/ccBUnLan.s:92     .text.printINF:0000000000000028 $d
-     /tmp/ccBUnLan.s:97     .rodata.printERR.str1.4:0000000000000000 $d
-     /tmp/ccBUnLan.s:101    .text.printERR:0000000000000000 $t
-     /tmp/ccBUnLan.s:108    .text.printERR:0000000000000000 printERR
-     /tmp/ccBUnLan.s:169    .text.printERR:0000000000000028 $d
-     /tmp/ccBUnLan.s:174    .rodata.printDBG.str1.4:0000000000000000 $d
-     /tmp/ccBUnLan.s:178    .text.printDBG:0000000000000000 $t
-     /tmp/ccBUnLan.s:185    .text.printDBG:0000000000000000 printDBG
-     /tmp/ccBUnLan.s:246    .text.printDBG:0000000000000028 $d
+     /tmp/cc93n6xu.s:18     .rodata.printINF.str1.4:0000000000000000 $d
+     /tmp/cc93n6xu.s:22     .text.printINF:0000000000000000 $t
+     /tmp/cc93n6xu.s:30     .text.printINF:0000000000000000 printINF
+     /tmp/cc93n6xu.s:92     .text.printINF:0000000000000028 $d
+     /tmp/cc93n6xu.s:97     .rodata.printERR.str1.4:0000000000000000 $d
+     /tmp/cc93n6xu.s:101    .text.printERR:0000000000000000 $t
+     /tmp/cc93n6xu.s:108    .text.printERR:0000000000000000 printERR
+     /tmp/cc93n6xu.s:169    .text.printERR:0000000000000028 $d
+     /tmp/cc93n6xu.s:174    .rodata.printDBG.str1.4:0000000000000000 $d
+     /tmp/cc93n6xu.s:178    .text.printDBG:0000000000000000 $t
+     /tmp/cc93n6xu.s:185    .text.printDBG:0000000000000000 printDBG
+     /tmp/cc93n6xu.s:246    .text.printDBG:0000000000000028 $d
 
 UNDEFINED SYMBOLS
 printf

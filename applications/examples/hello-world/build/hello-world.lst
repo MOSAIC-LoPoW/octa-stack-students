@@ -1,4 +1,4 @@
-ARM GAS  /tmp/cczH0Ndb.s 			page 1
+ARM GAS  /tmp/ccaHPlF4.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  /tmp/cczH0Ndb.s 			page 1
   22:../../../applications/examples/hello-world/src/hello-world.c ****   {
   23:../../../applications/examples/hello-world/src/hello-world.c ****   }
   24:../../../applications/examples/hello-world/src/hello-world.c **** }
-ARM GAS  /tmp/cczH0Ndb.s 			page 2
+ARM GAS  /tmp/ccaHPlF4.s 			page 2
 
 
   25:../../../applications/examples/hello-world/src/hello-world.c **** 
@@ -118,7 +118,7 @@ ARM GAS  /tmp/cczH0Ndb.s 			page 1
   80 0004 FFF7FEFF 		bl	Initialize_Platform
   81              	.LVL3:
    7:../../../applications/examples/hello-world/src/hello-world.c ****   defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
-ARM GAS  /tmp/cczH0Ndb.s 			page 3
+ARM GAS  /tmp/ccaHPlF4.s 			page 3
 
 
   82              		.loc 1 7 3 view .LVU7
@@ -178,7 +178,7 @@ ARM GAS  /tmp/cczH0Ndb.s 			page 1
  125 0048 FF20     		movs	r0, #255
  126 004a FFF7FEFF 		bl	OCTA_LED_set_rgb
  127              	.LVL9:
-ARM GAS  /tmp/cczH0Ndb.s 			page 4
+ARM GAS  /tmp/ccaHPlF4.s 			page 4
 
 
   19:../../../applications/examples/hello-world/src/hello-world.c **** 
@@ -238,7 +238,7 @@ ARM GAS  /tmp/cczH0Ndb.s 			page 1
  179              		.comm	FTDI_UART,120,4
  180              		.comm	BLE_UART,120,4
  181              		.comm	USB_UART,120,4
-ARM GAS  /tmp/cczH0Ndb.s 			page 5
+ARM GAS  /tmp/ccaHPlF4.s 			page 5
 
 
  182              		.comm	hiwdg,16,4
@@ -298,7 +298,7 @@ ARM GAS  /tmp/cczH0Ndb.s 			page 1
  236              		.file 23 "../../../core/platform/octa/inc/i2c.h"
  237              		.file 24 "../../../core/platform/octa/inc/spi.h"
  238              		.file 25 "../../../core/platform/octa/inc/rtc.h"
-ARM GAS  /tmp/cczH0Ndb.s 			page 6
+ARM GAS  /tmp/ccaHPlF4.s 			page 6
 
 
  239              		.file 26 "../../../core/platform/octa/inc/rtosincludes.h"
@@ -310,17 +310,17 @@ ARM GAS  /tmp/cczH0Ndb.s 			page 1
  245              		.file 32 "../../../core/platform/octa/inc/platform.h"
  246              		.file 33 "../../../applications/examples/hello-world/inc/hello-world.h"
  247              		.file 34 "../../../core/platform/octa/inc/leds.h"
-ARM GAS  /tmp/cczH0Ndb.s 			page 7
+ARM GAS  /tmp/ccaHPlF4.s 			page 7
 
 
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 hello-world.c
-     /tmp/cczH0Ndb.s:15     .rodata.str1.4:0000000000000000 $d
-     /tmp/cczH0Ndb.s:22     .text.StartDefaultTask:0000000000000000 $t
-     /tmp/cczH0Ndb.s:30     .text.StartDefaultTask:0000000000000000 StartDefaultTask
-     /tmp/cczH0Ndb.s:58     .text.main:0000000000000000 $t
-     /tmp/cczH0Ndb.s:65     .text.main:0000000000000000 main
-     /tmp/cczH0Ndb.s:139    .text.main:0000000000000054 $d
+     /tmp/ccaHPlF4.s:15     .rodata.str1.4:0000000000000000 $d
+     /tmp/ccaHPlF4.s:22     .text.StartDefaultTask:0000000000000000 $t
+     /tmp/ccaHPlF4.s:30     .text.StartDefaultTask:0000000000000000 StartDefaultTask
+     /tmp/ccaHPlF4.s:58     .text.main:0000000000000000 $t
+     /tmp/ccaHPlF4.s:65     .text.main:0000000000000000 main
+     /tmp/ccaHPlF4.s:139    .text.main:0000000000000054 $d
                             *COM*:0000000000000004 defaultTaskHandle
                             *COM*:0000000000000004 iwdgTimId
                             *COM*:000000000000002c P3_header
@@ -370,7 +370,7 @@ DEFINED SYMBOLS
                             *COM*:0000000000000008 P2_DIO3
                             *COM*:0000000000000008 P2_DIO2
                             *COM*:0000000000000008 P2_DIO1
-ARM GAS  /tmp/cczH0Ndb.s 			page 8
+ARM GAS  /tmp/ccaHPlF4.s 			page 8
 
 
                             *COM*:0000000000000008 P1_DIO6
@@ -381,7 +381,7 @@ DEFINED SYMBOLS
                             *COM*:0000000000000008 P1_DIO1
                             *COM*:0000000000000040 htim6
                             *COM*:0000000000000040 htim1
-     /tmp/cczH0Ndb.s:204    .rodata:0000000000000000 $d
+     /tmp/ccaHPlF4.s:204    .rodata:0000000000000000 $d
 
 UNDEFINED SYMBOLS
 osDelay

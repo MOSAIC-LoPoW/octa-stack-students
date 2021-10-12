@@ -1,4 +1,4 @@
-ARM GAS  /tmp/ccoGimKG.s 			page 1
+ARM GAS  /tmp/cc5rF50R.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  /tmp/ccoGimKG.s 			page 1
   28:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_crc.c ****              (default or non-default) to initiate CRC calculation
   29:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_crc.c **** 
   30:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_crc.c ****   @endverbatim
-ARM GAS  /tmp/ccoGimKG.s 			page 2
+ARM GAS  /tmp/cc5rF50R.s 			page 2
 
 
   31:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_crc.c ****   ******************************************************************************
@@ -118,7 +118,7 @@ ARM GAS  /tmp/ccoGimKG.s 			page 1
   85:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_crc.c **** /**
   86:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_crc.c ****   * @}
   87:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_crc.c ****   */
-ARM GAS  /tmp/ccoGimKG.s 			page 3
+ARM GAS  /tmp/cc5rF50R.s 			page 3
 
 
   88:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_crc.c **** 
@@ -178,7 +178,7 @@ ARM GAS  /tmp/ccoGimKG.s 			page 1
  142:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_crc.c ****   assert_param(IS_DEFAULT_POLYNOMIAL(hcrc->Init.DefaultPolynomialUse));
  143:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_crc.c ****   if (hcrc->Init.DefaultPolynomialUse == DEFAULT_POLYNOMIAL_ENABLE)
  144:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_crc.c ****   {
-ARM GAS  /tmp/ccoGimKG.s 			page 4
+ARM GAS  /tmp/cc5rF50R.s 			page 4
 
 
  145:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_crc.c ****     /* initialize IP with default generating polynomial */
@@ -238,7 +238,7 @@ ARM GAS  /tmp/ccoGimKG.s 			page 1
  199:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_crc.c ****   {
  200:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_crc.c ****     return HAL_ERROR;
  201:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_crc.c ****   }
-ARM GAS  /tmp/ccoGimKG.s 			page 5
+ARM GAS  /tmp/cc5rF50R.s 			page 5
 
 
  202:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_crc.c **** 
@@ -298,7 +298,7 @@ ARM GAS  /tmp/ccoGimKG.s 			page 1
  256:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_crc.c ****   /* Prevent unused argument(s) compilation warning */
  257:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_crc.c ****   UNUSED(hcrc);
  258:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_crc.c **** 
-ARM GAS  /tmp/ccoGimKG.s 			page 6
+ARM GAS  /tmp/cc5rF50R.s 			page 6
 
 
  259:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_crc.c ****   /* NOTE : This function should not be modified, when the callback is needed,
@@ -358,7 +358,7 @@ ARM GAS  /tmp/ccoGimKG.s 			page 1
  313:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_crc.c ****     case CRC_INPUTDATA_FORMAT_WORDS:
  314:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_crc.c ****       /* Enter Data to the CRC calculator */
  315:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_crc.c ****       for (index = 0U; index < BufferLength; index++)
-ARM GAS  /tmp/ccoGimKG.s 			page 7
+ARM GAS  /tmp/cc5rF50R.s 			page 7
 
 
  316:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_crc.c ****       {
@@ -418,7 +418,7 @@ ARM GAS  /tmp/ccoGimKG.s 			page 1
  370:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_crc.c ****       /* Enter 32-bit input data to the CRC calculator */
  371:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_crc.c ****       for (index = 0U; index < BufferLength; index++)
  372:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_crc.c ****       {
-ARM GAS  /tmp/ccoGimKG.s 			page 8
+ARM GAS  /tmp/cc5rF50R.s 			page 8
 
 
  373:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_crc.c ****         hcrc->Instance->DR = pBuffer[index];
@@ -478,7 +478,7 @@ ARM GAS  /tmp/ccoGimKG.s 			page 1
  427:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_crc.c **** 
  428:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_crc.c **** /**
  429:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_crc.c ****   * @}
-ARM GAS  /tmp/ccoGimKG.s 			page 9
+ARM GAS  /tmp/cc5rF50R.s 			page 9
 
 
  430:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_crc.c ****   */
@@ -538,7 +538,7 @@ ARM GAS  /tmp/ccoGimKG.s 			page 1
  459:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_crc.c ****     hcrc->Instance->DR = ((uint32_t)pBuffer[4U * i] << 24U) | \
   54              		.loc 1 459 5 is_stmt 1 discriminator 3 view .LVU9
   55              		.loc 1 459 44 is_stmt 0 discriminator 3 view .LVU10
-ARM GAS  /tmp/ccoGimKG.s 			page 10
+ARM GAS  /tmp/cc5rF50R.s 			page 10
 
 
   56 000a 11F82460 		ldrb	r6, [r1, r4, lsl #2]	@ zero_extendqisi2
@@ -598,7 +598,7 @@ ARM GAS  /tmp/ccoGimKG.s 			page 1
  468:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_crc.c ****     {
  469:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_crc.c ****       *(__IO uint8_t *)(__IO void *)(&hcrc->Instance->DR) = pBuffer[4U * i];         /* Derogation 
  470:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_crc.c ****     }
-ARM GAS  /tmp/ccoGimKG.s 			page 11
+ARM GAS  /tmp/cc5rF50R.s 			page 11
 
 
  471:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_crc.c ****     if ((BufferLength % 4U) == 2U)
@@ -658,7 +658,7 @@ ARM GAS  /tmp/ccoGimKG.s 			page 1
  127              		.loc 1 469 43 is_stmt 0 view .LVU38
  128 0046 0368     		ldr	r3, [r0]
  469:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_crc.c ****     }
-ARM GAS  /tmp/ccoGimKG.s 			page 12
+ARM GAS  /tmp/cc5rF50R.s 			page 12
 
 
  129              		.loc 1 469 68 view .LVU39
@@ -718,7 +718,7 @@ ARM GAS  /tmp/ccoGimKG.s 			page 1
  167 0072 0268     		ldr	r2, [r0]
  168              	.LVL14:
  481:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_crc.c **** 
-ARM GAS  /tmp/ccoGimKG.s 			page 13
+ARM GAS  /tmp/cc5rF50R.s 			page 13
 
 
  169              		.loc 1 481 7 is_stmt 1 view .LVU56
@@ -778,7 +778,7 @@ ARM GAS  /tmp/ccoGimKG.s 			page 1
  506:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_crc.c ****    * a correct type handling by the IP */
  507:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_crc.c ****   for (i = 0U; i < (BufferLength / 2U); i++)
  203              		.loc 1 507 3 view .LVU66
-ARM GAS  /tmp/ccoGimKG.s 			page 14
+ARM GAS  /tmp/cc5rF50R.s 			page 14
 
 
  204              		.loc 1 507 10 is_stmt 0 view .LVU67
@@ -838,7 +838,7 @@ ARM GAS  /tmp/ccoGimKG.s 			page 1
  514:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_crc.c ****     *pReg = pBuffer[2U * i];
  247              		.loc 1 514 5 is_stmt 1 view .LVU85
  248              		.loc 1 514 20 is_stmt 0 view .LVU86
-ARM GAS  /tmp/ccoGimKG.s 			page 15
+ARM GAS  /tmp/cc5rF50R.s 			page 15
 
 
  249 002c 31F82330 		ldrh	r3, [r1, r3, lsl #2]
@@ -898,7 +898,7 @@ ARM GAS  /tmp/ccoGimKG.s 			page 1
  289 0048 0368     		ldr	r3, [r0]
  518:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_crc.c **** }
  290              		.loc 1 518 24 view .LVU101
-ARM GAS  /tmp/ccoGimKG.s 			page 16
+ARM GAS  /tmp/cc5rF50R.s 			page 16
 
 
  291 004a 1868     		ldr	r0, [r3]
@@ -958,7 +958,7 @@ ARM GAS  /tmp/ccoGimKG.s 			page 1
  339              		@ frame_needed = 0, uses_anonymous_args = 0
  122:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_crc.c ****   {
  340              		.loc 1 122 3 view .LVU107
-ARM GAS  /tmp/ccoGimKG.s 			page 17
+ARM GAS  /tmp/cc5rF50R.s 			page 17
 
 
  122:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_crc.c ****   {
@@ -1018,7 +1018,7 @@ ARM GAS  /tmp/ccoGimKG.s 			page 1
  382 0028 2379     		ldrb	r3, [r4, #4]	@ zero_extendqisi2
  143:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_crc.c ****   {
  383              		.loc 1 143 6 view .LVU121
-ARM GAS  /tmp/ccoGimKG.s 			page 18
+ARM GAS  /tmp/cc5rF50R.s 			page 18
 
 
  384 002a 002B     		cmp	r3, #0
@@ -1078,7 +1078,7 @@ ARM GAS  /tmp/ccoGimKG.s 			page 1
  426 0062 2268     		ldr	r2, [r4]
  427 0064 9368     		ldr	r3, [r2, #8]
  428 0066 23F06003 		bic	r3, r3, #96
-ARM GAS  /tmp/ccoGimKG.s 			page 19
+ARM GAS  /tmp/cc5rF50R.s 			page 19
 
 
  429 006a 6169     		ldr	r1, [r4, #20]
@@ -1138,7 +1138,7 @@ ARM GAS  /tmp/ccoGimKG.s 			page 1
  471 009e BEE7     		b	.L27
  472              	.L44:
  142:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_crc.c ****   if (hcrc->Init.DefaultPolynomialUse == DEFAULT_POLYNOMIAL_ENABLE)
-ARM GAS  /tmp/ccoGimKG.s 			page 20
+ARM GAS  /tmp/cc5rF50R.s 			page 20
 
 
  473              		.loc 1 142 3 is_stmt 0 discriminator 1 view .LVU146
@@ -1198,7 +1198,7 @@ ARM GAS  /tmp/ccoGimKG.s 			page 1
  519 00e0 CAE7     		b	.L35
  520              	.L48:
  181:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_crc.c **** 
-ARM GAS  /tmp/ccoGimKG.s 			page 21
+ARM GAS  /tmp/cc5rF50R.s 			page 21
 
 
  521              		.loc 1 181 3 discriminator 1 view .LVU155
@@ -1258,7 +1258,7 @@ ARM GAS  /tmp/ccoGimKG.s 			page 1
  573              		.thumb
  574              		.thumb_func
  575              		.fpu fpv4-sp-d16
-ARM GAS  /tmp/ccoGimKG.s 			page 22
+ARM GAS  /tmp/cc5rF50R.s 			page 22
 
 
  577              	HAL_CRC_DeInit:
@@ -1318,7 +1318,7 @@ ARM GAS  /tmp/ccoGimKG.s 			page 1
  619 0020 6B77     		strb	r3, [r5, #29]
  216:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_crc.c **** 
  620              		.loc 1 216 3 is_stmt 1 view .LVU173
-ARM GAS  /tmp/ccoGimKG.s 			page 23
+ARM GAS  /tmp/cc5rF50R.s 			page 23
 
 
  621 0022 2A68     		ldr	r2, [r5]
@@ -1378,7 +1378,7 @@ ARM GAS  /tmp/ccoGimKG.s 			page 1
  663 0048 00300240 		.word	1073885184
  664 004c 00000000 		.word	.LC0
  665              		.cfi_endproc
-ARM GAS  /tmp/ccoGimKG.s 			page 24
+ARM GAS  /tmp/cc5rF50R.s 			page 24
 
 
  666              	.LFE124:
@@ -1438,7 +1438,7 @@ ARM GAS  /tmp/ccoGimKG.s 			page 1
  712              		.loc 1 334 3 is_stmt 1 view .LVU195
  334:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_crc.c **** 
  713              		.loc 1 334 15 is_stmt 0 view .LVU196
-ARM GAS  /tmp/ccoGimKG.s 			page 25
+ARM GAS  /tmp/cc5rF50R.s 			page 25
 
 
  714 0018 0123     		movs	r3, #1
@@ -1498,7 +1498,7 @@ ARM GAS  /tmp/ccoGimKG.s 			page 1
  752              	.LVL58:
  753              	.L65:
  323:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_crc.c ****       break;
-ARM GAS  /tmp/ccoGimKG.s 			page 26
+ARM GAS  /tmp/cc5rF50R.s 			page 26
 
 
  754              		.loc 1 323 7 view .LVU213
@@ -1558,7 +1558,7 @@ ARM GAS  /tmp/ccoGimKG.s 			page 1
  799              		.loc 1 361 15 is_stmt 0 view .LVU224
  800 0004 0223     		movs	r3, #2
  801 0006 4377     		strb	r3, [r0, #29]
-ARM GAS  /tmp/ccoGimKG.s 			page 27
+ARM GAS  /tmp/cc5rF50R.s 			page 27
 
 
  365:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_crc.c **** 
@@ -1618,7 +1618,7 @@ ARM GAS  /tmp/ccoGimKG.s 			page 1
  373:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_crc.c ****       }
  842              		.loc 1 373 37 discriminator 3 view .LVU239
  843 0030 51F82350 		ldr	r5, [r1, r3, lsl #2]
-ARM GAS  /tmp/ccoGimKG.s 			page 28
+ARM GAS  /tmp/cc5rF50R.s 			page 28
 
 
  373:../../../core/ST/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_crc.c ****       }
@@ -1678,7 +1678,7 @@ ARM GAS  /tmp/ccoGimKG.s 			page 1
  885              		.global	HAL_CRC_GetState
  886              		.syntax unified
  887              		.thumb
-ARM GAS  /tmp/ccoGimKG.s 			page 29
+ARM GAS  /tmp/cc5rF50R.s 			page 29
 
 
  888              		.thumb_func
@@ -1715,32 +1715,32 @@ ARM GAS  /tmp/ccoGimKG.s 			page 1
  917              		.file 9 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h"
  918              		.file 10 "../../../core/platform/octa/inc/stm32l4xx_hal_conf.h"
  919              		.file 11 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_crc_ex.h"
-ARM GAS  /tmp/ccoGimKG.s 			page 30
+ARM GAS  /tmp/cc5rF50R.s 			page 30
 
 
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 stm32l4xx_hal_crc.c
-     /tmp/ccoGimKG.s:18     .text.CRC_Handle_8:0000000000000000 $t
-     /tmp/ccoGimKG.s:25     .text.CRC_Handle_8:0000000000000000 CRC_Handle_8
-     /tmp/ccoGimKG.s:187    .text.CRC_Handle_16:0000000000000000 $t
-     /tmp/ccoGimKG.s:193    .text.CRC_Handle_16:0000000000000000 CRC_Handle_16
-     /tmp/ccoGimKG.s:299    .text.HAL_CRC_MspInit:0000000000000000 $t
-     /tmp/ccoGimKG.s:306    .text.HAL_CRC_MspInit:0000000000000000 HAL_CRC_MspInit
-     /tmp/ccoGimKG.s:321    .rodata.HAL_CRC_Init.str1.4:0000000000000000 $d
-     /tmp/ccoGimKG.s:326    .text.HAL_CRC_Init:0000000000000000 $t
-     /tmp/ccoGimKG.s:333    .text.HAL_CRC_Init:0000000000000000 HAL_CRC_Init
-     /tmp/ccoGimKG.s:541    .text.HAL_CRC_Init:00000000000000f0 $d
-     /tmp/ccoGimKG.s:548    .text.HAL_CRC_MspDeInit:0000000000000000 $t
-     /tmp/ccoGimKG.s:555    .text.HAL_CRC_MspDeInit:0000000000000000 HAL_CRC_MspDeInit
-     /tmp/ccoGimKG.s:570    .text.HAL_CRC_DeInit:0000000000000000 $t
-     /tmp/ccoGimKG.s:577    .text.HAL_CRC_DeInit:0000000000000000 HAL_CRC_DeInit
-     /tmp/ccoGimKG.s:663    .text.HAL_CRC_DeInit:0000000000000048 $d
-     /tmp/ccoGimKG.s:669    .text.HAL_CRC_Accumulate:0000000000000000 $t
-     /tmp/ccoGimKG.s:676    .text.HAL_CRC_Accumulate:0000000000000000 HAL_CRC_Accumulate
-     /tmp/ccoGimKG.s:772    .text.HAL_CRC_Calculate:0000000000000000 $t
-     /tmp/ccoGimKG.s:779    .text.HAL_CRC_Calculate:0000000000000000 HAL_CRC_Calculate
-     /tmp/ccoGimKG.s:884    .text.HAL_CRC_GetState:0000000000000000 $t
-     /tmp/ccoGimKG.s:891    .text.HAL_CRC_GetState:0000000000000000 HAL_CRC_GetState
+     /tmp/cc5rF50R.s:18     .text.CRC_Handle_8:0000000000000000 $t
+     /tmp/cc5rF50R.s:25     .text.CRC_Handle_8:0000000000000000 CRC_Handle_8
+     /tmp/cc5rF50R.s:187    .text.CRC_Handle_16:0000000000000000 $t
+     /tmp/cc5rF50R.s:193    .text.CRC_Handle_16:0000000000000000 CRC_Handle_16
+     /tmp/cc5rF50R.s:299    .text.HAL_CRC_MspInit:0000000000000000 $t
+     /tmp/cc5rF50R.s:306    .text.HAL_CRC_MspInit:0000000000000000 HAL_CRC_MspInit
+     /tmp/cc5rF50R.s:321    .rodata.HAL_CRC_Init.str1.4:0000000000000000 $d
+     /tmp/cc5rF50R.s:326    .text.HAL_CRC_Init:0000000000000000 $t
+     /tmp/cc5rF50R.s:333    .text.HAL_CRC_Init:0000000000000000 HAL_CRC_Init
+     /tmp/cc5rF50R.s:541    .text.HAL_CRC_Init:00000000000000f0 $d
+     /tmp/cc5rF50R.s:548    .text.HAL_CRC_MspDeInit:0000000000000000 $t
+     /tmp/cc5rF50R.s:555    .text.HAL_CRC_MspDeInit:0000000000000000 HAL_CRC_MspDeInit
+     /tmp/cc5rF50R.s:570    .text.HAL_CRC_DeInit:0000000000000000 $t
+     /tmp/cc5rF50R.s:577    .text.HAL_CRC_DeInit:0000000000000000 HAL_CRC_DeInit
+     /tmp/cc5rF50R.s:663    .text.HAL_CRC_DeInit:0000000000000048 $d
+     /tmp/cc5rF50R.s:669    .text.HAL_CRC_Accumulate:0000000000000000 $t
+     /tmp/cc5rF50R.s:676    .text.HAL_CRC_Accumulate:0000000000000000 HAL_CRC_Accumulate
+     /tmp/cc5rF50R.s:772    .text.HAL_CRC_Calculate:0000000000000000 $t
+     /tmp/cc5rF50R.s:779    .text.HAL_CRC_Calculate:0000000000000000 HAL_CRC_Calculate
+     /tmp/cc5rF50R.s:884    .text.HAL_CRC_GetState:0000000000000000 $t
+     /tmp/cc5rF50R.s:891    .text.HAL_CRC_GetState:0000000000000000 HAL_CRC_GetState
 
 UNDEFINED SYMBOLS
 assert_failed

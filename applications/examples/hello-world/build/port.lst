@@ -1,4 +1,4 @@
-ARM GAS  /tmp/ccY81Ylz.s 			page 1
+ARM GAS  /tmp/ccHmH7ik.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  /tmp/ccY81Ylz.s 			page 1
   29:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.c ****  * Implementation of functions defined in portable.h for the ARM CM4F port.
   30:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.c ****  *----------------------------------------------------------*/
   31:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.c **** 
-ARM GAS  /tmp/ccY81Ylz.s 			page 2
+ARM GAS  /tmp/ccHmH7ik.s 			page 2
 
 
   32:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.c **** /* Scheduler includes. */
@@ -118,7 +118,7 @@ ARM GAS  /tmp/ccY81Ylz.s 			page 1
   86:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.c **** #define portASPEN_AND_LSPEN_BITS			( 0x3UL << 30UL )
   87:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.c **** 
   88:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.c **** /* Constants required to set up the initial stack. */
-ARM GAS  /tmp/ccY81Ylz.s 			page 3
+ARM GAS  /tmp/ccHmH7ik.s 			page 3
 
 
   89:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.c **** #define portINITIAL_XPSR					( 0x01000000 )
@@ -178,7 +178,7 @@ ARM GAS  /tmp/ccY81Ylz.s 			page 1
  143:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.c **** 
  144:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.c **** /* Each task maintains its own interrupt status in the critical nesting
  145:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.c **** variable. */
-ARM GAS  /tmp/ccY81Ylz.s 			page 4
+ARM GAS  /tmp/ccHmH7ik.s 			page 4
 
 
  146:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.c **** static UBaseType_t uxCriticalNesting = 0xaaaaaaaa;
@@ -238,7 +238,7 @@ ARM GAS  /tmp/ccY81Ylz.s 			page 1
  200:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.c **** 	*pxTopOfStack = ( StackType_t ) portTASK_RETURN_ADDRESS;	/* LR */
  201:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.c **** 
  202:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.c **** 	/* Save code space by skipping register initialisation. */
-ARM GAS  /tmp/ccY81Ylz.s 			page 5
+ARM GAS  /tmp/ccHmH7ik.s 			page 5
 
 
  203:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.c **** 	pxTopOfStack -= 5;	/* R12, R3, R2 and R1. */
@@ -298,7 +298,7 @@ ARM GAS  /tmp/ccY81Ylz.s 			page 1
  257:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.c **** 				);
  258:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.c **** }
  259:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.c **** /*-----------------------------------------------------------*/
-ARM GAS  /tmp/ccY81Ylz.s 			page 6
+ARM GAS  /tmp/ccHmH7ik.s 			page 6
 
 
  260:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.c **** 
@@ -358,7 +358,7 @@ ARM GAS  /tmp/ccY81Ylz.s 			page 1
   61              		.fpu fpv4-sp-d16
   63              	vPortEnableVFP:
   64              	.LFB16:
-ARM GAS  /tmp/ccY81Ylz.s 			page 7
+ARM GAS  /tmp/ccHmH7ik.s 			page 7
 
 
  282:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.c **** /*-----------------------------------------------------------*/
@@ -418,7 +418,7 @@ ARM GAS  /tmp/ccY81Ylz.s 			page 1
  336:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.c **** 			from the hardware. */
  337:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.c **** 			configASSERT( ( portMAX_PRIGROUP_BITS - ulMaxPRIGROUPValue ) == __NVIC_PRIO_BITS );
  338:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.c **** 		}
-ARM GAS  /tmp/ccY81Ylz.s 			page 8
+ARM GAS  /tmp/ccHmH7ik.s 			page 8
 
 
  339:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.c **** 		#endif
@@ -478,7 +478,7 @@ ARM GAS  /tmp/ccY81Ylz.s 			page 1
  393:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.c **** /*-----------------------------------------------------------*/
  394:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.c **** 
  395:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.c **** void vPortEndScheduler( void )
-ARM GAS  /tmp/ccY81Ylz.s 			page 9
+ARM GAS  /tmp/ccHmH7ik.s 			page 9
 
 
  396:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.c **** {
@@ -538,7 +538,7 @@ ARM GAS  /tmp/ccY81Ylz.s 			page 1
  450:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.c **** 	"	stmdb sp!, {r0, r3}					\n"
  451:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.c **** 	"	mov r0, %0 							\n"
  452:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.c **** 	"	msr basepri, r0						\n"
-ARM GAS  /tmp/ccY81Ylz.s 			page 10
+ARM GAS  /tmp/ccHmH7ik.s 			page 10
 
 
  453:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.c **** 	"	dsb									\n"
@@ -598,7 +598,7 @@ ARM GAS  /tmp/ccY81Ylz.s 			page 1
  507:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.c **** 
  508:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.c **** #if( configUSE_TICKLESS_IDLE == 1 )
  509:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.c **** 
-ARM GAS  /tmp/ccY81Ylz.s 			page 11
+ARM GAS  /tmp/ccHmH7ik.s 			page 11
 
 
  510:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.c **** 	__attribute__((weak)) void vPortSuppressTicksAndSleep( TickType_t xExpectedIdleTime )
@@ -658,7 +658,7 @@ ARM GAS  /tmp/ccY81Ylz.s 			page 1
  564:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.c **** 			portNVIC_SYSTICK_LOAD_REG = ulReloadValue;
  565:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.c **** 
  566:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.c **** 			/* Clear the SysTick count flag and set the count value back to
-ARM GAS  /tmp/ccY81Ylz.s 			page 12
+ARM GAS  /tmp/ccHmH7ik.s 			page 12
 
 
  567:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.c **** 			zero. */
@@ -718,7 +718,7 @@ ARM GAS  /tmp/ccY81Ylz.s 			page 1
  621:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.c **** 				/* The tick interrupt is already pending, and the SysTick count
  622:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.c **** 				reloaded with ulReloadValue.  Reset the
  623:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.c **** 				portNVIC_SYSTICK_LOAD_REG with whatever remains of this tick
-ARM GAS  /tmp/ccY81Ylz.s 			page 13
+ARM GAS  /tmp/ccHmH7ik.s 			page 13
 
 
  624:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.c **** 				period. */
@@ -778,7 +778,7 @@ ARM GAS  /tmp/ccY81Ylz.s 			page 1
  678:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.c ****  */
  679:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.c **** __attribute__(( weak )) void vPortSetupTimerInterrupt( void )
  680:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.c **** {
-ARM GAS  /tmp/ccY81Ylz.s 			page 14
+ARM GAS  /tmp/ccHmH7ik.s 			page 14
 
 
  681:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.c **** 	/* Calculate the constants required to configure the tick interrupt. */
@@ -838,7 +838,7 @@ ARM GAS  /tmp/ccY81Ylz.s 			page 1
   88              	.LC0:
   89 0000 2E2E2F2E 		.ascii	"../../../core/ST/Middlewares/Third_Party/FreeRTOS/S"
   89      2E2F2E2E 
-ARM GAS  /tmp/ccY81Ylz.s 			page 15
+ARM GAS  /tmp/ccHmH7ik.s 			page 15
 
 
   89      2F636F72 
@@ -898,7 +898,7 @@ ARM GAS  /tmp/ccY81Ylz.s 			page 1
    9:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/portmacro.h ****  * the Software, and to permit persons to whom the Software is furnished to do so,
   10:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/portmacro.h ****  * subject to the following conditions:
   11:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/portmacro.h ****  *
-ARM GAS  /tmp/ccY81Ylz.s 			page 16
+ARM GAS  /tmp/ccHmH7ik.s 			page 16
 
 
   12:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/portmacro.h ****  * The above copyright notice and this permission notice shall be included in all
@@ -958,7 +958,7 @@ ARM GAS  /tmp/ccY81Ylz.s 			page 1
   66:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/portmacro.h **** 	/* 32-bit tick type on a 32-bit architecture, so reads of the tick count do
   67:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/portmacro.h **** 	not need to be guarded with a critical section. */
   68:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/portmacro.h **** 	#define portTICK_TYPE_IS_ATOMIC 1
-ARM GAS  /tmp/ccY81Ylz.s 			page 17
+ARM GAS  /tmp/ccHmH7ik.s 			page 17
 
 
   69:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/portmacro.h **** #endif
@@ -1018,7 +1018,7 @@ ARM GAS  /tmp/ccY81Ylz.s 			page 1
  123:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/portmacro.h **** #ifndef configUSE_PORT_OPTIMISED_TASK_SELECTION
  124:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/portmacro.h **** 	#define configUSE_PORT_OPTIMISED_TASK_SELECTION 1
  125:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/portmacro.h **** #endif
-ARM GAS  /tmp/ccY81Ylz.s 			page 18
+ARM GAS  /tmp/ccHmH7ik.s 			page 18
 
 
  126:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/portmacro.h **** 
@@ -1078,7 +1078,7 @@ ARM GAS  /tmp/ccY81Ylz.s 			page 1
  180:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/portmacro.h **** 	}
  181:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/portmacro.h **** 	else
  182:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/portmacro.h **** 	{
-ARM GAS  /tmp/ccY81Ylz.s 			page 19
+ARM GAS  /tmp/ccHmH7ik.s 			page 19
 
 
  183:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/portmacro.h **** 		xReturn = pdTRUE;
@@ -1138,7 +1138,7 @@ ARM GAS  /tmp/ccY81Ylz.s 			page 1
  161              	.LBB17:
  227:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.c **** 	portDISABLE_INTERRUPTS();
  162              		.loc 1 227 2 is_stmt 1 discriminator 1 view .LVU20
-ARM GAS  /tmp/ccY81Ylz.s 			page 20
+ARM GAS  /tmp/ccHmH7ik.s 			page 20
 
 
  163 002e E321     		movs	r1, #227
@@ -1198,7 +1198,7 @@ ARM GAS  /tmp/ccY81Ylz.s 			page 1
  200:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.c **** 
  209              		.loc 1 200 18 is_stmt 0 view .LVU31
  210 0010 054B     		ldr	r3, .L11
-ARM GAS  /tmp/ccY81Ylz.s 			page 21
+ARM GAS  /tmp/ccHmH7ik.s 			page 21
 
 
  200:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.c **** 
@@ -1258,7 +1258,7 @@ ARM GAS  /tmp/ccY81Ylz.s 			page 1
  254              		.loc 1 244 2 view .LVU44
  255              		.syntax unified
  256              	@ 244 "../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.c" 1
-ARM GAS  /tmp/ccY81Ylz.s 			page 22
+ARM GAS  /tmp/ccHmH7ik.s 			page 22
 
 
  257 0000 074B     			ldr	r3, pxCurrentTCBConst2		
@@ -1318,7 +1318,7 @@ ARM GAS  /tmp/ccY81Ylz.s 			page 1
  308 0012 0348     		ldr	r0, .L18+4
  309 0014 FFF7FEFF 		bl	assert_failed
  310              	.LVL10:
-ARM GAS  /tmp/ccY81Ylz.s 			page 23
+ARM GAS  /tmp/ccHmH7ik.s 			page 23
 
 
  311              	.LBE18:
@@ -1378,7 +1378,7 @@ ARM GAS  /tmp/ccY81Ylz.s 			page 1
  406:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.c **** 
  361              		.loc 1 406 19 is_stmt 0 view .LVU57
  362 0012 094A     		ldr	r2, .L24
-ARM GAS  /tmp/ccY81Ylz.s 			page 24
+ARM GAS  /tmp/ccHmH7ik.s 			page 24
 
 
  363 0014 1368     		ldr	r3, [r2]
@@ -1438,7 +1438,7 @@ ARM GAS  /tmp/ccY81Ylz.s 			page 1
  412              	.LCFI6:
  413              		.cfi_def_cfa_offset 8
  414              		.cfi_offset 3, -8
-ARM GAS  /tmp/ccY81Ylz.s 			page 25
+ARM GAS  /tmp/ccHmH7ik.s 			page 25
 
 
  415              		.cfi_offset 14, -4
@@ -1498,7 +1498,7 @@ ARM GAS  /tmp/ccY81Ylz.s 			page 1
  225:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/portmacro.h **** /*-----------------------------------------------------------*/
  226:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/portmacro.h **** 
  227:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/portmacro.h **** portFORCE_INLINE static void vPortSetBASEPRI( uint32_t ulNewMaskValue )
-ARM GAS  /tmp/ccY81Ylz.s 			page 26
+ARM GAS  /tmp/ccHmH7ik.s 			page 26
 
 
  434              		.loc 2 227 30 view .LVU71
@@ -1558,7 +1558,7 @@ ARM GAS  /tmp/ccY81Ylz.s 			page 1
  484              	@ 435 "../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.c" 1
  485 0000 EFF30980 			mrs r0, psp							
  486 0004 BFF36F8F 		isb									
-ARM GAS  /tmp/ccY81Ylz.s 			page 27
+ARM GAS  /tmp/ccHmH7ik.s 			page 27
 
 
  487              											
@@ -1618,7 +1618,7 @@ ARM GAS  /tmp/ccY81Ylz.s 			page 1
  541              	SysTick_Handler:
  542              	.LFB14:
  489:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.c **** 	/* The SysTick runs at the lowest interrupt priority, so when this interrupt
-ARM GAS  /tmp/ccY81Ylz.s 			page 28
+ARM GAS  /tmp/ccHmH7ik.s 			page 28
 
 
  543              		.loc 1 489 1 is_stmt 1 view -0
@@ -1678,7 +1678,7 @@ ARM GAS  /tmp/ccY81Ylz.s 			page 1
  227:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/portmacro.h **** {
  587              		.loc 2 227 30 view .LVU90
  588              	.LBB28:
-ARM GAS  /tmp/ccY81Ylz.s 			page 29
+ARM GAS  /tmp/ccHmH7ik.s 			page 29
 
 
  589              		.loc 2 229 2 view .LVU91
@@ -1738,7 +1738,7 @@ ARM GAS  /tmp/ccY81Ylz.s 			page 1
  637 000c 1B68     		ldr	r3, [r3]
  638 000e 0849     		ldr	r1, .L40+12
  639 0010 A1FB0313 		umull	r1, r3, r1, r3
-ARM GAS  /tmp/ccY81Ylz.s 			page 30
+ARM GAS  /tmp/ccHmH7ik.s 			page 30
 
 
  640 0014 9B09     		lsrs	r3, r3, #6
@@ -1798,7 +1798,7 @@ ARM GAS  /tmp/ccY81Ylz.s 			page 1
  688 0006 1A68     		ldr	r2, [r3]
  689 0008 354B     		ldr	r3, .L53+4
  690 000a 9A42     		cmp	r2, r3
-ARM GAS  /tmp/ccY81Ylz.s 			page 31
+ARM GAS  /tmp/ccHmH7ik.s 			page 31
 
 
  691 000c 27D0     		beq	.L49
@@ -1858,7 +1858,7 @@ ARM GAS  /tmp/ccY81Ylz.s 			page 1
  729              		.loc 1 325 3 is_stmt 1 view .LVU124
  325:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.c **** 		while( ( ucMaxPriorityValue & portTOP_BIT_OF_BYTE ) == portTOP_BIT_OF_BYTE )
  730              		.loc 1 325 22 is_stmt 0 view .LVU125
-ARM GAS  /tmp/ccY81Ylz.s 			page 32
+ARM GAS  /tmp/ccHmH7ik.s 			page 32
 
 
  731 0038 2D4B     		ldr	r3, .L53+20
@@ -1918,7 +1918,7 @@ ARM GAS  /tmp/ccY81Ylz.s 			page 1
  774 0074 D0E7     		b	.L44
  775              	.LVL22:
  776              	.L51:
-ARM GAS  /tmp/ccY81Ylz.s 			page 33
+ARM GAS  /tmp/ccHmH7ik.s 			page 33
 
 
  297:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.c **** 
@@ -1978,7 +1978,7 @@ ARM GAS  /tmp/ccY81Ylz.s 			page 1
  370:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.c **** 
  817              		.loc 1 370 20 is_stmt 0 view .LVU151
  818 00a8 0024     		movs	r4, #0
-ARM GAS  /tmp/ccY81Ylz.s 			page 34
+ARM GAS  /tmp/ccHmH7ik.s 			page 34
 
 
  819 00aa 144B     		ldr	r3, .L53+32
@@ -2038,7 +2038,7 @@ ARM GAS  /tmp/ccY81Ylz.s 			page 1
  864 00e4 70C20F41 		.word	1091551856
  865 00e8 00E400E0 		.word	-536812544
  866 00ec 00000000 		.word	.LANCHOR1
-ARM GAS  /tmp/ccY81Ylz.s 			page 35
+ARM GAS  /tmp/ccHmH7ik.s 			page 35
 
 
  867 00f0 00000000 		.word	.LANCHOR2
@@ -2098,7 +2098,7 @@ ARM GAS  /tmp/ccY81Ylz.s 			page 1
  909 0008 06D9     		bls	.L56
  727:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.c **** 		{
  728:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.c **** 			/* Look up the interrupt's priority. */
-ARM GAS  /tmp/ccY81Ylz.s 			page 36
+ARM GAS  /tmp/ccHmH7ik.s 			page 36
 
 
  729:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.c **** 			ucCurrentPriority = pcInterruptPriorityRegisters[ ulCurrentInterrupt ];
@@ -2158,7 +2158,7 @@ ARM GAS  /tmp/ccY81Ylz.s 			page 1
  767:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.c **** 		scheduler.  Note however that some vendor specific peripheral libraries
  768:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.c **** 		assume a non-zero priority group setting, in which cases using a value
  769:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.c **** 		of zero will result in unpredictable behaviour. */
-ARM GAS  /tmp/ccY81Ylz.s 			page 37
+ARM GAS  /tmp/ccHmH7ik.s 			page 37
 
 
  770:../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.c **** 		configASSERT( ( portAIRCR_REG & portPRIORITY_GROUP_MASK ) <= ulMaxPRIGROUPValue );
@@ -2218,7 +2218,7 @@ ARM GAS  /tmp/ccY81Ylz.s 			page 1
  977              		.align	2
  978              		.set	.LANCHOR2,. + 0
  981              	ulMaxPRIGROUPValue:
-ARM GAS  /tmp/ccY81Ylz.s 			page 38
+ARM GAS  /tmp/ccHmH7ik.s 			page 38
 
 
  982 0000 00000000 		.space	4
@@ -2234,67 +2234,67 @@ ARM GAS  /tmp/ccY81Ylz.s 			page 1
  994              		.file 5 "../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h"
  995              		.file 6 "../../../core/platform/octa/inc/FreeRTOSConfig.h"
  996              		.file 7 "../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/include/task.h"
-ARM GAS  /tmp/ccY81Ylz.s 			page 39
+ARM GAS  /tmp/ccHmH7ik.s 			page 39
 
 
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 port.c
-     /tmp/ccY81Ylz.s:18     .text.prvPortStartFirstTask:0000000000000000 $t
-     /tmp/ccY81Ylz.s:25     .text.prvPortStartFirstTask:0000000000000000 prvPortStartFirstTask
-     /tmp/ccY81Ylz.s:57     .text.vPortEnableVFP:0000000000000000 $t
-     /tmp/ccY81Ylz.s:63     .text.vPortEnableVFP:0000000000000000 vPortEnableVFP
-     /tmp/ccY81Ylz.s:87     .rodata.prvTaskExitError.str1.4:0000000000000000 $d
-     /tmp/ccY81Ylz.s:92     .text.prvTaskExitError:0000000000000000 $t
-     /tmp/ccY81Ylz.s:98     .text.prvTaskExitError:0000000000000000 prvTaskExitError
-     /tmp/ccY81Ylz.s:171    .text.prvTaskExitError:0000000000000038 $d
-     /tmp/ccY81Ylz.s:178    .text.pxPortInitialiseStack:0000000000000000 $t
-     /tmp/ccY81Ylz.s:185    .text.pxPortInitialiseStack:0000000000000000 pxPortInitialiseStack
-     /tmp/ccY81Ylz.s:235    .text.pxPortInitialiseStack:0000000000000028 $d
-     /tmp/ccY81Ylz.s:240    .text.SVC_Handler:0000000000000000 $t
-     /tmp/ccY81Ylz.s:247    .text.SVC_Handler:0000000000000000 SVC_Handler
-     /tmp/ccY81Ylz.s:268    .text.SVC_Handler:0000000000000020 pxCurrentTCBConst2
-     /tmp/ccY81Ylz.s:268    .text.SVC_Handler:0000000000000020 $d
-     /tmp/ccY81Ylz.s:278    .text.vPortEndScheduler:0000000000000000 $t
-     /tmp/ccY81Ylz.s:285    .text.vPortEndScheduler:0000000000000000 vPortEndScheduler
-     /tmp/ccY81Ylz.s:317    .text.vPortEndScheduler:000000000000001c $d
-     /tmp/ccY81Ylz.s:323    .text.vPortEnterCritical:0000000000000000 $t
-     /tmp/ccY81Ylz.s:330    .text.vPortEnterCritical:0000000000000000 vPortEnterCritical
-     /tmp/ccY81Ylz.s:391    .text.vPortEnterCritical:0000000000000038 $d
-     /tmp/ccY81Ylz.s:398    .text.vPortExitCritical:0000000000000000 $t
-     /tmp/ccY81Ylz.s:405    .text.vPortExitCritical:0000000000000000 vPortExitCritical
-     /tmp/ccY81Ylz.s:461    .text.vPortExitCritical:0000000000000024 $d
-     /tmp/ccY81Ylz.s:468    .text.PendSV_Handler:0000000000000000 $t
-     /tmp/ccY81Ylz.s:475    .text.PendSV_Handler:0000000000000000 PendSV_Handler
-     /tmp/ccY81Ylz.s:524    .text.PendSV_Handler:0000000000000060 pxCurrentTCBConst
-     /tmp/ccY81Ylz.s:524    .text.PendSV_Handler:0000000000000060 $d
-     /tmp/ccY81Ylz.s:534    .text.SysTick_Handler:0000000000000000 $t
-     /tmp/ccY81Ylz.s:541    .text.SysTick_Handler:0000000000000000 SysTick_Handler
-     /tmp/ccY81Ylz.s:606    .text.SysTick_Handler:0000000000000028 $d
-     /tmp/ccY81Ylz.s:611    .text.vPortSetupTimerInterrupt:0000000000000000 $t
-     /tmp/ccY81Ylz.s:618    .text.vPortSetupTimerInterrupt:0000000000000000 vPortSetupTimerInterrupt
-     /tmp/ccY81Ylz.s:655    .text.vPortSetupTimerInterrupt:0000000000000024 $d
-     /tmp/ccY81Ylz.s:664    .text.xPortStartScheduler:0000000000000000 $t
-     /tmp/ccY81Ylz.s:671    .text.xPortStartScheduler:0000000000000000 xPortStartScheduler
-     /tmp/ccY81Ylz.s:862    .text.xPortStartScheduler:00000000000000dc $d
-     /tmp/ccY81Ylz.s:878    .text.vPortValidateInterruptPriority:0000000000000000 $t
-     /tmp/ccY81Ylz.s:885    .text.vPortValidateInterruptPriority:0000000000000000 vPortValidateInterruptPriority
-     /tmp/ccY81Ylz.s:962    .text.vPortValidateInterruptPriority:0000000000000044 $d
-     /tmp/ccY81Ylz.s:974    .bss.ucMaxSysCallPriority:0000000000000000 ucMaxSysCallPriority
-     /tmp/ccY81Ylz.s:975    .bss.ucMaxSysCallPriority:0000000000000000 $d
-     /tmp/ccY81Ylz.s:977    .bss.ulMaxPRIGROUPValue:0000000000000000 $d
-     /tmp/ccY81Ylz.s:981    .bss.ulMaxPRIGROUPValue:0000000000000000 ulMaxPRIGROUPValue
-     /tmp/ccY81Ylz.s:984    .data.uxCriticalNesting:0000000000000000 $d
-     /tmp/ccY81Ylz.s:988    .data.uxCriticalNesting:0000000000000000 uxCriticalNesting
-     /tmp/ccY81Ylz.s:86     .text.vPortEnableVFP:000000000000000e $d
-     /tmp/ccY81Ylz.s:3037   .text.vPortEnableVFP:0000000000000010 $d
-     /tmp/ccY81Ylz.s:56     .text.prvPortStartFirstTask:0000000000000022 $d
-     /tmp/ccY81Ylz.s:3037   .text.prvPortStartFirstTask:0000000000000024 $d
+     /tmp/ccHmH7ik.s:18     .text.prvPortStartFirstTask:0000000000000000 $t
+     /tmp/ccHmH7ik.s:25     .text.prvPortStartFirstTask:0000000000000000 prvPortStartFirstTask
+     /tmp/ccHmH7ik.s:57     .text.vPortEnableVFP:0000000000000000 $t
+     /tmp/ccHmH7ik.s:63     .text.vPortEnableVFP:0000000000000000 vPortEnableVFP
+     /tmp/ccHmH7ik.s:87     .rodata.prvTaskExitError.str1.4:0000000000000000 $d
+     /tmp/ccHmH7ik.s:92     .text.prvTaskExitError:0000000000000000 $t
+     /tmp/ccHmH7ik.s:98     .text.prvTaskExitError:0000000000000000 prvTaskExitError
+     /tmp/ccHmH7ik.s:171    .text.prvTaskExitError:0000000000000038 $d
+     /tmp/ccHmH7ik.s:178    .text.pxPortInitialiseStack:0000000000000000 $t
+     /tmp/ccHmH7ik.s:185    .text.pxPortInitialiseStack:0000000000000000 pxPortInitialiseStack
+     /tmp/ccHmH7ik.s:235    .text.pxPortInitialiseStack:0000000000000028 $d
+     /tmp/ccHmH7ik.s:240    .text.SVC_Handler:0000000000000000 $t
+     /tmp/ccHmH7ik.s:247    .text.SVC_Handler:0000000000000000 SVC_Handler
+     /tmp/ccHmH7ik.s:268    .text.SVC_Handler:0000000000000020 pxCurrentTCBConst2
+     /tmp/ccHmH7ik.s:268    .text.SVC_Handler:0000000000000020 $d
+     /tmp/ccHmH7ik.s:278    .text.vPortEndScheduler:0000000000000000 $t
+     /tmp/ccHmH7ik.s:285    .text.vPortEndScheduler:0000000000000000 vPortEndScheduler
+     /tmp/ccHmH7ik.s:317    .text.vPortEndScheduler:000000000000001c $d
+     /tmp/ccHmH7ik.s:323    .text.vPortEnterCritical:0000000000000000 $t
+     /tmp/ccHmH7ik.s:330    .text.vPortEnterCritical:0000000000000000 vPortEnterCritical
+     /tmp/ccHmH7ik.s:391    .text.vPortEnterCritical:0000000000000038 $d
+     /tmp/ccHmH7ik.s:398    .text.vPortExitCritical:0000000000000000 $t
+     /tmp/ccHmH7ik.s:405    .text.vPortExitCritical:0000000000000000 vPortExitCritical
+     /tmp/ccHmH7ik.s:461    .text.vPortExitCritical:0000000000000024 $d
+     /tmp/ccHmH7ik.s:468    .text.PendSV_Handler:0000000000000000 $t
+     /tmp/ccHmH7ik.s:475    .text.PendSV_Handler:0000000000000000 PendSV_Handler
+     /tmp/ccHmH7ik.s:524    .text.PendSV_Handler:0000000000000060 pxCurrentTCBConst
+     /tmp/ccHmH7ik.s:524    .text.PendSV_Handler:0000000000000060 $d
+     /tmp/ccHmH7ik.s:534    .text.SysTick_Handler:0000000000000000 $t
+     /tmp/ccHmH7ik.s:541    .text.SysTick_Handler:0000000000000000 SysTick_Handler
+     /tmp/ccHmH7ik.s:606    .text.SysTick_Handler:0000000000000028 $d
+     /tmp/ccHmH7ik.s:611    .text.vPortSetupTimerInterrupt:0000000000000000 $t
+     /tmp/ccHmH7ik.s:618    .text.vPortSetupTimerInterrupt:0000000000000000 vPortSetupTimerInterrupt
+     /tmp/ccHmH7ik.s:655    .text.vPortSetupTimerInterrupt:0000000000000024 $d
+     /tmp/ccHmH7ik.s:664    .text.xPortStartScheduler:0000000000000000 $t
+     /tmp/ccHmH7ik.s:671    .text.xPortStartScheduler:0000000000000000 xPortStartScheduler
+     /tmp/ccHmH7ik.s:862    .text.xPortStartScheduler:00000000000000dc $d
+     /tmp/ccHmH7ik.s:878    .text.vPortValidateInterruptPriority:0000000000000000 $t
+     /tmp/ccHmH7ik.s:885    .text.vPortValidateInterruptPriority:0000000000000000 vPortValidateInterruptPriority
+     /tmp/ccHmH7ik.s:962    .text.vPortValidateInterruptPriority:0000000000000044 $d
+     /tmp/ccHmH7ik.s:974    .bss.ucMaxSysCallPriority:0000000000000000 ucMaxSysCallPriority
+     /tmp/ccHmH7ik.s:975    .bss.ucMaxSysCallPriority:0000000000000000 $d
+     /tmp/ccHmH7ik.s:977    .bss.ulMaxPRIGROUPValue:0000000000000000 $d
+     /tmp/ccHmH7ik.s:981    .bss.ulMaxPRIGROUPValue:0000000000000000 ulMaxPRIGROUPValue
+     /tmp/ccHmH7ik.s:984    .data.uxCriticalNesting:0000000000000000 $d
+     /tmp/ccHmH7ik.s:988    .data.uxCriticalNesting:0000000000000000 uxCriticalNesting
+     /tmp/ccHmH7ik.s:86     .text.vPortEnableVFP:000000000000000e $d
+     /tmp/ccHmH7ik.s:3038   .text.vPortEnableVFP:0000000000000010 $d
+     /tmp/ccHmH7ik.s:56     .text.prvPortStartFirstTask:0000000000000022 $d
+     /tmp/ccHmH7ik.s:3038   .text.prvPortStartFirstTask:0000000000000024 $d
 
 UNDEFINED SYMBOLS
 assert_failed
 pxCurrentTCB
 vTaskSwitchContext
-ARM GAS  /tmp/ccY81Ylz.s 			page 40
+ARM GAS  /tmp/ccHmH7ik.s 			page 40
 
 
 xTaskIncrementTick

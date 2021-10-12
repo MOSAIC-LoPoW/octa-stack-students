@@ -1,4 +1,4 @@
-ARM GAS  /tmp/cc1WMp6m.s 			page 1
+ARM GAS  /tmp/cc7g6a7G.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  /tmp/cc1WMp6m.s 			page 1
   38              	.LC6:
   39 008c 44617461 		.ascii	"Data too short for INTERVAL_MULTIPLIER type.\015\012"
   39      20746F6F 
-ARM GAS  /tmp/cc1WMp6m.s 			page 2
+ARM GAS  /tmp/cc7g6a7G.s 			page 2
 
 
   39      2073686F 
@@ -118,7 +118,7 @@ ARM GAS  /tmp/cc1WMp6m.s 			page 1
   63              		.align	2
   64              	.LC14:
   65 01a8 43757272 		.ascii	"Current last known timestamp %d\015\012\000"
-ARM GAS  /tmp/cc1WMp6m.s 			page 3
+ARM GAS  /tmp/cc7g6a7G.s 			page 3
 
 
   65      656E7420 
@@ -178,7 +178,7 @@ ARM GAS  /tmp/cc1WMp6m.s 			page 1
  104              		.loc 1 9 3 view .LVU3
   10:../../../core/platform/common/src/payloadparser.c ****   //set temp config to use current config params
   11:../../../core/platform/common/src/payloadparser.c ****   temp_config = *current_octa_configuration;
-ARM GAS  /tmp/cc1WMp6m.s 			page 4
+ARM GAS  /tmp/cc7g6a7G.s 			page 4
 
 
  105              		.loc 1 11 3 view .LVU4
@@ -238,7 +238,7 @@ ARM GAS  /tmp/cc1WMp6m.s 			page 1
   17:../../../core/platform/common/src/payloadparser.c ****     printf("\r\n");
  150              		.loc 1 17 5 is_stmt 1 view .LVU18
  151 003a 5448     		ldr	r0, .L32+8
-ARM GAS  /tmp/cc1WMp6m.s 			page 5
+ARM GAS  /tmp/cc7g6a7G.s 			page 5
 
 
  152 003c FFF7FEFF 		bl	puts
@@ -298,7 +298,7 @@ ARM GAS  /tmp/cc1WMp6m.s 			page 1
  187              		.loc 1 35 36 view .LVU31
  188 0068 494B     		ldr	r3, .L32+12
  189 006a 1970     		strb	r1, [r3]
-ARM GAS  /tmp/cc1WMp6m.s 			page 6
+ARM GAS  /tmp/cc7g6a7G.s 			page 6
 
 
   36:../../../core/platform/common/src/payloadparser.c ****         uint32LittleEndian.byte[1] = buffer[index+2];
@@ -358,7 +358,7 @@ ARM GAS  /tmp/cc1WMp6m.s 			page 1
  234 008e 0120     		movs	r0, #1
  235 0090 6EE0     		b	.L5
  236              	.LVL15:
-ARM GAS  /tmp/cc1WMp6m.s 			page 7
+ARM GAS  /tmp/cc7g6a7G.s 			page 7
 
 
  237              	.L25:
@@ -418,7 +418,7 @@ ARM GAS  /tmp/cc1WMp6m.s 			page 1
   86:../../../core/platform/common/src/payloadparser.c ****         temp_config.flash_index = uint32LittleEndian.integer;
   87:../../../core/platform/common/src/payloadparser.c ****         printINF("Current Flash Index %d\r\n", temp_config.flash_index);
   88:../../../core/platform/common/src/payloadparser.c ****         index += 5;
-ARM GAS  /tmp/cc1WMp6m.s 			page 8
+ARM GAS  /tmp/cc7g6a7G.s 			page 8
 
 
   89:../../../core/platform/common/src/payloadparser.c ****         break;
@@ -478,7 +478,7 @@ ARM GAS  /tmp/cc1WMp6m.s 			page 1
  285 00be 0534     		adds	r4, r4, #5
  286              	.LVL17:
  287              		.loc 1 103 15 view .LVU76
-ARM GAS  /tmp/cc1WMp6m.s 			page 9
+ARM GAS  /tmp/cc7g6a7G.s 			page 9
 
 
  288 00c0 A4B2     		uxth	r4, r4
@@ -538,7 +538,7 @@ ARM GAS  /tmp/cc1WMp6m.s 			page 1
  326              		.loc 1 53 15 is_stmt 0 view .LVU92
  327 00e8 0334     		adds	r4, r4, #3
  328              	.LVL21:
-ARM GAS  /tmp/cc1WMp6m.s 			page 10
+ARM GAS  /tmp/cc7g6a7G.s 			page 10
 
 
   53:../../../core/platform/common/src/payloadparser.c ****         break;
@@ -598,7 +598,7 @@ ARM GAS  /tmp/cc1WMp6m.s 			page 1
  367              		.loc 1 73 15 is_stmt 0 view .LVU108
  368 0110 0234     		adds	r4, r4, #2
  369              	.LVL25:
-ARM GAS  /tmp/cc1WMp6m.s 			page 11
+ARM GAS  /tmp/cc7g6a7G.s 			page 11
 
 
   73:../../../core/platform/common/src/payloadparser.c ****         break;
@@ -658,7 +658,7 @@ ARM GAS  /tmp/cc1WMp6m.s 			page 1
  409 0132 5178     		ldrb	r1, [r2, #1]	@ zero_extendqisi2
   82:../../../core/platform/common/src/payloadparser.c ****         uint32LittleEndian.byte[1] = buffer[index+2];
  410              		.loc 1 82 36 view .LVU124
-ARM GAS  /tmp/cc1WMp6m.s 			page 12
+ARM GAS  /tmp/cc7g6a7G.s 			page 12
 
 
  411 0134 164B     		ldr	r3, .L32+12
@@ -718,7 +718,7 @@ ARM GAS  /tmp/cc1WMp6m.s 			page 1
   78:../../../core/platform/common/src/payloadparser.c ****           return PARSER_PARSE_ERROR;
  448              		.loc 1 78 11 view .LVU142
  449 0154 1948     		ldr	r0, .L32+56
-ARM GAS  /tmp/cc1WMp6m.s 			page 13
+ARM GAS  /tmp/cc7g6a7G.s 			page 13
 
 
  450 0156 FFF7FEFF 		bl	printERR
@@ -778,7 +778,7 @@ ARM GAS  /tmp/cc1WMp6m.s 			page 1
  110:../../../core/platform/common/src/payloadparser.c ****   return PARSER_OK;
  491              		.loc 1 110 3 is_stmt 1 view .LVU153
  110:../../../core/platform/common/src/payloadparser.c ****   return PARSER_OK;
-ARM GAS  /tmp/cc1WMp6m.s 			page 14
+ARM GAS  /tmp/cc7g6a7G.s 			page 14
 
 
  492              		.loc 1 110 31 is_stmt 0 view .LVU154
@@ -838,7 +838,7 @@ ARM GAS  /tmp/cc1WMp6m.s 			page 1
  536      796C6F61 
  536      6420454E 
  537 004e 0000     		.align	2
-ARM GAS  /tmp/cc1WMp6m.s 			page 15
+ARM GAS  /tmp/cc7g6a7G.s 			page 15
 
 
  538              	.LC18:
@@ -898,7 +898,7 @@ ARM GAS  /tmp/cc1WMp6m.s 			page 1
  577 0008 0E46     		mov	r6, r1
  578 000a 1546     		mov	r5, r2
  116:../../../core/platform/common/src/payloadparser.c ****   uint16_t index = 0;
-ARM GAS  /tmp/cc1WMp6m.s 			page 16
+ARM GAS  /tmp/cc7g6a7G.s 			page 16
 
 
  579              		.loc 1 116 3 is_stmt 1 view .LVU161
@@ -958,7 +958,7 @@ ARM GAS  /tmp/cc1WMp6m.s 			page 1
  623 0038 F6E7     		b	.L35
  624              	.L50:
  122:../../../core/platform/common/src/payloadparser.c ****       printf("%02x", buffer[i]);
-ARM GAS  /tmp/cc1WMp6m.s 			page 17
+ARM GAS  /tmp/cc7g6a7G.s 			page 17
 
 
  625              		.loc 1 122 35 discriminator 3 view .LVU176
@@ -1018,7 +1018,7 @@ ARM GAS  /tmp/cc1WMp6m.s 			page 1
  150:../../../core/platform/common/src/payloadparser.c ****         break;
  151:../../../core/platform/common/src/payloadparser.c ****       case TYPE_HEADER_END:
  152:../../../core/platform/common/src/payloadparser.c ****         printINF("Header of Payload END found\r\n");
-ARM GAS  /tmp/cc1WMp6m.s 			page 18
+ARM GAS  /tmp/cc7g6a7G.s 			page 18
 
 
  153:../../../core/platform/common/src/payloadparser.c ****         index ++;
@@ -1078,7 +1078,7 @@ ARM GAS  /tmp/cc1WMp6m.s 			page 1
  677 0066 FFF7FEFF 		bl	printERR
  678              	.LVL52:
  130:../../../core/platform/common/src/payloadparser.c ****   }
-ARM GAS  /tmp/cc1WMp6m.s 			page 19
+ARM GAS  /tmp/cc7g6a7G.s 			page 19
 
 
  679              		.loc 1 130 5 view .LVU191
@@ -1138,7 +1138,7 @@ ARM GAS  /tmp/cc1WMp6m.s 			page 1
  147:../../../core/platform/common/src/payloadparser.c ****         printINF("ACK for SEQ_NR: %d\r\n", temp_config.last_msg_acked);
  716              		.loc 1 147 9 is_stmt 1 view .LVU209
  147:../../../core/platform/common/src/payloadparser.c ****         printINF("ACK for SEQ_NR: %d\r\n", temp_config.last_msg_acked);
-ARM GAS  /tmp/cc1WMp6m.s 			page 20
+ARM GAS  /tmp/cc7g6a7G.s 			page 20
 
 
  717              		.loc 1 147 56 is_stmt 0 view .LVU210
@@ -1198,7 +1198,7 @@ ARM GAS  /tmp/cc1WMp6m.s 			page 1
  757              		.loc 1 154 9 is_stmt 1 view .LVU224
  758 00ac CAE7     		b	.L37
  759              	.L53:
-ARM GAS  /tmp/cc1WMp6m.s 			page 21
+ARM GAS  /tmp/cc7g6a7G.s 			page 21
 
 
  156:../../../core/platform/common/src/payloadparser.c ****         {
@@ -1258,7 +1258,7 @@ ARM GAS  /tmp/cc1WMp6m.s 			page 1
  795 00ce FFF7FEFF 		bl	RTC_Set_Time_From_Unix
  796              	.LVL61:
  168:../../../core/platform/common/src/payloadparser.c ****         RTC_Print_DateTime();
-ARM GAS  /tmp/cc1WMp6m.s 			page 22
+ARM GAS  /tmp/cc7g6a7G.s 			page 22
 
 
  797              		.loc 1 168 9 view .LVU244
@@ -1318,7 +1318,7 @@ ARM GAS  /tmp/cc1WMp6m.s 			page 1
  838              		.loc 1 178 3 is_stmt 1 view .LVU257
  839 00fa 0D48     		ldr	r0, .L56+44
  840 00fc FFF7FEFF 		bl	printINF
-ARM GAS  /tmp/cc1WMp6m.s 			page 23
+ARM GAS  /tmp/cc7g6a7G.s 			page 23
 
 
  841              	.LVL68:
@@ -1378,7 +1378,7 @@ ARM GAS  /tmp/cc1WMp6m.s 			page 1
  186:../../../core/platform/common/src/payloadparser.c ****   uint32LittleEndian.byte[2] = buffer[2];
  890              		.loc 1 186 3 is_stmt 1 view .LVU266
  891              		.loc 1 186 30 is_stmt 0 view .LVU267
-ARM GAS  /tmp/cc1WMp6m.s 			page 24
+ARM GAS  /tmp/cc7g6a7G.s 			page 24
 
 
  892 000a 8278     		ldrb	r2, [r0, #2]	@ zero_extendqisi2
@@ -1414,23 +1414,23 @@ ARM GAS  /tmp/cc1WMp6m.s 			page 1
  920              		.file 3 "/home/matsdm/gcc-arm-none-eabi-9-2019-q4-major-x86_64-linux/gcc-arm-none-eabi-9-2019-q4-m
  921              		.file 4 "../../../core/platform/common/inc/datatypes.h"
  922              		.file 5 "<built-in>"
-ARM GAS  /tmp/cc1WMp6m.s 			page 25
+ARM GAS  /tmp/cc7g6a7G.s 			page 25
 
 
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 payloadparser.c
-     /tmp/cc1WMp6m.s:18     .rodata.parse_octa_configuration.str1.4:0000000000000000 $d
-     /tmp/cc1WMp6m.s:70     .text.parse_octa_configuration:0000000000000000 $t
-     /tmp/cc1WMp6m.s:78     .text.parse_octa_configuration:0000000000000000 parse_octa_configuration
-     /tmp/cc1WMp6m.s:509    .text.parse_octa_configuration:0000000000000184 $d
+     /tmp/cc7g6a7G.s:18     .rodata.parse_octa_configuration.str1.4:0000000000000000 $d
+     /tmp/cc7g6a7G.s:70     .text.parse_octa_configuration:0000000000000000 $t
+     /tmp/cc7g6a7G.s:78     .text.parse_octa_configuration:0000000000000000 parse_octa_configuration
+     /tmp/cc7g6a7G.s:509    .text.parse_octa_configuration:0000000000000184 $d
                             *COM*:0000000000000004 uint32LittleEndian
-     /tmp/cc1WMp6m.s:530    .rodata.parse_octa_protocol_downlink.str1.4:0000000000000000 $d
-     /tmp/cc1WMp6m.s:548    .text.parse_octa_protocol_downlink:0000000000000000 $t
-     /tmp/cc1WMp6m.s:555    .text.parse_octa_protocol_downlink:0000000000000000 parse_octa_protocol_downlink
-     /tmp/cc1WMp6m.s:849    .text.parse_octa_protocol_downlink:0000000000000104 $d
-     /tmp/cc1WMp6m.s:865    .text.parse_timestamp:0000000000000000 $t
-     /tmp/cc1WMp6m.s:872    .text.parse_timestamp:0000000000000000 parse_timestamp
-     /tmp/cc1WMp6m.s:907    .text.parse_timestamp:0000000000000018 $d
+     /tmp/cc7g6a7G.s:530    .rodata.parse_octa_protocol_downlink.str1.4:0000000000000000 $d
+     /tmp/cc7g6a7G.s:548    .text.parse_octa_protocol_downlink:0000000000000000 $t
+     /tmp/cc7g6a7G.s:555    .text.parse_octa_protocol_downlink:0000000000000000 parse_octa_protocol_downlink
+     /tmp/cc7g6a7G.s:849    .text.parse_octa_protocol_downlink:0000000000000104 $d
+     /tmp/cc7g6a7G.s:865    .text.parse_timestamp:0000000000000000 $t
+     /tmp/cc7g6a7G.s:872    .text.parse_timestamp:0000000000000000 parse_timestamp
+     /tmp/cc7g6a7G.s:907    .text.parse_timestamp:0000000000000018 $d
                             *COM*:0000000000000008 octa_uid
                             *COM*:0000000000000004 float_union
                             *COM*:0000000000000002 uint16LittleEndian
